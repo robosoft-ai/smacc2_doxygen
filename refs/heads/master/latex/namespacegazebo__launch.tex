@@ -1,0 +1,87 @@
+\hypertarget{namespacegazebo__launch}{}\doxysection{gazebo\+\_\+launch Namespace Reference}
+\label{namespacegazebo__launch}\index{gazebo\_launch@{gazebo\_launch}}
+\doxysubsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+def \mbox{\hyperlink{namespacegazebo__launch_a7dfb9b9152b5cd8f375f38bc66e94517}{generate\+\_\+launch\+\_\+description}} ()
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{Function Documentation}
+\mbox{\Hypertarget{namespacegazebo__launch_a7dfb9b9152b5cd8f375f38bc66e94517}\label{namespacegazebo__launch_a7dfb9b9152b5cd8f375f38bc66e94517}} 
+\index{gazebo\_launch@{gazebo\_launch}!generate\_launch\_description@{generate\_launch\_description}}
+\index{generate\_launch\_description@{generate\_launch\_description}!gazebo\_launch@{gazebo\_launch}}
+\doxysubsubsection{\texorpdfstring{generate\_launch\_description()}{generate\_launch\_description()}}
+{\footnotesize\ttfamily def gazebo\+\_\+launch.\+generate\+\_\+launch\+\_\+description (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+
+
+Definition at line 25 of file gazebo\+\_\+launch.\+py.
+
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{25 \textcolor{keyword}{def }\mbox{\hyperlink{namespacegazebo__launch_a7dfb9b9152b5cd8f375f38bc66e94517}{generate\_launch\_description}}():}
+\DoxyCodeLine{26     declare\_use\_simulator\_cmd = DeclareLaunchArgument(}
+\DoxyCodeLine{27         \textcolor{stringliteral}{"{}use\_simulator"{}}, default\_value=\textcolor{stringliteral}{"{}False"{}}, description=\textcolor{stringliteral}{"{}Whether to execute gzclient)"{}}}
+\DoxyCodeLine{28     )}
+\DoxyCodeLine{29 }
+\DoxyCodeLine{30     use\_simulator = LaunchConfiguration(\textcolor{stringliteral}{"{}use\_simulator"{}})}
+\DoxyCodeLine{31     world = LaunchConfiguration(\textcolor{stringliteral}{"{}world"{}})}
+\DoxyCodeLine{32     headless = LaunchConfiguration(\textcolor{stringliteral}{"{}headless"{}})}
+\DoxyCodeLine{33 }
+\DoxyCodeLine{34     sm\_dance\_bot\_dir = get\_package\_share\_directory(\textcolor{stringliteral}{"{}sm\_dance\_bot"{}})}
+\DoxyCodeLine{35     launch\_dir = os.path.join(sm\_dance\_bot\_dir, \textcolor{stringliteral}{"{}launch"{}})}
+\DoxyCodeLine{36 }
+\DoxyCodeLine{37     declare\_use\_simulator\_cmd = DeclareLaunchArgument(}
+\DoxyCodeLine{38         \textcolor{stringliteral}{"{}use\_simulator"{}}, default\_value=\textcolor{stringliteral}{"{}True"{}}, description=\textcolor{stringliteral}{"{}Whether to start the simulator"{}}}
+\DoxyCodeLine{39     )}
+\DoxyCodeLine{40 }
+\DoxyCodeLine{41     declare\_simulator\_cmd = DeclareLaunchArgument(}
+\DoxyCodeLine{42         \textcolor{stringliteral}{"{}headless"{}}, default\_value=\textcolor{stringliteral}{"{}False"{}}, description=\textcolor{stringliteral}{"{}Whether to execute gzclient)"{}}}
+\DoxyCodeLine{43     )}
+\DoxyCodeLine{44 }
+\DoxyCodeLine{45     declare\_world\_cmd = DeclareLaunchArgument(}
+\DoxyCodeLine{46         \textcolor{stringliteral}{"{}world"{}},}
+\DoxyCodeLine{47         \textcolor{comment}{\# TODO(orduno) Switch back once ROS argument passing has been fixed upstream}}
+\DoxyCodeLine{48         \textcolor{comment}{\#              https://github.com/ROBOTIS-\/GIT/turtlebot3\_simulations/issues/91}}
+\DoxyCodeLine{49         \textcolor{comment}{\# default\_value=os.path.join(get\_package\_share\_directory('turtlebot3\_gazebo'),}}
+\DoxyCodeLine{50         \textcolor{comment}{\#                            'worlds/turtlebot3\_worlds/waffle.model'),}}
+\DoxyCodeLine{51         \textcolor{comment}{\# default\_value=os.path.join(sm\_dance\_bot\_dir, 'worlds', 'waffle.model'),}}
+\DoxyCodeLine{52         \textcolor{comment}{\# default\_value=os.path.join(sm\_dance\_bot\_dir, 'worlds', 'sm\_dance\_bot\_world.model'),}}
+\DoxyCodeLine{53         default\_value=os.path.join(sm\_dance\_bot\_dir, \textcolor{stringliteral}{"{}worlds"{}}, \textcolor{stringliteral}{"{}ridgeback\_race.world"{}}),}
+\DoxyCodeLine{54         description=\textcolor{stringliteral}{"{}Full path to world model file to load"{}},}
+\DoxyCodeLine{55     )}
+\DoxyCodeLine{56 }
+\DoxyCodeLine{57     \textcolor{comment}{\# Create the launch description and populate}}
+\DoxyCodeLine{58     ld = LaunchDescription()}
+\DoxyCodeLine{59 }
+\DoxyCodeLine{60     \textcolor{comment}{\# xtermprefix = "{}xterm -\/xrm 'XTerm*scrollBar:  true' -\/xrm 'xterm*rightScrollBar: true' "{} \(\backslash\)}}
+\DoxyCodeLine{61     \textcolor{comment}{\# "{}-\/hold -\/geometry 1000x600 -\/sl 10000 -\/e"{}}}
+\DoxyCodeLine{62 }
+\DoxyCodeLine{63     \textcolor{comment}{\# Specify the actions}}
+\DoxyCodeLine{64     start\_gazebo\_server\_cmd = ExecuteProcess(}
+\DoxyCodeLine{65         condition=IfCondition(use\_simulator),}
+\DoxyCodeLine{66         cmd=[\textcolor{stringliteral}{"{}gzserver"{}}, \textcolor{stringliteral}{"{}-\/s"{}}, \textcolor{stringliteral}{"{}libgazebo\_ros\_init.so"{}}, world, \textcolor{stringliteral}{"{}-\/-\/verbose"{}}],}
+\DoxyCodeLine{67         \textcolor{comment}{\# env=\{"{}GAZEBO\_MODEL\_PATH"{}: os.getcwd(),"{}HOME"{}: os.environ["{}HOME"{}]\},}}
+\DoxyCodeLine{68         cwd=[launch\_dir],}
+\DoxyCodeLine{69         output=\textcolor{stringliteral}{"{}screen"{}},}
+\DoxyCodeLine{70     )}
+\DoxyCodeLine{71 }
+\DoxyCodeLine{72     start\_gazebo\_client\_cmd = ExecuteProcess(}
+\DoxyCodeLine{73         condition=IfCondition(PythonExpression([use\_simulator, \textcolor{stringliteral}{"{} and not "{}}, headless])),}
+\DoxyCodeLine{74         cmd=[\textcolor{stringliteral}{"{}gzclient"{}}],}
+\DoxyCodeLine{75         cwd=[launch\_dir],}
+\DoxyCodeLine{76         output=\textcolor{stringliteral}{"{}screen"{}},}
+\DoxyCodeLine{77     )}
+\DoxyCodeLine{78 }
+\DoxyCodeLine{79     \textcolor{comment}{\# Add any conditioned actions}}
+\DoxyCodeLine{80     ld.add\_action(declare\_simulator\_cmd)}
+\DoxyCodeLine{81     ld.add\_action(declare\_use\_simulator\_cmd)}
+\DoxyCodeLine{82     ld.add\_action(declare\_world\_cmd)}
+\DoxyCodeLine{83 }
+\DoxyCodeLine{84     ld.add\_action(start\_gazebo\_server\_cmd)}
+\DoxyCodeLine{85     ld.add\_action(start\_gazebo\_client\_cmd)}
+\DoxyCodeLine{86 }
+\DoxyCodeLine{87     \textcolor{keywordflow}{return} ld}
+
+\end{DoxyCode}
