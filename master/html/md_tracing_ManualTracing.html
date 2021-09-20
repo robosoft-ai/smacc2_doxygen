@@ -65,11 +65,30 @@ $(function() {
 <div class="title">SMACC2 Tracing </div>  </div>
 </div><!--header-->
 <div class="contents">
-<div class="textblock"><p>This small example shows the steps to follow to trace a smacc application. First, make sure that smacc and tracetools installed (or built in your workspace) in your system. Then start your smacc application:</p>
+<div class="textblock"><p>This small example shows the steps to follow to trace a SMACC2 library. First, make sure that smacc and tracetools installed (or built in your workspace) in your system.</p>
+<p>See README.md for setting up a SMACC workspace.</p>
+<p>Setting up LTTng</p>
+<div class="fragment"><div class="line">sudo apt-add-repository ppa:lttng/stable-2.12</div>
+<div class="line">sudo apt-get update</div>
+<div class="line">sudo apt-get install lttng-tools lttng-modules-dkms liblttng-ust-dev</div>
+</div><!-- fragment --><p>Create and add your user to a new tracing group</p>
+<div class="fragment"><div class="line">newgrp tracing</div>
+<div class="line">sudo usermod -aG tracing `whoami`</div>
+</div><!-- fragment --><p> Reboot or log out and back in to your user to update user groups</p>
+<div class="fragment"><div class="line">sudo su $USER</div>
+</div><!-- fragment --><p> Install Python packages for reading and setting up tracing sessions</p>
+<div class="fragment"><div class="line">sudo apt-get install python3-babeltrace python3-lttng</div>
+</div><!-- fragment --><p> In your SMACC2 workspace, install the following tracing repos.</p>
+<div class="fragment"><div class="line">wget https://gitlab.com/ros-tracing/ros2_tracing/raw/master/tracing.repos</div>
+<div class="line">vcs import src &lt; tracing.repos</div>
+</div><!-- fragment --><p> Finnaly build your workspace</p>
+<div class="fragment"><div class="line">colcon build</div>
+<div class="line">source install/setup.bash</div>
+</div><!-- fragment --><p> Then start your smacc application:</p>
 <div class="fragment"><div class="line">ros2 launch sm_three_some sm_three_some.launch</div>
-</div><!-- fragment --><p>Once the application is running you can check if the tracepoints are available via the lttng command:</p>
+</div><!-- fragment --><p> Once the application is running you can check if the tracepoints are available via the lttng command:</p>
 <div class="fragment"><div class="line">lttng list --userspace</div>
-</div><!-- fragment --><p>You should get the list of nodes with tracepoints available. Below it is shown a chunk of the output got with that command, we see how the smacc and the default ros2 tracepoint are available:</p>
+</div><!-- fragment --><p> You should get the list of nodes with tracepoints available. Below it is shown a chunk of the output got with that command, we see how the smacc and the default ros2 tracepoint are available:</p>
 <div class="fragment"><div class="line">[...]</div>
 <div class="line">ID: 1663722 - Name: /home/geus/Desktop/smacc_tracing/install/sm_three_some/lib/sm_three_some/sm_three_some_node</div>
 <div class="line">      ros2:client_behavior_on_exit_end (loglevel: TRACE_DEBUG_LINE (13)) (type: tracepoint)</div>
@@ -102,8 +121,7 @@ $(function() {
 <div class="line">      ros2:rcl_init (loglevel: TRACE_DEBUG_LINE (13)) (type: tracepoint)</div>
 <div class="line">      [...]</div>
 </div><!-- fragment --><p> Now lets start a recording session. We use a custom command <code>trace.sh</code>, it is essentially an extended version of <code>ros2 trace</code> but also adding the smacc tracepoints to be recorded:</p>
-<p>First ensure you have the necessary package installed. </p><div class="fragment"><div class="line">sudo apt-get install ros-rolling-ros2trace</div>
-</div><!-- fragment --><p>Then run this command. </p><div class="fragment"><div class="line">ros2 run smacc2 trace.sh</div>
+<div class="fragment"><div class="line">ros2 run smacc2 trace.sh</div>
 </div><!-- fragment --><p> We press a key, record some seconds and then stop the recording pressing again some key:</p>
 <div class="fragment"><div class="line">ros2 run smacc2 trace.sh</div>
 <div class="line">UST tracing enabled (33 events)</div>
