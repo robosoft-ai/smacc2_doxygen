@@ -684,62 +684,62 @@ Definition at line 1585 of file waypoints\+\_\+event\+\_\+dispatcher.\+hpp.
 
 
 
-Definition at line 37 of file common.\+cpp.
+Definition at line 34 of file common.\+cpp.
 
 
 \begin{DoxyCode}{0}
-\DoxyCodeLine{40 \{}
-\DoxyCodeLine{41   \textcolor{keywordtype}{double} startYaw = tf2::getYaw(start.pose.orientation);}
-\DoxyCodeLine{42   \textcolor{comment}{// RCLCPP\_INFO(getLogger(),"{}pure spining start yaw: \%lf"{}, startYaw);}}
-\DoxyCodeLine{43   \textcolor{comment}{// RCLCPP\_INFO(getLogger(),"{}pure spining goal yaw: \%lf"{}, dstRads);}}
-\DoxyCodeLine{44   \textcolor{comment}{// RCLCPP\_WARN\_STREAM(getLogger(),"{}pure spinning start pose: "{} << start);}}
+\DoxyCodeLine{37 \{}
+\DoxyCodeLine{38   \textcolor{keywordtype}{double} startYaw = tf2::getYaw(start.pose.orientation);}
+\DoxyCodeLine{39   \textcolor{comment}{// RCLCPP\_INFO(getLogger(),"{}pure spining start yaw: \%lf"{}, startYaw);}}
+\DoxyCodeLine{40   \textcolor{comment}{// RCLCPP\_INFO(getLogger(),"{}pure spining goal yaw: \%lf"{}, dstRads);}}
+\DoxyCodeLine{41   \textcolor{comment}{// RCLCPP\_WARN\_STREAM(getLogger(),"{}pure spinning start pose: "{} << start);}}
+\DoxyCodeLine{42 }
+\DoxyCodeLine{43   \textcolor{keywordtype}{double} goalAngleOffset = angles::shortest\_angular\_distance(startYaw, dstRads);}
+\DoxyCodeLine{44   \textcolor{comment}{// RCLCPP\_INFO(getLogger(),"{}shortest angle: \%lf"{}, goalAngleOffset);}}
 \DoxyCodeLine{45 }
-\DoxyCodeLine{46   \textcolor{keywordtype}{double} goalAngleOffset = angles::shortest\_angular\_distance(startYaw, dstRads);}
-\DoxyCodeLine{47   \textcolor{comment}{// RCLCPP\_INFO(getLogger(),"{}shortest angle: \%lf"{}, goalAngleOffset);}}
-\DoxyCodeLine{48 }
-\DoxyCodeLine{49   \textcolor{keywordflow}{if} (goalAngleOffset >= 0)}
-\DoxyCodeLine{50   \{}
-\DoxyCodeLine{51     \textcolor{comment}{// angle positive turn counterclockwise}}
-\DoxyCodeLine{52     \textcolor{comment}{// RCLCPP\_INFO(getLogger(),"{}pure spining counterclockwise"{});}}
-\DoxyCodeLine{53     \textcolor{keywordflow}{for} (\textcolor{keywordtype}{double} dangle = 0; dangle <= goalAngleOffset; dangle += radstep)}
-\DoxyCodeLine{54     \{}
-\DoxyCodeLine{55       geometry\_msgs::msg::PoseStamped p = start;}
-\DoxyCodeLine{56       \textcolor{keywordtype}{double} yaw = startYaw + dangle;}
-\DoxyCodeLine{57       \textcolor{comment}{// RCLCPP\_INFO(getLogger(),"{}pure spining counterclockwise, current path yaw: \%lf, dangle: \%lf,}}
-\DoxyCodeLine{58       \textcolor{comment}{// angleoffset \%lf, radstep \%lf pathsize(\%ld)"{}, yaw, dangle, goalAngleOffset, radstep, plan.size());}}
-\DoxyCodeLine{59       tf2::Quaternion q;}
-\DoxyCodeLine{60       q.setRPY(0, 0, yaw);}
-\DoxyCodeLine{61       p.pose.orientation = tf2::toMsg(q);}
-\DoxyCodeLine{62       plan.push\_back(p);}
-\DoxyCodeLine{63     \}}
-\DoxyCodeLine{64   \}}
-\DoxyCodeLine{65   \textcolor{keywordflow}{else}}
-\DoxyCodeLine{66   \{}
-\DoxyCodeLine{67     \textcolor{comment}{// angle positive turn clockwise}}
-\DoxyCodeLine{68     \textcolor{comment}{// RCLCPP\_INFO(getLogger(),"{}pure spining clockwise"{});}}
-\DoxyCodeLine{69     \textcolor{keywordflow}{for} (\textcolor{keywordtype}{double} dangle = 0; dangle >= goalAngleOffset; dangle -\/= radstep)}
-\DoxyCodeLine{70     \{}
-\DoxyCodeLine{71       \textcolor{comment}{// RCLCPP\_INFO(getLogger(),"{}dangle: \%lf"{}, dangle);}}
-\DoxyCodeLine{72       geometry\_msgs::msg::PoseStamped p = start;}
-\DoxyCodeLine{73       \textcolor{keywordtype}{double} yaw = startYaw + dangle;}
-\DoxyCodeLine{74       \textcolor{comment}{// RCLCPP\_INFO(getLogger(),"{}pure spining clockwise, yaw: \%lf, dangle: \%lf, angleoffset \%lf radstep}}
-\DoxyCodeLine{75       \textcolor{comment}{// \%lf"{}, yaw, dangle, goalAngleOffset,radstep);}}
-\DoxyCodeLine{76       tf2::Quaternion q;}
-\DoxyCodeLine{77       q.setRPY(0, 0, yaw);}
-\DoxyCodeLine{78       p.pose.orientation = tf2::toMsg(q);}
-\DoxyCodeLine{79       plan.push\_back(p);}
-\DoxyCodeLine{80     \}}
-\DoxyCodeLine{81   \}}
-\DoxyCodeLine{82 }
-\DoxyCodeLine{83   \textcolor{comment}{// RCLCPP\_INFO(getLogger(),"{}pure spining end yaw: \%lf"{}, dstRads);}}
-\DoxyCodeLine{84   geometry\_msgs::msg::PoseStamped end = start;}
-\DoxyCodeLine{85   tf2::Quaternion q;}
-\DoxyCodeLine{86   q.setRPY(0, 0, dstRads);}
-\DoxyCodeLine{87   end.pose.orientation = tf2::toMsg(q);}
-\DoxyCodeLine{88   plan.push\_back(end);}
-\DoxyCodeLine{89 }
-\DoxyCodeLine{90   \textcolor{keywordflow}{return} end;}
-\DoxyCodeLine{91 \}}
+\DoxyCodeLine{46   \textcolor{keywordflow}{if} (goalAngleOffset >= 0)}
+\DoxyCodeLine{47   \{}
+\DoxyCodeLine{48     \textcolor{comment}{// angle positive turn counterclockwise}}
+\DoxyCodeLine{49     \textcolor{comment}{// RCLCPP\_INFO(getLogger(),"{}pure spining counterclockwise"{});}}
+\DoxyCodeLine{50     \textcolor{keywordflow}{for} (\textcolor{keywordtype}{double} dangle = 0; dangle <= goalAngleOffset; dangle += radstep)}
+\DoxyCodeLine{51     \{}
+\DoxyCodeLine{52       geometry\_msgs::msg::PoseStamped p = start;}
+\DoxyCodeLine{53       \textcolor{keywordtype}{double} yaw = startYaw + dangle;}
+\DoxyCodeLine{54       \textcolor{comment}{// RCLCPP\_INFO(getLogger(),"{}pure spining counterclockwise, current path yaw: \%lf, dangle: \%lf,}}
+\DoxyCodeLine{55       \textcolor{comment}{// angleoffset \%lf, radstep \%lf pathsize(\%ld)"{}, yaw, dangle, goalAngleOffset, radstep, plan.size());}}
+\DoxyCodeLine{56       tf2::Quaternion q;}
+\DoxyCodeLine{57       q.setRPY(0, 0, yaw);}
+\DoxyCodeLine{58       p.pose.orientation = tf2::toMsg(q);}
+\DoxyCodeLine{59       plan.push\_back(p);}
+\DoxyCodeLine{60     \}}
+\DoxyCodeLine{61   \}}
+\DoxyCodeLine{62   \textcolor{keywordflow}{else}}
+\DoxyCodeLine{63   \{}
+\DoxyCodeLine{64     \textcolor{comment}{// angle positive turn clockwise}}
+\DoxyCodeLine{65     \textcolor{comment}{// RCLCPP\_INFO(getLogger(),"{}pure spining clockwise"{});}}
+\DoxyCodeLine{66     \textcolor{keywordflow}{for} (\textcolor{keywordtype}{double} dangle = 0; dangle >= goalAngleOffset; dangle -\/= radstep)}
+\DoxyCodeLine{67     \{}
+\DoxyCodeLine{68       \textcolor{comment}{// RCLCPP\_INFO(getLogger(),"{}dangle: \%lf"{}, dangle);}}
+\DoxyCodeLine{69       geometry\_msgs::msg::PoseStamped p = start;}
+\DoxyCodeLine{70       \textcolor{keywordtype}{double} yaw = startYaw + dangle;}
+\DoxyCodeLine{71       \textcolor{comment}{// RCLCPP\_INFO(getLogger(),"{}pure spining clockwise, yaw: \%lf, dangle: \%lf, angleoffset \%lf radstep}}
+\DoxyCodeLine{72       \textcolor{comment}{// \%lf"{}, yaw, dangle, goalAngleOffset,radstep);}}
+\DoxyCodeLine{73       tf2::Quaternion q;}
+\DoxyCodeLine{74       q.setRPY(0, 0, yaw);}
+\DoxyCodeLine{75       p.pose.orientation = tf2::toMsg(q);}
+\DoxyCodeLine{76       plan.push\_back(p);}
+\DoxyCodeLine{77     \}}
+\DoxyCodeLine{78   \}}
+\DoxyCodeLine{79 }
+\DoxyCodeLine{80   \textcolor{comment}{// RCLCPP\_INFO(getLogger(),"{}pure spining end yaw: \%lf"{}, dstRads);}}
+\DoxyCodeLine{81   geometry\_msgs::msg::PoseStamped end = start;}
+\DoxyCodeLine{82   tf2::Quaternion q;}
+\DoxyCodeLine{83   q.setRPY(0, 0, dstRads);}
+\DoxyCodeLine{84   end.pose.orientation = tf2::toMsg(q);}
+\DoxyCodeLine{85   plan.push\_back(end);}
+\DoxyCodeLine{86 }
+\DoxyCodeLine{87   \textcolor{keywordflow}{return} end;}
+\DoxyCodeLine{88 \}}
 
 \end{DoxyCode}
 
@@ -762,35 +762,35 @@ Here is the caller graph for this function\+:
 
 
 
-Definition at line 93 of file common.\+cpp.
+Definition at line 90 of file common.\+cpp.
 
 
 \begin{DoxyCode}{0}
-\DoxyCodeLine{96 \{}
-\DoxyCodeLine{97   \textcolor{keywordtype}{double} dx = 0.01;  \textcolor{comment}{// 1 cm}}
-\DoxyCodeLine{98   \textcolor{keywordtype}{double} steps = length / dx;}
-\DoxyCodeLine{99   \textcolor{keywordtype}{double} dt = 1.0 / steps;}
-\DoxyCodeLine{100 }
-\DoxyCodeLine{101   \textcolor{comment}{// geometry\_msgs::msg::PoseStamped end;}}
-\DoxyCodeLine{102   \textcolor{comment}{// end.pose.orientation = startOrientedPose.pose.orientation;}}
-\DoxyCodeLine{103   \textcolor{comment}{// end.pose.position = goal;}}
-\DoxyCodeLine{104   plan.push\_back(startOrientedPose);}
-\DoxyCodeLine{105 }
-\DoxyCodeLine{106   \textcolor{comment}{// RCLCPP\_INFO\_STREAM(nh\_-\/>get\_logger(),"{}Pure straight, start: "{} << startOrientedPose << std::endl << "{}end: "{} <<}}
-\DoxyCodeLine{107   \textcolor{comment}{// goal);}}
-\DoxyCodeLine{108   \textcolor{keywordflow}{for} (\textcolor{keywordtype}{double} t = 0; t <= 1.0; t += dt)}
-\DoxyCodeLine{109   \{}
-\DoxyCodeLine{110     geometry\_msgs::msg::PoseStamped p = startOrientedPose;}
-\DoxyCodeLine{111 }
-\DoxyCodeLine{112     p.pose.position.x = startOrientedPose.pose.position.x * (1 -\/ t) + goal.x * t;}
-\DoxyCodeLine{113     p.pose.position.y = startOrientedPose.pose.position.y * (1 -\/ t) + goal.y * t;}
-\DoxyCodeLine{114     p.pose.orientation = startOrientedPose.pose.orientation;}
+\DoxyCodeLine{93 \{}
+\DoxyCodeLine{94   \textcolor{keywordtype}{double} dx = 0.01;  \textcolor{comment}{// 1 cm}}
+\DoxyCodeLine{95   \textcolor{keywordtype}{double} steps = length / dx;}
+\DoxyCodeLine{96   \textcolor{keywordtype}{double} dt = 1.0 / steps;}
+\DoxyCodeLine{97 }
+\DoxyCodeLine{98   \textcolor{comment}{// geometry\_msgs::msg::PoseStamped end;}}
+\DoxyCodeLine{99   \textcolor{comment}{// end.pose.orientation = startOrientedPose.pose.orientation;}}
+\DoxyCodeLine{100   \textcolor{comment}{// end.pose.position = goal;}}
+\DoxyCodeLine{101   plan.push\_back(startOrientedPose);}
+\DoxyCodeLine{102 }
+\DoxyCodeLine{103   \textcolor{comment}{// RCLCPP\_INFO\_STREAM(nh\_-\/>get\_logger(),"{}Pure straight, start: "{} << startOrientedPose << std::endl << "{}end: "{} <<}}
+\DoxyCodeLine{104   \textcolor{comment}{// goal);}}
+\DoxyCodeLine{105   \textcolor{keywordflow}{for} (\textcolor{keywordtype}{double} t = 0; t <= 1.0; t += dt)}
+\DoxyCodeLine{106   \{}
+\DoxyCodeLine{107     geometry\_msgs::msg::PoseStamped p = startOrientedPose;}
+\DoxyCodeLine{108 }
+\DoxyCodeLine{109     p.pose.position.x = startOrientedPose.pose.position.x * (1 -\/ t) + goal.x * t;}
+\DoxyCodeLine{110     p.pose.position.y = startOrientedPose.pose.position.y * (1 -\/ t) + goal.y * t;}
+\DoxyCodeLine{111     p.pose.orientation = startOrientedPose.pose.orientation;}
+\DoxyCodeLine{112 }
+\DoxyCodeLine{113     plan.push\_back(p);}
+\DoxyCodeLine{114   \}}
 \DoxyCodeLine{115 }
-\DoxyCodeLine{116     plan.push\_back(p);}
-\DoxyCodeLine{117   \}}
-\DoxyCodeLine{118 }
-\DoxyCodeLine{119   \textcolor{keywordflow}{return} plan.back();}
-\DoxyCodeLine{120 \}}
+\DoxyCodeLine{116   \textcolor{keywordflow}{return} plan.back();}
+\DoxyCodeLine{117 \}}
 
 \end{DoxyCode}
 

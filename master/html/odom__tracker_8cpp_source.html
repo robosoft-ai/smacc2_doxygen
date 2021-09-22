@@ -88,11 +88,11 @@ $(function() {
 <div class="line"><a name="l00017"></a><span class="lineno">   17</span>&#160;<span class="comment"> *   Authors: Pablo Inigo Blasco, Brett Aldrich</span></div>
 <div class="line"><a name="l00018"></a><span class="lineno">   18</span>&#160;<span class="comment"> *</span></div>
 <div class="line"><a name="l00019"></a><span class="lineno">   19</span>&#160;<span class="comment"> ******************************************************************************************************************/</span></div>
-<div class="line"><a name="l00020"></a><span class="lineno">   20</span>&#160;<span class="preprocessor">#include &lt;<a class="code" href="smacc__client__library_2move__base__z__client_2move__base__z__client__plugin_2include_2move__bas47071976dcf2185f18a866f9d1858aaf.html">move_base_z_client_plugin/common.hpp</a>&gt;</span></div>
-<div class="line"><a name="l00021"></a><span class="lineno">   21</span>&#160; </div>
-<div class="line"><a name="l00022"></a><span class="lineno">   22</span>&#160;<span class="preprocessor">#include &lt;angles/angles.h&gt;</span></div>
-<div class="line"><a name="l00023"></a><span class="lineno">   23</span>&#160;<span class="preprocessor">#include &lt;tf2/utils.h&gt;</span></div>
-<div class="line"><a name="l00024"></a><span class="lineno">   24</span>&#160;<span class="preprocessor">#include &lt;<a class="code" href="odom__tracker_8hpp.html">move_base_z_client_plugin/components/odom_tracker/odom_tracker.hpp</a>&gt;</span></div>
+<div class="line"><a name="l00020"></a><span class="lineno">   20</span>&#160;<span class="preprocessor">#include &lt;angles/angles.h&gt;</span></div>
+<div class="line"><a name="l00021"></a><span class="lineno">   21</span>&#160;<span class="preprocessor">#include &lt;tf2/utils.h&gt;</span></div>
+<div class="line"><a name="l00022"></a><span class="lineno">   22</span>&#160;<span class="preprocessor">#include &lt;<a class="code" href="smacc__client__library_2move__base__z__client_2move__base__z__client__plugin_2include_2move__bas47071976dcf2185f18a866f9d1858aaf.html">move_base_z_client_plugin/common.hpp</a>&gt;</span></div>
+<div class="line"><a name="l00023"></a><span class="lineno">   23</span>&#160;<span class="preprocessor">#include &lt;<a class="code" href="odom__tracker_8hpp.html">move_base_z_client_plugin/components/odom_tracker/odom_tracker.hpp</a>&gt;</span></div>
+<div class="line"><a name="l00024"></a><span class="lineno">   24</span>&#160;<span class="preprocessor">#include &lt;tf2_geometry_msgs/tf2_geometry_msgs.hpp&gt;</span></div>
 <div class="line"><a name="l00025"></a><span class="lineno">   25</span>&#160; </div>
 <div class="line"><a name="l00026"></a><span class="lineno">   26</span>&#160;<span class="preprocessor">#include &lt;boost/range/adaptor/reversed.hpp&gt;</span></div>
 <div class="line"><a name="l00027"></a><span class="lineno">   27</span>&#160; </div>
@@ -361,149 +361,148 @@ $(function() {
 <div class="line"><a name="l00311"></a><span class="lineno">  311</span>&#160;    {</div>
 <div class="line"><a name="l00312"></a><span class="lineno">  312</span>&#160;      <span class="keyword">auto</span> &amp; carrotPose = <a class="code" href="classcl__move__base__z_1_1odom__tracker_1_1OdomTracker.html#aa0bc445978a65ee487da2b7e4703e52a">baseTrajectory_</a>.poses.back().pose;</div>
 <div class="line"><a name="l00313"></a><span class="lineno">  313</span>&#160;      <span class="keyword">auto</span> &amp; carrotPoint = carrotPose.position;</div>
-<div class="line"><a name="l00314"></a><span class="lineno">  314</span>&#160; </div>
-<div class="line"><a name="l00315"></a><span class="lineno">  315</span>&#160;      <span class="keywordtype">double</span> carrotAngle = tf2::getYaw(carrotPose.orientation);</div>
-<div class="line"><a name="l00316"></a><span class="lineno">  316</span>&#160; </div>
-<div class="line"><a name="l00317"></a><span class="lineno">  317</span>&#160;      <span class="keyword">auto</span> &amp; currePose = base_pose.pose;</div>
-<div class="line"><a name="l00318"></a><span class="lineno">  318</span>&#160;      <span class="keyword">auto</span> &amp; currePoint = currePose.position;</div>
-<div class="line"><a name="l00319"></a><span class="lineno">  319</span>&#160;      <span class="keywordtype">double</span> currentAngle = tf2::getYaw(currePose.orientation);</div>
-<div class="line"><a name="l00320"></a><span class="lineno">  320</span>&#160; </div>
-<div class="line"><a name="l00321"></a><span class="lineno">  321</span>&#160;      <span class="keywordtype">double</span> lastpointdist = <a class="code" href="namespacecl__move__base__z_1_1odom__tracker.html#ac063967ce92946862898c42d9f7ef60d">p2pDistance</a>(carrotPoint, currePoint);</div>
-<div class="line"><a name="l00322"></a><span class="lineno">  322</span>&#160;      <span class="keywordtype">double</span> goalAngleOffset = fabs(angles::shortest_angular_distance(carrotAngle, currentAngle));</div>
-<div class="line"><a name="l00323"></a><span class="lineno">  323</span>&#160; </div>
-<div class="line"><a name="l00324"></a><span class="lineno">  324</span>&#160;      acceptBackward = !<a class="code" href="classcl__move__base__z_1_1odom__tracker_1_1OdomTracker.html#aa0bc445978a65ee487da2b7e4703e52a">baseTrajectory_</a>.poses.empty() &amp;&amp;</div>
-<div class="line"><a name="l00325"></a><span class="lineno">  325</span>&#160;                       lastpointdist &lt; <a class="code" href="classcl__move__base__z_1_1odom__tracker_1_1OdomTracker.html#a7155d25d0e8dd9f237a79ff503b80e26">clearPointDistanceThreshold_</a> &amp;&amp;</div>
-<div class="line"><a name="l00326"></a><span class="lineno">  326</span>&#160;                       goalAngleOffset &lt; <a class="code" href="classcl__move__base__z_1_1odom__tracker_1_1OdomTracker.html#a1b79dd86745adfb31db822e0c8106282">clearAngularDistanceThreshold_</a>;</div>
-<div class="line"><a name="l00327"></a><span class="lineno">  327</span>&#160; </div>
-<div class="line"><a name="l00328"></a><span class="lineno">  328</span>&#160;      clearingError = lastpointdist &gt; 2 * <a class="code" href="classcl__move__base__z_1_1odom__tracker_1_1OdomTracker.html#a7155d25d0e8dd9f237a79ff503b80e26">clearPointDistanceThreshold_</a>;</div>
-<div class="line"><a name="l00329"></a><span class="lineno">  329</span>&#160;      RCLCPP_DEBUG_STREAM(</div>
-<div class="line"><a name="l00330"></a><span class="lineno">  330</span>&#160;        <a class="code" href="classsmacc2_1_1ISmaccComponent.html#a6b9ca3313826dc3f555c63e8becf1e68">getLogger</a>(), <span class="stringliteral">&quot;[OdomTracker] clearing (accepted: &quot;</span> &lt;&lt; acceptBackward</div>
-<div class="line"><a name="l00331"></a><span class="lineno">  331</span>&#160;                                                          &lt;&lt; <span class="stringliteral">&quot;) linerr: &quot;</span> &lt;&lt; lastpointdist</div>
-<div class="line"><a name="l00332"></a><span class="lineno">  332</span>&#160;                                                          &lt;&lt; <span class="stringliteral">&quot;, anglerr: &quot;</span> &lt;&lt; goalAngleOffset);</div>
-<div class="line"><a name="l00333"></a><span class="lineno">  333</span>&#160;    }</div>
-<div class="line"><a name="l00334"></a><span class="lineno">  334</span>&#160; </div>
-<div class="line"><a name="l00335"></a><span class="lineno">  335</span>&#160;    <span class="comment">// RCLCPP_INFO(getLogger(),&quot;Backwards, last distance: %lf &lt; %lf accept: %d&quot;, dist,</span></div>
-<div class="line"><a name="l00336"></a><span class="lineno">  336</span>&#160;    <span class="comment">// minPointDistanceBackwardThresh_, acceptBackward);</span></div>
-<div class="line"><a name="l00337"></a><span class="lineno">  337</span>&#160;    <span class="keywordflow">if</span> (</div>
-<div class="line"><a name="l00338"></a><span class="lineno">  338</span>&#160;      acceptBackward &amp;&amp;</div>
-<div class="line"><a name="l00339"></a><span class="lineno">  339</span>&#160;      <a class="code" href="classcl__move__base__z_1_1odom__tracker_1_1OdomTracker.html#aa0bc445978a65ee487da2b7e4703e52a">baseTrajectory_</a>.poses.size() &gt; 1) <span class="comment">/* we always leave at least one item, specially interesting</span></div>
-<div class="line"><a name="l00340"></a><span class="lineno">  340</span>&#160;<span class="comment">                                           for the backward local planner reach the backwards goal</span></div>
-<div class="line"><a name="l00341"></a><span class="lineno">  341</span>&#160;<span class="comment">                                           with enough precision*/</span></div>
-<div class="line"><a name="l00342"></a><span class="lineno">  342</span>&#160;    {</div>
-<div class="line"><a name="l00343"></a><span class="lineno">  343</span>&#160;      <a class="code" href="classcl__move__base__z_1_1odom__tracker_1_1OdomTracker.html#aa0bc445978a65ee487da2b7e4703e52a">baseTrajectory_</a>.poses.pop_back();</div>
-<div class="line"><a name="l00344"></a><span class="lineno">  344</span>&#160;    }</div>
-<div class="line"><a name="l00345"></a><span class="lineno">  345</span>&#160;    <span class="keywordflow">else</span> <span class="keywordflow">if</span> (clearingError)</div>
-<div class="line"><a name="l00346"></a><span class="lineno">  346</span>&#160;    {</div>
-<div class="line"><a name="l00347"></a><span class="lineno">  347</span>&#160;      finished = <span class="keyword">true</span>;</div>
-<div class="line"><a name="l00348"></a><span class="lineno">  348</span>&#160;      RCLCPP_WARN(<a class="code" href="classsmacc2_1_1ISmaccComponent.html#a6b9ca3313826dc3f555c63e8becf1e68">getLogger</a>(), <span class="stringliteral">&quot;[OdomTracker] Incorrect odom clearing motion.&quot;</span>);</div>
-<div class="line"><a name="l00349"></a><span class="lineno">  349</span>&#160;    }</div>
-<div class="line"><a name="l00350"></a><span class="lineno">  350</span>&#160;    <span class="keywordflow">else</span></div>
-<div class="line"><a name="l00351"></a><span class="lineno">  351</span>&#160;    {</div>
-<div class="line"><a name="l00352"></a><span class="lineno">  352</span>&#160;      finished = <span class="keyword">true</span>;</div>
-<div class="line"><a name="l00354"></a><span class="lineno">  354</span>&#160;    }</div>
-<div class="line"><a name="l00355"></a><span class="lineno">  355</span>&#160;  }</div>
-<div class="line"><a name="l00356"></a><span class="lineno">  356</span>&#160; </div>
-<div class="line"><a name="l00357"></a><span class="lineno">  357</span>&#160;  <span class="keywordflow">return</span> acceptBackward;</div>
-<div class="line"><a name="l00358"></a><span class="lineno">  358</span>&#160;}</div>
-<div class="line"><a name="l00364"></a><span class="lineno"><a class="line" href="classcl__move__base__z_1_1odom__tracker_1_1OdomTracker.html#ae5fbb14af0fe273e119ada8eff19e8b6">  364</a></span>&#160;<span class="keywordtype">bool</span> <a class="code" href="classcl__move__base__z_1_1odom__tracker_1_1OdomTracker.html#ae5fbb14af0fe273e119ada8eff19e8b6">OdomTracker::updateRecordPath</a>(<span class="keyword">const</span> nav_msgs::msg::Odometry &amp; odom)</div>
-<div class="line"><a name="l00365"></a><span class="lineno">  365</span>&#160;{</div>
-<div class="line"><a name="l00367"></a><span class="lineno">  367</span>&#160;  geometry_msgs::msg::PoseStamped base_pose;</div>
-<div class="line"><a name="l00368"></a><span class="lineno">  368</span>&#160; </div>
-<div class="line"><a name="l00369"></a><span class="lineno">  369</span>&#160;  base_pose.pose = odom.pose.pose;</div>
-<div class="line"><a name="l00370"></a><span class="lineno">  370</span>&#160;  base_pose.header = odom.header;</div>
-<div class="line"><a name="l00371"></a><span class="lineno">  371</span>&#160;  <a class="code" href="classcl__move__base__z_1_1odom__tracker_1_1OdomTracker.html#aa0bc445978a65ee487da2b7e4703e52a">baseTrajectory_</a>.header = odom.header;</div>
-<div class="line"><a name="l00372"></a><span class="lineno">  372</span>&#160; </div>
-<div class="line"><a name="l00373"></a><span class="lineno">  373</span>&#160;  <span class="keywordtype">bool</span> enqueueOdomMessage = <span class="keyword">false</span>;</div>
-<div class="line"><a name="l00374"></a><span class="lineno">  374</span>&#160; </div>
-<div class="line"><a name="l00375"></a><span class="lineno">  375</span>&#160;  <span class="keywordtype">double</span> dist = -1;</div>
-<div class="line"><a name="l00376"></a><span class="lineno">  376</span>&#160;  <span class="keywordflow">if</span> (<a class="code" href="classcl__move__base__z_1_1odom__tracker_1_1OdomTracker.html#aa0bc445978a65ee487da2b7e4703e52a">baseTrajectory_</a>.poses.empty())</div>
-<div class="line"><a name="l00377"></a><span class="lineno">  377</span>&#160;  {</div>
-<div class="line"><a name="l00378"></a><span class="lineno">  378</span>&#160;    enqueueOdomMessage = <span class="keyword">true</span>;</div>
-<div class="line"><a name="l00379"></a><span class="lineno">  379</span>&#160;  }</div>
-<div class="line"><a name="l00380"></a><span class="lineno">  380</span>&#160;  <span class="keywordflow">else</span></div>
-<div class="line"><a name="l00381"></a><span class="lineno">  381</span>&#160;  {</div>
-<div class="line"><a name="l00382"></a><span class="lineno">  382</span>&#160;    <span class="keyword">const</span> <span class="keyword">auto</span> &amp; prevPose = <a class="code" href="classcl__move__base__z_1_1odom__tracker_1_1OdomTracker.html#aa0bc445978a65ee487da2b7e4703e52a">baseTrajectory_</a>.poses.back().pose;</div>
-<div class="line"><a name="l00383"></a><span class="lineno">  383</span>&#160;    <span class="keyword">const</span> geometry_msgs::msg::Point &amp; prevPoint = prevPose.position;</div>
-<div class="line"><a name="l00384"></a><span class="lineno">  384</span>&#160;    <span class="keywordtype">double</span> prevAngle = tf2::getYaw(prevPose.orientation);</div>
-<div class="line"><a name="l00385"></a><span class="lineno">  385</span>&#160; </div>
-<div class="line"><a name="l00386"></a><span class="lineno">  386</span>&#160;    <span class="keyword">const</span> geometry_msgs::msg::Point &amp; currePoint = base_pose.pose.position;</div>
-<div class="line"><a name="l00387"></a><span class="lineno">  387</span>&#160;    <span class="keywordtype">double</span> currentAngle = tf2::getYaw(base_pose.pose.orientation);</div>
-<div class="line"><a name="l00388"></a><span class="lineno">  388</span>&#160; </div>
-<div class="line"><a name="l00389"></a><span class="lineno">  389</span>&#160;    dist = <a class="code" href="namespacecl__move__base__z_1_1odom__tracker.html#ac063967ce92946862898c42d9f7ef60d">p2pDistance</a>(prevPoint, currePoint);</div>
-<div class="line"><a name="l00390"></a><span class="lineno">  390</span>&#160;    <span class="keywordtype">double</span> goalAngleOffset = fabs(angles::shortest_angular_distance(prevAngle, currentAngle));</div>
-<div class="line"><a name="l00391"></a><span class="lineno">  391</span>&#160; </div>
-<div class="line"><a name="l00392"></a><span class="lineno">  392</span>&#160;    <span class="comment">// RCLCPP_WARN(getLogger(),&quot;dist %lf vs min %lf&quot;, dist, recordPointDistanceThreshold_);</span></div>
-<div class="line"><a name="l00393"></a><span class="lineno">  393</span>&#160; </div>
-<div class="line"><a name="l00394"></a><span class="lineno">  394</span>&#160;    <span class="keywordflow">if</span> (dist &gt; <a class="code" href="classcl__move__base__z_1_1odom__tracker_1_1OdomTracker.html#a3a1173716d527bd182d04656491e01dd">recordPointDistanceThreshold_</a> || goalAngleOffset &gt; <a class="code" href="classcl__move__base__z_1_1odom__tracker_1_1OdomTracker.html#a1274fe5334c109cd9c2339beb9411441">recordAngularDistanceThreshold_</a>)</div>
-<div class="line"><a name="l00395"></a><span class="lineno">  395</span>&#160;    {</div>
-<div class="line"><a name="l00396"></a><span class="lineno">  396</span>&#160;      enqueueOdomMessage = <span class="keyword">true</span>;</div>
-<div class="line"><a name="l00397"></a><span class="lineno">  397</span>&#160;    }</div>
-<div class="line"><a name="l00398"></a><span class="lineno">  398</span>&#160;    <span class="keywordflow">else</span></div>
-<div class="line"><a name="l00399"></a><span class="lineno">  399</span>&#160;    {</div>
-<div class="line"><a name="l00400"></a><span class="lineno">  400</span>&#160;      <span class="comment">// RCLCPP_WARN(getLogger(),&quot;skip odom, dist: %lf&quot;, dist);</span></div>
-<div class="line"><a name="l00401"></a><span class="lineno">  401</span>&#160;      enqueueOdomMessage = <span class="keyword">false</span>;</div>
-<div class="line"><a name="l00402"></a><span class="lineno">  402</span>&#160;    }</div>
-<div class="line"><a name="l00403"></a><span class="lineno">  403</span>&#160;  }</div>
-<div class="line"><a name="l00404"></a><span class="lineno">  404</span>&#160; </div>
-<div class="line"><a name="l00405"></a><span class="lineno">  405</span>&#160;  <span class="keywordflow">if</span> (enqueueOdomMessage)</div>
-<div class="line"><a name="l00406"></a><span class="lineno">  406</span>&#160;  {</div>
-<div class="line"><a name="l00407"></a><span class="lineno">  407</span>&#160;    <a class="code" href="classcl__move__base__z_1_1odom__tracker_1_1OdomTracker.html#aa0bc445978a65ee487da2b7e4703e52a">baseTrajectory_</a>.poses.push_back(base_pose);</div>
-<div class="line"><a name="l00408"></a><span class="lineno">  408</span>&#160;  }</div>
-<div class="line"><a name="l00409"></a><span class="lineno">  409</span>&#160; </div>
-<div class="line"><a name="l00410"></a><span class="lineno">  410</span>&#160;  <span class="keywordflow">return</span> enqueueOdomMessage;</div>
-<div class="line"><a name="l00411"></a><span class="lineno">  411</span>&#160;}</div>
-<div class="line"><a name="l00412"></a><span class="lineno">  412</span>&#160; </div>
-<div class="line"><a name="l00418"></a><span class="lineno"><a class="line" href="classcl__move__base__z_1_1odom__tracker_1_1OdomTracker.html#a04ed8f447a25122b125a63360d677506">  418</a></span>&#160;<span class="keywordtype">void</span> <a class="code" href="classcl__move__base__z_1_1odom__tracker_1_1OdomTracker.html#a04ed8f447a25122b125a63360d677506">OdomTracker::updateConfiguration</a>()</div>
-<div class="line"><a name="l00419"></a><span class="lineno">  419</span>&#160;{</div>
-<div class="line"><a name="l00420"></a><span class="lineno">  420</span>&#160;  <span class="keywordflow">if</span> (!<a class="code" href="classsmacc2_1_1ISmaccComponent.html#aaac68614687bed658c59f8f15746ab91">getNode</a>()-&gt;get_parameter(<span class="stringliteral">&quot;odom_frame&quot;</span>, this-&gt;<a class="code" href="classcl__move__base__z_1_1odom__tracker_1_1OdomTracker.html#a54f31af5e74006560d94f266297853d4">odomFrame_</a>))</div>
-<div class="line"><a name="l00421"></a><span class="lineno">  421</span>&#160;  {</div>
-<div class="line"><a name="l00422"></a><span class="lineno">  422</span>&#160;  }</div>
-<div class="line"><a name="l00423"></a><span class="lineno">  423</span>&#160; </div>
-<div class="line"><a name="l00424"></a><span class="lineno">  424</span>&#160;  <span class="keywordflow">if</span> (!<a class="code" href="classsmacc2_1_1ISmaccComponent.html#aaac68614687bed658c59f8f15746ab91">getNode</a>()-&gt;get_parameter(<span class="stringliteral">&quot;record_point_distance_threshold&quot;</span>, <a class="code" href="classcl__move__base__z_1_1odom__tracker_1_1OdomTracker.html#a3a1173716d527bd182d04656491e01dd">recordPointDistanceThreshold_</a>))</div>
-<div class="line"><a name="l00425"></a><span class="lineno">  425</span>&#160;  {</div>
-<div class="line"><a name="l00426"></a><span class="lineno">  426</span>&#160;  }</div>
-<div class="line"><a name="l00427"></a><span class="lineno">  427</span>&#160; </div>
-<div class="line"><a name="l00428"></a><span class="lineno">  428</span>&#160;  <span class="keywordflow">if</span> (!<a class="code" href="classsmacc2_1_1ISmaccComponent.html#aaac68614687bed658c59f8f15746ab91">getNode</a>()-&gt;get_parameter(</div>
-<div class="line"><a name="l00429"></a><span class="lineno">  429</span>&#160;        <span class="stringliteral">&quot;record_angular_distance_threshold&quot;</span>, <a class="code" href="classcl__move__base__z_1_1odom__tracker_1_1OdomTracker.html#a1274fe5334c109cd9c2339beb9411441">recordAngularDistanceThreshold_</a>))</div>
-<div class="line"><a name="l00430"></a><span class="lineno">  430</span>&#160;  {</div>
-<div class="line"><a name="l00431"></a><span class="lineno">  431</span>&#160;  }</div>
-<div class="line"><a name="l00432"></a><span class="lineno">  432</span>&#160; </div>
-<div class="line"><a name="l00433"></a><span class="lineno">  433</span>&#160;  <span class="keywordflow">if</span> (!<a class="code" href="classsmacc2_1_1ISmaccComponent.html#aaac68614687bed658c59f8f15746ab91">getNode</a>()-&gt;get_parameter(<span class="stringliteral">&quot;clear_point_distance_threshold&quot;</span>, <a class="code" href="classcl__move__base__z_1_1odom__tracker_1_1OdomTracker.html#a7155d25d0e8dd9f237a79ff503b80e26">clearPointDistanceThreshold_</a>))</div>
-<div class="line"><a name="l00434"></a><span class="lineno">  434</span>&#160;  {</div>
-<div class="line"><a name="l00435"></a><span class="lineno">  435</span>&#160;  }</div>
-<div class="line"><a name="l00436"></a><span class="lineno">  436</span>&#160; </div>
-<div class="line"><a name="l00437"></a><span class="lineno">  437</span>&#160;  <span class="keywordflow">if</span> (!<a class="code" href="classsmacc2_1_1ISmaccComponent.html#aaac68614687bed658c59f8f15746ab91">getNode</a>()-&gt;get_parameter(<span class="stringliteral">&quot;clear_angular_distance_threshold&quot;</span>, <a class="code" href="classcl__move__base__z_1_1odom__tracker_1_1OdomTracker.html#a1b79dd86745adfb31db822e0c8106282">clearAngularDistanceThreshold_</a>))</div>
-<div class="line"><a name="l00438"></a><span class="lineno">  438</span>&#160;  {</div>
-<div class="line"><a name="l00439"></a><span class="lineno">  439</span>&#160;  }</div>
-<div class="line"><a name="l00440"></a><span class="lineno">  440</span>&#160;}</div>
-<div class="line"><a name="l00441"></a><span class="lineno">  441</span>&#160; </div>
-<div class="line"><a name="l00447"></a><span class="lineno"><a class="line" href="classcl__move__base__z_1_1odom__tracker_1_1OdomTracker.html#a8caf1a082e0beea75798db8120f830e9">  447</a></span>&#160;<span class="keywordtype">void</span> <a class="code" href="classcl__move__base__z_1_1odom__tracker_1_1OdomTracker.html#a8caf1a082e0beea75798db8120f830e9">OdomTracker::processOdometryMessage</a>(<span class="keyword">const</span> nav_msgs::msg::Odometry::SharedPtr odom)</div>
-<div class="line"><a name="l00448"></a><span class="lineno">  448</span>&#160;{</div>
-<div class="line"><a name="l00449"></a><span class="lineno">  449</span>&#160;  <span class="comment">// RCLCPP_INFO(getLogger(),&quot;odom_tracker m_mutex acquire&quot;);</span></div>
-<div class="line"><a name="l00450"></a><span class="lineno">  450</span>&#160;  std::lock_guard&lt;std::mutex&gt; lock(<a class="code" href="classcl__move__base__z_1_1odom__tracker_1_1OdomTracker.html#aa371639e1eee269273dec8d3ab9dba0f">m_mutex_</a>);</div>
-<div class="line"><a name="l00451"></a><span class="lineno">  451</span>&#160; </div>
-<div class="line"><a name="l00452"></a><span class="lineno">  452</span>&#160;  <a class="code" href="classcl__move__base__z_1_1odom__tracker_1_1OdomTracker.html#a04ed8f447a25122b125a63360d677506">updateConfiguration</a>();</div>
-<div class="line"><a name="l00453"></a><span class="lineno">  453</span>&#160; </div>
-<div class="line"><a name="l00454"></a><span class="lineno">  454</span>&#160;  <span class="keywordflow">if</span> (<a class="code" href="classcl__move__base__z_1_1odom__tracker_1_1OdomTracker.html#a5ae598c85c4469f4c0e984480575c42b">workingMode_</a> == <a class="code" href="namespacecl__move__base__z_1_1odom__tracker.html#ac46b05813b2791604f6cd0a39ace3ef8a023bc3adf68871ef7a0c616765ac80a7">WorkingMode::RECORD_PATH</a>)</div>
-<div class="line"><a name="l00455"></a><span class="lineno">  455</span>&#160;  {</div>
-<div class="line"><a name="l00456"></a><span class="lineno">  456</span>&#160;    <a class="code" href="classcl__move__base__z_1_1odom__tracker_1_1OdomTracker.html#ae5fbb14af0fe273e119ada8eff19e8b6">updateRecordPath</a>(*odom);</div>
-<div class="line"><a name="l00457"></a><span class="lineno">  457</span>&#160;  }</div>
-<div class="line"><a name="l00458"></a><span class="lineno">  458</span>&#160;  <span class="keywordflow">else</span> <span class="keywordflow">if</span> (<a class="code" href="classcl__move__base__z_1_1odom__tracker_1_1OdomTracker.html#a5ae598c85c4469f4c0e984480575c42b">workingMode_</a> == <a class="code" href="namespacecl__move__base__z_1_1odom__tracker.html#ac46b05813b2791604f6cd0a39ace3ef8a68783989ae56d7f2f9496c66c417a192">WorkingMode::CLEAR_PATH</a>)</div>
-<div class="line"><a name="l00459"></a><span class="lineno">  459</span>&#160;  {</div>
-<div class="line"><a name="l00460"></a><span class="lineno">  460</span>&#160;    <a class="code" href="classcl__move__base__z_1_1odom__tracker_1_1OdomTracker.html#a57a146b5c833af1f12692969e99d3908">updateClearPath</a>(*odom);</div>
-<div class="line"><a name="l00461"></a><span class="lineno">  461</span>&#160;  }</div>
-<div class="line"><a name="l00462"></a><span class="lineno">  462</span>&#160; </div>
-<div class="line"><a name="l00463"></a><span class="lineno">  463</span>&#160;  <span class="comment">// RCLCPP_WARN(getLogger(),&quot;odomTracker odometry callback&quot;);</span></div>
-<div class="line"><a name="l00464"></a><span class="lineno">  464</span>&#160;  <span class="keywordflow">if</span> (<a class="code" href="classcl__move__base__z_1_1odom__tracker_1_1OdomTracker.html#a4f253d45ab5750dee3c2f18dd5599725">publishMessages</a>)</div>
-<div class="line"><a name="l00465"></a><span class="lineno">  465</span>&#160;  {</div>
-<div class="line"><a name="l00466"></a><span class="lineno">  466</span>&#160;    <a class="code" href="classcl__move__base__z_1_1odom__tracker_1_1OdomTracker.html#ab19493add56d9ff8bf1895f9279412df">rtPublishPaths</a>(odom-&gt;header.stamp);</div>
-<div class="line"><a name="l00467"></a><span class="lineno">  467</span>&#160;  }</div>
-<div class="line"><a name="l00468"></a><span class="lineno">  468</span>&#160; </div>
-<div class="line"><a name="l00469"></a><span class="lineno">  469</span>&#160;  <span class="comment">// RCLCPP_INFO(getLogger(),&quot;odom_tracker m_mutex release&quot;);</span></div>
-<div class="line"><a name="l00470"></a><span class="lineno">  470</span>&#160;}</div>
-<div class="line"><a name="l00471"></a><span class="lineno">  471</span>&#160;}  <span class="comment">// namespace odom_tracker</span></div>
-<div class="line"><a name="l00472"></a><span class="lineno">  472</span>&#160;}  <span class="comment">// namespace cl_move_base_z</span></div>
-<div class="ttc" id="aclasscl__move__base__z_1_1odom__tracker_1_1OdomTracker_html_a04ed8f447a25122b125a63360d677506"><div class="ttname"><a href="classcl__move__base__z_1_1odom__tracker_1_1OdomTracker.html#a04ed8f447a25122b125a63360d677506">cl_move_base_z::odom_tracker::OdomTracker::updateConfiguration</a></div><div class="ttdeci">void updateConfiguration()</div><div class="ttdef"><b>Definition:</b> <a href="odom__tracker_8cpp_source.html#l00418">odom_tracker.cpp:418</a></div></div>
+<div class="line"><a name="l00314"></a><span class="lineno">  314</span>&#160;      <span class="keywordtype">double</span> carrotAngle = tf2::getYaw(carrotPose.orientation);</div>
+<div class="line"><a name="l00315"></a><span class="lineno">  315</span>&#160; </div>
+<div class="line"><a name="l00316"></a><span class="lineno">  316</span>&#160;      <span class="keyword">auto</span> &amp; currePose = base_pose.pose;</div>
+<div class="line"><a name="l00317"></a><span class="lineno">  317</span>&#160;      <span class="keyword">auto</span> &amp; currePoint = currePose.position;</div>
+<div class="line"><a name="l00318"></a><span class="lineno">  318</span>&#160;      <span class="keywordtype">double</span> currentAngle = tf2::getYaw(currePose.orientation);</div>
+<div class="line"><a name="l00319"></a><span class="lineno">  319</span>&#160; </div>
+<div class="line"><a name="l00320"></a><span class="lineno">  320</span>&#160;      <span class="keywordtype">double</span> lastpointdist = <a class="code" href="namespacecl__move__base__z_1_1odom__tracker.html#ac063967ce92946862898c42d9f7ef60d">p2pDistance</a>(carrotPoint, currePoint);</div>
+<div class="line"><a name="l00321"></a><span class="lineno">  321</span>&#160;      <span class="keywordtype">double</span> goalAngleOffset = fabs(angles::shortest_angular_distance(carrotAngle, currentAngle));</div>
+<div class="line"><a name="l00322"></a><span class="lineno">  322</span>&#160; </div>
+<div class="line"><a name="l00323"></a><span class="lineno">  323</span>&#160;      acceptBackward = !<a class="code" href="classcl__move__base__z_1_1odom__tracker_1_1OdomTracker.html#aa0bc445978a65ee487da2b7e4703e52a">baseTrajectory_</a>.poses.empty() &amp;&amp;</div>
+<div class="line"><a name="l00324"></a><span class="lineno">  324</span>&#160;                       lastpointdist &lt; <a class="code" href="classcl__move__base__z_1_1odom__tracker_1_1OdomTracker.html#a7155d25d0e8dd9f237a79ff503b80e26">clearPointDistanceThreshold_</a> &amp;&amp;</div>
+<div class="line"><a name="l00325"></a><span class="lineno">  325</span>&#160;                       goalAngleOffset &lt; <a class="code" href="classcl__move__base__z_1_1odom__tracker_1_1OdomTracker.html#a1b79dd86745adfb31db822e0c8106282">clearAngularDistanceThreshold_</a>;</div>
+<div class="line"><a name="l00326"></a><span class="lineno">  326</span>&#160; </div>
+<div class="line"><a name="l00327"></a><span class="lineno">  327</span>&#160;      clearingError = lastpointdist &gt; 2 * <a class="code" href="classcl__move__base__z_1_1odom__tracker_1_1OdomTracker.html#a7155d25d0e8dd9f237a79ff503b80e26">clearPointDistanceThreshold_</a>;</div>
+<div class="line"><a name="l00328"></a><span class="lineno">  328</span>&#160;      RCLCPP_DEBUG_STREAM(</div>
+<div class="line"><a name="l00329"></a><span class="lineno">  329</span>&#160;        <a class="code" href="classsmacc2_1_1ISmaccComponent.html#a6b9ca3313826dc3f555c63e8becf1e68">getLogger</a>(), <span class="stringliteral">&quot;[OdomTracker] clearing (accepted: &quot;</span> &lt;&lt; acceptBackward</div>
+<div class="line"><a name="l00330"></a><span class="lineno">  330</span>&#160;                                                          &lt;&lt; <span class="stringliteral">&quot;) linerr: &quot;</span> &lt;&lt; lastpointdist</div>
+<div class="line"><a name="l00331"></a><span class="lineno">  331</span>&#160;                                                          &lt;&lt; <span class="stringliteral">&quot;, anglerr: &quot;</span> &lt;&lt; goalAngleOffset);</div>
+<div class="line"><a name="l00332"></a><span class="lineno">  332</span>&#160;    }</div>
+<div class="line"><a name="l00333"></a><span class="lineno">  333</span>&#160; </div>
+<div class="line"><a name="l00334"></a><span class="lineno">  334</span>&#160;    <span class="comment">// RCLCPP_INFO(getLogger(),&quot;Backwards, last distance: %lf &lt; %lf accept: %d&quot;, dist,</span></div>
+<div class="line"><a name="l00335"></a><span class="lineno">  335</span>&#160;    <span class="comment">// minPointDistanceBackwardThresh_, acceptBackward);</span></div>
+<div class="line"><a name="l00336"></a><span class="lineno">  336</span>&#160;    <span class="keywordflow">if</span> (</div>
+<div class="line"><a name="l00337"></a><span class="lineno">  337</span>&#160;      acceptBackward &amp;&amp;</div>
+<div class="line"><a name="l00338"></a><span class="lineno">  338</span>&#160;      <a class="code" href="classcl__move__base__z_1_1odom__tracker_1_1OdomTracker.html#aa0bc445978a65ee487da2b7e4703e52a">baseTrajectory_</a>.poses.size() &gt; 1) <span class="comment">/* we always leave at least one item, specially interesting</span></div>
+<div class="line"><a name="l00339"></a><span class="lineno">  339</span>&#160;<span class="comment">                                           for the backward local planner reach the backwards goal</span></div>
+<div class="line"><a name="l00340"></a><span class="lineno">  340</span>&#160;<span class="comment">                                           with enough precision*/</span></div>
+<div class="line"><a name="l00341"></a><span class="lineno">  341</span>&#160;    {</div>
+<div class="line"><a name="l00342"></a><span class="lineno">  342</span>&#160;      <a class="code" href="classcl__move__base__z_1_1odom__tracker_1_1OdomTracker.html#aa0bc445978a65ee487da2b7e4703e52a">baseTrajectory_</a>.poses.pop_back();</div>
+<div class="line"><a name="l00343"></a><span class="lineno">  343</span>&#160;    }</div>
+<div class="line"><a name="l00344"></a><span class="lineno">  344</span>&#160;    <span class="keywordflow">else</span> <span class="keywordflow">if</span> (clearingError)</div>
+<div class="line"><a name="l00345"></a><span class="lineno">  345</span>&#160;    {</div>
+<div class="line"><a name="l00346"></a><span class="lineno">  346</span>&#160;      finished = <span class="keyword">true</span>;</div>
+<div class="line"><a name="l00347"></a><span class="lineno">  347</span>&#160;      RCLCPP_WARN(<a class="code" href="classsmacc2_1_1ISmaccComponent.html#a6b9ca3313826dc3f555c63e8becf1e68">getLogger</a>(), <span class="stringliteral">&quot;[OdomTracker] Incorrect odom clearing motion.&quot;</span>);</div>
+<div class="line"><a name="l00348"></a><span class="lineno">  348</span>&#160;    }</div>
+<div class="line"><a name="l00349"></a><span class="lineno">  349</span>&#160;    <span class="keywordflow">else</span></div>
+<div class="line"><a name="l00350"></a><span class="lineno">  350</span>&#160;    {</div>
+<div class="line"><a name="l00351"></a><span class="lineno">  351</span>&#160;      finished = <span class="keyword">true</span>;</div>
+<div class="line"><a name="l00353"></a><span class="lineno">  353</span>&#160;    }</div>
+<div class="line"><a name="l00354"></a><span class="lineno">  354</span>&#160;  }</div>
+<div class="line"><a name="l00355"></a><span class="lineno">  355</span>&#160; </div>
+<div class="line"><a name="l00356"></a><span class="lineno">  356</span>&#160;  <span class="keywordflow">return</span> acceptBackward;</div>
+<div class="line"><a name="l00357"></a><span class="lineno">  357</span>&#160;}</div>
+<div class="line"><a name="l00363"></a><span class="lineno"><a class="line" href="classcl__move__base__z_1_1odom__tracker_1_1OdomTracker.html#ae5fbb14af0fe273e119ada8eff19e8b6">  363</a></span>&#160;<span class="keywordtype">bool</span> <a class="code" href="classcl__move__base__z_1_1odom__tracker_1_1OdomTracker.html#ae5fbb14af0fe273e119ada8eff19e8b6">OdomTracker::updateRecordPath</a>(<span class="keyword">const</span> nav_msgs::msg::Odometry &amp; odom)</div>
+<div class="line"><a name="l00364"></a><span class="lineno">  364</span>&#160;{</div>
+<div class="line"><a name="l00366"></a><span class="lineno">  366</span>&#160;  geometry_msgs::msg::PoseStamped base_pose;</div>
+<div class="line"><a name="l00367"></a><span class="lineno">  367</span>&#160; </div>
+<div class="line"><a name="l00368"></a><span class="lineno">  368</span>&#160;  base_pose.pose = odom.pose.pose;</div>
+<div class="line"><a name="l00369"></a><span class="lineno">  369</span>&#160;  base_pose.header = odom.header;</div>
+<div class="line"><a name="l00370"></a><span class="lineno">  370</span>&#160;  <a class="code" href="classcl__move__base__z_1_1odom__tracker_1_1OdomTracker.html#aa0bc445978a65ee487da2b7e4703e52a">baseTrajectory_</a>.header = odom.header;</div>
+<div class="line"><a name="l00371"></a><span class="lineno">  371</span>&#160; </div>
+<div class="line"><a name="l00372"></a><span class="lineno">  372</span>&#160;  <span class="keywordtype">bool</span> enqueueOdomMessage = <span class="keyword">false</span>;</div>
+<div class="line"><a name="l00373"></a><span class="lineno">  373</span>&#160; </div>
+<div class="line"><a name="l00374"></a><span class="lineno">  374</span>&#160;  <span class="keywordtype">double</span> dist = -1;</div>
+<div class="line"><a name="l00375"></a><span class="lineno">  375</span>&#160;  <span class="keywordflow">if</span> (<a class="code" href="classcl__move__base__z_1_1odom__tracker_1_1OdomTracker.html#aa0bc445978a65ee487da2b7e4703e52a">baseTrajectory_</a>.poses.empty())</div>
+<div class="line"><a name="l00376"></a><span class="lineno">  376</span>&#160;  {</div>
+<div class="line"><a name="l00377"></a><span class="lineno">  377</span>&#160;    enqueueOdomMessage = <span class="keyword">true</span>;</div>
+<div class="line"><a name="l00378"></a><span class="lineno">  378</span>&#160;  }</div>
+<div class="line"><a name="l00379"></a><span class="lineno">  379</span>&#160;  <span class="keywordflow">else</span></div>
+<div class="line"><a name="l00380"></a><span class="lineno">  380</span>&#160;  {</div>
+<div class="line"><a name="l00381"></a><span class="lineno">  381</span>&#160;    <span class="keyword">const</span> <span class="keyword">auto</span> &amp; prevPose = <a class="code" href="classcl__move__base__z_1_1odom__tracker_1_1OdomTracker.html#aa0bc445978a65ee487da2b7e4703e52a">baseTrajectory_</a>.poses.back().pose;</div>
+<div class="line"><a name="l00382"></a><span class="lineno">  382</span>&#160;    <span class="keyword">const</span> geometry_msgs::msg::Point &amp; prevPoint = prevPose.position;</div>
+<div class="line"><a name="l00383"></a><span class="lineno">  383</span>&#160;    <span class="keywordtype">double</span> prevAngle = tf2::getYaw(prevPose.orientation);</div>
+<div class="line"><a name="l00384"></a><span class="lineno">  384</span>&#160; </div>
+<div class="line"><a name="l00385"></a><span class="lineno">  385</span>&#160;    <span class="keyword">const</span> geometry_msgs::msg::Point &amp; currePoint = base_pose.pose.position;</div>
+<div class="line"><a name="l00386"></a><span class="lineno">  386</span>&#160;    <span class="keywordtype">double</span> currentAngle = tf2::getYaw(base_pose.pose.orientation);</div>
+<div class="line"><a name="l00387"></a><span class="lineno">  387</span>&#160; </div>
+<div class="line"><a name="l00388"></a><span class="lineno">  388</span>&#160;    dist = <a class="code" href="namespacecl__move__base__z_1_1odom__tracker.html#ac063967ce92946862898c42d9f7ef60d">p2pDistance</a>(prevPoint, currePoint);</div>
+<div class="line"><a name="l00389"></a><span class="lineno">  389</span>&#160;    <span class="keywordtype">double</span> goalAngleOffset = fabs(angles::shortest_angular_distance(prevAngle, currentAngle));</div>
+<div class="line"><a name="l00390"></a><span class="lineno">  390</span>&#160; </div>
+<div class="line"><a name="l00391"></a><span class="lineno">  391</span>&#160;    <span class="comment">// RCLCPP_WARN(getLogger(),&quot;dist %lf vs min %lf&quot;, dist, recordPointDistanceThreshold_);</span></div>
+<div class="line"><a name="l00392"></a><span class="lineno">  392</span>&#160; </div>
+<div class="line"><a name="l00393"></a><span class="lineno">  393</span>&#160;    <span class="keywordflow">if</span> (dist &gt; <a class="code" href="classcl__move__base__z_1_1odom__tracker_1_1OdomTracker.html#a3a1173716d527bd182d04656491e01dd">recordPointDistanceThreshold_</a> || goalAngleOffset &gt; <a class="code" href="classcl__move__base__z_1_1odom__tracker_1_1OdomTracker.html#a1274fe5334c109cd9c2339beb9411441">recordAngularDistanceThreshold_</a>)</div>
+<div class="line"><a name="l00394"></a><span class="lineno">  394</span>&#160;    {</div>
+<div class="line"><a name="l00395"></a><span class="lineno">  395</span>&#160;      enqueueOdomMessage = <span class="keyword">true</span>;</div>
+<div class="line"><a name="l00396"></a><span class="lineno">  396</span>&#160;    }</div>
+<div class="line"><a name="l00397"></a><span class="lineno">  397</span>&#160;    <span class="keywordflow">else</span></div>
+<div class="line"><a name="l00398"></a><span class="lineno">  398</span>&#160;    {</div>
+<div class="line"><a name="l00399"></a><span class="lineno">  399</span>&#160;      <span class="comment">// RCLCPP_WARN(getLogger(),&quot;skip odom, dist: %lf&quot;, dist);</span></div>
+<div class="line"><a name="l00400"></a><span class="lineno">  400</span>&#160;      enqueueOdomMessage = <span class="keyword">false</span>;</div>
+<div class="line"><a name="l00401"></a><span class="lineno">  401</span>&#160;    }</div>
+<div class="line"><a name="l00402"></a><span class="lineno">  402</span>&#160;  }</div>
+<div class="line"><a name="l00403"></a><span class="lineno">  403</span>&#160; </div>
+<div class="line"><a name="l00404"></a><span class="lineno">  404</span>&#160;  <span class="keywordflow">if</span> (enqueueOdomMessage)</div>
+<div class="line"><a name="l00405"></a><span class="lineno">  405</span>&#160;  {</div>
+<div class="line"><a name="l00406"></a><span class="lineno">  406</span>&#160;    <a class="code" href="classcl__move__base__z_1_1odom__tracker_1_1OdomTracker.html#aa0bc445978a65ee487da2b7e4703e52a">baseTrajectory_</a>.poses.push_back(base_pose);</div>
+<div class="line"><a name="l00407"></a><span class="lineno">  407</span>&#160;  }</div>
+<div class="line"><a name="l00408"></a><span class="lineno">  408</span>&#160; </div>
+<div class="line"><a name="l00409"></a><span class="lineno">  409</span>&#160;  <span class="keywordflow">return</span> enqueueOdomMessage;</div>
+<div class="line"><a name="l00410"></a><span class="lineno">  410</span>&#160;}</div>
+<div class="line"><a name="l00411"></a><span class="lineno">  411</span>&#160; </div>
+<div class="line"><a name="l00417"></a><span class="lineno"><a class="line" href="classcl__move__base__z_1_1odom__tracker_1_1OdomTracker.html#a04ed8f447a25122b125a63360d677506">  417</a></span>&#160;<span class="keywordtype">void</span> <a class="code" href="classcl__move__base__z_1_1odom__tracker_1_1OdomTracker.html#a04ed8f447a25122b125a63360d677506">OdomTracker::updateConfiguration</a>()</div>
+<div class="line"><a name="l00418"></a><span class="lineno">  418</span>&#160;{</div>
+<div class="line"><a name="l00419"></a><span class="lineno">  419</span>&#160;  <span class="keywordflow">if</span> (!<a class="code" href="classsmacc2_1_1ISmaccComponent.html#aaac68614687bed658c59f8f15746ab91">getNode</a>()-&gt;get_parameter(<span class="stringliteral">&quot;odom_frame&quot;</span>, this-&gt;<a class="code" href="classcl__move__base__z_1_1odom__tracker_1_1OdomTracker.html#a54f31af5e74006560d94f266297853d4">odomFrame_</a>))</div>
+<div class="line"><a name="l00420"></a><span class="lineno">  420</span>&#160;  {</div>
+<div class="line"><a name="l00421"></a><span class="lineno">  421</span>&#160;  }</div>
+<div class="line"><a name="l00422"></a><span class="lineno">  422</span>&#160; </div>
+<div class="line"><a name="l00423"></a><span class="lineno">  423</span>&#160;  <span class="keywordflow">if</span> (!<a class="code" href="classsmacc2_1_1ISmaccComponent.html#aaac68614687bed658c59f8f15746ab91">getNode</a>()-&gt;get_parameter(<span class="stringliteral">&quot;record_point_distance_threshold&quot;</span>, <a class="code" href="classcl__move__base__z_1_1odom__tracker_1_1OdomTracker.html#a3a1173716d527bd182d04656491e01dd">recordPointDistanceThreshold_</a>))</div>
+<div class="line"><a name="l00424"></a><span class="lineno">  424</span>&#160;  {</div>
+<div class="line"><a name="l00425"></a><span class="lineno">  425</span>&#160;  }</div>
+<div class="line"><a name="l00426"></a><span class="lineno">  426</span>&#160; </div>
+<div class="line"><a name="l00427"></a><span class="lineno">  427</span>&#160;  <span class="keywordflow">if</span> (!<a class="code" href="classsmacc2_1_1ISmaccComponent.html#aaac68614687bed658c59f8f15746ab91">getNode</a>()-&gt;get_parameter(</div>
+<div class="line"><a name="l00428"></a><span class="lineno">  428</span>&#160;        <span class="stringliteral">&quot;record_angular_distance_threshold&quot;</span>, <a class="code" href="classcl__move__base__z_1_1odom__tracker_1_1OdomTracker.html#a1274fe5334c109cd9c2339beb9411441">recordAngularDistanceThreshold_</a>))</div>
+<div class="line"><a name="l00429"></a><span class="lineno">  429</span>&#160;  {</div>
+<div class="line"><a name="l00430"></a><span class="lineno">  430</span>&#160;  }</div>
+<div class="line"><a name="l00431"></a><span class="lineno">  431</span>&#160; </div>
+<div class="line"><a name="l00432"></a><span class="lineno">  432</span>&#160;  <span class="keywordflow">if</span> (!<a class="code" href="classsmacc2_1_1ISmaccComponent.html#aaac68614687bed658c59f8f15746ab91">getNode</a>()-&gt;get_parameter(<span class="stringliteral">&quot;clear_point_distance_threshold&quot;</span>, <a class="code" href="classcl__move__base__z_1_1odom__tracker_1_1OdomTracker.html#a7155d25d0e8dd9f237a79ff503b80e26">clearPointDistanceThreshold_</a>))</div>
+<div class="line"><a name="l00433"></a><span class="lineno">  433</span>&#160;  {</div>
+<div class="line"><a name="l00434"></a><span class="lineno">  434</span>&#160;  }</div>
+<div class="line"><a name="l00435"></a><span class="lineno">  435</span>&#160; </div>
+<div class="line"><a name="l00436"></a><span class="lineno">  436</span>&#160;  <span class="keywordflow">if</span> (!<a class="code" href="classsmacc2_1_1ISmaccComponent.html#aaac68614687bed658c59f8f15746ab91">getNode</a>()-&gt;get_parameter(<span class="stringliteral">&quot;clear_angular_distance_threshold&quot;</span>, <a class="code" href="classcl__move__base__z_1_1odom__tracker_1_1OdomTracker.html#a1b79dd86745adfb31db822e0c8106282">clearAngularDistanceThreshold_</a>))</div>
+<div class="line"><a name="l00437"></a><span class="lineno">  437</span>&#160;  {</div>
+<div class="line"><a name="l00438"></a><span class="lineno">  438</span>&#160;  }</div>
+<div class="line"><a name="l00439"></a><span class="lineno">  439</span>&#160;}</div>
+<div class="line"><a name="l00440"></a><span class="lineno">  440</span>&#160; </div>
+<div class="line"><a name="l00446"></a><span class="lineno"><a class="line" href="classcl__move__base__z_1_1odom__tracker_1_1OdomTracker.html#a8caf1a082e0beea75798db8120f830e9">  446</a></span>&#160;<span class="keywordtype">void</span> <a class="code" href="classcl__move__base__z_1_1odom__tracker_1_1OdomTracker.html#a8caf1a082e0beea75798db8120f830e9">OdomTracker::processOdometryMessage</a>(<span class="keyword">const</span> nav_msgs::msg::Odometry::SharedPtr odom)</div>
+<div class="line"><a name="l00447"></a><span class="lineno">  447</span>&#160;{</div>
+<div class="line"><a name="l00448"></a><span class="lineno">  448</span>&#160;  <span class="comment">// RCLCPP_INFO(getLogger(),&quot;odom_tracker m_mutex acquire&quot;);</span></div>
+<div class="line"><a name="l00449"></a><span class="lineno">  449</span>&#160;  std::lock_guard&lt;std::mutex&gt; lock(<a class="code" href="classcl__move__base__z_1_1odom__tracker_1_1OdomTracker.html#aa371639e1eee269273dec8d3ab9dba0f">m_mutex_</a>);</div>
+<div class="line"><a name="l00450"></a><span class="lineno">  450</span>&#160; </div>
+<div class="line"><a name="l00451"></a><span class="lineno">  451</span>&#160;  <a class="code" href="classcl__move__base__z_1_1odom__tracker_1_1OdomTracker.html#a04ed8f447a25122b125a63360d677506">updateConfiguration</a>();</div>
+<div class="line"><a name="l00452"></a><span class="lineno">  452</span>&#160; </div>
+<div class="line"><a name="l00453"></a><span class="lineno">  453</span>&#160;  <span class="keywordflow">if</span> (<a class="code" href="classcl__move__base__z_1_1odom__tracker_1_1OdomTracker.html#a5ae598c85c4469f4c0e984480575c42b">workingMode_</a> == <a class="code" href="namespacecl__move__base__z_1_1odom__tracker.html#ac46b05813b2791604f6cd0a39ace3ef8a023bc3adf68871ef7a0c616765ac80a7">WorkingMode::RECORD_PATH</a>)</div>
+<div class="line"><a name="l00454"></a><span class="lineno">  454</span>&#160;  {</div>
+<div class="line"><a name="l00455"></a><span class="lineno">  455</span>&#160;    <a class="code" href="classcl__move__base__z_1_1odom__tracker_1_1OdomTracker.html#ae5fbb14af0fe273e119ada8eff19e8b6">updateRecordPath</a>(*odom);</div>
+<div class="line"><a name="l00456"></a><span class="lineno">  456</span>&#160;  }</div>
+<div class="line"><a name="l00457"></a><span class="lineno">  457</span>&#160;  <span class="keywordflow">else</span> <span class="keywordflow">if</span> (<a class="code" href="classcl__move__base__z_1_1odom__tracker_1_1OdomTracker.html#a5ae598c85c4469f4c0e984480575c42b">workingMode_</a> == <a class="code" href="namespacecl__move__base__z_1_1odom__tracker.html#ac46b05813b2791604f6cd0a39ace3ef8a68783989ae56d7f2f9496c66c417a192">WorkingMode::CLEAR_PATH</a>)</div>
+<div class="line"><a name="l00458"></a><span class="lineno">  458</span>&#160;  {</div>
+<div class="line"><a name="l00459"></a><span class="lineno">  459</span>&#160;    <a class="code" href="classcl__move__base__z_1_1odom__tracker_1_1OdomTracker.html#a57a146b5c833af1f12692969e99d3908">updateClearPath</a>(*odom);</div>
+<div class="line"><a name="l00460"></a><span class="lineno">  460</span>&#160;  }</div>
+<div class="line"><a name="l00461"></a><span class="lineno">  461</span>&#160; </div>
+<div class="line"><a name="l00462"></a><span class="lineno">  462</span>&#160;  <span class="comment">// RCLCPP_WARN(getLogger(),&quot;odomTracker odometry callback&quot;);</span></div>
+<div class="line"><a name="l00463"></a><span class="lineno">  463</span>&#160;  <span class="keywordflow">if</span> (<a class="code" href="classcl__move__base__z_1_1odom__tracker_1_1OdomTracker.html#a4f253d45ab5750dee3c2f18dd5599725">publishMessages</a>)</div>
+<div class="line"><a name="l00464"></a><span class="lineno">  464</span>&#160;  {</div>
+<div class="line"><a name="l00465"></a><span class="lineno">  465</span>&#160;    <a class="code" href="classcl__move__base__z_1_1odom__tracker_1_1OdomTracker.html#ab19493add56d9ff8bf1895f9279412df">rtPublishPaths</a>(odom-&gt;header.stamp);</div>
+<div class="line"><a name="l00466"></a><span class="lineno">  466</span>&#160;  }</div>
+<div class="line"><a name="l00467"></a><span class="lineno">  467</span>&#160; </div>
+<div class="line"><a name="l00468"></a><span class="lineno">  468</span>&#160;  <span class="comment">// RCLCPP_INFO(getLogger(),&quot;odom_tracker m_mutex release&quot;);</span></div>
+<div class="line"><a name="l00469"></a><span class="lineno">  469</span>&#160;}</div>
+<div class="line"><a name="l00470"></a><span class="lineno">  470</span>&#160;}  <span class="comment">// namespace odom_tracker</span></div>
+<div class="line"><a name="l00471"></a><span class="lineno">  471</span>&#160;}  <span class="comment">// namespace cl_move_base_z</span></div>
+<div class="ttc" id="aclasscl__move__base__z_1_1odom__tracker_1_1OdomTracker_html_a04ed8f447a25122b125a63360d677506"><div class="ttname"><a href="classcl__move__base__z_1_1odom__tracker_1_1OdomTracker.html#a04ed8f447a25122b125a63360d677506">cl_move_base_z::odom_tracker::OdomTracker::updateConfiguration</a></div><div class="ttdeci">void updateConfiguration()</div><div class="ttdef"><b>Definition:</b> <a href="odom__tracker_8cpp_source.html#l00417">odom_tracker.cpp:417</a></div></div>
 <div class="ttc" id="aclasscl__move__base__z_1_1odom__tracker_1_1OdomTracker_html_a11772df4dd6e653a19e7d8a5872501ed"><div class="ttname"><a href="classcl__move__base__z_1_1odom__tracker_1_1OdomTracker.html#a11772df4dd6e653a19e7d8a5872501ed">cl_move_base_z::odom_tracker::OdomTracker::onInitialize</a></div><div class="ttdeci">void onInitialize() override</div><div class="ttdef"><b>Definition:</b> <a href="odom__tracker_8cpp_source.html#l00056">odom_tracker.cpp:56</a></div></div>
 <div class="ttc" id="aclasscl__move__base__z_1_1odom__tracker_1_1OdomTracker_html_a1274fe5334c109cd9c2339beb9411441"><div class="ttname"><a href="classcl__move__base__z_1_1odom__tracker_1_1OdomTracker.html#a1274fe5334c109cd9c2339beb9411441">cl_move_base_z::odom_tracker::OdomTracker::recordAngularDistanceThreshold_</a></div><div class="ttdeci">double recordAngularDistanceThreshold_</div><div class="ttdoc">Meters.</div><div class="ttdef"><b>Definition:</b> <a href="odom__tracker_8hpp_source.html#l00123">odom_tracker.hpp:123</a></div></div>
 <div class="ttc" id="aclasscl__move__base__z_1_1odom__tracker_1_1OdomTracker_html_a1b79dd86745adfb31db822e0c8106282"><div class="ttname"><a href="classcl__move__base__z_1_1odom__tracker_1_1OdomTracker.html#a1b79dd86745adfb31db822e0c8106282">cl_move_base_z::odom_tracker::OdomTracker::clearAngularDistanceThreshold_</a></div><div class="ttdeci">double clearAngularDistanceThreshold_</div><div class="ttdoc">rads</div><div class="ttdef"><b>Definition:</b> <a href="odom__tracker_8hpp_source.html#l00129">odom_tracker.hpp:129</a></div></div>
@@ -521,7 +520,7 @@ $(function() {
 <div class="ttc" id="aclasscl__move__base__z_1_1odom__tracker_1_1OdomTracker_html_a6d0b450474d9d555205ff4281965164e"><div class="ttname"><a href="classcl__move__base__z_1_1odom__tracker_1_1OdomTracker.html#a6d0b450474d9d555205ff4281965164e">cl_move_base_z::odom_tracker::OdomTracker::logStateString</a></div><div class="ttdeci">void logStateString()</div><div class="ttdef"><b>Definition:</b> <a href="odom__tracker_8cpp_source.html#l00188">odom_tracker.cpp:188</a></div></div>
 <div class="ttc" id="aclasscl__move__base__z_1_1odom__tracker_1_1OdomTracker_html_a7155d25d0e8dd9f237a79ff503b80e26"><div class="ttname"><a href="classcl__move__base__z_1_1odom__tracker_1_1OdomTracker.html#a7155d25d0e8dd9f237a79ff503b80e26">cl_move_base_z::odom_tracker::OdomTracker::clearPointDistanceThreshold_</a></div><div class="ttdeci">double clearPointDistanceThreshold_</div><div class="ttdoc">rads</div><div class="ttdef"><b>Definition:</b> <a href="odom__tracker_8hpp_source.html#l00126">odom_tracker.hpp:126</a></div></div>
 <div class="ttc" id="aclasscl__move__base__z_1_1odom__tracker_1_1OdomTracker_html_a7922f1e1e688a2ed62d32d9914985a9f"><div class="ttname"><a href="classcl__move__base__z_1_1odom__tracker_1_1OdomTracker.html#a7922f1e1e688a2ed62d32d9914985a9f">cl_move_base_z::odom_tracker::OdomTracker::updateAggregatedStackPath</a></div><div class="ttdeci">void updateAggregatedStackPath()</div><div class="ttdef"><b>Definition:</b> <a href="odom__tracker_8cpp_source.html#l00268">odom_tracker.cpp:268</a></div></div>
-<div class="ttc" id="aclasscl__move__base__z_1_1odom__tracker_1_1OdomTracker_html_a8caf1a082e0beea75798db8120f830e9"><div class="ttname"><a href="classcl__move__base__z_1_1odom__tracker_1_1OdomTracker.html#a8caf1a082e0beea75798db8120f830e9">cl_move_base_z::odom_tracker::OdomTracker::processOdometryMessage</a></div><div class="ttdeci">virtual void processOdometryMessage(const nav_msgs::msg::Odometry::SharedPtr odom)</div><div class="ttdoc">odom callback: Updates the path - this must be called periodically for each odometry message.</div><div class="ttdef"><b>Definition:</b> <a href="odom__tracker_8cpp_source.html#l00447">odom_tracker.cpp:447</a></div></div>
+<div class="ttc" id="aclasscl__move__base__z_1_1odom__tracker_1_1OdomTracker_html_a8caf1a082e0beea75798db8120f830e9"><div class="ttname"><a href="classcl__move__base__z_1_1odom__tracker_1_1OdomTracker.html#a8caf1a082e0beea75798db8120f830e9">cl_move_base_z::odom_tracker::OdomTracker::processOdometryMessage</a></div><div class="ttdeci">virtual void processOdometryMessage(const nav_msgs::msg::Odometry::SharedPtr odom)</div><div class="ttdoc">odom callback: Updates the path - this must be called periodically for each odometry message.</div><div class="ttdef"><b>Definition:</b> <a href="odom__tracker_8cpp_source.html#l00446">odom_tracker.cpp:446</a></div></div>
 <div class="ttc" id="aclasscl__move__base__z_1_1odom__tracker_1_1OdomTracker_html_a9252ba9b3dd703426e0a736e209b0b9d"><div class="ttname"><a href="classcl__move__base__z_1_1odom__tracker_1_1OdomTracker.html#a9252ba9b3dd703426e0a736e209b0b9d">cl_move_base_z::odom_tracker::OdomTracker::robotBasePathStackedPub_</a></div><div class="ttdeci">rclcpp::Publisher&lt; nav_msgs::msg::Path &gt;::SharedPtr robotBasePathStackedPub_</div><div class="ttdef"><b>Definition:</b> <a href="odom__tracker_8hpp_source.html#l00111">odom_tracker.hpp:111</a></div></div>
 <div class="ttc" id="aclasscl__move__base__z_1_1odom__tracker_1_1OdomTracker_html_a93a14e15e3e623f530e056f403bf7644"><div class="ttname"><a href="classcl__move__base__z_1_1odom__tracker_1_1OdomTracker.html#a93a14e15e3e623f530e056f403bf7644">cl_move_base_z::odom_tracker::OdomTracker::clearPath</a></div><div class="ttdeci">void clearPath()</div><div class="ttdef"><b>Definition:</b> <a href="odom__tracker_8cpp_source.html#l00203">odom_tracker.cpp:203</a></div></div>
 <div class="ttc" id="aclasscl__move__base__z_1_1odom__tracker_1_1OdomTracker_html_a99e1f405d0b3ec3e9fc73e666793c409"><div class="ttname"><a href="classcl__move__base__z_1_1odom__tracker_1_1OdomTracker.html#a99e1f405d0b3ec3e9fc73e666793c409">cl_move_base_z::odom_tracker::OdomTracker::OdomTracker</a></div><div class="ttdeci">OdomTracker(std::string odomtopicName=&quot;/odom&quot;, std::string odomFrame=&quot;odom&quot;)</div><div class="ttdef"><b>Definition:</b> <a href="odom__tracker_8cpp_source.html#l00032">odom_tracker.cpp:32</a></div></div>
@@ -531,7 +530,7 @@ $(function() {
 <div class="ttc" id="aclasscl__move__base__z_1_1odom__tracker_1_1OdomTracker_html_acdafbe7786d28acb746f5b0c3d6a9c8f"><div class="ttname"><a href="classcl__move__base__z_1_1odom__tracker_1_1OdomTracker.html#acdafbe7786d28acb746f5b0c3d6a9c8f">cl_move_base_z::odom_tracker::OdomTracker::odomSub_</a></div><div class="ttdeci">rclcpp::Subscription&lt; nav_msgs::msg::Odometry &gt;::SharedPtr odomSub_</div><div class="ttdef"><b>Definition:</b> <a href="odom__tracker_8hpp_source.html#l00116">odom_tracker.hpp:116</a></div></div>
 <div class="ttc" id="aclasscl__move__base__z_1_1odom__tracker_1_1OdomTracker_html_ad5f44f4ceaa1223c307e32ee7924b816"><div class="ttname"><a href="classcl__move__base__z_1_1odom__tracker_1_1OdomTracker.html#ad5f44f4ceaa1223c307e32ee7924b816">cl_move_base_z::odom_tracker::OdomTracker::setStartPoint</a></div><div class="ttdeci">void setStartPoint(const geometry_msgs::msg::PoseStamped &amp;pose)</div><div class="ttdef"><b>Definition:</b> <a href="odom__tracker_8cpp_source.html#l00213">odom_tracker.cpp:213</a></div></div>
 <div class="ttc" id="aclasscl__move__base__z_1_1odom__tracker_1_1OdomTracker_html_ae01d1a903947c850080b72e664d9dae0"><div class="ttname"><a href="classcl__move__base__z_1_1odom__tracker_1_1OdomTracker.html#ae01d1a903947c850080b72e664d9dae0">cl_move_base_z::odom_tracker::OdomTracker::aggregatedStackPathMsg_</a></div><div class="ttdeci">nav_msgs::msg::Path aggregatedStackPathMsg_</div><div class="ttdef"><b>Definition:</b> <a href="odom__tracker_8hpp_source.html#l00146">odom_tracker.hpp:146</a></div></div>
-<div class="ttc" id="aclasscl__move__base__z_1_1odom__tracker_1_1OdomTracker_html_ae5fbb14af0fe273e119ada8eff19e8b6"><div class="ttname"><a href="classcl__move__base__z_1_1odom__tracker_1_1OdomTracker.html#ae5fbb14af0fe273e119ada8eff19e8b6">cl_move_base_z::odom_tracker::OdomTracker::updateRecordPath</a></div><div class="ttdeci">virtual bool updateRecordPath(const nav_msgs::msg::Odometry &amp;odom)</div><div class="ttdef"><b>Definition:</b> <a href="odom__tracker_8cpp_source.html#l00364">odom_tracker.cpp:364</a></div></div>
+<div class="ttc" id="aclasscl__move__base__z_1_1odom__tracker_1_1OdomTracker_html_ae5fbb14af0fe273e119ada8eff19e8b6"><div class="ttname"><a href="classcl__move__base__z_1_1odom__tracker_1_1OdomTracker.html#ae5fbb14af0fe273e119ada8eff19e8b6">cl_move_base_z::odom_tracker::OdomTracker::updateRecordPath</a></div><div class="ttdeci">virtual bool updateRecordPath(const nav_msgs::msg::Odometry &amp;odom)</div><div class="ttdef"><b>Definition:</b> <a href="odom__tracker_8cpp_source.html#l00363">odom_tracker.cpp:363</a></div></div>
 <div class="ttc" id="aclasscl__move__base__z_1_1odom__tracker_1_1OdomTracker_html_aeed01bdefd9a1cc709b0b3e4eed285ed"><div class="ttname"><a href="classcl__move__base__z_1_1odom__tracker_1_1OdomTracker.html#aeed01bdefd9a1cc709b0b3e4eed285ed">cl_move_base_z::odom_tracker::OdomTracker::setWorkingMode</a></div><div class="ttdeci">void setWorkingMode(WorkingMode workingMode)</div><div class="ttdef"><b>Definition:</b> <a href="odom__tracker_8cpp_source.html#l00095">odom_tracker.cpp:95</a></div></div>
 <div class="ttc" id="aclasscl__move__base__z_1_1odom__tracker_1_1OdomTracker_html_af1896d32672cfb9cfd2d5eeb1f37cfcb"><div class="ttname"><a href="classcl__move__base__z_1_1odom__tracker_1_1OdomTracker.html#af1896d32672cfb9cfd2d5eeb1f37cfcb">cl_move_base_z::odom_tracker::OdomTracker::pathStack_</a></div><div class="ttdeci">std::vector&lt; nav_msgs::msg::Path &gt; pathStack_</div><div class="ttdef"><b>Definition:</b> <a href="odom__tracker_8hpp_source.html#l00144">odom_tracker.hpp:144</a></div></div>
 <div class="ttc" id="aclasscl__move__base__z_1_1odom__tracker_1_1OdomTracker_html_afbe614b53a1493eb8268b8ea65b5b93a"><div class="ttname"><a href="classcl__move__base__z_1_1odom__tracker_1_1OdomTracker.html#afbe614b53a1493eb8268b8ea65b5b93a">cl_move_base_z::odom_tracker::OdomTracker::subscribeToOdometryTopic_</a></div><div class="ttdeci">bool subscribeToOdometryTopic_</div><div class="ttdef"><b>Definition:</b> <a href="odom__tracker_8hpp_source.html#l00149">odom_tracker.hpp:149</a></div></div>
