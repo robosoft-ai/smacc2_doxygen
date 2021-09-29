@@ -1,0 +1,59 @@
+\hypertarget{namespacecl__move__base__z_1_1forward__local__planner}{}\doxysection{cl\+\_\+move\+\_\+base\+\_\+z\+::forward\+\_\+local\+\_\+planner Namespace Reference}
+\label{namespacecl__move__base__z_1_1forward__local__planner}\index{cl\_move\_base\_z::forward\_local\_planner@{cl\_move\_base\_z::forward\_local\_planner}}
+\doxysubsection*{Classes}
+\begin{DoxyCompactItemize}
+\item 
+class \mbox{\hyperlink{classcl__move__base__z_1_1forward__local__planner_1_1ForwardLocalPlanner}{Forward\+Local\+Planner}}
+\end{DoxyCompactItemize}
+\doxysubsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+void \mbox{\hyperlink{namespacecl__move__base__z_1_1forward__local__planner_a3865dd432a957cf17a2083ba90215303}{clamp}} (rclcpp\+::\+Node\+::\+Shared\+Ptr nh\+\_\+, geometry\+\_\+msgs\+::msg\+::\+Twist \&cmd\+\_\+vel, double max\+\_\+linear\+\_\+x\+\_\+speed\+\_\+, double max\+\_\+angular\+\_\+z\+\_\+speed\+\_\+)
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{Function Documentation}
+\mbox{\Hypertarget{namespacecl__move__base__z_1_1forward__local__planner_a3865dd432a957cf17a2083ba90215303}\label{namespacecl__move__base__z_1_1forward__local__planner_a3865dd432a957cf17a2083ba90215303}} 
+\index{cl\_move\_base\_z::forward\_local\_planner@{cl\_move\_base\_z::forward\_local\_planner}!clamp@{clamp}}
+\index{clamp@{clamp}!cl\_move\_base\_z::forward\_local\_planner@{cl\_move\_base\_z::forward\_local\_planner}}
+\doxysubsubsection{\texorpdfstring{clamp()}{clamp()}}
+{\footnotesize\ttfamily void cl\+\_\+move\+\_\+base\+\_\+z\+::forward\+\_\+local\+\_\+planner\+::clamp (\begin{DoxyParamCaption}\item[{rclcpp\+::\+Node\+::\+Shared\+Ptr}]{nh\+\_\+,  }\item[{geometry\+\_\+msgs\+::msg\+::\+Twist \&}]{cmd\+\_\+vel,  }\item[{double}]{max\+\_\+linear\+\_\+x\+\_\+speed\+\_\+,  }\item[{double}]{max\+\_\+angular\+\_\+z\+\_\+speed\+\_\+ }\end{DoxyParamCaption})}
+
+
+
+Definition at line 259 of file forward\+\_\+local\+\_\+planner.\+cpp.
+
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{262 \{}
+\DoxyCodeLine{263   \textcolor{keywordflow}{if} (max\_angular\_z\_speed\_ == 0 || max\_linear\_x\_speed\_ == 0) \textcolor{keywordflow}{return};}
+\DoxyCodeLine{264 }
+\DoxyCodeLine{265   \textcolor{keywordflow}{if} (cmd\_vel.angular.z == 0)}
+\DoxyCodeLine{266   \{}
+\DoxyCodeLine{267     cmd\_vel.linear.x = max\_linear\_x\_speed\_;}
+\DoxyCodeLine{268   \}}
+\DoxyCodeLine{269   \textcolor{keywordflow}{else}}
+\DoxyCodeLine{270   \{}
+\DoxyCodeLine{271     \textcolor{keywordtype}{double} kurvature = cmd\_vel.linear.x / cmd\_vel.angular.z;}
+\DoxyCodeLine{272 }
+\DoxyCodeLine{273     \textcolor{keywordtype}{double} linearAuthority = fabs(cmd\_vel.linear.x / max\_linear\_x\_speed\_);}
+\DoxyCodeLine{274     \textcolor{keywordtype}{double} angularAuthority = fabs(cmd\_vel.angular.z / max\_angular\_z\_speed\_);}
+\DoxyCodeLine{275     \textcolor{keywordflow}{if} (linearAuthority < angularAuthority)}
+\DoxyCodeLine{276     \{}
+\DoxyCodeLine{277       \textcolor{comment}{// lets go to maximum linear speed}}
+\DoxyCodeLine{278       cmd\_vel.linear.x = max\_linear\_x\_speed\_;}
+\DoxyCodeLine{279       cmd\_vel.angular.z = kurvature / max\_linear\_x\_speed\_;}
+\DoxyCodeLine{280       RCLCPP\_WARN\_STREAM(}
+\DoxyCodeLine{281         nh\_-\/>get\_logger(), \textcolor{stringliteral}{"{}k="{}} << kurvature << \textcolor{stringliteral}{"{}lets go to maximum linear capacity: "{}} << cmd\_vel);}
+\DoxyCodeLine{282     \}}
+\DoxyCodeLine{283     \textcolor{keywordflow}{else}}
+\DoxyCodeLine{284     \{}
+\DoxyCodeLine{285       \textcolor{comment}{// lets go with maximum angular speed}}
+\DoxyCodeLine{286       cmd\_vel.angular.x = max\_angular\_z\_speed\_;}
+\DoxyCodeLine{287       cmd\_vel.linear.x = kurvature * max\_angular\_z\_speed\_;}
+\DoxyCodeLine{288       RCLCPP\_WARN\_STREAM(nh\_-\/>get\_logger(), \textcolor{stringliteral}{"{}lets go to maximum angular capacity: "{}} << cmd\_vel);}
+\DoxyCodeLine{289     \}}
+\DoxyCodeLine{290   \}}
+\DoxyCodeLine{291 \}}
+
+\end{DoxyCode}
