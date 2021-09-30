@@ -21,7 +21,7 @@ Collaboration diagram for smacc2\+::ISmacc\+Updatable\+:
 \begin{figure}[H]
 \begin{center}
 \leavevmode
-\includegraphics[width=270pt]{classsmacc2_1_1ISmaccUpdatable__coll__graph}
+\includegraphics[width=350pt]{classsmacc2_1_1ISmaccUpdatable__coll__graph}
 \end{center}
 \end{figure}
 \doxysubsection*{Public Member Functions}
@@ -45,7 +45,7 @@ virtual void \mbox{\hyperlink{classsmacc2_1_1ISmaccUpdatable_a21158bb7ce0c72d8a8
 \item 
 std\+::optional$<$ rclcpp\+::\+Duration $>$ \mbox{\hyperlink{classsmacc2_1_1ISmaccUpdatable_a864e07bd5607c0d9a08beb84f6c1f19c}{period\+Duration\+\_\+}}
 \item 
-rclcpp\+::\+Time \mbox{\hyperlink{classsmacc2_1_1ISmaccUpdatable_a0e6c69f7c094c7e5f2da190941878ab2}{last\+Update\+\_\+}}
+std\+::optional$<$ rclcpp\+::\+Time $>$ \mbox{\hyperlink{classsmacc2_1_1ISmaccUpdatable_a2d5f7020e43f148a36f7bac6e6c25e5d}{last\+Update\+\_\+}}
 \end{DoxyCompactItemize}
 
 
@@ -69,7 +69,7 @@ Definition at line 19 of file smacc\+\_\+updatable.\+cpp.
 
 
 \begin{DoxyCode}{0}
-\DoxyCodeLine{19 : \mbox{\hyperlink{classsmacc2_1_1ISmaccUpdatable_a0e6c69f7c094c7e5f2da190941878ab2}{lastUpdate\_}}(0) \{\}}
+\DoxyCodeLine{19 \{\}}
 
 \end{DoxyCode}
 \mbox{\Hypertarget{classsmacc2_1_1ISmaccUpdatable_abe64d27666cae126e1562c9b3e6b1e0f}\label{classsmacc2_1_1ISmaccUpdatable_abe64d27666cae126e1562c9b3e6b1e0f}} 
@@ -84,10 +84,7 @@ Definition at line 21 of file smacc\+\_\+updatable.\+cpp.
 
 
 \begin{DoxyCode}{0}
-\DoxyCodeLine{22 : \mbox{\hyperlink{classsmacc2_1_1ISmaccUpdatable_a864e07bd5607c0d9a08beb84f6c1f19c}{periodDuration\_}}(duration), \mbox{\hyperlink{classsmacc2_1_1ISmaccUpdatable_a0e6c69f7c094c7e5f2da190941878ab2}{lastUpdate\_}}(0)}
-\DoxyCodeLine{23 }
-\DoxyCodeLine{24 \{}
-\DoxyCodeLine{25 \}}
+\DoxyCodeLine{21 : \mbox{\hyperlink{classsmacc2_1_1ISmaccUpdatable_a864e07bd5607c0d9a08beb84f6c1f19c}{periodDuration\_}}(duration) \{\}}
 
 \end{DoxyCode}
 
@@ -101,28 +98,36 @@ Definition at line 21 of file smacc\+\_\+updatable.\+cpp.
 
 
 
-Definition at line 29 of file smacc\+\_\+updatable.\+cpp.
+Definition at line 25 of file smacc\+\_\+updatable.\+cpp.
 
 
 \begin{DoxyCode}{0}
-\DoxyCodeLine{30 \{}
-\DoxyCodeLine{31   \textcolor{keywordtype}{bool} \mbox{\hyperlink{classsmacc2_1_1ISmaccUpdatable_a21158bb7ce0c72d8a827946267d11485}{update}} = \textcolor{keyword}{true};}
-\DoxyCodeLine{32   \textcolor{keywordflow}{if} (\mbox{\hyperlink{classsmacc2_1_1ISmaccUpdatable_a864e07bd5607c0d9a08beb84f6c1f19c}{periodDuration\_}})}
-\DoxyCodeLine{33   \{}
-\DoxyCodeLine{34     \textcolor{keyword}{auto} now = node-\/>now();}
-\DoxyCodeLine{35     \textcolor{keyword}{auto} elapsed = now -\/ this-\/>\mbox{\hyperlink{classsmacc2_1_1ISmaccUpdatable_a0e6c69f7c094c7e5f2da190941878ab2}{lastUpdate\_}};}
-\DoxyCodeLine{36     update = elapsed > *\mbox{\hyperlink{classsmacc2_1_1ISmaccUpdatable_a864e07bd5607c0d9a08beb84f6c1f19c}{periodDuration\_}};}
-\DoxyCodeLine{37     \textcolor{keywordflow}{if} (\mbox{\hyperlink{classsmacc2_1_1ISmaccUpdatable_a21158bb7ce0c72d8a827946267d11485}{update}})}
-\DoxyCodeLine{38     \{}
-\DoxyCodeLine{39       this-\/>lastUpdate\_ = now;}
-\DoxyCodeLine{40     \}}
-\DoxyCodeLine{41   \}}
-\DoxyCodeLine{42 }
-\DoxyCodeLine{43   \textcolor{keywordflow}{if} (\mbox{\hyperlink{classsmacc2_1_1ISmaccUpdatable_a21158bb7ce0c72d8a827946267d11485}{update}})}
-\DoxyCodeLine{44   \{}
-\DoxyCodeLine{45     this-\/>\mbox{\hyperlink{classsmacc2_1_1ISmaccUpdatable_a21158bb7ce0c72d8a827946267d11485}{update}}();}
-\DoxyCodeLine{46   \}}
-\DoxyCodeLine{47 \}}
+\DoxyCodeLine{26 \{}
+\DoxyCodeLine{27   \textcolor{keywordtype}{bool} triggerUpdateMethod = \textcolor{keyword}{true};}
+\DoxyCodeLine{28   \textcolor{keywordflow}{if} (\mbox{\hyperlink{classsmacc2_1_1ISmaccUpdatable_a864e07bd5607c0d9a08beb84f6c1f19c}{periodDuration\_}})}
+\DoxyCodeLine{29   \{}
+\DoxyCodeLine{30     \textcolor{comment}{// bool use\_simtime = node-\/>get\_parameter("{}use\_sim\_time"{}).as\_bool();}}
+\DoxyCodeLine{31     \textcolor{keyword}{auto} now = node-\/>get\_clock()-\/>now();}
+\DoxyCodeLine{32     \textcolor{comment}{// RCLCPP\_INFO(node-\/>get\_logger(), "{}update time: \%lf"{}, now.seconds());}}
+\DoxyCodeLine{33 }
+\DoxyCodeLine{34     \textcolor{keywordflow}{if} (!\mbox{\hyperlink{classsmacc2_1_1ISmaccUpdatable_a2d5f7020e43f148a36f7bac6e6c25e5d}{lastUpdate\_}})}
+\DoxyCodeLine{35     \{}
+\DoxyCodeLine{36       \mbox{\hyperlink{classsmacc2_1_1ISmaccUpdatable_a2d5f7020e43f148a36f7bac6e6c25e5d}{lastUpdate\_}} = now;}
+\DoxyCodeLine{37     \}}
+\DoxyCodeLine{38 }
+\DoxyCodeLine{39     \textcolor{keyword}{auto} elapsed = now -\/ *\mbox{\hyperlink{classsmacc2_1_1ISmaccUpdatable_a2d5f7020e43f148a36f7bac6e6c25e5d}{lastUpdate\_}};}
+\DoxyCodeLine{40     triggerUpdateMethod = elapsed > *\mbox{\hyperlink{classsmacc2_1_1ISmaccUpdatable_a864e07bd5607c0d9a08beb84f6c1f19c}{periodDuration\_}};}
+\DoxyCodeLine{41     \textcolor{keywordflow}{if} (triggerUpdateMethod)}
+\DoxyCodeLine{42     \{}
+\DoxyCodeLine{43       this-\/>lastUpdate\_ = now;}
+\DoxyCodeLine{44     \}}
+\DoxyCodeLine{45   \}}
+\DoxyCodeLine{46 }
+\DoxyCodeLine{47   \textcolor{keywordflow}{if} (triggerUpdateMethod)}
+\DoxyCodeLine{48   \{}
+\DoxyCodeLine{49     this-\/>\mbox{\hyperlink{classsmacc2_1_1ISmaccUpdatable_a21158bb7ce0c72d8a827946267d11485}{update}}();}
+\DoxyCodeLine{50   \}}
+\DoxyCodeLine{51 \}}
 
 \end{DoxyCode}
 
@@ -145,11 +150,11 @@ Here is the call graph for this function\+:
 
 
 
-Definition at line 27 of file smacc\+\_\+updatable.\+cpp.
+Definition at line 23 of file smacc\+\_\+updatable.\+cpp.
 
 
 \begin{DoxyCode}{0}
-\DoxyCodeLine{27 \{ \mbox{\hyperlink{classsmacc2_1_1ISmaccUpdatable_a864e07bd5607c0d9a08beb84f6c1f19c}{periodDuration\_}} = duration; \}}
+\DoxyCodeLine{23 \{ \mbox{\hyperlink{classsmacc2_1_1ISmaccUpdatable_a864e07bd5607c0d9a08beb84f6c1f19c}{periodDuration\_}} = duration; \}}
 
 \end{DoxyCode}
 
@@ -164,7 +169,7 @@ References period\+Duration\+\_\+.
 
 
 
-Implemented in \mbox{\hyperlink{structsm__ferrari_1_1StState2_a053ed70d10e0a1f03280ca693252a335}{sm\+\_\+ferrari\+::\+St\+State2}}, \mbox{\hyperlink{classsmacc2_1_1state__reactors_1_1EgRandomGenerator_a443d85efa0a2ac2f54ebacde18ba202f}{smacc2\+::state\+\_\+reactors\+::\+Eg\+Random\+Generator}}, \mbox{\hyperlink{classsmacc2_1_1event__generators_1_1EgConditionalGenerator_adab84b867fb3412dde2fdae585f8e40c}{smacc2\+::event\+\_\+generators\+::\+Eg\+Conditional\+Generator}}, \mbox{\hyperlink{classcl__move__base__z_1_1Pose_abf99d1127cf51a93f97ada2031196114}{cl\+\_\+move\+\_\+base\+\_\+z\+::\+Pose}}, and \mbox{\hyperlink{classcl__ros__publisher_1_1CbDefaultPublishLoop_aef241d1976f0105643976545880d5e21}{cl\+\_\+ros\+\_\+publisher\+::\+Cb\+Default\+Publish\+Loop}}.
+Implemented in \mbox{\hyperlink{structsm__ferrari_1_1StState2_a053ed70d10e0a1f03280ca693252a335}{sm\+\_\+ferrari\+::\+St\+State2}}, \mbox{\hyperlink{classsmacc2_1_1state__reactors_1_1EgRandomGenerator_a443d85efa0a2ac2f54ebacde18ba202f}{smacc2\+::state\+\_\+reactors\+::\+Eg\+Random\+Generator}}, \mbox{\hyperlink{classsmacc2_1_1event__generators_1_1EgConditionalGenerator_adab84b867fb3412dde2fdae585f8e40c}{smacc2\+::event\+\_\+generators\+::\+Eg\+Conditional\+Generator}}, \mbox{\hyperlink{classcl__move__base__z_1_1Pose_abf99d1127cf51a93f97ada2031196114}{cl\+\_\+move\+\_\+base\+\_\+z\+::\+Pose}}, \mbox{\hyperlink{structsm__aws__warehouse__navigation_1_1StAcquireSensors_aaa2b2816a7fbdca920c2d3ba6093f0d0}{sm\+\_\+aws\+\_\+warehouse\+\_\+navigation\+::\+St\+Acquire\+Sensors}}, and \mbox{\hyperlink{classcl__ros__publisher_1_1CbDefaultPublishLoop_aef241d1976f0105643976545880d5e21}{cl\+\_\+ros\+\_\+publisher\+::\+Cb\+Default\+Publish\+Loop}}.
 
 
 
@@ -181,11 +186,11 @@ Here is the caller graph for this function\+:
 
 
 \doxysubsection{Member Data Documentation}
-\mbox{\Hypertarget{classsmacc2_1_1ISmaccUpdatable_a0e6c69f7c094c7e5f2da190941878ab2}\label{classsmacc2_1_1ISmaccUpdatable_a0e6c69f7c094c7e5f2da190941878ab2}} 
+\mbox{\Hypertarget{classsmacc2_1_1ISmaccUpdatable_a2d5f7020e43f148a36f7bac6e6c25e5d}\label{classsmacc2_1_1ISmaccUpdatable_a2d5f7020e43f148a36f7bac6e6c25e5d}} 
 \index{smacc2::ISmaccUpdatable@{smacc2::ISmaccUpdatable}!lastUpdate\_@{lastUpdate\_}}
 \index{lastUpdate\_@{lastUpdate\_}!smacc2::ISmaccUpdatable@{smacc2::ISmaccUpdatable}}
 \doxysubsubsection{\texorpdfstring{lastUpdate\_}{lastUpdate\_}}
-{\footnotesize\ttfamily rclcpp\+::\+Time smacc2\+::\+ISmacc\+Updatable\+::last\+Update\+\_\+\hspace{0.3cm}{\ttfamily [private]}}
+{\footnotesize\ttfamily std\+::optional$<$rclcpp\+::\+Time$>$ smacc2\+::\+ISmacc\+Updatable\+::last\+Update\+\_\+\hspace{0.3cm}{\ttfamily [private]}}
 
 
 
