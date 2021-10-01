@@ -38,6 +38,8 @@ void \mbox{\hyperlink{structsm__aws__warehouse__navigation_1_1StAcquireSensors_a
 \item 
 void \mbox{\hyperlink{structsm__aws__warehouse__navigation_1_1StAcquireSensors_aaa2b2816a7fbdca920c2d3ba6093f0d0}{update}} ()
 \item 
+void \mbox{\hyperlink{structsm__aws__warehouse__navigation_1_1StAcquireSensors_ab9031a7834f248dd1b0a594488746c66}{send\+Initial\+Pose\+Estimation}} ()
+\item 
 void \mbox{\hyperlink{structsm__aws__warehouse__navigation_1_1StAcquireSensors_aaf55d3b70b4ce92aa7af78730c1385a5}{on\+Exit}} ()
 \end{DoxyCompactItemize}
 \doxysubsection*{Static Public Member Functions}
@@ -87,15 +89,12 @@ Definition at line 40 of file st\+\_\+acquire\+\_\+sensors.\+hpp.
 
 \begin{DoxyCode}{0}
 \DoxyCodeLine{41   \{}
-\DoxyCodeLine{42     rclcpp::sleep\_for(10\mbox{\hyperlink{namespaceservice__node__3_aa976421a49e0b54f23833423400849ae}{s}});}
+\DoxyCodeLine{42     \textcolor{comment}{//rclcpp::sleep\_for(10s);}}
 \DoxyCodeLine{43     \textcolor{comment}{// this-\/>setUpdatePeriod(rclcpp::Duration(1s));}}
-\DoxyCodeLine{44   \}}
+\DoxyCodeLine{44     \mbox{\hyperlink{structsm__aws__warehouse__navigation_1_1StAcquireSensors_ab9031a7834f248dd1b0a594488746c66}{sendInitialPoseEstimation}}();}
+\DoxyCodeLine{45   \}}
 
 \end{DoxyCode}
-
-
-References service\+\_\+node\+\_\+3\+::s.
-
 \mbox{\Hypertarget{structsm__aws__warehouse__navigation_1_1StAcquireSensors_aaf55d3b70b4ce92aa7af78730c1385a5}\label{structsm__aws__warehouse__navigation_1_1StAcquireSensors_aaf55d3b70b4ce92aa7af78730c1385a5}} 
 \index{sm\_aws\_warehouse\_navigation::StAcquireSensors@{sm\_aws\_warehouse\_navigation::StAcquireSensors}!onExit@{onExit}}
 \index{onExit@{onExit}!sm\_aws\_warehouse\_navigation::StAcquireSensors@{sm\_aws\_warehouse\_navigation::StAcquireSensors}}
@@ -104,11 +103,11 @@ References service\+\_\+node\+\_\+3\+::s.
 
 
 
-Definition at line 74 of file st\+\_\+acquire\+\_\+sensors.\+hpp.
+Definition at line 83 of file st\+\_\+acquire\+\_\+sensors.\+hpp.
 
 
 \begin{DoxyCode}{0}
-\DoxyCodeLine{74 \{\}}
+\DoxyCodeLine{83 \{\}}
 
 \end{DoxyCode}
 \mbox{\Hypertarget{structsm__aws__warehouse__navigation_1_1StAcquireSensors_ab2c9e113812520967f80adbcb1280937}\label{structsm__aws__warehouse__navigation_1_1StAcquireSensors_ab2c9e113812520967f80adbcb1280937}} 
@@ -144,6 +143,59 @@ Here is the call graph for this function\+:
 \includegraphics[width=350pt]{structsm__aws__warehouse__navigation_1_1StAcquireSensors_ab2c9e113812520967f80adbcb1280937_cgraph}
 \end{center}
 \end{figure}
+\mbox{\Hypertarget{structsm__aws__warehouse__navigation_1_1StAcquireSensors_ab9031a7834f248dd1b0a594488746c66}\label{structsm__aws__warehouse__navigation_1_1StAcquireSensors_ab9031a7834f248dd1b0a594488746c66}} 
+\index{sm\_aws\_warehouse\_navigation::StAcquireSensors@{sm\_aws\_warehouse\_navigation::StAcquireSensors}!sendInitialPoseEstimation@{sendInitialPoseEstimation}}
+\index{sendInitialPoseEstimation@{sendInitialPoseEstimation}!sm\_aws\_warehouse\_navigation::StAcquireSensors@{sm\_aws\_warehouse\_navigation::StAcquireSensors}}
+\doxysubsubsection{\texorpdfstring{sendInitialPoseEstimation()}{sendInitialPoseEstimation()}}
+{\footnotesize\ttfamily void sm\+\_\+aws\+\_\+warehouse\+\_\+navigation\+::\+St\+Acquire\+Sensors\+::send\+Initial\+Pose\+Estimation (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Definition at line 54 of file st\+\_\+acquire\+\_\+sensors.\+hpp.
+
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{55   \{}
+\DoxyCodeLine{56     geometry\_msgs::msg::PoseWithCovarianceStamped initialposemsg;}
+\DoxyCodeLine{57     \textcolor{keywordtype}{bool} useSimTime = \mbox{\hyperlink{classsmacc2_1_1ISmaccState_aed581fdbce1610e89a36865b7a324f8f}{getNode}}()-\/>get\_parameter(\textcolor{stringliteral}{"{}use\_sim\_time"{}}).as\_bool();}
+\DoxyCodeLine{58     \textcolor{comment}{//getNode()-\/>set\_parameter("{}use\_sim\_time"{},true);}}
+\DoxyCodeLine{59     }
+\DoxyCodeLine{60     initialposemsg.header.stamp = \mbox{\hyperlink{classsmacc2_1_1ISmaccState_aed581fdbce1610e89a36865b7a324f8f}{getNode}}()-\/>now();}
+\DoxyCodeLine{61     initialposemsg.header.frame\_id = \textcolor{stringliteral}{"{}map"{}};}
+\DoxyCodeLine{62 }
+\DoxyCodeLine{63     initialposemsg.pose.pose.position.x = 3.415412425994873;}
+\DoxyCodeLine{64     initialposemsg.pose.pose.position.y = 2.0;}
+\DoxyCodeLine{65     initialposemsg.pose.pose.position.z = 0;}
+\DoxyCodeLine{66 }
+\DoxyCodeLine{67     initialposemsg.pose.pose.orientation.x = 0;}
+\DoxyCodeLine{68     initialposemsg.pose.pose.orientation.y = 0;}
+\DoxyCodeLine{69     initialposemsg.pose.pose.orientation.z = 1;}
+\DoxyCodeLine{70     initialposemsg.pose.pose.orientation.w = 0;}
+\DoxyCodeLine{71 }
+\DoxyCodeLine{72     \textcolor{comment}{//z: 0.9999985465626609}}
+\DoxyCodeLine{73     \textcolor{comment}{// w: 0.00170495529732811}}
+\DoxyCodeLine{74 }
+\DoxyCodeLine{75     initialposemsg.pose.covariance = \{}
+\DoxyCodeLine{76       0.25, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.25, 0.0, 0.0, 0.0, 0.0,}
+\DoxyCodeLine{77       0.0,  0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0,  0.0, 0.0, 0.0, 0.0,}
+\DoxyCodeLine{78       0.0,  0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0,  0.0, 0.0, 0.0, 0.06853891909122467\};}
+\DoxyCodeLine{79 }
+\DoxyCodeLine{80     \mbox{\hyperlink{structsm__aws__warehouse__navigation_1_1StAcquireSensors_aad6aa27be2aa3560ac487d58af445883}{amcl\_}}-\/>\mbox{\hyperlink{classcl__move__base__z_1_1Amcl_a08ab25a28dcad544657e7d07f2e7fd94}{setInitialPose}}(initialposemsg);}
+\DoxyCodeLine{81   \}}
+
+\end{DoxyCode}
+
+
+References cl\+\_\+move\+\_\+base\+\_\+z\+::\+Amcl\+::set\+Initial\+Pose().
+
+Here is the call graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{structsm__aws__warehouse__navigation_1_1StAcquireSensors_ab9031a7834f248dd1b0a594488746c66_cgraph}
+\end{center}
+\end{figure}
 \mbox{\Hypertarget{structsm__aws__warehouse__navigation_1_1StAcquireSensors_a3321bf662d8814cc6516c967638770e8}\label{structsm__aws__warehouse__navigation_1_1StAcquireSensors_a3321bf662d8814cc6516c967638770e8}} 
 \index{sm\_aws\_warehouse\_navigation::StAcquireSensors@{sm\_aws\_warehouse\_navigation::StAcquireSensors}!staticConfigure@{staticConfigure}}
 \index{staticConfigure@{staticConfigure}!sm\_aws\_warehouse\_navigation::StAcquireSensors@{sm\_aws\_warehouse\_navigation::StAcquireSensors}}
@@ -174,50 +226,17 @@ Implements \mbox{\hyperlink{classsmacc2_1_1ISmaccUpdatable_a21158bb7ce0c72d8a827
 
 
 
-Definition at line 46 of file st\+\_\+acquire\+\_\+sensors.\+hpp.
+Definition at line 47 of file st\+\_\+acquire\+\_\+sensors.\+hpp.
 
 
 \begin{DoxyCode}{0}
-\DoxyCodeLine{47   \{}
-\DoxyCodeLine{48     \textcolor{comment}{// insist in a loop publishing the initial state estimation until amcl responds with a correct global pose estimation}}
-\DoxyCodeLine{49 }
-\DoxyCodeLine{50     geometry\_msgs::msg::PoseWithCovarianceStamped initialposemsg;}
-\DoxyCodeLine{51     initialposemsg.header.stamp = \mbox{\hyperlink{classsmacc2_1_1ISmaccState_aed581fdbce1610e89a36865b7a324f8f}{getNode}}()-\/>now();}
-\DoxyCodeLine{52     initialposemsg.header.frame\_id = \textcolor{stringliteral}{"{}map"{}};}
-\DoxyCodeLine{53 }
-\DoxyCodeLine{54     initialposemsg.pose.pose.position.x = 3.415412425994873;}
-\DoxyCodeLine{55     initialposemsg.pose.pose.position.y = 2.0;}
-\DoxyCodeLine{56     initialposemsg.pose.pose.position.z = 0;}
-\DoxyCodeLine{57 }
-\DoxyCodeLine{58     initialposemsg.pose.pose.orientation.x = 0;}
-\DoxyCodeLine{59     initialposemsg.pose.pose.orientation.y = 0;}
-\DoxyCodeLine{60     initialposemsg.pose.pose.orientation.z = 1;}
-\DoxyCodeLine{61     initialposemsg.pose.pose.orientation.w = 0;}
-\DoxyCodeLine{62 }
-\DoxyCodeLine{63     \textcolor{comment}{//z: 0.9999985465626609}}
-\DoxyCodeLine{64     \textcolor{comment}{// w: 0.00170495529732811}}
-\DoxyCodeLine{65 }
-\DoxyCodeLine{66     initialposemsg.pose.covariance = \{}
-\DoxyCodeLine{67       0.25, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.25, 0.0, 0.0, 0.0, 0.0,}
-\DoxyCodeLine{68       0.0,  0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0,  0.0, 0.0, 0.0, 0.0,}
-\DoxyCodeLine{69       0.0,  0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0,  0.0, 0.0, 0.0, 0.06853891909122467\};}
-\DoxyCodeLine{70 }
-\DoxyCodeLine{71     \mbox{\hyperlink{structsm__aws__warehouse__navigation_1_1StAcquireSensors_aad6aa27be2aa3560ac487d58af445883}{amcl\_}}-\/>\mbox{\hyperlink{classcl__move__base__z_1_1Amcl_a08ab25a28dcad544657e7d07f2e7fd94}{setInitialPose}}(initialposemsg);}
-\DoxyCodeLine{72   \}}
+\DoxyCodeLine{48   \{}
+\DoxyCodeLine{49     \textcolor{comment}{// insist publishing the initial state estimation until amcl responds with a correct global pose estimation}}
+\DoxyCodeLine{50 }
+\DoxyCodeLine{51     }
+\DoxyCodeLine{52   \}}
 
 \end{DoxyCode}
-
-
-References cl\+\_\+move\+\_\+base\+\_\+z\+::\+Amcl\+::set\+Initial\+Pose().
-
-Here is the call graph for this function\+:
-\nopagebreak
-\begin{figure}[H]
-\begin{center}
-\leavevmode
-\includegraphics[width=350pt]{structsm__aws__warehouse__navigation_1_1StAcquireSensors_aaa2b2816a7fbdca920c2d3ba6093f0d0_cgraph}
-\end{center}
-\end{figure}
 
 
 \doxysubsection{Member Data Documentation}
