@@ -1,5 +1,5 @@
 var searchData=
 [
-  ['idle_4343',['IDLE',['../namespacecl__move__base__z_1_1odom__tracker.html#ac46b05813b2791604f6cd0a39ace3ef8aa5daf7f2ebbba4975d61dab1c40188c7',1,'cl_move_base_z::odom_tracker']]],
-  ['input_5fevent_5ftriggered_4344',['INPUT_EVENT_TRIGGERED',['../namespacesmacc2_1_1state__reactors.html#ab1afbaf4edd31d0b5307dd9a0f55a504ab75323a08fc093fa69e7a6aceb681611',1,'smacc2::state_reactors']]]
+  ['global_5finflated_5flayer_4363',['GLOBAL_INFLATED_LAYER',['../classcl__move__base__z_1_1CostmapSwitch.html#af38aeee5e3893e689cd74ddddfe0df15a1757575ee674622adfb325de182a65d6',1,'cl_move_base_z::CostmapSwitch']]],
+  ['global_5fobstacles_5flayer_4364',['GLOBAL_OBSTACLES_LAYER',['../classcl__move__base__z_1_1CostmapSwitch.html#af38aeee5e3893e689cd74ddddfe0df15a94404229e09ab748aab0096bd5ff3656',1,'cl_move_base_z::CostmapSwitch']]]
 ];

@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['purespinning_4352',['PureSpinning',['../namespacecl__move__base__z.html#aab2ad3041275145f0065fb60b3299345aada5274435681a4ce04175bebfa6652f',1,'cl_move_base_z']]]
+  ['none_4372',['None',['../namespacecl__move__base__z.html#a99672d445e0bd036aeb9d3913eb69daaa6adf97f83acf6453d4a6a4b1070f3754',1,'cl_move_base_z']]]
 ];
