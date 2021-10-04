@@ -115,18 +115,18 @@ Reimplemented from \mbox{\hyperlink{classsmacc2_1_1ISmaccClientBehavior_aca7382c
 
 
 
-Definition at line 65 of file cb\+\_\+wait\+\_\+nav2\+\_\+nodes.\+cpp.
+Definition at line 81 of file cb\+\_\+wait\+\_\+nav2\+\_\+nodes.\+cpp.
 
 
 \begin{DoxyCode}{0}
-\DoxyCodeLine{66 \{}
-\DoxyCodeLine{67   rclcpp::SensorDataQoS qos;}
-\DoxyCodeLine{68   rclcpp::SubscriptionOptions sub\_option;}
-\DoxyCodeLine{69 }
-\DoxyCodeLine{70   \mbox{\hyperlink{classcl__move__base__z_1_1CbWaitNav2Nodes_a832fc54c92eccf7259779f081c67fa18}{sub\_}} = \mbox{\hyperlink{classsmacc2_1_1ISmaccClientBehavior_a95c9749af2004528fbda63ca6fde8eae}{getNode}}()-\/>create\_subscription<bond::msg::Status>(}
-\DoxyCodeLine{71     \mbox{\hyperlink{classcl__move__base__z_1_1CbWaitNav2Nodes_ad6545372c975ab96776a7e73e268ec4f}{topicname\_}}, qos, std::bind(\&\mbox{\hyperlink{classcl__move__base__z_1_1CbWaitNav2Nodes_a43bd79a4cb30e65c8ed5c30fc0d7f797}{CbWaitNav2Nodes::onMessageReceived}}, \textcolor{keyword}{this}, std::placeholders::\_1),}
-\DoxyCodeLine{72     sub\_option);}
-\DoxyCodeLine{73 \}}
+\DoxyCodeLine{82 \{}
+\DoxyCodeLine{83   \textcolor{comment}{//rclcpp::SensorDataQoS qos;}}
+\DoxyCodeLine{84   rclcpp::SubscriptionOptions sub\_option;}
+\DoxyCodeLine{85 }
+\DoxyCodeLine{86   \mbox{\hyperlink{classcl__move__base__z_1_1CbWaitNav2Nodes_a832fc54c92eccf7259779f081c67fa18}{sub\_}} = \mbox{\hyperlink{classsmacc2_1_1ISmaccClientBehavior_a95c9749af2004528fbda63ca6fde8eae}{getNode}}()-\/>create\_subscription<bond::msg::Status>(}
+\DoxyCodeLine{87     \mbox{\hyperlink{classcl__move__base__z_1_1CbWaitNav2Nodes_ad6545372c975ab96776a7e73e268ec4f}{topicname\_}}, 20, std::bind(\&\mbox{\hyperlink{classcl__move__base__z_1_1CbWaitNav2Nodes_a43bd79a4cb30e65c8ed5c30fc0d7f797}{CbWaitNav2Nodes::onMessageReceived}}, \textcolor{keyword}{this}, std::placeholders::\_1),}
+\DoxyCodeLine{88     sub\_option);}
+\DoxyCodeLine{89 \}}
 
 \end{DoxyCode}
 
@@ -155,32 +155,48 @@ Definition at line 40 of file cb\+\_\+wait\+\_\+nav2\+\_\+nodes.\+cpp.
 \begin{DoxyCode}{0}
 \DoxyCodeLine{41 \{}
 \DoxyCodeLine{42   \textcolor{keyword}{auto} value = \mbox{\hyperlink{namespacecl__move__base__z_a738ccd66837e276375c2203ed7f2a163}{fromString}}(msg.id);}
-\DoxyCodeLine{43   \textcolor{keywordflow}{if} (\mbox{\hyperlink{classcl__move__base__z_1_1CbWaitNav2Nodes_a36ad9d3ed178cc7f835fa004b116b75e}{receivedAliveMsg\_}}.count(value) \&\& !\mbox{\hyperlink{classcl__move__base__z_1_1CbWaitNav2Nodes_a36ad9d3ed178cc7f835fa004b116b75e}{receivedAliveMsg\_}}[value])}
-\DoxyCodeLine{44   \{}
-\DoxyCodeLine{45     \mbox{\hyperlink{classcl__move__base__z_1_1CbWaitNav2Nodes_a36ad9d3ed178cc7f835fa004b116b75e}{receivedAliveMsg\_}}[value] = \textcolor{keyword}{true};}
-\DoxyCodeLine{46   \}}
-\DoxyCodeLine{47 }
-\DoxyCodeLine{48   \textcolor{keywordtype}{bool} success = \textcolor{keyword}{true};}
-\DoxyCodeLine{49   \textcolor{keywordflow}{for} (\textcolor{keyword}{auto} \& pair : \mbox{\hyperlink{classcl__move__base__z_1_1CbWaitNav2Nodes_a36ad9d3ed178cc7f835fa004b116b75e}{receivedAliveMsg\_}})}
-\DoxyCodeLine{50   \{}
-\DoxyCodeLine{51     \textcolor{keywordflow}{if} (!pair.second)}
-\DoxyCodeLine{52     \{}
-\DoxyCodeLine{53       success = \textcolor{keyword}{false};}
-\DoxyCodeLine{54       \textcolor{keywordflow}{break};}
-\DoxyCodeLine{55     \}}
-\DoxyCodeLine{56   \}}
-\DoxyCodeLine{57 }
-\DoxyCodeLine{58   \textcolor{keywordflow}{if} (success)}
-\DoxyCodeLine{59   \{}
-\DoxyCodeLine{60     this-\/>\mbox{\hyperlink{classsmacc2_1_1SmaccAsyncClientBehavior_a2fb4de26d011fbbb55bc1bbaed2e6f5b}{postSuccessEvent}}();}
-\DoxyCodeLine{61     \mbox{\hyperlink{classcl__move__base__z_1_1CbWaitNav2Nodes_a832fc54c92eccf7259779f081c67fa18}{sub\_}} = \textcolor{keyword}{nullptr};}
-\DoxyCodeLine{62   \}}
-\DoxyCodeLine{63 \}}
+\DoxyCodeLine{43   \textcolor{keywordtype}{bool} updated = \textcolor{keyword}{false};}
+\DoxyCodeLine{44   \textcolor{comment}{// RCLCPP\_INFO(getLogger(), "{}[CbWaitNav2Nodes] received '\%s'"{}, msg.id.c\_str());}}
+\DoxyCodeLine{45 }
+\DoxyCodeLine{46   \textcolor{keywordflow}{if} (\mbox{\hyperlink{classcl__move__base__z_1_1CbWaitNav2Nodes_a36ad9d3ed178cc7f835fa004b116b75e}{receivedAliveMsg\_}}.count(value) \&\& !\mbox{\hyperlink{classcl__move__base__z_1_1CbWaitNav2Nodes_a36ad9d3ed178cc7f835fa004b116b75e}{receivedAliveMsg\_}}[value])}
+\DoxyCodeLine{47   \{}
+\DoxyCodeLine{48     RCLCPP\_INFO(\mbox{\hyperlink{classsmacc2_1_1ISmaccClientBehavior_a5474074c4b45e900499e30126fb8415c}{getLogger}}(), \textcolor{stringliteral}{"{}[CbWaitNav2Nodes] '\%s' alive received"{}}, msg.id.c\_str());}
+\DoxyCodeLine{49     \mbox{\hyperlink{classcl__move__base__z_1_1CbWaitNav2Nodes_a36ad9d3ed178cc7f835fa004b116b75e}{receivedAliveMsg\_}}[value] = \textcolor{keyword}{true};}
+\DoxyCodeLine{50     updated = \textcolor{keyword}{true};}
+\DoxyCodeLine{51   \}}
+\DoxyCodeLine{52 }
+\DoxyCodeLine{53   \textcolor{keywordflow}{if} (updated)}
+\DoxyCodeLine{54   \{}
+\DoxyCodeLine{55     \textcolor{keywordtype}{bool} success = \textcolor{keyword}{true};}
+\DoxyCodeLine{56     std::stringstream ss;}
+\DoxyCodeLine{57     \textcolor{keywordflow}{for} (\textcolor{keyword}{auto} \& pair : \mbox{\hyperlink{classcl__move__base__z_1_1CbWaitNav2Nodes_a36ad9d3ed178cc7f835fa004b116b75e}{receivedAliveMsg\_}})}
+\DoxyCodeLine{58     \{}
+\DoxyCodeLine{59       \textcolor{keywordflow}{if} (!pair.second)}
+\DoxyCodeLine{60       \{}
+\DoxyCodeLine{61         success = \textcolor{keyword}{false};}
+\DoxyCodeLine{62       \}}
+\DoxyCodeLine{63       ss << \textcolor{stringliteral}{"{}[CbWaitNav2Nodes] -\/ "{}} << \mbox{\hyperlink{namespacecl__move__base__z_af1dd20b61b8fb5924876f3a81c124c7a}{toString}}(pair.first) << \textcolor{stringliteral}{"{}:"{}} << pair.second << std::endl;}
+\DoxyCodeLine{64     \}}
+\DoxyCodeLine{65 }
+\DoxyCodeLine{66     RCLCPP\_INFO(\mbox{\hyperlink{classsmacc2_1_1ISmaccClientBehavior_a5474074c4b45e900499e30126fb8415c}{getLogger}}(), ss.str().c\_str());}
+\DoxyCodeLine{67 }
+\DoxyCodeLine{68     \textcolor{keywordflow}{if} (success)}
+\DoxyCodeLine{69     \{}
+\DoxyCodeLine{70       RCLCPP\_INFO(\mbox{\hyperlink{classsmacc2_1_1ISmaccClientBehavior_a5474074c4b45e900499e30126fb8415c}{getLogger}}(), \textcolor{stringliteral}{"{}[CbWaitNav2Nodes] success event"{}});}
+\DoxyCodeLine{71       this-\/>\mbox{\hyperlink{classsmacc2_1_1SmaccAsyncClientBehavior_a2fb4de26d011fbbb55bc1bbaed2e6f5b}{postSuccessEvent}}();}
+\DoxyCodeLine{72       \mbox{\hyperlink{classcl__move__base__z_1_1CbWaitNav2Nodes_a832fc54c92eccf7259779f081c67fa18}{sub\_}} = \textcolor{keyword}{nullptr};}
+\DoxyCodeLine{73     \}}
+\DoxyCodeLine{74     \textcolor{keywordflow}{else}}
+\DoxyCodeLine{75     \{}
+\DoxyCodeLine{76       RCLCPP\_INFO(\mbox{\hyperlink{classsmacc2_1_1ISmaccClientBehavior_a5474074c4b45e900499e30126fb8415c}{getLogger}}(), \textcolor{stringliteral}{"{}[CbWaitNav2Nodes] still missing nodes"{}});}
+\DoxyCodeLine{77     \}}
+\DoxyCodeLine{78   \}}
+\DoxyCodeLine{79 \}}
 
 \end{DoxyCode}
 
 
-References cl\+\_\+move\+\_\+base\+\_\+z\+::from\+String(), smacc2\+::\+Smacc\+Async\+Client\+Behavior\+::post\+Success\+Event(), received\+Alive\+Msg\+\_\+, and sub\+\_\+.
+References cl\+\_\+move\+\_\+base\+\_\+z\+::from\+String(), smacc2\+::\+ISmacc\+Client\+Behavior\+::get\+Logger(), smacc2\+::\+Smacc\+Async\+Client\+Behavior\+::post\+Success\+Event(), received\+Alive\+Msg\+\_\+, sub\+\_\+, and cl\+\_\+move\+\_\+base\+\_\+z\+::to\+String().
 
 
 
