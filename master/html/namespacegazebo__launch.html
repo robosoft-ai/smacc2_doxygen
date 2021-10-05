@@ -98,66 +98,78 @@ Functions</h2></td></tr>
 <div class="line"><a name="l00030"></a><span class="lineno">   30</span>&#160;    use_simulator = LaunchConfiguration(<span class="stringliteral">&quot;use_simulator&quot;</span>)</div>
 <div class="line"><a name="l00031"></a><span class="lineno">   31</span>&#160;    world = LaunchConfiguration(<span class="stringliteral">&quot;world&quot;</span>)</div>
 <div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160;    headless = LaunchConfiguration(<span class="stringliteral">&quot;headless&quot;</span>)</div>
-<div class="line"><a name="l00033"></a><span class="lineno">   33</span>&#160; </div>
-<div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160;    sm_dance_bot_dir = get_package_share_directory(<span class="stringliteral">&quot;sm_dance_bot&quot;</span>)</div>
-<div class="line"><a name="l00035"></a><span class="lineno">   35</span>&#160;    launch_dir = os.path.join(sm_dance_bot_dir, <span class="stringliteral">&quot;launch&quot;</span>)</div>
-<div class="line"><a name="l00036"></a><span class="lineno">   36</span>&#160; </div>
-<div class="line"><a name="l00037"></a><span class="lineno">   37</span>&#160;    declare_use_simulator_cmd = DeclareLaunchArgument(</div>
-<div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160;        <span class="stringliteral">&quot;use_simulator&quot;</span>, default_value=<span class="stringliteral">&quot;True&quot;</span>, description=<span class="stringliteral">&quot;Whether to start the simulator&quot;</span></div>
-<div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160;    )</div>
-<div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160; </div>
-<div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160;    declare_simulator_cmd = DeclareLaunchArgument(</div>
-<div class="line"><a name="l00042"></a><span class="lineno">   42</span>&#160;        <span class="stringliteral">&quot;headless&quot;</span>, default_value=<span class="stringliteral">&quot;False&quot;</span>, description=<span class="stringliteral">&quot;Whether to execute gzclient)&quot;</span></div>
-<div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160;    )</div>
-<div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160; </div>
-<div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160;    declare_world_cmd = DeclareLaunchArgument(</div>
-<div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160;        <span class="stringliteral">&quot;world&quot;</span>,</div>
-<div class="line"><a name="l00047"></a><span class="lineno">   47</span>&#160;        <span class="comment"># TODO(orduno) Switch back once ROS argument passing has been fixed upstream</span></div>
-<div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160;        <span class="comment">#              https://github.com/ROBOTIS-GIT/turtlebot3_simulations/issues/91</span></div>
-<div class="line"><a name="l00049"></a><span class="lineno">   49</span>&#160;        <span class="comment"># default_value=os.path.join(get_package_share_directory(&#39;turtlebot3_gazebo&#39;),</span></div>
-<div class="line"><a name="l00050"></a><span class="lineno">   50</span>&#160;        <span class="comment">#                            &#39;worlds/turtlebot3_worlds/waffle.model&#39;),</span></div>
-<div class="line"><a name="l00051"></a><span class="lineno">   51</span>&#160;        <span class="comment"># default_value=os.path.join(sm_dance_bot_dir, &#39;worlds&#39;, &#39;waffle.model&#39;),</span></div>
-<div class="line"><a name="l00052"></a><span class="lineno">   52</span>&#160;        <span class="comment"># default_value=os.path.join(sm_dance_bot_dir, &#39;worlds&#39;, &#39;sm_dance_bot_world.model&#39;),</span></div>
-<div class="line"><a name="l00053"></a><span class="lineno">   53</span>&#160;        default_value=os.path.join(sm_dance_bot_dir, <span class="stringliteral">&quot;worlds&quot;</span>, <span class="stringliteral">&quot;ridgeback_race.world&quot;</span>),</div>
-<div class="line"><a name="l00054"></a><span class="lineno">   54</span>&#160;        description=<span class="stringliteral">&quot;Full path to world model file to load&quot;</span>,</div>
-<div class="line"><a name="l00055"></a><span class="lineno">   55</span>&#160;    )</div>
-<div class="line"><a name="l00056"></a><span class="lineno">   56</span>&#160; </div>
-<div class="line"><a name="l00057"></a><span class="lineno">   57</span>&#160;    <span class="comment"># Create the launch description and populate</span></div>
-<div class="line"><a name="l00058"></a><span class="lineno">   58</span>&#160;    ld = LaunchDescription()</div>
-<div class="line"><a name="l00059"></a><span class="lineno">   59</span>&#160; </div>
-<div class="line"><a name="l00060"></a><span class="lineno">   60</span>&#160;    <span class="comment"># xtermprefix = &quot;xterm -xrm &#39;XTerm*scrollBar:  true&#39; -xrm &#39;xterm*rightScrollBar: true&#39; &quot; \</span></div>
-<div class="line"><a name="l00061"></a><span class="lineno">   61</span>&#160;    <span class="comment"># &quot;-hold -geometry 1000x600 -sl 10000 -e&quot;</span></div>
-<div class="line"><a name="l00062"></a><span class="lineno">   62</span>&#160; </div>
-<div class="line"><a name="l00063"></a><span class="lineno">   63</span>&#160;    gzenv = dict(os.environ)</div>
-<div class="line"><a name="l00064"></a><span class="lineno">   64</span>&#160;    model_database_uri = os.environ[<span class="stringliteral">&quot;GAZEBO_MODEL_PATH&quot;</span>]</div>
-<div class="line"><a name="l00065"></a><span class="lineno">   65</span>&#160;    gzenv[<span class="stringliteral">&quot;GAZEBO_MODEL_DATABASE_URI&quot;</span>] = model_database_uri</div>
-<div class="line"><a name="l00066"></a><span class="lineno">   66</span>&#160; </div>
-<div class="line"><a name="l00067"></a><span class="lineno">   67</span>&#160;    <span class="comment"># Specify the actions</span></div>
-<div class="line"><a name="l00068"></a><span class="lineno">   68</span>&#160;    start_gazebo_server_cmd = ExecuteProcess(</div>
-<div class="line"><a name="l00069"></a><span class="lineno">   69</span>&#160;        condition=IfCondition(use_simulator),</div>
-<div class="line"><a name="l00070"></a><span class="lineno">   70</span>&#160;        cmd=[<span class="stringliteral">&quot;gzserver&quot;</span>, <span class="stringliteral">&quot;-s&quot;</span>, <span class="stringliteral">&quot;libgazebo_ros_init.so&quot;</span>, world, <span class="stringliteral">&quot;--verbose&quot;</span>],</div>
-<div class="line"><a name="l00071"></a><span class="lineno">   71</span>&#160;        env=gzenv,</div>
-<div class="line"><a name="l00072"></a><span class="lineno">   72</span>&#160;        cwd=[launch_dir],</div>
-<div class="line"><a name="l00073"></a><span class="lineno">   73</span>&#160;        output=<span class="stringliteral">&quot;screen&quot;</span>,</div>
-<div class="line"><a name="l00074"></a><span class="lineno">   74</span>&#160;    )</div>
+<div class="line"><a name="l00033"></a><span class="lineno">   33</span>&#160;    show_gz_lidar = LaunchConfiguration(<span class="stringliteral">&quot;show_gz_lidar&quot;</span>)</div>
+<div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160; </div>
+<div class="line"><a name="l00035"></a><span class="lineno">   35</span>&#160;    sm_dance_bot_dir = get_package_share_directory(<span class="stringliteral">&quot;sm_dance_bot&quot;</span>)</div>
+<div class="line"><a name="l00036"></a><span class="lineno">   36</span>&#160;    launch_dir = os.path.join(sm_dance_bot_dir, <span class="stringliteral">&quot;launch&quot;</span>)</div>
+<div class="line"><a name="l00037"></a><span class="lineno">   37</span>&#160; </div>
+<div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160;    declare_use_simulator_cmd = DeclareLaunchArgument(</div>
+<div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160;        <span class="stringliteral">&quot;use_simulator&quot;</span>, default_value=<span class="stringliteral">&quot;True&quot;</span>, description=<span class="stringliteral">&quot;Whether to start the simulator&quot;</span></div>
+<div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160;    )</div>
+<div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160; </div>
+<div class="line"><a name="l00042"></a><span class="lineno">   42</span>&#160;    declare_simulator_cmd = DeclareLaunchArgument(</div>
+<div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160;        <span class="stringliteral">&quot;headless&quot;</span>, default_value=<span class="stringliteral">&quot;False&quot;</span>, description=<span class="stringliteral">&quot;Whether to execute gzclient)&quot;</span></div>
+<div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160;    )</div>
+<div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160; </div>
+<div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160;    declare_show_gz_lidar = DeclareLaunchArgument(</div>
+<div class="line"><a name="l00047"></a><span class="lineno">   47</span>&#160;        <span class="stringliteral">&quot;show_gz_lidar&quot;</span>,</div>
+<div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160;        default_value=<span class="stringliteral">&quot;True&quot;</span>,</div>
+<div class="line"><a name="l00049"></a><span class="lineno">   49</span>&#160;        description=<span class="stringliteral">&quot;Whether to apply a namespace to the navigation stack&quot;</span>,</div>
+<div class="line"><a name="l00050"></a><span class="lineno">   50</span>&#160;    )</div>
+<div class="line"><a name="l00051"></a><span class="lineno">   51</span>&#160; </div>
+<div class="line"><a name="l00052"></a><span class="lineno">   52</span>&#160;    declare_world_cmd = DeclareLaunchArgument(</div>
+<div class="line"><a name="l00053"></a><span class="lineno">   53</span>&#160;        <span class="stringliteral">&quot;world&quot;</span>,</div>
+<div class="line"><a name="l00054"></a><span class="lineno">   54</span>&#160;        default_value=os.path.join(sm_dance_bot_dir, <span class="stringliteral">&quot;worlds&quot;</span>, <span class="stringliteral">&quot;ridgeback_race.world&quot;</span>),</div>
+<div class="line"><a name="l00055"></a><span class="lineno">   55</span>&#160;        description=<span class="stringliteral">&quot;Full path to world model file to load&quot;</span>,</div>
+<div class="line"><a name="l00056"></a><span class="lineno">   56</span>&#160;        condition=IfCondition(show_gz_lidar),</div>
+<div class="line"><a name="l00057"></a><span class="lineno">   57</span>&#160;    )</div>
+<div class="line"><a name="l00058"></a><span class="lineno">   58</span>&#160; </div>
+<div class="line"><a name="l00059"></a><span class="lineno">   59</span>&#160;    declare_world_cmd_2 = DeclareLaunchArgument(</div>
+<div class="line"><a name="l00060"></a><span class="lineno">   60</span>&#160;        <span class="stringliteral">&quot;world&quot;</span>,</div>
+<div class="line"><a name="l00061"></a><span class="lineno">   61</span>&#160;        default_value=os.path.join(sm_dance_bot_dir, <span class="stringliteral">&quot;worlds&quot;</span>, <span class="stringliteral">&quot;ridgeback_race_no_lidar.world&quot;</span>),</div>
+<div class="line"><a name="l00062"></a><span class="lineno">   62</span>&#160;        description=<span class="stringliteral">&quot;Full path to world model file to load&quot;</span>,</div>
+<div class="line"><a name="l00063"></a><span class="lineno">   63</span>&#160;        condition=UnlessCondition(show_gz_lidar),</div>
+<div class="line"><a name="l00064"></a><span class="lineno">   64</span>&#160;    )</div>
+<div class="line"><a name="l00065"></a><span class="lineno">   65</span>&#160; </div>
+<div class="line"><a name="l00066"></a><span class="lineno">   66</span>&#160;    <span class="comment"># Create the launch description and populate</span></div>
+<div class="line"><a name="l00067"></a><span class="lineno">   67</span>&#160;    ld = LaunchDescription()</div>
+<div class="line"><a name="l00068"></a><span class="lineno">   68</span>&#160; </div>
+<div class="line"><a name="l00069"></a><span class="lineno">   69</span>&#160;    <span class="comment"># xtermprefix = &quot;xterm -xrm &#39;XTerm*scrollBar:  true&#39; -xrm &#39;xterm*rightScrollBar: true&#39; &quot; \</span></div>
+<div class="line"><a name="l00070"></a><span class="lineno">   70</span>&#160;    <span class="comment"># &quot;-hold -geometry 1000x600 -sl 10000 -e&quot;</span></div>
+<div class="line"><a name="l00071"></a><span class="lineno">   71</span>&#160; </div>
+<div class="line"><a name="l00072"></a><span class="lineno">   72</span>&#160;    gzenv = dict(os.environ)</div>
+<div class="line"><a name="l00073"></a><span class="lineno">   73</span>&#160;    model_database_uri = os.environ[<span class="stringliteral">&quot;GAZEBO_MODEL_PATH&quot;</span>]</div>
+<div class="line"><a name="l00074"></a><span class="lineno">   74</span>&#160;    gzenv[<span class="stringliteral">&quot;GAZEBO_MODEL_DATABASE_URI&quot;</span>] = model_database_uri</div>
 <div class="line"><a name="l00075"></a><span class="lineno">   75</span>&#160; </div>
-<div class="line"><a name="l00076"></a><span class="lineno">   76</span>&#160;    start_gazebo_client_cmd = ExecuteProcess(</div>
-<div class="line"><a name="l00077"></a><span class="lineno">   77</span>&#160;        condition=IfCondition(PythonExpression([use_simulator, <span class="stringliteral">&quot; and not &quot;</span>, headless])),</div>
-<div class="line"><a name="l00078"></a><span class="lineno">   78</span>&#160;        cmd=[<span class="stringliteral">&quot;gzclient&quot;</span>],</div>
-<div class="line"><a name="l00079"></a><span class="lineno">   79</span>&#160;        cwd=[launch_dir],</div>
+<div class="line"><a name="l00076"></a><span class="lineno">   76</span>&#160;    <span class="comment"># Specify the actions</span></div>
+<div class="line"><a name="l00077"></a><span class="lineno">   77</span>&#160;    start_gazebo_server_cmd = ExecuteProcess(</div>
+<div class="line"><a name="l00078"></a><span class="lineno">   78</span>&#160;        condition=IfCondition(use_simulator),</div>
+<div class="line"><a name="l00079"></a><span class="lineno">   79</span>&#160;        cmd=[<span class="stringliteral">&quot;gzserver&quot;</span>, <span class="stringliteral">&quot;-s&quot;</span>, <span class="stringliteral">&quot;libgazebo_ros_init.so&quot;</span>, world, <span class="stringliteral">&quot;--verbose&quot;</span>],</div>
 <div class="line"><a name="l00080"></a><span class="lineno">   80</span>&#160;        env=gzenv,</div>
-<div class="line"><a name="l00081"></a><span class="lineno">   81</span>&#160;        output=<span class="stringliteral">&quot;screen&quot;</span>,</div>
-<div class="line"><a name="l00082"></a><span class="lineno">   82</span>&#160;    )</div>
-<div class="line"><a name="l00083"></a><span class="lineno">   83</span>&#160; </div>
-<div class="line"><a name="l00084"></a><span class="lineno">   84</span>&#160;    <span class="comment"># Add any conditioned actions</span></div>
-<div class="line"><a name="l00085"></a><span class="lineno">   85</span>&#160;    ld.add_action(declare_simulator_cmd)</div>
-<div class="line"><a name="l00086"></a><span class="lineno">   86</span>&#160;    ld.add_action(declare_use_simulator_cmd)</div>
-<div class="line"><a name="l00087"></a><span class="lineno">   87</span>&#160;    ld.add_action(declare_world_cmd)</div>
-<div class="line"><a name="l00088"></a><span class="lineno">   88</span>&#160; </div>
-<div class="line"><a name="l00089"></a><span class="lineno">   89</span>&#160;    ld.add_action(start_gazebo_server_cmd)</div>
-<div class="line"><a name="l00090"></a><span class="lineno">   90</span>&#160;    ld.add_action(start_gazebo_client_cmd)</div>
-<div class="line"><a name="l00091"></a><span class="lineno">   91</span>&#160; </div>
-<div class="line"><a name="l00092"></a><span class="lineno">   92</span>&#160;    <span class="keywordflow">return</span> ld</div>
+<div class="line"><a name="l00081"></a><span class="lineno">   81</span>&#160;        cwd=[launch_dir],</div>
+<div class="line"><a name="l00082"></a><span class="lineno">   82</span>&#160;        output=<span class="stringliteral">&quot;screen&quot;</span>,</div>
+<div class="line"><a name="l00083"></a><span class="lineno">   83</span>&#160;    )</div>
+<div class="line"><a name="l00084"></a><span class="lineno">   84</span>&#160; </div>
+<div class="line"><a name="l00085"></a><span class="lineno">   85</span>&#160;    start_gazebo_client_cmd = ExecuteProcess(</div>
+<div class="line"><a name="l00086"></a><span class="lineno">   86</span>&#160;        condition=IfCondition(PythonExpression([use_simulator, <span class="stringliteral">&quot; and not &quot;</span>, headless])),</div>
+<div class="line"><a name="l00087"></a><span class="lineno">   87</span>&#160;        cmd=[<span class="stringliteral">&quot;gzclient&quot;</span>],</div>
+<div class="line"><a name="l00088"></a><span class="lineno">   88</span>&#160;        cwd=[launch_dir],</div>
+<div class="line"><a name="l00089"></a><span class="lineno">   89</span>&#160;        env=gzenv,</div>
+<div class="line"><a name="l00090"></a><span class="lineno">   90</span>&#160;        output=<span class="stringliteral">&quot;screen&quot;</span>,</div>
+<div class="line"><a name="l00091"></a><span class="lineno">   91</span>&#160;    )</div>
+<div class="line"><a name="l00092"></a><span class="lineno">   92</span>&#160; </div>
+<div class="line"><a name="l00093"></a><span class="lineno">   93</span>&#160;    <span class="comment"># Add any conditioned actions</span></div>
+<div class="line"><a name="l00094"></a><span class="lineno">   94</span>&#160;    ld.add_action(declare_simulator_cmd)</div>
+<div class="line"><a name="l00095"></a><span class="lineno">   95</span>&#160;    ld.add_action(declare_use_simulator_cmd)</div>
+<div class="line"><a name="l00096"></a><span class="lineno">   96</span>&#160;    ld.add_action(declare_world_cmd)</div>
+<div class="line"><a name="l00097"></a><span class="lineno">   97</span>&#160;    ld.add_action(declare_world_cmd_2)</div>
+<div class="line"><a name="l00098"></a><span class="lineno">   98</span>&#160; </div>
+<div class="line"><a name="l00099"></a><span class="lineno">   99</span>&#160;    ld.add_action(declare_show_gz_lidar)</div>
+<div class="line"><a name="l00100"></a><span class="lineno">  100</span>&#160; </div>
+<div class="line"><a name="l00101"></a><span class="lineno">  101</span>&#160;    ld.add_action(start_gazebo_server_cmd)</div>
+<div class="line"><a name="l00102"></a><span class="lineno">  102</span>&#160;    ld.add_action(start_gazebo_client_cmd)</div>
+<div class="line"><a name="l00103"></a><span class="lineno">  103</span>&#160; </div>
+<div class="line"><a name="l00104"></a><span class="lineno">  104</span>&#160;    <span class="keywordflow">return</span> ld</div>
 <div class="ttc" id="anamespacegazebo__launch_html_a7dfb9b9152b5cd8f375f38bc66e94517"><div class="ttname"><a href="namespacegazebo__launch.html#a7dfb9b9152b5cd8f375f38bc66e94517">gazebo_launch.generate_launch_description</a></div><div class="ttdeci">def generate_launch_description()</div><div class="ttdef"><b>Definition:</b> <a href="launch_2gazebo__launch_8py_source.html#l00025">gazebo_launch.py:25</a></div></div>
 </div><!-- fragment -->
 </div>

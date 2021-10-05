@@ -28,65 +28,77 @@ Definition at line 25 of file gazebo\+\_\+launch.\+py.
 \DoxyCodeLine{30     use\_simulator = LaunchConfiguration(\textcolor{stringliteral}{"{}use\_simulator"{}})}
 \DoxyCodeLine{31     world = LaunchConfiguration(\textcolor{stringliteral}{"{}world"{}})}
 \DoxyCodeLine{32     headless = LaunchConfiguration(\textcolor{stringliteral}{"{}headless"{}})}
-\DoxyCodeLine{33 }
-\DoxyCodeLine{34     sm\_dance\_bot\_dir = get\_package\_share\_directory(\textcolor{stringliteral}{"{}sm\_dance\_bot"{}})}
-\DoxyCodeLine{35     launch\_dir = os.path.join(sm\_dance\_bot\_dir, \textcolor{stringliteral}{"{}launch"{}})}
-\DoxyCodeLine{36 }
-\DoxyCodeLine{37     declare\_use\_simulator\_cmd = DeclareLaunchArgument(}
-\DoxyCodeLine{38         \textcolor{stringliteral}{"{}use\_simulator"{}}, default\_value=\textcolor{stringliteral}{"{}True"{}}, description=\textcolor{stringliteral}{"{}Whether to start the simulator"{}}}
-\DoxyCodeLine{39     )}
-\DoxyCodeLine{40 }
-\DoxyCodeLine{41     declare\_simulator\_cmd = DeclareLaunchArgument(}
-\DoxyCodeLine{42         \textcolor{stringliteral}{"{}headless"{}}, default\_value=\textcolor{stringliteral}{"{}False"{}}, description=\textcolor{stringliteral}{"{}Whether to execute gzclient)"{}}}
-\DoxyCodeLine{43     )}
-\DoxyCodeLine{44 }
-\DoxyCodeLine{45     declare\_world\_cmd = DeclareLaunchArgument(}
-\DoxyCodeLine{46         \textcolor{stringliteral}{"{}world"{}},}
-\DoxyCodeLine{47         \textcolor{comment}{\# TODO(orduno) Switch back once ROS argument passing has been fixed upstream}}
-\DoxyCodeLine{48         \textcolor{comment}{\#              https://github.com/ROBOTIS-\/GIT/turtlebot3\_simulations/issues/91}}
-\DoxyCodeLine{49         \textcolor{comment}{\# default\_value=os.path.join(get\_package\_share\_directory('turtlebot3\_gazebo'),}}
-\DoxyCodeLine{50         \textcolor{comment}{\#                            'worlds/turtlebot3\_worlds/waffle.model'),}}
-\DoxyCodeLine{51         \textcolor{comment}{\# default\_value=os.path.join(sm\_dance\_bot\_dir, 'worlds', 'waffle.model'),}}
-\DoxyCodeLine{52         \textcolor{comment}{\# default\_value=os.path.join(sm\_dance\_bot\_dir, 'worlds', 'sm\_dance\_bot\_world.model'),}}
-\DoxyCodeLine{53         default\_value=os.path.join(sm\_dance\_bot\_dir, \textcolor{stringliteral}{"{}worlds"{}}, \textcolor{stringliteral}{"{}ridgeback\_race.world"{}}),}
-\DoxyCodeLine{54         description=\textcolor{stringliteral}{"{}Full path to world model file to load"{}},}
-\DoxyCodeLine{55     )}
-\DoxyCodeLine{56 }
-\DoxyCodeLine{57     \textcolor{comment}{\# Create the launch description and populate}}
-\DoxyCodeLine{58     ld = LaunchDescription()}
-\DoxyCodeLine{59 }
-\DoxyCodeLine{60     \textcolor{comment}{\# xtermprefix = "{}xterm -\/xrm 'XTerm*scrollBar:  true' -\/xrm 'xterm*rightScrollBar: true' "{} \(\backslash\)}}
-\DoxyCodeLine{61     \textcolor{comment}{\# "{}-\/hold -\/geometry 1000x600 -\/sl 10000 -\/e"{}}}
-\DoxyCodeLine{62 }
-\DoxyCodeLine{63     gzenv = dict(os.environ)}
-\DoxyCodeLine{64     model\_database\_uri = os.environ[\textcolor{stringliteral}{"{}GAZEBO\_MODEL\_PATH"{}}]}
-\DoxyCodeLine{65     gzenv[\textcolor{stringliteral}{"{}GAZEBO\_MODEL\_DATABASE\_URI"{}}] = model\_database\_uri}
-\DoxyCodeLine{66 }
-\DoxyCodeLine{67     \textcolor{comment}{\# Specify the actions}}
-\DoxyCodeLine{68     start\_gazebo\_server\_cmd = ExecuteProcess(}
-\DoxyCodeLine{69         condition=IfCondition(use\_simulator),}
-\DoxyCodeLine{70         cmd=[\textcolor{stringliteral}{"{}gzserver"{}}, \textcolor{stringliteral}{"{}-\/s"{}}, \textcolor{stringliteral}{"{}libgazebo\_ros\_init.so"{}}, world, \textcolor{stringliteral}{"{}-\/-\/verbose"{}}],}
-\DoxyCodeLine{71         env=gzenv,}
-\DoxyCodeLine{72         cwd=[launch\_dir],}
-\DoxyCodeLine{73         output=\textcolor{stringliteral}{"{}screen"{}},}
-\DoxyCodeLine{74     )}
+\DoxyCodeLine{33     show\_gz\_lidar = LaunchConfiguration(\textcolor{stringliteral}{"{}show\_gz\_lidar"{}})}
+\DoxyCodeLine{34 }
+\DoxyCodeLine{35     sm\_dance\_bot\_dir = get\_package\_share\_directory(\textcolor{stringliteral}{"{}sm\_dance\_bot"{}})}
+\DoxyCodeLine{36     launch\_dir = os.path.join(sm\_dance\_bot\_dir, \textcolor{stringliteral}{"{}launch"{}})}
+\DoxyCodeLine{37 }
+\DoxyCodeLine{38     declare\_use\_simulator\_cmd = DeclareLaunchArgument(}
+\DoxyCodeLine{39         \textcolor{stringliteral}{"{}use\_simulator"{}}, default\_value=\textcolor{stringliteral}{"{}True"{}}, description=\textcolor{stringliteral}{"{}Whether to start the simulator"{}}}
+\DoxyCodeLine{40     )}
+\DoxyCodeLine{41 }
+\DoxyCodeLine{42     declare\_simulator\_cmd = DeclareLaunchArgument(}
+\DoxyCodeLine{43         \textcolor{stringliteral}{"{}headless"{}}, default\_value=\textcolor{stringliteral}{"{}False"{}}, description=\textcolor{stringliteral}{"{}Whether to execute gzclient)"{}}}
+\DoxyCodeLine{44     )}
+\DoxyCodeLine{45 }
+\DoxyCodeLine{46     declare\_show\_gz\_lidar = DeclareLaunchArgument(}
+\DoxyCodeLine{47         \textcolor{stringliteral}{"{}show\_gz\_lidar"{}},}
+\DoxyCodeLine{48         default\_value=\textcolor{stringliteral}{"{}True"{}},}
+\DoxyCodeLine{49         description=\textcolor{stringliteral}{"{}Whether to apply a namespace to the navigation stack"{}},}
+\DoxyCodeLine{50     )}
+\DoxyCodeLine{51 }
+\DoxyCodeLine{52     declare\_world\_cmd = DeclareLaunchArgument(}
+\DoxyCodeLine{53         \textcolor{stringliteral}{"{}world"{}},}
+\DoxyCodeLine{54         default\_value=os.path.join(sm\_dance\_bot\_dir, \textcolor{stringliteral}{"{}worlds"{}}, \textcolor{stringliteral}{"{}ridgeback\_race.world"{}}),}
+\DoxyCodeLine{55         description=\textcolor{stringliteral}{"{}Full path to world model file to load"{}},}
+\DoxyCodeLine{56         condition=IfCondition(show\_gz\_lidar),}
+\DoxyCodeLine{57     )}
+\DoxyCodeLine{58 }
+\DoxyCodeLine{59     declare\_world\_cmd\_2 = DeclareLaunchArgument(}
+\DoxyCodeLine{60         \textcolor{stringliteral}{"{}world"{}},}
+\DoxyCodeLine{61         default\_value=os.path.join(sm\_dance\_bot\_dir, \textcolor{stringliteral}{"{}worlds"{}}, \textcolor{stringliteral}{"{}ridgeback\_race\_no\_lidar.world"{}}),}
+\DoxyCodeLine{62         description=\textcolor{stringliteral}{"{}Full path to world model file to load"{}},}
+\DoxyCodeLine{63         condition=UnlessCondition(show\_gz\_lidar),}
+\DoxyCodeLine{64     )}
+\DoxyCodeLine{65 }
+\DoxyCodeLine{66     \textcolor{comment}{\# Create the launch description and populate}}
+\DoxyCodeLine{67     ld = LaunchDescription()}
+\DoxyCodeLine{68 }
+\DoxyCodeLine{69     \textcolor{comment}{\# xtermprefix = "{}xterm -\/xrm 'XTerm*scrollBar:  true' -\/xrm 'xterm*rightScrollBar: true' "{} \(\backslash\)}}
+\DoxyCodeLine{70     \textcolor{comment}{\# "{}-\/hold -\/geometry 1000x600 -\/sl 10000 -\/e"{}}}
+\DoxyCodeLine{71 }
+\DoxyCodeLine{72     gzenv = dict(os.environ)}
+\DoxyCodeLine{73     model\_database\_uri = os.environ[\textcolor{stringliteral}{"{}GAZEBO\_MODEL\_PATH"{}}]}
+\DoxyCodeLine{74     gzenv[\textcolor{stringliteral}{"{}GAZEBO\_MODEL\_DATABASE\_URI"{}}] = model\_database\_uri}
 \DoxyCodeLine{75 }
-\DoxyCodeLine{76     start\_gazebo\_client\_cmd = ExecuteProcess(}
-\DoxyCodeLine{77         condition=IfCondition(PythonExpression([use\_simulator, \textcolor{stringliteral}{"{} and not "{}}, headless])),}
-\DoxyCodeLine{78         cmd=[\textcolor{stringliteral}{"{}gzclient"{}}],}
-\DoxyCodeLine{79         cwd=[launch\_dir],}
+\DoxyCodeLine{76     \textcolor{comment}{\# Specify the actions}}
+\DoxyCodeLine{77     start\_gazebo\_server\_cmd = ExecuteProcess(}
+\DoxyCodeLine{78         condition=IfCondition(use\_simulator),}
+\DoxyCodeLine{79         cmd=[\textcolor{stringliteral}{"{}gzserver"{}}, \textcolor{stringliteral}{"{}-\/s"{}}, \textcolor{stringliteral}{"{}libgazebo\_ros\_init.so"{}}, world, \textcolor{stringliteral}{"{}-\/-\/verbose"{}}],}
 \DoxyCodeLine{80         env=gzenv,}
-\DoxyCodeLine{81         output=\textcolor{stringliteral}{"{}screen"{}},}
-\DoxyCodeLine{82     )}
-\DoxyCodeLine{83 }
-\DoxyCodeLine{84     \textcolor{comment}{\# Add any conditioned actions}}
-\DoxyCodeLine{85     ld.add\_action(declare\_simulator\_cmd)}
-\DoxyCodeLine{86     ld.add\_action(declare\_use\_simulator\_cmd)}
-\DoxyCodeLine{87     ld.add\_action(declare\_world\_cmd)}
-\DoxyCodeLine{88 }
-\DoxyCodeLine{89     ld.add\_action(start\_gazebo\_server\_cmd)}
-\DoxyCodeLine{90     ld.add\_action(start\_gazebo\_client\_cmd)}
-\DoxyCodeLine{91 }
-\DoxyCodeLine{92     \textcolor{keywordflow}{return} ld}
+\DoxyCodeLine{81         cwd=[launch\_dir],}
+\DoxyCodeLine{82         output=\textcolor{stringliteral}{"{}screen"{}},}
+\DoxyCodeLine{83     )}
+\DoxyCodeLine{84 }
+\DoxyCodeLine{85     start\_gazebo\_client\_cmd = ExecuteProcess(}
+\DoxyCodeLine{86         condition=IfCondition(PythonExpression([use\_simulator, \textcolor{stringliteral}{"{} and not "{}}, headless])),}
+\DoxyCodeLine{87         cmd=[\textcolor{stringliteral}{"{}gzclient"{}}],}
+\DoxyCodeLine{88         cwd=[launch\_dir],}
+\DoxyCodeLine{89         env=gzenv,}
+\DoxyCodeLine{90         output=\textcolor{stringliteral}{"{}screen"{}},}
+\DoxyCodeLine{91     )}
+\DoxyCodeLine{92 }
+\DoxyCodeLine{93     \textcolor{comment}{\# Add any conditioned actions}}
+\DoxyCodeLine{94     ld.add\_action(declare\_simulator\_cmd)}
+\DoxyCodeLine{95     ld.add\_action(declare\_use\_simulator\_cmd)}
+\DoxyCodeLine{96     ld.add\_action(declare\_world\_cmd)}
+\DoxyCodeLine{97     ld.add\_action(declare\_world\_cmd\_2)}
+\DoxyCodeLine{98 }
+\DoxyCodeLine{99     ld.add\_action(declare\_show\_gz\_lidar)}
+\DoxyCodeLine{100 }
+\DoxyCodeLine{101     ld.add\_action(start\_gazebo\_server\_cmd)}
+\DoxyCodeLine{102     ld.add\_action(start\_gazebo\_client\_cmd)}
+\DoxyCodeLine{103 }
+\DoxyCodeLine{104     \textcolor{keywordflow}{return} ld}
 
 \end{DoxyCode}
