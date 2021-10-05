@@ -58,30 +58,35 @@ Definition at line 25 of file gazebo\+\_\+launch.\+py.
 \DoxyCodeLine{60     \textcolor{comment}{\# xtermprefix = "{}xterm -\/xrm 'XTerm*scrollBar:  true' -\/xrm 'xterm*rightScrollBar: true' "{} \(\backslash\)}}
 \DoxyCodeLine{61     \textcolor{comment}{\# "{}-\/hold -\/geometry 1000x600 -\/sl 10000 -\/e"{}}}
 \DoxyCodeLine{62 }
-\DoxyCodeLine{63     \textcolor{comment}{\# Specify the actions}}
-\DoxyCodeLine{64     start\_gazebo\_server\_cmd = ExecuteProcess(}
-\DoxyCodeLine{65         condition=IfCondition(use\_simulator),}
-\DoxyCodeLine{66         cmd=[\textcolor{stringliteral}{"{}gzserver"{}}, \textcolor{stringliteral}{"{}-\/s"{}}, \textcolor{stringliteral}{"{}libgazebo\_ros\_init.so"{}}, world, \textcolor{stringliteral}{"{}-\/-\/verbose"{}}],}
-\DoxyCodeLine{67         \textcolor{comment}{\# env=\{"{}GAZEBO\_MODEL\_PATH"{}: os.getcwd(),"{}HOME"{}: os.environ["{}HOME"{}]\},}}
-\DoxyCodeLine{68         cwd=[launch\_dir],}
-\DoxyCodeLine{69         output=\textcolor{stringliteral}{"{}screen"{}},}
-\DoxyCodeLine{70     )}
-\DoxyCodeLine{71 }
-\DoxyCodeLine{72     start\_gazebo\_client\_cmd = ExecuteProcess(}
-\DoxyCodeLine{73         condition=IfCondition(PythonExpression([use\_simulator, \textcolor{stringliteral}{"{} and not "{}}, headless])),}
-\DoxyCodeLine{74         cmd=[\textcolor{stringliteral}{"{}gzclient"{}}],}
-\DoxyCodeLine{75         cwd=[launch\_dir],}
-\DoxyCodeLine{76         output=\textcolor{stringliteral}{"{}screen"{}},}
-\DoxyCodeLine{77     )}
-\DoxyCodeLine{78 }
-\DoxyCodeLine{79     \textcolor{comment}{\# Add any conditioned actions}}
-\DoxyCodeLine{80     ld.add\_action(declare\_simulator\_cmd)}
-\DoxyCodeLine{81     ld.add\_action(declare\_use\_simulator\_cmd)}
-\DoxyCodeLine{82     ld.add\_action(declare\_world\_cmd)}
+\DoxyCodeLine{63     gzenv = dict(os.environ)}
+\DoxyCodeLine{64     model\_database\_uri = os.environ[\textcolor{stringliteral}{"{}GAZEBO\_MODEL\_PATH"{}}]}
+\DoxyCodeLine{65     gzenv[\textcolor{stringliteral}{"{}GAZEBO\_MODEL\_DATABASE\_URI"{}}] = model\_database\_uri}
+\DoxyCodeLine{66 }
+\DoxyCodeLine{67     \textcolor{comment}{\# Specify the actions}}
+\DoxyCodeLine{68     start\_gazebo\_server\_cmd = ExecuteProcess(}
+\DoxyCodeLine{69         condition=IfCondition(use\_simulator),}
+\DoxyCodeLine{70         cmd=[\textcolor{stringliteral}{"{}gzserver"{}}, \textcolor{stringliteral}{"{}-\/s"{}}, \textcolor{stringliteral}{"{}libgazebo\_ros\_init.so"{}}, world, \textcolor{stringliteral}{"{}-\/-\/verbose"{}}],}
+\DoxyCodeLine{71         env=gzenv,}
+\DoxyCodeLine{72         cwd=[launch\_dir],}
+\DoxyCodeLine{73         output=\textcolor{stringliteral}{"{}screen"{}},}
+\DoxyCodeLine{74     )}
+\DoxyCodeLine{75 }
+\DoxyCodeLine{76     start\_gazebo\_client\_cmd = ExecuteProcess(}
+\DoxyCodeLine{77         condition=IfCondition(PythonExpression([use\_simulator, \textcolor{stringliteral}{"{} and not "{}}, headless])),}
+\DoxyCodeLine{78         cmd=[\textcolor{stringliteral}{"{}gzclient"{}}],}
+\DoxyCodeLine{79         cwd=[launch\_dir],}
+\DoxyCodeLine{80         env=gzenv,}
+\DoxyCodeLine{81         output=\textcolor{stringliteral}{"{}screen"{}},}
+\DoxyCodeLine{82     )}
 \DoxyCodeLine{83 }
-\DoxyCodeLine{84     ld.add\_action(start\_gazebo\_server\_cmd)}
-\DoxyCodeLine{85     ld.add\_action(start\_gazebo\_client\_cmd)}
-\DoxyCodeLine{86 }
-\DoxyCodeLine{87     \textcolor{keywordflow}{return} ld}
+\DoxyCodeLine{84     \textcolor{comment}{\# Add any conditioned actions}}
+\DoxyCodeLine{85     ld.add\_action(declare\_simulator\_cmd)}
+\DoxyCodeLine{86     ld.add\_action(declare\_use\_simulator\_cmd)}
+\DoxyCodeLine{87     ld.add\_action(declare\_world\_cmd)}
+\DoxyCodeLine{88 }
+\DoxyCodeLine{89     ld.add\_action(start\_gazebo\_server\_cmd)}
+\DoxyCodeLine{90     ld.add\_action(start\_gazebo\_client\_cmd)}
+\DoxyCodeLine{91 }
+\DoxyCodeLine{92     \textcolor{keywordflow}{return} ld}
 
 \end{DoxyCode}
