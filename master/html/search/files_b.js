@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['navigation_5flaunch_2epy_4031',['navigation_launch.py',['../sm__aws__warehouse__navigation_2launch_2navigation__launch_8py.html',1,'(Global Namespace)'],['../sm__dance__bot_2launch_2navigation__launch_8py.html',1,'(Global Namespace)'],['../sm__dance__bot__lite_2launch_2navigation__launch_8py.html',1,'(Global Namespace)'],['../sm__dance__bot__strikes__back_2launch_2navigation__launch_8py.html',1,'(Global Namespace)']]]
+  ['navigation_5flaunch_2epy_4061',['navigation_launch.py',['../sm__aws__warehouse__navigation_2launch_2navigation__launch_8py.html',1,'(Global Namespace)'],['../sm__dance__bot_2launch_2navigation__launch_8py.html',1,'(Global Namespace)'],['../sm__dance__bot__lite_2launch_2navigation__launch_8py.html',1,'(Global Namespace)'],['../sm__dance__bot__strikes__back_2launch_2navigation__launch_8py.html',1,'(Global Namespace)']]]
 ];

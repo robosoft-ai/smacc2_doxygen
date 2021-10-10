@@ -50,29 +50,29 @@ Definition at line 36 of file or\+\_\+navigation.\+hpp.
 
 
 
-Definition at line 65 of file or\+\_\+navigation.\+hpp.
+Definition at line 67 of file or\+\_\+navigation.\+hpp.
 
 
 \begin{DoxyCode}{0}
-\DoxyCodeLine{66   \{}
-\DoxyCodeLine{67     \textcolor{comment}{// if it is the first time and the waypoints navigator is not configured}}
-\DoxyCodeLine{68     std::string planfilepath;}
-\DoxyCodeLine{69     \mbox{\hyperlink{classsmacc2_1_1ISmaccOrthogonal_aedb59f2a79eaa0819cfa7f72d292aad8}{getNode}}()-\/>declare\_parameter(\textcolor{stringliteral}{"{}waypoints\_plan\_2"{}});}
-\DoxyCodeLine{70     \textcolor{keywordflow}{if} (\mbox{\hyperlink{classsmacc2_1_1ISmaccOrthogonal_aedb59f2a79eaa0819cfa7f72d292aad8}{getNode}}()-\/>get\_parameter(\textcolor{stringliteral}{"{}waypoints\_plan\_2"{}}, planfilepath))}
-\DoxyCodeLine{71     \{}
-\DoxyCodeLine{72       std::string package\_share\_directory =}
-\DoxyCodeLine{73         ament\_index\_cpp::get\_package\_share\_directory(\textcolor{stringliteral}{"{}sm\_aws\_warehouse\_navigation"{}});}
-\DoxyCodeLine{74       boost::replace\_all(planfilepath, \textcolor{stringliteral}{"{}\$(pkg\_share)"{}}, package\_share\_directory);}
-\DoxyCodeLine{75 }
-\DoxyCodeLine{76       waypointsNavigator-\/>\mbox{\hyperlink{classcl__move__base__z_1_1WaypointNavigator_a16c2b3e9e7a9b17601844bc9f494634a}{loadWayPointsFromFile2}}(planfilepath);}
-\DoxyCodeLine{77       RCLCPP\_INFO(\mbox{\hyperlink{classsmacc2_1_1ISmaccOrthogonal_a9f4ef0ad85f7ad0fbb02a26d8601889d}{getLogger}}(), \textcolor{stringliteral}{"{}waypoints plan: \%s"{}}, planfilepath.c\_str());}
-\DoxyCodeLine{78     \}}
-\DoxyCodeLine{79     \textcolor{keywordflow}{else}}
-\DoxyCodeLine{80     \{}
-\DoxyCodeLine{81       RCLCPP\_ERROR(\mbox{\hyperlink{classsmacc2_1_1ISmaccOrthogonal_a9f4ef0ad85f7ad0fbb02a26d8601889d}{getLogger}}(), \textcolor{stringliteral}{"{}waypoints plan file not found: NONE"{}});}
-\DoxyCodeLine{82       exit(0);}
-\DoxyCodeLine{83     \}}
-\DoxyCodeLine{84   \}}
+\DoxyCodeLine{68   \{}
+\DoxyCodeLine{69     \textcolor{comment}{// if it is the first time and the waypoints navigator is not configured}}
+\DoxyCodeLine{70     std::string planfilepath;}
+\DoxyCodeLine{71     \mbox{\hyperlink{classsmacc2_1_1ISmaccOrthogonal_aedb59f2a79eaa0819cfa7f72d292aad8}{getNode}}()-\/>declare\_parameter(\textcolor{stringliteral}{"{}waypoints\_plan\_2"{}});}
+\DoxyCodeLine{72     \textcolor{keywordflow}{if} (\mbox{\hyperlink{classsmacc2_1_1ISmaccOrthogonal_aedb59f2a79eaa0819cfa7f72d292aad8}{getNode}}()-\/>get\_parameter(\textcolor{stringliteral}{"{}waypoints\_plan\_2"{}}, planfilepath))}
+\DoxyCodeLine{73     \{}
+\DoxyCodeLine{74       std::string package\_share\_directory =}
+\DoxyCodeLine{75         ament\_index\_cpp::get\_package\_share\_directory(\textcolor{stringliteral}{"{}sm\_aws\_warehouse\_navigation"{}});}
+\DoxyCodeLine{76       boost::replace\_all(planfilepath, \textcolor{stringliteral}{"{}\$(pkg\_share)"{}}, package\_share\_directory);}
+\DoxyCodeLine{77 }
+\DoxyCodeLine{78       waypointsNavigator-\/>\mbox{\hyperlink{classcl__move__base__z_1_1WaypointNavigator_a16c2b3e9e7a9b17601844bc9f494634a}{loadWayPointsFromFile2}}(planfilepath);}
+\DoxyCodeLine{79       RCLCPP\_INFO(\mbox{\hyperlink{classsmacc2_1_1ISmaccOrthogonal_a9f4ef0ad85f7ad0fbb02a26d8601889d}{getLogger}}(), \textcolor{stringliteral}{"{}waypoints plan: \%s"{}}, planfilepath.c\_str());}
+\DoxyCodeLine{80     \}}
+\DoxyCodeLine{81     \textcolor{keywordflow}{else}}
+\DoxyCodeLine{82     \{}
+\DoxyCodeLine{83       RCLCPP\_ERROR(\mbox{\hyperlink{classsmacc2_1_1ISmaccOrthogonal_a9f4ef0ad85f7ad0fbb02a26d8601889d}{getLogger}}(), \textcolor{stringliteral}{"{}waypoints plan file not found: NONE"{}});}
+\DoxyCodeLine{84       exit(0);}
+\DoxyCodeLine{85     \}}
+\DoxyCodeLine{86   \}}
 
 \end{DoxyCode}
 
@@ -104,29 +104,31 @@ Definition at line 39 of file or\+\_\+navigation.\+hpp.
 
 \begin{DoxyCode}{0}
 \DoxyCodeLine{40   \{}
-\DoxyCodeLine{41     \textcolor{keyword}{auto} movebaseClient = this-\/>createClient<cl\_move\_base\_z::ClMoveBaseZ>();}
+\DoxyCodeLine{41     \textcolor{keyword}{auto} roslaunchClient =this-\/>createClient<smacc2::client\_bases::ClRosLaunch>(\textcolor{stringliteral}{"{}sm\_aws\_warehouse\_navigation"{}}, \textcolor{stringliteral}{"{}navigation\_launch.py"{}});}
 \DoxyCodeLine{42 }
-\DoxyCodeLine{43     \textcolor{comment}{// create pose component}}
-\DoxyCodeLine{44     movebaseClient-\/>createComponent<\mbox{\hyperlink{classcl__move__base__z_1_1Pose}{cl\_move\_base\_z::Pose}}>(StandardReferenceFrames::Map);}
-\DoxyCodeLine{45 }
-\DoxyCodeLine{46     \textcolor{comment}{// create planner switcher}}
-\DoxyCodeLine{47     movebaseClient-\/>createComponent<\mbox{\hyperlink{classcl__move__base__z_1_1PlannerSwitcher}{cl\_move\_base\_z::PlannerSwitcher}}>();}
-\DoxyCodeLine{48 }
-\DoxyCodeLine{49     \textcolor{comment}{// create goal checker switcher}}
-\DoxyCodeLine{50     movebaseClient-\/>createComponent<\mbox{\hyperlink{classcl__move__base__z_1_1GoalCheckerSwitcher}{cl\_move\_base\_z::GoalCheckerSwitcher}}>();}
-\DoxyCodeLine{51 }
-\DoxyCodeLine{52     \textcolor{comment}{// create odom tracker}}
-\DoxyCodeLine{53     movebaseClient-\/>createComponent<\mbox{\hyperlink{classcl__move__base__z_1_1odom__tracker_1_1OdomTracker}{cl\_move\_base\_z::odom\_tracker::OdomTracker}}>();}
-\DoxyCodeLine{54 }
-\DoxyCodeLine{55     movebaseClient-\/>createComponent<\mbox{\hyperlink{classcl__move__base__z_1_1Amcl}{cl\_move\_base\_z::Amcl}}>();}
+\DoxyCodeLine{43     \textcolor{keyword}{auto} movebaseClient = this-\/>createClient<cl\_move\_base\_z::ClMoveBaseZ>();}
+\DoxyCodeLine{44 }
+\DoxyCodeLine{45     \textcolor{comment}{// create pose component}}
+\DoxyCodeLine{46     movebaseClient-\/>createComponent<\mbox{\hyperlink{classcl__move__base__z_1_1Pose}{cl\_move\_base\_z::Pose}}>(StandardReferenceFrames::Map);}
+\DoxyCodeLine{47 }
+\DoxyCodeLine{48     \textcolor{comment}{// create planner switcher}}
+\DoxyCodeLine{49     movebaseClient-\/>createComponent<\mbox{\hyperlink{classcl__move__base__z_1_1PlannerSwitcher}{cl\_move\_base\_z::PlannerSwitcher}}>();}
+\DoxyCodeLine{50 }
+\DoxyCodeLine{51     \textcolor{comment}{// create goal checker switcher}}
+\DoxyCodeLine{52     movebaseClient-\/>createComponent<\mbox{\hyperlink{classcl__move__base__z_1_1GoalCheckerSwitcher}{cl\_move\_base\_z::GoalCheckerSwitcher}}>();}
+\DoxyCodeLine{53 }
+\DoxyCodeLine{54     \textcolor{comment}{// create odom tracker}}
+\DoxyCodeLine{55     movebaseClient-\/>createComponent<\mbox{\hyperlink{classcl__move__base__z_1_1odom__tracker_1_1OdomTracker}{cl\_move\_base\_z::odom\_tracker::OdomTracker}}>();}
 \DoxyCodeLine{56 }
-\DoxyCodeLine{57     \textcolor{comment}{// create waypoints navigator component}}
-\DoxyCodeLine{58     \textcolor{keyword}{auto} waypointsNavigator = movebaseClient-\/>createComponent<\mbox{\hyperlink{classcl__move__base__z_1_1WaypointNavigator}{cl\_move\_base\_z::WaypointNavigator}}>();}
-\DoxyCodeLine{59     \mbox{\hyperlink{classsm__aws__warehouse__navigation_1_1OrNavigation_a1090570588e92ff3680b719f0263f306}{loadWaypointsFromYaml}}(waypointsNavigator);}
-\DoxyCodeLine{60 }
-\DoxyCodeLine{61     \textcolor{comment}{// change this to skip some points of the yaml file, default = 0}}
-\DoxyCodeLine{62     waypointsNavigator-\/>currentWaypoint\_ = 0;}
-\DoxyCodeLine{63   \}}
+\DoxyCodeLine{57     movebaseClient-\/>createComponent<\mbox{\hyperlink{classcl__move__base__z_1_1Amcl}{cl\_move\_base\_z::Amcl}}>();}
+\DoxyCodeLine{58 }
+\DoxyCodeLine{59     \textcolor{comment}{// create waypoints navigator component}}
+\DoxyCodeLine{60     \textcolor{comment}{// auto waypointsNavigator = movebaseClient-\/>createComponent<cl\_move\_base\_z::WaypointNavigator>();}}
+\DoxyCodeLine{61     \textcolor{comment}{// loadWaypointsFromYaml(waypointsNavigator);}}
+\DoxyCodeLine{62 }
+\DoxyCodeLine{63     \textcolor{comment}{// // change this to skip some points of the yaml file, default = 0}}
+\DoxyCodeLine{64     \textcolor{comment}{// waypointsNavigator-\/>currentWaypoint\_ = 0;}}
+\DoxyCodeLine{65   \}}
 
 \end{DoxyCode}
 
