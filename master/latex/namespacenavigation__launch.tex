@@ -30,7 +30,7 @@ Definition at line 26 of file navigation\+\_\+launch.\+py.
 \DoxyCodeLine{33     autostart = LaunchConfiguration(\textcolor{stringliteral}{"{}autostart"{}})}
 \DoxyCodeLine{34     params\_file = LaunchConfiguration(\textcolor{stringliteral}{"{}params\_file"{}})}
 \DoxyCodeLine{35     default\_nav\_to\_pose\_bt\_xml = LaunchConfiguration(\textcolor{stringliteral}{"{}default\_nav\_to\_pose\_bt\_xml"{}})}
-\DoxyCodeLine{36     map\_subscribe\_transient\_local = LaunchConfiguration(\textcolor{stringliteral}{"{}map\_subscribe\_transient\_local"{}})}
+\DoxyCodeLine{36     \textcolor{comment}{\# map\_subscribe\_transient\_local = LaunchConfiguration("{}map\_subscribe\_transient\_local"{})}}
 \DoxyCodeLine{37 }
 \DoxyCodeLine{38     params\_file\_path = os.path.join(}
 \DoxyCodeLine{39         sm\_aws\_warehouse\_navigation\_dir,}
@@ -55,140 +55,163 @@ Definition at line 26 of file navigation\+\_\+launch.\+py.
 \DoxyCodeLine{58     \textcolor{comment}{\# default\_nav\_bt\_tree\_xml\_filepath = os.path.join(get\_package\_share\_directory('nav2\_bt\_navigator'),}}
 \DoxyCodeLine{59     \textcolor{comment}{\#              'behavior\_trees', 'navigate\_w\_replanning\_and\_recovery.xml')}}
 \DoxyCodeLine{60 }
-\DoxyCodeLine{61     lifecycle\_nodes = [\textcolor{stringliteral}{"{}controller\_server"{}}, \textcolor{stringliteral}{"{}planner\_server"{}}, \textcolor{stringliteral}{"{}recoveries\_server"{}}, \textcolor{stringliteral}{"{}bt\_navigator"{}}]}
-\DoxyCodeLine{62 }
-\DoxyCodeLine{63     \textcolor{comment}{\# Map fully qualified names to relative ones so the node's namespace can be prepended.}}
-\DoxyCodeLine{64     \textcolor{comment}{\# In case of the transforms (tf), currently, there doesn't seem to be a better alternative}}
-\DoxyCodeLine{65     \textcolor{comment}{\# https://github.com/ros/geometry2/issues/32}}
-\DoxyCodeLine{66     \textcolor{comment}{\# https://github.com/ros/robot\_state\_publisher/pull/30}}
-\DoxyCodeLine{67     \textcolor{comment}{\# TODO(orduno) Substitute with `PushNodeRemapping`}}
-\DoxyCodeLine{68     \textcolor{comment}{\#              https://github.com/ros2/launch\_ros/issues/56}}
-\DoxyCodeLine{69     remappings = [(\textcolor{stringliteral}{"{}/tf"{}}, \textcolor{stringliteral}{"{}tf"{}}), (\textcolor{stringliteral}{"{}/tf\_static"{}}, \textcolor{stringliteral}{"{}tf\_static"{}})]}
-\DoxyCodeLine{70 }
-\DoxyCodeLine{71     \textcolor{comment}{\# Create our own temporary YAML files that include substitutions}}
-\DoxyCodeLine{72     param\_substitutions = \{}
-\DoxyCodeLine{73         \textcolor{stringliteral}{"{}use\_sim\_time"{}}: use\_sim\_time,}
-\DoxyCodeLine{74         \textcolor{comment}{\# 'default\_nav\_to\_pose\_bt\_xml': default\_nav\_to\_pose\_bt\_xml,}}
-\DoxyCodeLine{75         \textcolor{stringliteral}{"{}default\_nav\_to\_pose\_bt\_xml"{}}: default\_nav\_bt\_tree\_xml\_filepath,}
-\DoxyCodeLine{76         \textcolor{comment}{\# "{}autostart"{}: autostart,}}
-\DoxyCodeLine{77         \textcolor{comment}{\# "{}map\_subscribe\_transient\_local"{}: map\_subscribe\_transient\_local,}}
-\DoxyCodeLine{78     \}}
-\DoxyCodeLine{79 }
-\DoxyCodeLine{80     configured\_params = RewrittenYaml(}
-\DoxyCodeLine{81         source\_file=params\_file,}
-\DoxyCodeLine{82         root\_key=namespace,}
-\DoxyCodeLine{83         param\_rewrites=param\_substitutions,}
-\DoxyCodeLine{84         convert\_types=\textcolor{keyword}{True},}
-\DoxyCodeLine{85     )}
-\DoxyCodeLine{86 }
-\DoxyCodeLine{87     xtermprefix = (}
-\DoxyCodeLine{88         \textcolor{stringliteral}{"{}xterm -\/xrm 'XTerm*scrollBar:  true' -\/xrm 'xterm*rightScrollBar: true' "{}}}
-\DoxyCodeLine{89         \textcolor{stringliteral}{"{}-\/hold -\/geometry 1000x600 -\/sl 10000 -\/e"{}}}
-\DoxyCodeLine{90     )}
-\DoxyCodeLine{91 }
-\DoxyCodeLine{92     print(\textcolor{stringliteral}{"{}+********************************"{}})}
-\DoxyCodeLine{93     print(str(param\_substitutions))}
-\DoxyCodeLine{94     print(str(default\_nav\_to\_pose\_bt\_xml))}
-\DoxyCodeLine{95 }
-\DoxyCodeLine{96     \textcolor{keywordflow}{return} LaunchDescription(}
-\DoxyCodeLine{97         [}
-\DoxyCodeLine{98             \textcolor{comment}{\# Set env var to print messages to stdout immediately}}
-\DoxyCodeLine{99             SetEnvironmentVariable(\textcolor{stringliteral}{"{}RCUTILS\_LOGGING\_BUFFERED\_STREAM"{}}, \textcolor{stringliteral}{"{}1"{}}),}
-\DoxyCodeLine{100             DeclareLaunchArgument(}
-\DoxyCodeLine{101                 \textcolor{stringliteral}{"{}namespace"{}}, default\_value=\textcolor{stringliteral}{"{}"{}}, description=\textcolor{stringliteral}{"{}Top-\/level namespace"{}}}
-\DoxyCodeLine{102             ),}
-\DoxyCodeLine{103             DeclareLaunchArgument(}
-\DoxyCodeLine{104                 \textcolor{stringliteral}{"{}use\_sim\_time"{}},}
-\DoxyCodeLine{105                 default\_value=\textcolor{stringliteral}{"{}false"{}},}
-\DoxyCodeLine{106                 description=\textcolor{stringliteral}{"{}Use simulation (Gazebo) clock if true"{}},}
-\DoxyCodeLine{107             ),}
-\DoxyCodeLine{108             DeclareLaunchArgument(}
-\DoxyCodeLine{109                 \textcolor{stringliteral}{"{}autostart"{}},}
-\DoxyCodeLine{110                 default\_value=\textcolor{stringliteral}{"{}true"{}},}
-\DoxyCodeLine{111                 description=\textcolor{stringliteral}{"{}Automatically startup the nav2 stack"{}},}
-\DoxyCodeLine{112             ),}
-\DoxyCodeLine{113             DeclareLaunchArgument(}
-\DoxyCodeLine{114                 \textcolor{stringliteral}{"{}params\_file"{}},}
-\DoxyCodeLine{115                 default\_value=params\_file\_path,}
-\DoxyCodeLine{116                 description=\textcolor{stringliteral}{"{}Full path to the ROS2 parameters file to use"{}},}
-\DoxyCodeLine{117             ),}
-\DoxyCodeLine{118             DeclareLaunchArgument(}
-\DoxyCodeLine{119                 \textcolor{stringliteral}{"{}default\_nav\_to\_pose\_bt\_xml"{}},}
-\DoxyCodeLine{120                 \textcolor{comment}{\# default\_value=os.path.join(get\_package\_share\_directory('nav2\_bt\_navigator'),}}
-\DoxyCodeLine{121                 \textcolor{comment}{\# 'behavior\_trees', 'navigate\_w\_replanning\_and\_recovery.xml'),}}
-\DoxyCodeLine{122                 default\_value=os.path.join(}
-\DoxyCodeLine{123                     nav\_configuration\_dir,}
-\DoxyCodeLine{124                     \textcolor{stringliteral}{"{}params"{}},}
-\DoxyCodeLine{125                     \textcolor{stringliteral}{"{}move\_base\_client"{}},}
-\DoxyCodeLine{126                     \textcolor{stringliteral}{"{}navigation\_tree.xml"{}},}
-\DoxyCodeLine{127                 ),}
-\DoxyCodeLine{128                 description=\textcolor{stringliteral}{"{}Full path to the behavior tree xml file to use"{}},}
-\DoxyCodeLine{129             ),}
-\DoxyCodeLine{130             DeclareLaunchArgument(}
-\DoxyCodeLine{131                 \textcolor{stringliteral}{"{}map\_subscribe\_transient\_local"{}},}
-\DoxyCodeLine{132                 default\_value=\textcolor{stringliteral}{"{}false"{}},}
-\DoxyCodeLine{133                 description=\textcolor{stringliteral}{"{}Whether to set the map subscriber QoS to transient local"{}},}
-\DoxyCodeLine{134             ),}
-\DoxyCodeLine{135             Node(}
-\DoxyCodeLine{136                 package=\textcolor{stringliteral}{"{}nav2\_controller"{}},}
-\DoxyCodeLine{137                 executable=\textcolor{stringliteral}{"{}controller\_server"{}},}
-\DoxyCodeLine{138                 output=\textcolor{stringliteral}{"{}screen"{}},}
-\DoxyCodeLine{139                 prefix=xtermprefix,}
-\DoxyCodeLine{140                 parameters=[configured\_params],}
-\DoxyCodeLine{141                 remappings=remappings,}
-\DoxyCodeLine{142                 arguments=[\textcolor{stringliteral}{"{}-\/-\/ros-\/args"{}}, \textcolor{stringliteral}{"{}-\/-\/log-\/level"{}}, \textcolor{stringliteral}{"{}INFO"{}}],}
-\DoxyCodeLine{143             ),}
-\DoxyCodeLine{144             Node(}
-\DoxyCodeLine{145                 package=\textcolor{stringliteral}{"{}nav2\_planner"{}},}
-\DoxyCodeLine{146                 executable=\textcolor{stringliteral}{"{}planner\_server"{}},}
-\DoxyCodeLine{147                 name=\textcolor{stringliteral}{"{}planner\_server"{}},}
-\DoxyCodeLine{148                 output=\textcolor{stringliteral}{"{}screen"{}},}
-\DoxyCodeLine{149                 prefix=xtermprefix,}
-\DoxyCodeLine{150                 parameters=[configured\_params],}
-\DoxyCodeLine{151                 remappings=remappings,}
-\DoxyCodeLine{152                 arguments=[\textcolor{stringliteral}{"{}-\/-\/ros-\/args"{}}, \textcolor{stringliteral}{"{}-\/-\/log-\/level"{}}, \textcolor{stringliteral}{"{}INFO"{}}],}
-\DoxyCodeLine{153             ),}
-\DoxyCodeLine{154             Node(}
-\DoxyCodeLine{155                 package=\textcolor{stringliteral}{"{}nav2\_recoveries"{}},}
-\DoxyCodeLine{156                 executable=\textcolor{stringliteral}{"{}recoveries\_server"{}},}
-\DoxyCodeLine{157                 name=\textcolor{stringliteral}{"{}recoveries\_server"{}},}
-\DoxyCodeLine{158                 output=\textcolor{stringliteral}{"{}screen"{}},}
-\DoxyCodeLine{159                 parameters=[configured\_params],}
-\DoxyCodeLine{160                 remappings=remappings,}
-\DoxyCodeLine{161                 arguments=[\textcolor{stringliteral}{"{}-\/-\/ros-\/args"{}}, \textcolor{stringliteral}{"{}-\/-\/log-\/level"{}}, \textcolor{stringliteral}{"{}INFO"{}}],}
-\DoxyCodeLine{162             ),}
-\DoxyCodeLine{163             Node(}
-\DoxyCodeLine{164                 package=\textcolor{stringliteral}{"{}nav2\_bt\_navigator"{}},}
-\DoxyCodeLine{165                 executable=\textcolor{stringliteral}{"{}bt\_navigator"{}},}
-\DoxyCodeLine{166                 name=\textcolor{stringliteral}{"{}bt\_navigator"{}},}
-\DoxyCodeLine{167                 output=\textcolor{stringliteral}{"{}screen"{}},}
-\DoxyCodeLine{168                 prefix=xtermprefix,}
-\DoxyCodeLine{169                 parameters=[configured\_params],}
-\DoxyCodeLine{170                 remappings=remappings,}
-\DoxyCodeLine{171                 arguments=[\textcolor{stringliteral}{"{}-\/-\/ros-\/args"{}}, \textcolor{stringliteral}{"{}-\/-\/log-\/level"{}}, \textcolor{stringliteral}{"{}INFO"{}}],}
-\DoxyCodeLine{172             ),}
-\DoxyCodeLine{173             Node(}
-\DoxyCodeLine{174                 package=\textcolor{stringliteral}{"{}nav2\_waypoint\_follower"{}},}
-\DoxyCodeLine{175                 executable=\textcolor{stringliteral}{"{}waypoint\_follower"{}},}
-\DoxyCodeLine{176                 name=\textcolor{stringliteral}{"{}waypoint\_follower"{}},}
-\DoxyCodeLine{177                 output=\textcolor{stringliteral}{"{}screen"{}},}
-\DoxyCodeLine{178                 parameters=[configured\_params],}
-\DoxyCodeLine{179                 remappings=remappings,}
-\DoxyCodeLine{180             ),}
-\DoxyCodeLine{181             Node(}
-\DoxyCodeLine{182                 package=\textcolor{stringliteral}{"{}nav2\_lifecycle\_manager"{}},}
-\DoxyCodeLine{183                 executable=\textcolor{stringliteral}{"{}lifecycle\_manager"{}},}
-\DoxyCodeLine{184                 name=\textcolor{stringliteral}{"{}lifecycle\_manager\_navigation"{}},}
-\DoxyCodeLine{185                 output=\textcolor{stringliteral}{"{}screen"{}},}
-\DoxyCodeLine{186                 prefix=xtermprefix,}
-\DoxyCodeLine{187                 parameters=[}
-\DoxyCodeLine{188                     \{\textcolor{stringliteral}{"{}use\_sim\_time"{}}: use\_sim\_time\},}
-\DoxyCodeLine{189                     \{\textcolor{stringliteral}{"{}autostart"{}}: autostart\},}
-\DoxyCodeLine{190                     \{\textcolor{stringliteral}{"{}node\_names"{}}: lifecycle\_nodes\},}
-\DoxyCodeLine{191                 ],}
-\DoxyCodeLine{192                 arguments=[\textcolor{stringliteral}{"{}-\/-\/ros-\/args"{}}, \textcolor{stringliteral}{"{}-\/-\/log-\/level"{}}, \textcolor{stringliteral}{"{}INFO"{}}],}
-\DoxyCodeLine{193             ),}
-\DoxyCodeLine{194         ]}
-\DoxyCodeLine{195     )}
+\DoxyCodeLine{61     params\_file\_path = os.path.join(}
+\DoxyCodeLine{62         sm\_aws\_warehouse\_navigation\_dir,}
+\DoxyCodeLine{63         \textcolor{stringliteral}{"{}params"{}},}
+\DoxyCodeLine{64         \textcolor{stringliteral}{"{}move\_base\_client"{}},}
+\DoxyCodeLine{65         \textcolor{stringliteral}{"{}nav2\_params.yaml"{}},}
+\DoxyCodeLine{66     )}
+\DoxyCodeLine{67 }
+\DoxyCodeLine{68     \textcolor{comment}{\# params\_file\_path = os.path.join(}}
+\DoxyCodeLine{69     \textcolor{comment}{\#                 nav\_configuration\_dir,}}
+\DoxyCodeLine{70     \textcolor{comment}{\#                 "{}params"{},}}
+\DoxyCodeLine{71     \textcolor{comment}{\#                 "{}nav2\_params.yaml"{},}}
+\DoxyCodeLine{72     \textcolor{comment}{\#              )}}
+\DoxyCodeLine{73 }
+\DoxyCodeLine{74     default\_nav\_bt\_tree\_xml\_filepath = os.path.join(}
+\DoxyCodeLine{75         sm\_aws\_warehouse\_navigation\_dir, \textcolor{stringliteral}{"{}params"{}}, \textcolor{stringliteral}{"{}move\_base\_client"{}}, \textcolor{stringliteral}{"{}navigation\_tree.xml"{}}}
+\DoxyCodeLine{76     )}
+\DoxyCodeLine{77 }
+\DoxyCodeLine{78     \textcolor{comment}{\# default\_nav\_bt\_tree\_xml\_filepath = os.path.join(}}
+\DoxyCodeLine{79     \textcolor{comment}{\#          get\_package\_share\_directory("{}nav2\_bt\_navigator"{}), "{}behavior\_trees"{}, "{}navigate\_to\_pose\_w\_replanning\_and\_recovery.xml"{})}}
+\DoxyCodeLine{80 }
+\DoxyCodeLine{81     \textcolor{comment}{\# default\_nav\_bt\_tree\_xml\_filepath = os.path.join(get\_package\_share\_directory('nav2\_bt\_navigator'),}}
+\DoxyCodeLine{82     \textcolor{comment}{\#              'behavior\_trees', 'navigate\_w\_replanning\_and\_recovery.xml')}}
+\DoxyCodeLine{83 }
+\DoxyCodeLine{84     lifecycle\_nodes = [\textcolor{stringliteral}{"{}controller\_server"{}}, \textcolor{stringliteral}{"{}planner\_server"{}}, \textcolor{stringliteral}{"{}recoveries\_server"{}}, \textcolor{stringliteral}{"{}bt\_navigator"{}}]}
+\DoxyCodeLine{85 }
+\DoxyCodeLine{86     \textcolor{comment}{\# Map fully qualified names to relative ones so the node's namespace can be prepended.}}
+\DoxyCodeLine{87     \textcolor{comment}{\# In case of the transforms (tf), currently, there doesn't seem to be a better alternative}}
+\DoxyCodeLine{88     \textcolor{comment}{\# https://github.com/ros/geometry2/issues/32}}
+\DoxyCodeLine{89     \textcolor{comment}{\# https://github.com/ros/robot\_state\_publisher/pull/30}}
+\DoxyCodeLine{90     \textcolor{comment}{\# TODO(orduno) Substitute with `PushNodeRemapping`}}
+\DoxyCodeLine{91     \textcolor{comment}{\#              https://github.com/ros2/launch\_ros/issues/56}}
+\DoxyCodeLine{92     remappings = [(\textcolor{stringliteral}{"{}/tf"{}}, \textcolor{stringliteral}{"{}tf"{}}), (\textcolor{stringliteral}{"{}/tf\_static"{}}, \textcolor{stringliteral}{"{}tf\_static"{}})]}
+\DoxyCodeLine{93 }
+\DoxyCodeLine{94     \textcolor{comment}{\# Create our own temporary YAML files that include substitutions}}
+\DoxyCodeLine{95     param\_substitutions = \{}
+\DoxyCodeLine{96         \textcolor{stringliteral}{"{}use\_sim\_time"{}}: use\_sim\_time,}
+\DoxyCodeLine{97         \textcolor{comment}{\# 'default\_nav\_to\_pose\_bt\_xml': default\_nav\_to\_pose\_bt\_xml,}}
+\DoxyCodeLine{98         \textcolor{stringliteral}{"{}default\_nav\_to\_pose\_bt\_xml"{}}: default\_nav\_bt\_tree\_xml\_filepath,}
+\DoxyCodeLine{99         \textcolor{comment}{\# "{}autostart"{}: autostart,}}
+\DoxyCodeLine{100         \textcolor{comment}{\# "{}map\_subscribe\_transient\_local"{}: map\_subscribe\_transient\_local,}}
+\DoxyCodeLine{101     \}}
+\DoxyCodeLine{102 }
+\DoxyCodeLine{103     configured\_params = RewrittenYaml(}
+\DoxyCodeLine{104         source\_file=params\_file,}
+\DoxyCodeLine{105         root\_key=namespace,}
+\DoxyCodeLine{106         param\_rewrites=param\_substitutions,}
+\DoxyCodeLine{107         convert\_types=\textcolor{keyword}{True},}
+\DoxyCodeLine{108     )}
+\DoxyCodeLine{109 }
+\DoxyCodeLine{110     xtermprefix = (}
+\DoxyCodeLine{111         \textcolor{stringliteral}{"{}xterm -\/xrm 'XTerm*scrollBar:  true' -\/xrm 'xterm*rightScrollBar: true' "{}}}
+\DoxyCodeLine{112         \textcolor{stringliteral}{"{}-\/hold -\/geometry 1000x600 -\/sl 10000 -\/e"{}}}
+\DoxyCodeLine{113     )}
+\DoxyCodeLine{114 }
+\DoxyCodeLine{115     print(\textcolor{stringliteral}{"{}+********************************"{}})}
+\DoxyCodeLine{116     print(str(param\_substitutions))}
+\DoxyCodeLine{117     print(str(default\_nav\_to\_pose\_bt\_xml))}
+\DoxyCodeLine{118 }
+\DoxyCodeLine{119     \textcolor{keywordflow}{return} LaunchDescription(}
+\DoxyCodeLine{120         [}
+\DoxyCodeLine{121             \textcolor{comment}{\# Set env var to print messages to stdout immediately}}
+\DoxyCodeLine{122             SetEnvironmentVariable(\textcolor{stringliteral}{"{}RCUTILS\_LOGGING\_BUFFERED\_STREAM"{}}, \textcolor{stringliteral}{"{}1"{}}),}
+\DoxyCodeLine{123             DeclareLaunchArgument(}
+\DoxyCodeLine{124                 \textcolor{stringliteral}{"{}namespace"{}}, default\_value=\textcolor{stringliteral}{"{}"{}}, description=\textcolor{stringliteral}{"{}Top-\/level namespace"{}}}
+\DoxyCodeLine{125             ),}
+\DoxyCodeLine{126             DeclareLaunchArgument(}
+\DoxyCodeLine{127                 \textcolor{stringliteral}{"{}use\_sim\_time"{}},}
+\DoxyCodeLine{128                 default\_value=\textcolor{stringliteral}{"{}false"{}},}
+\DoxyCodeLine{129                 description=\textcolor{stringliteral}{"{}Use simulation (Gazebo) clock if true"{}},}
+\DoxyCodeLine{130             ),}
+\DoxyCodeLine{131             DeclareLaunchArgument(}
+\DoxyCodeLine{132                 \textcolor{stringliteral}{"{}autostart"{}},}
+\DoxyCodeLine{133                 default\_value=\textcolor{stringliteral}{"{}true"{}},}
+\DoxyCodeLine{134                 description=\textcolor{stringliteral}{"{}Automatically startup the nav2 stack"{}},}
+\DoxyCodeLine{135             ),}
+\DoxyCodeLine{136             DeclareLaunchArgument(}
+\DoxyCodeLine{137                 \textcolor{stringliteral}{"{}params\_file"{}},}
+\DoxyCodeLine{138                 default\_value=params\_file\_path,}
+\DoxyCodeLine{139                 description=\textcolor{stringliteral}{"{}Full path to the ROS2 parameters file to use"{}},}
+\DoxyCodeLine{140             ),}
+\DoxyCodeLine{141             DeclareLaunchArgument(}
+\DoxyCodeLine{142                 \textcolor{stringliteral}{"{}default\_nav\_to\_pose\_bt\_xml"{}},}
+\DoxyCodeLine{143                 \textcolor{comment}{\# default\_value=os.path.join(get\_package\_share\_directory('nav2\_bt\_navigator'),}}
+\DoxyCodeLine{144                 \textcolor{comment}{\# 'behavior\_trees', 'navigate\_w\_replanning\_and\_recovery.xml'),}}
+\DoxyCodeLine{145                 default\_value=os.path.join(}
+\DoxyCodeLine{146                     nav\_configuration\_dir,}
+\DoxyCodeLine{147                     \textcolor{stringliteral}{"{}params"{}},}
+\DoxyCodeLine{148                     \textcolor{stringliteral}{"{}move\_base\_client"{}},}
+\DoxyCodeLine{149                     \textcolor{stringliteral}{"{}navigation\_tree.xml"{}},}
+\DoxyCodeLine{150                 ),}
+\DoxyCodeLine{151                 description=\textcolor{stringliteral}{"{}Full path to the behavior tree xml file to use"{}},}
+\DoxyCodeLine{152             ),}
+\DoxyCodeLine{153             DeclareLaunchArgument(}
+\DoxyCodeLine{154                 \textcolor{stringliteral}{"{}map\_subscribe\_transient\_local"{}},}
+\DoxyCodeLine{155                 default\_value=\textcolor{stringliteral}{"{}false"{}},}
+\DoxyCodeLine{156                 description=\textcolor{stringliteral}{"{}Whether to set the map subscriber QoS to transient local"{}},}
+\DoxyCodeLine{157             ),}
+\DoxyCodeLine{158             Node(}
+\DoxyCodeLine{159                 package=\textcolor{stringliteral}{"{}nav2\_controller"{}},}
+\DoxyCodeLine{160                 executable=\textcolor{stringliteral}{"{}controller\_server"{}},}
+\DoxyCodeLine{161                 output=\textcolor{stringliteral}{"{}screen"{}},}
+\DoxyCodeLine{162                 prefix=xtermprefix,}
+\DoxyCodeLine{163                 parameters=[configured\_params],}
+\DoxyCodeLine{164                 remappings=remappings,}
+\DoxyCodeLine{165                 arguments=[\textcolor{stringliteral}{"{}-\/-\/ros-\/args"{}}, \textcolor{stringliteral}{"{}-\/-\/log-\/level"{}}, \textcolor{stringliteral}{"{}INFO"{}}],}
+\DoxyCodeLine{166             ),}
+\DoxyCodeLine{167             Node(}
+\DoxyCodeLine{168                 package=\textcolor{stringliteral}{"{}nav2\_planner"{}},}
+\DoxyCodeLine{169                 executable=\textcolor{stringliteral}{"{}planner\_server"{}},}
+\DoxyCodeLine{170                 name=\textcolor{stringliteral}{"{}planner\_server"{}},}
+\DoxyCodeLine{171                 output=\textcolor{stringliteral}{"{}screen"{}},}
+\DoxyCodeLine{172                 prefix=xtermprefix,}
+\DoxyCodeLine{173                 parameters=[configured\_params],}
+\DoxyCodeLine{174                 remappings=remappings,}
+\DoxyCodeLine{175                 arguments=[\textcolor{stringliteral}{"{}-\/-\/ros-\/args"{}}, \textcolor{stringliteral}{"{}-\/-\/log-\/level"{}}, \textcolor{stringliteral}{"{}INFO"{}}],}
+\DoxyCodeLine{176             ),}
+\DoxyCodeLine{177             Node(}
+\DoxyCodeLine{178                 package=\textcolor{stringliteral}{"{}nav2\_recoveries"{}},}
+\DoxyCodeLine{179                 executable=\textcolor{stringliteral}{"{}recoveries\_server"{}},}
+\DoxyCodeLine{180                 name=\textcolor{stringliteral}{"{}recoveries\_server"{}},}
+\DoxyCodeLine{181                 output=\textcolor{stringliteral}{"{}screen"{}},}
+\DoxyCodeLine{182                 parameters=[configured\_params],}
+\DoxyCodeLine{183                 remappings=remappings,}
+\DoxyCodeLine{184                 arguments=[\textcolor{stringliteral}{"{}-\/-\/ros-\/args"{}}, \textcolor{stringliteral}{"{}-\/-\/log-\/level"{}}, \textcolor{stringliteral}{"{}INFO"{}}],}
+\DoxyCodeLine{185             ),}
+\DoxyCodeLine{186             Node(}
+\DoxyCodeLine{187                 package=\textcolor{stringliteral}{"{}nav2\_bt\_navigator"{}},}
+\DoxyCodeLine{188                 executable=\textcolor{stringliteral}{"{}bt\_navigator"{}},}
+\DoxyCodeLine{189                 name=\textcolor{stringliteral}{"{}bt\_navigator"{}},}
+\DoxyCodeLine{190                 output=\textcolor{stringliteral}{"{}screen"{}},}
+\DoxyCodeLine{191                 prefix=xtermprefix,}
+\DoxyCodeLine{192                 parameters=[configured\_params],}
+\DoxyCodeLine{193                 remappings=remappings,}
+\DoxyCodeLine{194                 arguments=[\textcolor{stringliteral}{"{}-\/-\/ros-\/args"{}}, \textcolor{stringliteral}{"{}-\/-\/log-\/level"{}}, \textcolor{stringliteral}{"{}INFO"{}}],}
+\DoxyCodeLine{195             ),}
+\DoxyCodeLine{196             Node(}
+\DoxyCodeLine{197                 package=\textcolor{stringliteral}{"{}nav2\_waypoint\_follower"{}},}
+\DoxyCodeLine{198                 executable=\textcolor{stringliteral}{"{}waypoint\_follower"{}},}
+\DoxyCodeLine{199                 name=\textcolor{stringliteral}{"{}waypoint\_follower"{}},}
+\DoxyCodeLine{200                 output=\textcolor{stringliteral}{"{}screen"{}},}
+\DoxyCodeLine{201                 parameters=[configured\_params],}
+\DoxyCodeLine{202                 remappings=remappings,}
+\DoxyCodeLine{203             ),}
+\DoxyCodeLine{204             Node(}
+\DoxyCodeLine{205                 package=\textcolor{stringliteral}{"{}nav2\_lifecycle\_manager"{}},}
+\DoxyCodeLine{206                 executable=\textcolor{stringliteral}{"{}lifecycle\_manager"{}},}
+\DoxyCodeLine{207                 name=\textcolor{stringliteral}{"{}lifecycle\_manager\_navigation"{}},}
+\DoxyCodeLine{208                 output=\textcolor{stringliteral}{"{}screen"{}},}
+\DoxyCodeLine{209                 prefix=xtermprefix,}
+\DoxyCodeLine{210                 parameters=[}
+\DoxyCodeLine{211                     \{\textcolor{stringliteral}{"{}use\_sim\_time"{}}: use\_sim\_time\},}
+\DoxyCodeLine{212                     \{\textcolor{stringliteral}{"{}autostart"{}}: autostart\},}
+\DoxyCodeLine{213                     \{\textcolor{stringliteral}{"{}node\_names"{}}: lifecycle\_nodes\},}
+\DoxyCodeLine{214                 ],}
+\DoxyCodeLine{215                 arguments=[\textcolor{stringliteral}{"{}-\/-\/ros-\/args"{}}, \textcolor{stringliteral}{"{}-\/-\/log-\/level"{}}, \textcolor{stringliteral}{"{}INFO"{}}],}
+\DoxyCodeLine{216             ),}
+\DoxyCodeLine{217         ]}
+\DoxyCodeLine{218     )}
 
 \end{DoxyCode}
