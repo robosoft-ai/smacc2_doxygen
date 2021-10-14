@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['navigation_5flaunch_3888',['navigation_launch',['../namespacenavigation__launch.html',1,'']]]
+  ['localization_5flaunch_3903',['localization_launch',['../namespacelocalization__launch.html',1,'']]]
 ];

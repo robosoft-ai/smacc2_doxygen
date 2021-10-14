@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['online_5fsync_5flaunch_3889',['online_sync_launch',['../namespaceonline__sync__launch.html',1,'']]]
+  ['navigation_5flaunch_3904',['navigation_launch',['../namespacenavigation__launch.html',1,'']]]
 ];
