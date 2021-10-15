@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['have_5fnew_5fyamlcpp_5472',['HAVE_NEW_YAMLCPP',['../waypoints__navigator_8cpp.html#a8f298134094422968fe45aeb8b32b9aa',1,'waypoints_navigator.cpp']]]
+  ['have_5fnew_5fyamlcpp_5476',['HAVE_NEW_YAMLCPP',['../waypoints__navigator_8cpp.html#a8f298134094422968fe45aeb8b32b9aa',1,'waypoints_navigator.cpp']]]
 ];
