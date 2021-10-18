@@ -39,6 +39,8 @@ void \mbox{\hyperlink{classcl__move__base__z_1_1CbRotate_a316ee51ecfd3f10fd1edae
 std\+::optional$<$ float $>$ \mbox{\hyperlink{classcl__move__base__z_1_1CbRotate_ac4398d03e5441ecaccd1645d002b8564}{rotate\+Degree}}
 \item 
 std\+::optional$<$ std\+::string $>$ \mbox{\hyperlink{classcl__move__base__z_1_1CbRotate_a7b452e8ee62a1c5e9ada92f7b2ba95d6}{goal\+Checker\+\_\+}}
+\item 
+std\+::optional$<$ \mbox{\hyperlink{namespacecl__move__base__z_aab2ad3041275145f0065fb60b3299345}{Spining\+Planner}} $>$ \mbox{\hyperlink{classcl__move__base__z_1_1CbRotate_ae586d4ec981c26576fac48f6c6801183}{spinning\+Planner}}
 \end{DoxyCompactItemize}
 \doxysubsection*{Private Attributes}
 \begin{DoxyCompactItemize}
@@ -51,7 +53,7 @@ std\+::shared\+\_\+ptr$<$ tf2\+\_\+ros\+::\+Buffer $>$ \mbox{\hyperlink{classcl_
 \doxysubsection{Detailed Description}
 
 
-Definition at line 28 of file cb\+\_\+rotate.\+hpp.
+Definition at line 27 of file cb\+\_\+rotate.\+hpp.
 
 
 
@@ -122,49 +124,55 @@ Definition at line 33 of file cb\+\_\+rotate.\+cpp.
 \DoxyCodeLine{44   \}}
 \DoxyCodeLine{45 }
 \DoxyCodeLine{46   \textcolor{keyword}{auto} plannerSwitcher = \mbox{\hyperlink{classcl__move__base__z_1_1CbMoveBaseClientBehaviorBase_a225c27a9a5890dfac81aa787c21ceada}{moveBaseClient\_}}-\/>\mbox{\hyperlink{classsmacc2_1_1ISmaccClient_afc6e0f5f82a4552134c9423b75e3ca1d}{getComponent}}<PlannerSwitcher>();}
-\DoxyCodeLine{47   \textcolor{comment}{// this should work better with a coroutine and await}}
-\DoxyCodeLine{48   \textcolor{comment}{// this-\/>plannerSwitcher\_-\/>setForwardPlanner();}}
-\DoxyCodeLine{49   plannerSwitcher-\/>setDefaultPlanners();}
-\DoxyCodeLine{50 }
-\DoxyCodeLine{51   \textcolor{keyword}{auto} p = \mbox{\hyperlink{classcl__move__base__z_1_1CbMoveBaseClientBehaviorBase_a225c27a9a5890dfac81aa787c21ceada}{moveBaseClient\_}}-\/>\mbox{\hyperlink{classsmacc2_1_1ISmaccClient_afc6e0f5f82a4552134c9423b75e3ca1d}{getComponent}}<\mbox{\hyperlink{classcl__move__base__z_1_1Pose}{cl\_move\_base\_z::Pose}}>();}
-\DoxyCodeLine{52   \textcolor{keyword}{auto} referenceFrame = p-\/>\mbox{\hyperlink{classcl__move__base__z_1_1Pose_af8c2dc151e74aa8da6b283d1c8563051}{getReferenceFrame}}();}
-\DoxyCodeLine{53   \textcolor{keyword}{auto} currentPoseMsg = p-\/>toPoseMsg();}
-\DoxyCodeLine{54 }
-\DoxyCodeLine{55   tf2::Transform currentPose;}
-\DoxyCodeLine{56   tf2::fromMsg(currentPoseMsg, currentPose);}
-\DoxyCodeLine{57 }
-\DoxyCodeLine{58   \textcolor{keyword}{auto} odomTracker = \mbox{\hyperlink{classcl__move__base__z_1_1CbMoveBaseClientBehaviorBase_a225c27a9a5890dfac81aa787c21ceada}{moveBaseClient\_}}-\/>\mbox{\hyperlink{classsmacc2_1_1ISmaccClient_afc6e0f5f82a4552134c9423b75e3ca1d}{getComponent}}<odom\_tracker::OdomTracker>();}
-\DoxyCodeLine{59   \mbox{\hyperlink{classsmacc2_1_1client__bases_1_1SmaccActionClientBase_ab56ba47b81346277a471584dedf7d45c}{ClMoveBaseZ::Goal}} goal;}
-\DoxyCodeLine{60   goal.pose.header.frame\_id = referenceFrame;}
-\DoxyCodeLine{61   goal.pose.header.stamp = \mbox{\hyperlink{classsmacc2_1_1ISmaccClientBehavior_a95c9749af2004528fbda63ca6fde8eae}{getNode}}()-\/>now();}
-\DoxyCodeLine{62 }
-\DoxyCodeLine{63   \textcolor{keyword}{auto} currentAngle = tf2::getYaw(currentPoseMsg.orientation);}
-\DoxyCodeLine{64   \textcolor{keyword}{auto} targetAngle = currentAngle + angle\_increment\_degree * M\_PI / 180.0;}
-\DoxyCodeLine{65   goal.pose.pose.position = currentPoseMsg.position;}
-\DoxyCodeLine{66   tf2::Quaternion q;}
-\DoxyCodeLine{67   q.setRPY(0, 0, targetAngle);}
-\DoxyCodeLine{68   goal.pose.pose.orientation = tf2::toMsg(q);}
-\DoxyCodeLine{69 }
-\DoxyCodeLine{70   geometry\_msgs::msg::PoseStamped stampedCurrentPoseMsg;}
-\DoxyCodeLine{71   stampedCurrentPoseMsg.header.frame\_id = referenceFrame;}
-\DoxyCodeLine{72   stampedCurrentPoseMsg.header.stamp = \mbox{\hyperlink{classsmacc2_1_1ISmaccClientBehavior_a95c9749af2004528fbda63ca6fde8eae}{getNode}}()-\/>now();}
-\DoxyCodeLine{73   stampedCurrentPoseMsg.pose = currentPoseMsg;}
-\DoxyCodeLine{74 }
-\DoxyCodeLine{75   this-\/>\mbox{\hyperlink{classsmacc2_1_1ISmaccClientBehavior_ad32d91e7aa6ac921b8d29610bd925244}{requiresClient}}(\mbox{\hyperlink{classcl__move__base__z_1_1CbMoveBaseClientBehaviorBase_a225c27a9a5890dfac81aa787c21ceada}{moveBaseClient\_}});}
-\DoxyCodeLine{76   odomTracker-\/>pushPath();}
-\DoxyCodeLine{77 }
-\DoxyCodeLine{78   odomTracker-\/>setStartPoint(stampedCurrentPoseMsg);}
-\DoxyCodeLine{79   odomTracker-\/>setWorkingMode(\mbox{\hyperlink{namespacecl__move__base__z_1_1odom__tracker_ac46b05813b2791604f6cd0a39ace3ef8a023bc3adf68871ef7a0c616765ac80a7}{odom\_tracker::WorkingMode::RECORD\_PATH}});}
+\DoxyCodeLine{47 }
+\DoxyCodeLine{48   \textcolor{keywordflow}{if} (\mbox{\hyperlink{classcl__move__base__z_1_1CbRotate_ae586d4ec981c26576fac48f6c6801183}{spinningPlanner}} \&\& *\mbox{\hyperlink{classcl__move__base__z_1_1CbRotate_ae586d4ec981c26576fac48f6c6801183}{spinningPlanner}} == \mbox{\hyperlink{namespacecl__move__base__z_aab2ad3041275145f0065fb60b3299345aada5274435681a4ce04175bebfa6652f}{SpiningPlanner::PureSpinning}})}
+\DoxyCodeLine{49   \{}
+\DoxyCodeLine{50     plannerSwitcher-\/>setPureSpinningPlanner();}
+\DoxyCodeLine{51   \}}
+\DoxyCodeLine{52   \textcolor{keywordflow}{else}}
+\DoxyCodeLine{53   \{}
+\DoxyCodeLine{54     plannerSwitcher-\/>setDefaultPlanners();}
+\DoxyCodeLine{55   \}}
+\DoxyCodeLine{56 }
+\DoxyCodeLine{57   \textcolor{keyword}{auto} p = \mbox{\hyperlink{classcl__move__base__z_1_1CbMoveBaseClientBehaviorBase_a225c27a9a5890dfac81aa787c21ceada}{moveBaseClient\_}}-\/>\mbox{\hyperlink{classsmacc2_1_1ISmaccClient_afc6e0f5f82a4552134c9423b75e3ca1d}{getComponent}}<\mbox{\hyperlink{classcl__move__base__z_1_1Pose}{cl\_move\_base\_z::Pose}}>();}
+\DoxyCodeLine{58   \textcolor{keyword}{auto} referenceFrame = p-\/>\mbox{\hyperlink{classcl__move__base__z_1_1Pose_af8c2dc151e74aa8da6b283d1c8563051}{getReferenceFrame}}();}
+\DoxyCodeLine{59   \textcolor{keyword}{auto} currentPoseMsg = p-\/>toPoseMsg();}
+\DoxyCodeLine{60 }
+\DoxyCodeLine{61   tf2::Transform currentPose;}
+\DoxyCodeLine{62   tf2::fromMsg(currentPoseMsg, currentPose);}
+\DoxyCodeLine{63 }
+\DoxyCodeLine{64   \textcolor{keyword}{auto} odomTracker = \mbox{\hyperlink{classcl__move__base__z_1_1CbMoveBaseClientBehaviorBase_a225c27a9a5890dfac81aa787c21ceada}{moveBaseClient\_}}-\/>\mbox{\hyperlink{classsmacc2_1_1ISmaccClient_afc6e0f5f82a4552134c9423b75e3ca1d}{getComponent}}<odom\_tracker::OdomTracker>();}
+\DoxyCodeLine{65   \mbox{\hyperlink{classsmacc2_1_1client__bases_1_1SmaccActionClientBase_ab56ba47b81346277a471584dedf7d45c}{ClMoveBaseZ::Goal}} goal;}
+\DoxyCodeLine{66   goal.pose.header.frame\_id = referenceFrame;}
+\DoxyCodeLine{67   goal.pose.header.stamp = \mbox{\hyperlink{classsmacc2_1_1ISmaccClientBehavior_a95c9749af2004528fbda63ca6fde8eae}{getNode}}()-\/>now();}
+\DoxyCodeLine{68 }
+\DoxyCodeLine{69   \textcolor{keyword}{auto} currentAngle = tf2::getYaw(currentPoseMsg.orientation);}
+\DoxyCodeLine{70   \textcolor{keyword}{auto} targetAngle = currentAngle + angle\_increment\_degree * M\_PI / 180.0;}
+\DoxyCodeLine{71   goal.pose.pose.position = currentPoseMsg.position;}
+\DoxyCodeLine{72   tf2::Quaternion q;}
+\DoxyCodeLine{73   q.setRPY(0, 0, targetAngle);}
+\DoxyCodeLine{74   goal.pose.pose.orientation = tf2::toMsg(q);}
+\DoxyCodeLine{75 }
+\DoxyCodeLine{76   geometry\_msgs::msg::PoseStamped stampedCurrentPoseMsg;}
+\DoxyCodeLine{77   stampedCurrentPoseMsg.header.frame\_id = referenceFrame;}
+\DoxyCodeLine{78   stampedCurrentPoseMsg.header.stamp = \mbox{\hyperlink{classsmacc2_1_1ISmaccClientBehavior_a95c9749af2004528fbda63ca6fde8eae}{getNode}}()-\/>now();}
+\DoxyCodeLine{79   stampedCurrentPoseMsg.pose = currentPoseMsg;}
 \DoxyCodeLine{80 }
-\DoxyCodeLine{81   RCLCPP\_INFO\_STREAM(\mbox{\hyperlink{classsmacc2_1_1ISmaccClientBehavior_a5474074c4b45e900499e30126fb8415c}{getLogger}}(), \textcolor{stringliteral}{"{}current pose: "{}} << currentPoseMsg);}
-\DoxyCodeLine{82   RCLCPP\_INFO\_STREAM(\mbox{\hyperlink{classsmacc2_1_1ISmaccClientBehavior_a5474074c4b45e900499e30126fb8415c}{getLogger}}(), \textcolor{stringliteral}{"{}goal pose: "{}} << goal.pose.pose);}
-\DoxyCodeLine{83   \mbox{\hyperlink{classcl__move__base__z_1_1CbMoveBaseClientBehaviorBase_a225c27a9a5890dfac81aa787c21ceada}{moveBaseClient\_}}-\/>\mbox{\hyperlink{classsmacc2_1_1client__bases_1_1SmaccActionClientBase_a5c797ec23739af4295dcab24fc05973b}{sendGoal}}(goal);}
-\DoxyCodeLine{84 \}}
+\DoxyCodeLine{81   this-\/>\mbox{\hyperlink{classsmacc2_1_1ISmaccClientBehavior_ad32d91e7aa6ac921b8d29610bd925244}{requiresClient}}(\mbox{\hyperlink{classcl__move__base__z_1_1CbMoveBaseClientBehaviorBase_a225c27a9a5890dfac81aa787c21ceada}{moveBaseClient\_}});}
+\DoxyCodeLine{82   odomTracker-\/>pushPath();}
+\DoxyCodeLine{83 }
+\DoxyCodeLine{84   odomTracker-\/>setStartPoint(stampedCurrentPoseMsg);}
+\DoxyCodeLine{85   odomTracker-\/>setWorkingMode(\mbox{\hyperlink{namespacecl__move__base__z_1_1odom__tracker_ac46b05813b2791604f6cd0a39ace3ef8a023bc3adf68871ef7a0c616765ac80a7}{odom\_tracker::WorkingMode::RECORD\_PATH}});}
+\DoxyCodeLine{86 }
+\DoxyCodeLine{87   RCLCPP\_INFO\_STREAM(\mbox{\hyperlink{classsmacc2_1_1ISmaccClientBehavior_a5474074c4b45e900499e30126fb8415c}{getLogger}}(), \textcolor{stringliteral}{"{}current pose: "{}} << currentPoseMsg);}
+\DoxyCodeLine{88   RCLCPP\_INFO\_STREAM(\mbox{\hyperlink{classsmacc2_1_1ISmaccClientBehavior_a5474074c4b45e900499e30126fb8415c}{getLogger}}(), \textcolor{stringliteral}{"{}goal pose: "{}} << goal.pose.pose);}
+\DoxyCodeLine{89   \mbox{\hyperlink{classcl__move__base__z_1_1CbMoveBaseClientBehaviorBase_a225c27a9a5890dfac81aa787c21ceada}{moveBaseClient\_}}-\/>\mbox{\hyperlink{classsmacc2_1_1client__bases_1_1SmaccActionClientBase_a5c797ec23739af4295dcab24fc05973b}{sendGoal}}(goal);}
+\DoxyCodeLine{90 \}}
 
 \end{DoxyCode}
 
 
-References smacc2\+::\+ISmacc\+Client\+::get\+Component(), smacc2\+::\+ISmacc\+Client\+Behavior\+::get\+Current\+State(), smacc2\+::\+ISmacc\+Client\+Behavior\+::get\+Logger(), smacc2\+::\+ISmacc\+Client\+Behavior\+::get\+Node(), smacc2\+::\+ISmacc\+State\+::get\+Param(), cl\+\_\+move\+\_\+base\+\_\+z\+::\+Pose\+::get\+Reference\+Frame(), cl\+\_\+move\+\_\+base\+\_\+z\+::\+Cb\+Move\+Base\+Client\+Behavior\+Base\+::move\+Base\+Client\+\_\+, cl\+\_\+move\+\_\+base\+\_\+z\+::odom\+\_\+tracker\+::\+RECORD\+\_\+\+PATH, smacc2\+::\+ISmacc\+Client\+Behavior\+::requires\+Client(), rotate\+Degree, smacc2\+::client\+\_\+bases\+::\+Smacc\+Action\+Client\+Base$<$ Action\+Type $>$\+::send\+Goal(), and cl\+\_\+move\+\_\+base\+\_\+z\+::\+Planner\+Switcher\+::set\+Default\+Planners().
+References smacc2\+::\+ISmacc\+Client\+::get\+Component(), smacc2\+::\+ISmacc\+Client\+Behavior\+::get\+Current\+State(), smacc2\+::\+ISmacc\+Client\+Behavior\+::get\+Logger(), smacc2\+::\+ISmacc\+Client\+Behavior\+::get\+Node(), smacc2\+::\+ISmacc\+State\+::get\+Param(), cl\+\_\+move\+\_\+base\+\_\+z\+::\+Pose\+::get\+Reference\+Frame(), cl\+\_\+move\+\_\+base\+\_\+z\+::\+Cb\+Move\+Base\+Client\+Behavior\+Base\+::move\+Base\+Client\+\_\+, cl\+\_\+move\+\_\+base\+\_\+z\+::\+Pure\+Spinning, cl\+\_\+move\+\_\+base\+\_\+z\+::odom\+\_\+tracker\+::\+RECORD\+\_\+\+PATH, smacc2\+::\+ISmacc\+Client\+Behavior\+::requires\+Client(), rotate\+Degree, smacc2\+::client\+\_\+bases\+::\+Smacc\+Action\+Client\+Base$<$ Action\+Type $>$\+::send\+Goal(), cl\+\_\+move\+\_\+base\+\_\+z\+::\+Planner\+Switcher\+::set\+Pure\+Spinning\+Planner(), and spinning\+Planner.
 
 Here is the call graph for this function\+:
 \nopagebreak
@@ -185,7 +193,7 @@ Here is the call graph for this function\+:
 
 
 
-Definition at line 33 of file cb\+\_\+rotate.\+hpp.
+Definition at line 32 of file cb\+\_\+rotate.\+hpp.
 
 \mbox{\Hypertarget{classcl__move__base__z_1_1CbRotate_a3f1da87c1ee3326eb2f8e4077802add7}\label{classcl__move__base__z_1_1CbRotate_a3f1da87c1ee3326eb2f8e4077802add7}} 
 \index{cl\_move\_base\_z::CbRotate@{cl\_move\_base\_z::CbRotate}!listener@{listener}}
@@ -195,7 +203,7 @@ Definition at line 33 of file cb\+\_\+rotate.\+hpp.
 
 
 
-Definition at line 42 of file cb\+\_\+rotate.\+hpp.
+Definition at line 43 of file cb\+\_\+rotate.\+hpp.
 
 \mbox{\Hypertarget{classcl__move__base__z_1_1CbRotate_ac4398d03e5441ecaccd1645d002b8564}\label{classcl__move__base__z_1_1CbRotate_ac4398d03e5441ecaccd1645d002b8564}} 
 \index{cl\_move\_base\_z::CbRotate@{cl\_move\_base\_z::CbRotate}!rotateDegree@{rotateDegree}}
@@ -205,11 +213,25 @@ Definition at line 42 of file cb\+\_\+rotate.\+hpp.
 
 
 
-Definition at line 31 of file cb\+\_\+rotate.\+hpp.
+Definition at line 30 of file cb\+\_\+rotate.\+hpp.
 
 
 
 Referenced by Cb\+Rotate(), and on\+Entry().
+
+\mbox{\Hypertarget{classcl__move__base__z_1_1CbRotate_ae586d4ec981c26576fac48f6c6801183}\label{classcl__move__base__z_1_1CbRotate_ae586d4ec981c26576fac48f6c6801183}} 
+\index{cl\_move\_base\_z::CbRotate@{cl\_move\_base\_z::CbRotate}!spinningPlanner@{spinningPlanner}}
+\index{spinningPlanner@{spinningPlanner}!cl\_move\_base\_z::CbRotate@{cl\_move\_base\_z::CbRotate}}
+\doxysubsubsection{\texorpdfstring{spinningPlanner}{spinningPlanner}}
+{\footnotesize\ttfamily std\+::optional$<$\mbox{\hyperlink{namespacecl__move__base__z_aab2ad3041275145f0065fb60b3299345}{Spining\+Planner}}$>$ cl\+\_\+move\+\_\+base\+\_\+z\+::\+Cb\+Rotate\+::spinning\+Planner}
+
+
+
+Definition at line 34 of file cb\+\_\+rotate.\+hpp.
+
+
+
+Referenced by on\+Entry().
 
 
 
