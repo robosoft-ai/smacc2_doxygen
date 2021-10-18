@@ -33,5 +33,5 @@ var searchData=
   ['currentstate_5041',['currentState',['../classsmacc2_1_1ISmaccClientBehavior.html#aaed9d13c89ef6817faa0175dc9c8de17',1,'smacc2::ISmaccClientBehavior']]],
   ['currentstate_5f_5042',['currentState_',['../structsmacc2_1_1introspection_1_1AddTransition.html#ac88d79cbd9af70c6d4cbac77b0750cc9',1,'smacc2::introspection::AddTransition::currentState_()'],['../classsmacc2_1_1ISmaccStateMachine.html#a89940c0a744ccaa8570a0877b23d0df5',1,'smacc2::ISmaccStateMachine::currentState_()'],['../classLEDActionServer.html#a1dc456e987dc331501ad6ff2215661ff',1,'LEDActionServer::currentState_()']]],
   ['currentstateinfo_5f_5043',['currentStateInfo_',['../classsmacc2_1_1ISmaccStateMachine.html#a2a3a7b822ebda2458d335bd7a8aa582b',1,'smacc2::ISmaccStateMachine']]],
-  ['currentwaypoint_5f_5044',['currentWaypoint_',['../classcl__move__base__z_1_1WaypointNavigator.html#a82859e418592c2392c20a2d11b9836eb',1,'cl_move_base_z::WaypointNavigator']]]
+  ['currentwaypoint_5f_5044',['currentWaypoint_',['../classcl__move__base__z_1_1WaypointNavigator.html#a5eab48e8d4bed6cc7dbf7f75983d0ea3',1,'cl_move_base_z::WaypointNavigator']]]
 ];
