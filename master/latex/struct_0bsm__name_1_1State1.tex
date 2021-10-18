@@ -49,7 +49,7 @@ static void \mbox{\hyperlink{struct_0bsm__name_1_1State1_a4df7c05826fc0817f15f89
 \doxysubsection{Detailed Description}
 
 
-Definition at line 41 of file st\+\_\+state\+\_\+1.\+hpp.
+Definition at line 45 of file st\+\_\+state\+\_\+1.\+hpp.
 
 
 
@@ -62,7 +62,7 @@ Definition at line 41 of file st\+\_\+state\+\_\+1.\+hpp.
 
 
 
-Definition at line 50 of file st\+\_\+state\+\_\+1.\+hpp.
+Definition at line 54 of file st\+\_\+state\+\_\+1.\+hpp.
 
 
 
@@ -75,34 +75,38 @@ Definition at line 50 of file st\+\_\+state\+\_\+1.\+hpp.
 
 
 
-Definition at line 57 of file st\+\_\+state\+\_\+1.\+hpp.
+Definition at line 61 of file st\+\_\+state\+\_\+1.\+hpp.
 
 
 \begin{DoxyCode}{0}
-\DoxyCodeLine{58   \{}
-\DoxyCodeLine{59     \textcolor{comment}{// NOTE: counter is updated in 'State2'}}
-\DoxyCodeLine{60     \textcolor{keywordflow}{if} (\mbox{\hyperlink{namespace_0bsm__name_a1151bfb6d914d2890af114975d8bad94}{\_counter\_}} == \mbox{\hyperlink{namespace_0bsm__name_adf50dd3d371c20957afe548c41f2790e}{ITERATIONS\_CHECK}})}
-\DoxyCodeLine{61     \{}
-\DoxyCodeLine{62       rclcpp::Duration elapsed = \mbox{\hyperlink{namespace_0bsm__name_ab9b9cfb77ab6a2052adfee0596c0490f}{\_node\_}}-\/>now() -\/ \mbox{\hyperlink{namespace_0bsm__name_aa4fea3380cc40c5358b9f488d23a801b}{\_start\_time\_}};}
-\DoxyCodeLine{63       \textcolor{keywordtype}{double} frequency\_Hz = \mbox{\hyperlink{namespace_0bsm__name_adf50dd3d371c20957afe548c41f2790e}{ITERATIONS\_CHECK}} / elapsed.seconds();}
-\DoxyCodeLine{64 }
-\DoxyCodeLine{65       \textcolor{comment}{// Using fatal to override all logging restrictions.}}
-\DoxyCodeLine{66       RCLCPP\_FATAL(}
-\DoxyCodeLine{67         \mbox{\hyperlink{namespace_0bsm__name_ab9b9cfb77ab6a2052adfee0596c0490f}{\_node\_}}-\/>get\_logger(), \textcolor{stringliteral}{"{}Executed \%u iterations in \%lf seconds: \%lf Hz"{}},}
-\DoxyCodeLine{68         \mbox{\hyperlink{namespace_0bsm__name_adf50dd3d371c20957afe548c41f2790e}{ITERATIONS\_CHECK}}, elapsed.seconds(), frequency\_Hz}
-\DoxyCodeLine{69       );}
-\DoxyCodeLine{70 }
-\DoxyCodeLine{71       \mbox{\hyperlink{namespace_0bsm__name_a1151bfb6d914d2890af114975d8bad94}{\_counter\_}} = 0;}
-\DoxyCodeLine{72       \mbox{\hyperlink{namespace_0bsm__name_aa4fea3380cc40c5358b9f488d23a801b}{\_start\_time\_}} = \mbox{\hyperlink{namespace_0bsm__name_ab9b9cfb77ab6a2052adfee0596c0490f}{\_node\_}}-\/>now();}
-\DoxyCodeLine{73     \}}
-\DoxyCodeLine{74 }
-\DoxyCodeLine{75     this-\/>postEvent<EvStateRequestFinish<State1>>();}
-\DoxyCodeLine{76   \}}
+\DoxyCodeLine{62   \{}
+\DoxyCodeLine{63     \textcolor{comment}{// NOTE: counter is updated in 'State2'}}
+\DoxyCodeLine{64     \textcolor{keywordflow}{if} (\mbox{\hyperlink{namespace_0bsm__name_a1151bfb6d914d2890af114975d8bad94}{\_counter\_}} == \mbox{\hyperlink{namespace_0bsm__name_adf50dd3d371c20957afe548c41f2790e}{ITERATIONS\_CHECK}})}
+\DoxyCodeLine{65     \{}
+\DoxyCodeLine{66       rclcpp::Duration elapsed = \mbox{\hyperlink{namespace_0bsm__name_ab9b9cfb77ab6a2052adfee0596c0490f}{\_node\_}}-\/>now() -\/ \mbox{\hyperlink{namespace_0bsm__name_aa4fea3380cc40c5358b9f488d23a801b}{\_start\_time\_}};}
+\DoxyCodeLine{67       \textcolor{keywordtype}{double} frequency\_Hz = \mbox{\hyperlink{namespace_0bsm__name_adf50dd3d371c20957afe548c41f2790e}{ITERATIONS\_CHECK}} / elapsed.seconds();}
+\DoxyCodeLine{68       \mbox{\hyperlink{namespace_0bsm__name_a5cada13ed4b29792788f55470380db29}{\_sum\_of\_iterations\_}} += \mbox{\hyperlink{namespace_0bsm__name_adf50dd3d371c20957afe548c41f2790e}{ITERATIONS\_CHECK}};}
+\DoxyCodeLine{69       \mbox{\hyperlink{namespace_0bsm__name_a5a4c2f5c7bcbfa0b472f213239442534}{\_sum\_of\_elapsed\_time\_}} += elapsed.seconds();}
+\DoxyCodeLine{70       \textcolor{keywordtype}{double} global\_frequency\_Hz = \mbox{\hyperlink{namespace_0bsm__name_a5cada13ed4b29792788f55470380db29}{\_sum\_of\_iterations\_}} / \mbox{\hyperlink{namespace_0bsm__name_a5a4c2f5c7bcbfa0b472f213239442534}{\_sum\_of\_elapsed\_time\_}};}
+\DoxyCodeLine{71 }
+\DoxyCodeLine{72       \textcolor{comment}{// Using fatal to override all logging restrictions.}}
+\DoxyCodeLine{73       RCLCPP\_FATAL(}
+\DoxyCodeLine{74         \mbox{\hyperlink{namespace_0bsm__name_ab9b9cfb77ab6a2052adfee0596c0490f}{\_node\_}}-\/>get\_logger(),}
+\DoxyCodeLine{75         \textcolor{stringliteral}{"{}Executed \%u iterations in \%lf seconds: \%lf Hz. Longtime frequency: \%lf Hz"{}},}
+\DoxyCodeLine{76         \mbox{\hyperlink{namespace_0bsm__name_adf50dd3d371c20957afe548c41f2790e}{ITERATIONS\_CHECK}}, elapsed.seconds(), frequency\_Hz, global\_frequency\_Hz}
+\DoxyCodeLine{77       );}
+\DoxyCodeLine{78 }
+\DoxyCodeLine{79       \mbox{\hyperlink{namespace_0bsm__name_a1151bfb6d914d2890af114975d8bad94}{\_counter\_}} = 1;}
+\DoxyCodeLine{80       \mbox{\hyperlink{namespace_0bsm__name_aa4fea3380cc40c5358b9f488d23a801b}{\_start\_time\_}} = \mbox{\hyperlink{namespace_0bsm__name_ab9b9cfb77ab6a2052adfee0596c0490f}{\_node\_}}-\/>now();}
+\DoxyCodeLine{81     \}}
+\DoxyCodeLine{82 }
+\DoxyCodeLine{83     this-\/>postEvent<EvStateRequestFinish<State1>>();}
+\DoxyCodeLine{84   \}}
 
 \end{DoxyCode}
 
 
-References \$sm\+\_\+name\+::\+\_\+counter\+\_\+, \$sm\+\_\+name\+::\+\_\+node\+\_\+, \$sm\+\_\+name\+::\+\_\+start\+\_\+time\+\_\+, and \$sm\+\_\+name\+::\+ITERATIONS\+\_\+\+CHECK.
+References \$sm\+\_\+name\+::\+\_\+counter\+\_\+, \$sm\+\_\+name\+::\+\_\+node\+\_\+, \$sm\+\_\+name\+::\+\_\+start\+\_\+time\+\_\+, \$sm\+\_\+name\+::\+\_\+sum\+\_\+of\+\_\+elapsed\+\_\+time\+\_\+, \$sm\+\_\+name\+::\+\_\+sum\+\_\+of\+\_\+iterations\+\_\+, and \$sm\+\_\+name\+::\+ITERATIONS\+\_\+\+CHECK.
 
 \mbox{\Hypertarget{struct_0bsm__name_1_1State1_abc1d825a41186d8cd39bbcdea20b0724}\label{struct_0bsm__name_1_1State1_abc1d825a41186d8cd39bbcdea20b0724}} 
 \index{\$sm\_name::State1@{\$sm\_name::State1}!onExit@{onExit}}
@@ -112,11 +116,11 @@ References \$sm\+\_\+name\+::\+\_\+counter\+\_\+, \$sm\+\_\+name\+::\+\_\+node\+
 
 
 
-Definition at line 78 of file st\+\_\+state\+\_\+1.\+hpp.
+Definition at line 86 of file st\+\_\+state\+\_\+1.\+hpp.
 
 
 \begin{DoxyCode}{0}
-\DoxyCodeLine{78 \{\}}
+\DoxyCodeLine{86 \{\}}
 
 \end{DoxyCode}
 \mbox{\Hypertarget{struct_0bsm__name_1_1State1_aab88a3e55731f0611975df864624c9d2}\label{struct_0bsm__name_1_1State1_aab88a3e55731f0611975df864624c9d2}} 
@@ -127,11 +131,11 @@ Definition at line 78 of file st\+\_\+state\+\_\+1.\+hpp.
 
 
 
-Definition at line 55 of file st\+\_\+state\+\_\+1.\+hpp.
+Definition at line 59 of file st\+\_\+state\+\_\+1.\+hpp.
 
 
 \begin{DoxyCode}{0}
-\DoxyCodeLine{55 \{\}}
+\DoxyCodeLine{59 \{\}}
 
 \end{DoxyCode}
 \mbox{\Hypertarget{struct_0bsm__name_1_1State1_a4df7c05826fc0817f15f890ba5408a34}\label{struct_0bsm__name_1_1State1_a4df7c05826fc0817f15f890ba5408a34}} 
@@ -142,11 +146,11 @@ Definition at line 55 of file st\+\_\+state\+\_\+1.\+hpp.
 
 
 
-Definition at line 53 of file st\+\_\+state\+\_\+1.\+hpp.
+Definition at line 57 of file st\+\_\+state\+\_\+1.\+hpp.
 
 
 \begin{DoxyCode}{0}
-\DoxyCodeLine{53 \{\}}
+\DoxyCodeLine{57 \{\}}
 
 \end{DoxyCode}
 
