@@ -510,93 +510,86 @@ $(function() {
 <div class="line"><a name="l00442"></a><span class="lineno">  442</span>&#160;      getNode()-&gt;get_logger(), <span class="stringliteral">&quot;[%s] nodehandle namespace: %s&quot;</span>, <a class="code" href="smacc__state__base_8hpp.html#a0d7815723706a488b5bb65f7e3acf584">STATE_NAME</a>,</div>
 <div class="line"><a name="l00443"></a><span class="lineno">  443</span>&#160;      getNode()-&gt;get_namespace());</div>
 <div class="line"><a name="l00444"></a><span class="lineno">  444</span>&#160; </div>
-<div class="line"><a name="l00445"></a><span class="lineno">  445</span>&#160;    <span class="keywordtype">bool</span> created;</div>
-<div class="line"><a name="l00446"></a><span class="lineno">  446</span>&#160;    <span class="keywordflow">if</span> (!this-&gt;getParam(<span class="stringliteral">&quot;visited&quot;</span>, created))</div>
-<div class="line"><a name="l00447"></a><span class="lineno">  447</span>&#160;    {</div>
-<div class="line"><a name="l00448"></a><span class="lineno">  448</span>&#160;      this-&gt;param(<span class="stringliteral">&quot;visited&quot;</span>);</div>
-<div class="line"><a name="l00449"></a><span class="lineno">  449</span>&#160;      this-&gt;setParam(<span class="stringliteral">&quot;visited&quot;</span>, <span class="keyword">true</span>);</div>
-<div class="line"><a name="l00450"></a><span class="lineno">  450</span>&#160;    }</div>
-<div class="line"><a name="l00451"></a><span class="lineno">  451</span>&#160; </div>
-<div class="line"><a name="l00452"></a><span class="lineno">  452</span>&#160;    <span class="comment">// before dynamic runtimeConfigure, we execute the staticConfigure behavior configurations</span></div>
-<div class="line"><a name="l00453"></a><span class="lineno">  453</span>&#160;    {</div>
-<div class="line"><a name="l00454"></a><span class="lineno">  454</span>&#160;      RCLCPP_INFO(getNode()-&gt;get_logger(), <span class="stringliteral">&quot;[%s] -- STATIC STATE DESCRIPTION --&quot;</span>, <a class="code" href="smacc__state__base_8hpp.html#a0d7815723706a488b5bb65f7e3acf584">STATE_NAME</a>);</div>
-<div class="line"><a name="l00455"></a><span class="lineno">  455</span>&#160; </div>
-<div class="line"><a name="l00456"></a><span class="lineno">  456</span>&#160;      <span class="keywordflow">for</span> (<span class="keyword">const</span> <span class="keyword">auto</span> &amp; stateReactorsVector : <a class="code" href="classsmacc2_1_1introspection_1_1SmaccStateInfo.html#af0df7561d09c3ba667bbd1dc532da66f">SmaccStateInfo::staticBehaviorInfo</a>)</div>
-<div class="line"><a name="l00457"></a><span class="lineno">  457</span>&#160;      {</div>
-<div class="line"><a name="l00458"></a><span class="lineno">  458</span>&#160;        RCLCPP_DEBUG(</div>
-<div class="line"><a name="l00459"></a><span class="lineno">  459</span>&#160;          getNode()-&gt;get_logger(), <span class="stringliteral">&quot;[%s] state reactor info: %s&quot;</span>, <a class="code" href="smacc__state__base_8hpp.html#a0d7815723706a488b5bb65f7e3acf584">STATE_NAME</a>,</div>
-<div class="line"><a name="l00460"></a><span class="lineno">  460</span>&#160;          <a class="code" href="namespacesmacc2_1_1introspection.html#a9eb0636530a97a26f0fce97dfd2d5715">demangleSymbol</a>(stateReactorsVector.first-&gt;name()).c_str());</div>
-<div class="line"><a name="l00461"></a><span class="lineno">  461</span>&#160;        <span class="keywordflow">for</span> (<span class="keyword">auto</span> &amp; srinfo : stateReactorsVector.second)</div>
-<div class="line"><a name="l00462"></a><span class="lineno">  462</span>&#160;        {</div>
-<div class="line"><a name="l00463"></a><span class="lineno">  463</span>&#160;          RCLCPP_DEBUG(</div>
-<div class="line"><a name="l00464"></a><span class="lineno">  464</span>&#160;            getNode()-&gt;get_logger(), <span class="stringliteral">&quot;[%s] state reactor: %s&quot;</span>, <a class="code" href="smacc__state__base_8hpp.html#a0d7815723706a488b5bb65f7e3acf584">STATE_NAME</a>,</div>
-<div class="line"><a name="l00465"></a><span class="lineno">  465</span>&#160;            <a class="code" href="namespacesmacc2_1_1introspection.html#a9eb0636530a97a26f0fce97dfd2d5715">demangleSymbol</a>(srinfo.behaviorType-&gt;name()).c_str());</div>
-<div class="line"><a name="l00466"></a><span class="lineno">  466</span>&#160;        }</div>
-<div class="line"><a name="l00467"></a><span class="lineno">  467</span>&#160;      }</div>
-<div class="line"><a name="l00468"></a><span class="lineno">  468</span>&#160; </div>
-<div class="line"><a name="l00469"></a><span class="lineno">  469</span>&#160;      <span class="keyword">const</span> std::type_info * tindex = &amp;(<span class="keyword">typeid</span>(MostDerived));</div>
-<div class="line"><a name="l00470"></a><span class="lineno">  470</span>&#160;      <span class="keyword">auto</span> &amp; staticDefinedBehaviors = <a class="code" href="classsmacc2_1_1introspection_1_1SmaccStateInfo.html#af0df7561d09c3ba667bbd1dc532da66f">SmaccStateInfo::staticBehaviorInfo</a>[tindex];</div>
-<div class="line"><a name="l00471"></a><span class="lineno">  471</span>&#160;      <span class="keyword">auto</span> &amp; staticDefinedStateReactors = <a class="code" href="classsmacc2_1_1introspection_1_1SmaccStateInfo.html#a6b04901c8fcac6dcb4f613cb195ab65f">SmaccStateInfo::stateReactorsInfo</a>[tindex];</div>
-<div class="line"><a name="l00472"></a><span class="lineno">  472</span>&#160;      <span class="keyword">auto</span> &amp; staticDefinedEventGenerators = <a class="code" href="classsmacc2_1_1introspection_1_1SmaccStateInfo.html#aea447ccf862aec5bd5e4eb378a6a159d">SmaccStateInfo::eventGeneratorsInfo</a>[tindex];</div>
-<div class="line"><a name="l00473"></a><span class="lineno">  473</span>&#160; </div>
-<div class="line"><a name="l00474"></a><span class="lineno">  474</span>&#160;      RCLCPP_DEBUG_STREAM(</div>
-<div class="line"><a name="l00475"></a><span class="lineno">  475</span>&#160;        getNode()-&gt;get_logger(), <span class="stringliteral">&quot;finding static client behaviors. State Database: &quot;</span></div>
-<div class="line"><a name="l00476"></a><span class="lineno">  476</span>&#160;                                   &lt;&lt; <a class="code" href="classsmacc2_1_1introspection_1_1SmaccStateInfo.html#af0df7561d09c3ba667bbd1dc532da66f">SmaccStateInfo::staticBehaviorInfo</a>.size()</div>
-<div class="line"><a name="l00477"></a><span class="lineno">  477</span>&#160;                                   &lt;&lt; <span class="stringliteral">&quot;. Current state &quot;</span> &lt;&lt; <a class="code" href="namespacesmacc2_1_1utils.html#a8e351c9e84f898c9dff598d5300f735b">cleanShortTypeName</a>(*tindex) &lt;&lt; <span class="stringliteral">&quot; cbs: &quot;</span></div>
-<div class="line"><a name="l00478"></a><span class="lineno">  478</span>&#160;                                   &lt;&lt; <a class="code" href="classsmacc2_1_1introspection_1_1SmaccStateInfo.html#af0df7561d09c3ba667bbd1dc532da66f">SmaccStateInfo::staticBehaviorInfo</a>[tindex].size());</div>
-<div class="line"><a name="l00479"></a><span class="lineno">  479</span>&#160;      <span class="keywordflow">for</span> (<span class="keyword">auto</span> &amp; bhinfo : staticDefinedBehaviors)</div>
-<div class="line"><a name="l00480"></a><span class="lineno">  480</span>&#160;      {</div>
-<div class="line"><a name="l00481"></a><span class="lineno">  481</span>&#160;        RCLCPP_INFO(</div>
-<div class="line"><a name="l00482"></a><span class="lineno">  482</span>&#160;          getNode()-&gt;get_logger(), <span class="stringliteral">&quot;[%s] Creating static client behavior: %s&quot;</span>, <a class="code" href="smacc__state__base_8hpp.html#a0d7815723706a488b5bb65f7e3acf584">STATE_NAME</a>,</div>
-<div class="line"><a name="l00483"></a><span class="lineno">  483</span>&#160;          <a class="code" href="namespacesmacc2_1_1introspection.html#a9eb0636530a97a26f0fce97dfd2d5715">demangleSymbol</a>(bhinfo.behaviorType-&gt;name()).c_str());</div>
-<div class="line"><a name="l00484"></a><span class="lineno">  484</span>&#160;        bhinfo.factoryFunction(<span class="keyword">this</span>);</div>
-<div class="line"><a name="l00485"></a><span class="lineno">  485</span>&#160;      }</div>
-<div class="line"><a name="l00486"></a><span class="lineno">  486</span>&#160; </div>
-<div class="line"><a name="l00487"></a><span class="lineno">  487</span>&#160;      <span class="keywordflow">for</span> (<span class="keyword">auto</span> &amp; sr : staticDefinedStateReactors)</div>
-<div class="line"><a name="l00488"></a><span class="lineno">  488</span>&#160;      {</div>
-<div class="line"><a name="l00489"></a><span class="lineno">  489</span>&#160;        RCLCPP_INFO(</div>
-<div class="line"><a name="l00490"></a><span class="lineno">  490</span>&#160;          getNode()-&gt;get_logger(), <span class="stringliteral">&quot;[%s] Creating static state reactor: %s&quot;</span>, <a class="code" href="smacc__state__base_8hpp.html#a0d7815723706a488b5bb65f7e3acf584">STATE_NAME</a>,</div>
-<div class="line"><a name="l00491"></a><span class="lineno">  491</span>&#160;          sr-&gt;stateReactorType-&gt;getFullName().c_str());</div>
-<div class="line"><a name="l00492"></a><span class="lineno">  492</span>&#160;        sr-&gt;factoryFunction(<span class="keyword">this</span>);</div>
-<div class="line"><a name="l00493"></a><span class="lineno">  493</span>&#160;      }</div>
-<div class="line"><a name="l00494"></a><span class="lineno">  494</span>&#160; </div>
-<div class="line"><a name="l00495"></a><span class="lineno">  495</span>&#160;      <span class="keywordflow">for</span> (<span class="keyword">auto</span> &amp; eg : staticDefinedEventGenerators)</div>
-<div class="line"><a name="l00496"></a><span class="lineno">  496</span>&#160;      {</div>
-<div class="line"><a name="l00497"></a><span class="lineno">  497</span>&#160;        RCLCPP_INFO(</div>
-<div class="line"><a name="l00498"></a><span class="lineno">  498</span>&#160;          getNode()-&gt;get_logger(), <span class="stringliteral">&quot;[%s] Creating static event generator: %s&quot;</span>, <a class="code" href="smacc__state__base_8hpp.html#a0d7815723706a488b5bb65f7e3acf584">STATE_NAME</a>,</div>
-<div class="line"><a name="l00499"></a><span class="lineno">  499</span>&#160;          eg-&gt;eventGeneratorType-&gt;getFullName().c_str());</div>
-<div class="line"><a name="l00500"></a><span class="lineno">  500</span>&#160;        eg-&gt;factoryFunction(<span class="keyword">this</span>);</div>
-<div class="line"><a name="l00501"></a><span class="lineno">  501</span>&#160;      }</div>
+<div class="line"><a name="l00445"></a><span class="lineno">  445</span>&#160;    <span class="comment">// before dynamic runtimeConfigure, we execute the staticConfigure behavior configurations</span></div>
+<div class="line"><a name="l00446"></a><span class="lineno">  446</span>&#160;    {</div>
+<div class="line"><a name="l00447"></a><span class="lineno">  447</span>&#160;      RCLCPP_INFO(getNode()-&gt;get_logger(), <span class="stringliteral">&quot;[%s] -- STATIC STATE DESCRIPTION --&quot;</span>, <a class="code" href="smacc__state__base_8hpp.html#a0d7815723706a488b5bb65f7e3acf584">STATE_NAME</a>);</div>
+<div class="line"><a name="l00448"></a><span class="lineno">  448</span>&#160; </div>
+<div class="line"><a name="l00449"></a><span class="lineno">  449</span>&#160;      <span class="keywordflow">for</span> (<span class="keyword">const</span> <span class="keyword">auto</span> &amp; stateReactorsVector : <a class="code" href="classsmacc2_1_1introspection_1_1SmaccStateInfo.html#af0df7561d09c3ba667bbd1dc532da66f">SmaccStateInfo::staticBehaviorInfo</a>)</div>
+<div class="line"><a name="l00450"></a><span class="lineno">  450</span>&#160;      {</div>
+<div class="line"><a name="l00451"></a><span class="lineno">  451</span>&#160;        RCLCPP_DEBUG(</div>
+<div class="line"><a name="l00452"></a><span class="lineno">  452</span>&#160;          getNode()-&gt;get_logger(), <span class="stringliteral">&quot;[%s] state reactor info: %s&quot;</span>, <a class="code" href="smacc__state__base_8hpp.html#a0d7815723706a488b5bb65f7e3acf584">STATE_NAME</a>,</div>
+<div class="line"><a name="l00453"></a><span class="lineno">  453</span>&#160;          <a class="code" href="namespacesmacc2_1_1introspection.html#a9eb0636530a97a26f0fce97dfd2d5715">demangleSymbol</a>(stateReactorsVector.first-&gt;name()).c_str());</div>
+<div class="line"><a name="l00454"></a><span class="lineno">  454</span>&#160;        <span class="keywordflow">for</span> (<span class="keyword">auto</span> &amp; srinfo : stateReactorsVector.second)</div>
+<div class="line"><a name="l00455"></a><span class="lineno">  455</span>&#160;        {</div>
+<div class="line"><a name="l00456"></a><span class="lineno">  456</span>&#160;          RCLCPP_DEBUG(</div>
+<div class="line"><a name="l00457"></a><span class="lineno">  457</span>&#160;            getNode()-&gt;get_logger(), <span class="stringliteral">&quot;[%s] state reactor: %s&quot;</span>, <a class="code" href="smacc__state__base_8hpp.html#a0d7815723706a488b5bb65f7e3acf584">STATE_NAME</a>,</div>
+<div class="line"><a name="l00458"></a><span class="lineno">  458</span>&#160;            <a class="code" href="namespacesmacc2_1_1introspection.html#a9eb0636530a97a26f0fce97dfd2d5715">demangleSymbol</a>(srinfo.behaviorType-&gt;name()).c_str());</div>
+<div class="line"><a name="l00459"></a><span class="lineno">  459</span>&#160;        }</div>
+<div class="line"><a name="l00460"></a><span class="lineno">  460</span>&#160;      }</div>
+<div class="line"><a name="l00461"></a><span class="lineno">  461</span>&#160; </div>
+<div class="line"><a name="l00462"></a><span class="lineno">  462</span>&#160;      <span class="keyword">const</span> std::type_info * tindex = &amp;(<span class="keyword">typeid</span>(MostDerived));</div>
+<div class="line"><a name="l00463"></a><span class="lineno">  463</span>&#160;      <span class="keyword">auto</span> &amp; staticDefinedBehaviors = <a class="code" href="classsmacc2_1_1introspection_1_1SmaccStateInfo.html#af0df7561d09c3ba667bbd1dc532da66f">SmaccStateInfo::staticBehaviorInfo</a>[tindex];</div>
+<div class="line"><a name="l00464"></a><span class="lineno">  464</span>&#160;      <span class="keyword">auto</span> &amp; staticDefinedStateReactors = <a class="code" href="classsmacc2_1_1introspection_1_1SmaccStateInfo.html#a6b04901c8fcac6dcb4f613cb195ab65f">SmaccStateInfo::stateReactorsInfo</a>[tindex];</div>
+<div class="line"><a name="l00465"></a><span class="lineno">  465</span>&#160;      <span class="keyword">auto</span> &amp; staticDefinedEventGenerators = <a class="code" href="classsmacc2_1_1introspection_1_1SmaccStateInfo.html#aea447ccf862aec5bd5e4eb378a6a159d">SmaccStateInfo::eventGeneratorsInfo</a>[tindex];</div>
+<div class="line"><a name="l00466"></a><span class="lineno">  466</span>&#160; </div>
+<div class="line"><a name="l00467"></a><span class="lineno">  467</span>&#160;      RCLCPP_DEBUG_STREAM(</div>
+<div class="line"><a name="l00468"></a><span class="lineno">  468</span>&#160;        getNode()-&gt;get_logger(), <span class="stringliteral">&quot;finding static client behaviors. State Database: &quot;</span></div>
+<div class="line"><a name="l00469"></a><span class="lineno">  469</span>&#160;                                   &lt;&lt; <a class="code" href="classsmacc2_1_1introspection_1_1SmaccStateInfo.html#af0df7561d09c3ba667bbd1dc532da66f">SmaccStateInfo::staticBehaviorInfo</a>.size()</div>
+<div class="line"><a name="l00470"></a><span class="lineno">  470</span>&#160;                                   &lt;&lt; <span class="stringliteral">&quot;. Current state &quot;</span> &lt;&lt; <a class="code" href="namespacesmacc2_1_1utils.html#a8e351c9e84f898c9dff598d5300f735b">cleanShortTypeName</a>(*tindex) &lt;&lt; <span class="stringliteral">&quot; cbs: &quot;</span></div>
+<div class="line"><a name="l00471"></a><span class="lineno">  471</span>&#160;                                   &lt;&lt; <a class="code" href="classsmacc2_1_1introspection_1_1SmaccStateInfo.html#af0df7561d09c3ba667bbd1dc532da66f">SmaccStateInfo::staticBehaviorInfo</a>[tindex].size());</div>
+<div class="line"><a name="l00472"></a><span class="lineno">  472</span>&#160;      <span class="keywordflow">for</span> (<span class="keyword">auto</span> &amp; bhinfo : staticDefinedBehaviors)</div>
+<div class="line"><a name="l00473"></a><span class="lineno">  473</span>&#160;      {</div>
+<div class="line"><a name="l00474"></a><span class="lineno">  474</span>&#160;        RCLCPP_INFO(</div>
+<div class="line"><a name="l00475"></a><span class="lineno">  475</span>&#160;          getNode()-&gt;get_logger(), <span class="stringliteral">&quot;[%s] Creating static client behavior: %s&quot;</span>, <a class="code" href="smacc__state__base_8hpp.html#a0d7815723706a488b5bb65f7e3acf584">STATE_NAME</a>,</div>
+<div class="line"><a name="l00476"></a><span class="lineno">  476</span>&#160;          <a class="code" href="namespacesmacc2_1_1introspection.html#a9eb0636530a97a26f0fce97dfd2d5715">demangleSymbol</a>(bhinfo.behaviorType-&gt;name()).c_str());</div>
+<div class="line"><a name="l00477"></a><span class="lineno">  477</span>&#160;        bhinfo.factoryFunction(<span class="keyword">this</span>);</div>
+<div class="line"><a name="l00478"></a><span class="lineno">  478</span>&#160;      }</div>
+<div class="line"><a name="l00479"></a><span class="lineno">  479</span>&#160; </div>
+<div class="line"><a name="l00480"></a><span class="lineno">  480</span>&#160;      <span class="keywordflow">for</span> (<span class="keyword">auto</span> &amp; sr : staticDefinedStateReactors)</div>
+<div class="line"><a name="l00481"></a><span class="lineno">  481</span>&#160;      {</div>
+<div class="line"><a name="l00482"></a><span class="lineno">  482</span>&#160;        RCLCPP_INFO(</div>
+<div class="line"><a name="l00483"></a><span class="lineno">  483</span>&#160;          getNode()-&gt;get_logger(), <span class="stringliteral">&quot;[%s] Creating static state reactor: %s&quot;</span>, <a class="code" href="smacc__state__base_8hpp.html#a0d7815723706a488b5bb65f7e3acf584">STATE_NAME</a>,</div>
+<div class="line"><a name="l00484"></a><span class="lineno">  484</span>&#160;          sr-&gt;stateReactorType-&gt;getFullName().c_str());</div>
+<div class="line"><a name="l00485"></a><span class="lineno">  485</span>&#160;        sr-&gt;factoryFunction(<span class="keyword">this</span>);</div>
+<div class="line"><a name="l00486"></a><span class="lineno">  486</span>&#160;      }</div>
+<div class="line"><a name="l00487"></a><span class="lineno">  487</span>&#160; </div>
+<div class="line"><a name="l00488"></a><span class="lineno">  488</span>&#160;      <span class="keywordflow">for</span> (<span class="keyword">auto</span> &amp; eg : staticDefinedEventGenerators)</div>
+<div class="line"><a name="l00489"></a><span class="lineno">  489</span>&#160;      {</div>
+<div class="line"><a name="l00490"></a><span class="lineno">  490</span>&#160;        RCLCPP_INFO(</div>
+<div class="line"><a name="l00491"></a><span class="lineno">  491</span>&#160;          getNode()-&gt;get_logger(), <span class="stringliteral">&quot;[%s] Creating static event generator: %s&quot;</span>, <a class="code" href="smacc__state__base_8hpp.html#a0d7815723706a488b5bb65f7e3acf584">STATE_NAME</a>,</div>
+<div class="line"><a name="l00492"></a><span class="lineno">  492</span>&#160;          eg-&gt;eventGeneratorType-&gt;getFullName().c_str());</div>
+<div class="line"><a name="l00493"></a><span class="lineno">  493</span>&#160;        eg-&gt;factoryFunction(<span class="keyword">this</span>);</div>
+<div class="line"><a name="l00494"></a><span class="lineno">  494</span>&#160;      }</div>
+<div class="line"><a name="l00495"></a><span class="lineno">  495</span>&#160; </div>
+<div class="line"><a name="l00496"></a><span class="lineno">  496</span>&#160;      RCLCPP_INFO(getNode()-&gt;get_logger(), <span class="stringliteral">&quot;[%s] ---- END STATIC DESCRIPTION&quot;</span>, <a class="code" href="smacc__state__base_8hpp.html#a0d7815723706a488b5bb65f7e3acf584">STATE_NAME</a>);</div>
+<div class="line"><a name="l00497"></a><span class="lineno">  497</span>&#160;    }</div>
+<div class="line"><a name="l00498"></a><span class="lineno">  498</span>&#160; </div>
+<div class="line"><a name="l00499"></a><span class="lineno">  499</span>&#160;    RCLCPP_INFO(getNode()-&gt;get_logger(), <span class="stringliteral">&quot;[%s] State runtime configuration&quot;</span>, <a class="code" href="smacc__state__base_8hpp.html#a0d7815723706a488b5bb65f7e3acf584">STATE_NAME</a>);</div>
+<div class="line"><a name="l00500"></a><span class="lineno">  500</span>&#160; </div>
+<div class="line"><a name="l00501"></a><span class="lineno">  501</span>&#160;    <span class="keyword">auto</span> * derivedthis = <span class="keyword">static_cast&lt;</span>MostDerived *<span class="keyword">&gt;</span>(<span class="keyword">this</span>);</div>
 <div class="line"><a name="l00502"></a><span class="lineno">  502</span>&#160; </div>
-<div class="line"><a name="l00503"></a><span class="lineno">  503</span>&#160;      RCLCPP_INFO(getNode()-&gt;get_logger(), <span class="stringliteral">&quot;[%s] ---- END STATIC DESCRIPTION&quot;</span>, <a class="code" href="smacc__state__base_8hpp.html#a0d7815723706a488b5bb65f7e3acf584">STATE_NAME</a>);</div>
-<div class="line"><a name="l00504"></a><span class="lineno">  504</span>&#160;    }</div>
+<div class="line"><a name="l00503"></a><span class="lineno">  503</span>&#160;    <span class="comment">// second the orthogonals are internally configured</span></div>
+<div class="line"><a name="l00504"></a><span class="lineno">  504</span>&#160;    this-&gt;getStateMachine().notifyOnRuntimeConfigured(derivedthis);</div>
 <div class="line"><a name="l00505"></a><span class="lineno">  505</span>&#160; </div>
-<div class="line"><a name="l00506"></a><span class="lineno">  506</span>&#160;    RCLCPP_INFO(getNode()-&gt;get_logger(), <span class="stringliteral">&quot;[%s] State runtime configuration&quot;</span>, <a class="code" href="smacc__state__base_8hpp.html#a0d7815723706a488b5bb65f7e3acf584">STATE_NAME</a>);</div>
-<div class="line"><a name="l00507"></a><span class="lineno">  507</span>&#160; </div>
-<div class="line"><a name="l00508"></a><span class="lineno">  508</span>&#160;    <span class="keyword">auto</span> * derivedthis = <span class="keyword">static_cast&lt;</span>MostDerived *<span class="keyword">&gt;</span>(<span class="keyword">this</span>);</div>
-<div class="line"><a name="l00509"></a><span class="lineno">  509</span>&#160; </div>
-<div class="line"><a name="l00510"></a><span class="lineno">  510</span>&#160;    <span class="comment">// second the orthogonals are internally configured</span></div>
-<div class="line"><a name="l00511"></a><span class="lineno">  511</span>&#160;    this-&gt;getStateMachine().notifyOnRuntimeConfigured(derivedthis);</div>
+<div class="line"><a name="l00506"></a><span class="lineno">  506</span>&#160;    <a class="code" href="smacc__tracing_8cpp.html#a99b909db1e382a9b899ec134046d0213">TRACEPOINT</a>(<a class="code" href="trace__provider_8hpp.html#a3dc1ab072de4183f8e2d12d9a25b5a04">smacc2_state_onRuntimeConfigure_start</a>, <a class="code" href="smacc__state__base_8hpp.html#a0d7815723706a488b5bb65f7e3acf584">STATE_NAME</a>);</div>
+<div class="line"><a name="l00507"></a><span class="lineno">  507</span>&#160;    <span class="comment">// first we runtime configure the state, where we create client behaviors</span></div>
+<div class="line"><a name="l00508"></a><span class="lineno">  508</span>&#160;    <span class="keyword">static_cast&lt;</span>MostDerived *<span class="keyword">&gt;</span>(<span class="keyword">this</span>)-&gt;runtimeConfigure();</div>
+<div class="line"><a name="l00509"></a><span class="lineno">  509</span>&#160;    <a class="code" href="smacc__tracing_8cpp.html#a99b909db1e382a9b899ec134046d0213">TRACEPOINT</a>(<a class="code" href="trace__provider_8hpp.html#a5e929b14ec054917e5587024577f64a2">smacc2_state_onRuntimeConfigure_end</a>, <a class="code" href="smacc__state__base_8hpp.html#a0d7815723706a488b5bb65f7e3acf584">STATE_NAME</a>);</div>
+<div class="line"><a name="l00510"></a><span class="lineno">  510</span>&#160; </div>
+<div class="line"><a name="l00511"></a><span class="lineno">  511</span>&#160;    this-&gt;getStateMachine().notifyOnRuntimeConfigurationFinished(derivedthis);</div>
 <div class="line"><a name="l00512"></a><span class="lineno">  512</span>&#160; </div>
-<div class="line"><a name="l00513"></a><span class="lineno">  513</span>&#160;    <a class="code" href="smacc__tracing_8cpp.html#a99b909db1e382a9b899ec134046d0213">TRACEPOINT</a>(<a class="code" href="trace__provider_8hpp.html#a3dc1ab072de4183f8e2d12d9a25b5a04">smacc2_state_onRuntimeConfigure_start</a>, <a class="code" href="smacc__state__base_8hpp.html#a0d7815723706a488b5bb65f7e3acf584">STATE_NAME</a>);</div>
-<div class="line"><a name="l00514"></a><span class="lineno">  514</span>&#160;    <span class="comment">// first we runtime configure the state, where we create client behaviors</span></div>
-<div class="line"><a name="l00515"></a><span class="lineno">  515</span>&#160;    <span class="keyword">static_cast&lt;</span>MostDerived *<span class="keyword">&gt;</span>(<span class="keyword">this</span>)-&gt;runtimeConfigure();</div>
-<div class="line"><a name="l00516"></a><span class="lineno">  516</span>&#160;    <a class="code" href="smacc__tracing_8cpp.html#a99b909db1e382a9b899ec134046d0213">TRACEPOINT</a>(<a class="code" href="trace__provider_8hpp.html#a5e929b14ec054917e5587024577f64a2">smacc2_state_onRuntimeConfigure_end</a>, <a class="code" href="smacc__state__base_8hpp.html#a0d7815723706a488b5bb65f7e3acf584">STATE_NAME</a>);</div>
-<div class="line"><a name="l00517"></a><span class="lineno">  517</span>&#160; </div>
-<div class="line"><a name="l00518"></a><span class="lineno">  518</span>&#160;    this-&gt;getStateMachine().notifyOnRuntimeConfigurationFinished(derivedthis);</div>
-<div class="line"><a name="l00519"></a><span class="lineno">  519</span>&#160; </div>
-<div class="line"><a name="l00520"></a><span class="lineno">  520</span>&#160;    RCLCPP_INFO(getNode()-&gt;get_logger(), <span class="stringliteral">&quot;[%s] State OnEntry&quot;</span>, <a class="code" href="smacc__state__base_8hpp.html#a0d7815723706a488b5bb65f7e3acf584">STATE_NAME</a>);</div>
-<div class="line"><a name="l00521"></a><span class="lineno">  521</span>&#160; </div>
-<div class="line"><a name="l00522"></a><span class="lineno">  522</span>&#160;    <span class="keyword">static_cast&lt;</span>MostDerived *<span class="keyword">&gt;</span>(<span class="keyword">this</span>)-&gt;onEntry();</div>
-<div class="line"><a name="l00523"></a><span class="lineno">  523</span>&#160; </div>
-<div class="line"><a name="l00524"></a><span class="lineno">  524</span>&#160;    <span class="comment">// here orthogonals and client behaviors are entered OnEntry</span></div>
-<div class="line"><a name="l00525"></a><span class="lineno">  525</span>&#160;    this-&gt;getStateMachine().notifyOnStateEntryEnd(derivedthis);</div>
-<div class="line"><a name="l00526"></a><span class="lineno">  526</span>&#160;  }</div>
-<div class="line"><a name="l00527"></a><span class="lineno">  527</span>&#160;};</div>
-<div class="line"><a name="l00528"></a><span class="lineno">  528</span>&#160;}  <span class="comment">// namespace smacc2</span></div>
+<div class="line"><a name="l00513"></a><span class="lineno">  513</span>&#160;    RCLCPP_INFO(getNode()-&gt;get_logger(), <span class="stringliteral">&quot;[%s] State OnEntry&quot;</span>, <a class="code" href="smacc__state__base_8hpp.html#a0d7815723706a488b5bb65f7e3acf584">STATE_NAME</a>);</div>
+<div class="line"><a name="l00514"></a><span class="lineno">  514</span>&#160; </div>
+<div class="line"><a name="l00515"></a><span class="lineno">  515</span>&#160;    <span class="keyword">static_cast&lt;</span>MostDerived *<span class="keyword">&gt;</span>(<span class="keyword">this</span>)-&gt;onEntry();</div>
+<div class="line"><a name="l00516"></a><span class="lineno">  516</span>&#160; </div>
+<div class="line"><a name="l00517"></a><span class="lineno">  517</span>&#160;    <span class="comment">// here orthogonals and client behaviors are entered OnEntry</span></div>
+<div class="line"><a name="l00518"></a><span class="lineno">  518</span>&#160;    this-&gt;getStateMachine().notifyOnStateEntryEnd(derivedthis);</div>
+<div class="line"><a name="l00519"></a><span class="lineno">  519</span>&#160;  }</div>
+<div class="line"><a name="l00520"></a><span class="lineno">  520</span>&#160;};</div>
+<div class="line"><a name="l00521"></a><span class="lineno">  521</span>&#160;}  <span class="comment">// namespace smacc2</span></div>
 <div class="ttc" id="aclasssmacc2_1_1ISmaccStateMachine_html"><div class="ttname"><a href="classsmacc2_1_1ISmaccStateMachine.html">smacc2::ISmaccStateMachine</a></div><div class="ttdef"><b>Definition:</b> <a href="smacc__state__machine_8hpp_source.html#l00063">smacc_state_machine.hpp:64</a></div></div>
 <div class="ttc" id="aclasssmacc2_1_1ISmaccState_html"><div class="ttname"><a href="classsmacc2_1_1ISmaccState.html">smacc2::ISmaccState</a></div><div class="ttdef"><b>Definition:</b> <a href="smacc__state_8hpp_source.html#l00025">smacc_state.hpp:26</a></div></div>
-<div class="ttc" id="aclasssmacc2_1_1ISmaccState_html_a4fb93a9c3933ad7a2755da758634d00d"><div class="ttname"><a href="classsmacc2_1_1ISmaccState.html#a4fb93a9c3933ad7a2755da758634d00d">smacc2::ISmaccState::configure</a></div><div class="ttdeci">std::shared_ptr&lt; TBehavior &gt; configure(Args &amp;&amp;... args)</div><div class="ttdef"><b>Definition:</b> <a href="smacc__state__impl_8hpp_source.html#l00060">smacc_state_impl.hpp:60</a></div></div>
+<div class="ttc" id="aclasssmacc2_1_1ISmaccState_html_a4fb93a9c3933ad7a2755da758634d00d"><div class="ttname"><a href="classsmacc2_1_1ISmaccState.html#a4fb93a9c3933ad7a2755da758634d00d">smacc2::ISmaccState::configure</a></div><div class="ttdeci">std::shared_ptr&lt; TBehavior &gt; configure(Args &amp;&amp;... args)</div><div class="ttdef"><b>Definition:</b> <a href="smacc__state__impl_8hpp_source.html#l00041">smacc_state_impl.hpp:41</a></div></div>
 <div class="ttc" id="aclasssmacc2_1_1SmaccState_html"><div class="ttname"><a href="classsmacc2_1_1SmaccState.html">smacc2::SmaccState</a></div><div class="ttdef"><b>Definition:</b> <a href="smacc__state__base_8hpp_source.html#l00037">smacc_state_base.hpp:39</a></div></div>
 <div class="ttc" id="aclasssmacc2_1_1SmaccState_html_a04704034eca82551bb7148e21855a7bd"><div class="ttname"><a href="classsmacc2_1_1SmaccState.html#a04704034eca82551bb7148e21855a7bd">smacc2::SmaccState::base_type</a></div><div class="ttdeci">sc::simple_state&lt; MostDerived, Context, InnerInitial, historyMode &gt; base_type</div><div class="ttdef"><b>Definition:</b> <a href="smacc__state__base_8hpp_source.html#l00040">smacc_state_base.hpp:40</a></div></div>
 <div class="ttc" id="aclasssmacc2_1_1SmaccState_html_a0570a2880e2e11fce6a1ff11b067cdc2"><div class="ttname"><a href="classsmacc2_1_1SmaccState.html#a0570a2880e2e11fce6a1ff11b067cdc2">smacc2::SmaccState::shallow_construct</a></div><div class="ttdeci">static inner_context_ptr_type shallow_construct(const context_ptr_type &amp;pContext, outermost_context_base_type &amp;outermostContextBase)</div><div class="ttdef"><b>Definition:</b> <a href="smacc__state__base_8hpp_source.html#l00384">smacc_state_base.hpp:384</a></div></div>
@@ -659,7 +652,7 @@ $(function() {
 <div class="ttc" id="asmacc__state__reactor_8hpp_html"><div class="ttname"><a href="smacc__state__reactor_8hpp.html">smacc_state_reactor.hpp</a></div></div>
 <div class="ttc" id="asmacc__tracing_8cpp_html_a99b909db1e382a9b899ec134046d0213"><div class="ttname"><a href="smacc__tracing_8cpp.html#a99b909db1e382a9b899ec134046d0213">TRACEPOINT</a></div><div class="ttdeci">void TRACEPOINT(spinOnce)</div><div class="ttdef"><b>Definition:</b> <a href="smacc__tracing_8cpp_source.html#l00024">smacc_tracing.cpp:24</a></div></div>
 <div class="ttc" id="astate__traits_8hpp_html"><div class="ttname"><a href="state__traits_8hpp.html">state_traits.hpp</a></div></div>
-<div class="ttc" id="astructsmacc2_1_1AddTEventTypeStateReactorInfo_html"><div class="ttname"><a href="structsmacc2_1_1AddTEventTypeStateReactorInfo.html">smacc2::AddTEventTypeStateReactorInfo</a></div><div class="ttdef"><b>Definition:</b> <a href="smacc__state__impl_8hpp_source.html#l00147">smacc_state_impl.hpp:148</a></div></div>
+<div class="ttc" id="astructsmacc2_1_1AddTEventTypeStateReactorInfo_html"><div class="ttname"><a href="structsmacc2_1_1AddTEventTypeStateReactorInfo.html">smacc2::AddTEventTypeStateReactorInfo</a></div><div class="ttdef"><b>Definition:</b> <a href="smacc__state__impl_8hpp_source.html#l00128">smacc_state_impl.hpp:129</a></div></div>
 <div class="ttc" id="astructsmacc2_1_1SmaccState_1_1my__context_html"><div class="ttname"><a href="structsmacc2_1_1SmaccState_1_1my__context.html">smacc2::SmaccState::my_context</a></div><div class="ttdef"><b>Definition:</b> <a href="smacc__state__base_8hpp_source.html#l00053">smacc_state_base.hpp:54</a></div></div>
 <div class="ttc" id="astructsmacc2_1_1SmaccState_1_1my__context_html_a0b820bfb5f743d5dc6193454242fed32"><div class="ttname"><a href="structsmacc2_1_1SmaccState_1_1my__context.html#a0b820bfb5f743d5dc6193454242fed32">smacc2::SmaccState::my_context::my_context</a></div><div class="ttdeci">my_context(typename base_type::context_ptr_type pContext)</div><div class="ttdef"><b>Definition:</b> <a href="smacc__state__base_8hpp_source.html#l00055">smacc_state_base.hpp:55</a></div></div>
 <div class="ttc" id="astructsmacc2_1_1SmaccState_1_1my__context_html_a52c079137d251f37f6cc227e1e3783be"><div class="ttname"><a href="structsmacc2_1_1SmaccState_1_1my__context.html#a52c079137d251f37f6cc227e1e3783be">smacc2::SmaccState::my_context::pContext_</a></div><div class="ttdeci">base_type::context_ptr_type pContext_</div><div class="ttdef"><b>Definition:</b> <a href="smacc__state__base_8hpp_source.html#l00057">smacc_state_base.hpp:57</a></div></div>

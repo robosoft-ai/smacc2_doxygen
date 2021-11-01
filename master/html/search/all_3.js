@@ -6,7 +6,7 @@ var searchData=
   ['backward_5fglobal_5fplanner_2ehpp_56',['backward_global_planner.hpp',['../backward__global__planner_8hpp.html',1,'']]],
   ['backward_5flocal_5fplanner_2ecpp_57',['backward_local_planner.cpp',['../backward__local__planner_8cpp.html',1,'']]],
   ['backward_5flocal_5fplanner_2ehpp_58',['backward_local_planner.hpp',['../backward__local__planner_8hpp.html',1,'']]],
-  ['backwarddistance_59',['backwardDistance',['../classcl__nav2z_1_1CbNavigateBackwards.html#a78b56b880f7b22cc56433097a21cd5d4',1,'cl_nav2z::CbNavigateBackwards']]],
+  ['backwarddistance_59',['backwardDistance',['../classcl__nav2z_1_1CbNavigateBackwards.html#a5392b253e925729d1261fd102a058fa1',1,'cl_nav2z::CbNavigateBackwards']]],
   ['backwardglobalplanner_60',['BackwardGlobalPlanner',['../classcl__nav2z_1_1backward__global__planner_1_1BackwardGlobalPlanner.html#a7ecb5b02a8969056687d3e8eea74b26a',1,'cl_nav2z::backward_global_planner::BackwardGlobalPlanner::BackwardGlobalPlanner()'],['../classcl__nav2z_1_1backward__global__planner_1_1BackwardGlobalPlanner.html',1,'cl_nav2z::backward_global_planner::BackwardGlobalPlanner']]],
   ['backwardlocalplanner_61',['BackwardLocalPlanner',['../classcl__nav2z_1_1backward__local__planner_1_1BackwardLocalPlanner.html#ade4eb16110ef8720454535db315d1b03',1,'cl_nav2z::backward_local_planner::BackwardLocalPlanner::BackwardLocalPlanner()'],['../classcl__nav2z_1_1backward__local__planner_1_1BackwardLocalPlanner.html',1,'cl_nav2z::backward_local_planner::BackwardLocalPlanner']]],
   ['backwardspeed_62',['backwardSpeed',['../classcl__nav2z_1_1CbNavigateBackwards.html#aecd11c9a7d2b507d1a5cd1bf61596ce0',1,'cl_nav2z::CbNavigateBackwards']]],
