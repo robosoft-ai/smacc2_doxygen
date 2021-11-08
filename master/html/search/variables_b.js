@@ -12,5 +12,6 @@ var searchData=
   ['linear_5fmode_5frho_5ferror_5fthreshold_5f_5075',['linear_mode_rho_error_threshold_',['../classcl__nav2z_1_1backward__local__planner_1_1BackwardLocalPlanner.html#ac0652a1b652c0aa237716670de3a1896',1,'cl_nav2z::backward_local_planner::BackwardLocalPlanner']]],
   ['listener_5076',['listener',['../classcl__nav2z_1_1CbAbsoluteRotate.html#abb6c58929e4888126fca964fb9cd0671',1,'cl_nav2z::CbAbsoluteRotate::listener()'],['../classcl__nav2z_1_1CbNavigateForward.html#adbff8ed6441e405c545b4a0d7b0c7e48',1,'cl_nav2z::CbNavigateForward::listener()'],['../classcl__nav2z_1_1CbRotate.html#a5baaedc1fa65c469867ee2b58a3fdae0',1,'cl_nav2z::CbRotate::listener()'],['../classcl__nav2z_1_1CbUndoPathBackwards.html#aae100fa86e382fdaf1b55ecbc4ad5a5e',1,'cl_nav2z::CbUndoPathBackwards::listener()']]],
   ['listenermutex_5f_5077',['listenerMutex_',['../classcl__nav2z_1_1Pose.html#a2ef5981a34f1b828ee18f1fa9c419ba2',1,'cl_nav2z::Pose']]],
-  ['loop_5frate_5fhz_5078',['loop_rate_hz',['../classsmacc2_1_1SignalDetector.html#ac67b27bde2d30322b6792bafa0522274',1,'smacc2::SignalDetector']]]
+  ['logger_5f_5078',['logger_',['../classsmacc2_1_1ISmaccState.html#a05d1116e83e537fa5686660bd4a9cc0e',1,'smacc2::ISmaccState']]],
+  ['loop_5frate_5fhz_5079',['loop_rate_hz',['../classsmacc2_1_1SignalDetector.html#ac67b27bde2d30322b6792bafa0522274',1,'smacc2::SignalDetector']]]
 ];
