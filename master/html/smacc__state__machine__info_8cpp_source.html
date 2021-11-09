@@ -83,219 +83,225 @@ $(function() {
 <div class="line"><a name="l00012"></a><span class="lineno">   12</span>&#160;<span class="comment">// See the License for the specific language governing permissions and</span></div>
 <div class="line"><a name="l00013"></a><span class="lineno">   13</span>&#160;<span class="comment">// limitations under the License.</span></div>
 <div class="line"><a name="l00014"></a><span class="lineno">   14</span>&#160; </div>
-<div class="line"><a name="l00015"></a><span class="lineno">   15</span>&#160;<span class="preprocessor">#include &lt;<a class="code" href="introspection_8hpp.html">smacc2/introspection/introspection.hpp</a>&gt;</span></div>
-<div class="line"><a name="l00016"></a><span class="lineno">   16</span>&#160;<span class="preprocessor">#include &lt;<a class="code" href="smacc__state__machine_8hpp.html">smacc2/smacc_state_machine.hpp</a>&gt;</span></div>
-<div class="line"><a name="l00017"></a><span class="lineno">   17</span>&#160; </div>
-<div class="line"><a name="l00018"></a><span class="lineno">   18</span>&#160;<span class="keyword">namespace </span><a class="code" href="namespacesmacc2.html">smacc2</a></div>
-<div class="line"><a name="l00019"></a><span class="lineno">   19</span>&#160;{</div>
-<div class="line"><a name="l00020"></a><span class="lineno"><a class="line" href="classsmacc2_1_1introspection_1_1SmaccStateMachineInfo.html#af9405e186cb828249d86c4dd64375521">   20</a></span>&#160;<span class="keywordtype">void</span> <a class="code" href="classsmacc2_1_1introspection_1_1SmaccStateMachineInfo.html#af9405e186cb828249d86c4dd64375521">SmaccStateMachineInfo::assembleSMStructureMessage</a>(<a class="code" href="classsmacc2_1_1ISmaccStateMachine.html">ISmaccStateMachine</a> * sm)</div>
-<div class="line"><a name="l00021"></a><span class="lineno">   21</span>&#160;{</div>
-<div class="line"><a name="l00022"></a><span class="lineno">   22</span>&#160;  std::stringstream ss;</div>
+<div class="line"><a name="l00015"></a><span class="lineno">   15</span>&#160;<span class="comment">/*****************************************************************************************************************</span></div>
+<div class="line"><a name="l00016"></a><span class="lineno">   16</span>&#160;<span class="comment"> *</span></div>
+<div class="line"><a name="l00017"></a><span class="lineno">   17</span>&#160;<span class="comment"> *   Authors: Pablo Inigo Blasco, Brett Aldrich</span></div>
+<div class="line"><a name="l00018"></a><span class="lineno">   18</span>&#160;<span class="comment"> *</span></div>
+<div class="line"><a name="l00019"></a><span class="lineno">   19</span>&#160;<span class="comment"> ******************************************************************************************************************/</span></div>
+<div class="line"><a name="l00020"></a><span class="lineno">   20</span>&#160; </div>
+<div class="line"><a name="l00021"></a><span class="lineno">   21</span>&#160;<span class="preprocessor">#include &lt;<a class="code" href="introspection_8hpp.html">smacc2/introspection/introspection.hpp</a>&gt;</span></div>
+<div class="line"><a name="l00022"></a><span class="lineno">   22</span>&#160;<span class="preprocessor">#include &lt;<a class="code" href="smacc__state__machine_8hpp.html">smacc2/smacc_state_machine.hpp</a>&gt;</span></div>
 <div class="line"><a name="l00023"></a><span class="lineno">   23</span>&#160; </div>
-<div class="line"><a name="l00024"></a><span class="lineno">   24</span>&#160;  ss &lt;&lt; <span class="stringliteral">&quot;----------- PRINT STATE MACHINE STRUCTURE -------------------&quot;</span> &lt;&lt; std::endl;</div>
-<div class="line"><a name="l00025"></a><span class="lineno">   25</span>&#160;  <a class="code" href="classsmacc2_1_1introspection_1_1SmaccStateMachineInfo.html#a8fe17f0cce81a317a70d7fe0dac62f90">stateMsgs</a>.clear();</div>
-<div class="line"><a name="l00026"></a><span class="lineno">   26</span>&#160;  <span class="keywordflow">for</span> (<span class="keyword">auto</span> &amp; val : this-&gt;<a class="code" href="classsmacc2_1_1introspection_1_1SmaccStateMachineInfo.html#a80941de783a1ae5c282fbceb7599eecf">states</a>)</div>
-<div class="line"><a name="l00027"></a><span class="lineno">   27</span>&#160;  {</div>
-<div class="line"><a name="l00028"></a><span class="lineno">   28</span>&#160;    smacc2_msgs::msg::SmaccState stateMsg;</div>
-<div class="line"><a name="l00029"></a><span class="lineno">   29</span>&#160;    <span class="keyword">auto</span> state = val.second;</div>
-<div class="line"><a name="l00030"></a><span class="lineno">   30</span>&#160;    stateMsg.index = state-&gt;stateIndex_;</div>
-<div class="line"><a name="l00031"></a><span class="lineno">   31</span>&#160; </div>
-<div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160;    ss &lt;&lt; <span class="stringliteral">&quot;**** State: &quot;</span> &lt;&lt; <a class="code" href="namespacesmacc2_1_1introspection.html#a9eb0636530a97a26f0fce97dfd2d5715">demangleSymbol</a>(val.first.c_str()) &lt;&lt; std::endl;</div>
-<div class="line"><a name="l00033"></a><span class="lineno">   33</span>&#160; </div>
-<div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160;    stateMsg.name = state-&gt;getDemangledFullName();</div>
-<div class="line"><a name="l00035"></a><span class="lineno">   35</span>&#160;    stateMsg.level = (int)state-&gt;getStateLevel();</div>
-<div class="line"><a name="l00036"></a><span class="lineno">   36</span>&#160; </div>
-<div class="line"><a name="l00037"></a><span class="lineno">   37</span>&#160;    ss &lt;&lt; <span class="stringliteral">&quot;Index: &quot;</span> &lt;&lt; stateMsg.index &lt;&lt; std::endl;</div>
-<div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160;    ss &lt;&lt; <span class="stringliteral">&quot;StateLevel: &quot;</span> &lt;&lt; stateMsg.level &lt;&lt; std::endl;</div>
+<div class="line"><a name="l00024"></a><span class="lineno">   24</span>&#160;<span class="keyword">namespace </span><a class="code" href="namespacesmacc2.html">smacc2</a></div>
+<div class="line"><a name="l00025"></a><span class="lineno">   25</span>&#160;{</div>
+<div class="line"><a name="l00026"></a><span class="lineno"><a class="line" href="classsmacc2_1_1introspection_1_1SmaccStateMachineInfo.html#af9405e186cb828249d86c4dd64375521">   26</a></span>&#160;<span class="keywordtype">void</span> <a class="code" href="classsmacc2_1_1introspection_1_1SmaccStateMachineInfo.html#af9405e186cb828249d86c4dd64375521">SmaccStateMachineInfo::assembleSMStructureMessage</a>(<a class="code" href="classsmacc2_1_1ISmaccStateMachine.html">ISmaccStateMachine</a> * sm)</div>
+<div class="line"><a name="l00027"></a><span class="lineno">   27</span>&#160;{</div>
+<div class="line"><a name="l00028"></a><span class="lineno">   28</span>&#160;  std::stringstream ss;</div>
+<div class="line"><a name="l00029"></a><span class="lineno">   29</span>&#160; </div>
+<div class="line"><a name="l00030"></a><span class="lineno">   30</span>&#160;  ss &lt;&lt; <span class="stringliteral">&quot;----------- PRINT STATE MACHINE STRUCTURE -------------------&quot;</span> &lt;&lt; std::endl;</div>
+<div class="line"><a name="l00031"></a><span class="lineno">   31</span>&#160;  <a class="code" href="classsmacc2_1_1introspection_1_1SmaccStateMachineInfo.html#a8fe17f0cce81a317a70d7fe0dac62f90">stateMsgs</a>.clear();</div>
+<div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160;  <span class="keywordflow">for</span> (<span class="keyword">auto</span> &amp; val : this-&gt;<a class="code" href="classsmacc2_1_1introspection_1_1SmaccStateMachineInfo.html#a80941de783a1ae5c282fbceb7599eecf">states</a>)</div>
+<div class="line"><a name="l00033"></a><span class="lineno">   33</span>&#160;  {</div>
+<div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160;    smacc2_msgs::msg::SmaccState stateMsg;</div>
+<div class="line"><a name="l00035"></a><span class="lineno">   35</span>&#160;    <span class="keyword">auto</span> state = val.second;</div>
+<div class="line"><a name="l00036"></a><span class="lineno">   36</span>&#160;    stateMsg.index = state-&gt;stateIndex_;</div>
+<div class="line"><a name="l00037"></a><span class="lineno">   37</span>&#160; </div>
+<div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160;    ss &lt;&lt; <span class="stringliteral">&quot;**** State: &quot;</span> &lt;&lt; <a class="code" href="namespacesmacc2_1_1introspection.html#a9eb0636530a97a26f0fce97dfd2d5715">demangleSymbol</a>(val.first.c_str()) &lt;&lt; std::endl;</div>
 <div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160; </div>
-<div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160;    ss &lt;&lt; <span class="stringliteral">&quot; Childstates:&quot;</span> &lt;&lt; std::endl;</div>
-<div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160; </div>
-<div class="line"><a name="l00042"></a><span class="lineno">   42</span>&#160;    <span class="keywordflow">for</span> (<span class="keyword">auto</span> &amp; child : state-&gt;children_)</div>
-<div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160;    {</div>
-<div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160;      <span class="keyword">auto</span> childStateName = child-&gt;getDemangledFullName();</div>
-<div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160;      stateMsg.children_states.push_back(childStateName);</div>
-<div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160; </div>
-<div class="line"><a name="l00047"></a><span class="lineno">   47</span>&#160;      ss &lt;&lt; <span class="stringliteral">&quot; - &quot;</span> &lt;&lt; childStateName &lt;&lt; std::endl;</div>
-<div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160;    }</div>
-<div class="line"><a name="l00049"></a><span class="lineno">   49</span>&#160; </div>
-<div class="line"><a name="l00050"></a><span class="lineno">   50</span>&#160;    ss &lt;&lt; <span class="stringliteral">&quot; Transitions:&quot;</span> &lt;&lt; std::endl;</div>
-<div class="line"><a name="l00051"></a><span class="lineno">   51</span>&#160; </div>
-<div class="line"><a name="l00052"></a><span class="lineno">   52</span>&#160;    <span class="keywordflow">for</span> (<span class="keyword">auto</span> &amp; transition : state-&gt;transitions_)</div>
-<div class="line"><a name="l00053"></a><span class="lineno">   53</span>&#160;    {</div>
-<div class="line"><a name="l00054"></a><span class="lineno">   54</span>&#160;      smacc2_msgs::msg::SmaccTransition transitionMsg;</div>
+<div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160;    stateMsg.name = state-&gt;getDemangledFullName();</div>
+<div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160;    stateMsg.level = (int)state-&gt;getStateLevel();</div>
+<div class="line"><a name="l00042"></a><span class="lineno">   42</span>&#160; </div>
+<div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160;    ss &lt;&lt; <span class="stringliteral">&quot;Index: &quot;</span> &lt;&lt; stateMsg.index &lt;&lt; std::endl;</div>
+<div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160;    ss &lt;&lt; <span class="stringliteral">&quot;StateLevel: &quot;</span> &lt;&lt; stateMsg.level &lt;&lt; std::endl;</div>
+<div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160; </div>
+<div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160;    ss &lt;&lt; <span class="stringliteral">&quot; Childstates:&quot;</span> &lt;&lt; std::endl;</div>
+<div class="line"><a name="l00047"></a><span class="lineno">   47</span>&#160; </div>
+<div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160;    <span class="keywordflow">for</span> (<span class="keyword">auto</span> &amp; child : state-&gt;children_)</div>
+<div class="line"><a name="l00049"></a><span class="lineno">   49</span>&#160;    {</div>
+<div class="line"><a name="l00050"></a><span class="lineno">   50</span>&#160;      <span class="keyword">auto</span> childStateName = child-&gt;getDemangledFullName();</div>
+<div class="line"><a name="l00051"></a><span class="lineno">   51</span>&#160;      stateMsg.children_states.push_back(childStateName);</div>
+<div class="line"><a name="l00052"></a><span class="lineno">   52</span>&#160; </div>
+<div class="line"><a name="l00053"></a><span class="lineno">   53</span>&#160;      ss &lt;&lt; <span class="stringliteral">&quot; - &quot;</span> &lt;&lt; childStateName &lt;&lt; std::endl;</div>
+<div class="line"><a name="l00054"></a><span class="lineno">   54</span>&#160;    }</div>
 <div class="line"><a name="l00055"></a><span class="lineno">   55</span>&#160; </div>
-<div class="line"><a name="l00056"></a><span class="lineno">   56</span>&#160;      <a class="code" href="namespacesmacc2_1_1introspection.html#aff63647843caf0176c8dac4c8cbfd04f">transitionInfoToMsg</a>(transition, transitionMsg);</div>
+<div class="line"><a name="l00056"></a><span class="lineno">   56</span>&#160;    ss &lt;&lt; <span class="stringliteral">&quot; Transitions:&quot;</span> &lt;&lt; std::endl;</div>
 <div class="line"><a name="l00057"></a><span class="lineno">   57</span>&#160; </div>
-<div class="line"><a name="l00058"></a><span class="lineno">   58</span>&#160;      ss &lt;&lt; <span class="stringliteral">&quot; - Transition.  &quot;</span> &lt;&lt; std::endl;</div>
-<div class="line"><a name="l00059"></a><span class="lineno">   59</span>&#160;      ss &lt;&lt; <span class="stringliteral">&quot;      - Index: &quot;</span> &lt;&lt; transitionMsg.index &lt;&lt; std::endl;</div>
-<div class="line"><a name="l00060"></a><span class="lineno">   60</span>&#160;      ss &lt;&lt; <span class="stringliteral">&quot;      - Transition Name: &quot;</span> &lt;&lt; transitionMsg.transition_name &lt;&lt; std::endl;</div>
-<div class="line"><a name="l00061"></a><span class="lineno">   61</span>&#160;      ss &lt;&lt; <span class="stringliteral">&quot;      - Transition Type: &quot;</span> &lt;&lt; transitionMsg.transition_type &lt;&lt; std::endl;</div>
-<div class="line"><a name="l00062"></a><span class="lineno">   62</span>&#160;      ss &lt;&lt; <span class="stringliteral">&quot;      - Event Type :&quot;</span> &lt;&lt; transitionMsg.event.event_type &lt;&lt; std::endl;</div>
-<div class="line"><a name="l00063"></a><span class="lineno">   63</span>&#160;      ss &lt;&lt; <span class="stringliteral">&quot;      - Event Source: &quot;</span> &lt;&lt; transitionMsg.event.event_source &lt;&lt; std::endl;</div>
-<div class="line"><a name="l00064"></a><span class="lineno">   64</span>&#160;      ss &lt;&lt; <span class="stringliteral">&quot;      - Event ObjectTag: &quot;</span> &lt;&lt; transitionMsg.event.event_object_tag &lt;&lt; std::endl;</div>
-<div class="line"><a name="l00065"></a><span class="lineno">   65</span>&#160;      ss &lt;&lt; <span class="stringliteral">&quot;      - Event Label: &quot;</span> &lt;&lt; transitionMsg.event.label &lt;&lt; std::endl;</div>
-<div class="line"><a name="l00066"></a><span class="lineno">   66</span>&#160;      ss &lt;&lt; <span class="stringliteral">&quot;      - Destiny State: &quot;</span> &lt;&lt; transitionMsg.destiny_state_name &lt;&lt; std::endl;</div>
-<div class="line"><a name="l00067"></a><span class="lineno">   67</span>&#160;      ss &lt;&lt; <span class="stringliteral">&quot;      - Owner State: &quot;</span> &lt;&lt; transitionMsg.destiny_state_name &lt;&lt; std::endl;</div>
-<div class="line"><a name="l00068"></a><span class="lineno">   68</span>&#160;      ss &lt;&lt; <span class="stringliteral">&quot;      - Is History Node: &quot;</span> &lt;&lt; std::to_string(transitionMsg.history_node) &lt;&lt; std::endl;</div>
-<div class="line"><a name="l00069"></a><span class="lineno">   69</span>&#160;      ss &lt;&lt; <span class="stringliteral">&quot;      - TransitionC++Type: &quot;</span> &lt;&lt; transition.transitionTypeInfo-&gt;getFullName()</div>
-<div class="line"><a name="l00070"></a><span class="lineno">   70</span>&#160;         &lt;&lt; std::endl;</div>
-<div class="line"><a name="l00071"></a><span class="lineno">   71</span>&#160;      ss &lt;&lt; <span class="stringliteral">&quot;      - EventC++Type: &quot;</span> &lt;&lt; transition.eventInfo-&gt;eventType-&gt;getFullName() &lt;&lt; std::endl;</div>
-<div class="line"><a name="l00072"></a><span class="lineno">   72</span>&#160; </div>
-<div class="line"><a name="l00073"></a><span class="lineno">   73</span>&#160;      stateMsg.transitions.push_back(transitionMsg);</div>
-<div class="line"><a name="l00074"></a><span class="lineno">   74</span>&#160;    }</div>
-<div class="line"><a name="l00075"></a><span class="lineno">   75</span>&#160; </div>
-<div class="line"><a name="l00076"></a><span class="lineno">   76</span>&#160;    <span class="keyword">const</span> std::type_info * statetid = state-&gt;tid_;</div>
-<div class="line"><a name="l00077"></a><span class="lineno">   77</span>&#160; </div>
-<div class="line"><a name="l00078"></a><span class="lineno">   78</span>&#160;    std::map&lt;const std::type_info *, std::vector&lt;smacc2::ClientBehaviorInfoEntry *&gt;&gt;</div>
-<div class="line"><a name="l00079"></a><span class="lineno">   79</span>&#160;      smaccBehaviorInfoMappingByOrthogonalType;</div>
-<div class="line"><a name="l00080"></a><span class="lineno">   80</span>&#160; </div>
-<div class="line"><a name="l00081"></a><span class="lineno">   81</span>&#160;    ss &lt;&lt; <span class="stringliteral">&quot; Orthogonals:&quot;</span> &lt;&lt; std::endl;</div>
-<div class="line"><a name="l00082"></a><span class="lineno">   82</span>&#160;    <span class="keywordflow">if</span> (<a class="code" href="classsmacc2_1_1introspection_1_1SmaccStateInfo.html#af0df7561d09c3ba667bbd1dc532da66f">SmaccStateInfo::staticBehaviorInfo</a>.<a class="code" href="namespacesm__atomic__performance__test__a__1.html#a69292ba5271064375f3733f6c6ef8e9b">count</a>(statetid) &gt; 0)</div>
-<div class="line"><a name="l00083"></a><span class="lineno">   83</span>&#160;    {</div>
-<div class="line"><a name="l00084"></a><span class="lineno">   84</span>&#160;      <span class="keywordflow">for</span> (<span class="keyword">auto</span> &amp; bhinfo : <a class="code" href="classsmacc2_1_1introspection_1_1SmaccStateInfo.html#af0df7561d09c3ba667bbd1dc532da66f">SmaccStateInfo::staticBehaviorInfo</a>[statetid])</div>
-<div class="line"><a name="l00085"></a><span class="lineno">   85</span>&#160;      {</div>
-<div class="line"><a name="l00086"></a><span class="lineno">   86</span>&#160;        <span class="keywordflow">if</span> (smaccBehaviorInfoMappingByOrthogonalType.count(bhinfo.orthogonalType) == 0)</div>
-<div class="line"><a name="l00087"></a><span class="lineno">   87</span>&#160;        {</div>
-<div class="line"><a name="l00088"></a><span class="lineno">   88</span>&#160;          smaccBehaviorInfoMappingByOrthogonalType[bhinfo.orthogonalType] =</div>
-<div class="line"><a name="l00089"></a><span class="lineno">   89</span>&#160;            std::vector&lt;smacc2::ClientBehaviorInfoEntry *&gt;();</div>
-<div class="line"><a name="l00090"></a><span class="lineno">   90</span>&#160;        }</div>
-<div class="line"><a name="l00091"></a><span class="lineno">   91</span>&#160; </div>
-<div class="line"><a name="l00092"></a><span class="lineno">   92</span>&#160;        smaccBehaviorInfoMappingByOrthogonalType[bhinfo.orthogonalType].push_back(&amp;bhinfo);</div>
-<div class="line"><a name="l00093"></a><span class="lineno">   93</span>&#160;      }</div>
-<div class="line"><a name="l00094"></a><span class="lineno">   94</span>&#160;    }</div>
-<div class="line"><a name="l00095"></a><span class="lineno">   95</span>&#160; </div>
-<div class="line"><a name="l00096"></a><span class="lineno">   96</span>&#160;    <span class="keyword">auto</span> &amp; runtimeOrthogonals = sm-&gt;<a class="code" href="classsmacc2_1_1ISmaccStateMachine.html#a5add78b13865291a7d167cbc496d0d35">getOrthogonals</a>();</div>
+<div class="line"><a name="l00058"></a><span class="lineno">   58</span>&#160;    <span class="keywordflow">for</span> (<span class="keyword">auto</span> &amp; transition : state-&gt;transitions_)</div>
+<div class="line"><a name="l00059"></a><span class="lineno">   59</span>&#160;    {</div>
+<div class="line"><a name="l00060"></a><span class="lineno">   60</span>&#160;      smacc2_msgs::msg::SmaccTransition transitionMsg;</div>
+<div class="line"><a name="l00061"></a><span class="lineno">   61</span>&#160; </div>
+<div class="line"><a name="l00062"></a><span class="lineno">   62</span>&#160;      <a class="code" href="namespacesmacc2_1_1introspection.html#aff63647843caf0176c8dac4c8cbfd04f">transitionInfoToMsg</a>(transition, transitionMsg);</div>
+<div class="line"><a name="l00063"></a><span class="lineno">   63</span>&#160; </div>
+<div class="line"><a name="l00064"></a><span class="lineno">   64</span>&#160;      ss &lt;&lt; <span class="stringliteral">&quot; - Transition.  &quot;</span> &lt;&lt; std::endl;</div>
+<div class="line"><a name="l00065"></a><span class="lineno">   65</span>&#160;      ss &lt;&lt; <span class="stringliteral">&quot;      - Index: &quot;</span> &lt;&lt; transitionMsg.index &lt;&lt; std::endl;</div>
+<div class="line"><a name="l00066"></a><span class="lineno">   66</span>&#160;      ss &lt;&lt; <span class="stringliteral">&quot;      - Transition Name: &quot;</span> &lt;&lt; transitionMsg.transition_name &lt;&lt; std::endl;</div>
+<div class="line"><a name="l00067"></a><span class="lineno">   67</span>&#160;      ss &lt;&lt; <span class="stringliteral">&quot;      - Transition Type: &quot;</span> &lt;&lt; transitionMsg.transition_type &lt;&lt; std::endl;</div>
+<div class="line"><a name="l00068"></a><span class="lineno">   68</span>&#160;      ss &lt;&lt; <span class="stringliteral">&quot;      - Event Type :&quot;</span> &lt;&lt; transitionMsg.event.event_type &lt;&lt; std::endl;</div>
+<div class="line"><a name="l00069"></a><span class="lineno">   69</span>&#160;      ss &lt;&lt; <span class="stringliteral">&quot;      - Event Source: &quot;</span> &lt;&lt; transitionMsg.event.event_source &lt;&lt; std::endl;</div>
+<div class="line"><a name="l00070"></a><span class="lineno">   70</span>&#160;      ss &lt;&lt; <span class="stringliteral">&quot;      - Event ObjectTag: &quot;</span> &lt;&lt; transitionMsg.event.event_object_tag &lt;&lt; std::endl;</div>
+<div class="line"><a name="l00071"></a><span class="lineno">   71</span>&#160;      ss &lt;&lt; <span class="stringliteral">&quot;      - Event Label: &quot;</span> &lt;&lt; transitionMsg.event.label &lt;&lt; std::endl;</div>
+<div class="line"><a name="l00072"></a><span class="lineno">   72</span>&#160;      ss &lt;&lt; <span class="stringliteral">&quot;      - Destiny State: &quot;</span> &lt;&lt; transitionMsg.destiny_state_name &lt;&lt; std::endl;</div>
+<div class="line"><a name="l00073"></a><span class="lineno">   73</span>&#160;      ss &lt;&lt; <span class="stringliteral">&quot;      - Owner State: &quot;</span> &lt;&lt; transitionMsg.destiny_state_name &lt;&lt; std::endl;</div>
+<div class="line"><a name="l00074"></a><span class="lineno">   74</span>&#160;      ss &lt;&lt; <span class="stringliteral">&quot;      - Is History Node: &quot;</span> &lt;&lt; std::to_string(transitionMsg.history_node) &lt;&lt; std::endl;</div>
+<div class="line"><a name="l00075"></a><span class="lineno">   75</span>&#160;      ss &lt;&lt; <span class="stringliteral">&quot;      - TransitionC++Type: &quot;</span> &lt;&lt; transition.transitionTypeInfo-&gt;getFullName()</div>
+<div class="line"><a name="l00076"></a><span class="lineno">   76</span>&#160;         &lt;&lt; std::endl;</div>
+<div class="line"><a name="l00077"></a><span class="lineno">   77</span>&#160;      ss &lt;&lt; <span class="stringliteral">&quot;      - EventC++Type: &quot;</span> &lt;&lt; transition.eventInfo-&gt;eventType-&gt;getFullName() &lt;&lt; std::endl;</div>
+<div class="line"><a name="l00078"></a><span class="lineno">   78</span>&#160; </div>
+<div class="line"><a name="l00079"></a><span class="lineno">   79</span>&#160;      stateMsg.transitions.push_back(transitionMsg);</div>
+<div class="line"><a name="l00080"></a><span class="lineno">   80</span>&#160;    }</div>
+<div class="line"><a name="l00081"></a><span class="lineno">   81</span>&#160; </div>
+<div class="line"><a name="l00082"></a><span class="lineno">   82</span>&#160;    <span class="keyword">const</span> std::type_info * statetid = state-&gt;tid_;</div>
+<div class="line"><a name="l00083"></a><span class="lineno">   83</span>&#160; </div>
+<div class="line"><a name="l00084"></a><span class="lineno">   84</span>&#160;    std::map&lt;const std::type_info *, std::vector&lt;smacc2::ClientBehaviorInfoEntry *&gt;&gt;</div>
+<div class="line"><a name="l00085"></a><span class="lineno">   85</span>&#160;      smaccBehaviorInfoMappingByOrthogonalType;</div>
+<div class="line"><a name="l00086"></a><span class="lineno">   86</span>&#160; </div>
+<div class="line"><a name="l00087"></a><span class="lineno">   87</span>&#160;    ss &lt;&lt; <span class="stringliteral">&quot; Orthogonals:&quot;</span> &lt;&lt; std::endl;</div>
+<div class="line"><a name="l00088"></a><span class="lineno">   88</span>&#160;    <span class="keywordflow">if</span> (<a class="code" href="classsmacc2_1_1introspection_1_1SmaccStateInfo.html#af0df7561d09c3ba667bbd1dc532da66f">SmaccStateInfo::staticBehaviorInfo</a>.<a class="code" href="namespacesm__atomic__performance__test__a__1.html#a69292ba5271064375f3733f6c6ef8e9b">count</a>(statetid) &gt; 0)</div>
+<div class="line"><a name="l00089"></a><span class="lineno">   89</span>&#160;    {</div>
+<div class="line"><a name="l00090"></a><span class="lineno">   90</span>&#160;      <span class="keywordflow">for</span> (<span class="keyword">auto</span> &amp; bhinfo : <a class="code" href="classsmacc2_1_1introspection_1_1SmaccStateInfo.html#af0df7561d09c3ba667bbd1dc532da66f">SmaccStateInfo::staticBehaviorInfo</a>[statetid])</div>
+<div class="line"><a name="l00091"></a><span class="lineno">   91</span>&#160;      {</div>
+<div class="line"><a name="l00092"></a><span class="lineno">   92</span>&#160;        <span class="keywordflow">if</span> (smaccBehaviorInfoMappingByOrthogonalType.count(bhinfo.orthogonalType) == 0)</div>
+<div class="line"><a name="l00093"></a><span class="lineno">   93</span>&#160;        {</div>
+<div class="line"><a name="l00094"></a><span class="lineno">   94</span>&#160;          smaccBehaviorInfoMappingByOrthogonalType[bhinfo.orthogonalType] =</div>
+<div class="line"><a name="l00095"></a><span class="lineno">   95</span>&#160;            std::vector&lt;smacc2::ClientBehaviorInfoEntry *&gt;();</div>
+<div class="line"><a name="l00096"></a><span class="lineno">   96</span>&#160;        }</div>
 <div class="line"><a name="l00097"></a><span class="lineno">   97</span>&#160; </div>
-<div class="line"><a name="l00098"></a><span class="lineno">   98</span>&#160;    <span class="keywordflow">for</span> (<span class="keyword">auto</span> &amp; orthogonal : runtimeOrthogonals)</div>
-<div class="line"><a name="l00099"></a><span class="lineno">   99</span>&#160;    {</div>
-<div class="line"><a name="l00100"></a><span class="lineno">  100</span>&#160;      smacc2_msgs::msg::SmaccOrthogonal orthogonalMsg;</div>
+<div class="line"><a name="l00098"></a><span class="lineno">   98</span>&#160;        smaccBehaviorInfoMappingByOrthogonalType[bhinfo.orthogonalType].push_back(&amp;bhinfo);</div>
+<div class="line"><a name="l00099"></a><span class="lineno">   99</span>&#160;      }</div>
+<div class="line"><a name="l00100"></a><span class="lineno">  100</span>&#160;    }</div>
 <div class="line"><a name="l00101"></a><span class="lineno">  101</span>&#160; </div>
-<div class="line"><a name="l00102"></a><span class="lineno">  102</span>&#160;      <span class="keyword">const</span> <span class="keyword">auto</span> * orthogonaltid = &amp;<span class="keyword">typeid</span>(*(orthogonal.second));</div>
-<div class="line"><a name="l00103"></a><span class="lineno">  103</span>&#160;      orthogonalMsg.name = <a class="code" href="namespacesmacc2_1_1introspection.html#a9eb0636530a97a26f0fce97dfd2d5715">demangleSymbol</a>(orthogonaltid-&gt;name());</div>
-<div class="line"><a name="l00104"></a><span class="lineno">  104</span>&#160; </div>
-<div class="line"><a name="l00105"></a><span class="lineno">  105</span>&#160;      ss &lt;&lt; <span class="stringliteral">&quot; - orthogonal: &quot;</span> &lt;&lt; orthogonalMsg.name &lt;&lt; std::endl;</div>
-<div class="line"><a name="l00106"></a><span class="lineno">  106</span>&#160; </div>
-<div class="line"><a name="l00107"></a><span class="lineno">  107</span>&#160;      <span class="keywordflow">if</span> (smaccBehaviorInfoMappingByOrthogonalType[orthogonaltid].size() &gt; 0)</div>
-<div class="line"><a name="l00108"></a><span class="lineno">  108</span>&#160;      {</div>
-<div class="line"><a name="l00109"></a><span class="lineno">  109</span>&#160;        <span class="keyword">auto</span> &amp; behaviors = smaccBehaviorInfoMappingByOrthogonalType[orthogonaltid];</div>
-<div class="line"><a name="l00110"></a><span class="lineno">  110</span>&#160;        <span class="keywordflow">for</span> (<span class="keyword">auto</span> &amp; bhinfo : behaviors)</div>
-<div class="line"><a name="l00111"></a><span class="lineno">  111</span>&#160;        {</div>
-<div class="line"><a name="l00112"></a><span class="lineno">  112</span>&#160;          <span class="keyword">auto</span> ClientBehaviorName = <a class="code" href="namespacesmacc2_1_1introspection.html#a9eb0636530a97a26f0fce97dfd2d5715">demangleSymbol</a>(bhinfo-&gt;behaviorType-&gt;name());</div>
-<div class="line"><a name="l00113"></a><span class="lineno">  113</span>&#160;          orthogonalMsg.client_behavior_names.push_back(ClientBehaviorName);</div>
-<div class="line"><a name="l00114"></a><span class="lineno">  114</span>&#160;          ss &lt;&lt; <span class="stringliteral">&quot;          - client behavior: &quot;</span> &lt;&lt; ClientBehaviorName &lt;&lt; std::endl;</div>
-<div class="line"><a name="l00115"></a><span class="lineno">  115</span>&#160;        }</div>
-<div class="line"><a name="l00116"></a><span class="lineno">  116</span>&#160;      }</div>
-<div class="line"><a name="l00117"></a><span class="lineno">  117</span>&#160;      <span class="keywordflow">else</span></div>
-<div class="line"><a name="l00118"></a><span class="lineno">  118</span>&#160;      {</div>
-<div class="line"><a name="l00119"></a><span class="lineno">  119</span>&#160;        ss &lt;&lt; <span class="stringliteral">&quot;          - NO CLIENT BEHAVIORS -&quot;</span> &lt;&lt; std::endl;</div>
-<div class="line"><a name="l00120"></a><span class="lineno">  120</span>&#160;      }</div>
-<div class="line"><a name="l00121"></a><span class="lineno">  121</span>&#160; </div>
-<div class="line"><a name="l00122"></a><span class="lineno">  122</span>&#160;      <span class="keyword">auto</span> &amp; clients = orthogonal.second-&gt;getClients();</div>
-<div class="line"><a name="l00123"></a><span class="lineno">  123</span>&#160;      <span class="keywordflow">if</span> (clients.size() &gt; 0)</div>
+<div class="line"><a name="l00102"></a><span class="lineno">  102</span>&#160;    <span class="keyword">auto</span> &amp; runtimeOrthogonals = sm-&gt;<a class="code" href="classsmacc2_1_1ISmaccStateMachine.html#a5add78b13865291a7d167cbc496d0d35">getOrthogonals</a>();</div>
+<div class="line"><a name="l00103"></a><span class="lineno">  103</span>&#160; </div>
+<div class="line"><a name="l00104"></a><span class="lineno">  104</span>&#160;    <span class="keywordflow">for</span> (<span class="keyword">auto</span> &amp; orthogonal : runtimeOrthogonals)</div>
+<div class="line"><a name="l00105"></a><span class="lineno">  105</span>&#160;    {</div>
+<div class="line"><a name="l00106"></a><span class="lineno">  106</span>&#160;      smacc2_msgs::msg::SmaccOrthogonal orthogonalMsg;</div>
+<div class="line"><a name="l00107"></a><span class="lineno">  107</span>&#160; </div>
+<div class="line"><a name="l00108"></a><span class="lineno">  108</span>&#160;      <span class="keyword">const</span> <span class="keyword">auto</span> * orthogonaltid = &amp;<span class="keyword">typeid</span>(*(orthogonal.second));</div>
+<div class="line"><a name="l00109"></a><span class="lineno">  109</span>&#160;      orthogonalMsg.name = <a class="code" href="namespacesmacc2_1_1introspection.html#a9eb0636530a97a26f0fce97dfd2d5715">demangleSymbol</a>(orthogonaltid-&gt;name());</div>
+<div class="line"><a name="l00110"></a><span class="lineno">  110</span>&#160; </div>
+<div class="line"><a name="l00111"></a><span class="lineno">  111</span>&#160;      ss &lt;&lt; <span class="stringliteral">&quot; - orthogonal: &quot;</span> &lt;&lt; orthogonalMsg.name &lt;&lt; std::endl;</div>
+<div class="line"><a name="l00112"></a><span class="lineno">  112</span>&#160; </div>
+<div class="line"><a name="l00113"></a><span class="lineno">  113</span>&#160;      <span class="keywordflow">if</span> (smaccBehaviorInfoMappingByOrthogonalType[orthogonaltid].size() &gt; 0)</div>
+<div class="line"><a name="l00114"></a><span class="lineno">  114</span>&#160;      {</div>
+<div class="line"><a name="l00115"></a><span class="lineno">  115</span>&#160;        <span class="keyword">auto</span> &amp; behaviors = smaccBehaviorInfoMappingByOrthogonalType[orthogonaltid];</div>
+<div class="line"><a name="l00116"></a><span class="lineno">  116</span>&#160;        <span class="keywordflow">for</span> (<span class="keyword">auto</span> &amp; bhinfo : behaviors)</div>
+<div class="line"><a name="l00117"></a><span class="lineno">  117</span>&#160;        {</div>
+<div class="line"><a name="l00118"></a><span class="lineno">  118</span>&#160;          <span class="keyword">auto</span> ClientBehaviorName = <a class="code" href="namespacesmacc2_1_1introspection.html#a9eb0636530a97a26f0fce97dfd2d5715">demangleSymbol</a>(bhinfo-&gt;behaviorType-&gt;name());</div>
+<div class="line"><a name="l00119"></a><span class="lineno">  119</span>&#160;          orthogonalMsg.client_behavior_names.push_back(ClientBehaviorName);</div>
+<div class="line"><a name="l00120"></a><span class="lineno">  120</span>&#160;          ss &lt;&lt; <span class="stringliteral">&quot;          - client behavior: &quot;</span> &lt;&lt; ClientBehaviorName &lt;&lt; std::endl;</div>
+<div class="line"><a name="l00121"></a><span class="lineno">  121</span>&#160;        }</div>
+<div class="line"><a name="l00122"></a><span class="lineno">  122</span>&#160;      }</div>
+<div class="line"><a name="l00123"></a><span class="lineno">  123</span>&#160;      <span class="keywordflow">else</span></div>
 <div class="line"><a name="l00124"></a><span class="lineno">  124</span>&#160;      {</div>
-<div class="line"><a name="l00125"></a><span class="lineno">  125</span>&#160;        <span class="keywordflow">for</span> (<span class="keyword">auto</span> &amp; client : clients)</div>
-<div class="line"><a name="l00126"></a><span class="lineno">  126</span>&#160;        {</div>
-<div class="line"><a name="l00127"></a><span class="lineno">  127</span>&#160;          <span class="keyword">auto</span> clientTid = client-&gt;getType();</div>
-<div class="line"><a name="l00128"></a><span class="lineno">  128</span>&#160;          <span class="keyword">auto</span> clientName = clientTid-&gt;getNonTemplatedTypeName();</div>
-<div class="line"><a name="l00129"></a><span class="lineno">  129</span>&#160;          orthogonalMsg.client_names.push_back(clientName);</div>
-<div class="line"><a name="l00130"></a><span class="lineno">  130</span>&#160;          ss &lt;&lt; <span class="stringliteral">&quot;          - client: &quot;</span> &lt;&lt; clientName &lt;&lt; std::endl;</div>
-<div class="line"><a name="l00131"></a><span class="lineno">  131</span>&#160;        }</div>
-<div class="line"><a name="l00132"></a><span class="lineno">  132</span>&#160;      }</div>
-<div class="line"><a name="l00133"></a><span class="lineno">  133</span>&#160;      <span class="keywordflow">else</span></div>
-<div class="line"><a name="l00134"></a><span class="lineno">  134</span>&#160;      {</div>
-<div class="line"><a name="l00135"></a><span class="lineno">  135</span>&#160;        ss &lt;&lt; <span class="stringliteral">&quot;          - NO CLIENTS - &quot;</span> &lt;&lt; std::endl;</div>
-<div class="line"><a name="l00136"></a><span class="lineno">  136</span>&#160;      }</div>
-<div class="line"><a name="l00137"></a><span class="lineno">  137</span>&#160;      stateMsg.orthogonals.push_back(orthogonalMsg);</div>
-<div class="line"><a name="l00138"></a><span class="lineno">  138</span>&#160;    }</div>
-<div class="line"><a name="l00139"></a><span class="lineno">  139</span>&#160; </div>
-<div class="line"><a name="l00140"></a><span class="lineno">  140</span>&#160;    ss &lt;&lt; <span class="stringliteral">&quot; State event generators:&quot;</span> &lt;&lt; std::endl;</div>
-<div class="line"><a name="l00141"></a><span class="lineno">  141</span>&#160;    <span class="keywordflow">if</span> (<a class="code" href="classsmacc2_1_1introspection_1_1SmaccStateInfo.html#aea447ccf862aec5bd5e4eb378a6a159d">SmaccStateInfo::eventGeneratorsInfo</a>.<a class="code" href="namespacesm__atomic__performance__test__a__1.html#a69292ba5271064375f3733f6c6ef8e9b">count</a>(statetid) &gt; 0)</div>
-<div class="line"><a name="l00142"></a><span class="lineno">  142</span>&#160;    {</div>
-<div class="line"><a name="l00143"></a><span class="lineno">  143</span>&#160;      <span class="keywordtype">int</span> k = 0;</div>
-<div class="line"><a name="l00144"></a><span class="lineno">  144</span>&#160;      <span class="keywordflow">for</span> (<span class="keyword">auto</span> &amp; eginfo : <a class="code" href="classsmacc2_1_1introspection_1_1SmaccStateInfo.html#aea447ccf862aec5bd5e4eb378a6a159d">SmaccStateInfo::eventGeneratorsInfo</a>[statetid])</div>
-<div class="line"><a name="l00145"></a><span class="lineno">  145</span>&#160;      {</div>
-<div class="line"><a name="l00146"></a><span class="lineno">  146</span>&#160;        smacc2_msgs::msg::SmaccEventGenerator eventGeneratorMsg;</div>
-<div class="line"><a name="l00147"></a><span class="lineno">  147</span>&#160;        eventGeneratorMsg.index = k++;</div>
-<div class="line"><a name="l00148"></a><span class="lineno">  148</span>&#160;        eventGeneratorMsg.type_name = eginfo-&gt;eventGeneratorType-&gt;getFullName();</div>
-<div class="line"><a name="l00149"></a><span class="lineno">  149</span>&#160; </div>
-<div class="line"><a name="l00150"></a><span class="lineno">  150</span>&#160;        ss &lt;&lt; <span class="stringliteral">&quot; - event generator: &quot;</span> &lt;&lt; eventGeneratorMsg.type_name &lt;&lt; std::endl;</div>
-<div class="line"><a name="l00151"></a><span class="lineno">  151</span>&#160;        <span class="keywordflow">if</span> (eginfo-&gt;objectTagType != <span class="keyword">nullptr</span>)</div>
-<div class="line"><a name="l00152"></a><span class="lineno">  152</span>&#160;        {</div>
-<div class="line"><a name="l00153"></a><span class="lineno">  153</span>&#160;          eventGeneratorMsg.object_tag = eginfo-&gt;objectTagType-&gt;getFullName();</div>
-<div class="line"><a name="l00154"></a><span class="lineno">  154</span>&#160;          ss &lt;&lt; <span class="stringliteral">&quot;        - object tag: &quot;</span> &lt;&lt; eventGeneratorMsg.object_tag &lt;&lt; std::endl;</div>
-<div class="line"><a name="l00155"></a><span class="lineno">  155</span>&#160;        }</div>
-<div class="line"><a name="l00156"></a><span class="lineno">  156</span>&#160;        stateMsg.event_generators.push_back(eventGeneratorMsg);</div>
-<div class="line"><a name="l00157"></a><span class="lineno">  157</span>&#160;      }</div>
-<div class="line"><a name="l00158"></a><span class="lineno">  158</span>&#160;    }</div>
-<div class="line"><a name="l00159"></a><span class="lineno">  159</span>&#160; </div>
-<div class="line"><a name="l00160"></a><span class="lineno">  160</span>&#160;    ss &lt;&lt; <span class="stringliteral">&quot; State reactors:&quot;</span> &lt;&lt; std::endl;</div>
-<div class="line"><a name="l00161"></a><span class="lineno">  161</span>&#160;    <span class="keywordflow">if</span> (<a class="code" href="classsmacc2_1_1introspection_1_1SmaccStateInfo.html#a6b04901c8fcac6dcb4f613cb195ab65f">SmaccStateInfo::stateReactorsInfo</a>.<a class="code" href="namespacesm__atomic__performance__test__a__1.html#a69292ba5271064375f3733f6c6ef8e9b">count</a>(statetid) &gt; 0)</div>
-<div class="line"><a name="l00162"></a><span class="lineno">  162</span>&#160;    {</div>
-<div class="line"><a name="l00163"></a><span class="lineno">  163</span>&#160;      <span class="keywordtype">int</span> k = 0;</div>
-<div class="line"><a name="l00164"></a><span class="lineno">  164</span>&#160;      <span class="keywordflow">for</span> (<span class="keyword">auto</span> &amp; srinfo : <a class="code" href="classsmacc2_1_1introspection_1_1SmaccStateInfo.html#a6b04901c8fcac6dcb4f613cb195ab65f">SmaccStateInfo::stateReactorsInfo</a>[statetid])</div>
-<div class="line"><a name="l00165"></a><span class="lineno">  165</span>&#160;      {</div>
-<div class="line"><a name="l00166"></a><span class="lineno">  166</span>&#160;        smacc2_msgs::msg::SmaccStateReactor stateReactorMsg;</div>
-<div class="line"><a name="l00167"></a><span class="lineno">  167</span>&#160;        stateReactorMsg.index = k++;</div>
-<div class="line"><a name="l00168"></a><span class="lineno">  168</span>&#160;        stateReactorMsg.type_name = srinfo-&gt;stateReactorType-&gt;getFullName();</div>
-<div class="line"><a name="l00169"></a><span class="lineno">  169</span>&#160; </div>
-<div class="line"><a name="l00170"></a><span class="lineno">  170</span>&#160;        ss &lt;&lt; <span class="stringliteral">&quot; - state reactor: &quot;</span> &lt;&lt; stateReactorMsg.type_name &lt;&lt; std::endl;</div>
-<div class="line"><a name="l00171"></a><span class="lineno">  171</span>&#160;        <span class="keywordflow">if</span> (srinfo-&gt;objectTagType != <span class="keyword">nullptr</span>)</div>
-<div class="line"><a name="l00172"></a><span class="lineno">  172</span>&#160;        {</div>
-<div class="line"><a name="l00173"></a><span class="lineno">  173</span>&#160;          stateReactorMsg.object_tag = srinfo-&gt;objectTagType-&gt;getFullName();</div>
-<div class="line"><a name="l00174"></a><span class="lineno">  174</span>&#160;          ss &lt;&lt; <span class="stringliteral">&quot;        - object tag: &quot;</span> &lt;&lt; stateReactorMsg.object_tag &lt;&lt; std::endl;</div>
-<div class="line"><a name="l00175"></a><span class="lineno">  175</span>&#160;        }</div>
-<div class="line"><a name="l00176"></a><span class="lineno">  176</span>&#160; </div>
-<div class="line"><a name="l00177"></a><span class="lineno">  177</span>&#160;        <span class="keywordflow">for</span> (<span class="keyword">auto</span> &amp; tev : srinfo-&gt;sourceEventTypes)</div>
+<div class="line"><a name="l00125"></a><span class="lineno">  125</span>&#160;        ss &lt;&lt; <span class="stringliteral">&quot;          - NO CLIENT BEHAVIORS -&quot;</span> &lt;&lt; std::endl;</div>
+<div class="line"><a name="l00126"></a><span class="lineno">  126</span>&#160;      }</div>
+<div class="line"><a name="l00127"></a><span class="lineno">  127</span>&#160; </div>
+<div class="line"><a name="l00128"></a><span class="lineno">  128</span>&#160;      <span class="keyword">auto</span> &amp; clients = orthogonal.second-&gt;getClients();</div>
+<div class="line"><a name="l00129"></a><span class="lineno">  129</span>&#160;      <span class="keywordflow">if</span> (clients.size() &gt; 0)</div>
+<div class="line"><a name="l00130"></a><span class="lineno">  130</span>&#160;      {</div>
+<div class="line"><a name="l00131"></a><span class="lineno">  131</span>&#160;        <span class="keywordflow">for</span> (<span class="keyword">auto</span> &amp; client : clients)</div>
+<div class="line"><a name="l00132"></a><span class="lineno">  132</span>&#160;        {</div>
+<div class="line"><a name="l00133"></a><span class="lineno">  133</span>&#160;          <span class="keyword">auto</span> clientTid = client-&gt;getType();</div>
+<div class="line"><a name="l00134"></a><span class="lineno">  134</span>&#160;          <span class="keyword">auto</span> clientName = clientTid-&gt;getNonTemplatedTypeName();</div>
+<div class="line"><a name="l00135"></a><span class="lineno">  135</span>&#160;          orthogonalMsg.client_names.push_back(clientName);</div>
+<div class="line"><a name="l00136"></a><span class="lineno">  136</span>&#160;          ss &lt;&lt; <span class="stringliteral">&quot;          - client: &quot;</span> &lt;&lt; clientName &lt;&lt; std::endl;</div>
+<div class="line"><a name="l00137"></a><span class="lineno">  137</span>&#160;        }</div>
+<div class="line"><a name="l00138"></a><span class="lineno">  138</span>&#160;      }</div>
+<div class="line"><a name="l00139"></a><span class="lineno">  139</span>&#160;      <span class="keywordflow">else</span></div>
+<div class="line"><a name="l00140"></a><span class="lineno">  140</span>&#160;      {</div>
+<div class="line"><a name="l00141"></a><span class="lineno">  141</span>&#160;        ss &lt;&lt; <span class="stringliteral">&quot;          - NO CLIENTS - &quot;</span> &lt;&lt; std::endl;</div>
+<div class="line"><a name="l00142"></a><span class="lineno">  142</span>&#160;      }</div>
+<div class="line"><a name="l00143"></a><span class="lineno">  143</span>&#160;      stateMsg.orthogonals.push_back(orthogonalMsg);</div>
+<div class="line"><a name="l00144"></a><span class="lineno">  144</span>&#160;    }</div>
+<div class="line"><a name="l00145"></a><span class="lineno">  145</span>&#160; </div>
+<div class="line"><a name="l00146"></a><span class="lineno">  146</span>&#160;    ss &lt;&lt; <span class="stringliteral">&quot; State event generators:&quot;</span> &lt;&lt; std::endl;</div>
+<div class="line"><a name="l00147"></a><span class="lineno">  147</span>&#160;    <span class="keywordflow">if</span> (<a class="code" href="classsmacc2_1_1introspection_1_1SmaccStateInfo.html#aea447ccf862aec5bd5e4eb378a6a159d">SmaccStateInfo::eventGeneratorsInfo</a>.<a class="code" href="namespacesm__atomic__performance__test__a__1.html#a69292ba5271064375f3733f6c6ef8e9b">count</a>(statetid) &gt; 0)</div>
+<div class="line"><a name="l00148"></a><span class="lineno">  148</span>&#160;    {</div>
+<div class="line"><a name="l00149"></a><span class="lineno">  149</span>&#160;      <span class="keywordtype">int</span> k = 0;</div>
+<div class="line"><a name="l00150"></a><span class="lineno">  150</span>&#160;      <span class="keywordflow">for</span> (<span class="keyword">auto</span> &amp; eginfo : <a class="code" href="classsmacc2_1_1introspection_1_1SmaccStateInfo.html#aea447ccf862aec5bd5e4eb378a6a159d">SmaccStateInfo::eventGeneratorsInfo</a>[statetid])</div>
+<div class="line"><a name="l00151"></a><span class="lineno">  151</span>&#160;      {</div>
+<div class="line"><a name="l00152"></a><span class="lineno">  152</span>&#160;        smacc2_msgs::msg::SmaccEventGenerator eventGeneratorMsg;</div>
+<div class="line"><a name="l00153"></a><span class="lineno">  153</span>&#160;        eventGeneratorMsg.index = k++;</div>
+<div class="line"><a name="l00154"></a><span class="lineno">  154</span>&#160;        eventGeneratorMsg.type_name = eginfo-&gt;eventGeneratorType-&gt;getFullName();</div>
+<div class="line"><a name="l00155"></a><span class="lineno">  155</span>&#160; </div>
+<div class="line"><a name="l00156"></a><span class="lineno">  156</span>&#160;        ss &lt;&lt; <span class="stringliteral">&quot; - event generator: &quot;</span> &lt;&lt; eventGeneratorMsg.type_name &lt;&lt; std::endl;</div>
+<div class="line"><a name="l00157"></a><span class="lineno">  157</span>&#160;        <span class="keywordflow">if</span> (eginfo-&gt;objectTagType != <span class="keyword">nullptr</span>)</div>
+<div class="line"><a name="l00158"></a><span class="lineno">  158</span>&#160;        {</div>
+<div class="line"><a name="l00159"></a><span class="lineno">  159</span>&#160;          eventGeneratorMsg.object_tag = eginfo-&gt;objectTagType-&gt;getFullName();</div>
+<div class="line"><a name="l00160"></a><span class="lineno">  160</span>&#160;          ss &lt;&lt; <span class="stringliteral">&quot;        - object tag: &quot;</span> &lt;&lt; eventGeneratorMsg.object_tag &lt;&lt; std::endl;</div>
+<div class="line"><a name="l00161"></a><span class="lineno">  161</span>&#160;        }</div>
+<div class="line"><a name="l00162"></a><span class="lineno">  162</span>&#160;        stateMsg.event_generators.push_back(eventGeneratorMsg);</div>
+<div class="line"><a name="l00163"></a><span class="lineno">  163</span>&#160;      }</div>
+<div class="line"><a name="l00164"></a><span class="lineno">  164</span>&#160;    }</div>
+<div class="line"><a name="l00165"></a><span class="lineno">  165</span>&#160; </div>
+<div class="line"><a name="l00166"></a><span class="lineno">  166</span>&#160;    ss &lt;&lt; <span class="stringliteral">&quot; State reactors:&quot;</span> &lt;&lt; std::endl;</div>
+<div class="line"><a name="l00167"></a><span class="lineno">  167</span>&#160;    <span class="keywordflow">if</span> (<a class="code" href="classsmacc2_1_1introspection_1_1SmaccStateInfo.html#a6b04901c8fcac6dcb4f613cb195ab65f">SmaccStateInfo::stateReactorsInfo</a>.<a class="code" href="namespacesm__atomic__performance__test__a__1.html#a69292ba5271064375f3733f6c6ef8e9b">count</a>(statetid) &gt; 0)</div>
+<div class="line"><a name="l00168"></a><span class="lineno">  168</span>&#160;    {</div>
+<div class="line"><a name="l00169"></a><span class="lineno">  169</span>&#160;      <span class="keywordtype">int</span> k = 0;</div>
+<div class="line"><a name="l00170"></a><span class="lineno">  170</span>&#160;      <span class="keywordflow">for</span> (<span class="keyword">auto</span> &amp; srinfo : <a class="code" href="classsmacc2_1_1introspection_1_1SmaccStateInfo.html#a6b04901c8fcac6dcb4f613cb195ab65f">SmaccStateInfo::stateReactorsInfo</a>[statetid])</div>
+<div class="line"><a name="l00171"></a><span class="lineno">  171</span>&#160;      {</div>
+<div class="line"><a name="l00172"></a><span class="lineno">  172</span>&#160;        smacc2_msgs::msg::SmaccStateReactor stateReactorMsg;</div>
+<div class="line"><a name="l00173"></a><span class="lineno">  173</span>&#160;        stateReactorMsg.index = k++;</div>
+<div class="line"><a name="l00174"></a><span class="lineno">  174</span>&#160;        stateReactorMsg.type_name = srinfo-&gt;stateReactorType-&gt;getFullName();</div>
+<div class="line"><a name="l00175"></a><span class="lineno">  175</span>&#160; </div>
+<div class="line"><a name="l00176"></a><span class="lineno">  176</span>&#160;        ss &lt;&lt; <span class="stringliteral">&quot; - state reactor: &quot;</span> &lt;&lt; stateReactorMsg.type_name &lt;&lt; std::endl;</div>
+<div class="line"><a name="l00177"></a><span class="lineno">  177</span>&#160;        <span class="keywordflow">if</span> (srinfo-&gt;objectTagType != <span class="keyword">nullptr</span>)</div>
 <div class="line"><a name="l00178"></a><span class="lineno">  178</span>&#160;        {</div>
-<div class="line"><a name="l00179"></a><span class="lineno">  179</span>&#160;          <span class="comment">// WE SHOULD CREATE A SMACC_EVENT_INFO TYPE, also using in typewalker transition</span></div>
-<div class="line"><a name="l00180"></a><span class="lineno">  180</span>&#160;          <span class="keyword">auto</span> eventTypeName = tev-&gt;getEventTypeName();</div>
-<div class="line"><a name="l00181"></a><span class="lineno">  181</span>&#160;          smacc2_msgs::msg::SmaccEvent event;</div>
+<div class="line"><a name="l00179"></a><span class="lineno">  179</span>&#160;          stateReactorMsg.object_tag = srinfo-&gt;objectTagType-&gt;getFullName();</div>
+<div class="line"><a name="l00180"></a><span class="lineno">  180</span>&#160;          ss &lt;&lt; <span class="stringliteral">&quot;        - object tag: &quot;</span> &lt;&lt; stateReactorMsg.object_tag &lt;&lt; std::endl;</div>
+<div class="line"><a name="l00181"></a><span class="lineno">  181</span>&#160;        }</div>
 <div class="line"><a name="l00182"></a><span class="lineno">  182</span>&#160; </div>
-<div class="line"><a name="l00183"></a><span class="lineno">  183</span>&#160;          ss &lt;&lt; <span class="stringliteral">&quot;             - triggering event: &quot;</span> &lt;&lt; tev-&gt;getEventTypeName() &lt;&lt; std::endl;</div>
-<div class="line"><a name="l00184"></a><span class="lineno">  184</span>&#160;          <span class="keyword">event</span>.event_type = eventTypeName;</div>
-<div class="line"><a name="l00185"></a><span class="lineno">  185</span>&#160; </div>
-<div class="line"><a name="l00186"></a><span class="lineno">  186</span>&#160;          <span class="keyword">event</span>.event_source = tev-&gt;getEventSourceName();</div>
-<div class="line"><a name="l00187"></a><span class="lineno">  187</span>&#160;          ss &lt;&lt; <span class="stringliteral">&quot;                 - source type: &quot;</span> &lt;&lt; <span class="keyword">event</span>.event_source &lt;&lt; std::endl;</div>
+<div class="line"><a name="l00183"></a><span class="lineno">  183</span>&#160;        <span class="keywordflow">for</span> (<span class="keyword">auto</span> &amp; tev : srinfo-&gt;sourceEventTypes)</div>
+<div class="line"><a name="l00184"></a><span class="lineno">  184</span>&#160;        {</div>
+<div class="line"><a name="l00185"></a><span class="lineno">  185</span>&#160;          <span class="comment">// WE SHOULD CREATE A SMACC_EVENT_INFO TYPE, also using in typewalker transition</span></div>
+<div class="line"><a name="l00186"></a><span class="lineno">  186</span>&#160;          <span class="keyword">auto</span> eventTypeName = tev-&gt;getEventTypeName();</div>
+<div class="line"><a name="l00187"></a><span class="lineno">  187</span>&#160;          smacc2_msgs::msg::SmaccEvent event;</div>
 <div class="line"><a name="l00188"></a><span class="lineno">  188</span>&#160; </div>
-<div class="line"><a name="l00189"></a><span class="lineno">  189</span>&#160;          <span class="keyword">event</span>.event_object_tag = tev-&gt;getOrthogonalName();</div>
-<div class="line"><a name="l00190"></a><span class="lineno">  190</span>&#160;          ss &lt;&lt; <span class="stringliteral">&quot;                 - source object: &quot;</span> &lt;&lt; <span class="keyword">event</span>.event_object_tag &lt;&lt; std::endl;</div>
+<div class="line"><a name="l00189"></a><span class="lineno">  189</span>&#160;          ss &lt;&lt; <span class="stringliteral">&quot;             - triggering event: &quot;</span> &lt;&lt; tev-&gt;getEventTypeName() &lt;&lt; std::endl;</div>
+<div class="line"><a name="l00190"></a><span class="lineno">  190</span>&#160;          <span class="keyword">event</span>.event_type = eventTypeName;</div>
 <div class="line"><a name="l00191"></a><span class="lineno">  191</span>&#160; </div>
-<div class="line"><a name="l00192"></a><span class="lineno">  192</span>&#160;          <span class="keyword">event</span>.label = tev-&gt;label;</div>
-<div class="line"><a name="l00193"></a><span class="lineno">  193</span>&#160;          ss &lt;&lt; <span class="stringliteral">&quot;                 - event label: &quot;</span> &lt;&lt; <span class="keyword">event</span>.label &lt;&lt; std::endl;</div>
+<div class="line"><a name="l00192"></a><span class="lineno">  192</span>&#160;          <span class="keyword">event</span>.event_source = tev-&gt;getEventSourceName();</div>
+<div class="line"><a name="l00193"></a><span class="lineno">  193</span>&#160;          ss &lt;&lt; <span class="stringliteral">&quot;                 - source type: &quot;</span> &lt;&lt; <span class="keyword">event</span>.event_source &lt;&lt; std::endl;</div>
 <div class="line"><a name="l00194"></a><span class="lineno">  194</span>&#160; </div>
-<div class="line"><a name="l00195"></a><span class="lineno">  195</span>&#160;          stateReactorMsg.event_sources.push_back(event);</div>
-<div class="line"><a name="l00196"></a><span class="lineno">  196</span>&#160;        }</div>
+<div class="line"><a name="l00195"></a><span class="lineno">  195</span>&#160;          <span class="keyword">event</span>.event_object_tag = tev-&gt;getOrthogonalName();</div>
+<div class="line"><a name="l00196"></a><span class="lineno">  196</span>&#160;          ss &lt;&lt; <span class="stringliteral">&quot;                 - source object: &quot;</span> &lt;&lt; <span class="keyword">event</span>.event_object_tag &lt;&lt; std::endl;</div>
 <div class="line"><a name="l00197"></a><span class="lineno">  197</span>&#160; </div>
-<div class="line"><a name="l00198"></a><span class="lineno">  198</span>&#160;        stateMsg.state_reactors.push_back(stateReactorMsg);</div>
-<div class="line"><a name="l00199"></a><span class="lineno">  199</span>&#160;      }</div>
-<div class="line"><a name="l00200"></a><span class="lineno">  200</span>&#160;    }</div>
-<div class="line"><a name="l00201"></a><span class="lineno">  201</span>&#160;    <span class="keywordflow">else</span></div>
-<div class="line"><a name="l00202"></a><span class="lineno">  202</span>&#160;    {</div>
-<div class="line"><a name="l00203"></a><span class="lineno">  203</span>&#160;      ss &lt;&lt; <span class="stringliteral">&quot;- NO STATE REACTORS - &quot;</span> &lt;&lt; std::endl;</div>
-<div class="line"><a name="l00204"></a><span class="lineno">  204</span>&#160;    }</div>
-<div class="line"><a name="l00205"></a><span class="lineno">  205</span>&#160; </div>
-<div class="line"><a name="l00206"></a><span class="lineno">  206</span>&#160;    ss &lt;&lt; <span class="stringliteral">&quot;----------------------------------------------------------&quot;</span> &lt;&lt; std::endl;</div>
-<div class="line"><a name="l00207"></a><span class="lineno">  207</span>&#160; </div>
-<div class="line"><a name="l00208"></a><span class="lineno">  208</span>&#160;    <span class="keyword">auto</span> resumeMsg = ss.str();</div>
-<div class="line"><a name="l00209"></a><span class="lineno">  209</span>&#160;    RCLCPP_INFO(<a class="code" href="classsmacc2_1_1introspection_1_1SmaccStateMachineInfo.html#a1ff11df2244e7438a95133a49fedd713">getLogger</a>(), <span class="stringliteral">&quot;%s&quot;</span>, resumeMsg.c_str());</div>
-<div class="line"><a name="l00210"></a><span class="lineno">  210</span>&#160;    <a class="code" href="classsmacc2_1_1introspection_1_1SmaccStateMachineInfo.html#a8fe17f0cce81a317a70d7fe0dac62f90">stateMsgs</a>.push_back(stateMsg);</div>
-<div class="line"><a name="l00211"></a><span class="lineno">  211</span>&#160;  }</div>
-<div class="line"><a name="l00212"></a><span class="lineno">  212</span>&#160;}</div>
-<div class="line"><a name="l00213"></a><span class="lineno">  213</span>&#160;}  <span class="comment">// namespace smacc2</span></div>
+<div class="line"><a name="l00198"></a><span class="lineno">  198</span>&#160;          <span class="keyword">event</span>.label = tev-&gt;label;</div>
+<div class="line"><a name="l00199"></a><span class="lineno">  199</span>&#160;          ss &lt;&lt; <span class="stringliteral">&quot;                 - event label: &quot;</span> &lt;&lt; <span class="keyword">event</span>.label &lt;&lt; std::endl;</div>
+<div class="line"><a name="l00200"></a><span class="lineno">  200</span>&#160; </div>
+<div class="line"><a name="l00201"></a><span class="lineno">  201</span>&#160;          stateReactorMsg.event_sources.push_back(event);</div>
+<div class="line"><a name="l00202"></a><span class="lineno">  202</span>&#160;        }</div>
+<div class="line"><a name="l00203"></a><span class="lineno">  203</span>&#160; </div>
+<div class="line"><a name="l00204"></a><span class="lineno">  204</span>&#160;        stateMsg.state_reactors.push_back(stateReactorMsg);</div>
+<div class="line"><a name="l00205"></a><span class="lineno">  205</span>&#160;      }</div>
+<div class="line"><a name="l00206"></a><span class="lineno">  206</span>&#160;    }</div>
+<div class="line"><a name="l00207"></a><span class="lineno">  207</span>&#160;    <span class="keywordflow">else</span></div>
+<div class="line"><a name="l00208"></a><span class="lineno">  208</span>&#160;    {</div>
+<div class="line"><a name="l00209"></a><span class="lineno">  209</span>&#160;      ss &lt;&lt; <span class="stringliteral">&quot;- NO STATE REACTORS - &quot;</span> &lt;&lt; std::endl;</div>
+<div class="line"><a name="l00210"></a><span class="lineno">  210</span>&#160;    }</div>
+<div class="line"><a name="l00211"></a><span class="lineno">  211</span>&#160; </div>
+<div class="line"><a name="l00212"></a><span class="lineno">  212</span>&#160;    ss &lt;&lt; <span class="stringliteral">&quot;----------------------------------------------------------&quot;</span> &lt;&lt; std::endl;</div>
+<div class="line"><a name="l00213"></a><span class="lineno">  213</span>&#160; </div>
+<div class="line"><a name="l00214"></a><span class="lineno">  214</span>&#160;    <span class="keyword">auto</span> resumeMsg = ss.str();</div>
+<div class="line"><a name="l00215"></a><span class="lineno">  215</span>&#160;    RCLCPP_INFO(<a class="code" href="classsmacc2_1_1introspection_1_1SmaccStateMachineInfo.html#a1ff11df2244e7438a95133a49fedd713">getLogger</a>(), <span class="stringliteral">&quot;%s&quot;</span>, resumeMsg.c_str());</div>
+<div class="line"><a name="l00216"></a><span class="lineno">  216</span>&#160;    <a class="code" href="classsmacc2_1_1introspection_1_1SmaccStateMachineInfo.html#a8fe17f0cce81a317a70d7fe0dac62f90">stateMsgs</a>.push_back(stateMsg);</div>
+<div class="line"><a name="l00217"></a><span class="lineno">  217</span>&#160;  }</div>
+<div class="line"><a name="l00218"></a><span class="lineno">  218</span>&#160;}</div>
+<div class="line"><a name="l00219"></a><span class="lineno">  219</span>&#160;}  <span class="comment">// namespace smacc2</span></div>
 <div class="ttc" id="aclasssmacc2_1_1ISmaccStateMachine_html"><div class="ttname"><a href="classsmacc2_1_1ISmaccStateMachine.html">smacc2::ISmaccStateMachine</a></div><div class="ttdef"><b>Definition:</b> <a href="smacc__state__machine_8hpp_source.html#l00063">smacc_state_machine.hpp:64</a></div></div>
-<div class="ttc" id="aclasssmacc2_1_1ISmaccStateMachine_html_a5add78b13865291a7d167cbc496d0d35"><div class="ttname"><a href="classsmacc2_1_1ISmaccStateMachine.html#a5add78b13865291a7d167cbc496d0d35">smacc2::ISmaccStateMachine::getOrthogonals</a></div><div class="ttdeci">const std::map&lt; std::string, std::shared_ptr&lt; smacc2::ISmaccOrthogonal &gt; &gt; &amp; getOrthogonals() const</div><div class="ttdef"><b>Definition:</b> <a href="smacc__state__machine_8cpp_source.html#l00081">smacc_state_machine.cpp:81</a></div></div>
+<div class="ttc" id="aclasssmacc2_1_1ISmaccStateMachine_html_a5add78b13865291a7d167cbc496d0d35"><div class="ttname"><a href="classsmacc2_1_1ISmaccStateMachine.html#a5add78b13865291a7d167cbc496d0d35">smacc2::ISmaccStateMachine::getOrthogonals</a></div><div class="ttdeci">const std::map&lt; std::string, std::shared_ptr&lt; smacc2::ISmaccOrthogonal &gt; &gt; &amp; getOrthogonals() const</div><div class="ttdef"><b>Definition:</b> <a href="smacc__state__machine_8cpp_source.html#l00082">smacc_state_machine.cpp:82</a></div></div>
 <div class="ttc" id="aclasssmacc2_1_1introspection_1_1SmaccStateInfo_html_a6b04901c8fcac6dcb4f613cb195ab65f"><div class="ttname"><a href="classsmacc2_1_1introspection_1_1SmaccStateInfo.html#a6b04901c8fcac6dcb4f613cb195ab65f">smacc2::introspection::SmaccStateInfo::stateReactorsInfo</a></div><div class="ttdeci">static std::map&lt; const std::type_info *, std::vector&lt; std::shared_ptr&lt; SmaccStateReactorInfo &gt; &gt; &gt; stateReactorsInfo</div><div class="ttdef"><b>Definition:</b> <a href="smacc__state__info_8hpp_source.html#l00169">smacc_state_info.hpp:169</a></div></div>
 <div class="ttc" id="aclasssmacc2_1_1introspection_1_1SmaccStateInfo_html_aea447ccf862aec5bd5e4eb378a6a159d"><div class="ttname"><a href="classsmacc2_1_1introspection_1_1SmaccStateInfo.html#aea447ccf862aec5bd5e4eb378a6a159d">smacc2::introspection::SmaccStateInfo::eventGeneratorsInfo</a></div><div class="ttdeci">static std::map&lt; const std::type_info *, std::vector&lt; std::shared_ptr&lt; SmaccEventGeneratorInfo &gt; &gt; &gt; eventGeneratorsInfo</div><div class="ttdef"><b>Definition:</b> <a href="smacc__state__info_8hpp_source.html#l00171">smacc_state_info.hpp:171</a></div></div>
 <div class="ttc" id="aclasssmacc2_1_1introspection_1_1SmaccStateInfo_html_af0df7561d09c3ba667bbd1dc532da66f"><div class="ttname"><a href="classsmacc2_1_1introspection_1_1SmaccStateInfo.html#af0df7561d09c3ba667bbd1dc532da66f">smacc2::introspection::SmaccStateInfo::staticBehaviorInfo</a></div><div class="ttdeci">static std::map&lt; const std::type_info *, std::vector&lt; ClientBehaviorInfoEntry &gt; &gt; staticBehaviorInfo</div><div class="ttdef"><b>Definition:</b> <a href="smacc__state__info_8hpp_source.html#l00167">smacc_state_info.hpp:167</a></div></div>
 <div class="ttc" id="aclasssmacc2_1_1introspection_1_1SmaccStateMachineInfo_html_a1ff11df2244e7438a95133a49fedd713"><div class="ttname"><a href="classsmacc2_1_1introspection_1_1SmaccStateMachineInfo.html#a1ff11df2244e7438a95133a49fedd713">smacc2::introspection::SmaccStateMachineInfo::getLogger</a></div><div class="ttdeci">rclcpp::Logger getLogger()</div><div class="ttdef"><b>Definition:</b> <a href="smacc__state__machine__info_8hpp_source.html#l00079">smacc_state_machine_info.hpp:79</a></div></div>
 <div class="ttc" id="aclasssmacc2_1_1introspection_1_1SmaccStateMachineInfo_html_a80941de783a1ae5c282fbceb7599eecf"><div class="ttname"><a href="classsmacc2_1_1introspection_1_1SmaccStateMachineInfo.html#a80941de783a1ae5c282fbceb7599eecf">smacc2::introspection::SmaccStateMachineInfo::states</a></div><div class="ttdeci">std::map&lt; std::string, std::shared_ptr&lt; SmaccStateInfo &gt; &gt; states</div><div class="ttdef"><b>Definition:</b> <a href="smacc__state__machine__info_8hpp_source.html#l00049">smacc_state_machine_info.hpp:49</a></div></div>
 <div class="ttc" id="aclasssmacc2_1_1introspection_1_1SmaccStateMachineInfo_html_a8fe17f0cce81a317a70d7fe0dac62f90"><div class="ttname"><a href="classsmacc2_1_1introspection_1_1SmaccStateMachineInfo.html#a8fe17f0cce81a317a70d7fe0dac62f90">smacc2::introspection::SmaccStateMachineInfo::stateMsgs</a></div><div class="ttdeci">std::vector&lt; smacc2_msgs::msg::SmaccState &gt; stateMsgs</div><div class="ttdef"><b>Definition:</b> <a href="smacc__state__machine__info_8hpp_source.html#l00051">smacc_state_machine_info.hpp:51</a></div></div>
-<div class="ttc" id="aclasssmacc2_1_1introspection_1_1SmaccStateMachineInfo_html_af9405e186cb828249d86c4dd64375521"><div class="ttname"><a href="classsmacc2_1_1introspection_1_1SmaccStateMachineInfo.html#af9405e186cb828249d86c4dd64375521">smacc2::introspection::SmaccStateMachineInfo::assembleSMStructureMessage</a></div><div class="ttdeci">void assembleSMStructureMessage(ISmaccStateMachine *sm)</div><div class="ttdef"><b>Definition:</b> <a href="smacc__state__machine__info_8cpp_source.html#l00020">smacc_state_machine_info.cpp:20</a></div></div>
+<div class="ttc" id="aclasssmacc2_1_1introspection_1_1SmaccStateMachineInfo_html_af9405e186cb828249d86c4dd64375521"><div class="ttname"><a href="classsmacc2_1_1introspection_1_1SmaccStateMachineInfo.html#af9405e186cb828249d86c4dd64375521">smacc2::introspection::SmaccStateMachineInfo::assembleSMStructureMessage</a></div><div class="ttdeci">void assembleSMStructureMessage(ISmaccStateMachine *sm)</div><div class="ttdef"><b>Definition:</b> <a href="smacc__state__machine__info_8cpp_source.html#l00026">smacc_state_machine_info.cpp:26</a></div></div>
 <div class="ttc" id="aintrospection_8hpp_html"><div class="ttname"><a href="introspection_8hpp.html">introspection.hpp</a></div></div>
 <div class="ttc" id="anamespacesm__atomic__performance__test__a__1_html_a69292ba5271064375f3733f6c6ef8e9b"><div class="ttname"><a href="namespacesm__atomic__performance__test__a__1.html#a69292ba5271064375f3733f6c6ef8e9b">sm_atomic_performance_test_a_1::count</a></div><div class="ttdeci">static int count</div><div class="ttdef"><b>Definition:</b> <a href="smacc2__sm__reference__library_2sm__atomic__performance__test__a__1_2include_2sm__atomic__perforf16f02e043c3492e779d0773afefc0b8_source.html#l00025">st_state_2.hpp:25</a></div></div>
 <div class="ttc" id="anamespacesmacc2_1_1introspection_html_a9eb0636530a97a26f0fce97dfd2d5715"><div class="ttname"><a href="namespacesmacc2_1_1introspection.html#a9eb0636530a97a26f0fce97dfd2d5715">smacc2::introspection::demangleSymbol</a></div><div class="ttdeci">std::string demangleSymbol(const char *name)</div><div class="ttdef"><b>Definition:</b> <a href="introspection_8hpp_source.html#l00074">introspection.hpp:74</a></div></div>
-<div class="ttc" id="anamespacesmacc2_1_1introspection_html_aff63647843caf0176c8dac4c8cbfd04f"><div class="ttname"><a href="namespacesmacc2_1_1introspection.html#aff63647843caf0176c8dac4c8cbfd04f">smacc2::introspection::transitionInfoToMsg</a></div><div class="ttdeci">void transitionInfoToMsg(const SmaccTransitionInfo &amp;transition, smacc2_msgs::msg::SmaccTransition &amp;transitionMsg)</div><div class="ttdef"><b>Definition:</b> <a href="reflection_8cpp_source.html#l00024">reflection.cpp:24</a></div></div>
-<div class="ttc" id="anamespacesmacc2_html"><div class="ttname"><a href="namespacesmacc2.html">smacc2</a></div><div class="ttdef"><b>Definition:</b> <a href="cp__topic__subscriber_8hpp_source.html#l00021">cp_topic_subscriber.hpp:22</a></div></div>
+<div class="ttc" id="anamespacesmacc2_1_1introspection_html_aff63647843caf0176c8dac4c8cbfd04f"><div class="ttname"><a href="namespacesmacc2_1_1introspection.html#aff63647843caf0176c8dac4c8cbfd04f">smacc2::introspection::transitionInfoToMsg</a></div><div class="ttdeci">void transitionInfoToMsg(const SmaccTransitionInfo &amp;transition, smacc2_msgs::msg::SmaccTransition &amp;transitionMsg)</div><div class="ttdef"><b>Definition:</b> <a href="reflection_8cpp_source.html#l00030">reflection.cpp:30</a></div></div>
+<div class="ttc" id="anamespacesmacc2_html"><div class="ttname"><a href="namespacesmacc2.html">smacc2</a></div><div class="ttdef"><b>Definition:</b> <a href="cp__topic__subscriber_8hpp_source.html#l00027">cp_topic_subscriber.hpp:28</a></div></div>
 <div class="ttc" id="asmacc__state__machine_8hpp_html"><div class="ttname"><a href="smacc__state__machine_8hpp.html">smacc_state_machine.hpp</a></div></div>
 </div><!-- fragment --></div><!-- contents -->
 <!-- start footer part -->

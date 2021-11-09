@@ -83,88 +83,94 @@ $(function() {
 <div class="line"><a name="l00012"></a><span class="lineno">   12</span>&#160;<span class="comment">// See the License for the specific language governing permissions and</span></div>
 <div class="line"><a name="l00013"></a><span class="lineno">   13</span>&#160;<span class="comment">// limitations under the License.</span></div>
 <div class="line"><a name="l00014"></a><span class="lineno">   14</span>&#160; </div>
-<div class="line"><a name="l00015"></a><span class="lineno">   15</span>&#160;<span class="preprocessor">#include &lt;<a class="code" href="smacc__state_8hpp.html">smacc2/smacc_state.hpp</a>&gt;</span></div>
-<div class="line"><a name="l00016"></a><span class="lineno">   16</span>&#160;<span class="preprocessor">#include &lt;<a class="code" href="smacc__state__machine_8hpp.html">smacc2/smacc_state_machine.hpp</a>&gt;</span></div>
-<div class="line"><a name="l00017"></a><span class="lineno">   17</span>&#160; </div>
-<div class="line"><a name="l00018"></a><span class="lineno">   18</span>&#160;<span class="keyword">namespace </span><a class="code" href="namespacesmacc2.html">smacc2</a></div>
-<div class="line"><a name="l00019"></a><span class="lineno">   19</span>&#160;{</div>
-<div class="line"><a name="l00020"></a><span class="lineno"><a class="line" href="classsmacc2_1_1ISmaccState.html#a5a3be081c0b0da5fd9b918bc52aba0d7">   20</a></span>&#160;std::string <a class="code" href="classsmacc2_1_1ISmaccState.html#a5a3be081c0b0da5fd9b918bc52aba0d7">ISmaccState::getClassName</a>() { <span class="keywordflow">return</span> <a class="code" href="namespacesmacc2_1_1introspection.html#a9eb0636530a97a26f0fce97dfd2d5715">demangleSymbol</a>(<span class="keyword">typeid</span>(*this).name()); }</div>
-<div class="line"><a name="l00021"></a><span class="lineno">   21</span>&#160; </div>
-<div class="line"><a name="l00022"></a><span class="lineno"><a class="line" href="classsmacc2_1_1ISmaccState.html#af07000235dbc0541fe4cd9cc08790dd1">   22</a></span>&#160;<span class="keywordtype">void</span> <a class="code" href="classsmacc2_1_1ISmaccState.html#af07000235dbc0541fe4cd9cc08790dd1">ISmaccState::notifyTransitionFromTransitionTypeInfo</a>(<a class="code" href="classsmacc2_1_1introspection_1_1TypeInfo.html#a4177d9535ac2b921fe5f446736c59a5b">TypeInfo::Ptr</a> &amp; transitionType)</div>
-<div class="line"><a name="l00023"></a><span class="lineno">   23</span>&#160;{</div>
-<div class="line"><a name="l00024"></a><span class="lineno">   24</span>&#160;  RCLCPP_INFO_STREAM(<a class="code" href="classsmacc2_1_1ISmaccState.html#a197a2c11b2510484138af98b55761fc3">getLogger</a>(), <span class="stringliteral">&quot;NOTIFY TRANSITION: &quot;</span> &lt;&lt; transitionType-&gt;getFullName());</div>
-<div class="line"><a name="l00025"></a><span class="lineno">   25</span>&#160; </div>
-<div class="line"><a name="l00026"></a><span class="lineno">   26</span>&#160;  <span class="comment">//auto currstateinfo = this-&gt;getStateMachine().getCurrentStateInfo();</span></div>
-<div class="line"><a name="l00027"></a><span class="lineno">   27</span>&#160;  <span class="keyword">auto</span> currstateinfo = this-&gt;<a class="code" href="classsmacc2_1_1ISmaccState.html#acf3d957f7c9c68b406848cffa51f12a1">stateInfo_</a>;</div>
-<div class="line"><a name="l00028"></a><span class="lineno">   28</span>&#160; </div>
-<div class="line"><a name="l00029"></a><span class="lineno">   29</span>&#160;  <span class="keywordflow">if</span> (currstateinfo != <span class="keyword">nullptr</span>)</div>
-<div class="line"><a name="l00030"></a><span class="lineno">   30</span>&#160;  {</div>
-<div class="line"><a name="l00031"></a><span class="lineno">   31</span>&#160;    <span class="comment">//RCLCPP_ERROR_STREAM(getLogger(),&quot;CURRENT STATE INFO: &quot; &lt;&lt; currstateinfo-&gt;fullStateName);</span></div>
-<div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160;    <span class="keywordflow">for</span> (<span class="keyword">auto</span> &amp; transition : currstateinfo-&gt;transitions_)</div>
-<div class="line"><a name="l00033"></a><span class="lineno">   33</span>&#160;    {</div>
-<div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160;      std::string transitionCandidateName = transition.transitionTypeInfo-&gt;getFullName();</div>
-<div class="line"><a name="l00035"></a><span class="lineno">   35</span>&#160;      <span class="comment">//RCLCPP_ERROR_STREAM(getLogger(),&quot;candidate transition: &quot; &lt;&lt; transitionCandidateName);</span></div>
-<div class="line"><a name="l00036"></a><span class="lineno">   36</span>&#160; </div>
-<div class="line"><a name="l00037"></a><span class="lineno">   37</span>&#160;      <span class="keywordflow">if</span> (transitionType-&gt;getFullName() == transitionCandidateName)</div>
-<div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160;      {</div>
-<div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160;        this-&gt;<a class="code" href="classsmacc2_1_1ISmaccState.html#a2da187255a77c44fede67a0e75b7d305">getStateMachine</a>().<a class="code" href="classsmacc2_1_1ISmaccStateMachine.html#a2353855528d87d449ece6078692fd89b">publishTransition</a>(transition);</div>
-<div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160;        <span class="keywordflow">return</span>;</div>
-<div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160;      }</div>
-<div class="line"><a name="l00042"></a><span class="lineno">   42</span>&#160;    }</div>
-<div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160; </div>
-<div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160;    <span class="comment">// debug information if not found</span></div>
-<div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160;    RCLCPP_ERROR_STREAM(</div>
-<div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160;      <a class="code" href="classsmacc2_1_1ISmaccState.html#a197a2c11b2510484138af98b55761fc3">getLogger</a>(),</div>
-<div class="line"><a name="l00047"></a><span class="lineno">   47</span>&#160;      <span class="stringliteral">&quot;Transition happened, from current state &quot;</span></div>
-<div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160;        &lt;&lt; currstateinfo-&gt;getDemangledFullName()</div>
-<div class="line"><a name="l00049"></a><span class="lineno">   49</span>&#160;        &lt;&lt; <span class="stringliteral">&quot; but there is not any transitioninfo match available to publish transition: &quot;</span></div>
-<div class="line"><a name="l00050"></a><span class="lineno">   50</span>&#160;        &lt;&lt; transitionType-&gt;getFullName());</div>
-<div class="line"><a name="l00051"></a><span class="lineno">   51</span>&#160;    std::stringstream ss;</div>
-<div class="line"><a name="l00052"></a><span class="lineno">   52</span>&#160; </div>
-<div class="line"><a name="l00053"></a><span class="lineno">   53</span>&#160;    <span class="keyword">auto</span> stateinfo = currstateinfo;</div>
-<div class="line"><a name="l00054"></a><span class="lineno">   54</span>&#160; </div>
-<div class="line"><a name="l00055"></a><span class="lineno">   55</span>&#160;    <span class="keywordflow">for</span> (<span class="keyword">auto</span> &amp; transition : currstateinfo-&gt;transitions_)</div>
-<div class="line"><a name="l00056"></a><span class="lineno">   56</span>&#160;    {</div>
-<div class="line"><a name="l00057"></a><span class="lineno">   57</span>&#160;      std::string transitionCandidateName = transition.transitionTypeInfo-&gt;getFullName();</div>
-<div class="line"><a name="l00058"></a><span class="lineno">   58</span>&#160;      RCLCPP_ERROR_STREAM(<a class="code" href="classsmacc2_1_1ISmaccState.html#a197a2c11b2510484138af98b55761fc3">getLogger</a>(), <span class="stringliteral">&quot;- candidate transition: &quot;</span> &lt;&lt; transitionCandidateName);</div>
-<div class="line"><a name="l00059"></a><span class="lineno">   59</span>&#160;    }</div>
+<div class="line"><a name="l00015"></a><span class="lineno">   15</span>&#160;<span class="comment">/*****************************************************************************************************************</span></div>
+<div class="line"><a name="l00016"></a><span class="lineno">   16</span>&#160;<span class="comment"> *</span></div>
+<div class="line"><a name="l00017"></a><span class="lineno">   17</span>&#160;<span class="comment"> *   Authors: Pablo Inigo Blasco, Brett Aldrich</span></div>
+<div class="line"><a name="l00018"></a><span class="lineno">   18</span>&#160;<span class="comment"> *</span></div>
+<div class="line"><a name="l00019"></a><span class="lineno">   19</span>&#160;<span class="comment"> ******************************************************************************************************************/</span></div>
+<div class="line"><a name="l00020"></a><span class="lineno">   20</span>&#160; </div>
+<div class="line"><a name="l00021"></a><span class="lineno">   21</span>&#160;<span class="preprocessor">#include &lt;<a class="code" href="smacc__state_8hpp.html">smacc2/smacc_state.hpp</a>&gt;</span></div>
+<div class="line"><a name="l00022"></a><span class="lineno">   22</span>&#160;<span class="preprocessor">#include &lt;<a class="code" href="smacc__state__machine_8hpp.html">smacc2/smacc_state_machine.hpp</a>&gt;</span></div>
+<div class="line"><a name="l00023"></a><span class="lineno">   23</span>&#160; </div>
+<div class="line"><a name="l00024"></a><span class="lineno">   24</span>&#160;<span class="keyword">namespace </span><a class="code" href="namespacesmacc2.html">smacc2</a></div>
+<div class="line"><a name="l00025"></a><span class="lineno">   25</span>&#160;{</div>
+<div class="line"><a name="l00026"></a><span class="lineno"><a class="line" href="classsmacc2_1_1ISmaccState.html#a5a3be081c0b0da5fd9b918bc52aba0d7">   26</a></span>&#160;std::string <a class="code" href="classsmacc2_1_1ISmaccState.html#a5a3be081c0b0da5fd9b918bc52aba0d7">ISmaccState::getClassName</a>() { <span class="keywordflow">return</span> <a class="code" href="namespacesmacc2_1_1introspection.html#a9eb0636530a97a26f0fce97dfd2d5715">demangleSymbol</a>(<span class="keyword">typeid</span>(*this).name()); }</div>
+<div class="line"><a name="l00027"></a><span class="lineno">   27</span>&#160; </div>
+<div class="line"><a name="l00028"></a><span class="lineno"><a class="line" href="classsmacc2_1_1ISmaccState.html#af07000235dbc0541fe4cd9cc08790dd1">   28</a></span>&#160;<span class="keywordtype">void</span> <a class="code" href="classsmacc2_1_1ISmaccState.html#af07000235dbc0541fe4cd9cc08790dd1">ISmaccState::notifyTransitionFromTransitionTypeInfo</a>(<a class="code" href="classsmacc2_1_1introspection_1_1TypeInfo.html#a4177d9535ac2b921fe5f446736c59a5b">TypeInfo::Ptr</a> &amp; transitionType)</div>
+<div class="line"><a name="l00029"></a><span class="lineno">   29</span>&#160;{</div>
+<div class="line"><a name="l00030"></a><span class="lineno">   30</span>&#160;  RCLCPP_INFO_STREAM(<a class="code" href="classsmacc2_1_1ISmaccState.html#a197a2c11b2510484138af98b55761fc3">getLogger</a>(), <span class="stringliteral">&quot;NOTIFY TRANSITION: &quot;</span> &lt;&lt; transitionType-&gt;getFullName());</div>
+<div class="line"><a name="l00031"></a><span class="lineno">   31</span>&#160; </div>
+<div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160;  <span class="comment">//auto currstateinfo = this-&gt;getStateMachine().getCurrentStateInfo();</span></div>
+<div class="line"><a name="l00033"></a><span class="lineno">   33</span>&#160;  <span class="keyword">auto</span> currstateinfo = this-&gt;<a class="code" href="classsmacc2_1_1ISmaccState.html#acf3d957f7c9c68b406848cffa51f12a1">stateInfo_</a>;</div>
+<div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160; </div>
+<div class="line"><a name="l00035"></a><span class="lineno">   35</span>&#160;  <span class="keywordflow">if</span> (currstateinfo != <span class="keyword">nullptr</span>)</div>
+<div class="line"><a name="l00036"></a><span class="lineno">   36</span>&#160;  {</div>
+<div class="line"><a name="l00037"></a><span class="lineno">   37</span>&#160;    <span class="comment">//RCLCPP_ERROR_STREAM(getLogger(),&quot;CURRENT STATE INFO: &quot; &lt;&lt; currstateinfo-&gt;fullStateName);</span></div>
+<div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160;    <span class="keywordflow">for</span> (<span class="keyword">auto</span> &amp; transition : currstateinfo-&gt;transitions_)</div>
+<div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160;    {</div>
+<div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160;      std::string transitionCandidateName = transition.transitionTypeInfo-&gt;getFullName();</div>
+<div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160;      <span class="comment">//RCLCPP_ERROR_STREAM(getLogger(),&quot;candidate transition: &quot; &lt;&lt; transitionCandidateName);</span></div>
+<div class="line"><a name="l00042"></a><span class="lineno">   42</span>&#160; </div>
+<div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160;      <span class="keywordflow">if</span> (transitionType-&gt;getFullName() == transitionCandidateName)</div>
+<div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160;      {</div>
+<div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160;        this-&gt;<a class="code" href="classsmacc2_1_1ISmaccState.html#a2da187255a77c44fede67a0e75b7d305">getStateMachine</a>().<a class="code" href="classsmacc2_1_1ISmaccStateMachine.html#a2353855528d87d449ece6078692fd89b">publishTransition</a>(transition);</div>
+<div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160;        <span class="keywordflow">return</span>;</div>
+<div class="line"><a name="l00047"></a><span class="lineno">   47</span>&#160;      }</div>
+<div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160;    }</div>
+<div class="line"><a name="l00049"></a><span class="lineno">   49</span>&#160; </div>
+<div class="line"><a name="l00050"></a><span class="lineno">   50</span>&#160;    <span class="comment">// debug information if not found</span></div>
+<div class="line"><a name="l00051"></a><span class="lineno">   51</span>&#160;    RCLCPP_ERROR_STREAM(</div>
+<div class="line"><a name="l00052"></a><span class="lineno">   52</span>&#160;      <a class="code" href="classsmacc2_1_1ISmaccState.html#a197a2c11b2510484138af98b55761fc3">getLogger</a>(),</div>
+<div class="line"><a name="l00053"></a><span class="lineno">   53</span>&#160;      <span class="stringliteral">&quot;Transition happened, from current state &quot;</span></div>
+<div class="line"><a name="l00054"></a><span class="lineno">   54</span>&#160;        &lt;&lt; currstateinfo-&gt;getDemangledFullName()</div>
+<div class="line"><a name="l00055"></a><span class="lineno">   55</span>&#160;        &lt;&lt; <span class="stringliteral">&quot; but there is not any transitioninfo match available to publish transition: &quot;</span></div>
+<div class="line"><a name="l00056"></a><span class="lineno">   56</span>&#160;        &lt;&lt; transitionType-&gt;getFullName());</div>
+<div class="line"><a name="l00057"></a><span class="lineno">   57</span>&#160;    std::stringstream ss;</div>
+<div class="line"><a name="l00058"></a><span class="lineno">   58</span>&#160; </div>
+<div class="line"><a name="l00059"></a><span class="lineno">   59</span>&#160;    <span class="keyword">auto</span> stateinfo = currstateinfo;</div>
 <div class="line"><a name="l00060"></a><span class="lineno">   60</span>&#160; </div>
-<div class="line"><a name="l00061"></a><span class="lineno">   61</span>&#160;    RCLCPP_ERROR(<a class="code" href="classsmacc2_1_1ISmaccState.html#a197a2c11b2510484138af98b55761fc3">getLogger</a>(), <span class="stringliteral">&quot;Ancestors candidates: &quot;</span>);</div>
-<div class="line"><a name="l00062"></a><span class="lineno">   62</span>&#160; </div>
-<div class="line"><a name="l00063"></a><span class="lineno">   63</span>&#160;    std::list&lt;const SmaccStateInfo *&gt; ancestors;</div>
-<div class="line"><a name="l00064"></a><span class="lineno">   64</span>&#160;    stateinfo-&gt;getAncestors(ancestors);</div>
-<div class="line"><a name="l00065"></a><span class="lineno">   65</span>&#160; </div>
-<div class="line"><a name="l00066"></a><span class="lineno">   66</span>&#160;    <span class="keywordflow">for</span> (<span class="keyword">auto</span> &amp; ancestor : ancestors)</div>
-<div class="line"><a name="l00067"></a><span class="lineno">   67</span>&#160;    {</div>
-<div class="line"><a name="l00068"></a><span class="lineno">   68</span>&#160;      RCLCPP_ERROR_STREAM(<a class="code" href="classsmacc2_1_1ISmaccState.html#a197a2c11b2510484138af98b55761fc3">getLogger</a>(), <span class="stringliteral">&quot; * Ancestor &quot;</span> &lt;&lt; ancestor-&gt;getDemangledFullName() &lt;&lt; <span class="stringliteral">&quot;:&quot;</span>);</div>
-<div class="line"><a name="l00069"></a><span class="lineno">   69</span>&#160;      <span class="keywordflow">for</span> (<span class="keyword">auto</span> &amp; transition : ancestor-&gt;transitions_)</div>
-<div class="line"><a name="l00070"></a><span class="lineno">   70</span>&#160;      {</div>
-<div class="line"><a name="l00071"></a><span class="lineno">   71</span>&#160;        std::string transitionCandidateName = transition.transitionTypeInfo-&gt;getFullName();</div>
-<div class="line"><a name="l00072"></a><span class="lineno">   72</span>&#160;        RCLCPP_ERROR_STREAM(<a class="code" href="classsmacc2_1_1ISmaccState.html#a197a2c11b2510484138af98b55761fc3">getLogger</a>(), <span class="stringliteral">&quot;- candidate transition: &quot;</span> &lt;&lt; transitionCandidateName);</div>
-<div class="line"><a name="l00073"></a><span class="lineno">   73</span>&#160;        <span class="keywordflow">if</span> (transitionType-&gt;getFullName() == transitionCandidateName)</div>
-<div class="line"><a name="l00074"></a><span class="lineno">   74</span>&#160;        {</div>
-<div class="line"><a name="l00075"></a><span class="lineno">   75</span>&#160;          RCLCPP_ERROR(<a class="code" href="classsmacc2_1_1ISmaccState.html#a197a2c11b2510484138af98b55761fc3">getLogger</a>(), <span class="stringliteral">&quot;GOTCHA&quot;</span>);</div>
-<div class="line"><a name="l00076"></a><span class="lineno">   76</span>&#160;        }</div>
-<div class="line"><a name="l00077"></a><span class="lineno">   77</span>&#160;      }</div>
-<div class="line"><a name="l00078"></a><span class="lineno">   78</span>&#160;    }</div>
-<div class="line"><a name="l00079"></a><span class="lineno">   79</span>&#160;  }</div>
-<div class="line"><a name="l00080"></a><span class="lineno">   80</span>&#160;  <span class="keywordflow">else</span></div>
-<div class="line"><a name="l00081"></a><span class="lineno">   81</span>&#160;  {</div>
-<div class="line"><a name="l00082"></a><span class="lineno">   82</span>&#160;    RCLCPP_ERROR_STREAM(</div>
-<div class="line"><a name="l00083"></a><span class="lineno">   83</span>&#160;      <a class="code" href="classsmacc2_1_1ISmaccState.html#a197a2c11b2510484138af98b55761fc3">getLogger</a>(), <span class="stringliteral">&quot;Transition happened, but current state was not set. Transition candidates:&quot;</span>);</div>
-<div class="line"><a name="l00084"></a><span class="lineno">   84</span>&#160;  }</div>
-<div class="line"><a name="l00085"></a><span class="lineno">   85</span>&#160;}</div>
-<div class="line"><a name="l00086"></a><span class="lineno">   86</span>&#160; </div>
-<div class="line"><a name="l00087"></a><span class="lineno">   87</span>&#160;}  <span class="comment">// namespace smacc2</span></div>
-<div class="ttc" id="aclasssmacc2_1_1ISmaccStateMachine_html_a2353855528d87d449ece6078692fd89b"><div class="ttname"><a href="classsmacc2_1_1ISmaccStateMachine.html#a2353855528d87d449ece6078692fd89b">smacc2::ISmaccStateMachine::publishTransition</a></div><div class="ttdeci">void publishTransition(const SmaccTransitionInfo &amp;transitionInfo)</div><div class="ttdef"><b>Definition:</b> <a href="smacc__state__machine_8cpp_source.html#l00123">smacc_state_machine.cpp:123</a></div></div>
+<div class="line"><a name="l00061"></a><span class="lineno">   61</span>&#160;    <span class="keywordflow">for</span> (<span class="keyword">auto</span> &amp; transition : currstateinfo-&gt;transitions_)</div>
+<div class="line"><a name="l00062"></a><span class="lineno">   62</span>&#160;    {</div>
+<div class="line"><a name="l00063"></a><span class="lineno">   63</span>&#160;      std::string transitionCandidateName = transition.transitionTypeInfo-&gt;getFullName();</div>
+<div class="line"><a name="l00064"></a><span class="lineno">   64</span>&#160;      RCLCPP_ERROR_STREAM(<a class="code" href="classsmacc2_1_1ISmaccState.html#a197a2c11b2510484138af98b55761fc3">getLogger</a>(), <span class="stringliteral">&quot;- candidate transition: &quot;</span> &lt;&lt; transitionCandidateName);</div>
+<div class="line"><a name="l00065"></a><span class="lineno">   65</span>&#160;    }</div>
+<div class="line"><a name="l00066"></a><span class="lineno">   66</span>&#160; </div>
+<div class="line"><a name="l00067"></a><span class="lineno">   67</span>&#160;    RCLCPP_ERROR(<a class="code" href="classsmacc2_1_1ISmaccState.html#a197a2c11b2510484138af98b55761fc3">getLogger</a>(), <span class="stringliteral">&quot;Ancestors candidates: &quot;</span>);</div>
+<div class="line"><a name="l00068"></a><span class="lineno">   68</span>&#160; </div>
+<div class="line"><a name="l00069"></a><span class="lineno">   69</span>&#160;    std::list&lt;const SmaccStateInfo *&gt; ancestors;</div>
+<div class="line"><a name="l00070"></a><span class="lineno">   70</span>&#160;    stateinfo-&gt;getAncestors(ancestors);</div>
+<div class="line"><a name="l00071"></a><span class="lineno">   71</span>&#160; </div>
+<div class="line"><a name="l00072"></a><span class="lineno">   72</span>&#160;    <span class="keywordflow">for</span> (<span class="keyword">auto</span> &amp; ancestor : ancestors)</div>
+<div class="line"><a name="l00073"></a><span class="lineno">   73</span>&#160;    {</div>
+<div class="line"><a name="l00074"></a><span class="lineno">   74</span>&#160;      RCLCPP_ERROR_STREAM(<a class="code" href="classsmacc2_1_1ISmaccState.html#a197a2c11b2510484138af98b55761fc3">getLogger</a>(), <span class="stringliteral">&quot; * Ancestor &quot;</span> &lt;&lt; ancestor-&gt;getDemangledFullName() &lt;&lt; <span class="stringliteral">&quot;:&quot;</span>);</div>
+<div class="line"><a name="l00075"></a><span class="lineno">   75</span>&#160;      <span class="keywordflow">for</span> (<span class="keyword">auto</span> &amp; transition : ancestor-&gt;transitions_)</div>
+<div class="line"><a name="l00076"></a><span class="lineno">   76</span>&#160;      {</div>
+<div class="line"><a name="l00077"></a><span class="lineno">   77</span>&#160;        std::string transitionCandidateName = transition.transitionTypeInfo-&gt;getFullName();</div>
+<div class="line"><a name="l00078"></a><span class="lineno">   78</span>&#160;        RCLCPP_ERROR_STREAM(<a class="code" href="classsmacc2_1_1ISmaccState.html#a197a2c11b2510484138af98b55761fc3">getLogger</a>(), <span class="stringliteral">&quot;- candidate transition: &quot;</span> &lt;&lt; transitionCandidateName);</div>
+<div class="line"><a name="l00079"></a><span class="lineno">   79</span>&#160;        <span class="keywordflow">if</span> (transitionType-&gt;getFullName() == transitionCandidateName)</div>
+<div class="line"><a name="l00080"></a><span class="lineno">   80</span>&#160;        {</div>
+<div class="line"><a name="l00081"></a><span class="lineno">   81</span>&#160;          RCLCPP_ERROR(<a class="code" href="classsmacc2_1_1ISmaccState.html#a197a2c11b2510484138af98b55761fc3">getLogger</a>(), <span class="stringliteral">&quot;GOTCHA&quot;</span>);</div>
+<div class="line"><a name="l00082"></a><span class="lineno">   82</span>&#160;        }</div>
+<div class="line"><a name="l00083"></a><span class="lineno">   83</span>&#160;      }</div>
+<div class="line"><a name="l00084"></a><span class="lineno">   84</span>&#160;    }</div>
+<div class="line"><a name="l00085"></a><span class="lineno">   85</span>&#160;  }</div>
+<div class="line"><a name="l00086"></a><span class="lineno">   86</span>&#160;  <span class="keywordflow">else</span></div>
+<div class="line"><a name="l00087"></a><span class="lineno">   87</span>&#160;  {</div>
+<div class="line"><a name="l00088"></a><span class="lineno">   88</span>&#160;    RCLCPP_ERROR_STREAM(</div>
+<div class="line"><a name="l00089"></a><span class="lineno">   89</span>&#160;      <a class="code" href="classsmacc2_1_1ISmaccState.html#a197a2c11b2510484138af98b55761fc3">getLogger</a>(), <span class="stringliteral">&quot;Transition happened, but current state was not set. Transition candidates:&quot;</span>);</div>
+<div class="line"><a name="l00090"></a><span class="lineno">   90</span>&#160;  }</div>
+<div class="line"><a name="l00091"></a><span class="lineno">   91</span>&#160;}</div>
+<div class="line"><a name="l00092"></a><span class="lineno">   92</span>&#160; </div>
+<div class="line"><a name="l00093"></a><span class="lineno">   93</span>&#160;}  <span class="comment">// namespace smacc2</span></div>
+<div class="ttc" id="aclasssmacc2_1_1ISmaccStateMachine_html_a2353855528d87d449ece6078692fd89b"><div class="ttname"><a href="classsmacc2_1_1ISmaccStateMachine.html#a2353855528d87d449ece6078692fd89b">smacc2::ISmaccStateMachine::publishTransition</a></div><div class="ttdeci">void publishTransition(const SmaccTransitionInfo &amp;transitionInfo)</div><div class="ttdef"><b>Definition:</b> <a href="smacc__state__machine_8cpp_source.html#l00124">smacc_state_machine.cpp:124</a></div></div>
 <div class="ttc" id="aclasssmacc2_1_1ISmaccState_html_a197a2c11b2510484138af98b55761fc3"><div class="ttname"><a href="classsmacc2_1_1ISmaccState.html#a197a2c11b2510484138af98b55761fc3">smacc2::ISmaccState::getLogger</a></div><div class="ttdeci">rclcpp::Logger getLogger()</div><div class="ttdef"><b>Definition:</b> <a href="smacc__state_8hpp_source.html#l00034">smacc_state.hpp:34</a></div></div>
 <div class="ttc" id="aclasssmacc2_1_1ISmaccState_html_a2da187255a77c44fede67a0e75b7d305"><div class="ttname"><a href="classsmacc2_1_1ISmaccState.html#a2da187255a77c44fede67a0e75b7d305">smacc2::ISmaccState::getStateMachine</a></div><div class="ttdeci">virtual ISmaccStateMachine &amp; getStateMachine()=0</div></div>
-<div class="ttc" id="aclasssmacc2_1_1ISmaccState_html_a5a3be081c0b0da5fd9b918bc52aba0d7"><div class="ttname"><a href="classsmacc2_1_1ISmaccState.html#a5a3be081c0b0da5fd9b918bc52aba0d7">smacc2::ISmaccState::getClassName</a></div><div class="ttdeci">virtual std::string getClassName()</div><div class="ttdef"><b>Definition:</b> <a href="smacc__state_8cpp_source.html#l00020">smacc_state.cpp:20</a></div></div>
+<div class="ttc" id="aclasssmacc2_1_1ISmaccState_html_a5a3be081c0b0da5fd9b918bc52aba0d7"><div class="ttname"><a href="classsmacc2_1_1ISmaccState.html#a5a3be081c0b0da5fd9b918bc52aba0d7">smacc2::ISmaccState::getClassName</a></div><div class="ttdeci">virtual std::string getClassName()</div><div class="ttdef"><b>Definition:</b> <a href="smacc__state_8cpp_source.html#l00026">smacc_state.cpp:26</a></div></div>
 <div class="ttc" id="aclasssmacc2_1_1ISmaccState_html_acf3d957f7c9c68b406848cffa51f12a1"><div class="ttname"><a href="classsmacc2_1_1ISmaccState.html#acf3d957f7c9c68b406848cffa51f12a1">smacc2::ISmaccState::stateInfo_</a></div><div class="ttdeci">const smacc2::introspection::SmaccStateInfo * stateInfo_</div><div class="ttdef"><b>Definition:</b> <a href="smacc__state_8hpp_source.html#l00104">smacc_state.hpp:104</a></div></div>
-<div class="ttc" id="aclasssmacc2_1_1ISmaccState_html_af07000235dbc0541fe4cd9cc08790dd1"><div class="ttname"><a href="classsmacc2_1_1ISmaccState.html#af07000235dbc0541fe4cd9cc08790dd1">smacc2::ISmaccState::notifyTransitionFromTransitionTypeInfo</a></div><div class="ttdeci">void notifyTransitionFromTransitionTypeInfo(std::shared_ptr&lt; smacc2::introspection::TypeInfo &gt; &amp;transitionTypeInfo)</div><div class="ttdef"><b>Definition:</b> <a href="smacc__state_8cpp_source.html#l00022">smacc_state.cpp:22</a></div></div>
+<div class="ttc" id="aclasssmacc2_1_1ISmaccState_html_af07000235dbc0541fe4cd9cc08790dd1"><div class="ttname"><a href="classsmacc2_1_1ISmaccState.html#af07000235dbc0541fe4cd9cc08790dd1">smacc2::ISmaccState::notifyTransitionFromTransitionTypeInfo</a></div><div class="ttdeci">void notifyTransitionFromTransitionTypeInfo(std::shared_ptr&lt; smacc2::introspection::TypeInfo &gt; &amp;transitionTypeInfo)</div><div class="ttdef"><b>Definition:</b> <a href="smacc__state_8cpp_source.html#l00028">smacc_state.cpp:28</a></div></div>
 <div class="ttc" id="aclasssmacc2_1_1introspection_1_1TypeInfo_html_a4177d9535ac2b921fe5f446736c59a5b"><div class="ttname"><a href="classsmacc2_1_1introspection_1_1TypeInfo.html#a4177d9535ac2b921fe5f446736c59a5b">smacc2::introspection::TypeInfo::Ptr</a></div><div class="ttdeci">std::shared_ptr&lt; TypeInfo &gt; Ptr</div><div class="ttdef"><b>Definition:</b> <a href="smacc__type__info_8hpp_source.html#l00035">smacc_type_info.hpp:35</a></div></div>
 <div class="ttc" id="anamespacesmacc2_1_1introspection_html_a9eb0636530a97a26f0fce97dfd2d5715"><div class="ttname"><a href="namespacesmacc2_1_1introspection.html#a9eb0636530a97a26f0fce97dfd2d5715">smacc2::introspection::demangleSymbol</a></div><div class="ttdeci">std::string demangleSymbol(const char *name)</div><div class="ttdef"><b>Definition:</b> <a href="introspection_8hpp_source.html#l00074">introspection.hpp:74</a></div></div>
-<div class="ttc" id="anamespacesmacc2_html"><div class="ttname"><a href="namespacesmacc2.html">smacc2</a></div><div class="ttdef"><b>Definition:</b> <a href="cp__topic__subscriber_8hpp_source.html#l00021">cp_topic_subscriber.hpp:22</a></div></div>
+<div class="ttc" id="anamespacesmacc2_html"><div class="ttname"><a href="namespacesmacc2.html">smacc2</a></div><div class="ttdef"><b>Definition:</b> <a href="cp__topic__subscriber_8hpp_source.html#l00027">cp_topic_subscriber.hpp:28</a></div></div>
 <div class="ttc" id="asmacc__state_8hpp_html"><div class="ttname"><a href="smacc__state_8hpp.html">smacc_state.hpp</a></div></div>
 <div class="ttc" id="asmacc__state__machine_8hpp_html"><div class="ttname"><a href="smacc__state__machine_8hpp.html">smacc_state_machine.hpp</a></div></div>
 </div><!-- fragment --></div><!-- contents -->
