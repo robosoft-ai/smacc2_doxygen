@@ -1,8 +1,6 @@
 var searchData=
 [
-  ['record_5fpath_5373',['RECORD_PATH',['../namespacecl__nav2z_1_1odom__tracker.html#a0e181f0496e693e9fbd35874963c7211a023bc3adf68871ef7a0c616765ac80a7',1,'cl_nav2z::odom_tracker']]],
-  ['recoveriesserver_5374',['RecoveriesServer',['../namespacecl__nav2z.html#aa12208395907fb9a49f6a8fa0c4462c4a86abb861770dc6a445bd241746512b3e',1,'cl_nav2z']]],
-  ['release_5375',['RELEASE',['../namespacesmacc2.html#a7322c034df3cc8d5a5d8f0fc7737fc2ea7d649ef069df9885e382417c79f3d5cd',1,'smacc2']]],
-  ['resumed_5376',['Resumed',['../classcl__nav2z_1_1CpSlamToolbox.html#ad3d52fa2801e9ac16f945704aaefb064ab2a21932ddc3b1e41c012d711c7bd238',1,'cl_nav2z::CpSlamToolbox']]],
-  ['right_5377',['RIGHT',['../namespacesm__dance__bot_1_1f__pattern__states.html#acc99b72745466e5dcee9272425a34e58a21507b40c80068eda19865706fdc2403',1,'sm_dance_bot::f_pattern_states::RIGHT()'],['../namespacesm__dance__bot_1_1SS5.html#aaa01c87b9245bbff2b581cefd6f3b346a21507b40c80068eda19865706fdc2403',1,'sm_dance_bot::SS5::RIGHT()'],['../namespacesm__dance__bot__lite_1_1f__pattern__states.html#a711f045988a8ec5302a5a399a4eb3cada21507b40c80068eda19865706fdc2403',1,'sm_dance_bot_lite::f_pattern_states::RIGHT()'],['../namespacesm__dance__bot__lite_1_1SS5.html#ab83860cd9ed70269abeab2a283072c25a21507b40c80068eda19865706fdc2403',1,'sm_dance_bot_lite::SS5::RIGHT()'],['../namespacesm__dance__bot__strikes__back_1_1f__pattern__states.html#a606b9ab33830b5491413ff90dc1ea1aca21507b40c80068eda19865706fdc2403',1,'sm_dance_bot_strikes_back::f_pattern_states::RIGHT()'],['../namespacesm__dance__bot__strikes__back_1_1SS5.html#a9bfe9437a81f94ff39bae6daa0cec2e6a21507b40c80068eda19865706fdc2403',1,'sm_dance_bot_strikes_back::SS5::RIGHT()']]]
+  ['paused_5728',['Paused',['../classcl__nav2z_1_1CpSlamToolbox.html#ad3d52fa2801e9ac16f945704aaefb064ae99180abf47a8b3a856e0bcb2656990a',1,'cl_nav2z::CpSlamToolbox']]],
+  ['plannerserver_5729',['PlannerServer',['../namespacecl__nav2z.html#aa12208395907fb9a49f6a8fa0c4462c4a20a42ea930668293422566a08412cc0b',1,'cl_nav2z']]],
+  ['purespinning_5730',['PureSpinning',['../namespacecl__nav2z.html#a5e4aaa4193d14bf2632f1c399ede7cbcaada5274435681a4ce04175bebfa6652f',1,'cl_nav2z']]]
 ];
