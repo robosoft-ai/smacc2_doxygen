@@ -70,7 +70,7 @@ Definition at line 26 of file cb\+\_\+move\+\_\+cartesian\+\_\+relative2.\+cpp.
 
 
 \begin{DoxyCode}{0}
-\DoxyCodeLine{27 : \mbox{\hyperlink{classcl__move__group__interface_1_1CbMoveEndEffectorTrajectory_af7e718b0c53e912fd74968abbb0a4810}{CbMoveEndEffectorTrajectory}}(tipLink)}
+\DoxyCodeLine{27 : \mbox{\hyperlink{classcl__move__group__interface_1_1CbMoveEndEffectorTrajectory_ae79eab4454818ede1d7bbac0b2076e78}{CbMoveEndEffectorTrajectory}}(tipLink)}
 \DoxyCodeLine{28 \{}
 \DoxyCodeLine{29   \mbox{\hyperlink{classcl__move__group__interface_1_1CbMoveCartesianRelative2_ac33f1b3f077e191cda9b0b5f9f8c1f34}{globalFrame\_}} = referenceFrame;}
 \DoxyCodeLine{30 \}}
@@ -92,7 +92,7 @@ Definition at line 32 of file cb\+\_\+move\+\_\+cartesian\+\_\+relative2.\+cpp.
 
 
 \begin{DoxyCode}{0}
-\DoxyCodeLine{34 : \mbox{\hyperlink{classcl__move__group__interface_1_1CbMoveEndEffectorTrajectory_af7e718b0c53e912fd74968abbb0a4810}{CbMoveEndEffectorTrajectory}}(tipLink)}
+\DoxyCodeLine{34 : \mbox{\hyperlink{classcl__move__group__interface_1_1CbMoveEndEffectorTrajectory_ae79eab4454818ede1d7bbac0b2076e78}{CbMoveEndEffectorTrajectory}}(tipLink)}
 \DoxyCodeLine{35 \{}
 \DoxyCodeLine{36   \mbox{\hyperlink{classcl__move__group__interface_1_1CbMoveCartesianRelative2_ac33f1b3f077e191cda9b0b5f9f8c1f34}{globalFrame\_}} = referenceFrame;}
 \DoxyCodeLine{37   \mbox{\hyperlink{classcl__move__group__interface_1_1CbMoveCartesianRelative2_a69e3dfa48196261a18f683098520db07}{offset\_}} = offset;}
@@ -138,65 +138,67 @@ Definition at line 42 of file cb\+\_\+move\+\_\+cartesian\+\_\+relative2.\+cpp.
 
 \begin{DoxyCode}{0}
 \DoxyCodeLine{43 \{}
-\DoxyCodeLine{44   \textcolor{comment}{// at least 1 sample per centimeter (average)}}
-\DoxyCodeLine{45   \textcolor{keyword}{const} \textcolor{keywordtype}{double} METERS\_PER\_SAMPLE = 0.001;}
-\DoxyCodeLine{46 }
-\DoxyCodeLine{47   \textcolor{keywordtype}{float} dist\_meters = 0;}
-\DoxyCodeLine{48   tf2::Vector3 voffset;}
-\DoxyCodeLine{49   tf2::fromMsg(\mbox{\hyperlink{classcl__move__group__interface_1_1CbMoveCartesianRelative2_a69e3dfa48196261a18f683098520db07}{offset\_}}, voffset);}
-\DoxyCodeLine{50 }
-\DoxyCodeLine{51   \textcolor{keywordtype}{float} totallineardist = voffset.length();}
-\DoxyCodeLine{52 }
-\DoxyCodeLine{53   \textcolor{keywordtype}{int} totalSamplesCount = totallineardist / METERS\_PER\_SAMPLE;}
-\DoxyCodeLine{54   \textcolor{keywordtype}{int} steps = totallineardist / METERS\_PER\_SAMPLE;}
-\DoxyCodeLine{55 }
-\DoxyCodeLine{56   \textcolor{keywordtype}{float} interpolation\_factor\_step = 1.0 / totalSamplesCount;}
-\DoxyCodeLine{57 }
-\DoxyCodeLine{58   \textcolor{keywordtype}{double} secondsPerSample;}
-\DoxyCodeLine{59 }
-\DoxyCodeLine{60   \textcolor{keywordflow}{if} (!\mbox{\hyperlink{classcl__move__group__interface_1_1CbMoveCartesianRelative2_ae2c040786688faf1c9fd45c604841880}{linearSpeed\_m\_s\_}})}
-\DoxyCodeLine{61   \{}
-\DoxyCodeLine{62     \mbox{\hyperlink{classcl__move__group__interface_1_1CbMoveCartesianRelative2_ae2c040786688faf1c9fd45c604841880}{linearSpeed\_m\_s\_}} = 0.1;}
-\DoxyCodeLine{63   \}}
-\DoxyCodeLine{64 }
-\DoxyCodeLine{65   secondsPerSample = METERS\_PER\_SAMPLE / (*linearSpeed\_m\_s\_);}
-\DoxyCodeLine{66 }
-\DoxyCodeLine{67   tf2::Stamped<tf2::Transform> currentEndEffectorTransform;}
-\DoxyCodeLine{68 }
-\DoxyCodeLine{69   this-\/>\mbox{\hyperlink{classcl__move__group__interface_1_1CbMoveEndEffectorTrajectory_a5bc57c28c9a7b050e584d4d0ebf3019a}{getCurrentEndEffectorPose}}(\mbox{\hyperlink{classcl__move__group__interface_1_1CbMoveCartesianRelative2_ac33f1b3f077e191cda9b0b5f9f8c1f34}{globalFrame\_}}, currentEndEffectorTransform);}
-\DoxyCodeLine{70 }
-\DoxyCodeLine{71   tf2::Transform finalEndEffectorTransform = currentEndEffectorTransform;}
-\DoxyCodeLine{72   finalEndEffectorTransform.setOrigin(finalEndEffectorTransform.getOrigin() + voffset);}
-\DoxyCodeLine{73 }
-\DoxyCodeLine{74   \textcolor{keywordtype}{float} linc = totallineardist / steps;  \textcolor{comment}{// METERS\_PER\_SAMPLE with sign}}
-\DoxyCodeLine{75   \textcolor{keywordtype}{float} interpolation\_factor = 0;}
-\DoxyCodeLine{76 }
-\DoxyCodeLine{77   rclcpp::Time startTime = \mbox{\hyperlink{classsmacc2_1_1ISmaccClientBehavior_a95c9749af2004528fbda63ca6fde8eae}{getNode}}()-\/>now();}
-\DoxyCodeLine{78 }
-\DoxyCodeLine{79   \textcolor{keywordflow}{for} (\textcolor{keywordtype}{float} i = 0; i < steps; i++)}
-\DoxyCodeLine{80   \{}
-\DoxyCodeLine{81     interpolation\_factor += interpolation\_factor\_step;}
-\DoxyCodeLine{82     dist\_meters += linc;}
-\DoxyCodeLine{83 }
-\DoxyCodeLine{84     tf2::Vector3 vi = currentEndEffectorTransform.getOrigin().lerp(}
-\DoxyCodeLine{85       finalEndEffectorTransform.getOrigin(), interpolation\_factor);}
-\DoxyCodeLine{86 }
-\DoxyCodeLine{87     tf2::Transform pose;}
-\DoxyCodeLine{88     pose.setOrigin(vi);}
-\DoxyCodeLine{89     pose.setRotation(currentEndEffectorTransform.getRotation());}
-\DoxyCodeLine{90 }
-\DoxyCodeLine{91     geometry\_msgs::msg::PoseStamped pointerPose;}
-\DoxyCodeLine{92     tf2::toMsg(pose, pointerPose.pose);}
-\DoxyCodeLine{93     pointerPose.header.frame\_id = \mbox{\hyperlink{classcl__move__group__interface_1_1CbMoveCartesianRelative2_ac33f1b3f077e191cda9b0b5f9f8c1f34}{globalFrame\_}};}
-\DoxyCodeLine{94     pointerPose.header.stamp = startTime + rclcpp::Duration(i * secondsPerSample);}
-\DoxyCodeLine{95 }
-\DoxyCodeLine{96     this-\/>\mbox{\hyperlink{classcl__move__group__interface_1_1CbMoveEndEffectorTrajectory_a74b9be206657836792fcab3fe109b72b}{endEffectorTrajectory\_}}.push\_back(pointerPose);}
-\DoxyCodeLine{97   \}}
-\DoxyCodeLine{98 }
-\DoxyCodeLine{99   RCLCPP\_INFO\_STREAM(}
-\DoxyCodeLine{100     \mbox{\hyperlink{classsmacc2_1_1ISmaccClientBehavior_a5474074c4b45e900499e30126fb8415c}{getLogger}}(), \textcolor{stringliteral}{"{}[CbMoveEndEffectorRelative2] Target End efector Pose: "{}}}
-\DoxyCodeLine{101                    << this-\/>\mbox{\hyperlink{classcl__move__group__interface_1_1CbMoveEndEffectorTrajectory_a74b9be206657836792fcab3fe109b72b}{endEffectorTrajectory\_}}.back());}
-\DoxyCodeLine{102 \}}
+\DoxyCodeLine{44   RCLCPP\_INFO(\mbox{\hyperlink{classsmacc2_1_1ISmaccClientBehavior_a5474074c4b45e900499e30126fb8415c}{getLogger}}(), \textcolor{stringliteral}{"{}[CbMoveCartesianRelative2] generating trajectory"{}});}
+\DoxyCodeLine{45   \textcolor{comment}{// at least 1 sample per centimeter (average)}}
+\DoxyCodeLine{46   \textcolor{keyword}{const} \textcolor{keywordtype}{double} METERS\_PER\_SAMPLE = 0.001;}
+\DoxyCodeLine{47 }
+\DoxyCodeLine{48   \textcolor{keywordtype}{float} dist\_meters = 0;}
+\DoxyCodeLine{49   tf2::Vector3 voffset;}
+\DoxyCodeLine{50   tf2::fromMsg(\mbox{\hyperlink{classcl__move__group__interface_1_1CbMoveCartesianRelative2_a69e3dfa48196261a18f683098520db07}{offset\_}}, voffset);}
+\DoxyCodeLine{51 }
+\DoxyCodeLine{52   \textcolor{keywordtype}{float} totallineardist = voffset.length();}
+\DoxyCodeLine{53 }
+\DoxyCodeLine{54   \textcolor{keywordtype}{int} totalSamplesCount = totallineardist / METERS\_PER\_SAMPLE;}
+\DoxyCodeLine{55   \textcolor{keywordtype}{int} steps = totallineardist / METERS\_PER\_SAMPLE;}
+\DoxyCodeLine{56 }
+\DoxyCodeLine{57   \textcolor{keywordtype}{float} interpolation\_factor\_step = 1.0 / totalSamplesCount;}
+\DoxyCodeLine{58 }
+\DoxyCodeLine{59   \textcolor{keywordtype}{double} secondsPerSample;}
+\DoxyCodeLine{60 }
+\DoxyCodeLine{61   \textcolor{keywordflow}{if} (!\mbox{\hyperlink{classcl__move__group__interface_1_1CbMoveCartesianRelative2_ae2c040786688faf1c9fd45c604841880}{linearSpeed\_m\_s\_}})}
+\DoxyCodeLine{62   \{}
+\DoxyCodeLine{63     \mbox{\hyperlink{classcl__move__group__interface_1_1CbMoveCartesianRelative2_ae2c040786688faf1c9fd45c604841880}{linearSpeed\_m\_s\_}} = 0.1;}
+\DoxyCodeLine{64   \}}
+\DoxyCodeLine{65 }
+\DoxyCodeLine{66   secondsPerSample = METERS\_PER\_SAMPLE / (*linearSpeed\_m\_s\_);}
+\DoxyCodeLine{67 }
+\DoxyCodeLine{68   tf2::Stamped<tf2::Transform> currentEndEffectorTransform;}
+\DoxyCodeLine{69   RCLCPP\_INFO(\mbox{\hyperlink{classsmacc2_1_1ISmaccClientBehavior_a5474074c4b45e900499e30126fb8415c}{getLogger}}(), \textcolor{stringliteral}{"{}[CbMoveCartesianRelative2] getting current end effector pose"{}});}
+\DoxyCodeLine{70   this-\/>\mbox{\hyperlink{classcl__move__group__interface_1_1CbMoveEndEffectorTrajectory_a5bc57c28c9a7b050e584d4d0ebf3019a}{getCurrentEndEffectorPose}}(\mbox{\hyperlink{classcl__move__group__interface_1_1CbMoveCartesianRelative2_ac33f1b3f077e191cda9b0b5f9f8c1f34}{globalFrame\_}}, currentEndEffectorTransform);}
+\DoxyCodeLine{71 }
+\DoxyCodeLine{72   tf2::Transform finalEndEffectorTransform = currentEndEffectorTransform;}
+\DoxyCodeLine{73   finalEndEffectorTransform.setOrigin(finalEndEffectorTransform.getOrigin() + voffset);}
+\DoxyCodeLine{74 }
+\DoxyCodeLine{75   \textcolor{keywordtype}{float} linc = totallineardist / steps;  \textcolor{comment}{// METERS\_PER\_SAMPLE with sign}}
+\DoxyCodeLine{76   \textcolor{keywordtype}{float} interpolation\_factor = 0;}
+\DoxyCodeLine{77 }
+\DoxyCodeLine{78   rclcpp::Time startTime = \mbox{\hyperlink{classsmacc2_1_1ISmaccClientBehavior_a95c9749af2004528fbda63ca6fde8eae}{getNode}}()-\/>now();}
+\DoxyCodeLine{79   RCLCPP\_INFO(\mbox{\hyperlink{classsmacc2_1_1ISmaccClientBehavior_a5474074c4b45e900499e30126fb8415c}{getLogger}}(), \textcolor{stringliteral}{"{}[CbMoveCartesianRelative2] trajectory steps: \%d"{}}, steps);}
+\DoxyCodeLine{80 }
+\DoxyCodeLine{81   \textcolor{keywordflow}{for} (\textcolor{keywordtype}{float} i = 0; i < steps; i++)}
+\DoxyCodeLine{82   \{}
+\DoxyCodeLine{83     interpolation\_factor += interpolation\_factor\_step;}
+\DoxyCodeLine{84     dist\_meters += linc;}
+\DoxyCodeLine{85 }
+\DoxyCodeLine{86     tf2::Vector3 vi = currentEndEffectorTransform.getOrigin().lerp(}
+\DoxyCodeLine{87       finalEndEffectorTransform.getOrigin(), interpolation\_factor);}
+\DoxyCodeLine{88 }
+\DoxyCodeLine{89     tf2::Transform pose;}
+\DoxyCodeLine{90     pose.setOrigin(vi);}
+\DoxyCodeLine{91     pose.setRotation(currentEndEffectorTransform.getRotation());}
+\DoxyCodeLine{92 }
+\DoxyCodeLine{93     geometry\_msgs::msg::PoseStamped pointerPose;}
+\DoxyCodeLine{94     tf2::toMsg(pose, pointerPose.pose);}
+\DoxyCodeLine{95     pointerPose.header.frame\_id = \mbox{\hyperlink{classcl__move__group__interface_1_1CbMoveCartesianRelative2_ac33f1b3f077e191cda9b0b5f9f8c1f34}{globalFrame\_}};}
+\DoxyCodeLine{96     pointerPose.header.stamp = startTime + rclcpp::Duration(i * secondsPerSample);}
+\DoxyCodeLine{97 }
+\DoxyCodeLine{98     this-\/>\mbox{\hyperlink{classcl__move__group__interface_1_1CbMoveEndEffectorTrajectory_a74b9be206657836792fcab3fe109b72b}{endEffectorTrajectory\_}}.push\_back(pointerPose);}
+\DoxyCodeLine{99   \}}
+\DoxyCodeLine{100 }
+\DoxyCodeLine{101   RCLCPP\_INFO\_STREAM(}
+\DoxyCodeLine{102     \mbox{\hyperlink{classsmacc2_1_1ISmaccClientBehavior_a5474074c4b45e900499e30126fb8415c}{getLogger}}(), \textcolor{stringliteral}{"{}[CbMoveEndEffectorRelative2] Target End efector Pose: "{}}}
+\DoxyCodeLine{103                    << this-\/>\mbox{\hyperlink{classcl__move__group__interface_1_1CbMoveEndEffectorTrajectory_a74b9be206657836792fcab3fe109b72b}{endEffectorTrajectory\_}}.back());}
+\DoxyCodeLine{104 \}}
 
 \end{DoxyCode}
 

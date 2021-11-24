@@ -30,11 +30,20 @@ Collaboration diagram for cl\+\_\+move\+\_\+group\+\_\+interface\+::Cb\+Move\+Kn
 \mbox{\hyperlink{classcl__move__group__interface_1_1CbMoveKnownState_abd9a6ff0a5aa0333852f5ea1522bc932}{Cb\+Move\+Known\+State}} (std\+::string pkg, std\+::string config\+\_\+path)
 \item 
 virtual \mbox{\hyperlink{classcl__move__group__interface_1_1CbMoveKnownState_a50cb63899a41d9e9cee7c9af3e8160d5}{$\sim$\+Cb\+Move\+Known\+State}} ()
+\item 
+void \mbox{\hyperlink{classcl__move__group__interface_1_1CbMoveKnownState_aa9853ccca0b0e872498683e4b2f88870}{on\+Entry}} () override
 \end{DoxyCompactItemize}
 \doxysubsection*{Private Member Functions}
 \begin{DoxyCompactItemize}
 \item 
 std\+::map$<$ std\+::string, double $>$ \mbox{\hyperlink{classcl__move__group__interface_1_1CbMoveKnownState_a3998d6e04560c6c4f36a3cb6f6a86780}{load\+Joint\+States\+From\+File}} (std\+::string pkg, std\+::string filepath)
+\end{DoxyCompactItemize}
+\doxysubsection*{Private Attributes}
+\begin{DoxyCompactItemize}
+\item 
+std\+::string \mbox{\hyperlink{classcl__move__group__interface_1_1CbMoveKnownState_acdc825f2348c3e854bf9fb275fc22b94}{pkg\+\_\+}}
+\item 
+std\+::string \mbox{\hyperlink{classcl__move__group__interface_1_1CbMoveKnownState_a2072236cc72db7fcf8b28219733cc4ac}{config\+\_\+path\+\_\+}}
 \end{DoxyCompactItemize}
 \doxysubsection*{Additional Inherited Members}
 
@@ -59,7 +68,7 @@ Definition at line 29 of file cb\+\_\+move\+\_\+known\+\_\+state.\+cpp.
 
 
 \begin{DoxyCode}{0}
-\DoxyCodeLine{30 : \mbox{\hyperlink{classcl__move__group__interface_1_1CbMoveJoints_a085919fd766e50098cbe9782de3303c6}{CbMoveJoints}}(\mbox{\hyperlink{classcl__move__group__interface_1_1CbMoveKnownState_a3998d6e04560c6c4f36a3cb6f6a86780}{loadJointStatesFromFile}}(pkg, config\_path))}
+\DoxyCodeLine{30 : \mbox{\hyperlink{classcl__move__group__interface_1_1CbMoveKnownState_acdc825f2348c3e854bf9fb275fc22b94}{pkg\_}}(pkg), \mbox{\hyperlink{classcl__move__group__interface_1_1CbMoveKnownState_a2072236cc72db7fcf8b28219733cc4ac}{config\_path\_}}(config\_path)}
 \DoxyCodeLine{31 \{}
 \DoxyCodeLine{32 \}}
 
@@ -90,103 +99,107 @@ Definition at line 34 of file cb\+\_\+move\+\_\+known\+\_\+state.\+cpp.
 
 
 
-Definition at line 37 of file cb\+\_\+move\+\_\+known\+\_\+state.\+cpp.
+Definition at line 43 of file cb\+\_\+move\+\_\+known\+\_\+state.\+cpp.
 
 
 \begin{DoxyCode}{0}
-\DoxyCodeLine{39 \{}
-\DoxyCodeLine{40   \textcolor{comment}{//auto pkgpath = ros::package::getPath(pkg);}}
-\DoxyCodeLine{41   std::string pkgpath = ament\_index\_cpp::get\_package\_share\_directory(pkg);}
-\DoxyCodeLine{42 }
-\DoxyCodeLine{43   std::map<std::string, double> jointStates;}
-\DoxyCodeLine{44 }
-\DoxyCodeLine{45   \textcolor{keywordflow}{if} (pkgpath == \textcolor{stringliteral}{"{}"{}})}
-\DoxyCodeLine{46   \{}
-\DoxyCodeLine{47     RCLCPP\_ERROR\_STREAM(}
-\DoxyCodeLine{48       \mbox{\hyperlink{classsmacc2_1_1ISmaccClientBehavior_a5474074c4b45e900499e30126fb8415c}{getLogger}}(),}
-\DoxyCodeLine{49       \textcolor{stringliteral}{"{}[CbMoveKnownState] package not found for the known poses file: "{}} << pkg << std::endl}
-\DoxyCodeLine{50                                                                         << \textcolor{stringliteral}{"{} [IGNORING BEHAVIOR]"{}});}
-\DoxyCodeLine{51     \textcolor{keywordflow}{return} jointStates;}
-\DoxyCodeLine{52   \}}
-\DoxyCodeLine{53 }
-\DoxyCodeLine{54   filepath = pkgpath + \textcolor{stringliteral}{"{}/"{}} + filepath;}
-\DoxyCodeLine{55 }
-\DoxyCodeLine{56   RCLCPP\_INFO(}
-\DoxyCodeLine{57     \mbox{\hyperlink{classsmacc2_1_1ISmaccClientBehavior_a5474074c4b45e900499e30126fb8415c}{getLogger}}(), \textcolor{stringliteral}{"{}[CbMoveKnownState] Opening file with joint known state: \%s"{}}, filepath.c\_str());}
-\DoxyCodeLine{58 }
-\DoxyCodeLine{59   \textcolor{keywordflow}{if} (std::filesystem::exists(filepath))}
-\DoxyCodeLine{60   \{}
-\DoxyCodeLine{61     RCLCPP\_INFO\_STREAM(\mbox{\hyperlink{classsmacc2_1_1ISmaccClientBehavior_a5474074c4b45e900499e30126fb8415c}{getLogger}}(), \textcolor{stringliteral}{"{}[CbMoveKnownState] known state file exists: "{}} << filepath);}
-\DoxyCodeLine{62   \}}
-\DoxyCodeLine{63   \textcolor{keywordflow}{else}}
-\DoxyCodeLine{64   \{}
-\DoxyCodeLine{65     RCLCPP\_ERROR\_STREAM(}
-\DoxyCodeLine{66       \mbox{\hyperlink{classsmacc2_1_1ISmaccClientBehavior_a5474074c4b45e900499e30126fb8415c}{getLogger}}(), \textcolor{stringliteral}{"{}[CbMoveKnownState] known state file does not exists: "{}} << filepath);}
-\DoxyCodeLine{67   \}}
-\DoxyCodeLine{68 }
-\DoxyCodeLine{69   std::ifstream ifs(filepath.c\_str(), std::ifstream::in);}
-\DoxyCodeLine{70   \textcolor{keywordflow}{if} (ifs.good() == \textcolor{keyword}{false})}
-\DoxyCodeLine{71   \{}
-\DoxyCodeLine{72     RCLCPP\_ERROR(}
-\DoxyCodeLine{73       \mbox{\hyperlink{classsmacc2_1_1ISmaccClientBehavior_a5474074c4b45e900499e30126fb8415c}{getLogger}}(), \textcolor{stringliteral}{"{}[CbMoveKnownState] Error opening file with joint known states: \%s"{}},}
-\DoxyCodeLine{74       filepath.c\_str());}
-\DoxyCodeLine{75     \textcolor{keywordflow}{throw} std::string(\textcolor{stringliteral}{"{}joint state files not found"{}});}
-\DoxyCodeLine{76   \}}
-\DoxyCodeLine{77 }
-\DoxyCodeLine{78   \textcolor{keywordflow}{try}}
-\DoxyCodeLine{79   \{}
-\DoxyCodeLine{80 \textcolor{preprocessor}{\#ifdef HAVE\_NEW\_YAMLCPP}}
-\DoxyCodeLine{81     YAML::Node node = YAML::Load(ifs);}
-\DoxyCodeLine{82 \textcolor{preprocessor}{\#else}}
-\DoxyCodeLine{83     YAML::Parser \mbox{\hyperlink{namespacegenerate__debs_a4a9ae4bb85fc62d7973ea3d09ced6c26}{parser}}(ifs);}
-\DoxyCodeLine{84     \mbox{\hyperlink{namespacegenerate__debs_a4a9ae4bb85fc62d7973ea3d09ced6c26}{parser}}.GetNextDocument(node);}
-\DoxyCodeLine{85 \textcolor{preprocessor}{\#endif}}
-\DoxyCodeLine{86 }
-\DoxyCodeLine{87 \textcolor{preprocessor}{\#ifdef HAVE\_NEW\_YAMLCPP}}
-\DoxyCodeLine{88     \textcolor{keyword}{const} YAML::Node \& wp\_node\_tmp = node[\textcolor{stringliteral}{"{}joint\_states"{}}];}
-\DoxyCodeLine{89     \textcolor{keyword}{const} YAML::Node * wp\_node = wp\_node\_tmp ? \&wp\_node\_tmp : NULL;}
-\DoxyCodeLine{90 \textcolor{preprocessor}{\#else}}
-\DoxyCodeLine{91     \textcolor{keyword}{const} YAML::Node * wp\_node = node.FindValue(\textcolor{stringliteral}{"{}waypoints"{}});}
-\DoxyCodeLine{92 \textcolor{preprocessor}{\#endif}}
-\DoxyCodeLine{93 }
-\DoxyCodeLine{94     \textcolor{keywordflow}{if} (wp\_node != NULL)}
-\DoxyCodeLine{95     \{}
-\DoxyCodeLine{96       \textcolor{keywordflow}{try}}
-\DoxyCodeLine{97       \{}
-\DoxyCodeLine{98         \textcolor{keywordflow}{for} (YAML::const\_iterator it = wp\_node-\/>begin(); it != wp\_node-\/>end(); ++it)}
-\DoxyCodeLine{99         \{}
-\DoxyCodeLine{100           std::string key = it-\/>first.as<std::string>();}
-\DoxyCodeLine{101           \textcolor{keywordtype}{double} value = it-\/>second.as<\textcolor{keywordtype}{double}>();}
-\DoxyCodeLine{102           RCLCPP\_DEBUG\_STREAM(\mbox{\hyperlink{classsmacc2_1_1ISmaccClientBehavior_a5474074c4b45e900499e30126fb8415c}{getLogger}}(), \textcolor{stringliteral}{"{} joint -\/ "{}} << key << \textcolor{stringliteral}{"{}: "{}} << value);}
-\DoxyCodeLine{103           jointStates[key] = value;}
-\DoxyCodeLine{104         \}}
-\DoxyCodeLine{105 }
-\DoxyCodeLine{106         \textcolor{keywordflow}{return} jointStates;}
-\DoxyCodeLine{107       \}}
-\DoxyCodeLine{108       \textcolor{keywordflow}{catch} (std::exception \& ex)}
-\DoxyCodeLine{109       \{}
-\DoxyCodeLine{110         RCLCPP\_ERROR(\mbox{\hyperlink{classsmacc2_1_1ISmaccClientBehavior_a5474074c4b45e900499e30126fb8415c}{getLogger}}(), \textcolor{stringliteral}{"{}trying to convert to map, failed, errormsg: \%s"{}}, ex.what());}
-\DoxyCodeLine{111       \}}
-\DoxyCodeLine{112 }
-\DoxyCodeLine{113       RCLCPP\_INFO\_STREAM(\mbox{\hyperlink{classsmacc2_1_1ISmaccClientBehavior_a5474074c4b45e900499e30126fb8415c}{getLogger}}(), \textcolor{stringliteral}{"{}Parsed "{}} << jointStates.size() << \textcolor{stringliteral}{"{} joint entries."{}});}
-\DoxyCodeLine{114     \}}
-\DoxyCodeLine{115     \textcolor{keywordflow}{else}}
-\DoxyCodeLine{116     \{}
-\DoxyCodeLine{117       RCLCPP\_WARN\_STREAM(\mbox{\hyperlink{classsmacc2_1_1ISmaccClientBehavior_a5474074c4b45e900499e30126fb8415c}{getLogger}}(), \textcolor{stringliteral}{"{}Couldn't find any jointStates in the provided yaml file."{}});}
-\DoxyCodeLine{118     \}}
-\DoxyCodeLine{119   \}}
-\DoxyCodeLine{120   \textcolor{keywordflow}{catch} (\textcolor{keyword}{const} YAML::ParserException \& ex)}
-\DoxyCodeLine{121   \{}
-\DoxyCodeLine{122     RCLCPP\_ERROR\_STREAM(}
-\DoxyCodeLine{123       \mbox{\hyperlink{classsmacc2_1_1ISmaccClientBehavior_a5474074c4b45e900499e30126fb8415c}{getLogger}}(), \textcolor{stringliteral}{"{}Error loading the Waypoints YAML file. Incorrect syntax: "{}} << ex.what());}
-\DoxyCodeLine{124   \}}
-\DoxyCodeLine{125   \textcolor{keywordflow}{return} jointStates;}
-\DoxyCodeLine{126 \}}
+\DoxyCodeLine{45 \{}
+\DoxyCodeLine{46   \textcolor{comment}{//auto pkgpath = ros::package::getPath(pkg);}}
+\DoxyCodeLine{47   std::string pkgpath = ament\_index\_cpp::get\_package\_share\_directory(pkg);}
+\DoxyCodeLine{48 }
+\DoxyCodeLine{49   std::map<std::string, double> jointStates;}
+\DoxyCodeLine{50 }
+\DoxyCodeLine{51   \textcolor{keywordflow}{if} (pkgpath == \textcolor{stringliteral}{"{}"{}})}
+\DoxyCodeLine{52   \{}
+\DoxyCodeLine{53     RCLCPP\_ERROR\_STREAM(}
+\DoxyCodeLine{54       \mbox{\hyperlink{classsmacc2_1_1ISmaccClientBehavior_a5474074c4b45e900499e30126fb8415c}{getLogger}}(), \textcolor{stringliteral}{"{}["{}} << \mbox{\hyperlink{classsmacc2_1_1ISmaccClientBehavior_a3feaa9c382a7d376b7ba0017a63e294e}{getName}}() << \textcolor{stringliteral}{"{}] package not found for the known poses file: "{}} << pkg}
+\DoxyCodeLine{55                        << std::endl}
+\DoxyCodeLine{56                        << \textcolor{stringliteral}{"{} [IGNORING BEHAVIOR]"{}});}
+\DoxyCodeLine{57     \textcolor{keywordflow}{return} jointStates;}
+\DoxyCodeLine{58   \}}
+\DoxyCodeLine{59 }
+\DoxyCodeLine{60   filepath = pkgpath + \textcolor{stringliteral}{"{}/"{}} + filepath;}
+\DoxyCodeLine{61 }
+\DoxyCodeLine{62   RCLCPP\_INFO\_STREAM(}
+\DoxyCodeLine{63     \mbox{\hyperlink{classsmacc2_1_1ISmaccClientBehavior_a5474074c4b45e900499e30126fb8415c}{getLogger}}(), \textcolor{stringliteral}{"{}["{}} << \mbox{\hyperlink{classsmacc2_1_1ISmaccClientBehavior_a3feaa9c382a7d376b7ba0017a63e294e}{getName}}() << \textcolor{stringliteral}{"{}] Opening file with joint known state: "{}} << filepath);}
+\DoxyCodeLine{64 }
+\DoxyCodeLine{65   \textcolor{keywordflow}{if} (std::filesystem::exists(filepath))}
+\DoxyCodeLine{66   \{}
+\DoxyCodeLine{67     RCLCPP\_INFO\_STREAM(\mbox{\hyperlink{classsmacc2_1_1ISmaccClientBehavior_a5474074c4b45e900499e30126fb8415c}{getLogger}}(), \textcolor{stringliteral}{"{}["{}} << \mbox{\hyperlink{classsmacc2_1_1ISmaccClientBehavior_a3feaa9c382a7d376b7ba0017a63e294e}{getName}}() << \textcolor{stringliteral}{"{}] known state file exists: "{}} << filepath);}
+\DoxyCodeLine{68   \}}
+\DoxyCodeLine{69   \textcolor{keywordflow}{else}}
+\DoxyCodeLine{70   \{}
+\DoxyCodeLine{71     RCLCPP\_ERROR\_STREAM(}
+\DoxyCodeLine{72       \mbox{\hyperlink{classsmacc2_1_1ISmaccClientBehavior_a5474074c4b45e900499e30126fb8415c}{getLogger}}(), \textcolor{stringliteral}{"{}["{}} << \mbox{\hyperlink{classsmacc2_1_1ISmaccClientBehavior_a3feaa9c382a7d376b7ba0017a63e294e}{getName}}() << \textcolor{stringliteral}{"{}] known state file does not exists: "{}} << filepath);}
+\DoxyCodeLine{73   \}}
+\DoxyCodeLine{74 }
+\DoxyCodeLine{75   std::ifstream ifs(filepath.c\_str(), std::ifstream::in);}
+\DoxyCodeLine{76   \textcolor{keywordflow}{if} (ifs.good() == \textcolor{keyword}{false})}
+\DoxyCodeLine{77   \{}
+\DoxyCodeLine{78     RCLCPP\_ERROR\_STREAM(}
+\DoxyCodeLine{79       \mbox{\hyperlink{classsmacc2_1_1ISmaccClientBehavior_a5474074c4b45e900499e30126fb8415c}{getLogger}}(),}
+\DoxyCodeLine{80       \textcolor{stringliteral}{"{}["{}} << \mbox{\hyperlink{classsmacc2_1_1ISmaccClientBehavior_a3feaa9c382a7d376b7ba0017a63e294e}{getName}}() << \textcolor{stringliteral}{"{}] Error opening file with joint known states: "{}} << filepath);}
+\DoxyCodeLine{81     \textcolor{keywordflow}{throw} std::string(\textcolor{stringliteral}{"{}joint state files not found"{}});}
+\DoxyCodeLine{82   \}}
+\DoxyCodeLine{83 }
+\DoxyCodeLine{84   \textcolor{keywordflow}{try}}
+\DoxyCodeLine{85   \{}
+\DoxyCodeLine{86 \textcolor{preprocessor}{\#ifdef HAVE\_NEW\_YAMLCPP}}
+\DoxyCodeLine{87     YAML::Node node = YAML::Load(ifs);}
+\DoxyCodeLine{88 \textcolor{preprocessor}{\#else}}
+\DoxyCodeLine{89     YAML::Parser \mbox{\hyperlink{namespacegenerate__debs_a4a9ae4bb85fc62d7973ea3d09ced6c26}{parser}}(ifs);}
+\DoxyCodeLine{90     \mbox{\hyperlink{namespacegenerate__debs_a4a9ae4bb85fc62d7973ea3d09ced6c26}{parser}}.GetNextDocument(node);}
+\DoxyCodeLine{91 \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{92 }
+\DoxyCodeLine{93 \textcolor{preprocessor}{\#ifdef HAVE\_NEW\_YAMLCPP}}
+\DoxyCodeLine{94     \textcolor{keyword}{const} YAML::Node \& wp\_node\_tmp = node[\textcolor{stringliteral}{"{}joint\_states"{}}];}
+\DoxyCodeLine{95     \textcolor{keyword}{const} YAML::Node * wp\_node = wp\_node\_tmp ? \&wp\_node\_tmp : NULL;}
+\DoxyCodeLine{96 \textcolor{preprocessor}{\#else}}
+\DoxyCodeLine{97     \textcolor{keyword}{const} YAML::Node * wp\_node = node.FindValue(\textcolor{stringliteral}{"{}waypoints"{}});}
+\DoxyCodeLine{98 \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{99 }
+\DoxyCodeLine{100     \textcolor{keywordflow}{if} (wp\_node != NULL)}
+\DoxyCodeLine{101     \{}
+\DoxyCodeLine{102       \textcolor{keywordflow}{try}}
+\DoxyCodeLine{103       \{}
+\DoxyCodeLine{104         \textcolor{keywordflow}{for} (YAML::const\_iterator it = wp\_node-\/>begin(); it != wp\_node-\/>end(); ++it)}
+\DoxyCodeLine{105         \{}
+\DoxyCodeLine{106           std::string key = it-\/>first.as<std::string>();}
+\DoxyCodeLine{107           \textcolor{keywordtype}{double} value = it-\/>second.as<\textcolor{keywordtype}{double}>();}
+\DoxyCodeLine{108           RCLCPP\_DEBUG\_STREAM(\mbox{\hyperlink{classsmacc2_1_1ISmaccClientBehavior_a5474074c4b45e900499e30126fb8415c}{getLogger}}(), \textcolor{stringliteral}{"{} joint -\/ "{}} << key << \textcolor{stringliteral}{"{}: "{}} << value);}
+\DoxyCodeLine{109           jointStates[key] = value;}
+\DoxyCodeLine{110         \}}
+\DoxyCodeLine{111 }
+\DoxyCodeLine{112         \textcolor{keywordflow}{return} jointStates;}
+\DoxyCodeLine{113       \}}
+\DoxyCodeLine{114       \textcolor{keywordflow}{catch} (std::exception \& ex)}
+\DoxyCodeLine{115       \{}
+\DoxyCodeLine{116         RCLCPP\_ERROR(\mbox{\hyperlink{classsmacc2_1_1ISmaccClientBehavior_a5474074c4b45e900499e30126fb8415c}{getLogger}}(), \textcolor{stringliteral}{"{}trying to convert to map, failed, errormsg: \%s"{}}, ex.what());}
+\DoxyCodeLine{117       \}}
+\DoxyCodeLine{118 }
+\DoxyCodeLine{119       RCLCPP\_INFO\_STREAM(\mbox{\hyperlink{classsmacc2_1_1ISmaccClientBehavior_a5474074c4b45e900499e30126fb8415c}{getLogger}}(), \textcolor{stringliteral}{"{}Parsed "{}} << jointStates.size() << \textcolor{stringliteral}{"{} joint entries."{}});}
+\DoxyCodeLine{120     \}}
+\DoxyCodeLine{121     \textcolor{keywordflow}{else}}
+\DoxyCodeLine{122     \{}
+\DoxyCodeLine{123       RCLCPP\_WARN\_STREAM(\mbox{\hyperlink{classsmacc2_1_1ISmaccClientBehavior_a5474074c4b45e900499e30126fb8415c}{getLogger}}(), \textcolor{stringliteral}{"{}Couldn't find any jointStates in the provided yaml file."{}});}
+\DoxyCodeLine{124     \}}
+\DoxyCodeLine{125   \}}
+\DoxyCodeLine{126   \textcolor{keywordflow}{catch} (\textcolor{keyword}{const} YAML::ParserException \& ex)}
+\DoxyCodeLine{127   \{}
+\DoxyCodeLine{128     RCLCPP\_ERROR\_STREAM(}
+\DoxyCodeLine{129       \mbox{\hyperlink{classsmacc2_1_1ISmaccClientBehavior_a5474074c4b45e900499e30126fb8415c}{getLogger}}(), \textcolor{stringliteral}{"{}Error loading the Waypoints YAML file. Incorrect syntax: "{}} << ex.what());}
+\DoxyCodeLine{130   \}}
+\DoxyCodeLine{131   \textcolor{keywordflow}{return} jointStates;}
+\DoxyCodeLine{132 \}}
 
 \end{DoxyCode}
 
 
-References smacc2\+::\+ISmacc\+Client\+Behavior\+::get\+Logger(), and generate\+\_\+debs\+::parser.
+References smacc2\+::\+ISmacc\+Client\+Behavior\+::get\+Logger(), smacc2\+::\+ISmacc\+Client\+Behavior\+::get\+Name(), and generate\+\_\+debs\+::parser.
+
+
+
+Referenced by on\+Entry().
 
 Here is the call graph for this function\+:
 \nopagebreak
@@ -196,6 +209,79 @@ Here is the call graph for this function\+:
 \includegraphics[width=350pt]{classcl__move__group__interface_1_1CbMoveKnownState_a3998d6e04560c6c4f36a3cb6f6a86780_cgraph}
 \end{center}
 \end{figure}
+Here is the caller graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{classcl__move__group__interface_1_1CbMoveKnownState_a3998d6e04560c6c4f36a3cb6f6a86780_icgraph}
+\end{center}
+\end{figure}
+\mbox{\Hypertarget{classcl__move__group__interface_1_1CbMoveKnownState_aa9853ccca0b0e872498683e4b2f88870}\label{classcl__move__group__interface_1_1CbMoveKnownState_aa9853ccca0b0e872498683e4b2f88870}} 
+\index{cl\_move\_group\_interface::CbMoveKnownState@{cl\_move\_group\_interface::CbMoveKnownState}!onEntry@{onEntry}}
+\index{onEntry@{onEntry}!cl\_move\_group\_interface::CbMoveKnownState@{cl\_move\_group\_interface::CbMoveKnownState}}
+\doxysubsubsection{\texorpdfstring{onEntry()}{onEntry()}}
+{\footnotesize\ttfamily void cl\+\_\+move\+\_\+group\+\_\+interface\+::\+Cb\+Move\+Known\+State\+::on\+Entry (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [override]}, {\ttfamily [virtual]}}
+
+
+
+Reimplemented from \mbox{\hyperlink{classcl__move__group__interface_1_1CbMoveJoints_a23e4181af695aed9fa6bb4ae3f17fd76}{cl\+\_\+move\+\_\+group\+\_\+interface\+::\+Cb\+Move\+Joints}}.
+
+
+
+Definition at line 36 of file cb\+\_\+move\+\_\+known\+\_\+state.\+cpp.
+
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{37 \{}
+\DoxyCodeLine{38   \mbox{\hyperlink{classcl__move__group__interface_1_1CbMoveJoints_a8103f7c923a34d9bf5a2c374ff88a277}{jointValueTarget\_}} = \mbox{\hyperlink{classcl__move__group__interface_1_1CbMoveKnownState_a3998d6e04560c6c4f36a3cb6f6a86780}{loadJointStatesFromFile}}(\mbox{\hyperlink{classcl__move__group__interface_1_1CbMoveKnownState_acdc825f2348c3e854bf9fb275fc22b94}{pkg\_}}, \mbox{\hyperlink{classcl__move__group__interface_1_1CbMoveKnownState_a2072236cc72db7fcf8b28219733cc4ac}{config\_path\_}});}
+\DoxyCodeLine{39   \mbox{\hyperlink{classcl__move__group__interface_1_1CbMoveJoints_a23e4181af695aed9fa6bb4ae3f17fd76}{CbMoveJoints::onEntry}}();}
+\DoxyCodeLine{40 \}}
+
+\end{DoxyCode}
+
+
+References config\+\_\+path\+\_\+, cl\+\_\+move\+\_\+group\+\_\+interface\+::\+Cb\+Move\+Joints\+::joint\+Value\+Target\+\_\+, load\+Joint\+States\+From\+File(), cl\+\_\+move\+\_\+group\+\_\+interface\+::\+Cb\+Move\+Joints\+::on\+Entry(), and pkg\+\_\+.
+
+Here is the call graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{classcl__move__group__interface_1_1CbMoveKnownState_aa9853ccca0b0e872498683e4b2f88870_cgraph}
+\end{center}
+\end{figure}
+
+
+\doxysubsection{Member Data Documentation}
+\mbox{\Hypertarget{classcl__move__group__interface_1_1CbMoveKnownState_a2072236cc72db7fcf8b28219733cc4ac}\label{classcl__move__group__interface_1_1CbMoveKnownState_a2072236cc72db7fcf8b28219733cc4ac}} 
+\index{cl\_move\_group\_interface::CbMoveKnownState@{cl\_move\_group\_interface::CbMoveKnownState}!config\_path\_@{config\_path\_}}
+\index{config\_path\_@{config\_path\_}!cl\_move\_group\_interface::CbMoveKnownState@{cl\_move\_group\_interface::CbMoveKnownState}}
+\doxysubsubsection{\texorpdfstring{config\_path\_}{config\_path\_}}
+{\footnotesize\ttfamily std\+::string cl\+\_\+move\+\_\+group\+\_\+interface\+::\+Cb\+Move\+Known\+State\+::config\+\_\+path\+\_\+\hspace{0.3cm}{\ttfamily [private]}}
+
+
+
+Definition at line 41 of file cb\+\_\+move\+\_\+known\+\_\+state.\+hpp.
+
+
+
+Referenced by on\+Entry().
+
+\mbox{\Hypertarget{classcl__move__group__interface_1_1CbMoveKnownState_acdc825f2348c3e854bf9fb275fc22b94}\label{classcl__move__group__interface_1_1CbMoveKnownState_acdc825f2348c3e854bf9fb275fc22b94}} 
+\index{cl\_move\_group\_interface::CbMoveKnownState@{cl\_move\_group\_interface::CbMoveKnownState}!pkg\_@{pkg\_}}
+\index{pkg\_@{pkg\_}!cl\_move\_group\_interface::CbMoveKnownState@{cl\_move\_group\_interface::CbMoveKnownState}}
+\doxysubsubsection{\texorpdfstring{pkg\_}{pkg\_}}
+{\footnotesize\ttfamily std\+::string cl\+\_\+move\+\_\+group\+\_\+interface\+::\+Cb\+Move\+Known\+State\+::pkg\+\_\+\hspace{0.3cm}{\ttfamily [private]}}
+
+
+
+Definition at line 40 of file cb\+\_\+move\+\_\+known\+\_\+state.\+hpp.
+
+
+
+Referenced by on\+Entry().
+
 
 
 The documentation for this class was generated from the following files\+:\begin{DoxyCompactItemize}

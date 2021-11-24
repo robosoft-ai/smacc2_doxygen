@@ -101,90 +101,92 @@ $(function() {
 <div class="line"><a name="l00030"></a><span class="lineno">   30</span>&#160;  this-&gt;onEntryThread_ = std::async(std::launch::async, [=] {</div>
 <div class="line"><a name="l00031"></a><span class="lineno">   31</span>&#160;    this-&gt;onEntry();</div>
 <div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160;    this-&gt;postFinishEventFn_();</div>
-<div class="line"><a name="l00033"></a><span class="lineno">   33</span>&#160;    <span class="keywordflow">return</span> 0;</div>
-<div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160;  });</div>
-<div class="line"><a name="l00035"></a><span class="lineno">   35</span>&#160;}</div>
-<div class="line"><a name="l00036"></a><span class="lineno">   36</span>&#160; </div>
-<div class="line"><a name="l00037"></a><span class="lineno"><a class="line" href="classsmacc2_1_1SmaccAsyncClientBehavior.html#a2b4f16692681251ae6cc7bf33538d9c9">   37</a></span>&#160;<span class="keywordtype">void</span> SmaccAsyncClientBehavior::waitFutureIfNotFinished(std::future&lt;int&gt; &amp; threadfut)</div>
-<div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160;{</div>
-<div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160;  <span class="keywordflow">try</span></div>
-<div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160;  {</div>
-<div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160;    rclcpp::Rate r(100);</div>
-<div class="line"><a name="l00042"></a><span class="lineno">   42</span>&#160;    <span class="keywordflow">while</span> (rclcpp::ok())</div>
-<div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160;    {</div>
-<div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160;      <span class="keywordtype">bool</span> valid = threadfut.valid();</div>
-<div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160;      <span class="keywordflow">if</span> (valid)</div>
-<div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160;      {</div>
-<div class="line"><a name="l00047"></a><span class="lineno">   47</span>&#160;        <span class="keyword">auto</span> status = threadfut.wait_for(std::chrono::milliseconds(20));</div>
-<div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160;        <span class="keywordflow">if</span> (status == std::future_status::ready)</div>
-<div class="line"><a name="l00049"></a><span class="lineno">   49</span>&#160;        {</div>
-<div class="line"><a name="l00050"></a><span class="lineno">   50</span>&#160;          threadfut.get();</div>
-<div class="line"><a name="l00051"></a><span class="lineno">   51</span>&#160;          <span class="keywordflow">break</span>;</div>
-<div class="line"><a name="l00052"></a><span class="lineno">   52</span>&#160;        }</div>
-<div class="line"><a name="l00053"></a><span class="lineno">   53</span>&#160;      }</div>
-<div class="line"><a name="l00054"></a><span class="lineno">   54</span>&#160; </div>
-<div class="line"><a name="l00055"></a><span class="lineno">   55</span>&#160;      <span class="comment">//r.sleep();</span></div>
-<div class="line"><a name="l00056"></a><span class="lineno">   56</span>&#160;      rclcpp::sleep_for(100ms);</div>
-<div class="line"><a name="l00057"></a><span class="lineno">   57</span>&#160;      <span class="comment">// rclcpp::spin_some(getNode());</span></div>
-<div class="line"><a name="l00058"></a><span class="lineno">   58</span>&#160;      RCLCPP_WARN_THROTTLE(</div>
-<div class="line"><a name="l00059"></a><span class="lineno">   59</span>&#160;        getLogger(), *(getNode()-&gt;get_clock()), 1000,</div>
-<div class="line"><a name="l00060"></a><span class="lineno">   60</span>&#160;        <span class="stringliteral">&quot;[%s] waiting for finishing client behavior, before leaving the state. Is the client &quot;</span></div>
-<div class="line"><a name="l00061"></a><span class="lineno">   61</span>&#160;        <span class="stringliteral">&quot;behavior stuck?&quot;</span>,</div>
-<div class="line"><a name="l00062"></a><span class="lineno">   62</span>&#160;        <a class="code" href="namespacesmacc2_1_1introspection.html#af0776d8076fe19b4f806405e9ab08cfe">demangleType</a>(<span class="keyword">typeid</span>(*<span class="keyword">this</span>)).c_str());</div>
-<div class="line"><a name="l00063"></a><span class="lineno">   63</span>&#160;    }</div>
-<div class="line"><a name="l00064"></a><span class="lineno">   64</span>&#160;  }</div>
-<div class="line"><a name="l00065"></a><span class="lineno">   65</span>&#160;  <span class="keywordflow">catch</span> (<span class="keyword">const</span> std::exception &amp; e)</div>
-<div class="line"><a name="l00066"></a><span class="lineno">   66</span>&#160;  {</div>
-<div class="line"><a name="l00067"></a><span class="lineno">   67</span>&#160;    RCLCPP_DEBUG(</div>
-<div class="line"><a name="l00068"></a><span class="lineno">   68</span>&#160;      getLogger(),</div>
-<div class="line"><a name="l00069"></a><span class="lineno">   69</span>&#160;      <span class="stringliteral">&quot;[SmaccAsyncClientBehavior] trying to join function, but it was already finished.&quot;</span>);</div>
-<div class="line"><a name="l00070"></a><span class="lineno">   70</span>&#160;  }</div>
-<div class="line"><a name="l00071"></a><span class="lineno">   71</span>&#160;}</div>
-<div class="line"><a name="l00072"></a><span class="lineno">   72</span>&#160; </div>
-<div class="line"><a name="l00073"></a><span class="lineno"><a class="line" href="classsmacc2_1_1SmaccAsyncClientBehavior.html#ac6b465d4b59eb2bbb00d83a4bbd98881">   73</a></span>&#160;<span class="keywordtype">void</span> SmaccAsyncClientBehavior::executeOnExit()</div>
-<div class="line"><a name="l00074"></a><span class="lineno">   74</span>&#160;{</div>
-<div class="line"><a name="l00075"></a><span class="lineno">   75</span>&#160;  RCLCPP_INFO_STREAM(getLogger(), <span class="stringliteral">&quot;[&quot;</span> &lt;&lt; getName() &lt;&lt; <span class="stringliteral">&quot;] onExit - join async onEntry thread&quot;</span>);</div>
-<div class="line"><a name="l00076"></a><span class="lineno">   76</span>&#160; </div>
-<div class="line"><a name="l00077"></a><span class="lineno">   77</span>&#160;  waitFutureIfNotFinished(this-&gt;onEntryThread_);</div>
+<div class="line"><a name="l00033"></a><span class="lineno">   33</span>&#160;    RCLCPP_INFO_STREAM(</div>
+<div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160;      getLogger(), <span class="stringliteral">&quot;[&quot;</span> &lt;&lt; getName() &lt;&lt; <span class="stringliteral">&quot;] onEntry asynchronous thread was finished.&quot;</span>);</div>
+<div class="line"><a name="l00035"></a><span class="lineno">   35</span>&#160;    <span class="keywordflow">return</span> 0;</div>
+<div class="line"><a name="l00036"></a><span class="lineno">   36</span>&#160;  });</div>
+<div class="line"><a name="l00037"></a><span class="lineno">   37</span>&#160;}</div>
+<div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160; </div>
+<div class="line"><a name="l00039"></a><span class="lineno"><a class="line" href="classsmacc2_1_1SmaccAsyncClientBehavior.html#a2b4f16692681251ae6cc7bf33538d9c9">   39</a></span>&#160;<span class="keywordtype">void</span> SmaccAsyncClientBehavior::waitFutureIfNotFinished(std::future&lt;int&gt; &amp; threadfut)</div>
+<div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160;{</div>
+<div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160;  <span class="keywordflow">try</span></div>
+<div class="line"><a name="l00042"></a><span class="lineno">   42</span>&#160;  {</div>
+<div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160;    rclcpp::Rate r(100);</div>
+<div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160;    <span class="keywordflow">while</span> (rclcpp::ok())</div>
+<div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160;    {</div>
+<div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160;      <span class="keywordtype">bool</span> valid = threadfut.valid();</div>
+<div class="line"><a name="l00047"></a><span class="lineno">   47</span>&#160;      <span class="keywordflow">if</span> (valid)</div>
+<div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160;      {</div>
+<div class="line"><a name="l00049"></a><span class="lineno">   49</span>&#160;        <span class="keyword">auto</span> status = threadfut.wait_for(std::chrono::milliseconds(20));</div>
+<div class="line"><a name="l00050"></a><span class="lineno">   50</span>&#160;        <span class="keywordflow">if</span> (status == std::future_status::ready)</div>
+<div class="line"><a name="l00051"></a><span class="lineno">   51</span>&#160;        {</div>
+<div class="line"><a name="l00052"></a><span class="lineno">   52</span>&#160;          threadfut.get();</div>
+<div class="line"><a name="l00053"></a><span class="lineno">   53</span>&#160;          <span class="keywordflow">break</span>;</div>
+<div class="line"><a name="l00054"></a><span class="lineno">   54</span>&#160;        }</div>
+<div class="line"><a name="l00055"></a><span class="lineno">   55</span>&#160;      }</div>
+<div class="line"><a name="l00056"></a><span class="lineno">   56</span>&#160; </div>
+<div class="line"><a name="l00057"></a><span class="lineno">   57</span>&#160;      <span class="comment">//r.sleep();</span></div>
+<div class="line"><a name="l00058"></a><span class="lineno">   58</span>&#160;      rclcpp::sleep_for(100ms);</div>
+<div class="line"><a name="l00059"></a><span class="lineno">   59</span>&#160;      <span class="comment">// rclcpp::spin_some(getNode());</span></div>
+<div class="line"><a name="l00060"></a><span class="lineno">   60</span>&#160;      RCLCPP_WARN_THROTTLE(</div>
+<div class="line"><a name="l00061"></a><span class="lineno">   61</span>&#160;        getLogger(), *(getNode()-&gt;get_clock()), 1000,</div>
+<div class="line"><a name="l00062"></a><span class="lineno">   62</span>&#160;        <span class="stringliteral">&quot;[%s] waiting for finishing client behavior, before leaving the state. Is the client &quot;</span></div>
+<div class="line"><a name="l00063"></a><span class="lineno">   63</span>&#160;        <span class="stringliteral">&quot;behavior stuck?&quot;</span>,</div>
+<div class="line"><a name="l00064"></a><span class="lineno">   64</span>&#160;        <a class="code" href="namespacesmacc2_1_1introspection.html#af0776d8076fe19b4f806405e9ab08cfe">demangleType</a>(<span class="keyword">typeid</span>(*<span class="keyword">this</span>)).c_str());</div>
+<div class="line"><a name="l00065"></a><span class="lineno">   65</span>&#160;    }</div>
+<div class="line"><a name="l00066"></a><span class="lineno">   66</span>&#160;  }</div>
+<div class="line"><a name="l00067"></a><span class="lineno">   67</span>&#160;  <span class="keywordflow">catch</span> (<span class="keyword">const</span> std::exception &amp; e)</div>
+<div class="line"><a name="l00068"></a><span class="lineno">   68</span>&#160;  {</div>
+<div class="line"><a name="l00069"></a><span class="lineno">   69</span>&#160;    RCLCPP_DEBUG(</div>
+<div class="line"><a name="l00070"></a><span class="lineno">   70</span>&#160;      getLogger(),</div>
+<div class="line"><a name="l00071"></a><span class="lineno">   71</span>&#160;      <span class="stringliteral">&quot;[SmaccAsyncClientBehavior] trying to join function, but it was already finished.&quot;</span>);</div>
+<div class="line"><a name="l00072"></a><span class="lineno">   72</span>&#160;  }</div>
+<div class="line"><a name="l00073"></a><span class="lineno">   73</span>&#160;}</div>
+<div class="line"><a name="l00074"></a><span class="lineno">   74</span>&#160; </div>
+<div class="line"><a name="l00075"></a><span class="lineno"><a class="line" href="classsmacc2_1_1SmaccAsyncClientBehavior.html#ac6b465d4b59eb2bbb00d83a4bbd98881">   75</a></span>&#160;<span class="keywordtype">void</span> SmaccAsyncClientBehavior::executeOnExit()</div>
+<div class="line"><a name="l00076"></a><span class="lineno">   76</span>&#160;{</div>
+<div class="line"><a name="l00077"></a><span class="lineno">   77</span>&#160;  RCLCPP_INFO_STREAM(getLogger(), <span class="stringliteral">&quot;[&quot;</span> &lt;&lt; getName() &lt;&lt; <span class="stringliteral">&quot;] onExit - join async onEntry thread&quot;</span>);</div>
 <div class="line"><a name="l00078"></a><span class="lineno">   78</span>&#160; </div>
-<div class="line"><a name="l00079"></a><span class="lineno">   79</span>&#160;  RCLCPP_INFO_STREAM(</div>
-<div class="line"><a name="l00080"></a><span class="lineno">   80</span>&#160;    getLogger(), <span class="stringliteral">&quot;[&quot;</span> &lt;&lt; getName() &lt;&lt; <span class="stringliteral">&quot;] onExit - Creating asynchronous onExit thread&quot;</span>);</div>
-<div class="line"><a name="l00081"></a><span class="lineno">   81</span>&#160;  this-&gt;onExitThread_ = std::async(std::launch::async, [=] {</div>
-<div class="line"><a name="l00082"></a><span class="lineno">   82</span>&#160;    this-&gt;onExit();</div>
-<div class="line"><a name="l00083"></a><span class="lineno">   83</span>&#160;    <span class="keywordflow">return</span> 0;</div>
-<div class="line"><a name="l00084"></a><span class="lineno">   84</span>&#160;  });</div>
-<div class="line"><a name="l00085"></a><span class="lineno">   85</span>&#160;}</div>
-<div class="line"><a name="l00086"></a><span class="lineno">   86</span>&#160; </div>
-<div class="line"><a name="l00087"></a><span class="lineno"><a class="line" href="classsmacc2_1_1SmaccAsyncClientBehavior.html#a47bfbd4f801b61e43cd16d42eace3461">   87</a></span>&#160;<span class="keywordtype">void</span> SmaccAsyncClientBehavior::dispose()</div>
-<div class="line"><a name="l00088"></a><span class="lineno">   88</span>&#160;{</div>
-<div class="line"><a name="l00089"></a><span class="lineno">   89</span>&#160;  RCLCPP_DEBUG_STREAM(</div>
-<div class="line"><a name="l00090"></a><span class="lineno">   90</span>&#160;    getLogger(),</div>
-<div class="line"><a name="l00091"></a><span class="lineno">   91</span>&#160;    <span class="stringliteral">&quot;[&quot;</span> &lt;&lt; getName()</div>
-<div class="line"><a name="l00092"></a><span class="lineno">   92</span>&#160;        &lt;&lt; <span class="stringliteral">&quot;] Destroying client behavior- Waiting finishing of asynchronous onExit thread&quot;</span>);</div>
-<div class="line"><a name="l00093"></a><span class="lineno">   93</span>&#160;  <span class="keywordflow">try</span></div>
-<div class="line"><a name="l00094"></a><span class="lineno">   94</span>&#160;  {</div>
-<div class="line"><a name="l00095"></a><span class="lineno">   95</span>&#160;    this-&gt;onExitThread_.get();</div>
-<div class="line"><a name="l00096"></a><span class="lineno">   96</span>&#160;  }</div>
-<div class="line"><a name="l00097"></a><span class="lineno">   97</span>&#160;  <span class="keywordflow">catch</span> (...)</div>
-<div class="line"><a name="l00098"></a><span class="lineno">   98</span>&#160;  {</div>
-<div class="line"><a name="l00099"></a><span class="lineno">   99</span>&#160;    RCLCPP_DEBUG(</div>
-<div class="line"><a name="l00100"></a><span class="lineno">  100</span>&#160;      getLogger(),</div>
-<div class="line"><a name="l00101"></a><span class="lineno">  101</span>&#160;      <span class="stringliteral">&quot;[SmaccAsyncClientBehavior] trying to Join onExit function, but it was already finished.&quot;</span>);</div>
-<div class="line"><a name="l00102"></a><span class="lineno">  102</span>&#160;  }</div>
-<div class="line"><a name="l00103"></a><span class="lineno">  103</span>&#160; </div>
-<div class="line"><a name="l00104"></a><span class="lineno">  104</span>&#160;  RCLCPP_DEBUG_STREAM(</div>
-<div class="line"><a name="l00105"></a><span class="lineno">  105</span>&#160;    getLogger(),</div>
-<div class="line"><a name="l00106"></a><span class="lineno">  106</span>&#160;    <span class="stringliteral">&quot;[&quot;</span> &lt;&lt; getName()</div>
-<div class="line"><a name="l00107"></a><span class="lineno">  107</span>&#160;        &lt;&lt; <span class="stringliteral">&quot;] Destroying client behavior-  onExit thread finished. Proccedding destruction.&quot;</span>);</div>
-<div class="line"><a name="l00108"></a><span class="lineno">  108</span>&#160;}</div>
-<div class="line"><a name="l00109"></a><span class="lineno">  109</span>&#160; </div>
-<div class="line"><a name="l00110"></a><span class="lineno"><a class="line" href="classsmacc2_1_1SmaccAsyncClientBehavior.html#a014ced8836f6616a9ecd259a6f918bc2">  110</a></span>&#160;SmaccAsyncClientBehavior::~SmaccAsyncClientBehavior() {}</div>
+<div class="line"><a name="l00079"></a><span class="lineno">   79</span>&#160;  waitFutureIfNotFinished(this-&gt;onEntryThread_);</div>
+<div class="line"><a name="l00080"></a><span class="lineno">   80</span>&#160; </div>
+<div class="line"><a name="l00081"></a><span class="lineno">   81</span>&#160;  RCLCPP_INFO_STREAM(</div>
+<div class="line"><a name="l00082"></a><span class="lineno">   82</span>&#160;    getLogger(), <span class="stringliteral">&quot;[&quot;</span> &lt;&lt; getName() &lt;&lt; <span class="stringliteral">&quot;] onExit - Creating asynchronous onExit thread&quot;</span>);</div>
+<div class="line"><a name="l00083"></a><span class="lineno">   83</span>&#160;  this-&gt;onExitThread_ = std::async(std::launch::async, [=] {</div>
+<div class="line"><a name="l00084"></a><span class="lineno">   84</span>&#160;    this-&gt;onExit();</div>
+<div class="line"><a name="l00085"></a><span class="lineno">   85</span>&#160;    <span class="keywordflow">return</span> 0;</div>
+<div class="line"><a name="l00086"></a><span class="lineno">   86</span>&#160;  });</div>
+<div class="line"><a name="l00087"></a><span class="lineno">   87</span>&#160;}</div>
+<div class="line"><a name="l00088"></a><span class="lineno">   88</span>&#160; </div>
+<div class="line"><a name="l00089"></a><span class="lineno"><a class="line" href="classsmacc2_1_1SmaccAsyncClientBehavior.html#a47bfbd4f801b61e43cd16d42eace3461">   89</a></span>&#160;<span class="keywordtype">void</span> SmaccAsyncClientBehavior::dispose()</div>
+<div class="line"><a name="l00090"></a><span class="lineno">   90</span>&#160;{</div>
+<div class="line"><a name="l00091"></a><span class="lineno">   91</span>&#160;  RCLCPP_DEBUG_STREAM(</div>
+<div class="line"><a name="l00092"></a><span class="lineno">   92</span>&#160;    getLogger(),</div>
+<div class="line"><a name="l00093"></a><span class="lineno">   93</span>&#160;    <span class="stringliteral">&quot;[&quot;</span> &lt;&lt; getName()</div>
+<div class="line"><a name="l00094"></a><span class="lineno">   94</span>&#160;        &lt;&lt; <span class="stringliteral">&quot;] Destroying client behavior- Waiting finishing of asynchronous onExit thread&quot;</span>);</div>
+<div class="line"><a name="l00095"></a><span class="lineno">   95</span>&#160;  <span class="keywordflow">try</span></div>
+<div class="line"><a name="l00096"></a><span class="lineno">   96</span>&#160;  {</div>
+<div class="line"><a name="l00097"></a><span class="lineno">   97</span>&#160;    this-&gt;onExitThread_.get();</div>
+<div class="line"><a name="l00098"></a><span class="lineno">   98</span>&#160;  }</div>
+<div class="line"><a name="l00099"></a><span class="lineno">   99</span>&#160;  <span class="keywordflow">catch</span> (...)</div>
+<div class="line"><a name="l00100"></a><span class="lineno">  100</span>&#160;  {</div>
+<div class="line"><a name="l00101"></a><span class="lineno">  101</span>&#160;    RCLCPP_DEBUG(</div>
+<div class="line"><a name="l00102"></a><span class="lineno">  102</span>&#160;      getLogger(),</div>
+<div class="line"><a name="l00103"></a><span class="lineno">  103</span>&#160;      <span class="stringliteral">&quot;[SmaccAsyncClientBehavior] trying to Join onExit function, but it was already finished.&quot;</span>);</div>
+<div class="line"><a name="l00104"></a><span class="lineno">  104</span>&#160;  }</div>
+<div class="line"><a name="l00105"></a><span class="lineno">  105</span>&#160; </div>
+<div class="line"><a name="l00106"></a><span class="lineno">  106</span>&#160;  RCLCPP_DEBUG_STREAM(</div>
+<div class="line"><a name="l00107"></a><span class="lineno">  107</span>&#160;    getLogger(),</div>
+<div class="line"><a name="l00108"></a><span class="lineno">  108</span>&#160;    <span class="stringliteral">&quot;[&quot;</span> &lt;&lt; getName()</div>
+<div class="line"><a name="l00109"></a><span class="lineno">  109</span>&#160;        &lt;&lt; <span class="stringliteral">&quot;] Destroying client behavior-  onExit thread finished. Proccedding destruction.&quot;</span>);</div>
+<div class="line"><a name="l00110"></a><span class="lineno">  110</span>&#160;}</div>
 <div class="line"><a name="l00111"></a><span class="lineno">  111</span>&#160; </div>
-<div class="line"><a name="l00112"></a><span class="lineno"><a class="line" href="classsmacc2_1_1SmaccAsyncClientBehavior.html#a2fb4de26d011fbbb55bc1bbaed2e6f5b">  112</a></span>&#160;<span class="keywordtype">void</span> SmaccAsyncClientBehavior::postSuccessEvent() { postSuccessEventFn_(); }</div>
+<div class="line"><a name="l00112"></a><span class="lineno"><a class="line" href="classsmacc2_1_1SmaccAsyncClientBehavior.html#a014ced8836f6616a9ecd259a6f918bc2">  112</a></span>&#160;SmaccAsyncClientBehavior::~SmaccAsyncClientBehavior() {}</div>
 <div class="line"><a name="l00113"></a><span class="lineno">  113</span>&#160; </div>
-<div class="line"><a name="l00114"></a><span class="lineno"><a class="line" href="classsmacc2_1_1SmaccAsyncClientBehavior.html#afcb5c1a0bf3b9bae6c54e8f5ef1bc04d">  114</a></span>&#160;<span class="keywordtype">void</span> SmaccAsyncClientBehavior::postFailureEvent() { postFailureEventFn_(); }</div>
+<div class="line"><a name="l00114"></a><span class="lineno"><a class="line" href="classsmacc2_1_1SmaccAsyncClientBehavior.html#a2fb4de26d011fbbb55bc1bbaed2e6f5b">  114</a></span>&#160;<span class="keywordtype">void</span> SmaccAsyncClientBehavior::postSuccessEvent() { postSuccessEventFn_(); }</div>
 <div class="line"><a name="l00115"></a><span class="lineno">  115</span>&#160; </div>
-<div class="line"><a name="l00116"></a><span class="lineno">  116</span>&#160;}  <span class="comment">// namespace smacc2</span></div>
+<div class="line"><a name="l00116"></a><span class="lineno"><a class="line" href="classsmacc2_1_1SmaccAsyncClientBehavior.html#afcb5c1a0bf3b9bae6c54e8f5ef1bc04d">  116</a></span>&#160;<span class="keywordtype">void</span> SmaccAsyncClientBehavior::postFailureEvent() { postFailureEventFn_(); }</div>
+<div class="line"><a name="l00117"></a><span class="lineno">  117</span>&#160; </div>
+<div class="line"><a name="l00118"></a><span class="lineno">  118</span>&#160;}  <span class="comment">// namespace smacc2</span></div>
 <div class="ttc" id="anamespacesmacc2_1_1introspection_html_af0776d8076fe19b4f806405e9ab08cfe"><div class="ttname"><a href="namespacesmacc2_1_1introspection.html#af0776d8076fe19b4f806405e9ab08cfe">smacc2::introspection::demangleType</a></div><div class="ttdeci">std::string demangleType(const std::type_info *tinfo)</div><div class="ttdef"><b>Definition:</b> <a href="introspection_8hpp_source.html#l00106">introspection.hpp:106</a></div></div>
 <div class="ttc" id="anamespacesmacc2_html"><div class="ttname"><a href="namespacesmacc2.html">smacc2</a></div><div class="ttdef"><b>Definition:</b> <a href="cp__topic__subscriber_8hpp_source.html#l00027">cp_topic_subscriber.hpp:28</a></div></div>
 <div class="ttc" id="asmacc__asynchronous__client__behavior_8hpp_html"><div class="ttname"><a href="smacc__asynchronous__client__behavior_8hpp.html">smacc_asynchronous_client_behavior.hpp</a></div></div>

@@ -1,0 +1,215 @@
+\hypertarget{classcl__move__group__interface_1_1CpGraspingComponent}{}\doxysection{cl\+\_\+move\+\_\+group\+\_\+interface\+::Cp\+Grasping\+Component Class Reference}
+\label{classcl__move__group__interface_1_1CpGraspingComponent}\index{cl\_move\_group\_interface::CpGraspingComponent@{cl\_move\_group\_interface::CpGraspingComponent}}
+
+
+{\ttfamily \#include $<$cp\+\_\+grasping\+\_\+objects.\+hpp$>$}
+
+
+
+Inheritance diagram for cl\+\_\+move\+\_\+group\+\_\+interface\+::Cp\+Grasping\+Component\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=247pt]{classcl__move__group__interface_1_1CpGraspingComponent__inherit__graph}
+\end{center}
+\end{figure}
+
+
+Collaboration diagram for cl\+\_\+move\+\_\+group\+\_\+interface\+::Cp\+Grasping\+Component\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{classcl__move__group__interface_1_1CpGraspingComponent__coll__graph}
+\end{center}
+\end{figure}
+\doxysubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{classbool}{bool}} \mbox{\hyperlink{classcl__move__group__interface_1_1CpGraspingComponent_a98197588c689563796b73d6a83a7bf75}{get\+Grasping\+Object}} (std\+::string name, moveit\+\_\+msgs\+::msg\+::\+Collision\+Object \&object)
+\item 
+void \mbox{\hyperlink{classcl__move__group__interface_1_1CpGraspingComponent_a79d28fd919f58b176cf19163a031fff8}{create\+Graspable\+Box}} (std\+::string frameid, float x, float y, float z, float xl, float yl, float zl)
+\end{DoxyCompactItemize}
+\doxysubsection*{Public Attributes}
+\begin{DoxyCompactItemize}
+\item 
+std\+::vector$<$ std\+::string $>$ \mbox{\hyperlink{classcl__move__group__interface_1_1CpGraspingComponent_ac988538be9376c7f42d08aae359bd3e2}{finger\+Tip\+Names}}
+\item 
+std\+::string \mbox{\hyperlink{classcl__move__group__interface_1_1CpGraspingComponent_a7b5f9e11be1819d7e0d162c872bcd37d}{gripper\+Link\+\_\+}} = \char`\"{}gripper\+\_\+link\char`\"{}
+\item 
+std\+::optional$<$ std\+::string $>$ \mbox{\hyperlink{classcl__move__group__interface_1_1CpGraspingComponent_a9376d2bc9542ba1c1d4937471e573b1d}{current\+Attached\+Object\+Name}}
+\end{DoxyCompactItemize}
+\doxysubsection*{Private Attributes}
+\begin{DoxyCompactItemize}
+\item 
+std\+::map$<$ std\+::string, moveit\+\_\+msgs\+::msg\+::\+Collision\+Object $>$ \mbox{\hyperlink{classcl__move__group__interface_1_1CpGraspingComponent_aa9d3e0de110ef296443525f57e972406}{grasping\+Objects}}
+\end{DoxyCompactItemize}
+\doxysubsection*{Additional Inherited Members}
+
+
+\doxysubsection{Detailed Description}
+
+
+Definition at line 30 of file cp\+\_\+grasping\+\_\+objects.\+hpp.
+
+
+
+\doxysubsection{Member Function Documentation}
+\mbox{\Hypertarget{classcl__move__group__interface_1_1CpGraspingComponent_a79d28fd919f58b176cf19163a031fff8}\label{classcl__move__group__interface_1_1CpGraspingComponent_a79d28fd919f58b176cf19163a031fff8}} 
+\index{cl\_move\_group\_interface::CpGraspingComponent@{cl\_move\_group\_interface::CpGraspingComponent}!createGraspableBox@{createGraspableBox}}
+\index{createGraspableBox@{createGraspableBox}!cl\_move\_group\_interface::CpGraspingComponent@{cl\_move\_group\_interface::CpGraspingComponent}}
+\doxysubsubsection{\texorpdfstring{createGraspableBox()}{createGraspableBox()}}
+{\footnotesize\ttfamily void cl\+\_\+move\+\_\+group\+\_\+interface\+::\+Cp\+Grasping\+Component\+::create\+Graspable\+Box (\begin{DoxyParamCaption}\item[{std\+::string}]{frameid,  }\item[{float}]{x,  }\item[{float}]{y,  }\item[{float}]{z,  }\item[{float}]{xl,  }\item[{float}]{yl,  }\item[{float}]{zl }\end{DoxyParamCaption})}
+
+
+
+Definition at line 39 of file cp\+\_\+grasping\+\_\+objects.\+cpp.
+
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{41 \{}
+\DoxyCodeLine{42   RCLCPP\_INFO\_STREAM(}
+\DoxyCodeLine{43     \mbox{\hyperlink{classsmacc2_1_1ISmaccComponent_a6b9ca3313826dc3f555c63e8becf1e68}{getLogger}}(), \textcolor{stringliteral}{"{}["{}} << \mbox{\hyperlink{classsmacc2_1_1ISmaccComponent_a6fea938740f0c9ffc082b2ff076c900b}{getName}}() << \textcolor{stringliteral}{"{}] creating grasping object in planning scene: "{}} << frameid);}
+\DoxyCodeLine{44   moveit\_msgs::msg::CollisionObject collision;}
+\DoxyCodeLine{45   \textcolor{keyword}{auto} boxname = frameid;}
+\DoxyCodeLine{46   ;}
+\DoxyCodeLine{47   collision.id = boxname;}
+\DoxyCodeLine{48   collision.header.frame\_id = frameid;}
+\DoxyCodeLine{49 }
+\DoxyCodeLine{50   collision.primitives.resize(1);}
+\DoxyCodeLine{51   collision.primitives[0].type = collision.primitives[0].BOX;}
+\DoxyCodeLine{52   collision.primitives[0].dimensions.resize(3);}
+\DoxyCodeLine{53 }
+\DoxyCodeLine{54   collision.primitives[0].dimensions[0] = xl;}
+\DoxyCodeLine{55   collision.primitives[0].dimensions[1] = yl;}
+\DoxyCodeLine{56   collision.primitives[0].dimensions[2] = zl;}
+\DoxyCodeLine{57 }
+\DoxyCodeLine{58   collision.primitive\_poses.resize(1);}
+\DoxyCodeLine{59   collision.primitive\_poses[0].position.x = x;}
+\DoxyCodeLine{60   collision.primitive\_poses[0].position.y = y;}
+\DoxyCodeLine{61   collision.primitive\_poses[0].position.z = z;}
+\DoxyCodeLine{62   collision.primitive\_poses[0].orientation.w = 1.0;}
+\DoxyCodeLine{63 }
+\DoxyCodeLine{64   \mbox{\hyperlink{classcl__move__group__interface_1_1CpGraspingComponent_aa9d3e0de110ef296443525f57e972406}{graspingObjects}}[boxname] = collision;}
+\DoxyCodeLine{65 \}}
+
+\end{DoxyCode}
+
+
+References smacc2\+::\+ISmacc\+Component\+::get\+Logger(), smacc2\+::\+ISmacc\+Component\+::get\+Name(), and grasping\+Objects.
+
+Here is the call graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{classcl__move__group__interface_1_1CpGraspingComponent_a79d28fd919f58b176cf19163a031fff8_cgraph}
+\end{center}
+\end{figure}
+\mbox{\Hypertarget{classcl__move__group__interface_1_1CpGraspingComponent_a98197588c689563796b73d6a83a7bf75}\label{classcl__move__group__interface_1_1CpGraspingComponent_a98197588c689563796b73d6a83a7bf75}} 
+\index{cl\_move\_group\_interface::CpGraspingComponent@{cl\_move\_group\_interface::CpGraspingComponent}!getGraspingObject@{getGraspingObject}}
+\index{getGraspingObject@{getGraspingObject}!cl\_move\_group\_interface::CpGraspingComponent@{cl\_move\_group\_interface::CpGraspingComponent}}
+\doxysubsubsection{\texorpdfstring{getGraspingObject()}{getGraspingObject()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{classbool}{bool}} cl\+\_\+move\+\_\+group\+\_\+interface\+::\+Cp\+Grasping\+Component\+::get\+Grasping\+Object (\begin{DoxyParamCaption}\item[{std\+::string}]{name,  }\item[{moveit\+\_\+msgs\+::msg\+::\+Collision\+Object \&}]{object }\end{DoxyParamCaption})}
+
+
+
+Definition at line 25 of file cp\+\_\+grasping\+\_\+objects.\+cpp.
+
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{27 \{}
+\DoxyCodeLine{28   \textcolor{keywordflow}{if} (this-\/>\mbox{\hyperlink{classcl__move__group__interface_1_1CpGraspingComponent_aa9d3e0de110ef296443525f57e972406}{graspingObjects}}.count(name))}
+\DoxyCodeLine{29   \{}
+\DoxyCodeLine{30     \textcolor{keywordtype}{object} = this-\/>\mbox{\hyperlink{classcl__move__group__interface_1_1CpGraspingComponent_aa9d3e0de110ef296443525f57e972406}{graspingObjects}}[name];}
+\DoxyCodeLine{31     \textcolor{keywordflow}{return} \textcolor{keyword}{true};}
+\DoxyCodeLine{32   \}}
+\DoxyCodeLine{33   \textcolor{keywordflow}{else}}
+\DoxyCodeLine{34   \{}
+\DoxyCodeLine{35     \textcolor{keywordflow}{return} \textcolor{keyword}{false};}
+\DoxyCodeLine{36   \}}
+\DoxyCodeLine{37 \}}
+
+\end{DoxyCode}
+
+
+References grasping\+Objects.
+
+
+
+Referenced by cl\+\_\+move\+\_\+group\+\_\+interface\+::\+Cb\+Attach\+Object\+::on\+Entry().
+
+Here is the caller graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{classcl__move__group__interface_1_1CpGraspingComponent_a98197588c689563796b73d6a83a7bf75_icgraph}
+\end{center}
+\end{figure}
+
+
+\doxysubsection{Member Data Documentation}
+\mbox{\Hypertarget{classcl__move__group__interface_1_1CpGraspingComponent_a9376d2bc9542ba1c1d4937471e573b1d}\label{classcl__move__group__interface_1_1CpGraspingComponent_a9376d2bc9542ba1c1d4937471e573b1d}} 
+\index{cl\_move\_group\_interface::CpGraspingComponent@{cl\_move\_group\_interface::CpGraspingComponent}!currentAttachedObjectName@{currentAttachedObjectName}}
+\index{currentAttachedObjectName@{currentAttachedObjectName}!cl\_move\_group\_interface::CpGraspingComponent@{cl\_move\_group\_interface::CpGraspingComponent}}
+\doxysubsubsection{\texorpdfstring{currentAttachedObjectName}{currentAttachedObjectName}}
+{\footnotesize\ttfamily std\+::optional$<$std\+::string$>$ cl\+\_\+move\+\_\+group\+\_\+interface\+::\+Cp\+Grasping\+Component\+::current\+Attached\+Object\+Name}
+
+
+
+Definition at line 39 of file cp\+\_\+grasping\+\_\+objects.\+hpp.
+
+
+
+Referenced by cl\+\_\+move\+\_\+group\+\_\+interface\+::\+Cb\+Attach\+Object\+::on\+Entry(), and cl\+\_\+move\+\_\+group\+\_\+interface\+::\+Cb\+Detach\+Object\+::on\+Entry().
+
+\mbox{\Hypertarget{classcl__move__group__interface_1_1CpGraspingComponent_ac988538be9376c7f42d08aae359bd3e2}\label{classcl__move__group__interface_1_1CpGraspingComponent_ac988538be9376c7f42d08aae359bd3e2}} 
+\index{cl\_move\_group\_interface::CpGraspingComponent@{cl\_move\_group\_interface::CpGraspingComponent}!fingerTipNames@{fingerTipNames}}
+\index{fingerTipNames@{fingerTipNames}!cl\_move\_group\_interface::CpGraspingComponent@{cl\_move\_group\_interface::CpGraspingComponent}}
+\doxysubsubsection{\texorpdfstring{fingerTipNames}{fingerTipNames}}
+{\footnotesize\ttfamily std\+::vector$<$std\+::string$>$ cl\+\_\+move\+\_\+group\+\_\+interface\+::\+Cp\+Grasping\+Component\+::finger\+Tip\+Names}
+
+
+
+Definition at line 36 of file cp\+\_\+grasping\+\_\+objects.\+hpp.
+
+
+
+Referenced by cl\+\_\+move\+\_\+group\+\_\+interface\+::\+Cb\+Attach\+Object\+::on\+Entry().
+
+\mbox{\Hypertarget{classcl__move__group__interface_1_1CpGraspingComponent_aa9d3e0de110ef296443525f57e972406}\label{classcl__move__group__interface_1_1CpGraspingComponent_aa9d3e0de110ef296443525f57e972406}} 
+\index{cl\_move\_group\_interface::CpGraspingComponent@{cl\_move\_group\_interface::CpGraspingComponent}!graspingObjects@{graspingObjects}}
+\index{graspingObjects@{graspingObjects}!cl\_move\_group\_interface::CpGraspingComponent@{cl\_move\_group\_interface::CpGraspingComponent}}
+\doxysubsubsection{\texorpdfstring{graspingObjects}{graspingObjects}}
+{\footnotesize\ttfamily std\+::map$<$std\+::string, moveit\+\_\+msgs\+::msg\+::\+Collision\+Object$>$ cl\+\_\+move\+\_\+group\+\_\+interface\+::\+Cp\+Grasping\+Component\+::grasping\+Objects\hspace{0.3cm}{\ttfamily [private]}}
+
+
+
+Definition at line 33 of file cp\+\_\+grasping\+\_\+objects.\+hpp.
+
+
+
+Referenced by create\+Graspable\+Box(), and get\+Grasping\+Object().
+
+\mbox{\Hypertarget{classcl__move__group__interface_1_1CpGraspingComponent_a7b5f9e11be1819d7e0d162c872bcd37d}\label{classcl__move__group__interface_1_1CpGraspingComponent_a7b5f9e11be1819d7e0d162c872bcd37d}} 
+\index{cl\_move\_group\_interface::CpGraspingComponent@{cl\_move\_group\_interface::CpGraspingComponent}!gripperLink\_@{gripperLink\_}}
+\index{gripperLink\_@{gripperLink\_}!cl\_move\_group\_interface::CpGraspingComponent@{cl\_move\_group\_interface::CpGraspingComponent}}
+\doxysubsubsection{\texorpdfstring{gripperLink\_}{gripperLink\_}}
+{\footnotesize\ttfamily std\+::string cl\+\_\+move\+\_\+group\+\_\+interface\+::\+Cp\+Grasping\+Component\+::gripper\+Link\+\_\+ = \char`\"{}gripper\+\_\+link\char`\"{}}
+
+
+
+Definition at line 37 of file cp\+\_\+grasping\+\_\+objects.\+hpp.
+
+
+
+Referenced by cl\+\_\+move\+\_\+group\+\_\+interface\+::\+Cb\+Attach\+Object\+::on\+Entry().
+
+
+
+The documentation for this class was generated from the following files\+:\begin{DoxyCompactItemize}
+\item 
+smacc2\+\_\+client\+\_\+library/move\+\_\+group\+\_\+interface\+\_\+client/include/move\+\_\+group\+\_\+interface\+\_\+client/components/\mbox{\hyperlink{cp__grasping__objects_8hpp}{cp\+\_\+grasping\+\_\+objects.\+hpp}}\item 
+smacc2\+\_\+client\+\_\+library/move\+\_\+group\+\_\+interface\+\_\+client/src/move\+\_\+group\+\_\+interface\+\_\+client/components/\mbox{\hyperlink{cp__grasping__objects_8cpp}{cp\+\_\+grasping\+\_\+objects.\+cpp}}\end{DoxyCompactItemize}

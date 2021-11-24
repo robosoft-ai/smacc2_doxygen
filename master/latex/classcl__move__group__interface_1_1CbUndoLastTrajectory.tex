@@ -126,25 +126,33 @@ Definition at line 32 of file cb\+\_\+undo\+\_\+last\+\_\+trajectory.\+cpp.
 \DoxyCodeLine{37 }
 \DoxyCodeLine{38   \textcolor{keywordflow}{if} (trajectoryHistory-\/>getLastTrajectory(\mbox{\hyperlink{classcl__move__group__interface_1_1CbUndoLastTrajectory_a07b581e873b30625f06aea437a126d29}{backIndex\_}}, \mbox{\hyperlink{classcl__move__group__interface_1_1CbUndoLastTrajectory_a0fb239611e132a67c38936e352c660c8}{trajectory}}))}
 \DoxyCodeLine{39   \{}
-\DoxyCodeLine{40     \textcolor{keyword}{auto} initialTime = \mbox{\hyperlink{classcl__move__group__interface_1_1CbUndoLastTrajectory_a0fb239611e132a67c38936e352c660c8}{trajectory}}.joint\_trajectory.points.back().time\_from\_start;}
-\DoxyCodeLine{41 }
-\DoxyCodeLine{42     \mbox{\hyperlink{classcl__move__group__interface_1_1CbUndoLastTrajectory_a63f4bcb5c40629b7b5abcc835246b2e9}{reversed}} = \mbox{\hyperlink{classcl__move__group__interface_1_1CbUndoLastTrajectory_a0fb239611e132a67c38936e352c660c8}{trajectory}};}
-\DoxyCodeLine{43 }
-\DoxyCodeLine{44     std::reverse(\mbox{\hyperlink{classcl__move__group__interface_1_1CbUndoLastTrajectory_a63f4bcb5c40629b7b5abcc835246b2e9}{reversed}}.joint\_trajectory.points.begin(), \mbox{\hyperlink{classcl__move__group__interface_1_1CbUndoLastTrajectory_a63f4bcb5c40629b7b5abcc835246b2e9}{reversed}}.joint\_trajectory.points.end());}
-\DoxyCodeLine{45 }
-\DoxyCodeLine{46     \textcolor{keywordflow}{for} (\textcolor{keyword}{auto} \& jp : \mbox{\hyperlink{classcl__move__group__interface_1_1CbUndoLastTrajectory_a63f4bcb5c40629b7b5abcc835246b2e9}{reversed}}.joint\_trajectory.points)}
-\DoxyCodeLine{47     \{}
-\DoxyCodeLine{48       jp.time\_from\_start = rclcpp::Duration(jp.time\_from\_start) -\/ rclcpp::Duration(initialTime);}
-\DoxyCodeLine{49     \}}
-\DoxyCodeLine{50 }
-\DoxyCodeLine{51     this-\/>\mbox{\hyperlink{classcl__move__group__interface_1_1CbMoveEndEffectorTrajectory_af3fdebf965562ae42df2030855797568}{executeJointSpaceTrajectory}}(\mbox{\hyperlink{classcl__move__group__interface_1_1CbUndoLastTrajectory_a63f4bcb5c40629b7b5abcc835246b2e9}{reversed}});}
-\DoxyCodeLine{52   \}}
-\DoxyCodeLine{53 \}}
+\DoxyCodeLine{40     RCLCPP\_WARN\_STREAM(}
+\DoxyCodeLine{41       \mbox{\hyperlink{classsmacc2_1_1ISmaccClientBehavior_a5474074c4b45e900499e30126fb8415c}{getLogger}}(), \textcolor{stringliteral}{"{}["{}} << \mbox{\hyperlink{classsmacc2_1_1ISmaccClientBehavior_a3feaa9c382a7d376b7ba0017a63e294e}{getName}}() << \textcolor{stringliteral}{"{}] reversing last trajectory ["{}} << \mbox{\hyperlink{classcl__move__group__interface_1_1CbUndoLastTrajectory_a07b581e873b30625f06aea437a126d29}{backIndex\_}} << \textcolor{stringliteral}{"{}]"{}});}
+\DoxyCodeLine{42 }
+\DoxyCodeLine{43     \textcolor{keyword}{auto} initialTime = \mbox{\hyperlink{classcl__move__group__interface_1_1CbUndoLastTrajectory_a0fb239611e132a67c38936e352c660c8}{trajectory}}.joint\_trajectory.points.back().time\_from\_start;}
+\DoxyCodeLine{44 }
+\DoxyCodeLine{45     \mbox{\hyperlink{classcl__move__group__interface_1_1CbUndoLastTrajectory_a63f4bcb5c40629b7b5abcc835246b2e9}{reversed}} = \mbox{\hyperlink{classcl__move__group__interface_1_1CbUndoLastTrajectory_a0fb239611e132a67c38936e352c660c8}{trajectory}};}
+\DoxyCodeLine{46 }
+\DoxyCodeLine{47     std::reverse(\mbox{\hyperlink{classcl__move__group__interface_1_1CbUndoLastTrajectory_a63f4bcb5c40629b7b5abcc835246b2e9}{reversed}}.joint\_trajectory.points.begin(), \mbox{\hyperlink{classcl__move__group__interface_1_1CbUndoLastTrajectory_a63f4bcb5c40629b7b5abcc835246b2e9}{reversed}}.joint\_trajectory.points.end());}
+\DoxyCodeLine{48 }
+\DoxyCodeLine{49     \textcolor{keywordflow}{for} (\textcolor{keyword}{auto} \& jp : \mbox{\hyperlink{classcl__move__group__interface_1_1CbUndoLastTrajectory_a63f4bcb5c40629b7b5abcc835246b2e9}{reversed}}.joint\_trajectory.points)}
+\DoxyCodeLine{50     \{}
+\DoxyCodeLine{51       jp.time\_from\_start = rclcpp::Duration(initialTime) -\/ rclcpp::Duration(jp.time\_from\_start);}
+\DoxyCodeLine{52     \}}
+\DoxyCodeLine{53 }
+\DoxyCodeLine{54     this-\/>\mbox{\hyperlink{classcl__move__group__interface_1_1CbMoveEndEffectorTrajectory_af3fdebf965562ae42df2030855797568}{executeJointSpaceTrajectory}}(\mbox{\hyperlink{classcl__move__group__interface_1_1CbUndoLastTrajectory_a63f4bcb5c40629b7b5abcc835246b2e9}{reversed}});}
+\DoxyCodeLine{55   \}}
+\DoxyCodeLine{56   \textcolor{keywordflow}{else}}
+\DoxyCodeLine{57   \{}
+\DoxyCodeLine{58     RCLCPP\_WARN\_STREAM(}
+\DoxyCodeLine{59       \mbox{\hyperlink{classsmacc2_1_1ISmaccClientBehavior_a5474074c4b45e900499e30126fb8415c}{getLogger}}(), \textcolor{stringliteral}{"{}["{}} << \mbox{\hyperlink{classsmacc2_1_1ISmaccClientBehavior_a3feaa9c382a7d376b7ba0017a63e294e}{getName}}() << \textcolor{stringliteral}{"{}] could not undo last trajectory, trajectory not found."{}});}
+\DoxyCodeLine{60   \}}
+\DoxyCodeLine{61 \}}
 
 \end{DoxyCode}
 
 
-References back\+Index\+\_\+, cl\+\_\+move\+\_\+group\+\_\+interface\+::\+Cb\+Move\+End\+Effector\+Trajectory\+::execute\+Joint\+Space\+Trajectory(), cl\+\_\+move\+\_\+group\+\_\+interface\+::\+Cp\+Trajectory\+History\+::get\+Last\+Trajectory(), cl\+\_\+move\+\_\+group\+\_\+interface\+::\+Cb\+Move\+End\+Effector\+Trajectory\+::movegroup\+Client\+\_\+, smacc2\+::\+ISmacc\+Client\+Behavior\+::requires\+Client(), smacc2\+::\+ISmacc\+Client\+Behavior\+::requires\+Component(), reversed, and trajectory.
+References back\+Index\+\_\+, cl\+\_\+move\+\_\+group\+\_\+interface\+::\+Cb\+Move\+End\+Effector\+Trajectory\+::execute\+Joint\+Space\+Trajectory(), cl\+\_\+move\+\_\+group\+\_\+interface\+::\+Cp\+Trajectory\+History\+::get\+Last\+Trajectory(), smacc2\+::\+ISmacc\+Client\+Behavior\+::get\+Logger(), smacc2\+::\+ISmacc\+Client\+Behavior\+::get\+Name(), cl\+\_\+move\+\_\+group\+\_\+interface\+::\+Cb\+Move\+End\+Effector\+Trajectory\+::movegroup\+Client\+\_\+, smacc2\+::\+ISmacc\+Client\+Behavior\+::requires\+Client(), smacc2\+::\+ISmacc\+Client\+Behavior\+::requires\+Component(), reversed, and trajectory.
 
 Here is the call graph for this function\+:
 \nopagebreak
