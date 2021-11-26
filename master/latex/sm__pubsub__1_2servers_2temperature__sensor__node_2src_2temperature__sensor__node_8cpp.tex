@@ -1,0 +1,64 @@
+\hypertarget{sm__pubsub__1_2servers_2temperature__sensor__node_2src_2temperature__sensor__node_8cpp}{}\doxysection{smacc2\+\_\+sm\+\_\+reference\+\_\+library/sm\+\_\+pubsub\+\_\+1/servers/temperature\+\_\+sensor\+\_\+node/src/temperature\+\_\+sensor\+\_\+node.cpp File Reference}
+\label{sm__pubsub__1_2servers_2temperature__sensor__node_2src_2temperature__sensor__node_8cpp}\index{smacc2\_sm\_reference\_library/sm\_pubsub\_1/servers/temperature\_sensor\_node/src/temperature\_sensor\_node.cpp@{smacc2\_sm\_reference\_library/sm\_pubsub\_1/servers/temperature\_sensor\_node/src/temperature\_sensor\_node.cpp}}
+{\ttfamily \#include $<$rclcpp/rclcpp.\+hpp$>$}\newline
+{\ttfamily \#include $<$std\+\_\+msgs/msg/float32.\+hpp$>$}\newline
+Include dependency graph for temperature\+\_\+sensor\+\_\+node.\+cpp\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=320pt]{sm__pubsub__1_2servers_2temperature__sensor__node_2src_2temperature__sensor__node_8cpp__incl}
+\end{center}
+\end{figure}
+\doxysubsection*{Classes}
+\begin{DoxyCompactItemize}
+\item 
+class \mbox{\hyperlink{classTemperatureClass}{Temperature\+Class}}
+\end{DoxyCompactItemize}
+\doxysubsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+int \mbox{\hyperlink{sm__pubsub__1_2servers_2temperature__sensor__node_2src_2temperature__sensor__node_8cpp_a3c04138a5bfe5d72780bb7e82a18e627}{main}} (int argc, char $\ast$$\ast$argv)
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{Function Documentation}
+\mbox{\Hypertarget{sm__pubsub__1_2servers_2temperature__sensor__node_2src_2temperature__sensor__node_8cpp_a3c04138a5bfe5d72780bb7e82a18e627}\label{sm__pubsub__1_2servers_2temperature__sensor__node_2src_2temperature__sensor__node_8cpp_a3c04138a5bfe5d72780bb7e82a18e627}} 
+\index{temperature\_sensor\_node.cpp@{temperature\_sensor\_node.cpp}!main@{main}}
+\index{main@{main}!temperature\_sensor\_node.cpp@{temperature\_sensor\_node.cpp}}
+\doxysubsubsection{\texorpdfstring{main()}{main()}}
+{\footnotesize\ttfamily int main (\begin{DoxyParamCaption}\item[{int}]{argc,  }\item[{char $\ast$$\ast$}]{argv }\end{DoxyParamCaption})}
+
+
+
+Definition at line 22 of file temperature\+\_\+sensor\+\_\+node.\+cpp.
+
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{23 \{}
+\DoxyCodeLine{24   rclcpp::init(argc, argv);}
+\DoxyCodeLine{25   rclcpp::Node::SharedPtr node = rclcpp::Node::make\_shared(\textcolor{stringliteral}{"{}temperature\_sensor\_node"{}});}
+\DoxyCodeLine{26 }
+\DoxyCodeLine{27   \textcolor{keyword}{auto} pub = node-\/>create\_publisher<std\_msgs::msg::Float32>(\textcolor{stringliteral}{"{}/temperature"{}}, 1);}
+\DoxyCodeLine{28   \textcolor{keywordtype}{int} i = 0;}
+\DoxyCodeLine{29 }
+\DoxyCodeLine{30   rclcpp::Rate r(30);}
+\DoxyCodeLine{31 }
+\DoxyCodeLine{32   \textcolor{keywordflow}{while} (rclcpp::ok())}
+\DoxyCodeLine{33   \{}
+\DoxyCodeLine{34     std\_msgs::msg::Float32 msg;}
+\DoxyCodeLine{35     \textcolor{comment}{// temperatures varies sinoidally from -\/20 to 20 degrees, but sporadically it has 32 deg}}
+\DoxyCodeLine{36     \textcolor{keywordflow}{if} (i \% 100 == 0)}
+\DoxyCodeLine{37       msg.data = 32;}
+\DoxyCodeLine{38     \textcolor{keywordflow}{else}}
+\DoxyCodeLine{39       msg.data = 20 * sin(0.1 * node-\/>now().nanoseconds() / 1e-\/9);}
+\DoxyCodeLine{40 }
+\DoxyCodeLine{41     pub-\/>publish(msg);}
+\DoxyCodeLine{42 }
+\DoxyCodeLine{43     r.sleep();}
+\DoxyCodeLine{44     rclcpp::spin\_some(node);}
+\DoxyCodeLine{45     i++;}
+\DoxyCodeLine{46   \}}
+\DoxyCodeLine{47 \}}
+
+\end{DoxyCode}
