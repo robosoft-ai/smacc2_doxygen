@@ -1,0 +1,142 @@
+\hypertarget{namespacehusky__gazebo}{}\doxysection{husky\+\_\+gazebo Namespace Reference}
+\label{namespacehusky__gazebo}\index{husky\_gazebo@{husky\_gazebo}}
+\doxysubsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+def \mbox{\hyperlink{namespacehusky__gazebo_a3b494d0899b2a048a111561675d09b32}{generate\+\_\+launch\+\_\+description}} ()
+\end{DoxyCompactItemize}
+\doxysubsection*{Variables}
+\begin{DoxyCompactItemize}
+\item 
+list \mbox{\hyperlink{namespacehusky__gazebo_a7d7fe2e70c25e775fe55c183378d7954}{ARGUMENTS}}
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{Function Documentation}
+\mbox{\Hypertarget{namespacehusky__gazebo_a3b494d0899b2a048a111561675d09b32}\label{namespacehusky__gazebo_a3b494d0899b2a048a111561675d09b32}} 
+\index{husky\_gazebo@{husky\_gazebo}!generate\_launch\_description@{generate\_launch\_description}}
+\index{generate\_launch\_description@{generate\_launch\_description}!husky\_gazebo@{husky\_gazebo}}
+\doxysubsubsection{\texorpdfstring{generate\_launch\_description()}{generate\_launch\_description()}}
+{\footnotesize\ttfamily def husky\+\_\+gazebo.\+generate\+\_\+launch\+\_\+description (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+
+
+Definition at line 33 of file husky\+\_\+gazebo.\+launch.\+py.
+
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{33 \textcolor{keyword}{def }\mbox{\hyperlink{namespacehusky__gazebo_a3b494d0899b2a048a111561675d09b32}{generate\_launch\_description}}():}
+\DoxyCodeLine{34 }
+\DoxyCodeLine{35     \textcolor{comment}{\# Launch args}}
+\DoxyCodeLine{36     world\_path = LaunchConfiguration(\textcolor{stringliteral}{"{}world\_path"{}})}
+\DoxyCodeLine{37 }
+\DoxyCodeLine{38     \textcolor{comment}{\# Get URDF via xacro}}
+\DoxyCodeLine{39     robot\_description\_content = Command(}
+\DoxyCodeLine{40         [}
+\DoxyCodeLine{41             PathJoinSubstitution([FindExecutable(name=\textcolor{stringliteral}{"{}xacro"{}})]),}
+\DoxyCodeLine{42             \textcolor{stringliteral}{"{} "{}},}
+\DoxyCodeLine{43             PathJoinSubstitution(}
+\DoxyCodeLine{44                 [FindPackageShare(\textcolor{stringliteral}{"{}husky\_description"{}}), \textcolor{stringliteral}{"{}urdf"{}}, \textcolor{stringliteral}{"{}husky.urdf.xacro"{}}]}
+\DoxyCodeLine{45             ),}
+\DoxyCodeLine{46             \textcolor{stringliteral}{"{} is\_sim:=true"{}},}
+\DoxyCodeLine{47         ]}
+\DoxyCodeLine{48     )}
+\DoxyCodeLine{49     robot\_description = \{\textcolor{stringliteral}{"{}robot\_description"{}}: robot\_description\_content\}}
+\DoxyCodeLine{50 }
+\DoxyCodeLine{51     config\_husky\_velocity\_controller = PathJoinSubstitution(}
+\DoxyCodeLine{52         [FindPackageShare(\textcolor{stringliteral}{"{}husky\_control"{}}), \textcolor{stringliteral}{"{}config"{}}, \textcolor{stringliteral}{"{}control.yaml"{}}],}
+\DoxyCodeLine{53     )}
+\DoxyCodeLine{54 }
+\DoxyCodeLine{55     spawn\_husky\_velocity\_controller = Node(}
+\DoxyCodeLine{56         package=\textcolor{stringliteral}{"{}controller\_manager"{}},}
+\DoxyCodeLine{57         executable=\textcolor{stringliteral}{"{}spawner"{}},}
+\DoxyCodeLine{58         parameters=[config\_husky\_velocity\_controller],}
+\DoxyCodeLine{59         arguments=[\textcolor{stringliteral}{"{}husky\_velocity\_controller"{}}, \textcolor{stringliteral}{"{}-\/c"{}}, \textcolor{stringliteral}{"{}/controller\_manager"{}}],}
+\DoxyCodeLine{60         output=\textcolor{stringliteral}{"{}screen"{}},}
+\DoxyCodeLine{61     )}
+\DoxyCodeLine{62 }
+\DoxyCodeLine{63     node\_robot\_state\_publisher = Node(}
+\DoxyCodeLine{64         package=\textcolor{stringliteral}{"{}robot\_state\_publisher"{}},}
+\DoxyCodeLine{65         executable=\textcolor{stringliteral}{"{}robot\_state\_publisher"{}},}
+\DoxyCodeLine{66         output=\textcolor{stringliteral}{"{}screen"{}},}
+\DoxyCodeLine{67         parameters=[\{\textcolor{stringliteral}{"{}use\_sim\_time"{}}: \textcolor{keyword}{True}\}, robot\_description],}
+\DoxyCodeLine{68     )}
+\DoxyCodeLine{69 }
+\DoxyCodeLine{70     spawn\_joint\_state\_broadcaster = Node(}
+\DoxyCodeLine{71         package=\textcolor{stringliteral}{"{}controller\_manager"{}},}
+\DoxyCodeLine{72         executable=\textcolor{stringliteral}{"{}spawner"{}},}
+\DoxyCodeLine{73         arguments=[\textcolor{stringliteral}{"{}joint\_state\_broadcaster"{}}, \textcolor{stringliteral}{"{}-\/c"{}}, \textcolor{stringliteral}{"{}/controller\_manager"{}}],}
+\DoxyCodeLine{74         output=\textcolor{stringliteral}{"{}screen"{}},}
+\DoxyCodeLine{75     )}
+\DoxyCodeLine{76 }
+\DoxyCodeLine{77     \textcolor{comment}{\# Make sure spawn\_husky\_velocity\_controller starts after spawn\_joint\_state\_broadcaster}}
+\DoxyCodeLine{78     diffdrive\_controller\_spawn\_callback = RegisterEventHandler(}
+\DoxyCodeLine{79         event\_handler=OnProcessExit(}
+\DoxyCodeLine{80             target\_action=spawn\_joint\_state\_broadcaster,}
+\DoxyCodeLine{81             on\_exit=[spawn\_husky\_velocity\_controller],}
+\DoxyCodeLine{82         )}
+\DoxyCodeLine{83     )}
+\DoxyCodeLine{84     \textcolor{comment}{\# Gazebo server}}
+\DoxyCodeLine{85     gzserver = ExecuteProcess(}
+\DoxyCodeLine{86         cmd=[}
+\DoxyCodeLine{87             \textcolor{stringliteral}{"{}gzserver"{}},}
+\DoxyCodeLine{88             \textcolor{stringliteral}{"{}-\/s"{}},}
+\DoxyCodeLine{89             \textcolor{stringliteral}{"{}libgazebo\_ros\_init.so"{}},}
+\DoxyCodeLine{90             \textcolor{stringliteral}{"{}-\/s"{}},}
+\DoxyCodeLine{91             \textcolor{stringliteral}{"{}libgazebo\_ros\_factory.so"{}},}
+\DoxyCodeLine{92             world\_path,}
+\DoxyCodeLine{93         ],}
+\DoxyCodeLine{94         prefix=\textcolor{stringliteral}{"{}xterm -\/e"{}},}
+\DoxyCodeLine{95         output=\textcolor{stringliteral}{"{}screen"{}},}
+\DoxyCodeLine{96     )}
+\DoxyCodeLine{97 }
+\DoxyCodeLine{98     \textcolor{comment}{\# Gazebo client}}
+\DoxyCodeLine{99     gzclient = ExecuteProcess(}
+\DoxyCodeLine{100         cmd=[\textcolor{stringliteral}{"{}gzclient"{}}],}
+\DoxyCodeLine{101         output=\textcolor{stringliteral}{"{}screen"{}},}
+\DoxyCodeLine{102         prefix=\textcolor{stringliteral}{"{}xterm -\/e"{}},}
+\DoxyCodeLine{103         \textcolor{comment}{\# condition=IfCondition(LaunchConfiguration('gui')),}}
+\DoxyCodeLine{104     )}
+\DoxyCodeLine{105 }
+\DoxyCodeLine{106     \textcolor{comment}{\# Spawn robot}}
+\DoxyCodeLine{107     spawn\_robot = Node(}
+\DoxyCodeLine{108         package=\textcolor{stringliteral}{"{}gazebo\_ros"{}},}
+\DoxyCodeLine{109         executable=\textcolor{stringliteral}{"{}spawn\_entity.py"{}},}
+\DoxyCodeLine{110         name=\textcolor{stringliteral}{"{}spawn\_husky"{}},}
+\DoxyCodeLine{111         arguments=[\textcolor{stringliteral}{"{}-\/entity"{}}, \textcolor{stringliteral}{"{}husky"{}}, \textcolor{stringliteral}{"{}-\/topic"{}}, \textcolor{stringliteral}{"{}robot\_description"{}}],}
+\DoxyCodeLine{112         output=\textcolor{stringliteral}{"{}screen"{}},}
+\DoxyCodeLine{113     )}
+\DoxyCodeLine{114 }
+\DoxyCodeLine{115     ld = LaunchDescription(ARGUMENTS)}
+\DoxyCodeLine{116     ld.add\_action(node\_robot\_state\_publisher)}
+\DoxyCodeLine{117     ld.add\_action(spawn\_joint\_state\_broadcaster)}
+\DoxyCodeLine{118     ld.add\_action(diffdrive\_controller\_spawn\_callback)}
+\DoxyCodeLine{119     ld.add\_action(gzserver)}
+\DoxyCodeLine{120     ld.add\_action(gzclient)}
+\DoxyCodeLine{121     ld.add\_action(spawn\_robot)}
+\DoxyCodeLine{122 }
+\DoxyCodeLine{123     \textcolor{keywordflow}{return} ld}
+
+\end{DoxyCode}
+
+
+\doxysubsection{Variable Documentation}
+\mbox{\Hypertarget{namespacehusky__gazebo_a7d7fe2e70c25e775fe55c183378d7954}\label{namespacehusky__gazebo_a7d7fe2e70c25e775fe55c183378d7954}} 
+\index{husky\_gazebo@{husky\_gazebo}!ARGUMENTS@{ARGUMENTS}}
+\index{ARGUMENTS@{ARGUMENTS}!husky\_gazebo@{husky\_gazebo}}
+\doxysubsubsection{\texorpdfstring{ARGUMENTS}{ARGUMENTS}}
+{\footnotesize\ttfamily list husky\+\_\+gazebo.\+ARGUMENTS}
+
+{\bfseries Initial value\+:}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{1 =  [}
+\DoxyCodeLine{2     DeclareLaunchArgument(}
+\DoxyCodeLine{3         \textcolor{stringliteral}{"{}world\_path"{}}, default\_value=\textcolor{stringliteral}{"{}"{}}, description=\textcolor{stringliteral}{"{}The world path, by default is empty.world"{}}}
+\DoxyCodeLine{4     ),}
+\DoxyCodeLine{5 ]}
+
+\end{DoxyCode}
+
+
+Definition at line 26 of file husky\+\_\+gazebo.\+launch.\+py.
+

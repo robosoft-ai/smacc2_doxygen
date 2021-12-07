@@ -36,11 +36,11 @@ virtual \mbox{\hyperlink{classcl__nav2z_1_1CbNavigateForward_ac3d728278d45c18cc3
 void \mbox{\hyperlink{classcl__nav2z_1_1CbNavigateForward_ae56089851b4128ca0adeeb3c885770cf}{on\+Entry}} () override
 \item 
 void \mbox{\hyperlink{classcl__nav2z_1_1CbNavigateForward_a2d27b258be38cf8755e6737e7d5b81a7}{on\+Exit}} () override
+\item 
+void \mbox{\hyperlink{classcl__nav2z_1_1CbNavigateForward_a7f563b8647170bff6d9542ad90b3a954}{set\+Forward\+Distance}} (float distance\+\_\+meters)
 \end{DoxyCompactItemize}
 \doxysubsection*{Public Attributes}
 \begin{DoxyCompactItemize}
-\item 
-float \mbox{\hyperlink{classcl__nav2z_1_1CbNavigateForward_aca2415a27520ed92ac62f9d4485a7d11}{forward\+Distance}}
 \item 
 std\+::optional$<$ float $>$ \mbox{\hyperlink{classcl__nav2z_1_1CbNavigateForward_a923cae352da061dc8e1add0b9cfe7cf7}{forward\+Speed}}
 \item 
@@ -51,6 +51,11 @@ std\+::optional$<$ std\+::string $>$ \mbox{\hyperlink{classcl__nav2z_1_1CbNaviga
 std\+::shared\+\_\+ptr$<$ tf2\+\_\+ros\+::\+Buffer $>$ \mbox{\hyperlink{classcl__nav2z_1_1CbNavigateForward_adbff8ed6441e405c545b4a0d7b0c7e48}{listener}}
 \item 
 \mbox{\hyperlink{classcl__nav2z_1_1odom__tracker_1_1OdomTracker}{odom\+\_\+tracker\+::\+Odom\+Tracker}} $\ast$ \mbox{\hyperlink{classcl__nav2z_1_1CbNavigateForward_ad444c6d92c83f0fa08b547f8fcc2a3d2}{odom\+Tracker\+\_\+}}
+\end{DoxyCompactItemize}
+\doxysubsection*{Private Attributes}
+\begin{DoxyCompactItemize}
+\item 
+float \mbox{\hyperlink{classcl__nav2z_1_1CbNavigateForward_aca2415a27520ed92ac62f9d4485a7d11}{forward\+Distance}}
 \end{DoxyCompactItemize}
 \doxysubsection*{Additional Inherited Members}
 
@@ -71,19 +76,13 @@ Definition at line 33 of file cb\+\_\+navigate\+\_\+forward.\+hpp.
 
 
 
-Definition at line 32 of file cb\+\_\+navigate\+\_\+forward.\+cpp.
+Definition at line 35 of file cb\+\_\+navigate\+\_\+forward.\+cpp.
 
 
 \begin{DoxyCode}{0}
-\DoxyCodeLine{33 \{}
-\DoxyCodeLine{34   this-\/>\mbox{\hyperlink{classcl__nav2z_1_1CbNavigateForward_aca2415a27520ed92ac62f9d4485a7d11}{forwardDistance}} = \mbox{\hyperlink{classcl__nav2z_1_1CbNavigateForward_aca2415a27520ed92ac62f9d4485a7d11}{forwardDistance}};}
-\DoxyCodeLine{35 \}}
+\DoxyCodeLine{35 : \mbox{\hyperlink{classcl__nav2z_1_1CbNavigateForward_aca2415a27520ed92ac62f9d4485a7d11}{forwardDistance}}(distance\_meters) \{\}}
 
 \end{DoxyCode}
-
-
-References forward\+Distance.
-
 \mbox{\Hypertarget{classcl__nav2z_1_1CbNavigateForward_a8dd15e4d05857ab056724e4ea420ce0a}\label{classcl__nav2z_1_1CbNavigateForward_a8dd15e4d05857ab056724e4ea420ce0a}} 
 \index{cl\_nav2z::CbNavigateForward@{cl\_nav2z::CbNavigateForward}!CbNavigateForward@{CbNavigateForward}}
 \index{CbNavigateForward@{CbNavigateForward}!cl\_nav2z::CbNavigateForward@{cl\_nav2z::CbNavigateForward}}
@@ -129,73 +128,75 @@ Reimplemented from \mbox{\hyperlink{classsmacc2_1_1ISmaccClientBehavior_aca7382c
 
 
 
-Definition at line 41 of file cb\+\_\+navigate\+\_\+forward.\+cpp.
+Definition at line 56 of file cb\+\_\+navigate\+\_\+forward.\+cpp.
 
 
 \begin{DoxyCode}{0}
-\DoxyCodeLine{42 \{}
-\DoxyCodeLine{43   \textcolor{comment}{// straight motion distance}}
-\DoxyCodeLine{44   \textcolor{keywordtype}{double} dist = \mbox{\hyperlink{classcl__nav2z_1_1CbNavigateForward_aca2415a27520ed92ac62f9d4485a7d11}{forwardDistance}};}
-\DoxyCodeLine{45 }
-\DoxyCodeLine{46   RCLCPP\_INFO\_STREAM(\mbox{\hyperlink{classsmacc2_1_1ISmaccClientBehavior_a5474074c4b45e900499e30126fb8415c}{getLogger}}(), \textcolor{stringliteral}{"{}[CbNavigateForward] Straight motion distance: "{}} << dist);}
-\DoxyCodeLine{47 }
-\DoxyCodeLine{48   \textcolor{comment}{// get current pose}}
-\DoxyCodeLine{49   \textcolor{keyword}{auto} p = \mbox{\hyperlink{classcl__nav2z_1_1CbNav2ZClientBehaviorBase_ad063ef82084fe0591d746456c3794db0}{moveBaseClient\_}}-\/>\mbox{\hyperlink{classsmacc2_1_1ISmaccClient_afc6e0f5f82a4552134c9423b75e3ca1d}{getComponent}}<\mbox{\hyperlink{classcl__nav2z_1_1Pose}{cl\_nav2z::Pose}}>();}
-\DoxyCodeLine{50   \textcolor{keyword}{auto} referenceFrame = p-\/>\mbox{\hyperlink{classcl__nav2z_1_1Pose_a2250ea0f3faad195f0cf2cc1c252a124}{getReferenceFrame}}();}
-\DoxyCodeLine{51   \textcolor{keyword}{auto} currentPoseMsg = p-\/>toPoseMsg();}
-\DoxyCodeLine{52   tf2::Transform currentPose;}
-\DoxyCodeLine{53   tf2::fromMsg(currentPoseMsg, currentPose);}
-\DoxyCodeLine{54 }
-\DoxyCodeLine{55   RCLCPP\_INFO\_STREAM(\mbox{\hyperlink{classsmacc2_1_1ISmaccClientBehavior_a5474074c4b45e900499e30126fb8415c}{getLogger}}(), \textcolor{stringliteral}{"{}[CbNavigateForward] current pose: "{}} << currentPoseMsg);}
-\DoxyCodeLine{56 }
-\DoxyCodeLine{57   \textcolor{comment}{// force global orientation if it is requested}}
-\DoxyCodeLine{58   \textcolor{keywordflow}{if} (this-\/>\mbox{\hyperlink{classcl__nav2z_1_1CbNavigateForward_ae6e13a111cbfb773c2a28cc55ba12fb4}{forceInitialOrientation}})}
-\DoxyCodeLine{59   \{}
-\DoxyCodeLine{60     currentPoseMsg.orientation = *\mbox{\hyperlink{classcl__nav2z_1_1CbNavigateForward_ae6e13a111cbfb773c2a28cc55ba12fb4}{forceInitialOrientation}};}
-\DoxyCodeLine{61     RCLCPP\_WARN\_STREAM(}
-\DoxyCodeLine{62       \mbox{\hyperlink{classsmacc2_1_1ISmaccClientBehavior_a5474074c4b45e900499e30126fb8415c}{getLogger}}(), \textcolor{stringliteral}{"{}[CbNavigateForward] Forcing initial straight motion orientation: "{}}}
-\DoxyCodeLine{63                      << currentPoseMsg.orientation);}
-\DoxyCodeLine{64   \}}
-\DoxyCodeLine{65 }
-\DoxyCodeLine{66   \textcolor{comment}{// compute forward goal pose}}
-\DoxyCodeLine{67   tf2::Transform forwardDeltaTransform;}
-\DoxyCodeLine{68   forwardDeltaTransform.setIdentity();}
-\DoxyCodeLine{69   forwardDeltaTransform.setOrigin(tf2::Vector3(dist, 0, 0));}
-\DoxyCodeLine{70 }
-\DoxyCodeLine{71   tf2::Transform targetPose = currentPose * forwardDeltaTransform;}
-\DoxyCodeLine{72 }
-\DoxyCodeLine{73   \mbox{\hyperlink{classsmacc2_1_1client__bases_1_1SmaccActionClientBase_ab56ba47b81346277a471584dedf7d45c}{ClNav2Z::Goal}} goal;}
-\DoxyCodeLine{74   goal.pose.header.frame\_id = referenceFrame;}
-\DoxyCodeLine{75   goal.pose.header.stamp = \mbox{\hyperlink{classsmacc2_1_1ISmaccClientBehavior_a95c9749af2004528fbda63ca6fde8eae}{getNode}}()-\/>now();}
-\DoxyCodeLine{76   tf2::toMsg(targetPose, goal.pose.pose);}
-\DoxyCodeLine{77   RCLCPP\_INFO\_STREAM(\mbox{\hyperlink{classsmacc2_1_1ISmaccClientBehavior_a5474074c4b45e900499e30126fb8415c}{getLogger}}(), \textcolor{stringliteral}{"{}[CbNavigateForward] TARGET POSE FORWARD: "{}} << goal.pose.pose);}
-\DoxyCodeLine{78 }
-\DoxyCodeLine{79   geometry\_msgs::msg::PoseStamped currentStampedPoseMsg;}
-\DoxyCodeLine{80   currentStampedPoseMsg.header.frame\_id = referenceFrame;}
-\DoxyCodeLine{81   currentStampedPoseMsg.header.stamp = \mbox{\hyperlink{classsmacc2_1_1ISmaccClientBehavior_a95c9749af2004528fbda63ca6fde8eae}{getNode}}()-\/>now();}
-\DoxyCodeLine{82   tf2::toMsg(currentPose, currentStampedPoseMsg.pose);}
-\DoxyCodeLine{83 }
-\DoxyCodeLine{84   \mbox{\hyperlink{classcl__nav2z_1_1CbNavigateForward_ad444c6d92c83f0fa08b547f8fcc2a3d2}{odomTracker\_}} = \mbox{\hyperlink{classcl__nav2z_1_1CbNav2ZClientBehaviorBase_ad063ef82084fe0591d746456c3794db0}{moveBaseClient\_}}-\/>\mbox{\hyperlink{classsmacc2_1_1ISmaccClient_afc6e0f5f82a4552134c9423b75e3ca1d}{getComponent}}<OdomTracker>();}
-\DoxyCodeLine{85   \textcolor{keywordflow}{if} (\mbox{\hyperlink{classcl__nav2z_1_1CbNavigateForward_ad444c6d92c83f0fa08b547f8fcc2a3d2}{odomTracker\_}} != \textcolor{keyword}{nullptr})}
-\DoxyCodeLine{86   \{}
-\DoxyCodeLine{87     \mbox{\hyperlink{classcl__nav2z_1_1CbNavigateForward_ad444c6d92c83f0fa08b547f8fcc2a3d2}{odomTracker\_}}-\/>\mbox{\hyperlink{classcl__nav2z_1_1odom__tracker_1_1OdomTracker_a053e983334ba4c2a69d4c17a7c82775f}{pushPath}}();}
-\DoxyCodeLine{88     \mbox{\hyperlink{classcl__nav2z_1_1CbNavigateForward_ad444c6d92c83f0fa08b547f8fcc2a3d2}{odomTracker\_}}-\/>\mbox{\hyperlink{classcl__nav2z_1_1odom__tracker_1_1OdomTracker_ab190482a48c9128e9d405b1b59876a97}{setStartPoint}}(currentStampedPoseMsg);}
-\DoxyCodeLine{89     \mbox{\hyperlink{classcl__nav2z_1_1CbNavigateForward_ad444c6d92c83f0fa08b547f8fcc2a3d2}{odomTracker\_}}-\/>\mbox{\hyperlink{classcl__nav2z_1_1odom__tracker_1_1OdomTracker_a90c99c722785303974f6e5690b8d8471}{setWorkingMode}}(WorkingMode::RECORD\_PATH);}
-\DoxyCodeLine{90   \}}
-\DoxyCodeLine{91 }
-\DoxyCodeLine{92   \textcolor{keyword}{auto} plannerSwitcher = \mbox{\hyperlink{classcl__nav2z_1_1CbNav2ZClientBehaviorBase_ad063ef82084fe0591d746456c3794db0}{moveBaseClient\_}}-\/>\mbox{\hyperlink{classsmacc2_1_1ISmaccClient_afc6e0f5f82a4552134c9423b75e3ca1d}{getComponent}}<PlannerSwitcher>();}
-\DoxyCodeLine{93   plannerSwitcher-\/>setForwardPlanner();}
-\DoxyCodeLine{94 }
-\DoxyCodeLine{95   \textcolor{keyword}{auto} goalCheckerSwitcher = \mbox{\hyperlink{classcl__nav2z_1_1CbNav2ZClientBehaviorBase_ad063ef82084fe0591d746456c3794db0}{moveBaseClient\_}}-\/>\mbox{\hyperlink{classsmacc2_1_1ISmaccClient_afc6e0f5f82a4552134c9423b75e3ca1d}{getComponent}}<GoalCheckerSwitcher>();}
-\DoxyCodeLine{96   goalCheckerSwitcher-\/>setGoalCheckerId(\textcolor{stringliteral}{"{}forward\_goal\_checker"{}});}
-\DoxyCodeLine{97 }
-\DoxyCodeLine{98   \mbox{\hyperlink{classcl__nav2z_1_1CbNav2ZClientBehaviorBase_ad063ef82084fe0591d746456c3794db0}{moveBaseClient\_}}-\/>\mbox{\hyperlink{classsmacc2_1_1client__bases_1_1SmaccActionClientBase_a5c797ec23739af4295dcab24fc05973b}{sendGoal}}(goal);}
-\DoxyCodeLine{99 \}}
+\DoxyCodeLine{57 \{}
+\DoxyCodeLine{58   \mbox{\hyperlink{classcl__nav2z_1_1CbNavigateForward_a7f563b8647170bff6d9542ad90b3a954}{setForwardDistance}}(\mbox{\hyperlink{classcl__nav2z_1_1CbNavigateForward_aca2415a27520ed92ac62f9d4485a7d11}{forwardDistance}});}
+\DoxyCodeLine{59 }
+\DoxyCodeLine{60   \textcolor{comment}{// straight motion distance}}
+\DoxyCodeLine{61   \textcolor{keywordtype}{double} dist = \mbox{\hyperlink{classcl__nav2z_1_1CbNavigateForward_aca2415a27520ed92ac62f9d4485a7d11}{forwardDistance}};}
+\DoxyCodeLine{62 }
+\DoxyCodeLine{63   RCLCPP\_INFO\_STREAM(\mbox{\hyperlink{classsmacc2_1_1ISmaccClientBehavior_a5474074c4b45e900499e30126fb8415c}{getLogger}}(), \textcolor{stringliteral}{"{}["{}} << \mbox{\hyperlink{classsmacc2_1_1ISmaccClientBehavior_a3feaa9c382a7d376b7ba0017a63e294e}{getName}}() << \textcolor{stringliteral}{"{}] Straight motion distance: "{}} << dist);}
+\DoxyCodeLine{64 }
+\DoxyCodeLine{65   \textcolor{comment}{// get current pose}}
+\DoxyCodeLine{66   \textcolor{keyword}{auto} p = \mbox{\hyperlink{classcl__nav2z_1_1CbNav2ZClientBehaviorBase_ad063ef82084fe0591d746456c3794db0}{moveBaseClient\_}}-\/>\mbox{\hyperlink{classsmacc2_1_1ISmaccClient_afc6e0f5f82a4552134c9423b75e3ca1d}{getComponent}}<Pose>();}
+\DoxyCodeLine{67   \textcolor{keyword}{auto} referenceFrame = p-\/>getReferenceFrame();}
+\DoxyCodeLine{68   \textcolor{keyword}{auto} currentPoseMsg = p-\/>toPoseMsg();}
+\DoxyCodeLine{69   tf2::Transform currentPose;}
+\DoxyCodeLine{70   tf2::fromMsg(currentPoseMsg, currentPose);}
+\DoxyCodeLine{71 }
+\DoxyCodeLine{72   RCLCPP\_INFO\_STREAM(\mbox{\hyperlink{classsmacc2_1_1ISmaccClientBehavior_a5474074c4b45e900499e30126fb8415c}{getLogger}}(), \textcolor{stringliteral}{"{}[CbNavigateForward] current pose: "{}} << currentPoseMsg);}
+\DoxyCodeLine{73 }
+\DoxyCodeLine{74   \textcolor{comment}{// force global orientation if it is requested}}
+\DoxyCodeLine{75   \textcolor{keywordflow}{if} (this-\/>\mbox{\hyperlink{classcl__nav2z_1_1CbNavigateForward_ae6e13a111cbfb773c2a28cc55ba12fb4}{forceInitialOrientation}})}
+\DoxyCodeLine{76   \{}
+\DoxyCodeLine{77     currentPoseMsg.orientation = *\mbox{\hyperlink{classcl__nav2z_1_1CbNavigateForward_ae6e13a111cbfb773c2a28cc55ba12fb4}{forceInitialOrientation}};}
+\DoxyCodeLine{78     RCLCPP\_WARN\_STREAM(}
+\DoxyCodeLine{79       \mbox{\hyperlink{classsmacc2_1_1ISmaccClientBehavior_a5474074c4b45e900499e30126fb8415c}{getLogger}}(), \textcolor{stringliteral}{"{}[CbNavigateForward] Forcing initial straight motion orientation: "{}}}
+\DoxyCodeLine{80                      << currentPoseMsg.orientation);}
+\DoxyCodeLine{81   \}}
+\DoxyCodeLine{82 }
+\DoxyCodeLine{83   \textcolor{comment}{// compute forward goal pose}}
+\DoxyCodeLine{84   tf2::Transform forwardDeltaTransform;}
+\DoxyCodeLine{85   forwardDeltaTransform.setIdentity();}
+\DoxyCodeLine{86   forwardDeltaTransform.setOrigin(tf2::Vector3(dist, 0, 0));}
+\DoxyCodeLine{87 }
+\DoxyCodeLine{88   tf2::Transform targetPose = currentPose * forwardDeltaTransform;}
+\DoxyCodeLine{89 }
+\DoxyCodeLine{90   \mbox{\hyperlink{classsmacc2_1_1client__bases_1_1SmaccActionClientBase_ab56ba47b81346277a471584dedf7d45c}{ClNav2Z::Goal}} goal;}
+\DoxyCodeLine{91   goal.pose.header.frame\_id = referenceFrame;}
+\DoxyCodeLine{92   goal.pose.header.stamp = \mbox{\hyperlink{classsmacc2_1_1ISmaccClientBehavior_a95c9749af2004528fbda63ca6fde8eae}{getNode}}()-\/>now();}
+\DoxyCodeLine{93   tf2::toMsg(targetPose, goal.pose.pose);}
+\DoxyCodeLine{94   RCLCPP\_INFO\_STREAM(\mbox{\hyperlink{classsmacc2_1_1ISmaccClientBehavior_a5474074c4b45e900499e30126fb8415c}{getLogger}}(), \textcolor{stringliteral}{"{}[CbNavigateForward] TARGET POSE FORWARD: "{}} << goal.pose.pose);}
+\DoxyCodeLine{95 }
+\DoxyCodeLine{96   geometry\_msgs::msg::PoseStamped currentStampedPoseMsg;}
+\DoxyCodeLine{97   currentStampedPoseMsg.header.frame\_id = referenceFrame;}
+\DoxyCodeLine{98   currentStampedPoseMsg.header.stamp = \mbox{\hyperlink{classsmacc2_1_1ISmaccClientBehavior_a95c9749af2004528fbda63ca6fde8eae}{getNode}}()-\/>now();}
+\DoxyCodeLine{99   tf2::toMsg(currentPose, currentStampedPoseMsg.pose);}
+\DoxyCodeLine{100 }
+\DoxyCodeLine{101   \mbox{\hyperlink{classcl__nav2z_1_1CbNavigateForward_ad444c6d92c83f0fa08b547f8fcc2a3d2}{odomTracker\_}} = \mbox{\hyperlink{classcl__nav2z_1_1CbNav2ZClientBehaviorBase_ad063ef82084fe0591d746456c3794db0}{moveBaseClient\_}}-\/>\mbox{\hyperlink{classsmacc2_1_1ISmaccClient_afc6e0f5f82a4552134c9423b75e3ca1d}{getComponent}}<OdomTracker>();}
+\DoxyCodeLine{102   \textcolor{keywordflow}{if} (\mbox{\hyperlink{classcl__nav2z_1_1CbNavigateForward_ad444c6d92c83f0fa08b547f8fcc2a3d2}{odomTracker\_}} != \textcolor{keyword}{nullptr})}
+\DoxyCodeLine{103   \{}
+\DoxyCodeLine{104     \mbox{\hyperlink{classcl__nav2z_1_1CbNavigateForward_ad444c6d92c83f0fa08b547f8fcc2a3d2}{odomTracker\_}}-\/>\mbox{\hyperlink{classcl__nav2z_1_1odom__tracker_1_1OdomTracker_a053e983334ba4c2a69d4c17a7c82775f}{pushPath}}();}
+\DoxyCodeLine{105     \mbox{\hyperlink{classcl__nav2z_1_1CbNavigateForward_ad444c6d92c83f0fa08b547f8fcc2a3d2}{odomTracker\_}}-\/>\mbox{\hyperlink{classcl__nav2z_1_1odom__tracker_1_1OdomTracker_ab190482a48c9128e9d405b1b59876a97}{setStartPoint}}(currentStampedPoseMsg);}
+\DoxyCodeLine{106     \mbox{\hyperlink{classcl__nav2z_1_1CbNavigateForward_ad444c6d92c83f0fa08b547f8fcc2a3d2}{odomTracker\_}}-\/>\mbox{\hyperlink{classcl__nav2z_1_1odom__tracker_1_1OdomTracker_a90c99c722785303974f6e5690b8d8471}{setWorkingMode}}(WorkingMode::RECORD\_PATH);}
+\DoxyCodeLine{107   \}}
+\DoxyCodeLine{108 }
+\DoxyCodeLine{109   \textcolor{keyword}{auto} plannerSwitcher = \mbox{\hyperlink{classcl__nav2z_1_1CbNav2ZClientBehaviorBase_ad063ef82084fe0591d746456c3794db0}{moveBaseClient\_}}-\/>\mbox{\hyperlink{classsmacc2_1_1ISmaccClient_afc6e0f5f82a4552134c9423b75e3ca1d}{getComponent}}<PlannerSwitcher>();}
+\DoxyCodeLine{110   plannerSwitcher-\/>setForwardPlanner();}
+\DoxyCodeLine{111 }
+\DoxyCodeLine{112   \textcolor{keyword}{auto} goalCheckerSwitcher = \mbox{\hyperlink{classcl__nav2z_1_1CbNav2ZClientBehaviorBase_ad063ef82084fe0591d746456c3794db0}{moveBaseClient\_}}-\/>\mbox{\hyperlink{classsmacc2_1_1ISmaccClient_afc6e0f5f82a4552134c9423b75e3ca1d}{getComponent}}<GoalCheckerSwitcher>();}
+\DoxyCodeLine{113   goalCheckerSwitcher-\/>setGoalCheckerId(\textcolor{stringliteral}{"{}forward\_goal\_checker"{}});}
+\DoxyCodeLine{114 }
+\DoxyCodeLine{115   \mbox{\hyperlink{classcl__nav2z_1_1CbNav2ZClientBehaviorBase_ad063ef82084fe0591d746456c3794db0}{moveBaseClient\_}}-\/>\mbox{\hyperlink{classsmacc2_1_1client__bases_1_1SmaccActionClientBase_a5c797ec23739af4295dcab24fc05973b}{sendGoal}}(goal);}
+\DoxyCodeLine{116 \}}
 
 \end{DoxyCode}
 
 
-References force\+Initial\+Orientation, forward\+Distance, smacc2\+::\+ISmacc\+Client\+::get\+Component(), smacc2\+::\+ISmacc\+Client\+Behavior\+::get\+Logger(), smacc2\+::\+ISmacc\+Client\+Behavior\+::get\+Node(), cl\+\_\+nav2z\+::\+Pose\+::get\+Reference\+Frame(), cl\+\_\+nav2z\+::\+Cb\+Nav2\+ZClient\+Behavior\+Base\+::move\+Base\+Client\+\_\+, odom\+Tracker\+\_\+, cl\+\_\+nav2z\+::odom\+\_\+tracker\+::\+Odom\+Tracker\+::push\+Path(), smacc2\+::client\+\_\+bases\+::\+Smacc\+Action\+Client\+Base$<$ Action\+Type $>$\+::send\+Goal(), cl\+\_\+nav2z\+::\+Planner\+Switcher\+::set\+Forward\+Planner(), cl\+\_\+nav2z\+::\+Goal\+Checker\+Switcher\+::set\+Goal\+Checker\+Id(), cl\+\_\+nav2z\+::odom\+\_\+tracker\+::\+Odom\+Tracker\+::set\+Start\+Point(), and cl\+\_\+nav2z\+::odom\+\_\+tracker\+::\+Odom\+Tracker\+::set\+Working\+Mode().
+References force\+Initial\+Orientation, forward\+Distance, smacc2\+::\+ISmacc\+Client\+::get\+Component(), smacc2\+::\+ISmacc\+Client\+Behavior\+::get\+Logger(), smacc2\+::\+ISmacc\+Client\+Behavior\+::get\+Name(), smacc2\+::\+ISmacc\+Client\+Behavior\+::get\+Node(), cl\+\_\+nav2z\+::\+Pose\+::get\+Reference\+Frame(), cl\+\_\+nav2z\+::\+Cb\+Nav2\+ZClient\+Behavior\+Base\+::move\+Base\+Client\+\_\+, odom\+Tracker\+\_\+, cl\+\_\+nav2z\+::odom\+\_\+tracker\+::\+Odom\+Tracker\+::push\+Path(), smacc2\+::client\+\_\+bases\+::\+Smacc\+Action\+Client\+Base$<$ Action\+Type $>$\+::send\+Goal(), set\+Forward\+Distance(), cl\+\_\+nav2z\+::\+Planner\+Switcher\+::set\+Forward\+Planner(), cl\+\_\+nav2z\+::\+Goal\+Checker\+Switcher\+::set\+Goal\+Checker\+Id(), cl\+\_\+nav2z\+::odom\+\_\+tracker\+::\+Odom\+Tracker\+::set\+Start\+Point(), and cl\+\_\+nav2z\+::odom\+\_\+tracker\+::\+Odom\+Tracker\+::set\+Working\+Mode().
 
 Here is the call graph for this function\+:
 \nopagebreak
@@ -217,16 +218,16 @@ Reimplemented from \mbox{\hyperlink{classsmacc2_1_1ISmaccClientBehavior_a52b767b
 
 
 
-Definition at line 101 of file cb\+\_\+navigate\+\_\+forward.\+cpp.
+Definition at line 118 of file cb\+\_\+navigate\+\_\+forward.\+cpp.
 
 
 \begin{DoxyCode}{0}
-\DoxyCodeLine{102 \{}
-\DoxyCodeLine{103   \textcolor{keywordflow}{if} (\mbox{\hyperlink{classcl__nav2z_1_1CbNavigateForward_ad444c6d92c83f0fa08b547f8fcc2a3d2}{odomTracker\_}})}
-\DoxyCodeLine{104   \{}
-\DoxyCodeLine{105     this-\/>\mbox{\hyperlink{classcl__nav2z_1_1CbNavigateForward_ad444c6d92c83f0fa08b547f8fcc2a3d2}{odomTracker\_}}-\/>\mbox{\hyperlink{classcl__nav2z_1_1odom__tracker_1_1OdomTracker_a90c99c722785303974f6e5690b8d8471}{setWorkingMode}}(WorkingMode::IDLE);}
-\DoxyCodeLine{106   \}}
-\DoxyCodeLine{107 \}}
+\DoxyCodeLine{119 \{}
+\DoxyCodeLine{120   \textcolor{keywordflow}{if} (\mbox{\hyperlink{classcl__nav2z_1_1CbNavigateForward_ad444c6d92c83f0fa08b547f8fcc2a3d2}{odomTracker\_}})}
+\DoxyCodeLine{121   \{}
+\DoxyCodeLine{122     this-\/>\mbox{\hyperlink{classcl__nav2z_1_1CbNavigateForward_ad444c6d92c83f0fa08b547f8fcc2a3d2}{odomTracker\_}}-\/>\mbox{\hyperlink{classcl__nav2z_1_1odom__tracker_1_1OdomTracker_a90c99c722785303974f6e5690b8d8471}{setWorkingMode}}(WorkingMode::IDLE);}
+\DoxyCodeLine{123   \}}
+\DoxyCodeLine{124 \}}
 
 \end{DoxyCode}
 
@@ -241,6 +242,57 @@ Here is the call graph for this function\+:
 \includegraphics[width=350pt]{classcl__nav2z_1_1CbNavigateForward_a2d27b258be38cf8755e6737e7d5b81a7_cgraph}
 \end{center}
 \end{figure}
+\mbox{\Hypertarget{classcl__nav2z_1_1CbNavigateForward_a7f563b8647170bff6d9542ad90b3a954}\label{classcl__nav2z_1_1CbNavigateForward_a7f563b8647170bff6d9542ad90b3a954}} 
+\index{cl\_nav2z::CbNavigateForward@{cl\_nav2z::CbNavigateForward}!setForwardDistance@{setForwardDistance}}
+\index{setForwardDistance@{setForwardDistance}!cl\_nav2z::CbNavigateForward@{cl\_nav2z::CbNavigateForward}}
+\doxysubsubsection{\texorpdfstring{setForwardDistance()}{setForwardDistance()}}
+{\footnotesize\ttfamily void cl\+\_\+nav2z\+::\+Cb\+Navigate\+Forward\+::set\+Forward\+Distance (\begin{DoxyParamCaption}\item[{float}]{distance\+\_\+meters }\end{DoxyParamCaption})}
+
+
+
+Definition at line 41 of file cb\+\_\+navigate\+\_\+forward.\+cpp.
+
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{42 \{}
+\DoxyCodeLine{43   \textcolor{keywordflow}{if} (distance\_meters < 0)}
+\DoxyCodeLine{44   \{}
+\DoxyCodeLine{45     RCLCPP\_INFO\_STREAM(}
+\DoxyCodeLine{46       \mbox{\hyperlink{classsmacc2_1_1ISmaccClientBehavior_a5474074c4b45e900499e30126fb8415c}{getLogger}}(), \textcolor{stringliteral}{"{}["{}} << \mbox{\hyperlink{classsmacc2_1_1ISmaccClientBehavior_a3feaa9c382a7d376b7ba0017a63e294e}{getName}}() << \textcolor{stringliteral}{"{}] negative forward distance: "{}} << distance\_meters}
+\DoxyCodeLine{47                        << \textcolor{stringliteral}{"{}. Resetting to 0."{}});}
+\DoxyCodeLine{48     distance\_meters = 0;}
+\DoxyCodeLine{49   \}}
+\DoxyCodeLine{50   this-\/>\mbox{\hyperlink{classcl__nav2z_1_1CbNavigateForward_aca2415a27520ed92ac62f9d4485a7d11}{forwardDistance}} = distance\_meters;}
+\DoxyCodeLine{51 }
+\DoxyCodeLine{52   RCLCPP\_INFO\_STREAM(}
+\DoxyCodeLine{53     \mbox{\hyperlink{classsmacc2_1_1ISmaccClientBehavior_a5474074c4b45e900499e30126fb8415c}{getLogger}}(), \textcolor{stringliteral}{"{}["{}} << \mbox{\hyperlink{classsmacc2_1_1ISmaccClientBehavior_a3feaa9c382a7d376b7ba0017a63e294e}{getName}}() << \textcolor{stringliteral}{"{}] setting fw motion distance: "{}} << this-\/>\mbox{\hyperlink{classcl__nav2z_1_1CbNavigateForward_aca2415a27520ed92ac62f9d4485a7d11}{forwardDistance}});}
+\DoxyCodeLine{54 \}}
+
+\end{DoxyCode}
+
+
+References forward\+Distance, smacc2\+::\+ISmacc\+Client\+Behavior\+::get\+Logger(), and smacc2\+::\+ISmacc\+Client\+Behavior\+::get\+Name().
+
+
+
+Referenced by on\+Entry(), and sm\+\_\+dance\+\_\+bot\+\_\+strikes\+\_\+back\+::radial\+\_\+motion\+\_\+states\+::\+Sti\+Radial\+End\+Point\+::runtime\+Configure().
+
+Here is the call graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{classcl__nav2z_1_1CbNavigateForward_a7f563b8647170bff6d9542ad90b3a954_cgraph}
+\end{center}
+\end{figure}
+Here is the caller graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{classcl__nav2z_1_1CbNavigateForward_a7f563b8647170bff6d9542ad90b3a954_icgraph}
+\end{center}
+\end{figure}
 
 
 \doxysubsection{Member Data Documentation}
@@ -252,7 +304,7 @@ Here is the call graph for this function\+:
 
 
 
-Definition at line 45 of file cb\+\_\+navigate\+\_\+forward.\+hpp.
+Definition at line 43 of file cb\+\_\+navigate\+\_\+forward.\+hpp.
 
 
 
@@ -262,15 +314,15 @@ Referenced by on\+Entry().
 \index{cl\_nav2z::CbNavigateForward@{cl\_nav2z::CbNavigateForward}!forwardDistance@{forwardDistance}}
 \index{forwardDistance@{forwardDistance}!cl\_nav2z::CbNavigateForward@{cl\_nav2z::CbNavigateForward}}
 \doxysubsubsection{\texorpdfstring{forwardDistance}{forwardDistance}}
-{\footnotesize\ttfamily float cl\+\_\+nav2z\+::\+Cb\+Navigate\+Forward\+::forward\+Distance}
+{\footnotesize\ttfamily float cl\+\_\+nav2z\+::\+Cb\+Navigate\+Forward\+::forward\+Distance\hspace{0.3cm}{\ttfamily [private]}}
 
 
 
-Definition at line 36 of file cb\+\_\+navigate\+\_\+forward.\+hpp.
+Definition at line 64 of file cb\+\_\+navigate\+\_\+forward.\+hpp.
 
 
 
-Referenced by Cb\+Navigate\+Forward(), on\+Entry(), and sm\+\_\+dance\+\_\+bot\+\_\+strikes\+\_\+back\+::radial\+\_\+motion\+\_\+states\+::\+Sti\+Radial\+End\+Point\+::runtime\+Configure().
+Referenced by on\+Entry(), and set\+Forward\+Distance().
 
 \mbox{\Hypertarget{classcl__nav2z_1_1CbNavigateForward_a923cae352da061dc8e1add0b9cfe7cf7}\label{classcl__nav2z_1_1CbNavigateForward_a923cae352da061dc8e1add0b9cfe7cf7}} 
 \index{cl\_nav2z::CbNavigateForward@{cl\_nav2z::CbNavigateForward}!forwardSpeed@{forwardSpeed}}
@@ -280,7 +332,7 @@ Referenced by Cb\+Navigate\+Forward(), on\+Entry(), and sm\+\_\+dance\+\_\+bot\+
 
 
 
-Definition at line 39 of file cb\+\_\+navigate\+\_\+forward.\+hpp.
+Definition at line 37 of file cb\+\_\+navigate\+\_\+forward.\+hpp.
 
 \mbox{\Hypertarget{classcl__nav2z_1_1CbNavigateForward_a303bc813d57ea52877f97d9ee3acad12}\label{classcl__nav2z_1_1CbNavigateForward_a303bc813d57ea52877f97d9ee3acad12}} 
 \index{cl\_nav2z::CbNavigateForward@{cl\_nav2z::CbNavigateForward}!goalChecker\_@{goalChecker\_}}
@@ -290,7 +342,7 @@ Definition at line 39 of file cb\+\_\+navigate\+\_\+forward.\+hpp.
 
 
 
-Definition at line 47 of file cb\+\_\+navigate\+\_\+forward.\+hpp.
+Definition at line 45 of file cb\+\_\+navigate\+\_\+forward.\+hpp.
 
 \mbox{\Hypertarget{classcl__nav2z_1_1CbNavigateForward_adbff8ed6441e405c545b4a0d7b0c7e48}\label{classcl__nav2z_1_1CbNavigateForward_adbff8ed6441e405c545b4a0d7b0c7e48}} 
 \index{cl\_nav2z::CbNavigateForward@{cl\_nav2z::CbNavigateForward}!listener@{listener}}
@@ -300,7 +352,7 @@ Definition at line 47 of file cb\+\_\+navigate\+\_\+forward.\+hpp.
 
 
 
-Definition at line 49 of file cb\+\_\+navigate\+\_\+forward.\+hpp.
+Definition at line 47 of file cb\+\_\+navigate\+\_\+forward.\+hpp.
 
 \mbox{\Hypertarget{classcl__nav2z_1_1CbNavigateForward_ad444c6d92c83f0fa08b547f8fcc2a3d2}\label{classcl__nav2z_1_1CbNavigateForward_ad444c6d92c83f0fa08b547f8fcc2a3d2}} 
 \index{cl\_nav2z::CbNavigateForward@{cl\_nav2z::CbNavigateForward}!odomTracker\_@{odomTracker\_}}
@@ -310,7 +362,7 @@ Definition at line 49 of file cb\+\_\+navigate\+\_\+forward.\+hpp.
 
 
 
-Definition at line 51 of file cb\+\_\+navigate\+\_\+forward.\+hpp.
+Definition at line 49 of file cb\+\_\+navigate\+\_\+forward.\+hpp.
 
 
 

@@ -212,20 +212,20 @@ Reimplemented from \mbox{\hyperlink{classsmacc2_1_1ISmaccClientBehavior_a52b767b
 
 
 
-Definition at line 256 of file cb\+\_\+absolute\+\_\+rotate.\+cpp.
+Definition at line 263 of file cb\+\_\+absolute\+\_\+rotate.\+cpp.
 
 
 \begin{DoxyCode}{0}
-\DoxyCodeLine{257 \{}
-\DoxyCodeLine{258   \textcolor{keywordflow}{if} (\mbox{\hyperlink{classcl__nav2z_1_1CbAbsoluteRotate_a54cba4a2f03742eb4ab703a0b9b7c56e}{spinningPlanner}} \&\& *\mbox{\hyperlink{classcl__nav2z_1_1CbAbsoluteRotate_a54cba4a2f03742eb4ab703a0b9b7c56e}{spinningPlanner}} == \mbox{\hyperlink{namespacecl__nav2z_a5e4aaa4193d14bf2632f1c399ede7cbcaada5274435681a4ce04175bebfa6652f}{SpiningPlanner::PureSpinning}})}
-\DoxyCodeLine{259   \{}
-\DoxyCodeLine{260   \}}
-\DoxyCodeLine{261   \textcolor{keywordflow}{else}}
-\DoxyCodeLine{262   \{}
-\DoxyCodeLine{263   \}}
-\DoxyCodeLine{264 }
-\DoxyCodeLine{265   this-\/>\mbox{\hyperlink{classcl__nav2z_1_1CbAbsoluteRotate_a9410b279fa1b5d2dc02a413166e8fe72}{updateTemporalBehaviorParameters}}(\textcolor{keyword}{true});}
-\DoxyCodeLine{266 \}}
+\DoxyCodeLine{264 \{}
+\DoxyCodeLine{265   \textcolor{keywordflow}{if} (\mbox{\hyperlink{classcl__nav2z_1_1CbAbsoluteRotate_a54cba4a2f03742eb4ab703a0b9b7c56e}{spinningPlanner}} \&\& *\mbox{\hyperlink{classcl__nav2z_1_1CbAbsoluteRotate_a54cba4a2f03742eb4ab703a0b9b7c56e}{spinningPlanner}} == \mbox{\hyperlink{namespacecl__nav2z_a5e4aaa4193d14bf2632f1c399ede7cbcaada5274435681a4ce04175bebfa6652f}{SpiningPlanner::PureSpinning}})}
+\DoxyCodeLine{266   \{}
+\DoxyCodeLine{267   \}}
+\DoxyCodeLine{268   \textcolor{keywordflow}{else}}
+\DoxyCodeLine{269   \{}
+\DoxyCodeLine{270   \}}
+\DoxyCodeLine{271 }
+\DoxyCodeLine{272   this-\/>\mbox{\hyperlink{classcl__nav2z_1_1CbAbsoluteRotate_a9410b279fa1b5d2dc02a413166e8fe72}{updateTemporalBehaviorParameters}}(\textcolor{keyword}{true});}
+\DoxyCodeLine{273 \}}
 
 \end{DoxyCode}
 
@@ -385,29 +385,36 @@ Definition at line 98 of file cb\+\_\+absolute\+\_\+rotate.\+cpp.
 \DoxyCodeLine{229     \}}
 \DoxyCodeLine{230   \}}
 \DoxyCodeLine{231 }
-\DoxyCodeLine{232   \textcolor{keywordflow}{if} (parameters.size() > 0)}
+\DoxyCodeLine{232   \textcolor{keywordflow}{if} (parameters.size())}
 \DoxyCodeLine{233   \{}
-\DoxyCodeLine{234     RCLCPP\_INFO(log, \textcolor{stringliteral}{"{}[CbAbsoluteRotate] parameters to update:  "{}});}
-\DoxyCodeLine{235     \textcolor{keywordflow}{for} (\textcolor{keyword}{auto} \& p : parameters)}
-\DoxyCodeLine{236     \{}
-\DoxyCodeLine{237       RCLCPP\_INFO\_STREAM(log, \textcolor{stringliteral}{"{}[CbAbsoluteRotate] -\/ "{}} << p.get\_name());}
-\DoxyCodeLine{238     \}}
-\DoxyCodeLine{239   \}}
+\DoxyCodeLine{234     std::stringstream ss;}
+\DoxyCodeLine{235     ss << \textcolor{stringliteral}{"{}Executing asynchronous request. Parameters to update: "{}} << std::endl;}
+\DoxyCodeLine{236     \textcolor{keywordflow}{for} (\textcolor{keyword}{auto} \& p : parameters)}
+\DoxyCodeLine{237     \{}
+\DoxyCodeLine{238       ss << p.get\_name() << \textcolor{stringliteral}{"{} -\/ "{}} << p.value\_to\_string() << std::endl;}
+\DoxyCodeLine{239     \}}
 \DoxyCodeLine{240 }
-\DoxyCodeLine{241   \textcolor{keyword}{auto} futureResults = parameters\_client-\/>set\_parameters(parameters);}
+\DoxyCodeLine{241     RCLCPP\_INFO\_STREAM(\mbox{\hyperlink{classsmacc2_1_1ISmaccClientBehavior_a5474074c4b45e900499e30126fb8415c}{getLogger}}(), \textcolor{stringliteral}{"{}[CbAbsoluteRotate] "{}} << ss.str());}
 \DoxyCodeLine{242 }
-\DoxyCodeLine{243   \textcolor{keywordtype}{int} i = 0;}
-\DoxyCodeLine{244   \textcolor{keywordflow}{for} (\textcolor{keyword}{auto} \& res : futureResults.get())}
-\DoxyCodeLine{245   \{}
-\DoxyCodeLine{246     RCLCPP\_INFO\_STREAM(}
-\DoxyCodeLine{247       \mbox{\hyperlink{classsmacc2_1_1ISmaccClientBehavior_a5474074c4b45e900499e30126fb8415c}{getLogger}}(), \textcolor{stringliteral}{"{}[CbAbsoluteRotate] parameter result: "{}} << parameters[i].get\_name() << \textcolor{stringliteral}{"{}="{}}}
-\DoxyCodeLine{248                                                            << parameters[i].as\_string()}
-\DoxyCodeLine{249                                                            << \textcolor{stringliteral}{"{}. Result: "{}} << res.successful);}
-\DoxyCodeLine{250     i++;}
-\DoxyCodeLine{251   \}}
-\DoxyCodeLine{252 }
-\DoxyCodeLine{253   RCLCPP\_INFO(log, \textcolor{stringliteral}{"{}[CbAbsoluteRotate] parameters updated"{}});}
-\DoxyCodeLine{254 \}}
+\DoxyCodeLine{243     \textcolor{keyword}{auto} futureResults = parameters\_client-\/>set\_parameters(parameters);}
+\DoxyCodeLine{244 }
+\DoxyCodeLine{245     \textcolor{keywordtype}{int} i = 0;}
+\DoxyCodeLine{246     \textcolor{keywordflow}{for} (\textcolor{keyword}{auto} \& res : futureResults.get())}
+\DoxyCodeLine{247     \{}
+\DoxyCodeLine{248       RCLCPP\_INFO\_STREAM(}
+\DoxyCodeLine{249         \mbox{\hyperlink{classsmacc2_1_1ISmaccClientBehavior_a5474074c4b45e900499e30126fb8415c}{getLogger}}(), \textcolor{stringliteral}{"{}[CbAbsoluteRotate] parameter result: "{}} << parameters[i].get\_name() << \textcolor{stringliteral}{"{}="{}}}
+\DoxyCodeLine{250                                                              << parameters[i].as\_string()}
+\DoxyCodeLine{251                                                              << \textcolor{stringliteral}{"{}. Result: "{}} << res.successful);}
+\DoxyCodeLine{252       i++;}
+\DoxyCodeLine{253     \}}
+\DoxyCodeLine{254 }
+\DoxyCodeLine{255     RCLCPP\_INFO(log, \textcolor{stringliteral}{"{}[CbAbsoluteRotate] parameters updated"{}});}
+\DoxyCodeLine{256   \}}
+\DoxyCodeLine{257   \textcolor{keywordflow}{else}}
+\DoxyCodeLine{258   \{}
+\DoxyCodeLine{259     RCLCPP\_INFO(log, \textcolor{stringliteral}{"{}[CbAbsoluteRotate] skipping parameters update"{}});}
+\DoxyCodeLine{260   \}}
+\DoxyCodeLine{261 \}}
 
 \end{DoxyCode}
 
@@ -533,7 +540,7 @@ Definition at line 37 of file cb\+\_\+absolute\+\_\+rotate.\+hpp.
 
 
 
-Referenced by on\+Entry(), on\+Exit(), sm\+\_\+dance\+\_\+bot\+::radial\+\_\+motion\+\_\+states\+::\+Sti\+Radial\+Rotate\+::runtime\+Configure(), sm\+\_\+dance\+\_\+bot\+\_\+strikes\+\_\+back\+::radial\+\_\+motion\+\_\+states\+::\+Sti\+Radial\+Rotate\+::runtime\+Configure(), and update\+Temporal\+Behavior\+Parameters().
+Referenced by on\+Entry(), on\+Exit(), sm\+\_\+dance\+\_\+bot\+::radial\+\_\+motion\+\_\+states\+::\+Sti\+Radial\+Rotate\+::runtime\+Configure(), sm\+\_\+dance\+\_\+bot\+\_\+lite\+::radial\+\_\+motion\+\_\+states\+::\+Sti\+Radial\+Rotate\+::runtime\+Configure(), sm\+\_\+dance\+\_\+bot\+\_\+lite\+::\+St\+Rotate\+Degrees3\+::runtime\+Configure(), sm\+\_\+dance\+\_\+bot\+\_\+strikes\+\_\+back\+::radial\+\_\+motion\+\_\+states\+::\+Sti\+Radial\+Rotate\+::runtime\+Configure(), and update\+Temporal\+Behavior\+Parameters().
 
 \mbox{\Hypertarget{classcl__nav2z_1_1CbAbsoluteRotate_ac2aee07b0ac8f2456c80112af72f89b0}\label{classcl__nav2z_1_1CbAbsoluteRotate_ac2aee07b0ac8f2456c80112af72f89b0}} 
 \index{cl\_nav2z::CbAbsoluteRotate@{cl\_nav2z::CbAbsoluteRotate}!yawGoalTolerance@{yawGoalTolerance}}
