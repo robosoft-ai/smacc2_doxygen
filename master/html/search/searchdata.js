@@ -2,8 +2,8 @@ var indexSectionsWithContent =
 {
   0: "$_abcdefghijklmnopqrstuvwxyz~",
   1: "$abcdefghiklmnoprstuw",
-  2: "$bcghklnors",
-  3: "abcefghiklmnoprstuw",
+  2: "$bcgklnors",
+  3: "abcefgiklmnoprstuw",
   4: "_abcdefghijlmnoprstuwyz~",
   5: "_abcdefghijklmnopqrstuvwxyz",
   6: "abcdfgilmnoprstwy",
