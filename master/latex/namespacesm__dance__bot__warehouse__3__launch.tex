@@ -42,238 +42,237 @@ Definition at line 29 of file sm\+\_\+dance\+\_\+bot\+\_\+warehouse\+\_\+3\+\_\+
 \DoxyCodeLine{48 }
 \DoxyCodeLine{49     use\_robot\_state\_pub = LaunchConfiguration(\textcolor{stringliteral}{"{}use\_robot\_state\_pub"{}})}
 \DoxyCodeLine{50     use\_rviz = LaunchConfiguration(\textcolor{stringliteral}{"{}use\_rviz"{}})}
-\DoxyCodeLine{51     headless = LaunchConfiguration(\textcolor{stringliteral}{"{}headless"{}})}
-\DoxyCodeLine{52 }
-\DoxyCodeLine{53     urdf = os.path.join(sm\_dance\_bot\_warehouse\_3\_dir, \textcolor{stringliteral}{"{}urdf"{}}, \textcolor{stringliteral}{"{}turtlebot3\_waffle.urdf"{}})}
-\DoxyCodeLine{54 }
-\DoxyCodeLine{55     \textcolor{comment}{\# Map fully qualified names to relative ones so the node's namespace can be prepended.}}
-\DoxyCodeLine{56     \textcolor{comment}{\# In case of the transforms (tf), currently, there doesn't seem to be a better alternative}}
-\DoxyCodeLine{57     \textcolor{comment}{\# https://github.com/ros/geometry2/issues/32}}
-\DoxyCodeLine{58     \textcolor{comment}{\# https://github.com/ros/robot\_state\_publisher/pull/30}}
-\DoxyCodeLine{59     \textcolor{comment}{\# TODO(orduno) Substitute with `PushNodeRemapping`}}
-\DoxyCodeLine{60     \textcolor{comment}{\#              https://github.com/ros2/launch\_ros/issues/56}}
-\DoxyCodeLine{61     remappings = [(\textcolor{stringliteral}{"{}/tf"{}}, \textcolor{stringliteral}{"{}tf"{}}), (\textcolor{stringliteral}{"{}/tf\_static"{}}, \textcolor{stringliteral}{"{}tf\_static"{}})]}
-\DoxyCodeLine{62 }
-\DoxyCodeLine{63     \textcolor{comment}{\# Declare the launch arguments}}
-\DoxyCodeLine{64     declare\_namespace\_cmd = DeclareLaunchArgument(}
-\DoxyCodeLine{65         \textcolor{stringliteral}{"{}namespace"{}}, default\_value=\textcolor{stringliteral}{"{}"{}}, description=\textcolor{stringliteral}{"{}Top-\/level namespace"{}}}
-\DoxyCodeLine{66     )}
-\DoxyCodeLine{67 }
-\DoxyCodeLine{68     declare\_headless\_simulator\_argument = DeclareLaunchArgument(}
-\DoxyCodeLine{69         \textcolor{stringliteral}{"{}headless"{}}, default\_value=\textcolor{stringliteral}{"{}False"{}}, description=\textcolor{stringliteral}{"{}Whether to execute gzclient)"{}}}
-\DoxyCodeLine{70     )}
-\DoxyCodeLine{71 }
-\DoxyCodeLine{72     declare\_use\_namespace\_cmd = DeclareLaunchArgument(}
-\DoxyCodeLine{73         \textcolor{stringliteral}{"{}use\_namespace"{}},}
-\DoxyCodeLine{74         default\_value=\textcolor{stringliteral}{"{}false"{}},}
-\DoxyCodeLine{75         description=\textcolor{stringliteral}{"{}Whether to apply a namespace to the navigation stack"{}},}
-\DoxyCodeLine{76     )}
-\DoxyCodeLine{77 }
-\DoxyCodeLine{78     declare\_show\_gz\_lidar = DeclareLaunchArgument(}
-\DoxyCodeLine{79         \textcolor{stringliteral}{"{}show\_gz\_lidar"{}},}
-\DoxyCodeLine{80         default\_value=\textcolor{stringliteral}{"{}true"{}},}
-\DoxyCodeLine{81         description=\textcolor{stringliteral}{"{}Whether to apply a namespace to the navigation stack"{}},}
-\DoxyCodeLine{82     )}
-\DoxyCodeLine{83 }
-\DoxyCodeLine{84     declare\_slam\_cmd = DeclareLaunchArgument(}
-\DoxyCodeLine{85         \textcolor{stringliteral}{"{}slam"{}}, default\_value=\textcolor{stringliteral}{"{}True"{}}, description=\textcolor{stringliteral}{"{}Whether run a SLAM"{}}}
-\DoxyCodeLine{86     )}
-\DoxyCodeLine{87 }
-\DoxyCodeLine{88     declare\_use\_sim\_time\_cmd = DeclareLaunchArgument(}
-\DoxyCodeLine{89         \textcolor{stringliteral}{"{}use\_sim\_time"{}}, default\_value=\textcolor{stringliteral}{"{}true"{}}, description=\textcolor{stringliteral}{"{}Use simulation (Gazebo) clock if true"{}}}
-\DoxyCodeLine{90     )}
-\DoxyCodeLine{91 }
-\DoxyCodeLine{92     declare\_params\_file\_cmd = DeclareLaunchArgument(}
-\DoxyCodeLine{93         \textcolor{stringliteral}{"{}params\_file"{}},}
-\DoxyCodeLine{94         default\_value=os.path.join(}
-\DoxyCodeLine{95             sm\_dance\_bot\_warehouse\_3\_dir, \textcolor{stringliteral}{"{}params"{}}, \textcolor{stringliteral}{"{}nav2z\_client"{}}, \textcolor{stringliteral}{"{}nav2\_params.yaml"{}}}
-\DoxyCodeLine{96         ),}
-\DoxyCodeLine{97         description=\textcolor{stringliteral}{"{}Full path to the ROS2 parameters file to use for all launched nodes"{}},}
-\DoxyCodeLine{98     )}
-\DoxyCodeLine{99 }
-\DoxyCodeLine{100     declare\_bt\_xml\_cmd = DeclareLaunchArgument(}
-\DoxyCodeLine{101         \textcolor{stringliteral}{"{}default\_nav\_to\_pose\_bt\_xml"{}},}
-\DoxyCodeLine{102         default\_value=os.path.join(}
-\DoxyCodeLine{103             sm\_dance\_bot\_warehouse\_3\_dir, \textcolor{stringliteral}{"{}params"{}}, \textcolor{stringliteral}{"{}nav2z\_client"{}}, \textcolor{stringliteral}{"{}navigation\_tree.xml"{}}}
-\DoxyCodeLine{104         ),}
-\DoxyCodeLine{105         description=\textcolor{stringliteral}{"{}Full path to the behavior tree xml file to use"{}},}
-\DoxyCodeLine{106     )}
-\DoxyCodeLine{107 }
-\DoxyCodeLine{108     declare\_autostart\_cmd = DeclareLaunchArgument(}
-\DoxyCodeLine{109         \textcolor{stringliteral}{"{}autostart"{}}, default\_value=\textcolor{stringliteral}{"{}true"{}}, description=\textcolor{stringliteral}{"{}Automatically startup the nav2 stack"{}}}
-\DoxyCodeLine{110     )}
-\DoxyCodeLine{111 }
-\DoxyCodeLine{112     declare\_rviz\_config\_file\_cmd = DeclareLaunchArgument(}
-\DoxyCodeLine{113         \textcolor{stringliteral}{"{}rviz\_config\_file"{}},}
-\DoxyCodeLine{114         default\_value=os.path.join(sm\_dance\_bot\_warehouse\_3\_dir, \textcolor{stringliteral}{"{}rviz"{}}, \textcolor{stringliteral}{"{}nav2\_default\_view.rviz"{}}),}
-\DoxyCodeLine{115         description=\textcolor{stringliteral}{"{}Full path to the RVIZ config file to use"{}},}
-\DoxyCodeLine{116     )}
-\DoxyCodeLine{117 }
-\DoxyCodeLine{118     declare\_use\_robot\_state\_pub\_cmd = DeclareLaunchArgument(}
-\DoxyCodeLine{119         \textcolor{stringliteral}{"{}use\_robot\_state\_pub"{}},}
-\DoxyCodeLine{120         default\_value=\textcolor{stringliteral}{"{}True"{}},}
-\DoxyCodeLine{121         description=\textcolor{stringliteral}{"{}Whether to start the robot state publisher"{}},}
-\DoxyCodeLine{122     )}
-\DoxyCodeLine{123 }
-\DoxyCodeLine{124     declare\_use\_rviz\_cmd = DeclareLaunchArgument(}
-\DoxyCodeLine{125         \textcolor{stringliteral}{"{}use\_rviz"{}}, default\_value=\textcolor{stringliteral}{"{}True"{}}, description=\textcolor{stringliteral}{"{}Whether to start RVIZ"{}}}
-\DoxyCodeLine{126     )}
-\DoxyCodeLine{127 }
-\DoxyCodeLine{128     declare\_map\_yaml\_cmd = DeclareLaunchArgument(}
-\DoxyCodeLine{129         \textcolor{stringliteral}{"{}map"{}},}
-\DoxyCodeLine{130         default\_value=os.path.join(sm\_dance\_bot\_warehouse\_3\_dir, \textcolor{stringliteral}{"{}maps"{}}, \textcolor{stringliteral}{"{}turtlebot3\_world.yaml"{}}),}
-\DoxyCodeLine{131         description=\textcolor{stringliteral}{"{}Full path to map file to load"{}},}
-\DoxyCodeLine{132     )}
-\DoxyCodeLine{133 }
-\DoxyCodeLine{134     start\_robot\_state\_publisher\_cmd = Node(}
-\DoxyCodeLine{135         condition=IfCondition(use\_robot\_state\_pub),}
-\DoxyCodeLine{136         package=\textcolor{stringliteral}{"{}robot\_state\_publisher"{}},}
-\DoxyCodeLine{137         executable=\textcolor{stringliteral}{"{}robot\_state\_publisher"{}},}
-\DoxyCodeLine{138         name=\textcolor{stringliteral}{"{}robot\_state\_publisher"{}},}
-\DoxyCodeLine{139         namespace=namespace,}
-\DoxyCodeLine{140         output=\textcolor{stringliteral}{"{}screen"{}},}
-\DoxyCodeLine{141         parameters=[\{\textcolor{stringliteral}{"{}use\_sim\_time"{}}: use\_sim\_time\}],}
-\DoxyCodeLine{142         remappings=remappings,}
-\DoxyCodeLine{143         arguments=[urdf],}
-\DoxyCodeLine{144     )}
-\DoxyCodeLine{145 }
-\DoxyCodeLine{146     rviz\_cmd = IncludeLaunchDescription(}
-\DoxyCodeLine{147         PythonLaunchDescriptionSource(}
-\DoxyCodeLine{148             os.path.join(sm\_dance\_bot\_warehouse\_3\_launch\_dir, \textcolor{stringliteral}{"{}rviz\_launch.py"{}})}
-\DoxyCodeLine{149         ),}
-\DoxyCodeLine{150         condition=IfCondition(use\_rviz),}
-\DoxyCodeLine{151         launch\_arguments=\{}
-\DoxyCodeLine{152             \textcolor{stringliteral}{"{}namespace"{}}: \textcolor{stringliteral}{"{}"{}},}
-\DoxyCodeLine{153             \textcolor{stringliteral}{"{}use\_namespace"{}}: \textcolor{stringliteral}{"{}False"{}},}
-\DoxyCodeLine{154             \textcolor{stringliteral}{"{}rviz\_config"{}}: rviz\_config\_file,}
-\DoxyCodeLine{155         \}.items(),}
-\DoxyCodeLine{156     )}
-\DoxyCodeLine{157 }
-\DoxyCodeLine{158     bringup\_cmd = IncludeLaunchDescription(}
-\DoxyCodeLine{159         PythonLaunchDescriptionSource(}
-\DoxyCodeLine{160             os.path.join(sm\_dance\_bot\_warehouse\_3\_launch\_dir, \textcolor{stringliteral}{"{}bringup\_launch.py"{}})}
-\DoxyCodeLine{161         ),}
-\DoxyCodeLine{162         launch\_arguments=\{}
-\DoxyCodeLine{163             \textcolor{stringliteral}{"{}namespace"{}}: namespace,}
-\DoxyCodeLine{164             \textcolor{stringliteral}{"{}use\_namespace"{}}: use\_namespace,}
-\DoxyCodeLine{165             \textcolor{stringliteral}{"{}autostart"{}}: autostart,}
-\DoxyCodeLine{166             \textcolor{stringliteral}{"{}params\_file"{}}: params\_file,}
-\DoxyCodeLine{167             \textcolor{stringliteral}{"{}slam"{}}: slam,}
-\DoxyCodeLine{168             \textcolor{stringliteral}{"{}map"{}}: map\_yaml\_file,}
-\DoxyCodeLine{169             \textcolor{stringliteral}{"{}use\_sim\_time"{}}: use\_sim\_time,}
-\DoxyCodeLine{170             \textcolor{stringliteral}{"{}default\_nav\_to\_pose\_bt\_xml"{}}: default\_nav\_to\_pose\_bt\_xml,}
-\DoxyCodeLine{171         \}.items(),}
-\DoxyCodeLine{172     )}
-\DoxyCodeLine{173 }
-\DoxyCodeLine{174     bringup\_cmd = IncludeLaunchDescription(}
-\DoxyCodeLine{175         PythonLaunchDescriptionSource(}
-\DoxyCodeLine{176             os.path.join(sm\_dance\_bot\_warehouse\_3\_launch\_dir, \textcolor{stringliteral}{"{}bringup\_launch.py"{}})}
-\DoxyCodeLine{177         ),}
-\DoxyCodeLine{178         launch\_arguments=\{}
-\DoxyCodeLine{179             \textcolor{stringliteral}{"{}namespace"{}}: namespace,}
-\DoxyCodeLine{180             \textcolor{stringliteral}{"{}use\_namespace"{}}: use\_namespace,}
-\DoxyCodeLine{181             \textcolor{stringliteral}{"{}autostart"{}}: autostart,}
-\DoxyCodeLine{182             \textcolor{stringliteral}{"{}params\_file"{}}: params\_file,}
-\DoxyCodeLine{183             \textcolor{stringliteral}{"{}slam"{}}: slam,}
-\DoxyCodeLine{184             \textcolor{stringliteral}{"{}map"{}}: map\_yaml\_file,}
-\DoxyCodeLine{185             \textcolor{stringliteral}{"{}use\_sim\_time"{}}: use\_sim\_time,}
-\DoxyCodeLine{186             \textcolor{stringliteral}{"{}default\_nav\_to\_pose\_bt\_xml"{}}: default\_nav\_to\_pose\_bt\_xml,}
-\DoxyCodeLine{187         \}.items(),}
-\DoxyCodeLine{188     )}
-\DoxyCodeLine{189 }
-\DoxyCodeLine{190     \textcolor{comment}{\# gazebo\_husky = IncludeLaunchDescription(}}
-\DoxyCodeLine{191     \textcolor{comment}{\#     PythonLaunchDescriptionSource(os.path.join(sm\_dance\_bot\_warehouse\_3\_launch\_dir, "{}husky\_gazebo.launch.py"{})),}}
-\DoxyCodeLine{192     \textcolor{comment}{\#     launch\_arguments=\{'world\_path': os.path.join(sm\_dance\_bot\_warehouse\_3\_dir, "{}worlds"{}, "{}ridgeback\_race\_empty.world"{})\}.items()}}
-\DoxyCodeLine{193     \textcolor{comment}{\# )}}
-\DoxyCodeLine{194 }
-\DoxyCodeLine{195     gazebo\_simulator = IncludeLaunchDescription(}
-\DoxyCodeLine{196         PythonLaunchDescriptionSource(}
-\DoxyCodeLine{197             os.path.join(sm\_dance\_bot\_warehouse\_3\_launch\_dir, \textcolor{stringliteral}{"{}gazebo\_launch.py"{}})}
-\DoxyCodeLine{198         ),}
-\DoxyCodeLine{199         launch\_arguments=\{\textcolor{stringliteral}{"{}show\_gz\_lidar"{}}: show\_gz\_lidar, \textcolor{stringliteral}{"{}headless"{}}: headless\}.items(),}
-\DoxyCodeLine{200     )}
-\DoxyCodeLine{201 }
-\DoxyCodeLine{202     xtermprefix = \textcolor{stringliteral}{"{}xterm -\/xrm 'XTerm*scrollBar:  true' -\/xrm 'xterm*rightScrollBar: true' -\/hold -\/geometry 1000x600 -\/sl 10000 -\/e"{}}}
-\DoxyCodeLine{203 }
-\DoxyCodeLine{204     sm\_dance\_bot\_warehouse\_3\_node = Node(}
-\DoxyCodeLine{205         package=\textcolor{stringliteral}{"{}sm\_dance\_bot\_warehouse\_3"{}},}
-\DoxyCodeLine{206         executable=\textcolor{stringliteral}{"{}sm\_dance\_bot\_warehouse\_3\_node"{}},}
-\DoxyCodeLine{207         name=\textcolor{stringliteral}{"{}SmDanceBotWareHouse3"{}},}
-\DoxyCodeLine{208         output=\textcolor{stringliteral}{"{}screen"{}},}
-\DoxyCodeLine{209         prefix=xtermprefix,}
-\DoxyCodeLine{210         parameters=[}
-\DoxyCodeLine{211             os.path.join(}
-\DoxyCodeLine{212                 get\_package\_share\_directory(\textcolor{stringliteral}{"{}sm\_dance\_bot\_warehouse\_3"{}}),}
-\DoxyCodeLine{213                 \textcolor{stringliteral}{"{}params/sm\_dance\_bot\_warehouse\_3\_config.yaml"{}},}
-\DoxyCodeLine{214             ),}
-\DoxyCodeLine{215             os.path.join(}
-\DoxyCodeLine{216                 get\_package\_share\_directory(\textcolor{stringliteral}{"{}sm\_dance\_bot\_warehouse\_3"{}}),}
-\DoxyCodeLine{217                 \textcolor{stringliteral}{"{}params/nav2z\_client/odom\_tracker.yaml"{}},}
-\DoxyCodeLine{218             ),}
-\DoxyCodeLine{219         ],}
-\DoxyCodeLine{220         remappings=[}
-\DoxyCodeLine{221             \textcolor{comment}{\# ("{}/odom"{}, "{}/odometry/filtered"{}),}}
-\DoxyCodeLine{222             \textcolor{comment}{\# ("{}/sm\_dance\_bot\_warehouse\_3\_2/odom\_tracker/odom\_tracker\_path"{}, "{}/odom\_tracker\_path"{}),}}
-\DoxyCodeLine{223             \textcolor{comment}{\# ("{}/sm\_dance\_bot\_warehouse\_3\_2/odom\_tracker/odom\_tracker\_stacked\_path"{}, "{}/odom\_tracker\_path\_stacked"{})}}
-\DoxyCodeLine{224         ],}
-\DoxyCodeLine{225         arguments=[\textcolor{stringliteral}{"{}-\/-\/ros-\/args"{}}, \textcolor{stringliteral}{"{}-\/-\/log-\/level"{}}, \textcolor{stringliteral}{"{}INFO"{}}],}
-\DoxyCodeLine{226     )}
-\DoxyCodeLine{227 }
-\DoxyCodeLine{228     led\_action\_server\_node = Node(}
-\DoxyCodeLine{229         package=\textcolor{stringliteral}{"{}sm\_dance\_bot\_warehouse\_3"{}},}
-\DoxyCodeLine{230         executable=\textcolor{stringliteral}{"{}led\_action\_server\_node"{}},}
-\DoxyCodeLine{231         output=\textcolor{stringliteral}{"{}screen"{}},}
-\DoxyCodeLine{232         prefix=xtermprefix,}
-\DoxyCodeLine{233     )}
-\DoxyCodeLine{234 }
-\DoxyCodeLine{235     temperature\_action\_server = Node(}
-\DoxyCodeLine{236         package=\textcolor{stringliteral}{"{}sm\_dance\_bot\_warehouse\_3"{}},}
-\DoxyCodeLine{237         executable=\textcolor{stringliteral}{"{}temperature\_sensor\_node"{}},}
-\DoxyCodeLine{238         output=\textcolor{stringliteral}{"{}screen"{}},}
-\DoxyCodeLine{239         prefix=xtermprefix,}
-\DoxyCodeLine{240     )}
-\DoxyCodeLine{241 }
-\DoxyCodeLine{242     service3\_node = Node(}
-\DoxyCodeLine{243         package=\textcolor{stringliteral}{"{}sm\_dance\_bot\_warehouse\_3"{}},}
-\DoxyCodeLine{244         executable=\textcolor{stringliteral}{"{}service\_node\_3.py"{}},}
-\DoxyCodeLine{245         output=\textcolor{stringliteral}{"{}screen"{}},}
-\DoxyCodeLine{246         prefix=xtermprefix,}
-\DoxyCodeLine{247         parameters=[}
-\DoxyCodeLine{248             \{\textcolor{stringliteral}{"{}autostart"{}}: \textcolor{keyword}{True}, \textcolor{stringliteral}{"{}node\_names"{}}: [\textcolor{stringliteral}{"{}ss"{}}, \textcolor{stringliteral}{"{}dfa"{}}]\},}
-\DoxyCodeLine{249         ],}
-\DoxyCodeLine{250     )}
-\DoxyCodeLine{251 }
-\DoxyCodeLine{252     \textcolor{comment}{\# Create the launch description and populate}}
-\DoxyCodeLine{253     ld = LaunchDescription()}
-\DoxyCodeLine{254 }
-\DoxyCodeLine{255     \textcolor{comment}{\# Declare the launch options}}
-\DoxyCodeLine{256     ld.add\_action(declare\_namespace\_cmd)}
-\DoxyCodeLine{257     ld.add\_action(declare\_use\_namespace\_cmd)}
-\DoxyCodeLine{258     ld.add\_action(declare\_slam\_cmd)}
-\DoxyCodeLine{259     ld.add\_action(declare\_use\_sim\_time\_cmd)}
-\DoxyCodeLine{260     ld.add\_action(declare\_params\_file\_cmd)}
-\DoxyCodeLine{261     ld.add\_action(declare\_bt\_xml\_cmd)}
-\DoxyCodeLine{262     ld.add\_action(declare\_autostart\_cmd)}
-\DoxyCodeLine{263     ld.add\_action(declare\_map\_yaml\_cmd)}
-\DoxyCodeLine{264     ld.add\_action(declare\_show\_gz\_lidar)}
-\DoxyCodeLine{265     ld.add\_action(declare\_headless\_simulator\_argument)}
-\DoxyCodeLine{266 }
-\DoxyCodeLine{267     ld.add\_action(declare\_rviz\_config\_file\_cmd)}
-\DoxyCodeLine{268     ld.add\_action(declare\_use\_robot\_state\_pub\_cmd)}
-\DoxyCodeLine{269     ld.add\_action(declare\_use\_rviz\_cmd)}
-\DoxyCodeLine{270     ld.add\_action(gazebo\_simulator)}
-\DoxyCodeLine{271     \textcolor{comment}{\# ld.add\_action(gazebo\_husky)}}
-\DoxyCodeLine{272 }
-\DoxyCodeLine{273     ld.add\_action(sm\_dance\_bot\_warehouse\_3\_node)}
-\DoxyCodeLine{274     ld.add\_action(service3\_node)}
-\DoxyCodeLine{275     ld.add\_action(temperature\_action\_server)}
-\DoxyCodeLine{276     ld.add\_action(led\_action\_server\_node)}
-\DoxyCodeLine{277 }
-\DoxyCodeLine{278     \textcolor{comment}{\# \# Add the actions to launch all of the navigation nodes}}
-\DoxyCodeLine{279     ld.add\_action(start\_robot\_state\_publisher\_cmd)}
-\DoxyCodeLine{280     ld.add\_action(rviz\_cmd)}
-\DoxyCodeLine{281     ld.add\_action(bringup\_cmd)}
-\DoxyCodeLine{282 }
-\DoxyCodeLine{283     \textcolor{keywordflow}{return} ld}
+\DoxyCodeLine{51 }
+\DoxyCodeLine{52     urdf = os.path.join(sm\_dance\_bot\_warehouse\_3\_dir, \textcolor{stringliteral}{"{}urdf"{}}, \textcolor{stringliteral}{"{}turtlebot3\_waffle.urdf"{}})}
+\DoxyCodeLine{53 }
+\DoxyCodeLine{54     \textcolor{comment}{\# Map fully qualified names to relative ones so the node's namespace can be prepended.}}
+\DoxyCodeLine{55     \textcolor{comment}{\# In case of the transforms (tf), currently, there doesn't seem to be a better alternative}}
+\DoxyCodeLine{56     \textcolor{comment}{\# https://github.com/ros/geometry2/issues/32}}
+\DoxyCodeLine{57     \textcolor{comment}{\# https://github.com/ros/robot\_state\_publisher/pull/30}}
+\DoxyCodeLine{58     \textcolor{comment}{\# TODO(orduno) Substitute with `PushNodeRemapping`}}
+\DoxyCodeLine{59     \textcolor{comment}{\#              https://github.com/ros2/launch\_ros/issues/56}}
+\DoxyCodeLine{60     remappings = [(\textcolor{stringliteral}{"{}/tf"{}}, \textcolor{stringliteral}{"{}tf"{}}), (\textcolor{stringliteral}{"{}/tf\_static"{}}, \textcolor{stringliteral}{"{}tf\_static"{}})]}
+\DoxyCodeLine{61 }
+\DoxyCodeLine{62     \textcolor{comment}{\# Declare the launch arguments}}
+\DoxyCodeLine{63     declare\_namespace\_cmd = DeclareLaunchArgument(}
+\DoxyCodeLine{64         \textcolor{stringliteral}{"{}namespace"{}}, default\_value=\textcolor{stringliteral}{"{}"{}}, description=\textcolor{stringliteral}{"{}Top-\/level namespace"{}}}
+\DoxyCodeLine{65     )}
+\DoxyCodeLine{66 }
+\DoxyCodeLine{67     declare\_headless\_simulator\_argument = DeclareLaunchArgument(}
+\DoxyCodeLine{68         \textcolor{stringliteral}{"{}headless"{}}, default\_value=\textcolor{stringliteral}{"{}False"{}}, description=\textcolor{stringliteral}{"{}Whether to execute gzclient)"{}}}
+\DoxyCodeLine{69     )}
+\DoxyCodeLine{70 }
+\DoxyCodeLine{71     declare\_use\_namespace\_cmd = DeclareLaunchArgument(}
+\DoxyCodeLine{72         \textcolor{stringliteral}{"{}use\_namespace"{}},}
+\DoxyCodeLine{73         default\_value=\textcolor{stringliteral}{"{}false"{}},}
+\DoxyCodeLine{74         description=\textcolor{stringliteral}{"{}Whether to apply a namespace to the navigation stack"{}},}
+\DoxyCodeLine{75     )}
+\DoxyCodeLine{76 }
+\DoxyCodeLine{77     declare\_show\_gz\_lidar = DeclareLaunchArgument(}
+\DoxyCodeLine{78         \textcolor{stringliteral}{"{}show\_gz\_lidar"{}},}
+\DoxyCodeLine{79         default\_value=\textcolor{stringliteral}{"{}true"{}},}
+\DoxyCodeLine{80         description=\textcolor{stringliteral}{"{}Whether to apply a namespace to the navigation stack"{}},}
+\DoxyCodeLine{81     )}
+\DoxyCodeLine{82 }
+\DoxyCodeLine{83     declare\_slam\_cmd = DeclareLaunchArgument(}
+\DoxyCodeLine{84         \textcolor{stringliteral}{"{}slam"{}}, default\_value=\textcolor{stringliteral}{"{}True"{}}, description=\textcolor{stringliteral}{"{}Whether run a SLAM"{}}}
+\DoxyCodeLine{85     )}
+\DoxyCodeLine{86 }
+\DoxyCodeLine{87     declare\_use\_sim\_time\_cmd = DeclareLaunchArgument(}
+\DoxyCodeLine{88         \textcolor{stringliteral}{"{}use\_sim\_time"{}}, default\_value=\textcolor{stringliteral}{"{}true"{}}, description=\textcolor{stringliteral}{"{}Use simulation (Gazebo) clock if true"{}}}
+\DoxyCodeLine{89     )}
+\DoxyCodeLine{90 }
+\DoxyCodeLine{91     declare\_params\_file\_cmd = DeclareLaunchArgument(}
+\DoxyCodeLine{92         \textcolor{stringliteral}{"{}params\_file"{}},}
+\DoxyCodeLine{93         default\_value=os.path.join(}
+\DoxyCodeLine{94             sm\_dance\_bot\_warehouse\_3\_dir, \textcolor{stringliteral}{"{}params"{}}, \textcolor{stringliteral}{"{}nav2z\_client"{}}, \textcolor{stringliteral}{"{}nav2\_params.yaml"{}}}
+\DoxyCodeLine{95         ),}
+\DoxyCodeLine{96         description=\textcolor{stringliteral}{"{}Full path to the ROS2 parameters file to use for all launched nodes"{}},}
+\DoxyCodeLine{97     )}
+\DoxyCodeLine{98 }
+\DoxyCodeLine{99     declare\_bt\_xml\_cmd = DeclareLaunchArgument(}
+\DoxyCodeLine{100         \textcolor{stringliteral}{"{}default\_nav\_to\_pose\_bt\_xml"{}},}
+\DoxyCodeLine{101         default\_value=os.path.join(}
+\DoxyCodeLine{102             sm\_dance\_bot\_warehouse\_3\_dir, \textcolor{stringliteral}{"{}params"{}}, \textcolor{stringliteral}{"{}nav2z\_client"{}}, \textcolor{stringliteral}{"{}navigation\_tree.xml"{}}}
+\DoxyCodeLine{103         ),}
+\DoxyCodeLine{104         description=\textcolor{stringliteral}{"{}Full path to the behavior tree xml file to use"{}},}
+\DoxyCodeLine{105     )}
+\DoxyCodeLine{106 }
+\DoxyCodeLine{107     declare\_autostart\_cmd = DeclareLaunchArgument(}
+\DoxyCodeLine{108         \textcolor{stringliteral}{"{}autostart"{}}, default\_value=\textcolor{stringliteral}{"{}true"{}}, description=\textcolor{stringliteral}{"{}Automatically startup the nav2 stack"{}}}
+\DoxyCodeLine{109     )}
+\DoxyCodeLine{110 }
+\DoxyCodeLine{111     declare\_rviz\_config\_file\_cmd = DeclareLaunchArgument(}
+\DoxyCodeLine{112         \textcolor{stringliteral}{"{}rviz\_config\_file"{}},}
+\DoxyCodeLine{113         default\_value=os.path.join(sm\_dance\_bot\_warehouse\_3\_dir, \textcolor{stringliteral}{"{}rviz"{}}, \textcolor{stringliteral}{"{}nav2\_default\_view.rviz"{}}),}
+\DoxyCodeLine{114         description=\textcolor{stringliteral}{"{}Full path to the RVIZ config file to use"{}},}
+\DoxyCodeLine{115     )}
+\DoxyCodeLine{116 }
+\DoxyCodeLine{117     declare\_use\_robot\_state\_pub\_cmd = DeclareLaunchArgument(}
+\DoxyCodeLine{118         \textcolor{stringliteral}{"{}use\_robot\_state\_pub"{}},}
+\DoxyCodeLine{119         default\_value=\textcolor{stringliteral}{"{}True"{}},}
+\DoxyCodeLine{120         description=\textcolor{stringliteral}{"{}Whether to start the robot state publisher"{}},}
+\DoxyCodeLine{121     )}
+\DoxyCodeLine{122 }
+\DoxyCodeLine{123     declare\_use\_rviz\_cmd = DeclareLaunchArgument(}
+\DoxyCodeLine{124         \textcolor{stringliteral}{"{}use\_rviz"{}}, default\_value=\textcolor{stringliteral}{"{}True"{}}, description=\textcolor{stringliteral}{"{}Whether to start RVIZ"{}}}
+\DoxyCodeLine{125     )}
+\DoxyCodeLine{126 }
+\DoxyCodeLine{127     declare\_map\_yaml\_cmd = DeclareLaunchArgument(}
+\DoxyCodeLine{128         \textcolor{stringliteral}{"{}map"{}},}
+\DoxyCodeLine{129         default\_value=os.path.join(sm\_dance\_bot\_warehouse\_3\_dir, \textcolor{stringliteral}{"{}maps"{}}, \textcolor{stringliteral}{"{}turtlebot3\_world.yaml"{}}),}
+\DoxyCodeLine{130         description=\textcolor{stringliteral}{"{}Full path to map file to load"{}},}
+\DoxyCodeLine{131     )}
+\DoxyCodeLine{132 }
+\DoxyCodeLine{133     start\_robot\_state\_publisher\_cmd = Node(}
+\DoxyCodeLine{134         condition=IfCondition(use\_robot\_state\_pub),}
+\DoxyCodeLine{135         package=\textcolor{stringliteral}{"{}robot\_state\_publisher"{}},}
+\DoxyCodeLine{136         executable=\textcolor{stringliteral}{"{}robot\_state\_publisher"{}},}
+\DoxyCodeLine{137         name=\textcolor{stringliteral}{"{}robot\_state\_publisher"{}},}
+\DoxyCodeLine{138         namespace=namespace,}
+\DoxyCodeLine{139         output=\textcolor{stringliteral}{"{}screen"{}},}
+\DoxyCodeLine{140         parameters=[\{\textcolor{stringliteral}{"{}use\_sim\_time"{}}: use\_sim\_time\}],}
+\DoxyCodeLine{141         remappings=remappings,}
+\DoxyCodeLine{142         arguments=[urdf],}
+\DoxyCodeLine{143     )}
+\DoxyCodeLine{144 }
+\DoxyCodeLine{145     rviz\_cmd = IncludeLaunchDescription(}
+\DoxyCodeLine{146         PythonLaunchDescriptionSource(}
+\DoxyCodeLine{147             os.path.join(sm\_dance\_bot\_warehouse\_3\_launch\_dir, \textcolor{stringliteral}{"{}rviz\_launch.py"{}})}
+\DoxyCodeLine{148         ),}
+\DoxyCodeLine{149         condition=IfCondition(use\_rviz),}
+\DoxyCodeLine{150         launch\_arguments=\{}
+\DoxyCodeLine{151             \textcolor{stringliteral}{"{}namespace"{}}: \textcolor{stringliteral}{"{}"{}},}
+\DoxyCodeLine{152             \textcolor{stringliteral}{"{}use\_namespace"{}}: \textcolor{stringliteral}{"{}False"{}},}
+\DoxyCodeLine{153             \textcolor{stringliteral}{"{}rviz\_config"{}}: rviz\_config\_file,}
+\DoxyCodeLine{154         \}.items(),}
+\DoxyCodeLine{155     )}
+\DoxyCodeLine{156 }
+\DoxyCodeLine{157     bringup\_cmd = IncludeLaunchDescription(}
+\DoxyCodeLine{158         PythonLaunchDescriptionSource(}
+\DoxyCodeLine{159             os.path.join(sm\_dance\_bot\_warehouse\_3\_launch\_dir, \textcolor{stringliteral}{"{}bringup\_launch.py"{}})}
+\DoxyCodeLine{160         ),}
+\DoxyCodeLine{161         launch\_arguments=\{}
+\DoxyCodeLine{162             \textcolor{stringliteral}{"{}namespace"{}}: namespace,}
+\DoxyCodeLine{163             \textcolor{stringliteral}{"{}use\_namespace"{}}: use\_namespace,}
+\DoxyCodeLine{164             \textcolor{stringliteral}{"{}autostart"{}}: autostart,}
+\DoxyCodeLine{165             \textcolor{stringliteral}{"{}params\_file"{}}: params\_file,}
+\DoxyCodeLine{166             \textcolor{stringliteral}{"{}slam"{}}: slam,}
+\DoxyCodeLine{167             \textcolor{stringliteral}{"{}map"{}}: map\_yaml\_file,}
+\DoxyCodeLine{168             \textcolor{stringliteral}{"{}use\_sim\_time"{}}: use\_sim\_time,}
+\DoxyCodeLine{169             \textcolor{stringliteral}{"{}default\_nav\_to\_pose\_bt\_xml"{}}: default\_nav\_to\_pose\_bt\_xml,}
+\DoxyCodeLine{170         \}.items(),}
+\DoxyCodeLine{171     )}
+\DoxyCodeLine{172 }
+\DoxyCodeLine{173     bringup\_cmd = IncludeLaunchDescription(}
+\DoxyCodeLine{174         PythonLaunchDescriptionSource(}
+\DoxyCodeLine{175             os.path.join(sm\_dance\_bot\_warehouse\_3\_launch\_dir, \textcolor{stringliteral}{"{}bringup\_launch.py"{}})}
+\DoxyCodeLine{176         ),}
+\DoxyCodeLine{177         launch\_arguments=\{}
+\DoxyCodeLine{178             \textcolor{stringliteral}{"{}namespace"{}}: namespace,}
+\DoxyCodeLine{179             \textcolor{stringliteral}{"{}use\_namespace"{}}: use\_namespace,}
+\DoxyCodeLine{180             \textcolor{stringliteral}{"{}autostart"{}}: autostart,}
+\DoxyCodeLine{181             \textcolor{stringliteral}{"{}params\_file"{}}: params\_file,}
+\DoxyCodeLine{182             \textcolor{stringliteral}{"{}slam"{}}: slam,}
+\DoxyCodeLine{183             \textcolor{stringliteral}{"{}map"{}}: map\_yaml\_file,}
+\DoxyCodeLine{184             \textcolor{stringliteral}{"{}use\_sim\_time"{}}: use\_sim\_time,}
+\DoxyCodeLine{185             \textcolor{stringliteral}{"{}default\_nav\_to\_pose\_bt\_xml"{}}: default\_nav\_to\_pose\_bt\_xml,}
+\DoxyCodeLine{186         \}.items(),}
+\DoxyCodeLine{187     )}
+\DoxyCodeLine{188 }
+\DoxyCodeLine{189     \textcolor{comment}{\# gazebo\_husky = IncludeLaunchDescription(}}
+\DoxyCodeLine{190     \textcolor{comment}{\#     PythonLaunchDescriptionSource(os.path.join(sm\_dance\_bot\_warehouse\_3\_launch\_dir, "{}husky\_gazebo.launch.py"{})),}}
+\DoxyCodeLine{191     \textcolor{comment}{\#     launch\_arguments=\{'world\_path': os.path.join(sm\_dance\_bot\_warehouse\_3\_dir, "{}worlds"{}, "{}ridgeback\_race\_empty.world"{})\}.items()}}
+\DoxyCodeLine{192     \textcolor{comment}{\# )}}
+\DoxyCodeLine{193 }
+\DoxyCodeLine{194     gazebo\_simulator = IncludeLaunchDescription(}
+\DoxyCodeLine{195         PythonLaunchDescriptionSource(}
+\DoxyCodeLine{196             os.path.join(sm\_dance\_bot\_warehouse\_3\_launch\_dir, \textcolor{stringliteral}{"{}gazebo\_launch.py"{}})}
+\DoxyCodeLine{197         ),}
+\DoxyCodeLine{198         launch\_arguments=\{\textcolor{stringliteral}{"{}show\_gz\_lidar"{}}: show\_gz\_lidar, \textcolor{stringliteral}{"{}headless"{}}: headless\}.items(),}
+\DoxyCodeLine{199     )}
+\DoxyCodeLine{200 }
+\DoxyCodeLine{201     xtermprefix = \textcolor{stringliteral}{"{}xterm -\/xrm 'XTerm*scrollBar:  true' -\/xrm 'xterm*rightScrollBar: true' -\/hold -\/geometry 1000x600 -\/sl 10000 -\/e"{}}}
+\DoxyCodeLine{202 }
+\DoxyCodeLine{203     sm\_dance\_bot\_warehouse\_3\_node = Node(}
+\DoxyCodeLine{204         package=\textcolor{stringliteral}{"{}sm\_dance\_bot\_warehouse\_3"{}},}
+\DoxyCodeLine{205         executable=\textcolor{stringliteral}{"{}sm\_dance\_bot\_warehouse\_3\_node"{}},}
+\DoxyCodeLine{206         name=\textcolor{stringliteral}{"{}SmDanceBotWareHouse3"{}},}
+\DoxyCodeLine{207         output=\textcolor{stringliteral}{"{}screen"{}},}
+\DoxyCodeLine{208         prefix=xtermprefix,}
+\DoxyCodeLine{209         parameters=[}
+\DoxyCodeLine{210             os.path.join(}
+\DoxyCodeLine{211                 get\_package\_share\_directory(\textcolor{stringliteral}{"{}sm\_dance\_bot\_warehouse\_3"{}}),}
+\DoxyCodeLine{212                 \textcolor{stringliteral}{"{}params/sm\_dance\_bot\_warehouse\_3\_config.yaml"{}},}
+\DoxyCodeLine{213             ),}
+\DoxyCodeLine{214             os.path.join(}
+\DoxyCodeLine{215                 get\_package\_share\_directory(\textcolor{stringliteral}{"{}sm\_dance\_bot\_warehouse\_3"{}}),}
+\DoxyCodeLine{216                 \textcolor{stringliteral}{"{}params/nav2z\_client/odom\_tracker.yaml"{}},}
+\DoxyCodeLine{217             ),}
+\DoxyCodeLine{218         ],}
+\DoxyCodeLine{219         remappings=[}
+\DoxyCodeLine{220             \textcolor{comment}{\# ("{}/odom"{}, "{}/odometry/filtered"{}),}}
+\DoxyCodeLine{221             \textcolor{comment}{\# ("{}/sm\_dance\_bot\_warehouse\_3\_2/odom\_tracker/odom\_tracker\_path"{}, "{}/odom\_tracker\_path"{}),}}
+\DoxyCodeLine{222             \textcolor{comment}{\# ("{}/sm\_dance\_bot\_warehouse\_3\_2/odom\_tracker/odom\_tracker\_stacked\_path"{}, "{}/odom\_tracker\_path\_stacked"{})}}
+\DoxyCodeLine{223         ],}
+\DoxyCodeLine{224         arguments=[\textcolor{stringliteral}{"{}-\/-\/ros-\/args"{}}, \textcolor{stringliteral}{"{}-\/-\/log-\/level"{}}, \textcolor{stringliteral}{"{}INFO"{}}],}
+\DoxyCodeLine{225     )}
+\DoxyCodeLine{226 }
+\DoxyCodeLine{227     led\_action\_server\_node = Node(}
+\DoxyCodeLine{228         package=\textcolor{stringliteral}{"{}sm\_dance\_bot\_warehouse\_3"{}},}
+\DoxyCodeLine{229         executable=\textcolor{stringliteral}{"{}led\_action\_server\_node"{}},}
+\DoxyCodeLine{230         output=\textcolor{stringliteral}{"{}screen"{}},}
+\DoxyCodeLine{231         prefix=xtermprefix,}
+\DoxyCodeLine{232     )}
+\DoxyCodeLine{233 }
+\DoxyCodeLine{234     temperature\_action\_server = Node(}
+\DoxyCodeLine{235         package=\textcolor{stringliteral}{"{}sm\_dance\_bot\_warehouse\_3"{}},}
+\DoxyCodeLine{236         executable=\textcolor{stringliteral}{"{}temperature\_sensor\_node"{}},}
+\DoxyCodeLine{237         output=\textcolor{stringliteral}{"{}screen"{}},}
+\DoxyCodeLine{238         prefix=xtermprefix,}
+\DoxyCodeLine{239     )}
+\DoxyCodeLine{240 }
+\DoxyCodeLine{241     service3\_node = Node(}
+\DoxyCodeLine{242         package=\textcolor{stringliteral}{"{}sm\_dance\_bot\_warehouse\_3"{}},}
+\DoxyCodeLine{243         executable=\textcolor{stringliteral}{"{}service\_node\_3.py"{}},}
+\DoxyCodeLine{244         output=\textcolor{stringliteral}{"{}screen"{}},}
+\DoxyCodeLine{245         prefix=xtermprefix,}
+\DoxyCodeLine{246         parameters=[}
+\DoxyCodeLine{247             \{\textcolor{stringliteral}{"{}autostart"{}}: \textcolor{keyword}{True}, \textcolor{stringliteral}{"{}node\_names"{}}: [\textcolor{stringliteral}{"{}ss"{}}, \textcolor{stringliteral}{"{}dfa"{}}]\},}
+\DoxyCodeLine{248         ],}
+\DoxyCodeLine{249     )}
+\DoxyCodeLine{250 }
+\DoxyCodeLine{251     \textcolor{comment}{\# Create the launch description and populate}}
+\DoxyCodeLine{252     ld = LaunchDescription()}
+\DoxyCodeLine{253 }
+\DoxyCodeLine{254     \textcolor{comment}{\# Declare the launch options}}
+\DoxyCodeLine{255     ld.add\_action(declare\_namespace\_cmd)}
+\DoxyCodeLine{256     ld.add\_action(declare\_use\_namespace\_cmd)}
+\DoxyCodeLine{257     ld.add\_action(declare\_slam\_cmd)}
+\DoxyCodeLine{258     ld.add\_action(declare\_use\_sim\_time\_cmd)}
+\DoxyCodeLine{259     ld.add\_action(declare\_params\_file\_cmd)}
+\DoxyCodeLine{260     ld.add\_action(declare\_bt\_xml\_cmd)}
+\DoxyCodeLine{261     ld.add\_action(declare\_autostart\_cmd)}
+\DoxyCodeLine{262     ld.add\_action(declare\_map\_yaml\_cmd)}
+\DoxyCodeLine{263     ld.add\_action(declare\_show\_gz\_lidar)}
+\DoxyCodeLine{264     ld.add\_action(declare\_headless\_simulator\_argument)}
+\DoxyCodeLine{265 }
+\DoxyCodeLine{266     ld.add\_action(declare\_rviz\_config\_file\_cmd)}
+\DoxyCodeLine{267     ld.add\_action(declare\_use\_robot\_state\_pub\_cmd)}
+\DoxyCodeLine{268     ld.add\_action(declare\_use\_rviz\_cmd)}
+\DoxyCodeLine{269     ld.add\_action(gazebo\_simulator)}
+\DoxyCodeLine{270     \textcolor{comment}{\# ld.add\_action(gazebo\_husky)}}
+\DoxyCodeLine{271 }
+\DoxyCodeLine{272     ld.add\_action(sm\_dance\_bot\_warehouse\_3\_node)}
+\DoxyCodeLine{273     ld.add\_action(service3\_node)}
+\DoxyCodeLine{274     ld.add\_action(temperature\_action\_server)}
+\DoxyCodeLine{275     ld.add\_action(led\_action\_server\_node)}
+\DoxyCodeLine{276 }
+\DoxyCodeLine{277     \textcolor{comment}{\# \# Add the actions to launch all of the navigation nodes}}
+\DoxyCodeLine{278     ld.add\_action(start\_robot\_state\_publisher\_cmd)}
+\DoxyCodeLine{279     ld.add\_action(rviz\_cmd)}
+\DoxyCodeLine{280     ld.add\_action(bringup\_cmd)}
+\DoxyCodeLine{281 }
+\DoxyCodeLine{282     \textcolor{keywordflow}{return} ld}
 
 \end{DoxyCode}
