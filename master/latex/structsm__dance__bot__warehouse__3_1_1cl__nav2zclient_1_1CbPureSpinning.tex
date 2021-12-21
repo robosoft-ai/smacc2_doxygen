@@ -59,7 +59,7 @@ rclcpp\+::\+Publisher$<$ geometry\+\_\+msgs\+::msg\+::\+Twist $>$\+::Shared\+Ptr
 \doxysubsection{Detailed Description}
 
 
-Definition at line 15 of file cb\+\_\+pure\+\_\+spinning.\+hpp.
+Definition at line 34 of file cb\+\_\+pure\+\_\+spinning.\+hpp.
 
 
 
@@ -72,17 +72,17 @@ Definition at line 15 of file cb\+\_\+pure\+\_\+spinning.\+hpp.
 
 
 
-Definition at line 28 of file cb\+\_\+pure\+\_\+spinning.\+hpp.
+Definition at line 47 of file cb\+\_\+pure\+\_\+spinning.\+hpp.
 
 
 \begin{DoxyCode}{0}
-\DoxyCodeLine{29   : \mbox{\hyperlink{structsm__dance__bot__warehouse__3_1_1cl__nav2zclient_1_1CbPureSpinning_adde68462d9e7a563e9e0ce66eb51a0e0}{targetYaw\_}}(targetYaw),}
-\DoxyCodeLine{30     \mbox{\hyperlink{structsm__dance__bot__warehouse__3_1_1cl__nav2zclient_1_1CbPureSpinning_a09a9aaa29ae1355430d3096078842116}{k\_betta\_}}(1.0),}
-\DoxyCodeLine{31     \mbox{\hyperlink{structsm__dance__bot__warehouse__3_1_1cl__nav2zclient_1_1CbPureSpinning_a7b6aabbb7415d1ad04b6a267e8aceb09}{max\_angular\_yaw\_speed\_}}(max\_angular\_yaw\_speed),}
-\DoxyCodeLine{32     \mbox{\hyperlink{structsm__dance__bot__warehouse__3_1_1cl__nav2zclient_1_1CbPureSpinning_ad3531a3726dc81c5767f4e04d2afd6d6}{yaw\_goal\_tolerance\_rads\_}}(0.03)}
-\DoxyCodeLine{33   \{}
-\DoxyCodeLine{34 }
-\DoxyCodeLine{35   \}}
+\DoxyCodeLine{48   : \mbox{\hyperlink{structsm__dance__bot__warehouse__3_1_1cl__nav2zclient_1_1CbPureSpinning_adde68462d9e7a563e9e0ce66eb51a0e0}{targetYaw\_}}(targetYaw),}
+\DoxyCodeLine{49     \mbox{\hyperlink{structsm__dance__bot__warehouse__3_1_1cl__nav2zclient_1_1CbPureSpinning_a09a9aaa29ae1355430d3096078842116}{k\_betta\_}}(1.0),}
+\DoxyCodeLine{50     \mbox{\hyperlink{structsm__dance__bot__warehouse__3_1_1cl__nav2zclient_1_1CbPureSpinning_a7b6aabbb7415d1ad04b6a267e8aceb09}{max\_angular\_yaw\_speed\_}}(max\_angular\_yaw\_speed),}
+\DoxyCodeLine{51     \mbox{\hyperlink{structsm__dance__bot__warehouse__3_1_1cl__nav2zclient_1_1CbPureSpinning_ad3531a3726dc81c5767f4e04d2afd6d6}{yaw\_goal\_tolerance\_rads\_}}(0.03)}
+\DoxyCodeLine{52   \{}
+\DoxyCodeLine{53 }
+\DoxyCodeLine{54   \}}
 
 \end{DoxyCode}
 
@@ -100,72 +100,72 @@ Reimplemented from \mbox{\hyperlink{classsmacc2_1_1ISmaccClientBehavior_aca7382c
 
 
 
-Definition at line 41 of file cb\+\_\+pure\+\_\+spinning.\+hpp.
+Definition at line 60 of file cb\+\_\+pure\+\_\+spinning.\+hpp.
 
 
 \begin{DoxyCode}{0}
-\DoxyCodeLine{42   \{}
-\DoxyCodeLine{43       \textcolor{keyword}{auto} nh = this-\/>\mbox{\hyperlink{classsmacc2_1_1ISmaccClientBehavior_a95c9749af2004528fbda63ca6fde8eae}{getNode}}();}
-\DoxyCodeLine{44       \mbox{\hyperlink{structsm__dance__bot__warehouse__3_1_1cl__nav2zclient_1_1CbPureSpinning_a43ab482ec61f3e8d98d861dc011f04c0}{cmd\_vel\_pub\_}} = nh-\/>create\_publisher<geometry\_msgs::msg::Twist>(\textcolor{stringliteral}{"{}/cmd\_vel"{}}, 1);}
-\DoxyCodeLine{45 }
-\DoxyCodeLine{46       \mbox{\hyperlink{classcl__nav2z_1_1Pose}{cl\_nav2z::Pose}}* pose;}
-\DoxyCodeLine{47       this-\/>\mbox{\hyperlink{classsmacc2_1_1ISmaccClientBehavior_ad415c0418bb6b05ee5c30848bc635594}{requiresComponent}}(pose);}
-\DoxyCodeLine{48 }
-\DoxyCodeLine{49       geometry\_msgs::msg::Twist cmd\_vel;}
-\DoxyCodeLine{50       \mbox{\hyperlink{structsm__dance__bot__warehouse__3_1_1cl__nav2zclient_1_1CbPureSpinning_a74dd37294d9add1c97015e242915b838}{goalReached\_}} = \textcolor{keyword}{false};}
-\DoxyCodeLine{51 }
-\DoxyCodeLine{52       geometry\_msgs::msg::PoseStamped currentPose = pose-\/>toPoseStampedMsg();}
-\DoxyCodeLine{53 }
-\DoxyCodeLine{54       rclcpp::Rate loop\_rate(10);}
-\DoxyCodeLine{55       \textcolor{keywordtype}{double} countAngle = 0;}
-\DoxyCodeLine{56       \textcolor{keyword}{auto} prevyaw = tf2::getYaw(currentPose.pose.orientation);}
-\DoxyCodeLine{57       \textcolor{keywordflow}{while}(rclcpp::ok() \&\& !\mbox{\hyperlink{structsm__dance__bot__warehouse__3_1_1cl__nav2zclient_1_1CbPureSpinning_a74dd37294d9add1c97015e242915b838}{goalReached\_}})}
-\DoxyCodeLine{58       \{}
-\DoxyCodeLine{59         tf2::Quaternion q;}
-\DoxyCodeLine{60         currentPose = pose-\/>toPoseStampedMsg();}
-\DoxyCodeLine{61         tf2::fromMsg(currentPose.pose.orientation, q);}
-\DoxyCodeLine{62         \textcolor{keyword}{auto} currentYaw = tf2::getYaw(currentPose.pose.orientation);}
-\DoxyCodeLine{63         \textcolor{keyword}{auto} deltaAngle = angles::shortest\_angular\_distance(prevyaw, currentYaw);}
-\DoxyCodeLine{64         countAngle += deltaAngle;}
-\DoxyCodeLine{65 }
-\DoxyCodeLine{66         prevyaw = currentYaw;}
-\DoxyCodeLine{67         \textcolor{keywordtype}{double} angular\_error = \mbox{\hyperlink{structsm__dance__bot__warehouse__3_1_1cl__nav2zclient_1_1CbPureSpinning_adde68462d9e7a563e9e0ce66eb51a0e0}{targetYaw\_}} -\/ countAngle ;}
-\DoxyCodeLine{68 }
-\DoxyCodeLine{69         \textcolor{keyword}{auto} omega = angular\_error * \mbox{\hyperlink{structsm__dance__bot__warehouse__3_1_1cl__nav2zclient_1_1CbPureSpinning_a09a9aaa29ae1355430d3096078842116}{k\_betta\_}};}
-\DoxyCodeLine{70         cmd\_vel.linear.x = 0;}
-\DoxyCodeLine{71         cmd\_vel.linear.y = 0;}
-\DoxyCodeLine{72         cmd\_vel.linear.z = 0;}
-\DoxyCodeLine{73         cmd\_vel.angular.z =}
-\DoxyCodeLine{74           std::min(std::max(omega, -\/fabs(\mbox{\hyperlink{structsm__dance__bot__warehouse__3_1_1cl__nav2zclient_1_1CbPureSpinning_a7b6aabbb7415d1ad04b6a267e8aceb09}{max\_angular\_yaw\_speed\_}})), fabs(\mbox{\hyperlink{structsm__dance__bot__warehouse__3_1_1cl__nav2zclient_1_1CbPureSpinning_a7b6aabbb7415d1ad04b6a267e8aceb09}{max\_angular\_yaw\_speed\_}}));}
-\DoxyCodeLine{75 }
-\DoxyCodeLine{76         RCLCPP\_INFO\_STREAM(\mbox{\hyperlink{classsmacc2_1_1ISmaccClientBehavior_a5474074c4b45e900499e30126fb8415c}{getLogger}}(), \textcolor{stringliteral}{"{}["{}}<<\mbox{\hyperlink{classsmacc2_1_1ISmaccClientBehavior_a3feaa9c382a7d376b7ba0017a63e294e}{getName}}() << \textcolor{stringliteral}{"{}] delta angle: "{}} << deltaAngle);}
-\DoxyCodeLine{77         RCLCPP\_INFO\_STREAM(\mbox{\hyperlink{classsmacc2_1_1ISmaccClientBehavior_a5474074c4b45e900499e30126fb8415c}{getLogger}}(), \textcolor{stringliteral}{"{}["{}}<<\mbox{\hyperlink{classsmacc2_1_1ISmaccClientBehavior_a3feaa9c382a7d376b7ba0017a63e294e}{getName}}() << \textcolor{stringliteral}{"{}] cummulated angle: "{}} << countAngle);}
-\DoxyCodeLine{78         RCLCPP\_INFO\_STREAM(\mbox{\hyperlink{classsmacc2_1_1ISmaccClientBehavior_a5474074c4b45e900499e30126fb8415c}{getLogger}}(), \textcolor{stringliteral}{"{}["{}}<<\mbox{\hyperlink{classsmacc2_1_1ISmaccClientBehavior_a3feaa9c382a7d376b7ba0017a63e294e}{getName}}() << \textcolor{stringliteral}{"{}] k\_betta\_: "{}} << \mbox{\hyperlink{structsm__dance__bot__warehouse__3_1_1cl__nav2zclient_1_1CbPureSpinning_a09a9aaa29ae1355430d3096078842116}{k\_betta\_}});}
-\DoxyCodeLine{79 }
-\DoxyCodeLine{80         RCLCPP\_INFO\_STREAM(}
-\DoxyCodeLine{81           \mbox{\hyperlink{classsmacc2_1_1ISmaccClientBehavior_a5474074c4b45e900499e30126fb8415c}{getLogger}}(), \textcolor{stringliteral}{"{}["{}}<<\mbox{\hyperlink{classsmacc2_1_1ISmaccClientBehavior_a3feaa9c382a7d376b7ba0017a63e294e}{getName}}() << \textcolor{stringliteral}{"{}] angular error: "{}} << angular\_error << \textcolor{stringliteral}{"{}("{}}}
-\DoxyCodeLine{82                                                                           << \mbox{\hyperlink{structsm__dance__bot__warehouse__3_1_1cl__nav2zclient_1_1CbPureSpinning_ad3531a3726dc81c5767f4e04d2afd6d6}{yaw\_goal\_tolerance\_rads\_}} << \textcolor{stringliteral}{"{})"{}});}
-\DoxyCodeLine{83         RCLCPP\_INFO\_STREAM(}
-\DoxyCodeLine{84           \mbox{\hyperlink{classsmacc2_1_1ISmaccClientBehavior_a5474074c4b45e900499e30126fb8415c}{getLogger}}(),}
-\DoxyCodeLine{85           \textcolor{stringliteral}{"{}["{}}<<\mbox{\hyperlink{classsmacc2_1_1ISmaccClientBehavior_a3feaa9c382a7d376b7ba0017a63e294e}{getName}}() << \textcolor{stringliteral}{"{}] command angular speed: "{}} << cmd\_vel.angular.z);}
-\DoxyCodeLine{86 }
-\DoxyCodeLine{87         \textcolor{keywordflow}{if} (fabs(angular\_error) < \mbox{\hyperlink{structsm__dance__bot__warehouse__3_1_1cl__nav2zclient_1_1CbPureSpinning_ad3531a3726dc81c5767f4e04d2afd6d6}{yaw\_goal\_tolerance\_rads\_}})}
-\DoxyCodeLine{88         \{}
-\DoxyCodeLine{89           RCLCPP\_INFO\_STREAM(}
-\DoxyCodeLine{90             \mbox{\hyperlink{classsmacc2_1_1ISmaccClientBehavior_a5474074c4b45e900499e30126fb8415c}{getLogger}}(), \textcolor{stringliteral}{"{}["{}}<<\mbox{\hyperlink{classsmacc2_1_1ISmaccClientBehavior_a3feaa9c382a7d376b7ba0017a63e294e}{getName}}() << \textcolor{stringliteral}{"{}] GOAL REACHED. Sending stop command."{}});}
-\DoxyCodeLine{91           \mbox{\hyperlink{structsm__dance__bot__warehouse__3_1_1cl__nav2zclient_1_1CbPureSpinning_a74dd37294d9add1c97015e242915b838}{goalReached\_}} = \textcolor{keyword}{true};}
-\DoxyCodeLine{92           cmd\_vel.linear.x = 0;}
-\DoxyCodeLine{93           cmd\_vel.angular.z = 0;}
-\DoxyCodeLine{94           \textcolor{keywordflow}{break};}
-\DoxyCodeLine{95         \}}
-\DoxyCodeLine{96 }
-\DoxyCodeLine{97         this-\/>\mbox{\hyperlink{structsm__dance__bot__warehouse__3_1_1cl__nav2zclient_1_1CbPureSpinning_a43ab482ec61f3e8d98d861dc011f04c0}{cmd\_vel\_pub\_}}-\/>publish(cmd\_vel);}
+\DoxyCodeLine{61   \{}
+\DoxyCodeLine{62       \textcolor{keyword}{auto} nh = this-\/>\mbox{\hyperlink{classsmacc2_1_1ISmaccClientBehavior_a95c9749af2004528fbda63ca6fde8eae}{getNode}}();}
+\DoxyCodeLine{63       \mbox{\hyperlink{structsm__dance__bot__warehouse__3_1_1cl__nav2zclient_1_1CbPureSpinning_a43ab482ec61f3e8d98d861dc011f04c0}{cmd\_vel\_pub\_}} = nh-\/>create\_publisher<geometry\_msgs::msg::Twist>(\textcolor{stringliteral}{"{}/cmd\_vel"{}}, 1);}
+\DoxyCodeLine{64 }
+\DoxyCodeLine{65       \mbox{\hyperlink{classcl__nav2z_1_1Pose}{cl\_nav2z::Pose}}* pose;}
+\DoxyCodeLine{66       this-\/>\mbox{\hyperlink{classsmacc2_1_1ISmaccClientBehavior_ad415c0418bb6b05ee5c30848bc635594}{requiresComponent}}(pose);}
+\DoxyCodeLine{67 }
+\DoxyCodeLine{68       geometry\_msgs::msg::Twist cmd\_vel;}
+\DoxyCodeLine{69       \mbox{\hyperlink{structsm__dance__bot__warehouse__3_1_1cl__nav2zclient_1_1CbPureSpinning_a74dd37294d9add1c97015e242915b838}{goalReached\_}} = \textcolor{keyword}{false};}
+\DoxyCodeLine{70 }
+\DoxyCodeLine{71       geometry\_msgs::msg::PoseStamped currentPose = pose-\/>toPoseStampedMsg();}
+\DoxyCodeLine{72 }
+\DoxyCodeLine{73       rclcpp::Rate loop\_rate(10);}
+\DoxyCodeLine{74       \textcolor{keywordtype}{double} countAngle = 0;}
+\DoxyCodeLine{75       \textcolor{keyword}{auto} prevyaw = tf2::getYaw(currentPose.pose.orientation);}
+\DoxyCodeLine{76       \textcolor{keywordflow}{while}(rclcpp::ok() \&\& !\mbox{\hyperlink{structsm__dance__bot__warehouse__3_1_1cl__nav2zclient_1_1CbPureSpinning_a74dd37294d9add1c97015e242915b838}{goalReached\_}})}
+\DoxyCodeLine{77       \{}
+\DoxyCodeLine{78         tf2::Quaternion q;}
+\DoxyCodeLine{79         currentPose = pose-\/>toPoseStampedMsg();}
+\DoxyCodeLine{80         tf2::fromMsg(currentPose.pose.orientation, q);}
+\DoxyCodeLine{81         \textcolor{keyword}{auto} currentYaw = tf2::getYaw(currentPose.pose.orientation);}
+\DoxyCodeLine{82         \textcolor{keyword}{auto} deltaAngle = angles::shortest\_angular\_distance(prevyaw, currentYaw);}
+\DoxyCodeLine{83         countAngle += deltaAngle;}
+\DoxyCodeLine{84 }
+\DoxyCodeLine{85         prevyaw = currentYaw;}
+\DoxyCodeLine{86         \textcolor{keywordtype}{double} angular\_error = \mbox{\hyperlink{structsm__dance__bot__warehouse__3_1_1cl__nav2zclient_1_1CbPureSpinning_adde68462d9e7a563e9e0ce66eb51a0e0}{targetYaw\_}} -\/ countAngle ;}
+\DoxyCodeLine{87 }
+\DoxyCodeLine{88         \textcolor{keyword}{auto} omega = angular\_error * \mbox{\hyperlink{structsm__dance__bot__warehouse__3_1_1cl__nav2zclient_1_1CbPureSpinning_a09a9aaa29ae1355430d3096078842116}{k\_betta\_}};}
+\DoxyCodeLine{89         cmd\_vel.linear.x = 0;}
+\DoxyCodeLine{90         cmd\_vel.linear.y = 0;}
+\DoxyCodeLine{91         cmd\_vel.linear.z = 0;}
+\DoxyCodeLine{92         cmd\_vel.angular.z =}
+\DoxyCodeLine{93           std::min(std::max(omega, -\/fabs(\mbox{\hyperlink{structsm__dance__bot__warehouse__3_1_1cl__nav2zclient_1_1CbPureSpinning_a7b6aabbb7415d1ad04b6a267e8aceb09}{max\_angular\_yaw\_speed\_}})), fabs(\mbox{\hyperlink{structsm__dance__bot__warehouse__3_1_1cl__nav2zclient_1_1CbPureSpinning_a7b6aabbb7415d1ad04b6a267e8aceb09}{max\_angular\_yaw\_speed\_}}));}
+\DoxyCodeLine{94 }
+\DoxyCodeLine{95         RCLCPP\_INFO\_STREAM(\mbox{\hyperlink{classsmacc2_1_1ISmaccClientBehavior_a5474074c4b45e900499e30126fb8415c}{getLogger}}(), \textcolor{stringliteral}{"{}["{}}<<\mbox{\hyperlink{classsmacc2_1_1ISmaccClientBehavior_a3feaa9c382a7d376b7ba0017a63e294e}{getName}}() << \textcolor{stringliteral}{"{}] delta angle: "{}} << deltaAngle);}
+\DoxyCodeLine{96         RCLCPP\_INFO\_STREAM(\mbox{\hyperlink{classsmacc2_1_1ISmaccClientBehavior_a5474074c4b45e900499e30126fb8415c}{getLogger}}(), \textcolor{stringliteral}{"{}["{}}<<\mbox{\hyperlink{classsmacc2_1_1ISmaccClientBehavior_a3feaa9c382a7d376b7ba0017a63e294e}{getName}}() << \textcolor{stringliteral}{"{}] cummulated angle: "{}} << countAngle);}
+\DoxyCodeLine{97         RCLCPP\_INFO\_STREAM(\mbox{\hyperlink{classsmacc2_1_1ISmaccClientBehavior_a5474074c4b45e900499e30126fb8415c}{getLogger}}(), \textcolor{stringliteral}{"{}["{}}<<\mbox{\hyperlink{classsmacc2_1_1ISmaccClientBehavior_a3feaa9c382a7d376b7ba0017a63e294e}{getName}}() << \textcolor{stringliteral}{"{}] k\_betta\_: "{}} << \mbox{\hyperlink{structsm__dance__bot__warehouse__3_1_1cl__nav2zclient_1_1CbPureSpinning_a09a9aaa29ae1355430d3096078842116}{k\_betta\_}});}
 \DoxyCodeLine{98 }
-\DoxyCodeLine{99         loop\_rate.sleep();}
-\DoxyCodeLine{100     \}}
-\DoxyCodeLine{101 }
-\DoxyCodeLine{102     this-\/>\mbox{\hyperlink{classsmacc2_1_1SmaccAsyncClientBehavior_a2fb4de26d011fbbb55bc1bbaed2e6f5b}{postSuccessEvent}}();}
-\DoxyCodeLine{103   \}}
+\DoxyCodeLine{99         RCLCPP\_INFO\_STREAM(}
+\DoxyCodeLine{100           \mbox{\hyperlink{classsmacc2_1_1ISmaccClientBehavior_a5474074c4b45e900499e30126fb8415c}{getLogger}}(), \textcolor{stringliteral}{"{}["{}}<<\mbox{\hyperlink{classsmacc2_1_1ISmaccClientBehavior_a3feaa9c382a7d376b7ba0017a63e294e}{getName}}() << \textcolor{stringliteral}{"{}] angular error: "{}} << angular\_error << \textcolor{stringliteral}{"{}("{}}}
+\DoxyCodeLine{101                                                                           << \mbox{\hyperlink{structsm__dance__bot__warehouse__3_1_1cl__nav2zclient_1_1CbPureSpinning_ad3531a3726dc81c5767f4e04d2afd6d6}{yaw\_goal\_tolerance\_rads\_}} << \textcolor{stringliteral}{"{})"{}});}
+\DoxyCodeLine{102         RCLCPP\_INFO\_STREAM(}
+\DoxyCodeLine{103           \mbox{\hyperlink{classsmacc2_1_1ISmaccClientBehavior_a5474074c4b45e900499e30126fb8415c}{getLogger}}(),}
+\DoxyCodeLine{104           \textcolor{stringliteral}{"{}["{}}<<\mbox{\hyperlink{classsmacc2_1_1ISmaccClientBehavior_a3feaa9c382a7d376b7ba0017a63e294e}{getName}}() << \textcolor{stringliteral}{"{}] command angular speed: "{}} << cmd\_vel.angular.z);}
+\DoxyCodeLine{105 }
+\DoxyCodeLine{106         \textcolor{keywordflow}{if} (fabs(angular\_error) < \mbox{\hyperlink{structsm__dance__bot__warehouse__3_1_1cl__nav2zclient_1_1CbPureSpinning_ad3531a3726dc81c5767f4e04d2afd6d6}{yaw\_goal\_tolerance\_rads\_}})}
+\DoxyCodeLine{107         \{}
+\DoxyCodeLine{108           RCLCPP\_INFO\_STREAM(}
+\DoxyCodeLine{109             \mbox{\hyperlink{classsmacc2_1_1ISmaccClientBehavior_a5474074c4b45e900499e30126fb8415c}{getLogger}}(), \textcolor{stringliteral}{"{}["{}}<<\mbox{\hyperlink{classsmacc2_1_1ISmaccClientBehavior_a3feaa9c382a7d376b7ba0017a63e294e}{getName}}() << \textcolor{stringliteral}{"{}] GOAL REACHED. Sending stop command."{}});}
+\DoxyCodeLine{110           \mbox{\hyperlink{structsm__dance__bot__warehouse__3_1_1cl__nav2zclient_1_1CbPureSpinning_a74dd37294d9add1c97015e242915b838}{goalReached\_}} = \textcolor{keyword}{true};}
+\DoxyCodeLine{111           cmd\_vel.linear.x = 0;}
+\DoxyCodeLine{112           cmd\_vel.angular.z = 0;}
+\DoxyCodeLine{113           \textcolor{keywordflow}{break};}
+\DoxyCodeLine{114         \}}
+\DoxyCodeLine{115 }
+\DoxyCodeLine{116         this-\/>\mbox{\hyperlink{structsm__dance__bot__warehouse__3_1_1cl__nav2zclient_1_1CbPureSpinning_a43ab482ec61f3e8d98d861dc011f04c0}{cmd\_vel\_pub\_}}-\/>publish(cmd\_vel);}
+\DoxyCodeLine{117 }
+\DoxyCodeLine{118         loop\_rate.sleep();}
+\DoxyCodeLine{119     \}}
+\DoxyCodeLine{120 }
+\DoxyCodeLine{121     this-\/>\mbox{\hyperlink{classsmacc2_1_1SmaccAsyncClientBehavior_a2fb4de26d011fbbb55bc1bbaed2e6f5b}{postSuccessEvent}}();}
+\DoxyCodeLine{122   \}}
 
 \end{DoxyCode}
 
@@ -192,12 +192,12 @@ Reimplemented from \mbox{\hyperlink{classsmacc2_1_1ISmaccClientBehavior_a52b767b
 
 
 
-Definition at line 105 of file cb\+\_\+pure\+\_\+spinning.\+hpp.
+Definition at line 124 of file cb\+\_\+pure\+\_\+spinning.\+hpp.
 
 
 \begin{DoxyCode}{0}
-\DoxyCodeLine{106   \{}
-\DoxyCodeLine{107   \}}
+\DoxyCodeLine{125   \{}
+\DoxyCodeLine{126   \}}
 
 \end{DoxyCode}
 \mbox{\Hypertarget{structsm__dance__bot__warehouse__3_1_1cl__nav2zclient_1_1CbPureSpinning_ada6790b00c63d738c526c038690bc4ab}\label{structsm__dance__bot__warehouse__3_1_1cl__nav2zclient_1_1CbPureSpinning_ada6790b00c63d738c526c038690bc4ab}} 
@@ -208,12 +208,12 @@ Definition at line 105 of file cb\+\_\+pure\+\_\+spinning.\+hpp.
 
 
 
-Definition at line 37 of file cb\+\_\+pure\+\_\+spinning.\+hpp.
+Definition at line 56 of file cb\+\_\+pure\+\_\+spinning.\+hpp.
 
 
 \begin{DoxyCode}{0}
-\DoxyCodeLine{38   \{}
-\DoxyCodeLine{39   \}}
+\DoxyCodeLine{57   \{}
+\DoxyCodeLine{58   \}}
 
 \end{DoxyCode}
 
@@ -227,7 +227,7 @@ Definition at line 37 of file cb\+\_\+pure\+\_\+spinning.\+hpp.
 
 
 
-Definition at line 23 of file cb\+\_\+pure\+\_\+spinning.\+hpp.
+Definition at line 42 of file cb\+\_\+pure\+\_\+spinning.\+hpp.
 
 \mbox{\Hypertarget{structsm__dance__bot__warehouse__3_1_1cl__nav2zclient_1_1CbPureSpinning_a74dd37294d9add1c97015e242915b838}\label{structsm__dance__bot__warehouse__3_1_1cl__nav2zclient_1_1CbPureSpinning_a74dd37294d9add1c97015e242915b838}} 
 \index{sm\_dance\_bot\_warehouse\_3::cl\_nav2zclient::CbPureSpinning@{sm\_dance\_bot\_warehouse\_3::cl\_nav2zclient::CbPureSpinning}!goalReached\_@{goalReached\_}}
@@ -237,7 +237,7 @@ Definition at line 23 of file cb\+\_\+pure\+\_\+spinning.\+hpp.
 
 
 
-Definition at line 19 of file cb\+\_\+pure\+\_\+spinning.\+hpp.
+Definition at line 38 of file cb\+\_\+pure\+\_\+spinning.\+hpp.
 
 
 
@@ -251,7 +251,7 @@ Referenced by on\+Entry().
 
 
 
-Definition at line 20 of file cb\+\_\+pure\+\_\+spinning.\+hpp.
+Definition at line 39 of file cb\+\_\+pure\+\_\+spinning.\+hpp.
 
 
 
@@ -265,7 +265,7 @@ Referenced by on\+Entry().
 
 
 
-Definition at line 21 of file cb\+\_\+pure\+\_\+spinning.\+hpp.
+Definition at line 40 of file cb\+\_\+pure\+\_\+spinning.\+hpp.
 
 
 
@@ -279,7 +279,7 @@ Referenced by on\+Entry().
 
 
 
-Definition at line 18 of file cb\+\_\+pure\+\_\+spinning.\+hpp.
+Definition at line 37 of file cb\+\_\+pure\+\_\+spinning.\+hpp.
 
 
 
@@ -293,7 +293,7 @@ Referenced by on\+Entry().
 
 
 
-Definition at line 26 of file cb\+\_\+pure\+\_\+spinning.\+hpp.
+Definition at line 45 of file cb\+\_\+pure\+\_\+spinning.\+hpp.
 
 
 
