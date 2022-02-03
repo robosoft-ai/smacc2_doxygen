@@ -129,69 +129,67 @@ $(function() {
 <div class="line"><a name="l00058"></a><span class="lineno">   58</span>&#160;    <span class="comment">//auto fwdist = scanmsg.ranges[scanmsg.ranges.size() / 2] /*meter*/;</span></div>
 <div class="line"><a name="l00059"></a><span class="lineno">   59</span>&#160;    <span class="keyword">auto</span> fwdist = lastScanMessage_.ranges[0] <span class="comment">/*meter*/</span>;</div>
 <div class="line"><a name="l00060"></a><span class="lineno">   60</span>&#160; </div>
-<div class="line"><a name="l00061"></a><span class="lineno">   61</span>&#160;<span class="comment">//     RCLCPP_INFO_STREAM(getLogger(), &quot;[&quot; &lt;&lt; getName() &lt;&lt; &quot;] ranges[0]&quot; &lt;&lt; ss.str());</span></div>
-<div class="line"><a name="l00062"></a><span class="lineno">   62</span>&#160; </div>
-<div class="line"><a name="l00063"></a><span class="lineno">   63</span>&#160;    std::stringstream ss;</div>
-<div class="line"><a name="l00064"></a><span class="lineno">   64</span>&#160;    <span class="comment">//check rays around main ray</span></div>
-<div class="line"><a name="l00065"></a><span class="lineno">   65</span>&#160;    <span class="keywordflow">for</span> (<span class="keywordtype">int</span> i = 0; i &lt; raysWidthCount; i++)</div>
-<div class="line"><a name="l00066"></a><span class="lineno">   66</span>&#160;    {</div>
-<div class="line"><a name="l00067"></a><span class="lineno">   67</span>&#160;      <span class="comment">// int baseindex = 0;</span></div>
-<div class="line"><a name="l00068"></a><span class="lineno">   68</span>&#160;      <span class="keywordtype">int</span> scanindex =  (- raysWidthCount / 2 + i) % raysWidthCount;</div>
-<div class="line"><a name="l00069"></a><span class="lineno">   69</span>&#160; </div>
-<div class="line"><a name="l00070"></a><span class="lineno">   70</span>&#160;      <span class="keywordflow">if</span>(scanindex &lt; 0)</div>
-<div class="line"><a name="l00071"></a><span class="lineno">   71</span>&#160;      {</div>
-<div class="line"><a name="l00072"></a><span class="lineno">   72</span>&#160;        scanindex = lastScanMessage_.ranges.size() + scanindex;</div>
-<div class="line"><a name="l00073"></a><span class="lineno">   73</span>&#160;      }</div>
+<div class="line"><a name="l00061"></a><span class="lineno">   61</span>&#160;    std::stringstream ss;</div>
+<div class="line"><a name="l00062"></a><span class="lineno">   62</span>&#160;    <span class="comment">//check rays around main ray</span></div>
+<div class="line"><a name="l00063"></a><span class="lineno">   63</span>&#160;    <span class="keywordflow">for</span> (<span class="keywordtype">int</span> i = 0; i &lt; raysWidthCount; i++)</div>
+<div class="line"><a name="l00064"></a><span class="lineno">   64</span>&#160;    {</div>
+<div class="line"><a name="l00065"></a><span class="lineno">   65</span>&#160;      <span class="comment">// int baseindex = 0;</span></div>
+<div class="line"><a name="l00066"></a><span class="lineno">   66</span>&#160;      <span class="keywordtype">int</span> scanindex =  (- raysWidthCount / 2 + i) % raysWidthCount;</div>
+<div class="line"><a name="l00067"></a><span class="lineno">   67</span>&#160; </div>
+<div class="line"><a name="l00068"></a><span class="lineno">   68</span>&#160;      <span class="keywordflow">if</span>(scanindex &lt; 0)</div>
+<div class="line"><a name="l00069"></a><span class="lineno">   69</span>&#160;      {</div>
+<div class="line"><a name="l00070"></a><span class="lineno">   70</span>&#160;        scanindex = lastScanMessage_.ranges.size() + scanindex;</div>
+<div class="line"><a name="l00071"></a><span class="lineno">   71</span>&#160;      }</div>
+<div class="line"><a name="l00072"></a><span class="lineno">   72</span>&#160; </div>
+<div class="line"><a name="l00073"></a><span class="lineno">   73</span>&#160;      <span class="keywordtype">float</span> fwdist2 = lastScanMessage_.ranges[scanindex];</div>
 <div class="line"><a name="l00074"></a><span class="lineno">   74</span>&#160; </div>
-<div class="line"><a name="l00075"></a><span class="lineno">   75</span>&#160;      <span class="keywordtype">float</span> fwdist2 = lastScanMessage_.ranges[scanindex];</div>
-<div class="line"><a name="l00076"></a><span class="lineno">   76</span>&#160; </div>
-<div class="line"><a name="l00077"></a><span class="lineno">   77</span>&#160;      RCLCPP_INFO_STREAM(</div>
-<div class="line"><a name="l00078"></a><span class="lineno">   78</span>&#160;        getLogger(), <span class="stringliteral">&quot;[&quot;</span> &lt;&lt; getName() &lt;&lt; <span class="stringliteral">&quot;]&quot;</span></div>
-<div class="line"><a name="l00079"></a><span class="lineno">   79</span>&#160;                         &lt;&lt; <span class="stringliteral">&quot;range[&quot;</span> &lt;&lt; scanindex &lt;&lt; <span class="stringliteral">&quot;] = &quot;</span> &lt;&lt; fwdist2);</div>
-<div class="line"><a name="l00080"></a><span class="lineno">   80</span>&#160; </div>
-<div class="line"><a name="l00081"></a><span class="lineno">   81</span>&#160;      <span class="keywordflow">if</span> (fwdist2 &gt; 0.01 &amp;&amp; fwdist2 &lt; fwdist)</div>
-<div class="line"><a name="l00082"></a><span class="lineno">   82</span>&#160;      {</div>
-<div class="line"><a name="l00083"></a><span class="lineno">   83</span>&#160;        RCLCPP_INFO_STREAM(</div>
-<div class="line"><a name="l00084"></a><span class="lineno">   84</span>&#160;          getLogger(), <span class="stringliteral">&quot;[&quot;</span> &lt;&lt; getName() &lt;&lt; <span class="stringliteral">&quot;]&quot;</span></div>
-<div class="line"><a name="l00085"></a><span class="lineno">   85</span>&#160;                           &lt;&lt; <span class="stringliteral">&quot;updated range[0] = &quot;</span> &lt;&lt; fwdist2);</div>
-<div class="line"><a name="l00086"></a><span class="lineno">   86</span>&#160; </div>
-<div class="line"><a name="l00087"></a><span class="lineno">   87</span>&#160;        fwdist = fwdist2;</div>
-<div class="line"><a name="l00088"></a><span class="lineno">   88</span>&#160;      }</div>
-<div class="line"><a name="l00089"></a><span class="lineno">   89</span>&#160;    }</div>
+<div class="line"><a name="l00075"></a><span class="lineno">   75</span>&#160;      RCLCPP_INFO_STREAM(</div>
+<div class="line"><a name="l00076"></a><span class="lineno">   76</span>&#160;        getLogger(), <span class="stringliteral">&quot;[&quot;</span> &lt;&lt; getName() &lt;&lt; <span class="stringliteral">&quot;]&quot;</span></div>
+<div class="line"><a name="l00077"></a><span class="lineno">   77</span>&#160;                         &lt;&lt; <span class="stringliteral">&quot;range[&quot;</span> &lt;&lt; scanindex &lt;&lt; <span class="stringliteral">&quot;] = &quot;</span> &lt;&lt; fwdist2);</div>
+<div class="line"><a name="l00078"></a><span class="lineno">   78</span>&#160; </div>
+<div class="line"><a name="l00079"></a><span class="lineno">   79</span>&#160;      <span class="keywordflow">if</span> (fwdist2 &gt; 0.01 &amp;&amp; fwdist2 &lt; fwdist)</div>
+<div class="line"><a name="l00080"></a><span class="lineno">   80</span>&#160;      {</div>
+<div class="line"><a name="l00081"></a><span class="lineno">   81</span>&#160;        RCLCPP_INFO_STREAM(</div>
+<div class="line"><a name="l00082"></a><span class="lineno">   82</span>&#160;          getLogger(), <span class="stringliteral">&quot;[&quot;</span> &lt;&lt; getName() &lt;&lt; <span class="stringliteral">&quot;]&quot;</span></div>
+<div class="line"><a name="l00083"></a><span class="lineno">   83</span>&#160;                           &lt;&lt; <span class="stringliteral">&quot;updated range[0] = &quot;</span> &lt;&lt; fwdist2);</div>
+<div class="line"><a name="l00084"></a><span class="lineno">   84</span>&#160; </div>
+<div class="line"><a name="l00085"></a><span class="lineno">   85</span>&#160;        fwdist = fwdist2;</div>
+<div class="line"><a name="l00086"></a><span class="lineno">   86</span>&#160;      }</div>
+<div class="line"><a name="l00087"></a><span class="lineno">   87</span>&#160;    }</div>
+<div class="line"><a name="l00088"></a><span class="lineno">   88</span>&#160; </div>
+<div class="line"><a name="l00089"></a><span class="lineno">   89</span>&#160;    RCLCPP_INFO_STREAM(getLogger(), <span class="stringliteral">&quot;[&quot;</span> &lt;&lt; getName() &lt;&lt; <span class="stringliteral">&quot;]&quot;</span> &lt;&lt; ss.str());</div>
 <div class="line"><a name="l00090"></a><span class="lineno">   90</span>&#160; </div>
-<div class="line"><a name="l00091"></a><span class="lineno">   91</span>&#160;    RCLCPP_INFO_STREAM(getLogger(), <span class="stringliteral">&quot;[&quot;</span> &lt;&lt; getName() &lt;&lt; <span class="stringliteral">&quot;]&quot;</span> &lt;&lt; ss.str());</div>
-<div class="line"><a name="l00092"></a><span class="lineno">   92</span>&#160; </div>
-<div class="line"><a name="l00093"></a><span class="lineno">   93</span>&#160;    <span class="comment">/*if the distance is infinity or nan, use max range distance*/</span></div>
-<div class="line"><a name="l00094"></a><span class="lineno">   94</span>&#160;    <span class="keywordflow">if</span> (fwdist == std::numeric_limits&lt;float&gt;::infinity() || fwdist != fwdist)</div>
-<div class="line"><a name="l00095"></a><span class="lineno">   95</span>&#160;    {</div>
-<div class="line"><a name="l00096"></a><span class="lineno">   96</span>&#160;      fwdist = lastScanMessage_.range_max - SECURITY_DISTANCE <span class="comment">/*meters*/</span>;</div>
-<div class="line"><a name="l00097"></a><span class="lineno">   97</span>&#160;      RCLCPP_INFO_THROTTLE(</div>
-<div class="line"><a name="l00098"></a><span class="lineno">   98</span>&#160;        getLogger(), *(getNode()-&gt;get_clock()), 1000,</div>
-<div class="line"><a name="l00099"></a><span class="lineno">   99</span>&#160;        <span class="stringliteral">&quot;[CpForwardObstacleDetector] Distance to forward obstacle is not a number, setting default value &quot;</span></div>
-<div class="line"><a name="l00100"></a><span class="lineno">  100</span>&#160;        <span class="stringliteral">&quot;to: %lf&quot;</span>,</div>
-<div class="line"><a name="l00101"></a><span class="lineno">  101</span>&#160;        lastScanMessage_.range_max);</div>
-<div class="line"><a name="l00102"></a><span class="lineno">  102</span>&#160;    }</div>
-<div class="line"><a name="l00103"></a><span class="lineno">  103</span>&#160;    <span class="keywordflow">else</span></div>
-<div class="line"><a name="l00104"></a><span class="lineno">  104</span>&#160;    {</div>
+<div class="line"><a name="l00091"></a><span class="lineno">   91</span>&#160;    <span class="comment">/*if the distance is infinity or nan, use max range distance*/</span></div>
+<div class="line"><a name="l00092"></a><span class="lineno">   92</span>&#160;    <span class="keywordflow">if</span> (fwdist == std::numeric_limits&lt;float&gt;::infinity() || fwdist != fwdist)</div>
+<div class="line"><a name="l00093"></a><span class="lineno">   93</span>&#160;    {</div>
+<div class="line"><a name="l00094"></a><span class="lineno">   94</span>&#160;      fwdist = lastScanMessage_.range_max - SECURITY_DISTANCE <span class="comment">/*meters*/</span>;</div>
+<div class="line"><a name="l00095"></a><span class="lineno">   95</span>&#160;      RCLCPP_INFO_THROTTLE(</div>
+<div class="line"><a name="l00096"></a><span class="lineno">   96</span>&#160;        getLogger(), *(getNode()-&gt;get_clock()), 1000,</div>
+<div class="line"><a name="l00097"></a><span class="lineno">   97</span>&#160;        <span class="stringliteral">&quot;[CpForwardObstacleDetector] Distance to forward obstacle is not a number, setting default value &quot;</span></div>
+<div class="line"><a name="l00098"></a><span class="lineno">   98</span>&#160;        <span class="stringliteral">&quot;to: %lf&quot;</span>,</div>
+<div class="line"><a name="l00099"></a><span class="lineno">   99</span>&#160;        lastScanMessage_.range_max);</div>
+<div class="line"><a name="l00100"></a><span class="lineno">  100</span>&#160;    }</div>
+<div class="line"><a name="l00101"></a><span class="lineno">  101</span>&#160;    <span class="keywordflow">else</span></div>
+<div class="line"><a name="l00102"></a><span class="lineno">  102</span>&#160;    {</div>
+<div class="line"><a name="l00103"></a><span class="lineno">  103</span>&#160;      RCLCPP_INFO_STREAM(getLogger(), <span class="stringliteral">&quot;[&quot;</span> &lt;&lt; getName() &lt;&lt; <span class="stringliteral">&quot;] fwdist: &quot;</span> &lt;&lt; fwdist);</div>
+<div class="line"><a name="l00104"></a><span class="lineno">  104</span>&#160;      fwdist = std::max(fwdist - SECURITY_DISTANCE, 0.0F);</div>
 <div class="line"><a name="l00105"></a><span class="lineno">  105</span>&#160;      RCLCPP_INFO_STREAM(getLogger(), <span class="stringliteral">&quot;[&quot;</span> &lt;&lt; getName() &lt;&lt; <span class="stringliteral">&quot;] fwdist: &quot;</span> &lt;&lt; fwdist);</div>
-<div class="line"><a name="l00106"></a><span class="lineno">  106</span>&#160;      fwdist = std::max(fwdist - SECURITY_DISTANCE, 0.0F);</div>
-<div class="line"><a name="l00107"></a><span class="lineno">  107</span>&#160;      RCLCPP_INFO_STREAM(getLogger(), <span class="stringliteral">&quot;[&quot;</span> &lt;&lt; getName() &lt;&lt; <span class="stringliteral">&quot;] fwdist: &quot;</span> &lt;&lt; fwdist);</div>
-<div class="line"><a name="l00108"></a><span class="lineno">  108</span>&#160;    }</div>
-<div class="line"><a name="l00109"></a><span class="lineno">  109</span>&#160; </div>
-<div class="line"><a name="l00110"></a><span class="lineno">  110</span>&#160;    <span class="keywordflow">return</span> fwdist;</div>
-<div class="line"><a name="l00111"></a><span class="lineno">  111</span>&#160;  }</div>
-<div class="line"><a name="l00112"></a><span class="lineno">  112</span>&#160; </div>
-<div class="line"><a name="l00113"></a><span class="lineno"><a class="line" href="classsm__dance__bot__warehouse__3_1_1cl__lidar_1_1CpForwardObstacleDetector.html#a9bcc75e712c23d14d6a2fb7736cccaba">  113</a></span>&#160;  <span class="keywordtype">void</span> <a class="code" href="classsm__dance__bot__warehouse__3_1_1cl__lidar_1_1CpForwardObstacleDetector.html#a9bcc75e712c23d14d6a2fb7736cccaba">MessageCallbackStoreDistanceToWall</a>(<span class="keyword">const</span> sensor_msgs::msg::LaserScan &amp; scanmsg)</div>
-<div class="line"><a name="l00114"></a><span class="lineno">  114</span>&#160;  {</div>
-<div class="line"><a name="l00115"></a><span class="lineno">  115</span>&#160;    this-&gt;lastScanMessage_ = scanmsg;</div>
-<div class="line"><a name="l00116"></a><span class="lineno">  116</span>&#160;  }</div>
-<div class="line"><a name="l00117"></a><span class="lineno">  117</span>&#160;};</div>
-<div class="line"><a name="l00118"></a><span class="lineno">  118</span>&#160;}  <span class="comment">// namespace cl_lidar</span></div>
-<div class="line"><a name="l00119"></a><span class="lineno">  119</span>&#160;}  <span class="comment">// namespace sm_dance_bot_warehouse_3</span></div>
+<div class="line"><a name="l00106"></a><span class="lineno">  106</span>&#160;    }</div>
+<div class="line"><a name="l00107"></a><span class="lineno">  107</span>&#160; </div>
+<div class="line"><a name="l00108"></a><span class="lineno">  108</span>&#160;    <span class="keywordflow">return</span> fwdist;</div>
+<div class="line"><a name="l00109"></a><span class="lineno">  109</span>&#160;  }</div>
+<div class="line"><a name="l00110"></a><span class="lineno">  110</span>&#160; </div>
+<div class="line"><a name="l00111"></a><span class="lineno"><a class="line" href="classsm__dance__bot__warehouse__3_1_1cl__lidar_1_1CpForwardObstacleDetector.html#a9bcc75e712c23d14d6a2fb7736cccaba">  111</a></span>&#160;  <span class="keywordtype">void</span> <a class="code" href="classsm__dance__bot__warehouse__3_1_1cl__lidar_1_1CpForwardObstacleDetector.html#a9bcc75e712c23d14d6a2fb7736cccaba">MessageCallbackStoreDistanceToWall</a>(<span class="keyword">const</span> sensor_msgs::msg::LaserScan &amp; scanmsg)</div>
+<div class="line"><a name="l00112"></a><span class="lineno">  112</span>&#160;  {</div>
+<div class="line"><a name="l00113"></a><span class="lineno">  113</span>&#160;    this-&gt;lastScanMessage_ = scanmsg;</div>
+<div class="line"><a name="l00114"></a><span class="lineno">  114</span>&#160;  }</div>
+<div class="line"><a name="l00115"></a><span class="lineno">  115</span>&#160;};</div>
+<div class="line"><a name="l00116"></a><span class="lineno">  116</span>&#160;}  <span class="comment">// namespace cl_lidar</span></div>
+<div class="line"><a name="l00117"></a><span class="lineno">  117</span>&#160;}  <span class="comment">// namespace sm_dance_bot_warehouse_3</span></div>
 <div class="ttc" id="aclasssm__dance__bot__warehouse__3_1_1cl__lidar_1_1CpForwardObstacleDetector_html"><div class="ttname"><a href="classsm__dance__bot__warehouse__3_1_1cl__lidar_1_1CpForwardObstacleDetector.html">sm_dance_bot_warehouse_3::cl_lidar::CpForwardObstacleDetector</a></div><div class="ttdef"><b>Definition:</b> <a href="3_2include_2sm__dance__bot__warehouse__3_2clients_2cl__lidar_2components_2cp__forward__obstacle__detector_8hpp_source.html#l00030">cp_forward_obstacle_detector.hpp:31</a></div></div>
 <div class="ttc" id="aclasssm__dance__bot__warehouse__3_1_1cl__lidar_1_1CpForwardObstacleDetector_html_a4fe3fa08275d0e27acf206f8a26b76ce"><div class="ttname"><a href="classsm__dance__bot__warehouse__3_1_1cl__lidar_1_1CpForwardObstacleDetector.html#a4fe3fa08275d0e27acf206f8a26b76ce">sm_dance_bot_warehouse_3::cl_lidar::CpForwardObstacleDetector::modulo_Euclidean</a></div><div class="ttdeci">int modulo_Euclidean(int a, int b)</div><div class="ttdef"><b>Definition:</b> <a href="3_2include_2sm__dance__bot__warehouse__3_2clients_2cl__lidar_2components_2cp__forward__obstacle__detector_8hpp_source.html#l00045">cp_forward_obstacle_detector.hpp:45</a></div></div>
 <div class="ttc" id="aclasssm__dance__bot__warehouse__3_1_1cl__lidar_1_1CpForwardObstacleDetector_html_a8c564d05c21bc8b1b70e9b6fb2a157a6"><div class="ttname"><a href="classsm__dance__bot__warehouse__3_1_1cl__lidar_1_1CpForwardObstacleDetector.html#a8c564d05c21bc8b1b70e9b6fb2a157a6">sm_dance_bot_warehouse_3::cl_lidar::CpForwardObstacleDetector::lastScanMessage_</a></div><div class="ttdeci">sensor_msgs::msg::LaserScan lastScanMessage_</div><div class="ttdef"><b>Definition:</b> <a href="3_2include_2sm__dance__bot__warehouse__3_2clients_2cl__lidar_2components_2cp__forward__obstacle__detector_8hpp_source.html#l00033">cp_forward_obstacle_detector.hpp:33</a></div></div>
-<div class="ttc" id="aclasssm__dance__bot__warehouse__3_1_1cl__lidar_1_1CpForwardObstacleDetector_html_a9bcc75e712c23d14d6a2fb7736cccaba"><div class="ttname"><a href="classsm__dance__bot__warehouse__3_1_1cl__lidar_1_1CpForwardObstacleDetector.html#a9bcc75e712c23d14d6a2fb7736cccaba">sm_dance_bot_warehouse_3::cl_lidar::CpForwardObstacleDetector::MessageCallbackStoreDistanceToWall</a></div><div class="ttdeci">void MessageCallbackStoreDistanceToWall(const sensor_msgs::msg::LaserScan &amp;scanmsg)</div><div class="ttdef"><b>Definition:</b> <a href="3_2include_2sm__dance__bot__warehouse__3_2clients_2cl__lidar_2components_2cp__forward__obstacle__detector_8hpp_source.html#l00113">cp_forward_obstacle_detector.hpp:113</a></div></div>
+<div class="ttc" id="aclasssm__dance__bot__warehouse__3_1_1cl__lidar_1_1CpForwardObstacleDetector_html_a9bcc75e712c23d14d6a2fb7736cccaba"><div class="ttname"><a href="classsm__dance__bot__warehouse__3_1_1cl__lidar_1_1CpForwardObstacleDetector.html#a9bcc75e712c23d14d6a2fb7736cccaba">sm_dance_bot_warehouse_3::cl_lidar::CpForwardObstacleDetector::MessageCallbackStoreDistanceToWall</a></div><div class="ttdeci">void MessageCallbackStoreDistanceToWall(const sensor_msgs::msg::LaserScan &amp;scanmsg)</div><div class="ttdef"><b>Definition:</b> <a href="3_2include_2sm__dance__bot__warehouse__3_2clients_2cl__lidar_2components_2cp__forward__obstacle__detector_8hpp_source.html#l00111">cp_forward_obstacle_detector.hpp:111</a></div></div>
 <div class="ttc" id="aclasssm__dance__bot__warehouse__3_1_1cl__lidar_1_1CpForwardObstacleDetector_html_ab584dfaef98d07e0e6f852178fc50339"><div class="ttname"><a href="classsm__dance__bot__warehouse__3_1_1cl__lidar_1_1CpForwardObstacleDetector.html#ab584dfaef98d07e0e6f852178fc50339">sm_dance_bot_warehouse_3::cl_lidar::CpForwardObstacleDetector::getForwardDistance</a></div><div class="ttdeci">float getForwardDistance(int raysWidthCount=0)</div><div class="ttdef"><b>Definition:</b> <a href="3_2include_2sm__dance__bot__warehouse__3_2clients_2cl__lidar_2components_2cp__forward__obstacle__detector_8hpp_source.html#l00056">cp_forward_obstacle_detector.hpp:56</a></div></div>
 <div class="ttc" id="aclasssm__dance__bot__warehouse__3_1_1cl__lidar_1_1CpForwardObstacleDetector_html_ae13e791e602504568acc9e1c3a5a1f74"><div class="ttname"><a href="classsm__dance__bot__warehouse__3_1_1cl__lidar_1_1CpForwardObstacleDetector.html#ae13e791e602504568acc9e1c3a5a1f74">sm_dance_bot_warehouse_3::cl_lidar::CpForwardObstacleDetector::onInitialize</a></div><div class="ttdeci">void onInitialize() override</div><div class="ttdef"><b>Definition:</b> <a href="3_2include_2sm__dance__bot__warehouse__3_2clients_2cl__lidar_2components_2cp__forward__obstacle__detector_8hpp_source.html#l00037">cp_forward_obstacle_detector.hpp:37</a></div></div>
 <div class="ttc" id="aclasssmacc2_1_1ISmaccComponent_html"><div class="ttname"><a href="classsmacc2_1_1ISmaccComponent.html">smacc2::ISmaccComponent</a></div><div class="ttdef"><b>Definition:</b> <a href="component_8hpp_source.html#l00029">component.hpp:30</a></div></div>

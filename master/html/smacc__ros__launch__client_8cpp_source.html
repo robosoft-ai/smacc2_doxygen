@@ -114,34 +114,37 @@ $(function() {
 <div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160;  std::string packageName, std::string launchFileName, std::function&lt;<span class="keywordtype">bool</span>()&gt; cancelCondition)</div>
 <div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160;{</div>
 <div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160;  <span class="keywordflow">return</span> std::async(std::launch::async, [=]() {</div>
-<div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160;    RCLCPP_WARN_STREAM(rclcpp::get_logger(<span class="stringliteral">&quot;smacc2&quot;</span>), <span class="stringliteral">&quot;[ClRosLaunch] starting ros launch thread &quot;</span>);</div>
-<div class="line"><a name="l00047"></a><span class="lineno">   47</span>&#160;    std::stringstream cmd;</div>
-<div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160;    cmd &lt;&lt; <span class="stringliteral">&quot;ros2 launch &quot;</span> &lt;&lt; packageName &lt;&lt; <span class="stringliteral">&quot; &quot;</span> &lt;&lt; launchFileName;</div>
-<div class="line"><a name="l00049"></a><span class="lineno">   49</span>&#160; </div>
-<div class="line"><a name="l00050"></a><span class="lineno">   50</span>&#160;    std::array&lt;char, 128&gt; buffer;</div>
-<div class="line"><a name="l00051"></a><span class="lineno">   51</span>&#160;    std::string result;</div>
-<div class="line"><a name="l00052"></a><span class="lineno">   52</span>&#160;    std::unique_ptr&lt;FILE, decltype(&amp;pclose)&gt; pipe(popen(cmd.str().c_str(), <span class="stringliteral">&quot;r&quot;</span>), pclose);</div>
-<div class="line"><a name="l00053"></a><span class="lineno">   53</span>&#160;    <span class="keywordflow">if</span> (!pipe)</div>
-<div class="line"><a name="l00054"></a><span class="lineno">   54</span>&#160;    {</div>
-<div class="line"><a name="l00055"></a><span class="lineno">   55</span>&#160;      <span class="keywordflow">throw</span> std::runtime_error(<span class="stringliteral">&quot;popen() failed!&quot;</span>);</div>
-<div class="line"><a name="l00056"></a><span class="lineno">   56</span>&#160;    }</div>
-<div class="line"><a name="l00057"></a><span class="lineno">   57</span>&#160; </div>
-<div class="line"><a name="l00058"></a><span class="lineno">   58</span>&#160;    std::stringstream ss;</div>
-<div class="line"><a name="l00059"></a><span class="lineno">   59</span>&#160;    <span class="keywordtype">bool</span> cancelled = <span class="keyword">false</span>;</div>
-<div class="line"><a name="l00060"></a><span class="lineno">   60</span>&#160;    <span class="keywordflow">while</span> (fgets(buffer.data(), buffer.size(), pipe.get()) != <span class="keyword">nullptr</span> &amp;&amp;</div>
-<div class="line"><a name="l00061"></a><span class="lineno">   61</span>&#160;           !(cancelled = cancelCondition()))</div>
-<div class="line"><a name="l00062"></a><span class="lineno">   62</span>&#160;    {</div>
-<div class="line"><a name="l00063"></a><span class="lineno">   63</span>&#160;      ss &lt;&lt; buffer.data();</div>
-<div class="line"><a name="l00064"></a><span class="lineno">   64</span>&#160;    }</div>
-<div class="line"><a name="l00065"></a><span class="lineno">   65</span>&#160; </div>
-<div class="line"><a name="l00066"></a><span class="lineno">   66</span>&#160;    result = ss.str();</div>
-<div class="line"><a name="l00067"></a><span class="lineno">   67</span>&#160;    RCLCPP_WARN_STREAM(rclcpp::get_logger(<span class="stringliteral">&quot;smacc2&quot;</span>), <span class="stringliteral">&quot;[ClRosLaunch] RESULT = \n &quot;</span> &lt;&lt; ss.str());</div>
-<div class="line"><a name="l00068"></a><span class="lineno">   68</span>&#160;    <span class="keywordflow">return</span> result;</div>
-<div class="line"><a name="l00069"></a><span class="lineno">   69</span>&#160;  });</div>
-<div class="line"><a name="l00070"></a><span class="lineno">   70</span>&#160;}</div>
-<div class="line"><a name="l00071"></a><span class="lineno">   71</span>&#160; </div>
-<div class="line"><a name="l00072"></a><span class="lineno">   72</span>&#160;}  <span class="comment">// namespace client_bases</span></div>
-<div class="line"><a name="l00073"></a><span class="lineno">   73</span>&#160;}  <span class="comment">// namespace smacc2</span></div>
+<div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160;    RCLCPP_WARN_STREAM(</div>
+<div class="line"><a name="l00047"></a><span class="lineno">   47</span>&#160;      rclcpp::get_logger(<span class="stringliteral">&quot;smacc2&quot;</span>), <span class="stringliteral">&quot;[ClRosLaunch static] starting ros launch thread &quot;</span>);</div>
+<div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160; </div>
+<div class="line"><a name="l00049"></a><span class="lineno">   49</span>&#160;    std::stringstream cmd;</div>
+<div class="line"><a name="l00050"></a><span class="lineno">   50</span>&#160;    cmd &lt;&lt; <span class="stringliteral">&quot;ros2 launch &quot;</span> &lt;&lt; packageName &lt;&lt; <span class="stringliteral">&quot; &quot;</span> &lt;&lt; launchFileName;</div>
+<div class="line"><a name="l00051"></a><span class="lineno">   51</span>&#160; </div>
+<div class="line"><a name="l00052"></a><span class="lineno">   52</span>&#160;    std::array&lt;char, 128&gt; buffer;</div>
+<div class="line"><a name="l00053"></a><span class="lineno">   53</span>&#160;    std::string result;</div>
+<div class="line"><a name="l00054"></a><span class="lineno">   54</span>&#160;    std::unique_ptr&lt;FILE, decltype(&amp;pclose)&gt; pipe(popen(cmd.str().c_str(), <span class="stringliteral">&quot;r&quot;</span>), pclose);</div>
+<div class="line"><a name="l00055"></a><span class="lineno">   55</span>&#160;    <span class="keywordflow">if</span> (!pipe)</div>
+<div class="line"><a name="l00056"></a><span class="lineno">   56</span>&#160;    {</div>
+<div class="line"><a name="l00057"></a><span class="lineno">   57</span>&#160;      <span class="keywordflow">throw</span> std::runtime_error(<span class="stringliteral">&quot;popen() failed!&quot;</span>);</div>
+<div class="line"><a name="l00058"></a><span class="lineno">   58</span>&#160;    }</div>
+<div class="line"><a name="l00059"></a><span class="lineno">   59</span>&#160; </div>
+<div class="line"><a name="l00060"></a><span class="lineno">   60</span>&#160;    std::stringstream ss;</div>
+<div class="line"><a name="l00061"></a><span class="lineno">   61</span>&#160;    <span class="keywordtype">bool</span> cancelled = <span class="keyword">false</span>;</div>
+<div class="line"><a name="l00062"></a><span class="lineno">   62</span>&#160;    <span class="keywordflow">while</span> (fgets(buffer.data(), buffer.size(), pipe.get()) != <span class="keyword">nullptr</span> &amp;&amp;</div>
+<div class="line"><a name="l00063"></a><span class="lineno">   63</span>&#160;           !(cancelled = cancelCondition()))</div>
+<div class="line"><a name="l00064"></a><span class="lineno">   64</span>&#160;    {</div>
+<div class="line"><a name="l00065"></a><span class="lineno">   65</span>&#160;      ss &lt;&lt; buffer.data();</div>
+<div class="line"><a name="l00066"></a><span class="lineno">   66</span>&#160;    }</div>
+<div class="line"><a name="l00067"></a><span class="lineno">   67</span>&#160; </div>
+<div class="line"><a name="l00068"></a><span class="lineno">   68</span>&#160;    result = ss.str();</div>
+<div class="line"><a name="l00069"></a><span class="lineno">   69</span>&#160;    RCLCPP_WARN_STREAM(</div>
+<div class="line"><a name="l00070"></a><span class="lineno">   70</span>&#160;      rclcpp::get_logger(<span class="stringliteral">&quot;smacc2&quot;</span>), <span class="stringliteral">&quot;[ClRosLaunch static]] RESULT = \n &quot;</span> &lt;&lt; ss.str());</div>
+<div class="line"><a name="l00071"></a><span class="lineno">   71</span>&#160;    <span class="keywordflow">return</span> result;</div>
+<div class="line"><a name="l00072"></a><span class="lineno">   72</span>&#160;  });</div>
+<div class="line"><a name="l00073"></a><span class="lineno">   73</span>&#160;}</div>
+<div class="line"><a name="l00074"></a><span class="lineno">   74</span>&#160; </div>
+<div class="line"><a name="l00075"></a><span class="lineno">   75</span>&#160;}  <span class="comment">// namespace client_bases</span></div>
+<div class="line"><a name="l00076"></a><span class="lineno">   76</span>&#160;}  <span class="comment">// namespace smacc2</span></div>
 <div class="ttc" id="aclasssmacc2_1_1client__bases_1_1ClRosLaunch_html_a59ff1db13ac1fff77568f1929bc8d357"><div class="ttname"><a href="classsmacc2_1_1client__bases_1_1ClRosLaunch.html#a59ff1db13ac1fff77568f1929bc8d357">smacc2::client_bases::ClRosLaunch::cancellationToken_</a></div><div class="ttdeci">std::atomic&lt; bool &gt; cancellationToken_</div><div class="ttdef"><b>Definition:</b> <a href="smacc__ros__launch__client_8hpp_source.html#l00054">smacc_ros_launch_client.hpp:54</a></div></div>
 <div class="ttc" id="aclasssmacc2_1_1client__bases_1_1ClRosLaunch_html_a5ac20632be35cb591de58d29f7e81e89"><div class="ttname"><a href="classsmacc2_1_1client__bases_1_1ClRosLaunch.html#a5ac20632be35cb591de58d29f7e81e89">smacc2::client_bases::ClRosLaunch::ClRosLaunch</a></div><div class="ttdeci">ClRosLaunch(std::string packageName, std::string launchFilename)</div><div class="ttdef"><b>Definition:</b> <a href="smacc__ros__launch__client_8cpp_source.html#l00027">smacc_ros_launch_client.cpp:27</a></div></div>
 <div class="ttc" id="aclasssmacc2_1_1client__bases_1_1ClRosLaunch_html_a84853e31543a3dae1316c681fc78cdf3"><div class="ttname"><a href="classsmacc2_1_1client__bases_1_1ClRosLaunch.html#a84853e31543a3dae1316c681fc78cdf3">smacc2::client_bases::ClRosLaunch::launchFileName_</a></div><div class="ttdeci">std::string launchFileName_</div><div class="ttdef"><b>Definition:</b> <a href="smacc__ros__launch__client_8hpp_source.html#l00049">smacc_ros_launch_client.hpp:49</a></div></div>
