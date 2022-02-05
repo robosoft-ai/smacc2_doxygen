@@ -1,0 +1,91 @@
+\hypertarget{cb__undo__path__backwards_8cpp_source}{}\doxysection{cb\+\_\+undo\+\_\+path\+\_\+backwards.\+cpp}
+\label{cb__undo__path__backwards_8cpp_source}\index{smacc2\_client\_library/nav2z\_client/nav2z\_client/src/nav2z\_client/client\_behaviors/cb\_undo\_path\_backwards.cpp@{smacc2\_client\_library/nav2z\_client/nav2z\_client/src/nav2z\_client/client\_behaviors/cb\_undo\_path\_backwards.cpp}}
+\mbox{\hyperlink{cb__undo__path__backwards_8cpp}{Go to the documentation of this file.}}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\Hypertarget{cb__undo__path__backwards_8cpp_source_l00001}00001 \textcolor{comment}{// Copyright 2021 RobosoftAI Inc.}}
+\DoxyCodeLine{\Hypertarget{cb__undo__path__backwards_8cpp_source_l00002}00002 \textcolor{comment}{//}}
+\DoxyCodeLine{\Hypertarget{cb__undo__path__backwards_8cpp_source_l00003}00003 \textcolor{comment}{// Licensed under the Apache License, Version 2.0 (the "{}License"{});}}
+\DoxyCodeLine{\Hypertarget{cb__undo__path__backwards_8cpp_source_l00004}00004 \textcolor{comment}{// you may not use this file except in compliance with the License.}}
+\DoxyCodeLine{\Hypertarget{cb__undo__path__backwards_8cpp_source_l00005}00005 \textcolor{comment}{// You may obtain a copy of the License at}}
+\DoxyCodeLine{\Hypertarget{cb__undo__path__backwards_8cpp_source_l00006}00006 \textcolor{comment}{//}}
+\DoxyCodeLine{\Hypertarget{cb__undo__path__backwards_8cpp_source_l00007}00007 \textcolor{comment}{//     http://www.apache.org/licenses/LICENSE-\/2.0}}
+\DoxyCodeLine{\Hypertarget{cb__undo__path__backwards_8cpp_source_l00008}00008 \textcolor{comment}{//}}
+\DoxyCodeLine{\Hypertarget{cb__undo__path__backwards_8cpp_source_l00009}00009 \textcolor{comment}{// Unless required by applicable law or agreed to in writing, software}}
+\DoxyCodeLine{\Hypertarget{cb__undo__path__backwards_8cpp_source_l00010}00010 \textcolor{comment}{// distributed under the License is distributed on an "{}AS IS"{} BASIS,}}
+\DoxyCodeLine{\Hypertarget{cb__undo__path__backwards_8cpp_source_l00011}00011 \textcolor{comment}{// WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.}}
+\DoxyCodeLine{\Hypertarget{cb__undo__path__backwards_8cpp_source_l00012}00012 \textcolor{comment}{// See the License for the specific language governing permissions and}}
+\DoxyCodeLine{\Hypertarget{cb__undo__path__backwards_8cpp_source_l00013}00013 \textcolor{comment}{// limitations under the License.}}
+\DoxyCodeLine{\Hypertarget{cb__undo__path__backwards_8cpp_source_l00014}00014 }
+\DoxyCodeLine{\Hypertarget{cb__undo__path__backwards_8cpp_source_l00015}00015 \textcolor{comment}{/*****************************************************************************************************************}}
+\DoxyCodeLine{\Hypertarget{cb__undo__path__backwards_8cpp_source_l00016}00016 \textcolor{comment}{ *}}
+\DoxyCodeLine{\Hypertarget{cb__undo__path__backwards_8cpp_source_l00017}00017 \textcolor{comment}{ *   Authors: Pablo Inigo Blasco, Brett Aldrich}}
+\DoxyCodeLine{\Hypertarget{cb__undo__path__backwards_8cpp_source_l00018}00018 \textcolor{comment}{ *}}
+\DoxyCodeLine{\Hypertarget{cb__undo__path__backwards_8cpp_source_l00019}00019 \textcolor{comment}{ ******************************************************************************************************************/}}
+\DoxyCodeLine{\Hypertarget{cb__undo__path__backwards_8cpp_source_l00020}00020 }
+\DoxyCodeLine{\Hypertarget{cb__undo__path__backwards_8cpp_source_l00021}00021 \textcolor{preprocessor}{\#include <\mbox{\hyperlink{cb__undo__path__backwards_8hpp}{nav2z\_client/client\_behaviors/cb\_undo\_path\_backwards.hpp}}>}}
+\DoxyCodeLine{\Hypertarget{cb__undo__path__backwards_8cpp_source_l00022}00022 \textcolor{preprocessor}{\#include <\mbox{\hyperlink{client__library_2nav2z__client_2nav2z__client_2include_2nav2z__client_2common_8hpp}{nav2z\_client/common.hpp}}>}}
+\DoxyCodeLine{\Hypertarget{cb__undo__path__backwards_8cpp_source_l00023}00023 \textcolor{preprocessor}{\#include <\mbox{\hyperlink{goal__checker__switcher_8hpp}{nav2z\_client/components/goal\_checker\_switcher/goal\_checker\_switcher.hpp}}>}}
+\DoxyCodeLine{\Hypertarget{cb__undo__path__backwards_8cpp_source_l00024}00024 \textcolor{preprocessor}{\#include <\mbox{\hyperlink{odom__tracker_8hpp}{nav2z\_client/components/odom\_tracker/odom\_tracker.hpp}}>}}
+\DoxyCodeLine{\Hypertarget{cb__undo__path__backwards_8cpp_source_l00025}00025 \textcolor{preprocessor}{\#include <\mbox{\hyperlink{planner__switcher_8hpp}{nav2z\_client/components/planner\_switcher/planner\_switcher.hpp}}>}}
+\DoxyCodeLine{\Hypertarget{cb__undo__path__backwards_8cpp_source_l00026}00026 }
+\DoxyCodeLine{\Hypertarget{cb__undo__path__backwards_8cpp_source_l00027}00027 \textcolor{keyword}{namespace }\mbox{\hyperlink{namespacecl__nav2z}{cl\_nav2z}}}
+\DoxyCodeLine{\Hypertarget{cb__undo__path__backwards_8cpp_source_l00028}00028 \{}
+\DoxyCodeLine{\Hypertarget{cb__undo__path__backwards_8cpp_source_l00029}00029 using ::cl\_nav2z::odom\_tracker::OdomTracker;}
+\DoxyCodeLine{\Hypertarget{cb__undo__path__backwards_8cpp_source_l00030}00030 \mbox{\hyperlink{namespacecl__nav2z_1_1odom__tracker_a0e181f0496e693e9fbd35874963c7211}{using ::cl\_nav2z::odom\_tracker::WorkingMode}};}
+\DoxyCodeLine{\Hypertarget{cb__undo__path__backwards_8cpp_source_l00031}00031 }
+\DoxyCodeLine{\Hypertarget{cb__undo__path__backwards_8cpp_source_l00032}00032 \textcolor{keyword}{using namespace }std::chrono\_literals;}
+\DoxyCodeLine{\Hypertarget{cb__undo__path__backwards_8cpp_source_l00033}00033 }
+\DoxyCodeLine{\Hypertarget{cb__undo__path__backwards_8cpp_source_l00034}\mbox{\hyperlink{classcl__nav2z_1_1CbUndoPathBackwards_a91ca11650da3d18f9815794613f95644}{00034}} \textcolor{keywordtype}{void} \mbox{\hyperlink{classcl__nav2z_1_1CbUndoPathBackwards_a91ca11650da3d18f9815794613f95644}{CbUndoPathBackwards::onEntry}}()}
+\DoxyCodeLine{\Hypertarget{cb__undo__path__backwards_8cpp_source_l00035}00035 \{}
+\DoxyCodeLine{\Hypertarget{cb__undo__path__backwards_8cpp_source_l00036}00036   \mbox{\hyperlink{classcl__nav2z_1_1CbUndoPathBackwards_aae100fa86e382fdaf1b55ecbc4ad5a5e}{listener}} = std::make\_shared<tf2\_ros::Buffer>(this-\/>\mbox{\hyperlink{classsmacc2_1_1ISmaccClientBehavior_a95c9749af2004528fbda63ca6fde8eae}{getNode}}()-\/>get\_clock());}
+\DoxyCodeLine{\Hypertarget{cb__undo__path__backwards_8cpp_source_l00037}00037   \textcolor{keyword}{auto} * odomTracker = \mbox{\hyperlink{classcl__nav2z_1_1CbNav2ZClientBehaviorBase_ad063ef82084fe0591d746456c3794db0}{moveBaseClient\_}}-\/>\mbox{\hyperlink{classsmacc2_1_1ISmaccClient_afc6e0f5f82a4552134c9423b75e3ca1d}{getComponent}}<\mbox{\hyperlink{classcl__nav2z_1_1odom__tracker_1_1OdomTracker}{OdomTracker}}>();}
+\DoxyCodeLine{\Hypertarget{cb__undo__path__backwards_8cpp_source_l00038}00038 }
+\DoxyCodeLine{\Hypertarget{cb__undo__path__backwards_8cpp_source_l00039}00039   \textcolor{keyword}{auto} plannerSwitcher = \mbox{\hyperlink{classcl__nav2z_1_1CbNav2ZClientBehaviorBase_ad063ef82084fe0591d746456c3794db0}{moveBaseClient\_}}-\/>\mbox{\hyperlink{classsmacc2_1_1ISmaccClient_afc6e0f5f82a4552134c9423b75e3ca1d}{getComponent}}<\mbox{\hyperlink{classcl__nav2z_1_1PlannerSwitcher}{PlannerSwitcher}}>();}
+\DoxyCodeLine{\Hypertarget{cb__undo__path__backwards_8cpp_source_l00040}00040 }
+\DoxyCodeLine{\Hypertarget{cb__undo__path__backwards_8cpp_source_l00041}00041   nav\_msgs::msg::Path forwardpath = odomTracker-\/>getPath();}
+\DoxyCodeLine{\Hypertarget{cb__undo__path__backwards_8cpp_source_l00042}00042   \textcolor{comment}{// RCLCPP\_INFO\_STREAM(getLogger(),"{}[UndoPathBackward] Current path backwards: "{} << forwardpath);}}
+\DoxyCodeLine{\Hypertarget{cb__undo__path__backwards_8cpp_source_l00043}00043 }
+\DoxyCodeLine{\Hypertarget{cb__undo__path__backwards_8cpp_source_l00044}00044   odomTracker-\/>setWorkingMode(WorkingMode::CLEAR\_PATH);}
+\DoxyCodeLine{\Hypertarget{cb__undo__path__backwards_8cpp_source_l00045}00045 }
+\DoxyCodeLine{\Hypertarget{cb__undo__path__backwards_8cpp_source_l00046}00046   \mbox{\hyperlink{classsmacc2_1_1client__bases_1_1SmaccActionClientBase_ab56ba47b81346277a471584dedf7d45c}{ClNav2Z::Goal}} goal;}
+\DoxyCodeLine{\Hypertarget{cb__undo__path__backwards_8cpp_source_l00047}00047 }
+\DoxyCodeLine{\Hypertarget{cb__undo__path__backwards_8cpp_source_l00048}00048   \textcolor{keyword}{auto} goalCheckerSwitcher = \mbox{\hyperlink{classcl__nav2z_1_1CbNav2ZClientBehaviorBase_ad063ef82084fe0591d746456c3794db0}{moveBaseClient\_}}-\/>\mbox{\hyperlink{classsmacc2_1_1ISmaccClient_afc6e0f5f82a4552134c9423b75e3ca1d}{getComponent}}<\mbox{\hyperlink{classcl__nav2z_1_1GoalCheckerSwitcher}{GoalCheckerSwitcher}}>();}
+\DoxyCodeLine{\Hypertarget{cb__undo__path__backwards_8cpp_source_l00049}00049   goalCheckerSwitcher-\/>\mbox{\hyperlink{classcl__nav2z_1_1GoalCheckerSwitcher_a6972ba572ce186f5f29dfe7d3bda6246}{setGoalCheckerId}}(\textcolor{stringliteral}{"{}undo\_path\_backwards\_goal\_checker"{}});}
+\DoxyCodeLine{\Hypertarget{cb__undo__path__backwards_8cpp_source_l00050}00050 }
+\DoxyCodeLine{\Hypertarget{cb__undo__path__backwards_8cpp_source_l00051}00051   \textcolor{comment}{// WARNING: There might be some race condition with the remote undo global planner were the global path was not received yet}}
+\DoxyCodeLine{\Hypertarget{cb__undo__path__backwards_8cpp_source_l00052}00052   rclcpp::sleep\_for(1\mbox{\hyperlink{namespaceservice__node__3_aa976421a49e0b54f23833423400849ae}{s}});}
+\DoxyCodeLine{\Hypertarget{cb__undo__path__backwards_8cpp_source_l00053}00053 }
+\DoxyCodeLine{\Hypertarget{cb__undo__path__backwards_8cpp_source_l00054}00054   \textcolor{comment}{// this line is used to flush/reset backward planner in the case it were already there}}
+\DoxyCodeLine{\Hypertarget{cb__undo__path__backwards_8cpp_source_l00055}00055   \textcolor{comment}{// plannerSwitcher-\/>setDefaultPlanners();}}
+\DoxyCodeLine{\Hypertarget{cb__undo__path__backwards_8cpp_source_l00056}00056   \textcolor{keywordflow}{if} (forwardpath.poses.size() > 0)}
+\DoxyCodeLine{\Hypertarget{cb__undo__path__backwards_8cpp_source_l00057}00057   \{}
+\DoxyCodeLine{\Hypertarget{cb__undo__path__backwards_8cpp_source_l00058}00058     goal.pose = forwardpath.poses.front();}
+\DoxyCodeLine{\Hypertarget{cb__undo__path__backwards_8cpp_source_l00059}00059     goal.pose.header.stamp = \mbox{\hyperlink{classsmacc2_1_1ISmaccClientBehavior_a95c9749af2004528fbda63ca6fde8eae}{getNode}}()-\/>now();}
+\DoxyCodeLine{\Hypertarget{cb__undo__path__backwards_8cpp_source_l00060}00060     plannerSwitcher-\/>setUndoPathBackwardPlanner();}
+\DoxyCodeLine{\Hypertarget{cb__undo__path__backwards_8cpp_source_l00061}00061     \mbox{\hyperlink{classcl__nav2z_1_1CbNav2ZClientBehaviorBase_ad063ef82084fe0591d746456c3794db0}{moveBaseClient\_}}-\/>\mbox{\hyperlink{classsmacc2_1_1client__bases_1_1SmaccActionClientBase_a43176511fffe80c2de7a36b6a2858ccc}{sendGoal}}(goal);}
+\DoxyCodeLine{\Hypertarget{cb__undo__path__backwards_8cpp_source_l00062}00062   \}}
+\DoxyCodeLine{\Hypertarget{cb__undo__path__backwards_8cpp_source_l00063}00063 \}}
+\DoxyCodeLine{\Hypertarget{cb__undo__path__backwards_8cpp_source_l00064}00064 }
+\DoxyCodeLine{\Hypertarget{cb__undo__path__backwards_8cpp_source_l00065}\mbox{\hyperlink{classcl__nav2z_1_1CbUndoPathBackwards_ac6effc89cd93afe1775d94d328b853ee}{00065}} \textcolor{keywordtype}{void} \mbox{\hyperlink{classcl__nav2z_1_1CbUndoPathBackwards_ac6effc89cd93afe1775d94d328b853ee}{CbUndoPathBackwards::onExit}}()}
+\DoxyCodeLine{\Hypertarget{cb__undo__path__backwards_8cpp_source_l00066}00066 \{}
+\DoxyCodeLine{\Hypertarget{cb__undo__path__backwards_8cpp_source_l00067}00067   RCLCPP\_INFO\_STREAM(\mbox{\hyperlink{classsmacc2_1_1ISmaccClientBehavior_a5474074c4b45e900499e30126fb8415c}{getLogger}}(), \textcolor{stringliteral}{"{}["{}} << \mbox{\hyperlink{classsmacc2_1_1ISmaccClientBehavior_a3feaa9c382a7d376b7ba0017a63e294e}{getName}}() << \textcolor{stringliteral}{"{}] Exiting: undo navigation "{}});}
+\DoxyCodeLine{\Hypertarget{cb__undo__path__backwards_8cpp_source_l00068}00068 }
+\DoxyCodeLine{\Hypertarget{cb__undo__path__backwards_8cpp_source_l00069}00069   \textcolor{keywordflow}{if} (this-\/>\mbox{\hyperlink{classcl__nav2z_1_1CbNav2ZClientBehaviorBase_adc8e2d418119f46a328ca2714669cea4}{navigationResult\_}} == rclcpp\_action::ResultCode::SUCCEEDED)}
+\DoxyCodeLine{\Hypertarget{cb__undo__path__backwards_8cpp_source_l00070}00070   \{}
+\DoxyCodeLine{\Hypertarget{cb__undo__path__backwards_8cpp_source_l00071}00071     RCLCPP\_INFO\_STREAM(}
+\DoxyCodeLine{\Hypertarget{cb__undo__path__backwards_8cpp_source_l00072}00072       \mbox{\hyperlink{classsmacc2_1_1ISmaccClientBehavior_a5474074c4b45e900499e30126fb8415c}{getLogger}}(),}
+\DoxyCodeLine{\Hypertarget{cb__undo__path__backwards_8cpp_source_l00073}00073       \mbox{\hyperlink{classsmacc2_1_1ISmaccClientBehavior_a3feaa9c382a7d376b7ba0017a63e294e}{getName}}() << \textcolor{stringliteral}{"{} -\/ Exiting: undo navigation successful, popping odom tracker path"{}});}
+\DoxyCodeLine{\Hypertarget{cb__undo__path__backwards_8cpp_source_l00074}00074     \textcolor{keyword}{auto} * odomTracker = \mbox{\hyperlink{classcl__nav2z_1_1CbNav2ZClientBehaviorBase_ad063ef82084fe0591d746456c3794db0}{moveBaseClient\_}}-\/>\mbox{\hyperlink{classsmacc2_1_1ISmaccClient_afc6e0f5f82a4552134c9423b75e3ca1d}{getComponent}}<\mbox{\hyperlink{classcl__nav2z_1_1odom__tracker_1_1OdomTracker}{OdomTracker}}>();}
+\DoxyCodeLine{\Hypertarget{cb__undo__path__backwards_8cpp_source_l00075}00075     odomTracker-\/>\mbox{\hyperlink{classcl__nav2z_1_1odom__tracker_1_1OdomTracker_a97897e654afeb53e8a0ee2da6fdd91bf}{popPath}}();}
+\DoxyCodeLine{\Hypertarget{cb__undo__path__backwards_8cpp_source_l00076}00076   \}}
+\DoxyCodeLine{\Hypertarget{cb__undo__path__backwards_8cpp_source_l00077}00077   \textcolor{keywordflow}{else}}
+\DoxyCodeLine{\Hypertarget{cb__undo__path__backwards_8cpp_source_l00078}00078   \{}
+\DoxyCodeLine{\Hypertarget{cb__undo__path__backwards_8cpp_source_l00079}00079     \textcolor{comment}{// navigation interrupted or aborted. The path may be not totally undone.}}
+\DoxyCodeLine{\Hypertarget{cb__undo__path__backwards_8cpp_source_l00080}00080     \textcolor{comment}{// We keep the odom tracker in its current state, probably in the middle of the undoing process.}}
+\DoxyCodeLine{\Hypertarget{cb__undo__path__backwards_8cpp_source_l00081}00081     \textcolor{comment}{// Could you try to repeat the behavior?}}
+\DoxyCodeLine{\Hypertarget{cb__undo__path__backwards_8cpp_source_l00082}00082   \}}
+\DoxyCodeLine{\Hypertarget{cb__undo__path__backwards_8cpp_source_l00083}00083 \}}
+\DoxyCodeLine{\Hypertarget{cb__undo__path__backwards_8cpp_source_l00084}00084 }
+\DoxyCodeLine{\Hypertarget{cb__undo__path__backwards_8cpp_source_l00085}00085 \}  \textcolor{comment}{// namespace cl\_nav2z}}
+
+\end{DoxyCode}
