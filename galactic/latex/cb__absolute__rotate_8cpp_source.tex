@@ -1,0 +1,284 @@
+\hypertarget{cb__absolute__rotate_8cpp_source}{}\doxysection{cb\+\_\+absolute\+\_\+rotate.\+cpp}
+\label{cb__absolute__rotate_8cpp_source}\index{smacc2\_client\_library/move\_base\_z\_client/move\_base\_z\_client\_plugin/src/move\_base\_z\_client\_plugin/client\_behaviors/cb\_absolute\_rotate.cpp@{smacc2\_client\_library/move\_base\_z\_client/move\_base\_z\_client\_plugin/src/move\_base\_z\_client\_plugin/client\_behaviors/cb\_absolute\_rotate.cpp}}
+\mbox{\hyperlink{cb__absolute__rotate_8cpp}{Go to the documentation of this file.}}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\Hypertarget{cb__absolute__rotate_8cpp_source_l00001}00001 \textcolor{comment}{// Copyright 2021 RobosoftAI Inc.}}
+\DoxyCodeLine{\Hypertarget{cb__absolute__rotate_8cpp_source_l00002}00002 \textcolor{comment}{//}}
+\DoxyCodeLine{\Hypertarget{cb__absolute__rotate_8cpp_source_l00003}00003 \textcolor{comment}{// Licensed under the Apache License, Version 2.0 (the "{}License"{});}}
+\DoxyCodeLine{\Hypertarget{cb__absolute__rotate_8cpp_source_l00004}00004 \textcolor{comment}{// you may not use this file except in compliance with the License.}}
+\DoxyCodeLine{\Hypertarget{cb__absolute__rotate_8cpp_source_l00005}00005 \textcolor{comment}{// You may obtain a copy of the License at}}
+\DoxyCodeLine{\Hypertarget{cb__absolute__rotate_8cpp_source_l00006}00006 \textcolor{comment}{//}}
+\DoxyCodeLine{\Hypertarget{cb__absolute__rotate_8cpp_source_l00007}00007 \textcolor{comment}{//     http://www.apache.org/licenses/LICENSE-\/2.0}}
+\DoxyCodeLine{\Hypertarget{cb__absolute__rotate_8cpp_source_l00008}00008 \textcolor{comment}{//}}
+\DoxyCodeLine{\Hypertarget{cb__absolute__rotate_8cpp_source_l00009}00009 \textcolor{comment}{// Unless required by applicable law or agreed to in writing, software}}
+\DoxyCodeLine{\Hypertarget{cb__absolute__rotate_8cpp_source_l00010}00010 \textcolor{comment}{// distributed under the License is distributed on an "{}AS IS"{} BASIS,}}
+\DoxyCodeLine{\Hypertarget{cb__absolute__rotate_8cpp_source_l00011}00011 \textcolor{comment}{// WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.}}
+\DoxyCodeLine{\Hypertarget{cb__absolute__rotate_8cpp_source_l00012}00012 \textcolor{comment}{// See the License for the specific language governing permissions and}}
+\DoxyCodeLine{\Hypertarget{cb__absolute__rotate_8cpp_source_l00013}00013 \textcolor{comment}{// limitations under the License.}}
+\DoxyCodeLine{\Hypertarget{cb__absolute__rotate_8cpp_source_l00014}00014 }
+\DoxyCodeLine{\Hypertarget{cb__absolute__rotate_8cpp_source_l00015}00015 \textcolor{comment}{/*****************************************************************************************************************}}
+\DoxyCodeLine{\Hypertarget{cb__absolute__rotate_8cpp_source_l00016}00016 \textcolor{comment}{ *}}
+\DoxyCodeLine{\Hypertarget{cb__absolute__rotate_8cpp_source_l00017}00017 \textcolor{comment}{ *   Authors: Pablo Inigo Blasco, Brett Aldrich}}
+\DoxyCodeLine{\Hypertarget{cb__absolute__rotate_8cpp_source_l00018}00018 \textcolor{comment}{ *}}
+\DoxyCodeLine{\Hypertarget{cb__absolute__rotate_8cpp_source_l00019}00019 \textcolor{comment}{ ******************************************************************************************************************/}}
+\DoxyCodeLine{\Hypertarget{cb__absolute__rotate_8cpp_source_l00020}00020 }
+\DoxyCodeLine{\Hypertarget{cb__absolute__rotate_8cpp_source_l00021}00021 \textcolor{preprocessor}{\#include <\mbox{\hyperlink{cb__absolute__rotate_8hpp}{move\_base\_z\_client\_plugin/client\_behaviors/cb\_absolute\_rotate.hpp}}>}}
+\DoxyCodeLine{\Hypertarget{cb__absolute__rotate_8cpp_source_l00022}00022 \textcolor{preprocessor}{\#include <\mbox{\hyperlink{client__library_2move__base__z__client_2move__base__z__client__plugin_2include_2move__base__z__client__plugin_2common_8hpp}{move\_base\_z\_client\_plugin/common.hpp}}>}}
+\DoxyCodeLine{\Hypertarget{cb__absolute__rotate_8cpp_source_l00023}00023 \textcolor{preprocessor}{\#include <\mbox{\hyperlink{goal__checker__switcher_8hpp}{move\_base\_z\_client\_plugin/components/goal\_checker\_switcher/goal\_checker\_switcher.hpp}}>}}
+\DoxyCodeLine{\Hypertarget{cb__absolute__rotate_8cpp_source_l00024}00024 \textcolor{preprocessor}{\#include <\mbox{\hyperlink{odom__tracker_8hpp}{move\_base\_z\_client\_plugin/components/odom\_tracker/odom\_tracker.hpp}}>}}
+\DoxyCodeLine{\Hypertarget{cb__absolute__rotate_8cpp_source_l00025}00025 \textcolor{preprocessor}{\#include <\mbox{\hyperlink{cp__pose_8hpp}{move\_base\_z\_client\_plugin/components/pose/cp\_pose.hpp}}>}}
+\DoxyCodeLine{\Hypertarget{cb__absolute__rotate_8cpp_source_l00026}00026 \textcolor{preprocessor}{\#include <\mbox{\hyperlink{move__base__z__client__plugin_8hpp}{move\_base\_z\_client\_plugin/move\_base\_z\_client\_plugin.hpp}}>}}
+\DoxyCodeLine{\Hypertarget{cb__absolute__rotate_8cpp_source_l00027}00027 }
+\DoxyCodeLine{\Hypertarget{cb__absolute__rotate_8cpp_source_l00028}00028 \textcolor{preprocessor}{\#include <rclcpp/parameter\_client.hpp>}}
+\DoxyCodeLine{\Hypertarget{cb__absolute__rotate_8cpp_source_l00029}00029 }
+\DoxyCodeLine{\Hypertarget{cb__absolute__rotate_8cpp_source_l00030}00030 \textcolor{keyword}{namespace }\mbox{\hyperlink{namespacecl__move__base__z}{cl\_move\_base\_z}}}
+\DoxyCodeLine{\Hypertarget{cb__absolute__rotate_8cpp_source_l00031}00031 \{}
+\DoxyCodeLine{\Hypertarget{cb__absolute__rotate_8cpp_source_l00032}\mbox{\hyperlink{classcl__move__base__z_1_1CbAbsoluteRotate_a378516095c2ad66f52e50f6d7c32678e}{00032}} \mbox{\hyperlink{classcl__move__base__z_1_1CbAbsoluteRotate_a378516095c2ad66f52e50f6d7c32678e}{CbAbsoluteRotate::CbAbsoluteRotate}}() \{\}}
+\DoxyCodeLine{\Hypertarget{cb__absolute__rotate_8cpp_source_l00033}00033 }
+\DoxyCodeLine{\Hypertarget{cb__absolute__rotate_8cpp_source_l00034}\mbox{\hyperlink{classcl__move__base__z_1_1CbAbsoluteRotate_a33d95123791b68b80b25dae87d8f26d8}{00034}} \mbox{\hyperlink{classcl__move__base__z_1_1CbAbsoluteRotate_a378516095c2ad66f52e50f6d7c32678e}{CbAbsoluteRotate::CbAbsoluteRotate}}(\textcolor{keywordtype}{float} absoluteGoalAngleDegree, \textcolor{keywordtype}{float} yaw\_goal\_tolerance)}
+\DoxyCodeLine{\Hypertarget{cb__absolute__rotate_8cpp_source_l00035}00035 \{}
+\DoxyCodeLine{\Hypertarget{cb__absolute__rotate_8cpp_source_l00036}00036   this-\/>absoluteGoalAngleDegree = \mbox{\hyperlink{classcl__move__base__z_1_1CbAbsoluteRotate_ad942284528b29a6c4e9990a5d34569cf}{absoluteGoalAngleDegree}};}
+\DoxyCodeLine{\Hypertarget{cb__absolute__rotate_8cpp_source_l00037}00037 }
+\DoxyCodeLine{\Hypertarget{cb__absolute__rotate_8cpp_source_l00038}00038   \textcolor{keywordflow}{if} (yaw\_goal\_tolerance >= 0)}
+\DoxyCodeLine{\Hypertarget{cb__absolute__rotate_8cpp_source_l00039}00039   \{}
+\DoxyCodeLine{\Hypertarget{cb__absolute__rotate_8cpp_source_l00040}00040     this-\/>\mbox{\hyperlink{classcl__move__base__z_1_1CbAbsoluteRotate_abdc024b9021e9a26e73c93ca9e6950c5}{yawGoalTolerance}} = yaw\_goal\_tolerance;}
+\DoxyCodeLine{\Hypertarget{cb__absolute__rotate_8cpp_source_l00041}00041   \}}
+\DoxyCodeLine{\Hypertarget{cb__absolute__rotate_8cpp_source_l00042}00042 \}}
+\DoxyCodeLine{\Hypertarget{cb__absolute__rotate_8cpp_source_l00043}00043 }
+\DoxyCodeLine{\Hypertarget{cb__absolute__rotate_8cpp_source_l00044}\mbox{\hyperlink{classcl__move__base__z_1_1CbAbsoluteRotate_a10418ea360809fa649d295716b152b2b}{00044}} \textcolor{keywordtype}{void} \mbox{\hyperlink{classcl__move__base__z_1_1CbAbsoluteRotate_a10418ea360809fa649d295716b152b2b}{CbAbsoluteRotate::onEntry}}()}
+\DoxyCodeLine{\Hypertarget{cb__absolute__rotate_8cpp_source_l00045}00045 \{}
+\DoxyCodeLine{\Hypertarget{cb__absolute__rotate_8cpp_source_l00046}00046   \textcolor{keywordtype}{double} goal\_angle;}
+\DoxyCodeLine{\Hypertarget{cb__absolute__rotate_8cpp_source_l00047}00047 }
+\DoxyCodeLine{\Hypertarget{cb__absolute__rotate_8cpp_source_l00048}00048   \mbox{\hyperlink{classcl__move__base__z_1_1CbAbsoluteRotate_af89fe52afe48b642b70058d6b6ade94c}{listener}} = std::make\_shared<tf2\_ros::Buffer>(\mbox{\hyperlink{classsmacc2_1_1ISmaccClientBehavior_a95c9749af2004528fbda63ca6fde8eae}{getNode}}()-\/>get\_clock());}
+\DoxyCodeLine{\Hypertarget{cb__absolute__rotate_8cpp_source_l00049}00049   \textcolor{keywordflow}{if} (!this-\/>\mbox{\hyperlink{classcl__move__base__z_1_1CbAbsoluteRotate_ad942284528b29a6c4e9990a5d34569cf}{absoluteGoalAngleDegree}})}
+\DoxyCodeLine{\Hypertarget{cb__absolute__rotate_8cpp_source_l00050}00050   \{}
+\DoxyCodeLine{\Hypertarget{cb__absolute__rotate_8cpp_source_l00051}00051     goal\_angle = 0;}
+\DoxyCodeLine{\Hypertarget{cb__absolute__rotate_8cpp_source_l00052}00052     this-\/>\mbox{\hyperlink{classsmacc2_1_1ISmaccClientBehavior_a1a667b94eddb33662912587e87289cc1}{getCurrentState}}()-\/>\mbox{\hyperlink{classsmacc2_1_1ISmaccState_ae90a9db1cbeb2f1ed861a0d05d515fec}{param}}(\textcolor{stringliteral}{"{}goal\_angle"{}}, goal\_angle);}
+\DoxyCodeLine{\Hypertarget{cb__absolute__rotate_8cpp_source_l00053}00053   \}}
+\DoxyCodeLine{\Hypertarget{cb__absolute__rotate_8cpp_source_l00054}00054   \textcolor{keywordflow}{else}}
+\DoxyCodeLine{\Hypertarget{cb__absolute__rotate_8cpp_source_l00055}00055   \{}
+\DoxyCodeLine{\Hypertarget{cb__absolute__rotate_8cpp_source_l00056}00056     goal\_angle = *this-\/>\mbox{\hyperlink{classcl__move__base__z_1_1CbAbsoluteRotate_ad942284528b29a6c4e9990a5d34569cf}{absoluteGoalAngleDegree}};}
+\DoxyCodeLine{\Hypertarget{cb__absolute__rotate_8cpp_source_l00057}00057   \}}
+\DoxyCodeLine{\Hypertarget{cb__absolute__rotate_8cpp_source_l00058}00058   RCLCPP\_INFO\_STREAM(\mbox{\hyperlink{classsmacc2_1_1ISmaccClientBehavior_a5474074c4b45e900499e30126fb8415c}{getLogger}}(), \textcolor{stringliteral}{"{}[CbAbsoluteRotate] Absolute yaw Angle:"{}} << goal\_angle);}
+\DoxyCodeLine{\Hypertarget{cb__absolute__rotate_8cpp_source_l00059}00059 }
+\DoxyCodeLine{\Hypertarget{cb__absolute__rotate_8cpp_source_l00060}00060   \textcolor{keyword}{auto} plannerSwitcher = this-\/>\mbox{\hyperlink{classcl__move__base__z_1_1CbMoveBaseClientBehaviorBase_a225c27a9a5890dfac81aa787c21ceada}{moveBaseClient\_}}-\/>\mbox{\hyperlink{classsmacc2_1_1ISmaccClient_afc6e0f5f82a4552134c9423b75e3ca1d}{getComponent}}<\mbox{\hyperlink{classcl__move__base__z_1_1PlannerSwitcher}{PlannerSwitcher}}>();}
+\DoxyCodeLine{\Hypertarget{cb__absolute__rotate_8cpp_source_l00061}00061   \textcolor{comment}{// this should work better with a coroutine and await}}
+\DoxyCodeLine{\Hypertarget{cb__absolute__rotate_8cpp_source_l00062}00062   \textcolor{comment}{// this-\/>plannerSwitcher\_-\/>setForwardPlanner();}}
+\DoxyCodeLine{\Hypertarget{cb__absolute__rotate_8cpp_source_l00063}00063 }
+\DoxyCodeLine{\Hypertarget{cb__absolute__rotate_8cpp_source_l00064}00064   \textcolor{keywordflow}{if} (\mbox{\hyperlink{classcl__move__base__z_1_1CbAbsoluteRotate_ad6b8e228fe501d8fbf7494026ced3b29}{spinningPlanner}} \&\& *\mbox{\hyperlink{classcl__move__base__z_1_1CbAbsoluteRotate_ad6b8e228fe501d8fbf7494026ced3b29}{spinningPlanner}} == \mbox{\hyperlink{namespacecl__move__base__z_aab2ad3041275145f0065fb60b3299345aada5274435681a4ce04175bebfa6652f}{SpiningPlanner::PureSpinning}})}
+\DoxyCodeLine{\Hypertarget{cb__absolute__rotate_8cpp_source_l00065}00065   \{}
+\DoxyCodeLine{\Hypertarget{cb__absolute__rotate_8cpp_source_l00066}00066     plannerSwitcher-\/>\mbox{\hyperlink{classcl__move__base__z_1_1PlannerSwitcher_a0accdff89d7858658c1835f06b53786f}{setPureSpinningPlanner}}();}
+\DoxyCodeLine{\Hypertarget{cb__absolute__rotate_8cpp_source_l00067}00067   \}}
+\DoxyCodeLine{\Hypertarget{cb__absolute__rotate_8cpp_source_l00068}00068   \textcolor{keywordflow}{else}}
+\DoxyCodeLine{\Hypertarget{cb__absolute__rotate_8cpp_source_l00069}00069   \{}
+\DoxyCodeLine{\Hypertarget{cb__absolute__rotate_8cpp_source_l00070}00070     plannerSwitcher-\/>setDefaultPlanners();}
+\DoxyCodeLine{\Hypertarget{cb__absolute__rotate_8cpp_source_l00071}00071   \}}
+\DoxyCodeLine{\Hypertarget{cb__absolute__rotate_8cpp_source_l00072}00072 }
+\DoxyCodeLine{\Hypertarget{cb__absolute__rotate_8cpp_source_l00073}00073   \mbox{\hyperlink{classcl__move__base__z_1_1CbAbsoluteRotate_a2d8a4200dcacc00ad60c22ad2af5d4b2}{updateTemporalBehaviorParameters}}(\textcolor{keyword}{false});}
+\DoxyCodeLine{\Hypertarget{cb__absolute__rotate_8cpp_source_l00074}00074 }
+\DoxyCodeLine{\Hypertarget{cb__absolute__rotate_8cpp_source_l00075}00075   \textcolor{keyword}{auto} p = \mbox{\hyperlink{classcl__move__base__z_1_1CbMoveBaseClientBehaviorBase_a225c27a9a5890dfac81aa787c21ceada}{moveBaseClient\_}}-\/>\mbox{\hyperlink{classsmacc2_1_1ISmaccClient_afc6e0f5f82a4552134c9423b75e3ca1d}{getComponent}}<\mbox{\hyperlink{classcl__move__base__z_1_1Pose}{cl\_move\_base\_z::Pose}}>();}
+\DoxyCodeLine{\Hypertarget{cb__absolute__rotate_8cpp_source_l00076}00076   \textcolor{keyword}{auto} referenceFrame = p-\/>\mbox{\hyperlink{classcl__move__base__z_1_1Pose_aec469af8ca846ae14e108d74fef93b4f}{getReferenceFrame}}();}
+\DoxyCodeLine{\Hypertarget{cb__absolute__rotate_8cpp_source_l00077}00077   \textcolor{keyword}{auto} currentPoseMsg = p-\/>toPoseMsg();}
+\DoxyCodeLine{\Hypertarget{cb__absolute__rotate_8cpp_source_l00078}00078 }
+\DoxyCodeLine{\Hypertarget{cb__absolute__rotate_8cpp_source_l00079}00079   \mbox{\hyperlink{classsmacc2_1_1client__bases_1_1SmaccActionClientBase_ab56ba47b81346277a471584dedf7d45c}{ClMoveBaseZ::Goal}} goal;}
+\DoxyCodeLine{\Hypertarget{cb__absolute__rotate_8cpp_source_l00080}00080   goal.pose.header.frame\_id = referenceFrame;}
+\DoxyCodeLine{\Hypertarget{cb__absolute__rotate_8cpp_source_l00081}00081   goal.pose.header.stamp = \mbox{\hyperlink{classsmacc2_1_1ISmaccClientBehavior_a95c9749af2004528fbda63ca6fde8eae}{getNode}}()-\/>now();}
+\DoxyCodeLine{\Hypertarget{cb__absolute__rotate_8cpp_source_l00082}00082 }
+\DoxyCodeLine{\Hypertarget{cb__absolute__rotate_8cpp_source_l00083}00083   \textcolor{keyword}{auto} targetAngle = goal\_angle * M\_PI / 180.0;}
+\DoxyCodeLine{\Hypertarget{cb__absolute__rotate_8cpp_source_l00084}00084   goal.pose.pose.position = currentPoseMsg.position;}
+\DoxyCodeLine{\Hypertarget{cb__absolute__rotate_8cpp_source_l00085}00085   tf2::Quaternion q;}
+\DoxyCodeLine{\Hypertarget{cb__absolute__rotate_8cpp_source_l00086}00086   q.setRPY(0, 0, targetAngle);}
+\DoxyCodeLine{\Hypertarget{cb__absolute__rotate_8cpp_source_l00087}00087   goal.pose.pose.orientation = tf2::toMsg(q);}
+\DoxyCodeLine{\Hypertarget{cb__absolute__rotate_8cpp_source_l00088}00088 }
+\DoxyCodeLine{\Hypertarget{cb__absolute__rotate_8cpp_source_l00089}00089   \textcolor{keyword}{auto} odomTracker\_ = \mbox{\hyperlink{classcl__move__base__z_1_1CbMoveBaseClientBehaviorBase_a225c27a9a5890dfac81aa787c21ceada}{moveBaseClient\_}}-\/>\mbox{\hyperlink{classsmacc2_1_1ISmaccClient_afc6e0f5f82a4552134c9423b75e3ca1d}{getComponent}}<\mbox{\hyperlink{classcl__move__base__z_1_1odom__tracker_1_1OdomTracker}{odom\_tracker::OdomTracker}}>();}
+\DoxyCodeLine{\Hypertarget{cb__absolute__rotate_8cpp_source_l00090}00090   \textcolor{keywordflow}{if} (odomTracker\_ != \textcolor{keyword}{nullptr})}
+\DoxyCodeLine{\Hypertarget{cb__absolute__rotate_8cpp_source_l00091}00091   \{}
+\DoxyCodeLine{\Hypertarget{cb__absolute__rotate_8cpp_source_l00092}00092     odomTracker\_-\/>\mbox{\hyperlink{classcl__move__base__z_1_1odom__tracker_1_1OdomTracker_a205ee48ec8b4599658e7408fc4755239}{pushPath}}();}
+\DoxyCodeLine{\Hypertarget{cb__absolute__rotate_8cpp_source_l00093}00093     odomTracker\_-\/>setStartPoint(p-\/>toPoseStampedMsg());}
+\DoxyCodeLine{\Hypertarget{cb__absolute__rotate_8cpp_source_l00094}00094     odomTracker\_-\/>setWorkingMode(\mbox{\hyperlink{namespacecl__move__base__z_1_1odom__tracker_ac46b05813b2791604f6cd0a39ace3ef8a023bc3adf68871ef7a0c616765ac80a7}{odom\_tracker::WorkingMode::RECORD\_PATH}});}
+\DoxyCodeLine{\Hypertarget{cb__absolute__rotate_8cpp_source_l00095}00095   \}}
+\DoxyCodeLine{\Hypertarget{cb__absolute__rotate_8cpp_source_l00096}00096 }
+\DoxyCodeLine{\Hypertarget{cb__absolute__rotate_8cpp_source_l00097}00097   \textcolor{keyword}{auto} goalCheckerSwitcher = \mbox{\hyperlink{classcl__move__base__z_1_1CbMoveBaseClientBehaviorBase_a225c27a9a5890dfac81aa787c21ceada}{moveBaseClient\_}}-\/>\mbox{\hyperlink{classsmacc2_1_1ISmaccClient_afc6e0f5f82a4552134c9423b75e3ca1d}{getComponent}}<\mbox{\hyperlink{classcl__move__base__z_1_1GoalCheckerSwitcher}{GoalCheckerSwitcher}}>();}
+\DoxyCodeLine{\Hypertarget{cb__absolute__rotate_8cpp_source_l00098}00098   goalCheckerSwitcher-\/>\mbox{\hyperlink{classcl__move__base__z_1_1GoalCheckerSwitcher_ac20e9c1f9401bd9edc77db57acc815f4}{setGoalCheckerId}}(\textcolor{stringliteral}{"{}absolute\_rotate\_goal\_checker"{}});}
+\DoxyCodeLine{\Hypertarget{cb__absolute__rotate_8cpp_source_l00099}00099 }
+\DoxyCodeLine{\Hypertarget{cb__absolute__rotate_8cpp_source_l00100}00100   RCLCPP\_INFO\_STREAM(}
+\DoxyCodeLine{\Hypertarget{cb__absolute__rotate_8cpp_source_l00101}00101     \mbox{\hyperlink{classsmacc2_1_1ISmaccClientBehavior_a5474074c4b45e900499e30126fb8415c}{getLogger}}(),}
+\DoxyCodeLine{\Hypertarget{cb__absolute__rotate_8cpp_source_l00102}00102     \textcolor{stringliteral}{"{}[CbAbsoluteRotate] current pose yaw: "{}} << tf2::getYaw(currentPoseMsg.orientation));}
+\DoxyCodeLine{\Hypertarget{cb__absolute__rotate_8cpp_source_l00103}00103   RCLCPP\_INFO\_STREAM(}
+\DoxyCodeLine{\Hypertarget{cb__absolute__rotate_8cpp_source_l00104}00104     \mbox{\hyperlink{classsmacc2_1_1ISmaccClientBehavior_a5474074c4b45e900499e30126fb8415c}{getLogger}}(), \textcolor{stringliteral}{"{}[CbAbsoluteRotate] goal pose yaw: "{}} << tf2::getYaw(goal.pose.pose.orientation));}
+\DoxyCodeLine{\Hypertarget{cb__absolute__rotate_8cpp_source_l00105}00105   \mbox{\hyperlink{classcl__move__base__z_1_1CbMoveBaseClientBehaviorBase_a225c27a9a5890dfac81aa787c21ceada}{moveBaseClient\_}}-\/>\mbox{\hyperlink{classsmacc2_1_1client__bases_1_1SmaccActionClientBase_a5c797ec23739af4295dcab24fc05973b}{sendGoal}}(goal);}
+\DoxyCodeLine{\Hypertarget{cb__absolute__rotate_8cpp_source_l00106}00106 \}}
+\DoxyCodeLine{\Hypertarget{cb__absolute__rotate_8cpp_source_l00107}00107 }
+\DoxyCodeLine{\Hypertarget{cb__absolute__rotate_8cpp_source_l00108}\mbox{\hyperlink{classcl__move__base__z_1_1CbAbsoluteRotate_a2d8a4200dcacc00ad60c22ad2af5d4b2}{00108}} \textcolor{keywordtype}{void} \mbox{\hyperlink{classcl__move__base__z_1_1CbAbsoluteRotate_a2d8a4200dcacc00ad60c22ad2af5d4b2}{CbAbsoluteRotate::updateTemporalBehaviorParameters}}(\textcolor{keywordtype}{bool} undo)}
+\DoxyCodeLine{\Hypertarget{cb__absolute__rotate_8cpp_source_l00109}00109 \{}
+\DoxyCodeLine{\Hypertarget{cb__absolute__rotate_8cpp_source_l00110}00110   \textcolor{keyword}{auto} log = this-\/>\mbox{\hyperlink{classsmacc2_1_1ISmaccClientBehavior_a5474074c4b45e900499e30126fb8415c}{getLogger}}();}
+\DoxyCodeLine{\Hypertarget{cb__absolute__rotate_8cpp_source_l00111}00111 }
+\DoxyCodeLine{\Hypertarget{cb__absolute__rotate_8cpp_source_l00112}00112   std::string nodename = \textcolor{stringliteral}{"{}/controller\_server"{}};}
+\DoxyCodeLine{\Hypertarget{cb__absolute__rotate_8cpp_source_l00113}00113 }
+\DoxyCodeLine{\Hypertarget{cb__absolute__rotate_8cpp_source_l00114}00114   \textcolor{keyword}{auto} parameters\_client =}
+\DoxyCodeLine{\Hypertarget{cb__absolute__rotate_8cpp_source_l00115}00115     std::make\_shared<rclcpp::AsyncParametersClient>(this-\/>\mbox{\hyperlink{classsmacc2_1_1ISmaccClientBehavior_a95c9749af2004528fbda63ca6fde8eae}{getNode}}(), nodename);}
+\DoxyCodeLine{\Hypertarget{cb__absolute__rotate_8cpp_source_l00116}00116 }
+\DoxyCodeLine{\Hypertarget{cb__absolute__rotate_8cpp_source_l00117}00117   RCLCPP\_INFO\_STREAM(}
+\DoxyCodeLine{\Hypertarget{cb__absolute__rotate_8cpp_source_l00118}00118     log, \textcolor{stringliteral}{"{}[CbAbsoluteRotate] using a parameter client to update some controller parameters: "{}}}
+\DoxyCodeLine{\Hypertarget{cb__absolute__rotate_8cpp_source_l00119}00119            << nodename << \textcolor{stringliteral}{"{}. Waiting service."{}});}
+\DoxyCodeLine{\Hypertarget{cb__absolute__rotate_8cpp_source_l00120}00120   parameters\_client-\/>wait\_for\_service();}
+\DoxyCodeLine{\Hypertarget{cb__absolute__rotate_8cpp_source_l00121}00121 }
+\DoxyCodeLine{\Hypertarget{cb__absolute__rotate_8cpp_source_l00122}00122   RCLCPP\_INFO\_STREAM(log, \textcolor{stringliteral}{"{}[CbAbsoluteRotate] Service found: "{}} << nodename << \textcolor{stringliteral}{"{}."{}});}
+\DoxyCodeLine{\Hypertarget{cb__absolute__rotate_8cpp_source_l00123}00123 }
+\DoxyCodeLine{\Hypertarget{cb__absolute__rotate_8cpp_source_l00124}00124   std::string localPlannerName;}
+\DoxyCodeLine{\Hypertarget{cb__absolute__rotate_8cpp_source_l00125}00125   std::vector<rclcpp::Parameter> parameters;}
+\DoxyCodeLine{\Hypertarget{cb__absolute__rotate_8cpp_source_l00126}00126 }
+\DoxyCodeLine{\Hypertarget{cb__absolute__rotate_8cpp_source_l00127}00127   \textcolor{comment}{// dynamic\_reconfigure::DoubleParameter yaw\_goal\_tolerance;}}
+\DoxyCodeLine{\Hypertarget{cb__absolute__rotate_8cpp_source_l00128}00128   rclcpp::Parameter yaw\_goal\_tolerance(\textcolor{stringliteral}{"{}goal\_checker.yaw\_goal\_tolerance"{}});}
+\DoxyCodeLine{\Hypertarget{cb__absolute__rotate_8cpp_source_l00129}00129 }
+\DoxyCodeLine{\Hypertarget{cb__absolute__rotate_8cpp_source_l00130}00130   rclcpp::Parameter max\_vel\_theta, min\_vel\_theta;}
+\DoxyCodeLine{\Hypertarget{cb__absolute__rotate_8cpp_source_l00131}00131 }
+\DoxyCodeLine{\Hypertarget{cb__absolute__rotate_8cpp_source_l00132}00132   \textcolor{keywordtype}{bool} isRosBasePlanner = !\mbox{\hyperlink{classcl__move__base__z_1_1CbAbsoluteRotate_ad6b8e228fe501d8fbf7494026ced3b29}{spinningPlanner}} || *\mbox{\hyperlink{classcl__move__base__z_1_1CbAbsoluteRotate_ad6b8e228fe501d8fbf7494026ced3b29}{spinningPlanner}} == \mbox{\hyperlink{namespacecl__move__base__z_aab2ad3041275145f0065fb60b3299345a7a1920d61156abc05a60135aefe8bc67}{SpiningPlanner::Default}};}
+\DoxyCodeLine{\Hypertarget{cb__absolute__rotate_8cpp_source_l00133}00133   \textcolor{keywordtype}{bool} isPureSpinningPlanner = \mbox{\hyperlink{classcl__move__base__z_1_1CbAbsoluteRotate_ad6b8e228fe501d8fbf7494026ced3b29}{spinningPlanner}} \&\& *\mbox{\hyperlink{classcl__move__base__z_1_1CbAbsoluteRotate_ad6b8e228fe501d8fbf7494026ced3b29}{spinningPlanner}} == \mbox{\hyperlink{namespacecl__move__base__z_aab2ad3041275145f0065fb60b3299345aada5274435681a4ce04175bebfa6652f}{SpiningPlanner::PureSpinning}};}
+\DoxyCodeLine{\Hypertarget{cb__absolute__rotate_8cpp_source_l00134}00134 }
+\DoxyCodeLine{\Hypertarget{cb__absolute__rotate_8cpp_source_l00135}00135   \textcolor{comment}{// SELECTING CONTROLLER AND PARAMETERS NAME}}
+\DoxyCodeLine{\Hypertarget{cb__absolute__rotate_8cpp_source_l00136}00136   \textcolor{keywordflow}{if} (isPureSpinningPlanner)}
+\DoxyCodeLine{\Hypertarget{cb__absolute__rotate_8cpp_source_l00137}00137   \{}
+\DoxyCodeLine{\Hypertarget{cb__absolute__rotate_8cpp_source_l00138}00138     localPlannerName = \textcolor{stringliteral}{"{}PureSpinningLocalPlanner"{}};}
+\DoxyCodeLine{\Hypertarget{cb__absolute__rotate_8cpp_source_l00139}00139     max\_vel\_theta = rclcpp::Parameter(localPlannerName + \textcolor{stringliteral}{"{}.max\_angular\_z\_speed"{}});}
+\DoxyCodeLine{\Hypertarget{cb__absolute__rotate_8cpp_source_l00140}00140     min\_vel\_theta = rclcpp::Parameter(localPlannerName + \textcolor{stringliteral}{"{}.min\_vel\_theta"{}});}
+\DoxyCodeLine{\Hypertarget{cb__absolute__rotate_8cpp_source_l00141}00141   \}}
+\DoxyCodeLine{\Hypertarget{cb__absolute__rotate_8cpp_source_l00142}00142   \textcolor{keywordflow}{else} \textcolor{keywordflow}{if} (isRosBasePlanner)}
+\DoxyCodeLine{\Hypertarget{cb__absolute__rotate_8cpp_source_l00143}00143   \{}
+\DoxyCodeLine{\Hypertarget{cb__absolute__rotate_8cpp_source_l00144}00144     localPlannerName = \textcolor{stringliteral}{"{}FollowPath"{}};}
+\DoxyCodeLine{\Hypertarget{cb__absolute__rotate_8cpp_source_l00145}00145     max\_vel\_theta = rclcpp::Parameter(localPlannerName + \textcolor{stringliteral}{"{}.max\_vel\_theta"{}});}
+\DoxyCodeLine{\Hypertarget{cb__absolute__rotate_8cpp_source_l00146}00146     min\_vel\_theta = rclcpp::Parameter(localPlannerName + \textcolor{stringliteral}{"{}.min\_vel\_theta"{}});}
+\DoxyCodeLine{\Hypertarget{cb__absolute__rotate_8cpp_source_l00147}00147   \}}
+\DoxyCodeLine{\Hypertarget{cb__absolute__rotate_8cpp_source_l00148}00148 }
+\DoxyCodeLine{\Hypertarget{cb__absolute__rotate_8cpp_source_l00149}00149   \textcolor{keywordflow}{if} (!undo)}
+\DoxyCodeLine{\Hypertarget{cb__absolute__rotate_8cpp_source_l00150}00150   \{}
+\DoxyCodeLine{\Hypertarget{cb__absolute__rotate_8cpp_source_l00151}00151     \textcolor{keywordflow}{if} (\mbox{\hyperlink{classcl__move__base__z_1_1CbAbsoluteRotate_abdc024b9021e9a26e73c93ca9e6950c5}{yawGoalTolerance}})}
+\DoxyCodeLine{\Hypertarget{cb__absolute__rotate_8cpp_source_l00152}00152     \{}
+\DoxyCodeLine{\Hypertarget{cb__absolute__rotate_8cpp_source_l00153}00153       \textcolor{comment}{// save old yaw tolerance}}
+\DoxyCodeLine{\Hypertarget{cb__absolute__rotate_8cpp_source_l00154}00154       \textcolor{keyword}{auto} fut = parameters\_client-\/>get\_parameters(}
+\DoxyCodeLine{\Hypertarget{cb__absolute__rotate_8cpp_source_l00155}00155         \{localPlannerName + \textcolor{stringliteral}{"{}.yaw\_goal\_tolerance"{}}\}, [\&](\textcolor{keyword}{auto} futureParameters) \{}
+\DoxyCodeLine{\Hypertarget{cb__absolute__rotate_8cpp_source_l00156}00156           \textcolor{keyword}{auto} params = futureParameters.get();}
+\DoxyCodeLine{\Hypertarget{cb__absolute__rotate_8cpp_source_l00157}00157           \mbox{\hyperlink{classcl__move__base__z_1_1CbAbsoluteRotate_a2cfcd2978e7923494e2e66107e134e27}{oldYawTolerance}} = params[0].as\_double();}
+\DoxyCodeLine{\Hypertarget{cb__absolute__rotate_8cpp_source_l00158}00158         \});}
+\DoxyCodeLine{\Hypertarget{cb__absolute__rotate_8cpp_source_l00159}00159 }
+\DoxyCodeLine{\Hypertarget{cb__absolute__rotate_8cpp_source_l00160}00160       \textcolor{comment}{// make synchronous}}
+\DoxyCodeLine{\Hypertarget{cb__absolute__rotate_8cpp_source_l00161}00161       fut.get();}
+\DoxyCodeLine{\Hypertarget{cb__absolute__rotate_8cpp_source_l00162}00162 }
+\DoxyCodeLine{\Hypertarget{cb__absolute__rotate_8cpp_source_l00163}00163       yaw\_goal\_tolerance = rclcpp::Parameter(\textcolor{stringliteral}{"{}goal\_checker.yaw\_goal\_tolerance"{}}, *\mbox{\hyperlink{classcl__move__base__z_1_1CbAbsoluteRotate_abdc024b9021e9a26e73c93ca9e6950c5}{yawGoalTolerance}});}
+\DoxyCodeLine{\Hypertarget{cb__absolute__rotate_8cpp_source_l00164}00164       parameters.push\_back(yaw\_goal\_tolerance);}
+\DoxyCodeLine{\Hypertarget{cb__absolute__rotate_8cpp_source_l00165}00165       RCLCPP\_INFO(}
+\DoxyCodeLine{\Hypertarget{cb__absolute__rotate_8cpp_source_l00166}00166         \mbox{\hyperlink{classsmacc2_1_1ISmaccClientBehavior_a5474074c4b45e900499e30126fb8415c}{getLogger}}(),}
+\DoxyCodeLine{\Hypertarget{cb__absolute__rotate_8cpp_source_l00167}00167         \textcolor{stringliteral}{"{}[CbAbsoluteRotate] updating yaw tolerance local planner to: \%lf, from previous value: "{}}}
+\DoxyCodeLine{\Hypertarget{cb__absolute__rotate_8cpp_source_l00168}00168         \textcolor{stringliteral}{"{}\%lf "{}},}
+\DoxyCodeLine{\Hypertarget{cb__absolute__rotate_8cpp_source_l00169}00169         *\mbox{\hyperlink{classcl__move__base__z_1_1CbAbsoluteRotate_abdc024b9021e9a26e73c93ca9e6950c5}{yawGoalTolerance}}, this-\/>\mbox{\hyperlink{classcl__move__base__z_1_1CbAbsoluteRotate_a2cfcd2978e7923494e2e66107e134e27}{oldYawTolerance}});}
+\DoxyCodeLine{\Hypertarget{cb__absolute__rotate_8cpp_source_l00170}00170     \}}
+\DoxyCodeLine{\Hypertarget{cb__absolute__rotate_8cpp_source_l00171}00171 }
+\DoxyCodeLine{\Hypertarget{cb__absolute__rotate_8cpp_source_l00172}00172     \textcolor{keywordflow}{if} (\mbox{\hyperlink{classcl__move__base__z_1_1CbAbsoluteRotate_a559ff6db662cf0a6885129a1b5f4406d}{maxVelTheta}})}
+\DoxyCodeLine{\Hypertarget{cb__absolute__rotate_8cpp_source_l00173}00173     \{}
+\DoxyCodeLine{\Hypertarget{cb__absolute__rotate_8cpp_source_l00174}00174       \textcolor{keywordflow}{if} (isRosBasePlanner)}
+\DoxyCodeLine{\Hypertarget{cb__absolute__rotate_8cpp_source_l00175}00175       \{}
+\DoxyCodeLine{\Hypertarget{cb__absolute__rotate_8cpp_source_l00176}00176         \textcolor{comment}{// nh.getParam(nodename + "{}/"{}  + localPlannerName+"{}/min\_vel\_theta"{}, oldMinVelTheta);}}
+\DoxyCodeLine{\Hypertarget{cb__absolute__rotate_8cpp_source_l00177}00177         \textcolor{comment}{// getCurrentState()-\/>getParam(nodename + "{}/"{} + localPlannerName + "{}/max\_vel\_theta"{}, oldMaxVelTheta);}}
+\DoxyCodeLine{\Hypertarget{cb__absolute__rotate_8cpp_source_l00178}00178 }
+\DoxyCodeLine{\Hypertarget{cb__absolute__rotate_8cpp_source_l00179}00179         \textcolor{comment}{// save old yaw tolerance}}
+\DoxyCodeLine{\Hypertarget{cb__absolute__rotate_8cpp_source_l00180}00180         \textcolor{keyword}{auto} fut = parameters\_client-\/>get\_parameters(}
+\DoxyCodeLine{\Hypertarget{cb__absolute__rotate_8cpp_source_l00181}00181           \{localPlannerName + \textcolor{stringliteral}{"{}.max\_vel\_theta"{}}\}, [\&](\textcolor{keyword}{auto} futureParameters) \{}
+\DoxyCodeLine{\Hypertarget{cb__absolute__rotate_8cpp_source_l00182}00182             \textcolor{keyword}{auto} params = futureParameters.get();}
+\DoxyCodeLine{\Hypertarget{cb__absolute__rotate_8cpp_source_l00183}00183             \mbox{\hyperlink{classcl__move__base__z_1_1CbAbsoluteRotate_a131095d57ad3fd423bb9eaebebf61cc9}{oldMaxVelTheta}} = params[0].as\_double();}
+\DoxyCodeLine{\Hypertarget{cb__absolute__rotate_8cpp_source_l00184}00184           \});}
+\DoxyCodeLine{\Hypertarget{cb__absolute__rotate_8cpp_source_l00185}00185 }
+\DoxyCodeLine{\Hypertarget{cb__absolute__rotate_8cpp_source_l00186}00186         \textcolor{comment}{// make synchronous}}
+\DoxyCodeLine{\Hypertarget{cb__absolute__rotate_8cpp_source_l00187}00187         fut.get();}
+\DoxyCodeLine{\Hypertarget{cb__absolute__rotate_8cpp_source_l00188}00188       \}}
+\DoxyCodeLine{\Hypertarget{cb__absolute__rotate_8cpp_source_l00189}00189 }
+\DoxyCodeLine{\Hypertarget{cb__absolute__rotate_8cpp_source_l00190}00190       max\_vel\_theta = rclcpp::Parameter(localPlannerName + \textcolor{stringliteral}{"{}.max\_vel\_theta"{}}, *\mbox{\hyperlink{classcl__move__base__z_1_1CbAbsoluteRotate_a559ff6db662cf0a6885129a1b5f4406d}{maxVelTheta}});}
+\DoxyCodeLine{\Hypertarget{cb__absolute__rotate_8cpp_source_l00191}00191       min\_vel\_theta = rclcpp::Parameter(localPlannerName + \textcolor{stringliteral}{"{}.min\_vel\_theta"{}}, -\/*\mbox{\hyperlink{classcl__move__base__z_1_1CbAbsoluteRotate_a559ff6db662cf0a6885129a1b5f4406d}{maxVelTheta}});}
+\DoxyCodeLine{\Hypertarget{cb__absolute__rotate_8cpp_source_l00192}00192       parameters.push\_back(max\_vel\_theta);}
+\DoxyCodeLine{\Hypertarget{cb__absolute__rotate_8cpp_source_l00193}00193       parameters.push\_back(min\_vel\_theta);}
+\DoxyCodeLine{\Hypertarget{cb__absolute__rotate_8cpp_source_l00194}00194 }
+\DoxyCodeLine{\Hypertarget{cb__absolute__rotate_8cpp_source_l00195}00195       RCLCPP\_INFO(}
+\DoxyCodeLine{\Hypertarget{cb__absolute__rotate_8cpp_source_l00196}00196         log,}
+\DoxyCodeLine{\Hypertarget{cb__absolute__rotate_8cpp_source_l00197}00197         \textcolor{stringliteral}{"{}[CbAbsoluteRotate] updating max vel theta local planner to: \%lf, from previous value: "{}}}
+\DoxyCodeLine{\Hypertarget{cb__absolute__rotate_8cpp_source_l00198}00198         \textcolor{stringliteral}{"{}\%lf "{}},}
+\DoxyCodeLine{\Hypertarget{cb__absolute__rotate_8cpp_source_l00199}00199         *\mbox{\hyperlink{classcl__move__base__z_1_1CbAbsoluteRotate_a559ff6db662cf0a6885129a1b5f4406d}{maxVelTheta}}, this-\/>\mbox{\hyperlink{classcl__move__base__z_1_1CbAbsoluteRotate_a131095d57ad3fd423bb9eaebebf61cc9}{oldMaxVelTheta}});}
+\DoxyCodeLine{\Hypertarget{cb__absolute__rotate_8cpp_source_l00200}00200       RCLCPP\_INFO(}
+\DoxyCodeLine{\Hypertarget{cb__absolute__rotate_8cpp_source_l00201}00201         log,}
+\DoxyCodeLine{\Hypertarget{cb__absolute__rotate_8cpp_source_l00202}00202         \textcolor{stringliteral}{"{}[CbAbsoluteRotate] updating min vel theta local planner to: \%lf, from previous value: "{}}}
+\DoxyCodeLine{\Hypertarget{cb__absolute__rotate_8cpp_source_l00203}00203         \textcolor{stringliteral}{"{}\%lf "{}},}
+\DoxyCodeLine{\Hypertarget{cb__absolute__rotate_8cpp_source_l00204}00204         -\/*\mbox{\hyperlink{classcl__move__base__z_1_1CbAbsoluteRotate_a559ff6db662cf0a6885129a1b5f4406d}{maxVelTheta}}, this-\/>\mbox{\hyperlink{classcl__move__base__z_1_1CbAbsoluteRotate_a280721d1887e622330ee3ac44b7e84d5}{oldMinVelTheta}});}
+\DoxyCodeLine{\Hypertarget{cb__absolute__rotate_8cpp_source_l00205}00205     \}}
+\DoxyCodeLine{\Hypertarget{cb__absolute__rotate_8cpp_source_l00206}00206   \}}
+\DoxyCodeLine{\Hypertarget{cb__absolute__rotate_8cpp_source_l00207}00207   \textcolor{keywordflow}{else}}
+\DoxyCodeLine{\Hypertarget{cb__absolute__rotate_8cpp_source_l00208}00208   \{}
+\DoxyCodeLine{\Hypertarget{cb__absolute__rotate_8cpp_source_l00209}00209     \textcolor{keywordflow}{if} (\mbox{\hyperlink{classcl__move__base__z_1_1CbAbsoluteRotate_abdc024b9021e9a26e73c93ca9e6950c5}{yawGoalTolerance}})}
+\DoxyCodeLine{\Hypertarget{cb__absolute__rotate_8cpp_source_l00210}00210     \{}
+\DoxyCodeLine{\Hypertarget{cb__absolute__rotate_8cpp_source_l00211}00211       yaw\_goal\_tolerance = rclcpp::Parameter(\textcolor{stringliteral}{"{}goal\_checker.yaw\_goal\_tolerance"{}}, \mbox{\hyperlink{classcl__move__base__z_1_1CbAbsoluteRotate_a2cfcd2978e7923494e2e66107e134e27}{oldYawTolerance}});}
+\DoxyCodeLine{\Hypertarget{cb__absolute__rotate_8cpp_source_l00212}00212       RCLCPP\_INFO(}
+\DoxyCodeLine{\Hypertarget{cb__absolute__rotate_8cpp_source_l00213}00213         log,}
+\DoxyCodeLine{\Hypertarget{cb__absolute__rotate_8cpp_source_l00214}00214         \textcolor{stringliteral}{"{}[CbAbsoluteRotate] restoring yaw tolerance local planner from: \%lf, to previous value: "{}}}
+\DoxyCodeLine{\Hypertarget{cb__absolute__rotate_8cpp_source_l00215}00215         \textcolor{stringliteral}{"{}\%lf "{}},}
+\DoxyCodeLine{\Hypertarget{cb__absolute__rotate_8cpp_source_l00216}00216         *\mbox{\hyperlink{classcl__move__base__z_1_1CbAbsoluteRotate_abdc024b9021e9a26e73c93ca9e6950c5}{yawGoalTolerance}}, this-\/>\mbox{\hyperlink{classcl__move__base__z_1_1CbAbsoluteRotate_a2cfcd2978e7923494e2e66107e134e27}{oldYawTolerance}});}
+\DoxyCodeLine{\Hypertarget{cb__absolute__rotate_8cpp_source_l00217}00217     \}}
+\DoxyCodeLine{\Hypertarget{cb__absolute__rotate_8cpp_source_l00218}00218 }
+\DoxyCodeLine{\Hypertarget{cb__absolute__rotate_8cpp_source_l00219}00219     \textcolor{keywordflow}{if} (\mbox{\hyperlink{classcl__move__base__z_1_1CbAbsoluteRotate_a559ff6db662cf0a6885129a1b5f4406d}{maxVelTheta}})}
+\DoxyCodeLine{\Hypertarget{cb__absolute__rotate_8cpp_source_l00220}00220     \{}
+\DoxyCodeLine{\Hypertarget{cb__absolute__rotate_8cpp_source_l00221}00221       \textcolor{keywordflow}{if} (isRosBasePlanner)}
+\DoxyCodeLine{\Hypertarget{cb__absolute__rotate_8cpp_source_l00222}00222       \{}
+\DoxyCodeLine{\Hypertarget{cb__absolute__rotate_8cpp_source_l00223}00223         max\_vel\_theta = rclcpp::Parameter(localPlannerName + \textcolor{stringliteral}{"{}.max\_vel\_theta"{}}, \mbox{\hyperlink{classcl__move__base__z_1_1CbAbsoluteRotate_a131095d57ad3fd423bb9eaebebf61cc9}{oldMaxVelTheta}});}
+\DoxyCodeLine{\Hypertarget{cb__absolute__rotate_8cpp_source_l00224}00224         min\_vel\_theta = rclcpp::Parameter(localPlannerName + \textcolor{stringliteral}{"{}.max\_vel\_theta"{}}, \mbox{\hyperlink{classcl__move__base__z_1_1CbAbsoluteRotate_a280721d1887e622330ee3ac44b7e84d5}{oldMinVelTheta}});}
+\DoxyCodeLine{\Hypertarget{cb__absolute__rotate_8cpp_source_l00225}00225       \}}
+\DoxyCodeLine{\Hypertarget{cb__absolute__rotate_8cpp_source_l00226}00226 }
+\DoxyCodeLine{\Hypertarget{cb__absolute__rotate_8cpp_source_l00227}00227       parameters.push\_back(max\_vel\_theta);}
+\DoxyCodeLine{\Hypertarget{cb__absolute__rotate_8cpp_source_l00228}00228       parameters.push\_back(min\_vel\_theta);}
+\DoxyCodeLine{\Hypertarget{cb__absolute__rotate_8cpp_source_l00229}00229       RCLCPP\_INFO(}
+\DoxyCodeLine{\Hypertarget{cb__absolute__rotate_8cpp_source_l00230}00230         log,}
+\DoxyCodeLine{\Hypertarget{cb__absolute__rotate_8cpp_source_l00231}00231         \textcolor{stringliteral}{"{}[CbAbsoluteRotate] restoring max vel theta local planner from: \%lf, to previous value: "{}}}
+\DoxyCodeLine{\Hypertarget{cb__absolute__rotate_8cpp_source_l00232}00232         \textcolor{stringliteral}{"{}\%lf "{}},}
+\DoxyCodeLine{\Hypertarget{cb__absolute__rotate_8cpp_source_l00233}00233         *\mbox{\hyperlink{classcl__move__base__z_1_1CbAbsoluteRotate_a559ff6db662cf0a6885129a1b5f4406d}{maxVelTheta}}, this-\/>\mbox{\hyperlink{classcl__move__base__z_1_1CbAbsoluteRotate_a131095d57ad3fd423bb9eaebebf61cc9}{oldMaxVelTheta}});}
+\DoxyCodeLine{\Hypertarget{cb__absolute__rotate_8cpp_source_l00234}00234       RCLCPP\_INFO(}
+\DoxyCodeLine{\Hypertarget{cb__absolute__rotate_8cpp_source_l00235}00235         log,}
+\DoxyCodeLine{\Hypertarget{cb__absolute__rotate_8cpp_source_l00236}00236         \textcolor{stringliteral}{"{}[CbAbsoluteRotate] restoring min vel theta local planner from: \%lf, to previous value: "{}}}
+\DoxyCodeLine{\Hypertarget{cb__absolute__rotate_8cpp_source_l00237}00237         \textcolor{stringliteral}{"{}\%lf "{}},}
+\DoxyCodeLine{\Hypertarget{cb__absolute__rotate_8cpp_source_l00238}00238         -\/(*\mbox{\hyperlink{classcl__move__base__z_1_1CbAbsoluteRotate_a559ff6db662cf0a6885129a1b5f4406d}{maxVelTheta}}), this-\/>\mbox{\hyperlink{classcl__move__base__z_1_1CbAbsoluteRotate_a280721d1887e622330ee3ac44b7e84d5}{oldMinVelTheta}});}
+\DoxyCodeLine{\Hypertarget{cb__absolute__rotate_8cpp_source_l00239}00239     \}}
+\DoxyCodeLine{\Hypertarget{cb__absolute__rotate_8cpp_source_l00240}00240   \}}
+\DoxyCodeLine{\Hypertarget{cb__absolute__rotate_8cpp_source_l00241}00241 }
+\DoxyCodeLine{\Hypertarget{cb__absolute__rotate_8cpp_source_l00242}00242   \textcolor{keywordflow}{if} (parameters.size() > 0)}
+\DoxyCodeLine{\Hypertarget{cb__absolute__rotate_8cpp_source_l00243}00243   \{}
+\DoxyCodeLine{\Hypertarget{cb__absolute__rotate_8cpp_source_l00244}00244     RCLCPP\_INFO(log, \textcolor{stringliteral}{"{}[CbAbsoluteRotate] parameters to update:  "{}});}
+\DoxyCodeLine{\Hypertarget{cb__absolute__rotate_8cpp_source_l00245}00245     \textcolor{keywordflow}{for} (\textcolor{keyword}{auto} \& p : parameters)}
+\DoxyCodeLine{\Hypertarget{cb__absolute__rotate_8cpp_source_l00246}00246     \{}
+\DoxyCodeLine{\Hypertarget{cb__absolute__rotate_8cpp_source_l00247}00247       RCLCPP\_INFO\_STREAM(log, \textcolor{stringliteral}{"{}[CbAbsoluteRotate] -\/ "{}} << p.get\_name());}
+\DoxyCodeLine{\Hypertarget{cb__absolute__rotate_8cpp_source_l00248}00248     \}}
+\DoxyCodeLine{\Hypertarget{cb__absolute__rotate_8cpp_source_l00249}00249   \}}
+\DoxyCodeLine{\Hypertarget{cb__absolute__rotate_8cpp_source_l00250}00250 }
+\DoxyCodeLine{\Hypertarget{cb__absolute__rotate_8cpp_source_l00251}00251   \textcolor{keyword}{auto} futureResults = parameters\_client-\/>set\_parameters(parameters);}
+\DoxyCodeLine{\Hypertarget{cb__absolute__rotate_8cpp_source_l00252}00252 }
+\DoxyCodeLine{\Hypertarget{cb__absolute__rotate_8cpp_source_l00253}00253   \textcolor{keywordtype}{int} i = 0;}
+\DoxyCodeLine{\Hypertarget{cb__absolute__rotate_8cpp_source_l00254}00254   \textcolor{keywordflow}{for} (\textcolor{keyword}{auto} \& res : futureResults.get())}
+\DoxyCodeLine{\Hypertarget{cb__absolute__rotate_8cpp_source_l00255}00255   \{}
+\DoxyCodeLine{\Hypertarget{cb__absolute__rotate_8cpp_source_l00256}00256     RCLCPP\_INFO\_STREAM(}
+\DoxyCodeLine{\Hypertarget{cb__absolute__rotate_8cpp_source_l00257}00257       \mbox{\hyperlink{classsmacc2_1_1ISmaccClientBehavior_a5474074c4b45e900499e30126fb8415c}{getLogger}}(), \textcolor{stringliteral}{"{}[CbAbsoluteRotate] parameter result: "{}} << parameters[i].get\_name() << \textcolor{stringliteral}{"{}="{}}}
+\DoxyCodeLine{\Hypertarget{cb__absolute__rotate_8cpp_source_l00258}00258                                                            << parameters[i].as\_string()}
+\DoxyCodeLine{\Hypertarget{cb__absolute__rotate_8cpp_source_l00259}00259                                                            << \textcolor{stringliteral}{"{}. Result: "{}} << res.successful);}
+\DoxyCodeLine{\Hypertarget{cb__absolute__rotate_8cpp_source_l00260}00260     i++;}
+\DoxyCodeLine{\Hypertarget{cb__absolute__rotate_8cpp_source_l00261}00261   \}}
+\DoxyCodeLine{\Hypertarget{cb__absolute__rotate_8cpp_source_l00262}00262 }
+\DoxyCodeLine{\Hypertarget{cb__absolute__rotate_8cpp_source_l00263}00263   RCLCPP\_INFO(log, \textcolor{stringliteral}{"{}[CbAbsoluteRotate] parameters updated"{}});}
+\DoxyCodeLine{\Hypertarget{cb__absolute__rotate_8cpp_source_l00264}00264 \}}
+\DoxyCodeLine{\Hypertarget{cb__absolute__rotate_8cpp_source_l00265}00265 }
+\DoxyCodeLine{\Hypertarget{cb__absolute__rotate_8cpp_source_l00266}\mbox{\hyperlink{classcl__move__base__z_1_1CbAbsoluteRotate_a0e362b8e9f0d7de5aeee183ba4031437}{00266}} \textcolor{keywordtype}{void} \mbox{\hyperlink{classcl__move__base__z_1_1CbAbsoluteRotate_a0e362b8e9f0d7de5aeee183ba4031437}{CbAbsoluteRotate::onExit}}()}
+\DoxyCodeLine{\Hypertarget{cb__absolute__rotate_8cpp_source_l00267}00267 \{}
+\DoxyCodeLine{\Hypertarget{cb__absolute__rotate_8cpp_source_l00268}00268   \textcolor{keywordflow}{if} (\mbox{\hyperlink{classcl__move__base__z_1_1CbAbsoluteRotate_ad6b8e228fe501d8fbf7494026ced3b29}{spinningPlanner}} \&\& *\mbox{\hyperlink{classcl__move__base__z_1_1CbAbsoluteRotate_ad6b8e228fe501d8fbf7494026ced3b29}{spinningPlanner}} == \mbox{\hyperlink{namespacecl__move__base__z_aab2ad3041275145f0065fb60b3299345aada5274435681a4ce04175bebfa6652f}{SpiningPlanner::PureSpinning}})}
+\DoxyCodeLine{\Hypertarget{cb__absolute__rotate_8cpp_source_l00269}00269   \{}
+\DoxyCodeLine{\Hypertarget{cb__absolute__rotate_8cpp_source_l00270}00270   \}}
+\DoxyCodeLine{\Hypertarget{cb__absolute__rotate_8cpp_source_l00271}00271   \textcolor{keywordflow}{else}}
+\DoxyCodeLine{\Hypertarget{cb__absolute__rotate_8cpp_source_l00272}00272   \{}
+\DoxyCodeLine{\Hypertarget{cb__absolute__rotate_8cpp_source_l00273}00273   \}}
+\DoxyCodeLine{\Hypertarget{cb__absolute__rotate_8cpp_source_l00274}00274 }
+\DoxyCodeLine{\Hypertarget{cb__absolute__rotate_8cpp_source_l00275}00275   this-\/>\mbox{\hyperlink{classcl__move__base__z_1_1CbAbsoluteRotate_a2d8a4200dcacc00ad60c22ad2af5d4b2}{updateTemporalBehaviorParameters}}(\textcolor{keyword}{true});}
+\DoxyCodeLine{\Hypertarget{cb__absolute__rotate_8cpp_source_l00276}00276 \}}
+\DoxyCodeLine{\Hypertarget{cb__absolute__rotate_8cpp_source_l00277}00277 }
+\DoxyCodeLine{\Hypertarget{cb__absolute__rotate_8cpp_source_l00278}00278 \}  \textcolor{comment}{// namespace cl\_move\_base\_z}}
+
+\end{DoxyCode}

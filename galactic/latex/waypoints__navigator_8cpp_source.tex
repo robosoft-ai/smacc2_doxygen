@@ -1,0 +1,207 @@
+\hypertarget{waypoints__navigator_8cpp_source}{}\doxysection{waypoints\+\_\+navigator.\+cpp}
+\label{waypoints__navigator_8cpp_source}\index{smacc2\_client\_library/move\_base\_z\_client/move\_base\_z\_client\_plugin/src/move\_base\_z\_client\_plugin/components/waypoints\_navigator/waypoints\_navigator.cpp@{smacc2\_client\_library/move\_base\_z\_client/move\_base\_z\_client\_plugin/src/move\_base\_z\_client\_plugin/components/waypoints\_navigator/waypoints\_navigator.cpp}}
+\mbox{\hyperlink{waypoints__navigator_8cpp}{Go to the documentation of this file.}}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\Hypertarget{waypoints__navigator_8cpp_source_l00001}00001 \textcolor{comment}{// Copyright 2021 RobosoftAI Inc.}}
+\DoxyCodeLine{\Hypertarget{waypoints__navigator_8cpp_source_l00002}00002 \textcolor{comment}{//}}
+\DoxyCodeLine{\Hypertarget{waypoints__navigator_8cpp_source_l00003}00003 \textcolor{comment}{// Licensed under the Apache License, Version 2.0 (the "{}License"{});}}
+\DoxyCodeLine{\Hypertarget{waypoints__navigator_8cpp_source_l00004}00004 \textcolor{comment}{// you may not use this file except in compliance with the License.}}
+\DoxyCodeLine{\Hypertarget{waypoints__navigator_8cpp_source_l00005}00005 \textcolor{comment}{// You may obtain a copy of the License at}}
+\DoxyCodeLine{\Hypertarget{waypoints__navigator_8cpp_source_l00006}00006 \textcolor{comment}{//}}
+\DoxyCodeLine{\Hypertarget{waypoints__navigator_8cpp_source_l00007}00007 \textcolor{comment}{//     http://www.apache.org/licenses/LICENSE-\/2.0}}
+\DoxyCodeLine{\Hypertarget{waypoints__navigator_8cpp_source_l00008}00008 \textcolor{comment}{//}}
+\DoxyCodeLine{\Hypertarget{waypoints__navigator_8cpp_source_l00009}00009 \textcolor{comment}{// Unless required by applicable law or agreed to in writing, software}}
+\DoxyCodeLine{\Hypertarget{waypoints__navigator_8cpp_source_l00010}00010 \textcolor{comment}{// distributed under the License is distributed on an "{}AS IS"{} BASIS,}}
+\DoxyCodeLine{\Hypertarget{waypoints__navigator_8cpp_source_l00011}00011 \textcolor{comment}{// WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.}}
+\DoxyCodeLine{\Hypertarget{waypoints__navigator_8cpp_source_l00012}00012 \textcolor{comment}{// See the License for the specific language governing permissions and}}
+\DoxyCodeLine{\Hypertarget{waypoints__navigator_8cpp_source_l00013}00013 \textcolor{comment}{// limitations under the License.}}
+\DoxyCodeLine{\Hypertarget{waypoints__navigator_8cpp_source_l00014}00014 }
+\DoxyCodeLine{\Hypertarget{waypoints__navigator_8cpp_source_l00015}00015 \textcolor{preprocessor}{\#include <\mbox{\hyperlink{client__library_2move__base__z__client_2move__base__z__client__plugin_2include_2move__base__z__client__plugin_2common_8hpp}{move\_base\_z\_client\_plugin/common.hpp}}>}}
+\DoxyCodeLine{\Hypertarget{waypoints__navigator_8cpp_source_l00016}00016 \textcolor{preprocessor}{\#include <\mbox{\hyperlink{goal__checker__switcher_8hpp}{move\_base\_z\_client\_plugin/components/goal\_checker\_switcher/goal\_checker\_switcher.hpp}}>}}
+\DoxyCodeLine{\Hypertarget{waypoints__navigator_8cpp_source_l00017}00017 \textcolor{preprocessor}{\#include <\mbox{\hyperlink{odom__tracker_8hpp}{move\_base\_z\_client\_plugin/components/odom\_tracker/odom\_tracker.hpp}}>}}
+\DoxyCodeLine{\Hypertarget{waypoints__navigator_8cpp_source_l00018}00018 \textcolor{preprocessor}{\#include <\mbox{\hyperlink{planner__switcher_8hpp}{move\_base\_z\_client\_plugin/components/planner\_switcher/planner\_switcher.hpp}}>}}
+\DoxyCodeLine{\Hypertarget{waypoints__navigator_8cpp_source_l00019}00019 \textcolor{preprocessor}{\#include <\mbox{\hyperlink{cp__pose_8hpp}{move\_base\_z\_client\_plugin/components/pose/cp\_pose.hpp}}>}}
+\DoxyCodeLine{\Hypertarget{waypoints__navigator_8cpp_source_l00020}00020 \textcolor{preprocessor}{\#include <\mbox{\hyperlink{waypoints__navigator_8hpp}{move\_base\_z\_client\_plugin/components/waypoints\_navigator/waypoints\_navigator.hpp}}>}}
+\DoxyCodeLine{\Hypertarget{waypoints__navigator_8cpp_source_l00021}00021 \textcolor{preprocessor}{\#include <\mbox{\hyperlink{move__base__z__client__plugin_8hpp}{move\_base\_z\_client\_plugin/move\_base\_z\_client\_plugin.hpp}}>}}
+\DoxyCodeLine{\Hypertarget{waypoints__navigator_8cpp_source_l00022}00022 }
+\DoxyCodeLine{\Hypertarget{waypoints__navigator_8cpp_source_l00023}00023 \textcolor{preprocessor}{\#include <tf2/transform\_datatypes.h>}}
+\DoxyCodeLine{\Hypertarget{waypoints__navigator_8cpp_source_l00024}00024 \textcolor{preprocessor}{\#include <yaml-\/cpp/yaml.h>}}
+\DoxyCodeLine{\Hypertarget{waypoints__navigator_8cpp_source_l00025}00025 \textcolor{preprocessor}{\#include <fstream>}}
+\DoxyCodeLine{\Hypertarget{waypoints__navigator_8cpp_source_l00026}00026 \textcolor{preprocessor}{\#include <rclcpp/rclcpp.hpp>}}
+\DoxyCodeLine{\Hypertarget{waypoints__navigator_8cpp_source_l00027}00027 }
+\DoxyCodeLine{\Hypertarget{waypoints__navigator_8cpp_source_l00028}00028 \textcolor{keyword}{namespace }\mbox{\hyperlink{namespacecl__move__base__z}{cl\_move\_base\_z}}}
+\DoxyCodeLine{\Hypertarget{waypoints__navigator_8cpp_source_l00029}00029 \{}
+\DoxyCodeLine{\Hypertarget{waypoints__navigator_8cpp_source_l00030}00030 \textcolor{keyword}{using namespace }std::chrono\_literals;}
+\DoxyCodeLine{\Hypertarget{waypoints__navigator_8cpp_source_l00031}\mbox{\hyperlink{classcl__move__base__z_1_1WaypointNavigator_a62d2f964f5537e17f94317c2f69c8969}{00031}} \mbox{\hyperlink{classcl__move__base__z_1_1WaypointNavigator_a62d2f964f5537e17f94317c2f69c8969}{WaypointNavigator::WaypointNavigator}}() : currentWaypoint\_(0), waypoints\_(0) \{\}}
+\DoxyCodeLine{\Hypertarget{waypoints__navigator_8cpp_source_l00032}00032 }
+\DoxyCodeLine{\Hypertarget{waypoints__navigator_8cpp_source_l00033}\mbox{\hyperlink{classcl__move__base__z_1_1WaypointNavigator_ac60ecf63f7a2a84f3ef51f04cc222a70}{00033}} \textcolor{keywordtype}{void} \mbox{\hyperlink{classcl__move__base__z_1_1WaypointNavigator_ac60ecf63f7a2a84f3ef51f04cc222a70}{WaypointNavigator::onInitialize}}() \{ \mbox{\hyperlink{classcl__move__base__z_1_1WaypointNavigator_afc5ad5c5d15f41437286b8fca1d3a324}{client\_}} = \textcolor{keyword}{dynamic\_cast<}\mbox{\hyperlink{classcl__move__base__z_1_1ClMoveBaseZ}{ClMoveBaseZ}} *\textcolor{keyword}{>}(\mbox{\hyperlink{classsmacc2_1_1ISmaccComponent_a018a8e735cb3db4b50aeb20b685b58ce}{owner\_}}); \}}
+\DoxyCodeLine{\Hypertarget{waypoints__navigator_8cpp_source_l00034}00034 }
+\DoxyCodeLine{\Hypertarget{waypoints__navigator_8cpp_source_l00035}\mbox{\hyperlink{classcl__move__base__z_1_1WaypointNavigator_ac0f38052c1f4092a93e55d955e29bd96}{00035}} \textcolor{keywordtype}{void} \mbox{\hyperlink{classcl__move__base__z_1_1WaypointNavigator_ac0f38052c1f4092a93e55d955e29bd96}{WaypointNavigator::onGoalReached}}(\mbox{\hyperlink{classsmacc2_1_1client__bases_1_1SmaccActionClientBase_acc16d5dee886ab59c574c828156f6cf0}{ClMoveBaseZ::WrappedResult}} \& \textcolor{comment}{/*res*/})}
+\DoxyCodeLine{\Hypertarget{waypoints__navigator_8cpp_source_l00036}00036 \{}
+\DoxyCodeLine{\Hypertarget{waypoints__navigator_8cpp_source_l00037}00037   \mbox{\hyperlink{classcl__move__base__z_1_1WaypointNavigator_a4f2be7a9741e8535c414e63335d752a0}{waypointsEventDispatcher}}.\mbox{\hyperlink{classcl__move__base__z_1_1WaypointEventDispatcher_a6462eae610b97df2207ecd93c1544aaf}{postWaypointEvent}}(\mbox{\hyperlink{classcl__move__base__z_1_1WaypointNavigator_a82859e418592c2392c20a2d11b9836eb}{currentWaypoint\_}});}
+\DoxyCodeLine{\Hypertarget{waypoints__navigator_8cpp_source_l00038}00038   \mbox{\hyperlink{classcl__move__base__z_1_1WaypointNavigator_a82859e418592c2392c20a2d11b9836eb}{currentWaypoint\_}}++;}
+\DoxyCodeLine{\Hypertarget{waypoints__navigator_8cpp_source_l00039}00039   this-\/>\mbox{\hyperlink{classcl__move__base__z_1_1WaypointNavigator_a6e32b1d6cae56963187d0965de251108}{succeddedConnection\_}}.disconnect();}
+\DoxyCodeLine{\Hypertarget{waypoints__navigator_8cpp_source_l00040}00040 \}}
+\DoxyCodeLine{\Hypertarget{waypoints__navigator_8cpp_source_l00041}00041 }
+\DoxyCodeLine{\Hypertarget{waypoints__navigator_8cpp_source_l00042}\mbox{\hyperlink{classcl__move__base__z_1_1WaypointNavigator_a1e0a8ff536d2d01a01063fd903029347}{00042}} \textcolor{keywordtype}{void} \mbox{\hyperlink{classcl__move__base__z_1_1WaypointNavigator_a1e0a8ff536d2d01a01063fd903029347}{WaypointNavigator::sendNextGoal}}()}
+\DoxyCodeLine{\Hypertarget{waypoints__navigator_8cpp_source_l00043}00043 \{}
+\DoxyCodeLine{\Hypertarget{waypoints__navigator_8cpp_source_l00044}00044   \textcolor{keywordflow}{if} (\mbox{\hyperlink{classcl__move__base__z_1_1WaypointNavigator_a82859e418592c2392c20a2d11b9836eb}{currentWaypoint\_}} >= 0 \&\& \mbox{\hyperlink{classcl__move__base__z_1_1WaypointNavigator_a82859e418592c2392c20a2d11b9836eb}{currentWaypoint\_}} < (\textcolor{keywordtype}{int})\mbox{\hyperlink{classcl__move__base__z_1_1WaypointNavigator_adf0a8e840d0351ef7ece20969fad2d38}{waypoints\_}}.size())}
+\DoxyCodeLine{\Hypertarget{waypoints__navigator_8cpp_source_l00045}00045   \{}
+\DoxyCodeLine{\Hypertarget{waypoints__navigator_8cpp_source_l00046}00046     \textcolor{keyword}{auto} \& next = \mbox{\hyperlink{classcl__move__base__z_1_1WaypointNavigator_adf0a8e840d0351ef7ece20969fad2d38}{waypoints\_}}[\mbox{\hyperlink{classcl__move__base__z_1_1WaypointNavigator_a82859e418592c2392c20a2d11b9836eb}{currentWaypoint\_}}];}
+\DoxyCodeLine{\Hypertarget{waypoints__navigator_8cpp_source_l00047}00047 }
+\DoxyCodeLine{\Hypertarget{waypoints__navigator_8cpp_source_l00048}00048     \mbox{\hyperlink{classsmacc2_1_1client__bases_1_1SmaccActionClientBase_ab56ba47b81346277a471584dedf7d45c}{ClMoveBaseZ::Goal}} goal;}
+\DoxyCodeLine{\Hypertarget{waypoints__navigator_8cpp_source_l00049}00049     \textcolor{keyword}{auto} p = \mbox{\hyperlink{classcl__move__base__z_1_1WaypointNavigator_afc5ad5c5d15f41437286b8fca1d3a324}{client\_}}-\/>\mbox{\hyperlink{classsmacc2_1_1ISmaccClient_afc6e0f5f82a4552134c9423b75e3ca1d}{getComponent}}<\mbox{\hyperlink{classcl__move__base__z_1_1Pose}{cl\_move\_base\_z::Pose}}>();}
+\DoxyCodeLine{\Hypertarget{waypoints__navigator_8cpp_source_l00050}00050     \textcolor{keyword}{auto} pose = p-\/>\mbox{\hyperlink{classcl__move__base__z_1_1Pose_a52938c8f1747273d6fc20daed95235bb}{toPoseMsg}}();}
+\DoxyCodeLine{\Hypertarget{waypoints__navigator_8cpp_source_l00051}00051 }
+\DoxyCodeLine{\Hypertarget{waypoints__navigator_8cpp_source_l00052}00052     \textcolor{comment}{// configuring goal}}
+\DoxyCodeLine{\Hypertarget{waypoints__navigator_8cpp_source_l00053}00053     goal.pose.header.frame\_id = p-\/>getReferenceFrame();}
+\DoxyCodeLine{\Hypertarget{waypoints__navigator_8cpp_source_l00054}00054     goal.pose.header.stamp = \mbox{\hyperlink{classsmacc2_1_1ISmaccComponent_aaac68614687bed658c59f8f15746ab91}{getNode}}()-\/>now();}
+\DoxyCodeLine{\Hypertarget{waypoints__navigator_8cpp_source_l00055}00055     goal.pose.pose = next;}
+\DoxyCodeLine{\Hypertarget{waypoints__navigator_8cpp_source_l00056}00056 }
+\DoxyCodeLine{\Hypertarget{waypoints__navigator_8cpp_source_l00057}00057     RCLCPP\_WARN(\mbox{\hyperlink{classsmacc2_1_1ISmaccComponent_a6b9ca3313826dc3f555c63e8becf1e68}{getLogger}}(), \textcolor{stringliteral}{"{}[WaypointsNavigator] Configuring default planners"{}});}
+\DoxyCodeLine{\Hypertarget{waypoints__navigator_8cpp_source_l00058}00058     \textcolor{keyword}{auto} plannerSwitcher = \mbox{\hyperlink{classcl__move__base__z_1_1WaypointNavigator_afc5ad5c5d15f41437286b8fca1d3a324}{client\_}}-\/>\mbox{\hyperlink{classsmacc2_1_1ISmaccClient_afc6e0f5f82a4552134c9423b75e3ca1d}{getComponent}}<\mbox{\hyperlink{classcl__move__base__z_1_1PlannerSwitcher}{PlannerSwitcher}}>();}
+\DoxyCodeLine{\Hypertarget{waypoints__navigator_8cpp_source_l00059}00059     plannerSwitcher-\/>\mbox{\hyperlink{classcl__move__base__z_1_1PlannerSwitcher_ad3f0d08a51af6218d203bf44a7f9df40}{setDefaultPlanners}}();}
+\DoxyCodeLine{\Hypertarget{waypoints__navigator_8cpp_source_l00060}00060 }
+\DoxyCodeLine{\Hypertarget{waypoints__navigator_8cpp_source_l00061}00061     RCLCPP\_WARN(\mbox{\hyperlink{classsmacc2_1_1ISmaccComponent_a6b9ca3313826dc3f555c63e8becf1e68}{getLogger}}(), \textcolor{stringliteral}{"{}[WaypointsNavigator] Configuring default goal planner"{}});}
+\DoxyCodeLine{\Hypertarget{waypoints__navigator_8cpp_source_l00062}00062     \textcolor{keyword}{auto} goalCheckerSwitcher = \mbox{\hyperlink{classcl__move__base__z_1_1WaypointNavigator_afc5ad5c5d15f41437286b8fca1d3a324}{client\_}}-\/>\mbox{\hyperlink{classsmacc2_1_1ISmaccClient_afc6e0f5f82a4552134c9423b75e3ca1d}{getComponent}}<\mbox{\hyperlink{classcl__move__base__z_1_1GoalCheckerSwitcher}{GoalCheckerSwitcher}}>();}
+\DoxyCodeLine{\Hypertarget{waypoints__navigator_8cpp_source_l00063}00063     goalCheckerSwitcher-\/>\mbox{\hyperlink{classcl__move__base__z_1_1GoalCheckerSwitcher_ac20e9c1f9401bd9edc77db57acc815f4}{setGoalCheckerId}}(\textcolor{stringliteral}{"{}goal\_checker"{}});}
+\DoxyCodeLine{\Hypertarget{waypoints__navigator_8cpp_source_l00064}00064 }
+\DoxyCodeLine{\Hypertarget{waypoints__navigator_8cpp_source_l00065}00065     \textcolor{comment}{// publish stuff}}
+\DoxyCodeLine{\Hypertarget{waypoints__navigator_8cpp_source_l00066}00066     \textcolor{comment}{//rclcpp::sleep\_for(5s);}}
+\DoxyCodeLine{\Hypertarget{waypoints__navigator_8cpp_source_l00067}00067 }
+\DoxyCodeLine{\Hypertarget{waypoints__navigator_8cpp_source_l00068}00068     RCLCPP\_INFO(\mbox{\hyperlink{classsmacc2_1_1ISmaccComponent_a6b9ca3313826dc3f555c63e8becf1e68}{getLogger}}(), \textcolor{stringliteral}{"{}[WaypointsNavigator] Getting odom tracker"{}});}
+\DoxyCodeLine{\Hypertarget{waypoints__navigator_8cpp_source_l00069}00069     \textcolor{keyword}{auto} odomTracker = \mbox{\hyperlink{classcl__move__base__z_1_1WaypointNavigator_afc5ad5c5d15f41437286b8fca1d3a324}{client\_}}-\/>\mbox{\hyperlink{classsmacc2_1_1ISmaccClient_afc6e0f5f82a4552134c9423b75e3ca1d}{getComponent}}<\mbox{\hyperlink{classcl__move__base__z_1_1odom__tracker_1_1OdomTracker}{cl\_move\_base\_z::odom\_tracker::OdomTracker}}>();}
+\DoxyCodeLine{\Hypertarget{waypoints__navigator_8cpp_source_l00070}00070     \textcolor{keywordflow}{if} (odomTracker != \textcolor{keyword}{nullptr})}
+\DoxyCodeLine{\Hypertarget{waypoints__navigator_8cpp_source_l00071}00071     \{}
+\DoxyCodeLine{\Hypertarget{waypoints__navigator_8cpp_source_l00072}00072       RCLCPP\_INFO(\mbox{\hyperlink{classsmacc2_1_1ISmaccComponent_a6b9ca3313826dc3f555c63e8becf1e68}{getLogger}}(), \textcolor{stringliteral}{"{}[WaypointsNavigator] Storing path in odom tracker"{}});}
+\DoxyCodeLine{\Hypertarget{waypoints__navigator_8cpp_source_l00073}00073       odomTracker-\/>pushPath();}
+\DoxyCodeLine{\Hypertarget{waypoints__navigator_8cpp_source_l00074}00074       odomTracker-\/>setStartPoint(pose);}
+\DoxyCodeLine{\Hypertarget{waypoints__navigator_8cpp_source_l00075}00075       odomTracker-\/>setWorkingMode(\mbox{\hyperlink{namespacecl__move__base__z_1_1odom__tracker_ac46b05813b2791604f6cd0a39ace3ef8a023bc3adf68871ef7a0c616765ac80a7}{cl\_move\_base\_z::odom\_tracker::WorkingMode::RECORD\_PATH}});}
+\DoxyCodeLine{\Hypertarget{waypoints__navigator_8cpp_source_l00076}00076     \}}
+\DoxyCodeLine{\Hypertarget{waypoints__navigator_8cpp_source_l00077}00077 }
+\DoxyCodeLine{\Hypertarget{waypoints__navigator_8cpp_source_l00078}00078     \textcolor{comment}{// SEND GOAL}}
+\DoxyCodeLine{\Hypertarget{waypoints__navigator_8cpp_source_l00079}00079     this-\/>\mbox{\hyperlink{classcl__move__base__z_1_1WaypointNavigator_a6e32b1d6cae56963187d0965de251108}{succeddedConnection\_}} = \mbox{\hyperlink{classcl__move__base__z_1_1WaypointNavigator_afc5ad5c5d15f41437286b8fca1d3a324}{client\_}}-\/>\mbox{\hyperlink{classsmacc2_1_1client__bases_1_1SmaccActionClientBase_a6f37d69935254227c9f7572a54817e5a}{onSucceeded}}(\&\mbox{\hyperlink{classcl__move__base__z_1_1WaypointNavigator_ac0f38052c1f4092a93e55d955e29bd96}{WaypointNavigator::onGoalReached}}, \textcolor{keyword}{this});}
+\DoxyCodeLine{\Hypertarget{waypoints__navigator_8cpp_source_l00080}00080     \mbox{\hyperlink{classcl__move__base__z_1_1WaypointNavigator_afc5ad5c5d15f41437286b8fca1d3a324}{client\_}}-\/>\mbox{\hyperlink{classsmacc2_1_1client__bases_1_1SmaccActionClientBase_a5c797ec23739af4295dcab24fc05973b}{sendGoal}}(goal);}
+\DoxyCodeLine{\Hypertarget{waypoints__navigator_8cpp_source_l00081}00081   \}}
+\DoxyCodeLine{\Hypertarget{waypoints__navigator_8cpp_source_l00082}00082   \textcolor{keywordflow}{else}}
+\DoxyCodeLine{\Hypertarget{waypoints__navigator_8cpp_source_l00083}00083   \{}
+\DoxyCodeLine{\Hypertarget{waypoints__navigator_8cpp_source_l00084}00084     RCLCPP\_WARN(}
+\DoxyCodeLine{\Hypertarget{waypoints__navigator_8cpp_source_l00085}00085       \mbox{\hyperlink{classsmacc2_1_1ISmaccComponent_a6b9ca3313826dc3f555c63e8becf1e68}{getLogger}}(),}
+\DoxyCodeLine{\Hypertarget{waypoints__navigator_8cpp_source_l00086}00086       \textcolor{stringliteral}{"{}[WaypointsNavigator] All waypoints were consumed. There is no more waypoints available."{}});}
+\DoxyCodeLine{\Hypertarget{waypoints__navigator_8cpp_source_l00087}00087   \}}
+\DoxyCodeLine{\Hypertarget{waypoints__navigator_8cpp_source_l00088}00088 \}}
+\DoxyCodeLine{\Hypertarget{waypoints__navigator_8cpp_source_l00089}00089 }
+\DoxyCodeLine{\Hypertarget{waypoints__navigator_8cpp_source_l00090}\mbox{\hyperlink{classcl__move__base__z_1_1WaypointNavigator_ae10947f0d46fa92bb4cc874c84124b19}{00090}} \textcolor{keywordtype}{void} \mbox{\hyperlink{classcl__move__base__z_1_1WaypointNavigator_ae10947f0d46fa92bb4cc874c84124b19}{WaypointNavigator::insertWaypoint}}(\textcolor{keywordtype}{int} index, geometry\_msgs::msg::Pose \& newpose)}
+\DoxyCodeLine{\Hypertarget{waypoints__navigator_8cpp_source_l00091}00091 \{}
+\DoxyCodeLine{\Hypertarget{waypoints__navigator_8cpp_source_l00092}00092   \textcolor{keywordflow}{if} (index >= 0 \&\& index <= (\textcolor{keywordtype}{int})\mbox{\hyperlink{classcl__move__base__z_1_1WaypointNavigator_adf0a8e840d0351ef7ece20969fad2d38}{waypoints\_}}.size())}
+\DoxyCodeLine{\Hypertarget{waypoints__navigator_8cpp_source_l00093}00093   \{}
+\DoxyCodeLine{\Hypertarget{waypoints__navigator_8cpp_source_l00094}00094     \mbox{\hyperlink{classcl__move__base__z_1_1WaypointNavigator_adf0a8e840d0351ef7ece20969fad2d38}{waypoints\_}}.insert(\mbox{\hyperlink{classcl__move__base__z_1_1WaypointNavigator_adf0a8e840d0351ef7ece20969fad2d38}{waypoints\_}}.begin(), index, newpose);}
+\DoxyCodeLine{\Hypertarget{waypoints__navigator_8cpp_source_l00095}00095   \}}
+\DoxyCodeLine{\Hypertarget{waypoints__navigator_8cpp_source_l00096}00096 \}}
+\DoxyCodeLine{\Hypertarget{waypoints__navigator_8cpp_source_l00097}00097 }
+\DoxyCodeLine{\Hypertarget{waypoints__navigator_8cpp_source_l00098}\mbox{\hyperlink{classcl__move__base__z_1_1WaypointNavigator_a40e48300d7c836798910c5f4083e7bbd}{00098}} \textcolor{keywordtype}{void} \mbox{\hyperlink{classcl__move__base__z_1_1WaypointNavigator_a40e48300d7c836798910c5f4083e7bbd}{WaypointNavigator::setWaypoints}}(\textcolor{keyword}{const} std::vector<geometry\_msgs::msg::Pose> \& waypoints)}
+\DoxyCodeLine{\Hypertarget{waypoints__navigator_8cpp_source_l00099}00099 \{}
+\DoxyCodeLine{\Hypertarget{waypoints__navigator_8cpp_source_l00100}00100   this-\/>\mbox{\hyperlink{classcl__move__base__z_1_1WaypointNavigator_adf0a8e840d0351ef7ece20969fad2d38}{waypoints\_}} = waypoints;}
+\DoxyCodeLine{\Hypertarget{waypoints__navigator_8cpp_source_l00101}00101 \}}
+\DoxyCodeLine{\Hypertarget{waypoints__navigator_8cpp_source_l00102}00102 }
+\DoxyCodeLine{\Hypertarget{waypoints__navigator_8cpp_source_l00103}\mbox{\hyperlink{classcl__move__base__z_1_1WaypointNavigator_aa164ff2510b9549b0b73df6eb18a7a4f}{00103}} \textcolor{keywordtype}{void} \mbox{\hyperlink{classcl__move__base__z_1_1WaypointNavigator_a40e48300d7c836798910c5f4083e7bbd}{WaypointNavigator::setWaypoints}}(\textcolor{keyword}{const} std::vector<Pose2D> \& waypoints)}
+\DoxyCodeLine{\Hypertarget{waypoints__navigator_8cpp_source_l00104}00104 \{}
+\DoxyCodeLine{\Hypertarget{waypoints__navigator_8cpp_source_l00105}00105   this-\/>\mbox{\hyperlink{classcl__move__base__z_1_1WaypointNavigator_adf0a8e840d0351ef7ece20969fad2d38}{waypoints\_}}.clear();}
+\DoxyCodeLine{\Hypertarget{waypoints__navigator_8cpp_source_l00106}00106   \textcolor{keywordflow}{for} (\textcolor{keyword}{auto} \& p : waypoints)}
+\DoxyCodeLine{\Hypertarget{waypoints__navigator_8cpp_source_l00107}00107   \{}
+\DoxyCodeLine{\Hypertarget{waypoints__navigator_8cpp_source_l00108}00108     geometry\_msgs::msg::Pose pose;}
+\DoxyCodeLine{\Hypertarget{waypoints__navigator_8cpp_source_l00109}00109     pose.position.x = p.x\_;}
+\DoxyCodeLine{\Hypertarget{waypoints__navigator_8cpp_source_l00110}00110     pose.position.y = p.y\_;}
+\DoxyCodeLine{\Hypertarget{waypoints__navigator_8cpp_source_l00111}00111     pose.position.z = 0.0;}
+\DoxyCodeLine{\Hypertarget{waypoints__navigator_8cpp_source_l00112}00112     tf2::Quaternion q;}
+\DoxyCodeLine{\Hypertarget{waypoints__navigator_8cpp_source_l00113}00113     q.setRPY(0, 0, p.yaw\_);}
+\DoxyCodeLine{\Hypertarget{waypoints__navigator_8cpp_source_l00114}00114     pose.orientation = tf2::toMsg(q);}
+\DoxyCodeLine{\Hypertarget{waypoints__navigator_8cpp_source_l00115}00115 }
+\DoxyCodeLine{\Hypertarget{waypoints__navigator_8cpp_source_l00116}00116     this-\/>\mbox{\hyperlink{classcl__move__base__z_1_1WaypointNavigator_adf0a8e840d0351ef7ece20969fad2d38}{waypoints\_}}.push\_back(pose);}
+\DoxyCodeLine{\Hypertarget{waypoints__navigator_8cpp_source_l00117}00117   \}}
+\DoxyCodeLine{\Hypertarget{waypoints__navigator_8cpp_source_l00118}00118 \}}
+\DoxyCodeLine{\Hypertarget{waypoints__navigator_8cpp_source_l00119}00119 }
+\DoxyCodeLine{\Hypertarget{waypoints__navigator_8cpp_source_l00120}\mbox{\hyperlink{classcl__move__base__z_1_1WaypointNavigator_a0a7e9e35ed5ba02ff4cfb580ffa25e9a}{00120}} \textcolor{keywordtype}{void} \mbox{\hyperlink{classcl__move__base__z_1_1WaypointNavigator_a0a7e9e35ed5ba02ff4cfb580ffa25e9a}{WaypointNavigator::removeWaypoint}}(\textcolor{keywordtype}{int} index)}
+\DoxyCodeLine{\Hypertarget{waypoints__navigator_8cpp_source_l00121}00121 \{}
+\DoxyCodeLine{\Hypertarget{waypoints__navigator_8cpp_source_l00122}00122   \textcolor{keywordflow}{if} (index >= 0 \&\& index < (\textcolor{keywordtype}{int})\mbox{\hyperlink{classcl__move__base__z_1_1WaypointNavigator_adf0a8e840d0351ef7ece20969fad2d38}{waypoints\_}}.size())}
+\DoxyCodeLine{\Hypertarget{waypoints__navigator_8cpp_source_l00123}00123   \{}
+\DoxyCodeLine{\Hypertarget{waypoints__navigator_8cpp_source_l00124}00124     \mbox{\hyperlink{classcl__move__base__z_1_1WaypointNavigator_adf0a8e840d0351ef7ece20969fad2d38}{waypoints\_}}.erase(\mbox{\hyperlink{classcl__move__base__z_1_1WaypointNavigator_adf0a8e840d0351ef7ece20969fad2d38}{waypoints\_}}.begin() + index);}
+\DoxyCodeLine{\Hypertarget{waypoints__navigator_8cpp_source_l00125}00125   \}}
+\DoxyCodeLine{\Hypertarget{waypoints__navigator_8cpp_source_l00126}00126 \}}
+\DoxyCodeLine{\Hypertarget{waypoints__navigator_8cpp_source_l00127}00127 }
+\DoxyCodeLine{\Hypertarget{waypoints__navigator_8cpp_source_l00128}\mbox{\hyperlink{classcl__move__base__z_1_1WaypointNavigator_a245eb7c3e129976cc57fb15873bfc02f}{00128}} \textcolor{keyword}{const} std::vector<geometry\_msgs::msg::Pose> \& \mbox{\hyperlink{classcl__move__base__z_1_1WaypointNavigator_a245eb7c3e129976cc57fb15873bfc02f}{WaypointNavigator::getWaypoints}}()\textcolor{keyword}{ const}}
+\DoxyCodeLine{\Hypertarget{waypoints__navigator_8cpp_source_l00129}00129 \textcolor{keyword}{}\{}
+\DoxyCodeLine{\Hypertarget{waypoints__navigator_8cpp_source_l00130}00130   \textcolor{keywordflow}{return} \mbox{\hyperlink{classcl__move__base__z_1_1WaypointNavigator_adf0a8e840d0351ef7ece20969fad2d38}{waypoints\_}};}
+\DoxyCodeLine{\Hypertarget{waypoints__navigator_8cpp_source_l00131}00131 \}}
+\DoxyCodeLine{\Hypertarget{waypoints__navigator_8cpp_source_l00132}00132 }
+\DoxyCodeLine{\Hypertarget{waypoints__navigator_8cpp_source_l00133}\mbox{\hyperlink{classcl__move__base__z_1_1WaypointNavigator_a753c3df56b96c49438a361d3e5234f79}{00133}} \textcolor{keywordtype}{long} \mbox{\hyperlink{classcl__move__base__z_1_1WaypointNavigator_a753c3df56b96c49438a361d3e5234f79}{WaypointNavigator::getCurrentWaypointIndex}}()\textcolor{keyword}{ const }\{ \textcolor{keywordflow}{return} \mbox{\hyperlink{classcl__move__base__z_1_1WaypointNavigator_a82859e418592c2392c20a2d11b9836eb}{currentWaypoint\_}}; \}}
+\DoxyCodeLine{\Hypertarget{waypoints__navigator_8cpp_source_l00134}00134 }
+\DoxyCodeLine{\Hypertarget{waypoints__navigator_8cpp_source_l00135}\mbox{\hyperlink{waypoints__navigator_8cpp_a8f298134094422968fe45aeb8b32b9aa}{00135}} \textcolor{preprocessor}{\#define HAVE\_NEW\_YAMLCPP}}
+\DoxyCodeLine{\Hypertarget{waypoints__navigator_8cpp_source_l00136}\mbox{\hyperlink{classcl__move__base__z_1_1WaypointNavigator_a18d74467ddf0e637a8d5a6e1fa2e93db}{00136}} \textcolor{keywordtype}{void} \mbox{\hyperlink{classcl__move__base__z_1_1WaypointNavigator_a18d74467ddf0e637a8d5a6e1fa2e93db}{WaypointNavigator::loadWayPointsFromFile}}(std::string filepath)}
+\DoxyCodeLine{\Hypertarget{waypoints__navigator_8cpp_source_l00137}00137 \{}
+\DoxyCodeLine{\Hypertarget{waypoints__navigator_8cpp_source_l00138}00138   RCLCPP\_INFO\_STREAM(\mbox{\hyperlink{classsmacc2_1_1ISmaccComponent_a6b9ca3313826dc3f555c63e8becf1e68}{getLogger}}(), \textcolor{stringliteral}{"{}[WaypointNavigator] Loading file:"{}} << filepath);}
+\DoxyCodeLine{\Hypertarget{waypoints__navigator_8cpp_source_l00139}00139   this-\/>\mbox{\hyperlink{classcl__move__base__z_1_1WaypointNavigator_adf0a8e840d0351ef7ece20969fad2d38}{waypoints\_}}.clear();}
+\DoxyCodeLine{\Hypertarget{waypoints__navigator_8cpp_source_l00140}00140   std::ifstream ifs(filepath.c\_str(), std::ifstream::in);}
+\DoxyCodeLine{\Hypertarget{waypoints__navigator_8cpp_source_l00141}00141   \textcolor{keywordflow}{if} (ifs.good() == \textcolor{keyword}{false})}
+\DoxyCodeLine{\Hypertarget{waypoints__navigator_8cpp_source_l00142}00142   \{}
+\DoxyCodeLine{\Hypertarget{waypoints__navigator_8cpp_source_l00143}00143     \textcolor{keywordflow}{throw} std::string(\textcolor{stringliteral}{"{}Waypoints file not found"{}});}
+\DoxyCodeLine{\Hypertarget{waypoints__navigator_8cpp_source_l00144}00144   \}}
+\DoxyCodeLine{\Hypertarget{waypoints__navigator_8cpp_source_l00145}00145 }
+\DoxyCodeLine{\Hypertarget{waypoints__navigator_8cpp_source_l00146}00146   \textcolor{keywordflow}{try}}
+\DoxyCodeLine{\Hypertarget{waypoints__navigator_8cpp_source_l00147}00147   \{}
+\DoxyCodeLine{\Hypertarget{waypoints__navigator_8cpp_source_l00148}00148 \textcolor{preprocessor}{\#ifdef HAVE\_NEW\_YAMLCPP}}
+\DoxyCodeLine{\Hypertarget{waypoints__navigator_8cpp_source_l00149}00149     YAML::Node node = YAML::Load(ifs);}
+\DoxyCodeLine{\Hypertarget{waypoints__navigator_8cpp_source_l00150}00150 \textcolor{preprocessor}{\#else}}
+\DoxyCodeLine{\Hypertarget{waypoints__navigator_8cpp_source_l00151}00151     YAML::Parser \mbox{\hyperlink{namespacegenerate__debs_a4a9ae4bb85fc62d7973ea3d09ced6c26}{parser}}(ifs);}
+\DoxyCodeLine{\Hypertarget{waypoints__navigator_8cpp_source_l00152}00152     \mbox{\hyperlink{namespacegenerate__debs_a4a9ae4bb85fc62d7973ea3d09ced6c26}{parser}}.GetNextDocument(node);}
+\DoxyCodeLine{\Hypertarget{waypoints__navigator_8cpp_source_l00153}00153 \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{\Hypertarget{waypoints__navigator_8cpp_source_l00154}00154 }
+\DoxyCodeLine{\Hypertarget{waypoints__navigator_8cpp_source_l00155}00155 \textcolor{preprocessor}{\#ifdef HAVE\_NEW\_YAMLCPP}}
+\DoxyCodeLine{\Hypertarget{waypoints__navigator_8cpp_source_l00156}00156     \textcolor{keyword}{const} YAML::Node \& wp\_node\_tmp = node[\textcolor{stringliteral}{"{}waypoints"{}}];}
+\DoxyCodeLine{\Hypertarget{waypoints__navigator_8cpp_source_l00157}00157     \textcolor{keyword}{const} YAML::Node * wp\_node = wp\_node\_tmp ? \&wp\_node\_tmp : NULL;}
+\DoxyCodeLine{\Hypertarget{waypoints__navigator_8cpp_source_l00158}00158 \textcolor{preprocessor}{\#else}}
+\DoxyCodeLine{\Hypertarget{waypoints__navigator_8cpp_source_l00159}00159     \textcolor{keyword}{const} YAML::Node * wp\_node = node.FindValue(\textcolor{stringliteral}{"{}waypoints"{}});}
+\DoxyCodeLine{\Hypertarget{waypoints__navigator_8cpp_source_l00160}00160 \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{\Hypertarget{waypoints__navigator_8cpp_source_l00161}00161 }
+\DoxyCodeLine{\Hypertarget{waypoints__navigator_8cpp_source_l00162}00162     \textcolor{keywordflow}{if} (wp\_node != NULL)}
+\DoxyCodeLine{\Hypertarget{waypoints__navigator_8cpp_source_l00163}00163     \{}
+\DoxyCodeLine{\Hypertarget{waypoints__navigator_8cpp_source_l00164}00164       \textcolor{keywordflow}{for} (\textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{int} i = 0; i < wp\_node-\/>size(); ++i)}
+\DoxyCodeLine{\Hypertarget{waypoints__navigator_8cpp_source_l00165}00165       \{}
+\DoxyCodeLine{\Hypertarget{waypoints__navigator_8cpp_source_l00166}00166         \textcolor{comment}{// Parse waypoint entries on YAML}}
+\DoxyCodeLine{\Hypertarget{waypoints__navigator_8cpp_source_l00167}00167         geometry\_msgs::msg::Pose wp;}
+\DoxyCodeLine{\Hypertarget{waypoints__navigator_8cpp_source_l00168}00168 }
+\DoxyCodeLine{\Hypertarget{waypoints__navigator_8cpp_source_l00169}00169         \textcolor{keywordflow}{try}}
+\DoxyCodeLine{\Hypertarget{waypoints__navigator_8cpp_source_l00170}00170         \{}
+\DoxyCodeLine{\Hypertarget{waypoints__navigator_8cpp_source_l00171}00171           \textcolor{comment}{// (*wp\_node)[i]["{}name"{}] >> wp.name;}}
+\DoxyCodeLine{\Hypertarget{waypoints__navigator_8cpp_source_l00172}00172           \textcolor{comment}{// (*wp\_node)[i]["{}frame\_id"{}] >> wp.header.frame\_id;}}
+\DoxyCodeLine{\Hypertarget{waypoints__navigator_8cpp_source_l00173}00173           wp.position.x = (*wp\_node)[i][\textcolor{stringliteral}{"{}position"{}}][\textcolor{stringliteral}{"{}x"{}}].as<\textcolor{keywordtype}{double}>();}
+\DoxyCodeLine{\Hypertarget{waypoints__navigator_8cpp_source_l00174}00174           wp.position.y = (*wp\_node)[i][\textcolor{stringliteral}{"{}position"{}}][\textcolor{stringliteral}{"{}y"{}}].as<\textcolor{keywordtype}{double}>();}
+\DoxyCodeLine{\Hypertarget{waypoints__navigator_8cpp_source_l00175}00175           wp.position.z = (*wp\_node)[i][\textcolor{stringliteral}{"{}position"{}}][\textcolor{stringliteral}{"{}z"{}}].as<\textcolor{keywordtype}{double}>();}
+\DoxyCodeLine{\Hypertarget{waypoints__navigator_8cpp_source_l00176}00176           wp.orientation.x = (*wp\_node)[i][\textcolor{stringliteral}{"{}orientation"{}}][\textcolor{stringliteral}{"{}x"{}}].as<\textcolor{keywordtype}{double}>();}
+\DoxyCodeLine{\Hypertarget{waypoints__navigator_8cpp_source_l00177}00177           wp.orientation.y = (*wp\_node)[i][\textcolor{stringliteral}{"{}orientation"{}}][\textcolor{stringliteral}{"{}y"{}}].as<\textcolor{keywordtype}{double}>();}
+\DoxyCodeLine{\Hypertarget{waypoints__navigator_8cpp_source_l00178}00178           wp.orientation.z = (*wp\_node)[i][\textcolor{stringliteral}{"{}orientation"{}}][\textcolor{stringliteral}{"{}z"{}}].as<\textcolor{keywordtype}{double}>();}
+\DoxyCodeLine{\Hypertarget{waypoints__navigator_8cpp_source_l00179}00179           wp.orientation.w = (*wp\_node)[i][\textcolor{stringliteral}{"{}orientation"{}}][\textcolor{stringliteral}{"{}w"{}}].as<\textcolor{keywordtype}{double}>();}
+\DoxyCodeLine{\Hypertarget{waypoints__navigator_8cpp_source_l00180}00180 }
+\DoxyCodeLine{\Hypertarget{waypoints__navigator_8cpp_source_l00181}00181           this-\/>\mbox{\hyperlink{classcl__move__base__z_1_1WaypointNavigator_adf0a8e840d0351ef7ece20969fad2d38}{waypoints\_}}.push\_back(wp);}
+\DoxyCodeLine{\Hypertarget{waypoints__navigator_8cpp_source_l00182}00182         \}}
+\DoxyCodeLine{\Hypertarget{waypoints__navigator_8cpp_source_l00183}00183         \textcolor{keywordflow}{catch} (...)}
+\DoxyCodeLine{\Hypertarget{waypoints__navigator_8cpp_source_l00184}00184         \{}
+\DoxyCodeLine{\Hypertarget{waypoints__navigator_8cpp_source_l00185}00185           RCLCPP\_ERROR(\mbox{\hyperlink{classsmacc2_1_1ISmaccComponent_a6b9ca3313826dc3f555c63e8becf1e68}{getLogger}}(), \textcolor{stringliteral}{"{}parsing waypoint file, syntax error in point \%d"{}}, i);}
+\DoxyCodeLine{\Hypertarget{waypoints__navigator_8cpp_source_l00186}00186         \}}
+\DoxyCodeLine{\Hypertarget{waypoints__navigator_8cpp_source_l00187}00187       \}}
+\DoxyCodeLine{\Hypertarget{waypoints__navigator_8cpp_source_l00188}00188       RCLCPP\_INFO\_STREAM(\mbox{\hyperlink{classsmacc2_1_1ISmaccComponent_a6b9ca3313826dc3f555c63e8becf1e68}{getLogger}}(), \textcolor{stringliteral}{"{}Parsed "{}} << this-\/>\mbox{\hyperlink{classcl__move__base__z_1_1WaypointNavigator_adf0a8e840d0351ef7ece20969fad2d38}{waypoints\_}}.size() << \textcolor{stringliteral}{"{} waypoints."{}});}
+\DoxyCodeLine{\Hypertarget{waypoints__navigator_8cpp_source_l00189}00189     \}}
+\DoxyCodeLine{\Hypertarget{waypoints__navigator_8cpp_source_l00190}00190     \textcolor{keywordflow}{else}}
+\DoxyCodeLine{\Hypertarget{waypoints__navigator_8cpp_source_l00191}00191     \{}
+\DoxyCodeLine{\Hypertarget{waypoints__navigator_8cpp_source_l00192}00192       RCLCPP\_WARN\_STREAM(\mbox{\hyperlink{classsmacc2_1_1ISmaccComponent_a6b9ca3313826dc3f555c63e8becf1e68}{getLogger}}(), \textcolor{stringliteral}{"{}Couldn't find any waypoints in the provided yaml file."{}});}
+\DoxyCodeLine{\Hypertarget{waypoints__navigator_8cpp_source_l00193}00193     \}}
+\DoxyCodeLine{\Hypertarget{waypoints__navigator_8cpp_source_l00194}00194   \}}
+\DoxyCodeLine{\Hypertarget{waypoints__navigator_8cpp_source_l00195}00195   \textcolor{keywordflow}{catch} (\textcolor{keyword}{const} YAML::ParserException \& ex)}
+\DoxyCodeLine{\Hypertarget{waypoints__navigator_8cpp_source_l00196}00196   \{}
+\DoxyCodeLine{\Hypertarget{waypoints__navigator_8cpp_source_l00197}00197     RCLCPP\_ERROR\_STREAM(}
+\DoxyCodeLine{\Hypertarget{waypoints__navigator_8cpp_source_l00198}00198       \mbox{\hyperlink{classsmacc2_1_1ISmaccComponent_a6b9ca3313826dc3f555c63e8becf1e68}{getLogger}}(), \textcolor{stringliteral}{"{}Error loading the Waypoints YAML file. Incorrect syntax: "{}} << ex.what());}
+\DoxyCodeLine{\Hypertarget{waypoints__navigator_8cpp_source_l00199}00199   \}}
+\DoxyCodeLine{\Hypertarget{waypoints__navigator_8cpp_source_l00200}00200 \}}
+\DoxyCodeLine{\Hypertarget{waypoints__navigator_8cpp_source_l00201}00201 \}  \textcolor{comment}{// namespace cl\_move\_base\_z}}
+
+\end{DoxyCode}
