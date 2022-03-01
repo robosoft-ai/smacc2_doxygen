@@ -1,0 +1,81 @@
+\hypertarget{namespaceekf__gps__launch}{}\doxysection{ekf\+\_\+gps\+\_\+launch Namespace Reference}
+\label{namespaceekf__gps__launch}\index{ekf\_gps\_launch@{ekf\_gps\_launch}}
+\doxysubsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+def \mbox{\hyperlink{namespaceekf__gps__launch_a6ab35b97e7f2a86add350d52aeb79154}{generate\+\_\+launch\+\_\+description}} ()
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{Function Documentation}
+\mbox{\Hypertarget{namespaceekf__gps__launch_a6ab35b97e7f2a86add350d52aeb79154}\label{namespaceekf__gps__launch_a6ab35b97e7f2a86add350d52aeb79154}} 
+\index{ekf\_gps\_launch@{ekf\_gps\_launch}!generate\_launch\_description@{generate\_launch\_description}}
+\index{generate\_launch\_description@{generate\_launch\_description}!ekf\_gps\_launch@{ekf\_gps\_launch}}
+\doxysubsubsection{\texorpdfstring{generate\_launch\_description()}{generate\_launch\_description()}}
+{\footnotesize\ttfamily def ekf\+\_\+gps\+\_\+launch.\+generate\+\_\+launch\+\_\+description (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+
+
+Definition at line \mbox{\hyperlink{ekf__gps__launch_8py_source_l00024}{24}} of file \mbox{\hyperlink{ekf__gps__launch_8py_source}{ekf\+\_\+gps\+\_\+launch.\+py}}.
+
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00024 \textcolor{keyword}{def }\mbox{\hyperlink{namespaceekf__gps__launch_a6ab35b97e7f2a86add350d52aeb79154}{generate\_launch\_description}}():}
+\DoxyCodeLine{00025     robot\_localization\_dir = get\_package\_share\_directory(\textcolor{stringliteral}{"{}robot\_localization"{}})}
+\DoxyCodeLine{00026     parameters\_file\_dir = os.path.join(robot\_localization\_dir, \textcolor{stringliteral}{"{}params"{}})}
+\DoxyCodeLine{00027     \textcolor{comment}{\# parameters\_file\_path = os.path.join("{}sm\_husky\_barrel\_search\_1"{}, 'dual\_ekf\_navsat.yaml')}}
+\DoxyCodeLine{00028 }
+\DoxyCodeLine{00029     parameters\_file\_path = os.path.join(parameters\_file\_dir, \textcolor{stringliteral}{"{}dual\_ekf\_navsat\_example.yaml"{}})}
+\DoxyCodeLine{00030     os.environ[\textcolor{stringliteral}{"{}FILE\_PATH"{}}] = str(parameters\_file\_dir)}
+\DoxyCodeLine{00031 }
+\DoxyCodeLine{00032     xtermprefix = \textcolor{stringliteral}{"{}xterm -\/xrm 'XTerm*scrollBar:  true' -\/xrm 'xterm*rightScrollBar: true' -\/hold -\/geometry 1000x600 -\/sl 10000 -\/e"{}}}
+\DoxyCodeLine{00033 }
+\DoxyCodeLine{00034     \textcolor{keywordflow}{return} LaunchDescription(}
+\DoxyCodeLine{00035         [}
+\DoxyCodeLine{00036             launch.actions.DeclareLaunchArgument(\textcolor{stringliteral}{"{}use\_sim\_time"{}}, default\_value=\textcolor{stringliteral}{"{}false"{}}),}
+\DoxyCodeLine{00037             launch.actions.DeclareLaunchArgument(\textcolor{stringliteral}{"{}output\_final\_position"{}}, default\_value=\textcolor{stringliteral}{"{}false"{}}),}
+\DoxyCodeLine{00038             launch.actions.DeclareLaunchArgument(}
+\DoxyCodeLine{00039                 \textcolor{stringliteral}{"{}output\_location"{}}, default\_value=\textcolor{stringliteral}{"{}\string~/dual\_ekf\_navsat\_example\_debug.txt"{}}}
+\DoxyCodeLine{00040             ),}
+\DoxyCodeLine{00041             \textcolor{comment}{\# launch\_ros.actions.Node(}}
+\DoxyCodeLine{00042             \textcolor{comment}{\#         package='robot\_localization',}}
+\DoxyCodeLine{00043             \textcolor{comment}{\#         executable='ekf\_node',}}
+\DoxyCodeLine{00044             \textcolor{comment}{\#         name='ekf\_filter\_node\_odom',}}
+\DoxyCodeLine{00045             \textcolor{comment}{\#         output='screen',}}
+\DoxyCodeLine{00046             \textcolor{comment}{\#         parameters=[parameters\_file\_path],}}
+\DoxyCodeLine{00047             \textcolor{comment}{\#         remappings=[('odometry/filtered', 'odometry/local')]}}
+\DoxyCodeLine{00048             \textcolor{comment}{\#        ),}}
+\DoxyCodeLine{00049             launch\_ros.actions.Node(}
+\DoxyCodeLine{00050                 package=\textcolor{stringliteral}{"{}robot\_localization"{}},}
+\DoxyCodeLine{00051                 executable=\textcolor{stringliteral}{"{}ekf\_node"{}},}
+\DoxyCodeLine{00052                 name=\textcolor{stringliteral}{"{}ekf\_filter\_node\_map"{}},}
+\DoxyCodeLine{00053                 output=\textcolor{stringliteral}{"{}screen"{}},}
+\DoxyCodeLine{00054                 parameters=[}
+\DoxyCodeLine{00055                     \{\textcolor{stringliteral}{"{}use\_sim\_time"{}}: LaunchConfiguration(\textcolor{stringliteral}{"{}use\_sim\_time"{}})\},}
+\DoxyCodeLine{00056                     parameters\_file\_path,}
+\DoxyCodeLine{00057                 ],}
+\DoxyCodeLine{00058                 remappings=[(\textcolor{stringliteral}{"{}odometry/filtered"{}}, \textcolor{stringliteral}{"{}odometry/global"{}}), (\textcolor{stringliteral}{"{}odometry/wheel"{}}, \textcolor{stringliteral}{"{}/odom"{}})],}
+\DoxyCodeLine{00059                 prefix=xtermprefix,}
+\DoxyCodeLine{00060             ),}
+\DoxyCodeLine{00061             launch\_ros.actions.Node(}
+\DoxyCodeLine{00062                 package=\textcolor{stringliteral}{"{}robot\_localization"{}},}
+\DoxyCodeLine{00063                 executable=\textcolor{stringliteral}{"{}navsat\_transform\_node"{}},}
+\DoxyCodeLine{00064                 name=\textcolor{stringliteral}{"{}navsat\_transform"{}},}
+\DoxyCodeLine{00065                 output=\textcolor{stringliteral}{"{}screen"{}},}
+\DoxyCodeLine{00066                 parameters=[}
+\DoxyCodeLine{00067                     \{\textcolor{stringliteral}{"{}use\_sim\_time"{}}: LaunchConfiguration(\textcolor{stringliteral}{"{}use\_sim\_time"{}})\},}
+\DoxyCodeLine{00068                     parameters\_file\_path,}
+\DoxyCodeLine{00069                 ],}
+\DoxyCodeLine{00070                 remappings=[}
+\DoxyCodeLine{00071                     (\textcolor{stringliteral}{"{}imu/data"{}}, \textcolor{stringliteral}{"{}imu"{}}),}
+\DoxyCodeLine{00072                     (\textcolor{stringliteral}{"{}gps/fix"{}}, \textcolor{stringliteral}{"{}gps/data"{}}),}
+\DoxyCodeLine{00073                     (\textcolor{stringliteral}{"{}gps/filtered"{}}, \textcolor{stringliteral}{"{}gps/filtered"{}}),}
+\DoxyCodeLine{00074                     (\textcolor{stringliteral}{"{}odometry/gps"{}}, \textcolor{stringliteral}{"{}odometry/gps"{}}),}
+\DoxyCodeLine{00075                     (\textcolor{stringliteral}{"{}odometry/filtered"{}}, \textcolor{stringliteral}{"{}odometry/global"{}}),}
+\DoxyCodeLine{00076                 ],}
+\DoxyCodeLine{00077                 prefix=xtermprefix,}
+\DoxyCodeLine{00078             ),}
+\DoxyCodeLine{00079         ]}
+\DoxyCodeLine{00080     )}
+
+\end{DoxyCode}
