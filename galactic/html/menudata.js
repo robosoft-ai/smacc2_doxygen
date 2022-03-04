@@ -77,19 +77,8 @@ var menudata={children:[
 {text:"s",url:"namespacemembers_vars.html#index_s"},
 {text:"t",url:"namespacemembers_vars.html#index_t"},
 {text:"w",url:"namespacemembers_vars.html#index_w"}]},
-{text:"Typedefs",url:"namespacemembers_type.html",children:[
-{text:"b",url:"namespacemembers_type.html#index_b"},
-{text:"d",url:"namespacemembers_type.html#index_d"},
-{text:"s",url:"namespacemembers_type.html#index_s"},
-{text:"w",url:"namespacemembers_type.html#index_w"}]},
-{text:"Enumerations",url:"namespacemembers_enum.html",children:[
-{text:"c",url:"namespacemembers_enum.html#index_c"},
-{text:"e",url:"namespacemembers_enum.html#index_e"},
-{text:"n",url:"namespacemembers_enum.html#index_n"},
-{text:"r",url:"namespacemembers_enum.html#index_r"},
-{text:"s",url:"namespacemembers_enum.html#index_s"},
-{text:"t",url:"namespacemembers_enum.html#index_t"},
-{text:"w",url:"namespacemembers_enum.html#index_w"}]}]}]},
+{text:"Typedefs",url:"namespacemembers_type.html"},
+{text:"Enumerations",url:"namespacemembers_enum.html"}]}]},
 {text:"Classes",url:"annotated.html",children:[
 {text:"Class List",url:"annotated.html"},
 {text:"Class Index",url:"classes.html"},
