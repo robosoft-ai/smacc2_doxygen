@@ -77,11 +77,7 @@ var menudata={children:[
 {text:"s",url:"namespacemembers_vars.html#index_s"},
 {text:"t",url:"namespacemembers_vars.html#index_t"},
 {text:"w",url:"namespacemembers_vars.html#index_w"}]},
-{text:"Typedefs",url:"namespacemembers_type.html",children:[
-{text:"b",url:"namespacemembers_type.html#index_b"},
-{text:"d",url:"namespacemembers_type.html#index_d"},
-{text:"s",url:"namespacemembers_type.html#index_s"},
-{text:"w",url:"namespacemembers_type.html#index_w"}]},
+{text:"Typedefs",url:"namespacemembers_type.html"},
 {text:"Enumerations",url:"namespacemembers_enum.html"}]}]},
 {text:"Classes",url:"annotated.html",children:[
 {text:"Class List",url:"annotated.html"},
