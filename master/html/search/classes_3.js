@@ -97,6 +97,7 @@ var searchData=
   ['cptopicpublisher_94',['CpTopicPublisher',['../classsmacc2_1_1components_1_1CpTopicPublisher.html',1,'smacc2::components']]],
   ['cptopicpublisher_3c_20geometry_5fmsgs_3a_3amsg_3a_3aposestamped_20_3e_95',['CpTopicPublisher&lt; geometry_msgs::msg::PoseStamped &gt;',['../classsmacc2_1_1components_1_1CpTopicPublisher.html',1,'smacc2::components']]],
   ['cptopicpublisher_3c_20geometry_5fmsgs_3a_3amsg_3a_3aposewithcovariancestamped_20_3e_96',['CpTopicPublisher&lt; geometry_msgs::msg::PoseWithCovarianceStamped &gt;',['../classsmacc2_1_1components_1_1CpTopicPublisher.html',1,'smacc2::components']]],
-  ['cptopicsubscriber_97',['CpTopicSubscriber',['../classsmacc2_1_1components_1_1CpTopicSubscriber.html',1,'smacc2::components']]],
-  ['cptrajectoryhistory_98',['CpTrajectoryHistory',['../classcl__move__group__interface_1_1CpTrajectoryHistory.html',1,'cl_move_group_interface']]]
+  ['cptopicpublisher_3c_20std_5fmsgs_3a_3amsg_3a_3aint8_20_3e_97',['CpTopicPublisher&lt; std_msgs::msg::Int8 &gt;',['../classsmacc2_1_1components_1_1CpTopicPublisher.html',1,'smacc2::components']]],
+  ['cptopicsubscriber_98',['CpTopicSubscriber',['../classsmacc2_1_1components_1_1CpTopicSubscriber.html',1,'smacc2::components']]],
+  ['cptrajectoryhistory_99',['CpTrajectoryHistory',['../classcl__move__group__interface_1_1CpTrajectoryHistory.html',1,'cl_move_group_interface']]]
 ];
