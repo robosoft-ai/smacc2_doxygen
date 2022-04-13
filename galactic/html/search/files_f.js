@@ -4,5 +4,6 @@ var searchData=
   ['timer_5fclient_2ecpp_1',['timer_client.cpp',['../timer__client_8cpp.html',1,'']]],
   ['trace_5fprovider_2ecpp_2',['trace_provider.cpp',['../trace__provider_8cpp.html',1,'']]],
   ['trace_5fprovider_2ehpp_3',['trace_provider.hpp',['../trace__provider_8hpp.html',1,'']]],
-  ['type_5fadapter_2ehpp_4',['type_adapter.hpp',['../type__adapter_8hpp.html',1,'']]]
+  ['trajectory_5fstorage_2ehpp_4',['trajectory_storage.hpp',['../trajectory__storage_8hpp.html',1,'']]],
+  ['type_5fadapter_2ehpp_5',['type_adapter.hpp',['../type__adapter_8hpp.html',1,'']]]
 ];

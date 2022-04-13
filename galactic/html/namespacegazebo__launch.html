@@ -134,20 +134,20 @@ Functions</h2></td></tr>
 <div class="line"><span class="lineno">   66</span>    <span class="comment"># Create the launch description and populate</span></div>
 <div class="line"><span class="lineno">   67</span>    ld = LaunchDescription()</div>
 <div class="line"><span class="lineno">   68</span> </div>
-<div class="line"><span class="lineno">   69</span>    <span class="comment"># xtermprefix = &quot;xterm -xrm &#39;XTerm*scrollBar:  true&#39; -xrm &#39;xterm*rightScrollBar: true&#39; &quot; \</span></div>
-<div class="line"><span class="lineno">   70</span>    <span class="comment"># &quot;-hold -geometry 1000x600 -sl 10000 -e&quot;</span></div>
-<div class="line"><span class="lineno">   71</span> </div>
-<div class="line"><span class="lineno">   72</span>    gzenv = dict(os.environ)</div>
-<div class="line"><span class="lineno">   73</span>    model_database_uri = os.environ[<span class="stringliteral">&quot;GAZEBO_MODEL_PATH&quot;</span>]</div>
-<div class="line"><span class="lineno">   74</span>    gzenv[<span class="stringliteral">&quot;GAZEBO_MODEL_DATABASE_URI&quot;</span>] = model_database_uri</div>
-<div class="line"><span class="lineno">   75</span> </div>
-<div class="line"><span class="lineno">   76</span>    <span class="comment"># Specify the actions</span></div>
-<div class="line"><span class="lineno">   77</span>    start_gazebo_server_cmd = ExecuteProcess(</div>
-<div class="line"><span class="lineno">   78</span>        condition=IfCondition(use_simulator),</div>
-<div class="line"><span class="lineno">   79</span>        cmd=[<span class="stringliteral">&quot;gzserver&quot;</span>, <span class="stringliteral">&quot;-s&quot;</span>, <span class="stringliteral">&quot;libgazebo_ros_init.so&quot;</span>, world, <span class="stringliteral">&quot;--verbose&quot;</span>],</div>
-<div class="line"><span class="lineno">   80</span>        env=gzenv,</div>
-<div class="line"><span class="lineno">   81</span>        cwd=[launch_dir],</div>
-<div class="line"><span class="lineno">   82</span>        output=<span class="stringliteral">&quot;screen&quot;</span>,</div>
+<div class="line"><span class="lineno">   69</span>    xtermprefix = <span class="stringliteral">&quot;xterm -xrm &#39;XTerm*scrollBar:  true&#39; -xrm &#39;xterm*rightScrollBar: true&#39; -hold -geometry 1000x600 -sl 10000 -e&quot;</span></div>
+<div class="line"><span class="lineno">   70</span> </div>
+<div class="line"><span class="lineno">   71</span>    gzenv = dict(os.environ)</div>
+<div class="line"><span class="lineno">   72</span>    model_database_uri = os.environ[<span class="stringliteral">&quot;GAZEBO_MODEL_PATH&quot;</span>]</div>
+<div class="line"><span class="lineno">   73</span>    gzenv[<span class="stringliteral">&quot;GAZEBO_MODEL_DATABASE_URI&quot;</span>] = model_database_uri</div>
+<div class="line"><span class="lineno">   74</span> </div>
+<div class="line"><span class="lineno">   75</span>    <span class="comment"># Specify the actions</span></div>
+<div class="line"><span class="lineno">   76</span>    start_gazebo_server_cmd = ExecuteProcess(</div>
+<div class="line"><span class="lineno">   77</span>        condition=IfCondition(use_simulator),</div>
+<div class="line"><span class="lineno">   78</span>        cmd=[<span class="stringliteral">&quot;gzserver&quot;</span>, <span class="stringliteral">&quot;-s&quot;</span>, <span class="stringliteral">&quot;libgazebo_ros_init.so&quot;</span>, world, <span class="stringliteral">&quot;--verbose&quot;</span>],</div>
+<div class="line"><span class="lineno">   79</span>        env=gzenv,</div>
+<div class="line"><span class="lineno">   80</span>        cwd=[launch_dir],</div>
+<div class="line"><span class="lineno">   81</span>        output=<span class="stringliteral">&quot;screen&quot;</span>,</div>
+<div class="line"><span class="lineno">   82</span>        prefix=xtermprefix,</div>
 <div class="line"><span class="lineno">   83</span>    )</div>
 <div class="line"><span class="lineno">   84</span> </div>
 <div class="line"><span class="lineno">   85</span>    start_gazebo_client_cmd = ExecuteProcess(</div>
@@ -156,20 +156,21 @@ Functions</h2></td></tr>
 <div class="line"><span class="lineno">   88</span>        cwd=[launch_dir],</div>
 <div class="line"><span class="lineno">   89</span>        env=gzenv,</div>
 <div class="line"><span class="lineno">   90</span>        output=<span class="stringliteral">&quot;screen&quot;</span>,</div>
-<div class="line"><span class="lineno">   91</span>    )</div>
-<div class="line"><span class="lineno">   92</span> </div>
-<div class="line"><span class="lineno">   93</span>    <span class="comment"># Add any conditioned actions</span></div>
-<div class="line"><span class="lineno">   94</span>    ld.add_action(declare_simulator_cmd)</div>
-<div class="line"><span class="lineno">   95</span>    ld.add_action(declare_use_simulator_cmd)</div>
-<div class="line"><span class="lineno">   96</span>    ld.add_action(declare_world_cmd)</div>
-<div class="line"><span class="lineno">   97</span>    ld.add_action(declare_world_cmd_2)</div>
-<div class="line"><span class="lineno">   98</span> </div>
-<div class="line"><span class="lineno">   99</span>    ld.add_action(declare_show_gz_lidar)</div>
-<div class="line"><span class="lineno">  100</span> </div>
-<div class="line"><span class="lineno">  101</span>    ld.add_action(start_gazebo_server_cmd)</div>
-<div class="line"><span class="lineno">  102</span>    ld.add_action(start_gazebo_client_cmd)</div>
-<div class="line"><span class="lineno">  103</span> </div>
-<div class="line"><span class="lineno">  104</span>    <span class="keywordflow">return</span> ld</div>
+<div class="line"><span class="lineno">   91</span>        prefix=xtermprefix,</div>
+<div class="line"><span class="lineno">   92</span>    )</div>
+<div class="line"><span class="lineno">   93</span> </div>
+<div class="line"><span class="lineno">   94</span>    <span class="comment"># Add any conditioned actions</span></div>
+<div class="line"><span class="lineno">   95</span>    ld.add_action(declare_simulator_cmd)</div>
+<div class="line"><span class="lineno">   96</span>    ld.add_action(declare_use_simulator_cmd)</div>
+<div class="line"><span class="lineno">   97</span>    ld.add_action(declare_world_cmd)</div>
+<div class="line"><span class="lineno">   98</span>    ld.add_action(declare_world_cmd_2)</div>
+<div class="line"><span class="lineno">   99</span> </div>
+<div class="line"><span class="lineno">  100</span>    ld.add_action(declare_show_gz_lidar)</div>
+<div class="line"><span class="lineno">  101</span> </div>
+<div class="line"><span class="lineno">  102</span>    ld.add_action(start_gazebo_server_cmd)</div>
+<div class="line"><span class="lineno">  103</span>    ld.add_action(start_gazebo_client_cmd)</div>
+<div class="line"><span class="lineno">  104</span> </div>
+<div class="line"><span class="lineno">  105</span>    <span class="keywordflow">return</span> ld</div>
 <div class="ttc" id="anamespacegazebo__launch_html_a7dfb9b9152b5cd8f375f38bc66e94517"><div class="ttname"><a href="namespacegazebo__launch.html#a7dfb9b9152b5cd8f375f38bc66e94517">gazebo_launch.generate_launch_description</a></div><div class="ttdeci">def generate_launch_description()</div><div class="ttdef"><b>Definition:</b> <a href="sm__dance__bot_2launch_2gazebo__launch_8py_source.html#l00025">gazebo_launch.py:25</a></div></div>
 </div><!-- fragment -->
 </div>
