@@ -68,6 +68,7 @@ var menudata={children:[
 {text:"_",url:"namespacemembers_vars.html#index__5F"},
 {text:"a",url:"namespacemembers_vars.html#index_a"},
 {text:"d",url:"namespacemembers_vars.html#index_d"},
+{text:"f",url:"namespacemembers_vars.html#index_f"},
 {text:"g",url:"namespacemembers_vars.html#index_g"},
 {text:"h",url:"namespacemembers_vars.html#index_h"},
 {text:"i",url:"namespacemembers_vars.html#index_i"},
@@ -77,7 +78,11 @@ var menudata={children:[
 {text:"s",url:"namespacemembers_vars.html#index_s"},
 {text:"t",url:"namespacemembers_vars.html#index_t"},
 {text:"w",url:"namespacemembers_vars.html#index_w"}]},
-{text:"Typedefs",url:"namespacemembers_type.html"},
+{text:"Typedefs",url:"namespacemembers_type.html",children:[
+{text:"b",url:"namespacemembers_type.html#index_b"},
+{text:"d",url:"namespacemembers_type.html#index_d"},
+{text:"s",url:"namespacemembers_type.html#index_s"},
+{text:"w",url:"namespacemembers_type.html#index_w"}]},
 {text:"Enumerations",url:"namespacemembers_enum.html"}]}]},
 {text:"Classes",url:"annotated.html",children:[
 {text:"Class List",url:"annotated.html"},
@@ -196,6 +201,7 @@ var menudata={children:[
 {text:"h",url:"globals.html#index_h"},
 {text:"i",url:"globals.html#index_i"},
 {text:"m",url:"globals.html#index_m"},
+{text:"n",url:"globals.html#index_n"},
 {text:"o",url:"globals.html#index_o"},
 {text:"r",url:"globals.html#index_r"},
 {text:"s",url:"globals.html#index_s"},

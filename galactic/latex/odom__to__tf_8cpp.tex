@@ -1,0 +1,171 @@
+\hypertarget{odom__to__tf_8cpp}{}\doxysection{smacc2\+\_\+sm\+\_\+reference\+\_\+library/sm\+\_\+husky\+\_\+barrel\+\_\+search\+\_\+1/src/sm\+\_\+husky\+\_\+barrel\+\_\+search\+\_\+1/odom\+\_\+to\+\_\+tf.cpp File Reference}
+\label{odom__to__tf_8cpp}\index{smacc2\_sm\_reference\_library/sm\_husky\_barrel\_search\_1/src/sm\_husky\_barrel\_search\_1/odom\_to\_tf.cpp@{smacc2\_sm\_reference\_library/sm\_husky\_barrel\_search\_1/src/sm\_husky\_barrel\_search\_1/odom\_to\_tf.cpp}}
+{\ttfamily \#include $<$rclcpp/rclcpp.\+hpp$>$}\newline
+{\ttfamily \#include $<$tf2/utils.\+h$>$}\newline
+{\ttfamily \#include $<$nav\+\_\+msgs/msg/odometry.\+hpp$>$}\newline
+{\ttfamily \#include $<$geometry\+\_\+msgs/msg/transform\+\_\+stamped.\+hpp$>$}\newline
+{\ttfamily \#include $<$tf2\+\_\+ros/transform\+\_\+broadcaster.\+h$>$}\newline
+Include dependency graph for odom\+\_\+to\+\_\+tf.\+cpp\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{odom__to__tf_8cpp__incl}
+\end{center}
+\end{figure}
+\doxysubsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+void \mbox{\hyperlink{odom__to__tf_8cpp_a3fd1efd09b163f4c96d004283c840684}{odom\+Callback}} (nav\+\_\+msgs\+::msg\+::\+Odometry\+::\+Shared\+Ptr msg)
+\item 
+int \mbox{\hyperlink{odom__to__tf_8cpp_a3c04138a5bfe5d72780bb7e82a18e627}{main}} (int argc, char $\ast$$\ast$argv)
+\end{DoxyCompactItemize}
+\doxysubsection*{Variables}
+\begin{DoxyCompactItemize}
+\item 
+rclcpp\+::\+Node\+::\+Shared\+Ptr \mbox{\hyperlink{odom__to__tf_8cpp_abd70cc27fb93648b9c90abe64106c1f7}{nh}}
+\item 
+rclcpp\+::\+Publisher$<$ nav\+\_\+msgs\+::msg\+::\+Odometry $>$\+::\+Shared\+Ptr \mbox{\hyperlink{odom__to__tf_8cpp_aeec1c3b37ba5c4da83527c8bcc07f3f3}{repub\+\_\+odom}}
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{Function Documentation}
+\mbox{\Hypertarget{odom__to__tf_8cpp_a3c04138a5bfe5d72780bb7e82a18e627}\label{odom__to__tf_8cpp_a3c04138a5bfe5d72780bb7e82a18e627}} 
+\index{odom\_to\_tf.cpp@{odom\_to\_tf.cpp}!main@{main}}
+\index{main@{main}!odom\_to\_tf.cpp@{odom\_to\_tf.cpp}}
+\doxysubsubsection{\texorpdfstring{main()}{main()}}
+{\footnotesize\ttfamily int main (\begin{DoxyParamCaption}\item[{int}]{argc,  }\item[{char $\ast$$\ast$}]{argv }\end{DoxyParamCaption})}
+
+
+
+Definition at line \mbox{\hyperlink{odom__to__tf_8cpp_source_l00071}{71}} of file \mbox{\hyperlink{odom__to__tf_8cpp_source}{odom\+\_\+to\+\_\+tf.\+cpp}}.
+
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00071                                 \{}
+\DoxyCodeLine{00072   rclcpp::init(argc, argv);}
+\DoxyCodeLine{00073   \mbox{\hyperlink{odom__to__tf_8cpp_abd70cc27fb93648b9c90abe64106c1f7}{nh}} = rclcpp::Node::make\_shared(\textcolor{stringliteral}{"{}odom\_to\_tf"{}});}
+\DoxyCodeLine{00074 }
+\DoxyCodeLine{00075   std::string odomTopic = \textcolor{stringliteral}{"{}odom"{}};}
+\DoxyCodeLine{00076   std::string odomTopicRepub = \textcolor{stringliteral}{"{}odom\_out"{}};}
+\DoxyCodeLine{00077 }
+\DoxyCodeLine{00078 \textcolor{comment}{//   nh.param<std::string>("{}odomTopic"{}, odomTopic, "{}/Base/neighbors/H01/odometry"{});}}
+\DoxyCodeLine{00079 \textcolor{comment}{//   nh.param<std::string>("{}newFrame"{}, newFrame, "{}H01\_base/base\_link"{});}}
+\DoxyCodeLine{00080 \textcolor{comment}{//   nh.param<std::string>("{}orgFrame"{}, orgFrame, "{}world"{});}}
+\DoxyCodeLine{00081   \textcolor{keyword}{auto} sub\_odom = \mbox{\hyperlink{odom__to__tf_8cpp_abd70cc27fb93648b9c90abe64106c1f7}{nh}}-\/>create\_subscription<nav\_msgs::msg::Odometry>(odomTopic, rclcpp::SensorDataQoS(), \&\mbox{\hyperlink{odom__to__tf_8cpp_a3fd1efd09b163f4c96d004283c840684}{odomCallback}});}
+\DoxyCodeLine{00082   \mbox{\hyperlink{odom__to__tf_8cpp_aeec1c3b37ba5c4da83527c8bcc07f3f3}{repub\_odom}} = \mbox{\hyperlink{odom__to__tf_8cpp_abd70cc27fb93648b9c90abe64106c1f7}{nh}}-\/>create\_publisher<nav\_msgs::msg::Odometry>(odomTopicRepub, 10 );}
+\DoxyCodeLine{00083 }
+\DoxyCodeLine{00084   rclcpp::spin(\mbox{\hyperlink{odom__to__tf_8cpp_abd70cc27fb93648b9c90abe64106c1f7}{nh}});}
+\DoxyCodeLine{00085   \textcolor{keywordflow}{return} 0;}
+\DoxyCodeLine{00086 \}}
+
+\end{DoxyCode}
+
+
+References \mbox{\hyperlink{odom__to__tf_8cpp_source_l00031}{nh}}, \mbox{\hyperlink{odom__to__tf_8cpp_source_l00034}{odom\+Callback()}}, and \mbox{\hyperlink{odom__to__tf_8cpp_source_l00032}{repub\+\_\+odom}}.
+
+Here is the call graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=232pt]{odom__to__tf_8cpp_a3c04138a5bfe5d72780bb7e82a18e627_cgraph}
+\end{center}
+\end{figure}
+\mbox{\Hypertarget{odom__to__tf_8cpp_a3fd1efd09b163f4c96d004283c840684}\label{odom__to__tf_8cpp_a3fd1efd09b163f4c96d004283c840684}} 
+\index{odom\_to\_tf.cpp@{odom\_to\_tf.cpp}!odomCallback@{odomCallback}}
+\index{odomCallback@{odomCallback}!odom\_to\_tf.cpp@{odom\_to\_tf.cpp}}
+\doxysubsubsection{\texorpdfstring{odomCallback()}{odomCallback()}}
+{\footnotesize\ttfamily void odom\+Callback (\begin{DoxyParamCaption}\item[{nav\+\_\+msgs\+::msg\+::\+Odometry\+::\+Shared\+Ptr}]{msg }\end{DoxyParamCaption})}
+
+
+
+Definition at line \mbox{\hyperlink{odom__to__tf_8cpp_source_l00034}{34}} of file \mbox{\hyperlink{odom__to__tf_8cpp_source}{odom\+\_\+to\+\_\+tf.\+cpp}}.
+
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00034                                                     \{}
+\DoxyCodeLine{00035   \textcolor{keywordflow}{if} ((msg-\/>pose.pose.position.x != 0) \&\&}
+\DoxyCodeLine{00036       (msg-\/>pose.pose.position.y != 0) \&\&}
+\DoxyCodeLine{00037       (msg-\/>pose.pose.position.z != 0)) \{}
+\DoxyCodeLine{00038     \textcolor{comment}{//static tf::TransformBroadcaster br;}}
+\DoxyCodeLine{00039     \textcolor{keyword}{static} tf2\_ros::TransformBroadcaster br(\mbox{\hyperlink{odom__to__tf_8cpp_abd70cc27fb93648b9c90abe64106c1f7}{nh}});}
+\DoxyCodeLine{00040     geometry\_msgs::msg::TransformStamped transformStamped;}
+\DoxyCodeLine{00041 }
+\DoxyCodeLine{00042     \textcolor{comment}{// tf::Transform transform;}}
+\DoxyCodeLine{00043     \textcolor{comment}{// transform.setOrigin(tf::Vector3(msg-\/>pose.pose.position.x,}}
+\DoxyCodeLine{00044     \textcolor{comment}{//                                 msg-\/>pose.pose.position.y,}}
+\DoxyCodeLine{00045     \textcolor{comment}{//                                 msg-\/>pose.pose.position.z));}}
+\DoxyCodeLine{00046     \textcolor{comment}{// tf::Quaternion q = tf::Quaternion(msg-\/>pose.pose.orientation.x,}}
+\DoxyCodeLine{00047     \textcolor{comment}{//          msg-\/>pose.pose.orientation.y,}}
+\DoxyCodeLine{00048     \textcolor{comment}{//          msg-\/>pose.pose.orientation.z,}}
+\DoxyCodeLine{00049     \textcolor{comment}{//          msg-\/>pose.pose.orientation.w);}}
+\DoxyCodeLine{00050     \textcolor{comment}{// transform.setRotation(q);}}
+\DoxyCodeLine{00051 }
+\DoxyCodeLine{00052     transformStamped.header.stamp = msg-\/>header.stamp;}
+\DoxyCodeLine{00053     transformStamped.header.frame\_id = \textcolor{stringliteral}{"{}odom"{}};}
+\DoxyCodeLine{00054 }
+\DoxyCodeLine{00055     transformStamped.child\_frame\_id = \textcolor{stringliteral}{"{}base\_link"{}};}
+\DoxyCodeLine{00056     transformStamped.transform.translation.x = msg-\/>pose.pose.position.x;}
+\DoxyCodeLine{00057     transformStamped.transform.translation.y = msg-\/>pose.pose.position.y;}
+\DoxyCodeLine{00058     transformStamped.transform.translation.z = msg-\/>pose.pose.position.z;}
+\DoxyCodeLine{00059     \textcolor{comment}{// tf2::Quaternion q;}}
+\DoxyCodeLine{00060     \textcolor{comment}{// q.setRPY(0, 0, msg-\/>theta);}}
+\DoxyCodeLine{00061     transformStamped.transform.rotation.x = msg-\/>pose.pose.orientation.x;}
+\DoxyCodeLine{00062     transformStamped.transform.rotation.y = msg-\/>pose.pose.orientation.y;}
+\DoxyCodeLine{00063     transformStamped.transform.rotation.z = msg-\/>pose.pose.orientation.z;}
+\DoxyCodeLine{00064     transformStamped.transform.rotation.w = msg-\/>pose.pose.orientation.w;}
+\DoxyCodeLine{00065 }
+\DoxyCodeLine{00066     br.sendTransform(transformStamped);}
+\DoxyCodeLine{00067     \mbox{\hyperlink{odom__to__tf_8cpp_aeec1c3b37ba5c4da83527c8bcc07f3f3}{repub\_odom}}-\/>publish(*msg);}
+\DoxyCodeLine{00068   \}}
+\DoxyCodeLine{00069 \}}
+
+\end{DoxyCode}
+
+
+References \mbox{\hyperlink{odom__to__tf_8cpp_source_l00031}{nh}}, and \mbox{\hyperlink{odom__to__tf_8cpp_source_l00032}{repub\+\_\+odom}}.
+
+
+
+Referenced by \mbox{\hyperlink{odom__to__tf_8cpp_source_l00071}{main()}}.
+
+Here is the caller graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=232pt]{odom__to__tf_8cpp_a3fd1efd09b163f4c96d004283c840684_icgraph}
+\end{center}
+\end{figure}
+
+
+\doxysubsection{Variable Documentation}
+\mbox{\Hypertarget{odom__to__tf_8cpp_abd70cc27fb93648b9c90abe64106c1f7}\label{odom__to__tf_8cpp_abd70cc27fb93648b9c90abe64106c1f7}} 
+\index{odom\_to\_tf.cpp@{odom\_to\_tf.cpp}!nh@{nh}}
+\index{nh@{nh}!odom\_to\_tf.cpp@{odom\_to\_tf.cpp}}
+\doxysubsubsection{\texorpdfstring{nh}{nh}}
+{\footnotesize\ttfamily rclcpp\+::\+Node\+::\+Shared\+Ptr nh}
+
+
+
+Definition at line \mbox{\hyperlink{odom__to__tf_8cpp_source_l00031}{31}} of file \mbox{\hyperlink{odom__to__tf_8cpp_source}{odom\+\_\+to\+\_\+tf.\+cpp}}.
+
+
+
+Referenced by \mbox{\hyperlink{cp__costmap__switch_8cpp_source_l00118}{cl\+\_\+nav2z\+::\+Costmap\+Proxy\+::\+Costmap\+Proxy()}}, \mbox{\hyperlink{smacc__client__behavior__base_8cpp_source_l00040}{smacc2\+::\+ISmacc\+Client\+Behavior\+::get\+Logger()}}, \mbox{\hyperlink{cb__move__end__effector__trajectory_8cpp_source_l00048}{cl\+\_\+move\+\_\+group\+\_\+interface\+::\+Cb\+Move\+End\+Effector\+Trajectory\+::initialize\+ROS()}}, \mbox{\hyperlink{sm__dance__bot_2servers_2temperature__sensor__node_2src_2temperature__sensor__node_8cpp_source_l00018}{main()}}, \mbox{\hyperlink{opencv__perception__node_8cpp_source_l00249}{main\+\_\+ros\+\_\+loop()}}, \mbox{\hyperlink{odom__to__tf_8cpp_source_l00034}{odom\+Callback()}}, \mbox{\hyperlink{cb__wait__topic__message_8hpp_source_l00048}{smacc2\+::client\+\_\+behaviors\+::\+Cb\+Wait\+Topic\+Message$<$ TMessage $>$\+::on\+Entry()}}, \mbox{\hyperlink{cb__pure__spinning_8hpp_source_l00060}{sm\+\_\+dance\+\_\+bot\+\_\+warehouse\+\_\+3\+::cl\+\_\+nav2zclient\+::\+Cb\+Pure\+Spinning\+::on\+Entry()}}, \mbox{\hyperlink{cp__topic__publisher_8hpp_source_l00064}{smacc2\+::components\+::\+Cp\+Topic\+Publisher$<$ Message\+Type $>$\+::on\+Initialize()}}, \mbox{\hyperlink{odom__tracker_8cpp_source_l00056}{cl\+\_\+nav2z\+::odom\+\_\+tracker\+::\+Odom\+Tracker\+::on\+Initialize()}}, \mbox{\hyperlink{signal__detector_8cpp_source_l00336}{smacc2\+::\+Signal\+Detector\+::polling\+Loop()}}, and \mbox{\hyperlink{signal__detector_8cpp_source_l00211}{smacc2\+::\+Signal\+Detector\+::poll\+Once()}}.
+
+\mbox{\Hypertarget{odom__to__tf_8cpp_aeec1c3b37ba5c4da83527c8bcc07f3f3}\label{odom__to__tf_8cpp_aeec1c3b37ba5c4da83527c8bcc07f3f3}} 
+\index{odom\_to\_tf.cpp@{odom\_to\_tf.cpp}!repub\_odom@{repub\_odom}}
+\index{repub\_odom@{repub\_odom}!odom\_to\_tf.cpp@{odom\_to\_tf.cpp}}
+\doxysubsubsection{\texorpdfstring{repub\_odom}{repub\_odom}}
+{\footnotesize\ttfamily rclcpp\+::\+Publisher$<$nav\+\_\+msgs\+::msg\+::\+Odometry$>$\+::\+Shared\+Ptr repub\+\_\+odom}
+
+
+
+Definition at line \mbox{\hyperlink{odom__to__tf_8cpp_source_l00032}{32}} of file \mbox{\hyperlink{odom__to__tf_8cpp_source}{odom\+\_\+to\+\_\+tf.\+cpp}}.
+
+
+
+Referenced by \mbox{\hyperlink{odom__to__tf_8cpp_source_l00071}{main()}}, and \mbox{\hyperlink{odom__to__tf_8cpp_source_l00034}{odom\+Callback()}}.
+
