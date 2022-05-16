@@ -67,14 +67,14 @@ Definition at line \mbox{\hyperlink{cb__navigate__backward_8cpp_source_l00034}{3
 
 
 \begin{DoxyCode}{0}
-\DoxyCodeLine{00035 \{}
-\DoxyCodeLine{00036   \textcolor{keywordflow}{if} (\mbox{\hyperlink{classcl__nav2z_1_1CbNavigateBackwards_a5392b253e925729d1261fd102a058fa1}{backwardDistance}} < 0)}
-\DoxyCodeLine{00037   \{}
-\DoxyCodeLine{00038     RCLCPP\_ERROR(\mbox{\hyperlink{classsmacc2_1_1ISmaccClientBehavior_a5474074c4b45e900499e30126fb8415c}{getLogger}}(), \textcolor{stringliteral}{"{}[CbNavigateBackwards] distance must be greater or equal than 0"{}});}
-\DoxyCodeLine{00039     this-\/>\mbox{\hyperlink{classcl__nav2z_1_1CbNavigateBackwards_a5392b253e925729d1261fd102a058fa1}{backwardDistance}} = 0;}
-\DoxyCodeLine{00040   \}}
-\DoxyCodeLine{00041   this-\/>\mbox{\hyperlink{classcl__nav2z_1_1CbNavigateBackwards_a5392b253e925729d1261fd102a058fa1}{backwardDistance}} = \mbox{\hyperlink{classcl__nav2z_1_1CbNavigateBackwards_a5392b253e925729d1261fd102a058fa1}{backwardDistance}};}
-\DoxyCodeLine{00042 \}}
+\DoxyCodeLine{\Hypertarget{classcl__nav2z_1_1CbNavigateBackwards_l00035}00035 \{}
+\DoxyCodeLine{\Hypertarget{classcl__nav2z_1_1CbNavigateBackwards_l00036}00036   \textcolor{keywordflow}{if} (\mbox{\hyperlink{classcl__nav2z_1_1CbNavigateBackwards_a5392b253e925729d1261fd102a058fa1}{backwardDistance}} < 0)}
+\DoxyCodeLine{\Hypertarget{classcl__nav2z_1_1CbNavigateBackwards_l00037}00037   \{}
+\DoxyCodeLine{\Hypertarget{classcl__nav2z_1_1CbNavigateBackwards_l00038}00038     RCLCPP\_ERROR(\mbox{\hyperlink{classsmacc2_1_1ISmaccClientBehavior_a5474074c4b45e900499e30126fb8415c}{getLogger}}(), \textcolor{stringliteral}{"{}[CbNavigateBackwards] distance must be greater or equal than 0"{}});}
+\DoxyCodeLine{\Hypertarget{classcl__nav2z_1_1CbNavigateBackwards_l00039}00039     this-\/>\mbox{\hyperlink{classcl__nav2z_1_1CbNavigateBackwards_a5392b253e925729d1261fd102a058fa1}{backwardDistance}} = 0;}
+\DoxyCodeLine{\Hypertarget{classcl__nav2z_1_1CbNavigateBackwards_l00040}00040   \}}
+\DoxyCodeLine{\Hypertarget{classcl__nav2z_1_1CbNavigateBackwards_l00041}00041   this-\/>\mbox{\hyperlink{classcl__nav2z_1_1CbNavigateBackwards_a5392b253e925729d1261fd102a058fa1}{backwardDistance}} = \mbox{\hyperlink{classcl__nav2z_1_1CbNavigateBackwards_a5392b253e925729d1261fd102a058fa1}{backwardDistance}};}
+\DoxyCodeLine{\Hypertarget{classcl__nav2z_1_1CbNavigateBackwards_l00042}00042 \}}
 
 \end{DoxyCode}
 
@@ -108,52 +108,52 @@ Definition at line \mbox{\hyperlink{cb__navigate__backward_8cpp_source_l00044}{4
 
 
 \begin{DoxyCode}{0}
-\DoxyCodeLine{00045 \{}
-\DoxyCodeLine{00046   \textcolor{comment}{// straight motion distance}}
-\DoxyCodeLine{00047   \textcolor{keywordtype}{double} dist = \mbox{\hyperlink{classcl__nav2z_1_1CbNavigateBackwards_a5392b253e925729d1261fd102a058fa1}{backwardDistance}};}
-\DoxyCodeLine{00048 }
-\DoxyCodeLine{00049   RCLCPP\_INFO\_STREAM(}
-\DoxyCodeLine{00050     \mbox{\hyperlink{classsmacc2_1_1ISmaccClientBehavior_a5474074c4b45e900499e30126fb8415c}{getLogger}}(), \textcolor{stringliteral}{"{}[CbNavigateBackwards] Straight backwards motion distance: "{}} << dist);}
-\DoxyCodeLine{00051 }
-\DoxyCodeLine{00052   \textcolor{keyword}{auto} p = \mbox{\hyperlink{classcl__nav2z_1_1CbNav2ZClientBehaviorBase_ad063ef82084fe0591d746456c3794db0}{moveBaseClient\_}}-\/>\mbox{\hyperlink{classsmacc2_1_1ISmaccClient_afc6e0f5f82a4552134c9423b75e3ca1d}{getComponent}}<\mbox{\hyperlink{classcl__nav2z_1_1Pose}{cl\_nav2z::Pose}}>();}
-\DoxyCodeLine{00053   \textcolor{keyword}{auto} referenceFrame = p-\/>\mbox{\hyperlink{classcl__nav2z_1_1Pose_aa2694e3003979889f098a247c989b685}{getReferenceFrame}}();}
-\DoxyCodeLine{00054   \textcolor{keyword}{auto} currentPoseMsg = p-\/>toPoseMsg();}
-\DoxyCodeLine{00055   tf2::Transform currentPose;}
-\DoxyCodeLine{00056   \mbox{\hyperlink{namespacecl__move__group__interface_ac9996bc735656bff769b0f3d0104d9cd}{tf2::fromMsg}}(currentPoseMsg, currentPose);}
-\DoxyCodeLine{00057 }
-\DoxyCodeLine{00058   tf2::Transform backwardDeltaTransform;}
-\DoxyCodeLine{00059   backwardDeltaTransform.setIdentity();}
-\DoxyCodeLine{00060   backwardDeltaTransform.setOrigin(tf2::Vector3(-\/dist, 0, 0));}
-\DoxyCodeLine{00061 }
-\DoxyCodeLine{00062   tf2::Transform targetPose = currentPose * backwardDeltaTransform;}
-\DoxyCodeLine{00063 }
-\DoxyCodeLine{00064   \mbox{\hyperlink{classsmacc2_1_1client__bases_1_1SmaccActionClientBase_ab56ba47b81346277a471584dedf7d45c}{ClNav2Z::Goal}} goal;}
-\DoxyCodeLine{00065   goal.pose.header.frame\_id = referenceFrame;}
-\DoxyCodeLine{00066   goal.pose.header.stamp = \mbox{\hyperlink{classsmacc2_1_1ISmaccClientBehavior_a95c9749af2004528fbda63ca6fde8eae}{getNode}}()-\/>now();}
-\DoxyCodeLine{00067   \mbox{\hyperlink{namespacecl__move__group__interface_ab841bba9b3a7dc4832356bb485f3a5c8}{tf2::toMsg}}(targetPose, goal.pose.pose);}
-\DoxyCodeLine{00068   RCLCPP\_INFO\_STREAM(\mbox{\hyperlink{classsmacc2_1_1ISmaccClientBehavior_a5474074c4b45e900499e30126fb8415c}{getLogger}}(), \textcolor{stringliteral}{"{}[CbNavigateBackwards] TARGET POSE BACKWARDS: "{}} << goal.pose);}
-\DoxyCodeLine{00069 }
-\DoxyCodeLine{00070   geometry\_msgs::msg::PoseStamped currentStampedPoseMsg;}
-\DoxyCodeLine{00071   currentStampedPoseMsg.header.frame\_id = referenceFrame;}
-\DoxyCodeLine{00072   currentStampedPoseMsg.header.stamp = \mbox{\hyperlink{classsmacc2_1_1ISmaccClientBehavior_a95c9749af2004528fbda63ca6fde8eae}{getNode}}()-\/>now();}
-\DoxyCodeLine{00073   \mbox{\hyperlink{namespacecl__move__group__interface_ab841bba9b3a7dc4832356bb485f3a5c8}{tf2::toMsg}}(currentPose, currentStampedPoseMsg.pose);}
-\DoxyCodeLine{00074 }
-\DoxyCodeLine{00075   \mbox{\hyperlink{classcl__nav2z_1_1CbNavigateBackwards_a5ae4ea879dde519eb1f5999e4c2036b4}{odomTracker\_}} = \mbox{\hyperlink{classcl__nav2z_1_1CbNav2ZClientBehaviorBase_ad063ef82084fe0591d746456c3794db0}{moveBaseClient\_}}-\/>\mbox{\hyperlink{classsmacc2_1_1ISmaccClient_afc6e0f5f82a4552134c9423b75e3ca1d}{getComponent}}<OdomTracker>();}
-\DoxyCodeLine{00076   \textcolor{keywordflow}{if} (\mbox{\hyperlink{classcl__nav2z_1_1CbNavigateBackwards_a5ae4ea879dde519eb1f5999e4c2036b4}{odomTracker\_}} != \textcolor{keyword}{nullptr})}
-\DoxyCodeLine{00077   \{}
-\DoxyCodeLine{00078     this-\/>\mbox{\hyperlink{classcl__nav2z_1_1CbNavigateBackwards_a5ae4ea879dde519eb1f5999e4c2036b4}{odomTracker\_}}-\/>\mbox{\hyperlink{classcl__nav2z_1_1odom__tracker_1_1OdomTracker_a92060c66a170b49a5d3b9dea7700adb0}{clearPath}}();}
-\DoxyCodeLine{00079     this-\/>\mbox{\hyperlink{classcl__nav2z_1_1CbNavigateBackwards_a5ae4ea879dde519eb1f5999e4c2036b4}{odomTracker\_}}-\/>\mbox{\hyperlink{classcl__nav2z_1_1odom__tracker_1_1OdomTracker_ab190482a48c9128e9d405b1b59876a97}{setStartPoint}}(currentStampedPoseMsg);}
-\DoxyCodeLine{00080     this-\/>\mbox{\hyperlink{classcl__nav2z_1_1CbNavigateBackwards_a5ae4ea879dde519eb1f5999e4c2036b4}{odomTracker\_}}-\/>\mbox{\hyperlink{classcl__nav2z_1_1odom__tracker_1_1OdomTracker_a90c99c722785303974f6e5690b8d8471}{setWorkingMode}}(WorkingMode::RECORD\_PATH);}
-\DoxyCodeLine{00081   \}}
-\DoxyCodeLine{00082 }
-\DoxyCodeLine{00083   \textcolor{keyword}{auto} plannerSwitcher = \mbox{\hyperlink{classcl__nav2z_1_1CbNav2ZClientBehaviorBase_ad063ef82084fe0591d746456c3794db0}{moveBaseClient\_}}-\/>\mbox{\hyperlink{classsmacc2_1_1ISmaccClient_afc6e0f5f82a4552134c9423b75e3ca1d}{getComponent}}<PlannerSwitcher>();}
-\DoxyCodeLine{00084   plannerSwitcher-\/>setBackwardPlanner();}
-\DoxyCodeLine{00085 }
-\DoxyCodeLine{00086   \textcolor{keyword}{auto} goalCheckerSwitcher = \mbox{\hyperlink{classcl__nav2z_1_1CbNav2ZClientBehaviorBase_ad063ef82084fe0591d746456c3794db0}{moveBaseClient\_}}-\/>\mbox{\hyperlink{classsmacc2_1_1ISmaccClient_afc6e0f5f82a4552134c9423b75e3ca1d}{getComponent}}<GoalCheckerSwitcher>();}
-\DoxyCodeLine{00087   goalCheckerSwitcher-\/>setGoalCheckerId(\textcolor{stringliteral}{"{}backward\_goal\_checker"{}});}
-\DoxyCodeLine{00088 }
-\DoxyCodeLine{00089   \mbox{\hyperlink{classcl__nav2z_1_1CbNav2ZClientBehaviorBase_ad063ef82084fe0591d746456c3794db0}{moveBaseClient\_}}-\/>\mbox{\hyperlink{classsmacc2_1_1client__bases_1_1SmaccActionClientBase_a43176511fffe80c2de7a36b6a2858ccc}{sendGoal}}(goal);}
-\DoxyCodeLine{00090 \}}
+\DoxyCodeLine{\Hypertarget{classcl__nav2z_1_1CbNavigateBackwards_l00045}00045 \{}
+\DoxyCodeLine{\Hypertarget{classcl__nav2z_1_1CbNavigateBackwards_l00046}00046   \textcolor{comment}{// straight motion distance}}
+\DoxyCodeLine{\Hypertarget{classcl__nav2z_1_1CbNavigateBackwards_l00047}00047   \textcolor{keywordtype}{double} dist = \mbox{\hyperlink{classcl__nav2z_1_1CbNavigateBackwards_a5392b253e925729d1261fd102a058fa1}{backwardDistance}};}
+\DoxyCodeLine{\Hypertarget{classcl__nav2z_1_1CbNavigateBackwards_l00048}00048 }
+\DoxyCodeLine{\Hypertarget{classcl__nav2z_1_1CbNavigateBackwards_l00049}00049   RCLCPP\_INFO\_STREAM(}
+\DoxyCodeLine{\Hypertarget{classcl__nav2z_1_1CbNavigateBackwards_l00050}00050     \mbox{\hyperlink{classsmacc2_1_1ISmaccClientBehavior_a5474074c4b45e900499e30126fb8415c}{getLogger}}(), \textcolor{stringliteral}{"{}[CbNavigateBackwards] Straight backwards motion distance: "{}} << dist);}
+\DoxyCodeLine{\Hypertarget{classcl__nav2z_1_1CbNavigateBackwards_l00051}00051 }
+\DoxyCodeLine{\Hypertarget{classcl__nav2z_1_1CbNavigateBackwards_l00052}00052   \textcolor{keyword}{auto} p = \mbox{\hyperlink{classcl__nav2z_1_1CbNav2ZClientBehaviorBase_ad063ef82084fe0591d746456c3794db0}{moveBaseClient\_}}-\/>\mbox{\hyperlink{classsmacc2_1_1ISmaccClient_afc6e0f5f82a4552134c9423b75e3ca1d}{getComponent}}<\mbox{\hyperlink{classcl__nav2z_1_1Pose}{cl\_nav2z::Pose}}>();}
+\DoxyCodeLine{\Hypertarget{classcl__nav2z_1_1CbNavigateBackwards_l00053}00053   \textcolor{keyword}{auto} referenceFrame = p-\/>\mbox{\hyperlink{classcl__nav2z_1_1Pose_aa2694e3003979889f098a247c989b685}{getReferenceFrame}}();}
+\DoxyCodeLine{\Hypertarget{classcl__nav2z_1_1CbNavigateBackwards_l00054}00054   \textcolor{keyword}{auto} currentPoseMsg = p-\/>toPoseMsg();}
+\DoxyCodeLine{\Hypertarget{classcl__nav2z_1_1CbNavigateBackwards_l00055}00055   tf2::Transform currentPose;}
+\DoxyCodeLine{\Hypertarget{classcl__nav2z_1_1CbNavigateBackwards_l00056}00056   \mbox{\hyperlink{namespacecl__move__group__interface_ac9996bc735656bff769b0f3d0104d9cd}{tf2::fromMsg}}(currentPoseMsg, currentPose);}
+\DoxyCodeLine{\Hypertarget{classcl__nav2z_1_1CbNavigateBackwards_l00057}00057 }
+\DoxyCodeLine{\Hypertarget{classcl__nav2z_1_1CbNavigateBackwards_l00058}00058   tf2::Transform backwardDeltaTransform;}
+\DoxyCodeLine{\Hypertarget{classcl__nav2z_1_1CbNavigateBackwards_l00059}00059   backwardDeltaTransform.setIdentity();}
+\DoxyCodeLine{\Hypertarget{classcl__nav2z_1_1CbNavigateBackwards_l00060}00060   backwardDeltaTransform.setOrigin(tf2::Vector3(-\/dist, 0, 0));}
+\DoxyCodeLine{\Hypertarget{classcl__nav2z_1_1CbNavigateBackwards_l00061}00061 }
+\DoxyCodeLine{\Hypertarget{classcl__nav2z_1_1CbNavigateBackwards_l00062}00062   tf2::Transform targetPose = currentPose * backwardDeltaTransform;}
+\DoxyCodeLine{\Hypertarget{classcl__nav2z_1_1CbNavigateBackwards_l00063}00063 }
+\DoxyCodeLine{\Hypertarget{classcl__nav2z_1_1CbNavigateBackwards_l00064}00064   \mbox{\hyperlink{classsmacc2_1_1client__bases_1_1SmaccActionClientBase_ab56ba47b81346277a471584dedf7d45c}{ClNav2Z::Goal}} goal;}
+\DoxyCodeLine{\Hypertarget{classcl__nav2z_1_1CbNavigateBackwards_l00065}00065   goal.pose.header.frame\_id = referenceFrame;}
+\DoxyCodeLine{\Hypertarget{classcl__nav2z_1_1CbNavigateBackwards_l00066}00066   goal.pose.header.stamp = \mbox{\hyperlink{classsmacc2_1_1ISmaccClientBehavior_a95c9749af2004528fbda63ca6fde8eae}{getNode}}()-\/>now();}
+\DoxyCodeLine{\Hypertarget{classcl__nav2z_1_1CbNavigateBackwards_l00067}00067   \mbox{\hyperlink{namespacecl__move__group__interface_ab841bba9b3a7dc4832356bb485f3a5c8}{tf2::toMsg}}(targetPose, goal.pose.pose);}
+\DoxyCodeLine{\Hypertarget{classcl__nav2z_1_1CbNavigateBackwards_l00068}00068   RCLCPP\_INFO\_STREAM(\mbox{\hyperlink{classsmacc2_1_1ISmaccClientBehavior_a5474074c4b45e900499e30126fb8415c}{getLogger}}(), \textcolor{stringliteral}{"{}[CbNavigateBackwards] TARGET POSE BACKWARDS: "{}} << goal.pose);}
+\DoxyCodeLine{\Hypertarget{classcl__nav2z_1_1CbNavigateBackwards_l00069}00069 }
+\DoxyCodeLine{\Hypertarget{classcl__nav2z_1_1CbNavigateBackwards_l00070}00070   geometry\_msgs::msg::PoseStamped currentStampedPoseMsg;}
+\DoxyCodeLine{\Hypertarget{classcl__nav2z_1_1CbNavigateBackwards_l00071}00071   currentStampedPoseMsg.header.frame\_id = referenceFrame;}
+\DoxyCodeLine{\Hypertarget{classcl__nav2z_1_1CbNavigateBackwards_l00072}00072   currentStampedPoseMsg.header.stamp = \mbox{\hyperlink{classsmacc2_1_1ISmaccClientBehavior_a95c9749af2004528fbda63ca6fde8eae}{getNode}}()-\/>now();}
+\DoxyCodeLine{\Hypertarget{classcl__nav2z_1_1CbNavigateBackwards_l00073}00073   \mbox{\hyperlink{namespacecl__move__group__interface_ab841bba9b3a7dc4832356bb485f3a5c8}{tf2::toMsg}}(currentPose, currentStampedPoseMsg.pose);}
+\DoxyCodeLine{\Hypertarget{classcl__nav2z_1_1CbNavigateBackwards_l00074}00074 }
+\DoxyCodeLine{\Hypertarget{classcl__nav2z_1_1CbNavigateBackwards_l00075}00075   \mbox{\hyperlink{classcl__nav2z_1_1CbNavigateBackwards_a5ae4ea879dde519eb1f5999e4c2036b4}{odomTracker\_}} = \mbox{\hyperlink{classcl__nav2z_1_1CbNav2ZClientBehaviorBase_ad063ef82084fe0591d746456c3794db0}{moveBaseClient\_}}-\/>\mbox{\hyperlink{classsmacc2_1_1ISmaccClient_afc6e0f5f82a4552134c9423b75e3ca1d}{getComponent}}<OdomTracker>();}
+\DoxyCodeLine{\Hypertarget{classcl__nav2z_1_1CbNavigateBackwards_l00076}00076   \textcolor{keywordflow}{if} (\mbox{\hyperlink{classcl__nav2z_1_1CbNavigateBackwards_a5ae4ea879dde519eb1f5999e4c2036b4}{odomTracker\_}} != \textcolor{keyword}{nullptr})}
+\DoxyCodeLine{\Hypertarget{classcl__nav2z_1_1CbNavigateBackwards_l00077}00077   \{}
+\DoxyCodeLine{\Hypertarget{classcl__nav2z_1_1CbNavigateBackwards_l00078}00078     this-\/>\mbox{\hyperlink{classcl__nav2z_1_1CbNavigateBackwards_a5ae4ea879dde519eb1f5999e4c2036b4}{odomTracker\_}}-\/>\mbox{\hyperlink{classcl__nav2z_1_1odom__tracker_1_1OdomTracker_a92060c66a170b49a5d3b9dea7700adb0}{clearPath}}();}
+\DoxyCodeLine{\Hypertarget{classcl__nav2z_1_1CbNavigateBackwards_l00079}00079     this-\/>\mbox{\hyperlink{classcl__nav2z_1_1CbNavigateBackwards_a5ae4ea879dde519eb1f5999e4c2036b4}{odomTracker\_}}-\/>\mbox{\hyperlink{classcl__nav2z_1_1odom__tracker_1_1OdomTracker_ab190482a48c9128e9d405b1b59876a97}{setStartPoint}}(currentStampedPoseMsg);}
+\DoxyCodeLine{\Hypertarget{classcl__nav2z_1_1CbNavigateBackwards_l00080}00080     this-\/>\mbox{\hyperlink{classcl__nav2z_1_1CbNavigateBackwards_a5ae4ea879dde519eb1f5999e4c2036b4}{odomTracker\_}}-\/>\mbox{\hyperlink{classcl__nav2z_1_1odom__tracker_1_1OdomTracker_a90c99c722785303974f6e5690b8d8471}{setWorkingMode}}(WorkingMode::RECORD\_PATH);}
+\DoxyCodeLine{\Hypertarget{classcl__nav2z_1_1CbNavigateBackwards_l00081}00081   \}}
+\DoxyCodeLine{\Hypertarget{classcl__nav2z_1_1CbNavigateBackwards_l00082}00082 }
+\DoxyCodeLine{\Hypertarget{classcl__nav2z_1_1CbNavigateBackwards_l00083}00083   \textcolor{keyword}{auto} plannerSwitcher = \mbox{\hyperlink{classcl__nav2z_1_1CbNav2ZClientBehaviorBase_ad063ef82084fe0591d746456c3794db0}{moveBaseClient\_}}-\/>\mbox{\hyperlink{classsmacc2_1_1ISmaccClient_afc6e0f5f82a4552134c9423b75e3ca1d}{getComponent}}<PlannerSwitcher>();}
+\DoxyCodeLine{\Hypertarget{classcl__nav2z_1_1CbNavigateBackwards_l00084}00084   plannerSwitcher-\/>setBackwardPlanner();}
+\DoxyCodeLine{\Hypertarget{classcl__nav2z_1_1CbNavigateBackwards_l00085}00085 }
+\DoxyCodeLine{\Hypertarget{classcl__nav2z_1_1CbNavigateBackwards_l00086}00086   \textcolor{keyword}{auto} goalCheckerSwitcher = \mbox{\hyperlink{classcl__nav2z_1_1CbNav2ZClientBehaviorBase_ad063ef82084fe0591d746456c3794db0}{moveBaseClient\_}}-\/>\mbox{\hyperlink{classsmacc2_1_1ISmaccClient_afc6e0f5f82a4552134c9423b75e3ca1d}{getComponent}}<GoalCheckerSwitcher>();}
+\DoxyCodeLine{\Hypertarget{classcl__nav2z_1_1CbNavigateBackwards_l00087}00087   goalCheckerSwitcher-\/>setGoalCheckerId(\textcolor{stringliteral}{"{}backward\_goal\_checker"{}});}
+\DoxyCodeLine{\Hypertarget{classcl__nav2z_1_1CbNavigateBackwards_l00088}00088 }
+\DoxyCodeLine{\Hypertarget{classcl__nav2z_1_1CbNavigateBackwards_l00089}00089   \mbox{\hyperlink{classcl__nav2z_1_1CbNav2ZClientBehaviorBase_ad063ef82084fe0591d746456c3794db0}{moveBaseClient\_}}-\/>\mbox{\hyperlink{classsmacc2_1_1client__bases_1_1SmaccActionClientBase_a43176511fffe80c2de7a36b6a2858ccc}{sendGoal}}(goal);}
+\DoxyCodeLine{\Hypertarget{classcl__nav2z_1_1CbNavigateBackwards_l00090}00090 \}}
 
 \end{DoxyCode}
 
@@ -184,12 +184,12 @@ Definition at line \mbox{\hyperlink{cb__navigate__backward_8cpp_source_l00092}{9
 
 
 \begin{DoxyCode}{0}
-\DoxyCodeLine{00093 \{}
-\DoxyCodeLine{00094   \textcolor{keywordflow}{if} (\mbox{\hyperlink{classcl__nav2z_1_1CbNavigateBackwards_a5ae4ea879dde519eb1f5999e4c2036b4}{odomTracker\_}})}
-\DoxyCodeLine{00095   \{}
-\DoxyCodeLine{00096     this-\/>\mbox{\hyperlink{classcl__nav2z_1_1CbNavigateBackwards_a5ae4ea879dde519eb1f5999e4c2036b4}{odomTracker\_}}-\/>\mbox{\hyperlink{classcl__nav2z_1_1odom__tracker_1_1OdomTracker_a90c99c722785303974f6e5690b8d8471}{setWorkingMode}}(WorkingMode::IDLE);}
-\DoxyCodeLine{00097   \}}
-\DoxyCodeLine{00098 \}}
+\DoxyCodeLine{\Hypertarget{classcl__nav2z_1_1CbNavigateBackwards_l00093}00093 \{}
+\DoxyCodeLine{\Hypertarget{classcl__nav2z_1_1CbNavigateBackwards_l00094}00094   \textcolor{keywordflow}{if} (\mbox{\hyperlink{classcl__nav2z_1_1CbNavigateBackwards_a5ae4ea879dde519eb1f5999e4c2036b4}{odomTracker\_}})}
+\DoxyCodeLine{\Hypertarget{classcl__nav2z_1_1CbNavigateBackwards_l00095}00095   \{}
+\DoxyCodeLine{\Hypertarget{classcl__nav2z_1_1CbNavigateBackwards_l00096}00096     this-\/>\mbox{\hyperlink{classcl__nav2z_1_1CbNavigateBackwards_a5ae4ea879dde519eb1f5999e4c2036b4}{odomTracker\_}}-\/>\mbox{\hyperlink{classcl__nav2z_1_1odom__tracker_1_1OdomTracker_a90c99c722785303974f6e5690b8d8471}{setWorkingMode}}(WorkingMode::IDLE);}
+\DoxyCodeLine{\Hypertarget{classcl__nav2z_1_1CbNavigateBackwards_l00097}00097   \}}
+\DoxyCodeLine{\Hypertarget{classcl__nav2z_1_1CbNavigateBackwards_l00098}00098 \}}
 
 \end{DoxyCode}
 

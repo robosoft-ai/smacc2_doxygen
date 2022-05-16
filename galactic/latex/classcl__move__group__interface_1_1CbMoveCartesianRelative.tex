@@ -71,7 +71,7 @@ Definition at line \mbox{\hyperlink{cb__move__cartesian__relative_8cpp_source_l0
 
 
 \begin{DoxyCode}{0}
-\DoxyCodeLine{00027 \{\}}
+\DoxyCodeLine{\Hypertarget{classcl__move__group__interface_1_1CbMoveCartesianRelative_l00027}00027 \{\}}
 
 \end{DoxyCode}
 \mbox{\Hypertarget{classcl__move__group__interface_1_1CbMoveCartesianRelative_a6164a1b077fab8b40c3d471347d11f47}\label{classcl__move__group__interface_1_1CbMoveCartesianRelative_a6164a1b077fab8b40c3d471347d11f47}} 
@@ -86,9 +86,9 @@ Definition at line \mbox{\hyperlink{cb__move__cartesian__relative_8cpp_source_l0
 
 
 \begin{DoxyCode}{0}
-\DoxyCodeLine{00030 : \mbox{\hyperlink{classcl__move__group__interface_1_1CbMoveCartesianRelative_ab47910bc8592453743e3f4d4f91b14c8}{offset\_}}(offset)}
-\DoxyCodeLine{00031 \{}
-\DoxyCodeLine{00032 \}}
+\DoxyCodeLine{\Hypertarget{classcl__move__group__interface_1_1CbMoveCartesianRelative_l00030}00030 : \mbox{\hyperlink{classcl__move__group__interface_1_1CbMoveCartesianRelative_ab47910bc8592453743e3f4d4f91b14c8}{offset\_}}(offset)}
+\DoxyCodeLine{\Hypertarget{classcl__move__group__interface_1_1CbMoveCartesianRelative_l00031}00031 \{}
+\DoxyCodeLine{\Hypertarget{classcl__move__group__interface_1_1CbMoveCartesianRelative_l00032}00032 \}}
 
 \end{DoxyCode}
 
@@ -106,90 +106,90 @@ Definition at line \mbox{\hyperlink{cb__move__cartesian__relative_8cpp_source_l0
 
 
 \begin{DoxyCode}{0}
-\DoxyCodeLine{00056 \{}
-\DoxyCodeLine{00057   std::vector<geometry\_msgs::msg::Pose> waypoints;}
-\DoxyCodeLine{00058 }
-\DoxyCodeLine{00059   \textcolor{comment}{// this one was working fine but the issue is that for relative motions it grows up on ABORT-\/State-\/Loop pattern.}}
-\DoxyCodeLine{00060   \textcolor{comment}{// But, we need current pose because maybe setCurrentPose was not set by previous behaviors. The only solution would be}}
-\DoxyCodeLine{00061   \textcolor{comment}{// distinguishing between the execution error and the planning error with no state change}}
-\DoxyCodeLine{00062   \textcolor{comment}{//auto referenceStartPose = movegroupClient-\/>getPoseTarget();}}
-\DoxyCodeLine{00063   \textcolor{keyword}{auto} referenceStartPose = movegroupClient-\/>getCurrentPose();}
-\DoxyCodeLine{00064   movegroupClient-\/>setPoseReferenceFrame(referenceStartPose.header.frame\_id);}
-\DoxyCodeLine{00065 }
-\DoxyCodeLine{00066   RCLCPP\_INFO\_STREAM(}
-\DoxyCodeLine{00067     \mbox{\hyperlink{classsmacc2_1_1ISmaccClientBehavior_a5474074c4b45e900499e30126fb8415c}{getLogger}}(), \textcolor{stringliteral}{"{}[CbMoveCartesianRelative] RELATIVE MOTION, SOURCE POSE: "{}} << referenceStartPose);}
-\DoxyCodeLine{00068   RCLCPP\_INFO\_STREAM(\mbox{\hyperlink{classsmacc2_1_1ISmaccClientBehavior_a5474074c4b45e900499e30126fb8415c}{getLogger}}(), \textcolor{stringliteral}{"{}[CbMoveCartesianRelative] Offset: "{}} << offset);}
-\DoxyCodeLine{00069 }
-\DoxyCodeLine{00070   waypoints.push\_back(referenceStartPose.pose);  \textcolor{comment}{// up and out}}
-\DoxyCodeLine{00071 }
-\DoxyCodeLine{00072   \textcolor{keyword}{auto} endPose = referenceStartPose.pose;}
-\DoxyCodeLine{00073 }
-\DoxyCodeLine{00074   endPose.position.x += offset.x;}
-\DoxyCodeLine{00075   endPose.position.y += offset.y;}
-\DoxyCodeLine{00076   endPose.position.z += offset.z;}
-\DoxyCodeLine{00077 }
-\DoxyCodeLine{00078   RCLCPP\_INFO\_STREAM(\mbox{\hyperlink{classsmacc2_1_1ISmaccClientBehavior_a5474074c4b45e900499e30126fb8415c}{getLogger}}(), \textcolor{stringliteral}{"{}[CbMoveCartesianRelative] DESTINY POSE: "{}} << endPose);}
-\DoxyCodeLine{00079 }
-\DoxyCodeLine{00080   \textcolor{comment}{// target\_pose2.position.x -\/= 0.15;}}
-\DoxyCodeLine{00081   waypoints.push\_back(endPose);  \textcolor{comment}{// left}}
-\DoxyCodeLine{00082 }
-\DoxyCodeLine{00083   movegroupClient-\/>setPoseTarget(endPose);}
-\DoxyCodeLine{00084 }
-\DoxyCodeLine{00085   \textcolor{keywordtype}{float} scalinf = 0.5;}
-\DoxyCodeLine{00086   \textcolor{keywordflow}{if} (\mbox{\hyperlink{classcl__move__group__interface_1_1CbMoveCartesianRelative_a73107842f7eace606c4e93f3d9eac17f}{scalingFactor\_}}) scalinf = *\mbox{\hyperlink{classcl__move__group__interface_1_1CbMoveCartesianRelative_a73107842f7eace606c4e93f3d9eac17f}{scalingFactor\_}};}
-\DoxyCodeLine{00087 }
-\DoxyCodeLine{00088   RCLCPP\_INFO\_STREAM(\mbox{\hyperlink{classsmacc2_1_1ISmaccClientBehavior_a5474074c4b45e900499e30126fb8415c}{getLogger}}(), \textcolor{stringliteral}{"{}[CbMoveCartesianRelative] Using scaling factor: "{}} << scalinf);}
-\DoxyCodeLine{00089   movegroupClient-\/>setMaxVelocityScalingFactor(scalinf);}
-\DoxyCodeLine{00090 }
-\DoxyCodeLine{00091   moveit\_msgs::msg::RobotTrajectory trajectory;}
-\DoxyCodeLine{00092   \textcolor{keywordtype}{double} fraction = movegroupClient-\/>computeCartesianPath(}
-\DoxyCodeLine{00093     waypoints,}
-\DoxyCodeLine{00094     0.01,  \textcolor{comment}{// eef\_step}}
-\DoxyCodeLine{00095     0.00,  \textcolor{comment}{// jump\_threshold}}
-\DoxyCodeLine{00096     trajectory);}
-\DoxyCodeLine{00097 }
-\DoxyCodeLine{00098   moveit::planning\_interface::MoveItErrorCode behaviorResult;}
-\DoxyCodeLine{00099   \textcolor{keywordflow}{if} (fraction != 1.0 || fraction == -\/1)}
-\DoxyCodeLine{00100   \{}
-\DoxyCodeLine{00101     RCLCPP\_WARN\_STREAM(}
-\DoxyCodeLine{00102       \mbox{\hyperlink{classsmacc2_1_1ISmaccClientBehavior_a5474074c4b45e900499e30126fb8415c}{getLogger}}(),}
-\DoxyCodeLine{00103       \textcolor{stringliteral}{"{}[CbMoveCartesianRelative] Cartesian plan joint-\/continuity percentaje. Execution skipped "{}}}
-\DoxyCodeLine{00104       \textcolor{stringliteral}{"{}because not 100\% of cartesian motion: "{}}}
-\DoxyCodeLine{00105         << fraction * 100 << \textcolor{stringliteral}{"{}\%"{}});}
-\DoxyCodeLine{00106     behaviorResult = moveit::planning\_interface::MoveItErrorCode::PLANNING\_FAILED;}
-\DoxyCodeLine{00107   \}}
-\DoxyCodeLine{00108   \textcolor{keywordflow}{else}}
-\DoxyCodeLine{00109   \{}
-\DoxyCodeLine{00110     RCLCPP\_INFO\_STREAM(}
-\DoxyCodeLine{00111       \mbox{\hyperlink{classsmacc2_1_1ISmaccClientBehavior_a5474074c4b45e900499e30126fb8415c}{getLogger}}(),}
-\DoxyCodeLine{00112       \textcolor{stringliteral}{"{}[CbMoveCartesianRelative] Cartesian plan joint-\/continuity percentaje: "{}} << fraction);}
-\DoxyCodeLine{00113 }
-\DoxyCodeLine{00114     moveit::planning\_interface::MoveGroupInterface::Plan grasp\_pose\_plan;}
-\DoxyCodeLine{00115 }
-\DoxyCodeLine{00116     \textcolor{comment}{// grasp\_pose\_plan.start\_state\_ = *(moveGroupInterface.getCurrentState());}}
-\DoxyCodeLine{00117     grasp\_pose\_plan.trajectory\_ = trajectory;}
-\DoxyCodeLine{00118     behaviorResult = movegroupClient-\/>execute(grasp\_pose\_plan);}
-\DoxyCodeLine{00119   \}}
-\DoxyCodeLine{00120 }
-\DoxyCodeLine{00121   \textcolor{keywordflow}{if} (behaviorResult == moveit\_msgs::msg::MoveItErrorCodes::SUCCESS)}
-\DoxyCodeLine{00122   \{}
-\DoxyCodeLine{00123     RCLCPP\_INFO(}
-\DoxyCodeLine{00124       \mbox{\hyperlink{classsmacc2_1_1ISmaccClientBehavior_a5474074c4b45e900499e30126fb8415c}{getLogger}}(), \textcolor{stringliteral}{"{}[CbMoveCartesianRelative] relative motion execution succeeded: fraction \%lf."{}},}
-\DoxyCodeLine{00125       fraction);}
-\DoxyCodeLine{00126     \mbox{\hyperlink{classcl__move__group__interface_1_1CbMoveCartesianRelative_ac0226b2db9bf4de86eb64a535457e295}{moveGroupSmaccClient\_}}-\/>\mbox{\hyperlink{classcl__move__group__interface_1_1ClMoveGroup_aebaf269db373d41837bae87651458e54}{postEventMotionExecutionSucceded}}();}
-\DoxyCodeLine{00127     this-\/>\mbox{\hyperlink{classsmacc2_1_1SmaccAsyncClientBehavior_a2fb4de26d011fbbb55bc1bbaed2e6f5b}{postSuccessEvent}}();}
-\DoxyCodeLine{00128   \}}
-\DoxyCodeLine{00129   \textcolor{keywordflow}{else}}
-\DoxyCodeLine{00130   \{}
-\DoxyCodeLine{00131     movegroupClient-\/>setPoseTarget(}
-\DoxyCodeLine{00132       referenceStartPose);  \textcolor{comment}{// undo changes since we did not executed the motion}}
-\DoxyCodeLine{00133     RCLCPP\_INFO(}
-\DoxyCodeLine{00134       \mbox{\hyperlink{classsmacc2_1_1ISmaccClientBehavior_a5474074c4b45e900499e30126fb8415c}{getLogger}}(), \textcolor{stringliteral}{"{}[CbMoveCartesianRelative] relative motion execution failed: fraction \%lf."{}},}
-\DoxyCodeLine{00135       fraction);}
-\DoxyCodeLine{00136     \mbox{\hyperlink{classcl__move__group__interface_1_1CbMoveCartesianRelative_ac0226b2db9bf4de86eb64a535457e295}{moveGroupSmaccClient\_}}-\/>\mbox{\hyperlink{classcl__move__group__interface_1_1ClMoveGroup_a39dc3871d29b2af1ab739057f6ca6daa}{postEventMotionExecutionFailed}}();}
-\DoxyCodeLine{00137     this-\/>\mbox{\hyperlink{classsmacc2_1_1SmaccAsyncClientBehavior_afcb5c1a0bf3b9bae6c54e8f5ef1bc04d}{postFailureEvent}}();}
-\DoxyCodeLine{00138   \}}
-\DoxyCodeLine{00139 \}}
+\DoxyCodeLine{\Hypertarget{classcl__move__group__interface_1_1CbMoveCartesianRelative_l00056}00056 \{}
+\DoxyCodeLine{\Hypertarget{classcl__move__group__interface_1_1CbMoveCartesianRelative_l00057}00057   std::vector<geometry\_msgs::msg::Pose> waypoints;}
+\DoxyCodeLine{\Hypertarget{classcl__move__group__interface_1_1CbMoveCartesianRelative_l00058}00058 }
+\DoxyCodeLine{\Hypertarget{classcl__move__group__interface_1_1CbMoveCartesianRelative_l00059}00059   \textcolor{comment}{// this one was working fine but the issue is that for relative motions it grows up on ABORT-\/State-\/Loop pattern.}}
+\DoxyCodeLine{\Hypertarget{classcl__move__group__interface_1_1CbMoveCartesianRelative_l00060}00060   \textcolor{comment}{// But, we need current pose because maybe setCurrentPose was not set by previous behaviors. The only solution would be}}
+\DoxyCodeLine{\Hypertarget{classcl__move__group__interface_1_1CbMoveCartesianRelative_l00061}00061   \textcolor{comment}{// distinguishing between the execution error and the planning error with no state change}}
+\DoxyCodeLine{\Hypertarget{classcl__move__group__interface_1_1CbMoveCartesianRelative_l00062}00062   \textcolor{comment}{//auto referenceStartPose = movegroupClient-\/>getPoseTarget();}}
+\DoxyCodeLine{\Hypertarget{classcl__move__group__interface_1_1CbMoveCartesianRelative_l00063}00063   \textcolor{keyword}{auto} referenceStartPose = movegroupClient-\/>getCurrentPose();}
+\DoxyCodeLine{\Hypertarget{classcl__move__group__interface_1_1CbMoveCartesianRelative_l00064}00064   movegroupClient-\/>setPoseReferenceFrame(referenceStartPose.header.frame\_id);}
+\DoxyCodeLine{\Hypertarget{classcl__move__group__interface_1_1CbMoveCartesianRelative_l00065}00065 }
+\DoxyCodeLine{\Hypertarget{classcl__move__group__interface_1_1CbMoveCartesianRelative_l00066}00066   RCLCPP\_INFO\_STREAM(}
+\DoxyCodeLine{\Hypertarget{classcl__move__group__interface_1_1CbMoveCartesianRelative_l00067}00067     \mbox{\hyperlink{classsmacc2_1_1ISmaccClientBehavior_a5474074c4b45e900499e30126fb8415c}{getLogger}}(), \textcolor{stringliteral}{"{}[CbMoveCartesianRelative] RELATIVE MOTION, SOURCE POSE: "{}} << referenceStartPose);}
+\DoxyCodeLine{\Hypertarget{classcl__move__group__interface_1_1CbMoveCartesianRelative_l00068}00068   RCLCPP\_INFO\_STREAM(\mbox{\hyperlink{classsmacc2_1_1ISmaccClientBehavior_a5474074c4b45e900499e30126fb8415c}{getLogger}}(), \textcolor{stringliteral}{"{}[CbMoveCartesianRelative] Offset: "{}} << offset);}
+\DoxyCodeLine{\Hypertarget{classcl__move__group__interface_1_1CbMoveCartesianRelative_l00069}00069 }
+\DoxyCodeLine{\Hypertarget{classcl__move__group__interface_1_1CbMoveCartesianRelative_l00070}00070   waypoints.push\_back(referenceStartPose.pose);  \textcolor{comment}{// up and out}}
+\DoxyCodeLine{\Hypertarget{classcl__move__group__interface_1_1CbMoveCartesianRelative_l00071}00071 }
+\DoxyCodeLine{\Hypertarget{classcl__move__group__interface_1_1CbMoveCartesianRelative_l00072}00072   \textcolor{keyword}{auto} endPose = referenceStartPose.pose;}
+\DoxyCodeLine{\Hypertarget{classcl__move__group__interface_1_1CbMoveCartesianRelative_l00073}00073 }
+\DoxyCodeLine{\Hypertarget{classcl__move__group__interface_1_1CbMoveCartesianRelative_l00074}00074   endPose.position.x += offset.x;}
+\DoxyCodeLine{\Hypertarget{classcl__move__group__interface_1_1CbMoveCartesianRelative_l00075}00075   endPose.position.y += offset.y;}
+\DoxyCodeLine{\Hypertarget{classcl__move__group__interface_1_1CbMoveCartesianRelative_l00076}00076   endPose.position.z += offset.z;}
+\DoxyCodeLine{\Hypertarget{classcl__move__group__interface_1_1CbMoveCartesianRelative_l00077}00077 }
+\DoxyCodeLine{\Hypertarget{classcl__move__group__interface_1_1CbMoveCartesianRelative_l00078}00078   RCLCPP\_INFO\_STREAM(\mbox{\hyperlink{classsmacc2_1_1ISmaccClientBehavior_a5474074c4b45e900499e30126fb8415c}{getLogger}}(), \textcolor{stringliteral}{"{}[CbMoveCartesianRelative] DESTINY POSE: "{}} << endPose);}
+\DoxyCodeLine{\Hypertarget{classcl__move__group__interface_1_1CbMoveCartesianRelative_l00079}00079 }
+\DoxyCodeLine{\Hypertarget{classcl__move__group__interface_1_1CbMoveCartesianRelative_l00080}00080   \textcolor{comment}{// target\_pose2.position.x -\/= 0.15;}}
+\DoxyCodeLine{\Hypertarget{classcl__move__group__interface_1_1CbMoveCartesianRelative_l00081}00081   waypoints.push\_back(endPose);  \textcolor{comment}{// left}}
+\DoxyCodeLine{\Hypertarget{classcl__move__group__interface_1_1CbMoveCartesianRelative_l00082}00082 }
+\DoxyCodeLine{\Hypertarget{classcl__move__group__interface_1_1CbMoveCartesianRelative_l00083}00083   movegroupClient-\/>setPoseTarget(endPose);}
+\DoxyCodeLine{\Hypertarget{classcl__move__group__interface_1_1CbMoveCartesianRelative_l00084}00084 }
+\DoxyCodeLine{\Hypertarget{classcl__move__group__interface_1_1CbMoveCartesianRelative_l00085}00085   \textcolor{keywordtype}{float} scalinf = 0.5;}
+\DoxyCodeLine{\Hypertarget{classcl__move__group__interface_1_1CbMoveCartesianRelative_l00086}00086   \textcolor{keywordflow}{if} (\mbox{\hyperlink{classcl__move__group__interface_1_1CbMoveCartesianRelative_a73107842f7eace606c4e93f3d9eac17f}{scalingFactor\_}}) scalinf = *\mbox{\hyperlink{classcl__move__group__interface_1_1CbMoveCartesianRelative_a73107842f7eace606c4e93f3d9eac17f}{scalingFactor\_}};}
+\DoxyCodeLine{\Hypertarget{classcl__move__group__interface_1_1CbMoveCartesianRelative_l00087}00087 }
+\DoxyCodeLine{\Hypertarget{classcl__move__group__interface_1_1CbMoveCartesianRelative_l00088}00088   RCLCPP\_INFO\_STREAM(\mbox{\hyperlink{classsmacc2_1_1ISmaccClientBehavior_a5474074c4b45e900499e30126fb8415c}{getLogger}}(), \textcolor{stringliteral}{"{}[CbMoveCartesianRelative] Using scaling factor: "{}} << scalinf);}
+\DoxyCodeLine{\Hypertarget{classcl__move__group__interface_1_1CbMoveCartesianRelative_l00089}00089   movegroupClient-\/>setMaxVelocityScalingFactor(scalinf);}
+\DoxyCodeLine{\Hypertarget{classcl__move__group__interface_1_1CbMoveCartesianRelative_l00090}00090 }
+\DoxyCodeLine{\Hypertarget{classcl__move__group__interface_1_1CbMoveCartesianRelative_l00091}00091   moveit\_msgs::msg::RobotTrajectory trajectory;}
+\DoxyCodeLine{\Hypertarget{classcl__move__group__interface_1_1CbMoveCartesianRelative_l00092}00092   \textcolor{keywordtype}{double} fraction = movegroupClient-\/>computeCartesianPath(}
+\DoxyCodeLine{\Hypertarget{classcl__move__group__interface_1_1CbMoveCartesianRelative_l00093}00093     waypoints,}
+\DoxyCodeLine{\Hypertarget{classcl__move__group__interface_1_1CbMoveCartesianRelative_l00094}00094     0.01,  \textcolor{comment}{// eef\_step}}
+\DoxyCodeLine{\Hypertarget{classcl__move__group__interface_1_1CbMoveCartesianRelative_l00095}00095     0.00,  \textcolor{comment}{// jump\_threshold}}
+\DoxyCodeLine{\Hypertarget{classcl__move__group__interface_1_1CbMoveCartesianRelative_l00096}00096     trajectory);}
+\DoxyCodeLine{\Hypertarget{classcl__move__group__interface_1_1CbMoveCartesianRelative_l00097}00097 }
+\DoxyCodeLine{\Hypertarget{classcl__move__group__interface_1_1CbMoveCartesianRelative_l00098}00098   moveit::planning\_interface::MoveItErrorCode behaviorResult;}
+\DoxyCodeLine{\Hypertarget{classcl__move__group__interface_1_1CbMoveCartesianRelative_l00099}00099   \textcolor{keywordflow}{if} (fraction != 1.0 || fraction == -\/1)}
+\DoxyCodeLine{\Hypertarget{classcl__move__group__interface_1_1CbMoveCartesianRelative_l00100}00100   \{}
+\DoxyCodeLine{\Hypertarget{classcl__move__group__interface_1_1CbMoveCartesianRelative_l00101}00101     RCLCPP\_WARN\_STREAM(}
+\DoxyCodeLine{\Hypertarget{classcl__move__group__interface_1_1CbMoveCartesianRelative_l00102}00102       \mbox{\hyperlink{classsmacc2_1_1ISmaccClientBehavior_a5474074c4b45e900499e30126fb8415c}{getLogger}}(),}
+\DoxyCodeLine{\Hypertarget{classcl__move__group__interface_1_1CbMoveCartesianRelative_l00103}00103       \textcolor{stringliteral}{"{}[CbMoveCartesianRelative] Cartesian plan joint-\/continuity percentaje. Execution skipped "{}}}
+\DoxyCodeLine{\Hypertarget{classcl__move__group__interface_1_1CbMoveCartesianRelative_l00104}00104       \textcolor{stringliteral}{"{}because not 100\% of cartesian motion: "{}}}
+\DoxyCodeLine{\Hypertarget{classcl__move__group__interface_1_1CbMoveCartesianRelative_l00105}00105         << fraction * 100 << \textcolor{stringliteral}{"{}\%"{}});}
+\DoxyCodeLine{\Hypertarget{classcl__move__group__interface_1_1CbMoveCartesianRelative_l00106}00106     behaviorResult = moveit::planning\_interface::MoveItErrorCode::PLANNING\_FAILED;}
+\DoxyCodeLine{\Hypertarget{classcl__move__group__interface_1_1CbMoveCartesianRelative_l00107}00107   \}}
+\DoxyCodeLine{\Hypertarget{classcl__move__group__interface_1_1CbMoveCartesianRelative_l00108}00108   \textcolor{keywordflow}{else}}
+\DoxyCodeLine{\Hypertarget{classcl__move__group__interface_1_1CbMoveCartesianRelative_l00109}00109   \{}
+\DoxyCodeLine{\Hypertarget{classcl__move__group__interface_1_1CbMoveCartesianRelative_l00110}00110     RCLCPP\_INFO\_STREAM(}
+\DoxyCodeLine{\Hypertarget{classcl__move__group__interface_1_1CbMoveCartesianRelative_l00111}00111       \mbox{\hyperlink{classsmacc2_1_1ISmaccClientBehavior_a5474074c4b45e900499e30126fb8415c}{getLogger}}(),}
+\DoxyCodeLine{\Hypertarget{classcl__move__group__interface_1_1CbMoveCartesianRelative_l00112}00112       \textcolor{stringliteral}{"{}[CbMoveCartesianRelative] Cartesian plan joint-\/continuity percentaje: "{}} << fraction);}
+\DoxyCodeLine{\Hypertarget{classcl__move__group__interface_1_1CbMoveCartesianRelative_l00113}00113 }
+\DoxyCodeLine{\Hypertarget{classcl__move__group__interface_1_1CbMoveCartesianRelative_l00114}00114     moveit::planning\_interface::MoveGroupInterface::Plan grasp\_pose\_plan;}
+\DoxyCodeLine{\Hypertarget{classcl__move__group__interface_1_1CbMoveCartesianRelative_l00115}00115 }
+\DoxyCodeLine{\Hypertarget{classcl__move__group__interface_1_1CbMoveCartesianRelative_l00116}00116     \textcolor{comment}{// grasp\_pose\_plan.start\_state\_ = *(moveGroupInterface.getCurrentState());}}
+\DoxyCodeLine{\Hypertarget{classcl__move__group__interface_1_1CbMoveCartesianRelative_l00117}00117     grasp\_pose\_plan.trajectory\_ = trajectory;}
+\DoxyCodeLine{\Hypertarget{classcl__move__group__interface_1_1CbMoveCartesianRelative_l00118}00118     behaviorResult = movegroupClient-\/>execute(grasp\_pose\_plan);}
+\DoxyCodeLine{\Hypertarget{classcl__move__group__interface_1_1CbMoveCartesianRelative_l00119}00119   \}}
+\DoxyCodeLine{\Hypertarget{classcl__move__group__interface_1_1CbMoveCartesianRelative_l00120}00120 }
+\DoxyCodeLine{\Hypertarget{classcl__move__group__interface_1_1CbMoveCartesianRelative_l00121}00121   \textcolor{keywordflow}{if} (behaviorResult == moveit\_msgs::msg::MoveItErrorCodes::SUCCESS)}
+\DoxyCodeLine{\Hypertarget{classcl__move__group__interface_1_1CbMoveCartesianRelative_l00122}00122   \{}
+\DoxyCodeLine{\Hypertarget{classcl__move__group__interface_1_1CbMoveCartesianRelative_l00123}00123     RCLCPP\_INFO(}
+\DoxyCodeLine{\Hypertarget{classcl__move__group__interface_1_1CbMoveCartesianRelative_l00124}00124       \mbox{\hyperlink{classsmacc2_1_1ISmaccClientBehavior_a5474074c4b45e900499e30126fb8415c}{getLogger}}(), \textcolor{stringliteral}{"{}[CbMoveCartesianRelative] relative motion execution succeeded: fraction \%lf."{}},}
+\DoxyCodeLine{\Hypertarget{classcl__move__group__interface_1_1CbMoveCartesianRelative_l00125}00125       fraction);}
+\DoxyCodeLine{\Hypertarget{classcl__move__group__interface_1_1CbMoveCartesianRelative_l00126}00126     \mbox{\hyperlink{classcl__move__group__interface_1_1CbMoveCartesianRelative_ac0226b2db9bf4de86eb64a535457e295}{moveGroupSmaccClient\_}}-\/>\mbox{\hyperlink{classcl__move__group__interface_1_1ClMoveGroup_aebaf269db373d41837bae87651458e54}{postEventMotionExecutionSucceded}}();}
+\DoxyCodeLine{\Hypertarget{classcl__move__group__interface_1_1CbMoveCartesianRelative_l00127}00127     this-\/>\mbox{\hyperlink{classsmacc2_1_1SmaccAsyncClientBehavior_a2fb4de26d011fbbb55bc1bbaed2e6f5b}{postSuccessEvent}}();}
+\DoxyCodeLine{\Hypertarget{classcl__move__group__interface_1_1CbMoveCartesianRelative_l00128}00128   \}}
+\DoxyCodeLine{\Hypertarget{classcl__move__group__interface_1_1CbMoveCartesianRelative_l00129}00129   \textcolor{keywordflow}{else}}
+\DoxyCodeLine{\Hypertarget{classcl__move__group__interface_1_1CbMoveCartesianRelative_l00130}00130   \{}
+\DoxyCodeLine{\Hypertarget{classcl__move__group__interface_1_1CbMoveCartesianRelative_l00131}00131     movegroupClient-\/>setPoseTarget(}
+\DoxyCodeLine{\Hypertarget{classcl__move__group__interface_1_1CbMoveCartesianRelative_l00132}00132       referenceStartPose);  \textcolor{comment}{// undo changes since we did not executed the motion}}
+\DoxyCodeLine{\Hypertarget{classcl__move__group__interface_1_1CbMoveCartesianRelative_l00133}00133     RCLCPP\_INFO(}
+\DoxyCodeLine{\Hypertarget{classcl__move__group__interface_1_1CbMoveCartesianRelative_l00134}00134       \mbox{\hyperlink{classsmacc2_1_1ISmaccClientBehavior_a5474074c4b45e900499e30126fb8415c}{getLogger}}(), \textcolor{stringliteral}{"{}[CbMoveCartesianRelative] relative motion execution failed: fraction \%lf."{}},}
+\DoxyCodeLine{\Hypertarget{classcl__move__group__interface_1_1CbMoveCartesianRelative_l00135}00135       fraction);}
+\DoxyCodeLine{\Hypertarget{classcl__move__group__interface_1_1CbMoveCartesianRelative_l00136}00136     \mbox{\hyperlink{classcl__move__group__interface_1_1CbMoveCartesianRelative_ac0226b2db9bf4de86eb64a535457e295}{moveGroupSmaccClient\_}}-\/>\mbox{\hyperlink{classcl__move__group__interface_1_1ClMoveGroup_a39dc3871d29b2af1ab739057f6ca6daa}{postEventMotionExecutionFailed}}();}
+\DoxyCodeLine{\Hypertarget{classcl__move__group__interface_1_1CbMoveCartesianRelative_l00137}00137     this-\/>\mbox{\hyperlink{classsmacc2_1_1SmaccAsyncClientBehavior_afcb5c1a0bf3b9bae6c54e8f5ef1bc04d}{postFailureEvent}}();}
+\DoxyCodeLine{\Hypertarget{classcl__move__group__interface_1_1CbMoveCartesianRelative_l00138}00138   \}}
+\DoxyCodeLine{\Hypertarget{classcl__move__group__interface_1_1CbMoveCartesianRelative_l00139}00139 \}}
 
 \end{DoxyCode}
 
@@ -232,20 +232,20 @@ Definition at line \mbox{\hyperlink{cb__move__cartesian__relative_8cpp_source_l0
 
 
 \begin{DoxyCode}{0}
-\DoxyCodeLine{00035 \{}
-\DoxyCodeLine{00036   this-\/>\mbox{\hyperlink{classsmacc2_1_1ISmaccClientBehavior_ad32d91e7aa6ac921b8d29610bd925244}{requiresClient}}(\mbox{\hyperlink{classcl__move__group__interface_1_1CbMoveCartesianRelative_ac0226b2db9bf4de86eb64a535457e295}{moveGroupSmaccClient\_}});}
-\DoxyCodeLine{00037 }
-\DoxyCodeLine{00038   \textcolor{keywordflow}{if} (this-\/>\mbox{\hyperlink{classcl__move__group__interface_1_1CbMoveCartesianRelative_ac6ba885793cfee7098eaf9df31c1a95e}{group\_}})}
-\DoxyCodeLine{00039   \{}
-\DoxyCodeLine{00040     moveit::planning\_interface::MoveGroupInterface move\_group(}
-\DoxyCodeLine{00041       \mbox{\hyperlink{classsmacc2_1_1ISmaccClientBehavior_a95c9749af2004528fbda63ca6fde8eae}{getNode}}(), moveit::planning\_interface::MoveGroupInterface::Options(*(this-\/>\mbox{\hyperlink{classcl__move__group__interface_1_1CbMoveCartesianRelative_ac6ba885793cfee7098eaf9df31c1a95e}{group\_}})));}
-\DoxyCodeLine{00042     this-\/>\mbox{\hyperlink{classcl__move__group__interface_1_1CbMoveCartesianRelative_aaa16780d9496e4a6fcb1fdda8e83eeb7}{moveRelativeCartesian}}(\&move\_group, \mbox{\hyperlink{classcl__move__group__interface_1_1CbMoveCartesianRelative_ab47910bc8592453743e3f4d4f91b14c8}{offset\_}});}
-\DoxyCodeLine{00043   \}}
-\DoxyCodeLine{00044   \textcolor{keywordflow}{else}}
-\DoxyCodeLine{00045   \{}
-\DoxyCodeLine{00046     this-\/>\mbox{\hyperlink{classcl__move__group__interface_1_1CbMoveCartesianRelative_aaa16780d9496e4a6fcb1fdda8e83eeb7}{moveRelativeCartesian}}(\mbox{\hyperlink{classcl__move__group__interface_1_1CbMoveCartesianRelative_ac0226b2db9bf4de86eb64a535457e295}{moveGroupSmaccClient\_}}-\/>\mbox{\hyperlink{classcl__move__group__interface_1_1ClMoveGroup_a373720007275c5148ddacc5d7214df50}{moveGroupClientInterface}}.get(), \mbox{\hyperlink{classcl__move__group__interface_1_1CbMoveCartesianRelative_ab47910bc8592453743e3f4d4f91b14c8}{offset\_}});}
-\DoxyCodeLine{00047   \}}
-\DoxyCodeLine{00048 \}}
+\DoxyCodeLine{\Hypertarget{classcl__move__group__interface_1_1CbMoveCartesianRelative_l00035}00035 \{}
+\DoxyCodeLine{\Hypertarget{classcl__move__group__interface_1_1CbMoveCartesianRelative_l00036}00036   this-\/>\mbox{\hyperlink{classsmacc2_1_1ISmaccClientBehavior_ad32d91e7aa6ac921b8d29610bd925244}{requiresClient}}(\mbox{\hyperlink{classcl__move__group__interface_1_1CbMoveCartesianRelative_ac0226b2db9bf4de86eb64a535457e295}{moveGroupSmaccClient\_}});}
+\DoxyCodeLine{\Hypertarget{classcl__move__group__interface_1_1CbMoveCartesianRelative_l00037}00037 }
+\DoxyCodeLine{\Hypertarget{classcl__move__group__interface_1_1CbMoveCartesianRelative_l00038}00038   \textcolor{keywordflow}{if} (this-\/>\mbox{\hyperlink{classcl__move__group__interface_1_1CbMoveCartesianRelative_ac6ba885793cfee7098eaf9df31c1a95e}{group\_}})}
+\DoxyCodeLine{\Hypertarget{classcl__move__group__interface_1_1CbMoveCartesianRelative_l00039}00039   \{}
+\DoxyCodeLine{\Hypertarget{classcl__move__group__interface_1_1CbMoveCartesianRelative_l00040}00040     moveit::planning\_interface::MoveGroupInterface move\_group(}
+\DoxyCodeLine{\Hypertarget{classcl__move__group__interface_1_1CbMoveCartesianRelative_l00041}00041       \mbox{\hyperlink{classsmacc2_1_1ISmaccClientBehavior_a95c9749af2004528fbda63ca6fde8eae}{getNode}}(), moveit::planning\_interface::MoveGroupInterface::Options(*(this-\/>\mbox{\hyperlink{classcl__move__group__interface_1_1CbMoveCartesianRelative_ac6ba885793cfee7098eaf9df31c1a95e}{group\_}})));}
+\DoxyCodeLine{\Hypertarget{classcl__move__group__interface_1_1CbMoveCartesianRelative_l00042}00042     this-\/>\mbox{\hyperlink{classcl__move__group__interface_1_1CbMoveCartesianRelative_aaa16780d9496e4a6fcb1fdda8e83eeb7}{moveRelativeCartesian}}(\&move\_group, \mbox{\hyperlink{classcl__move__group__interface_1_1CbMoveCartesianRelative_ab47910bc8592453743e3f4d4f91b14c8}{offset\_}});}
+\DoxyCodeLine{\Hypertarget{classcl__move__group__interface_1_1CbMoveCartesianRelative_l00043}00043   \}}
+\DoxyCodeLine{\Hypertarget{classcl__move__group__interface_1_1CbMoveCartesianRelative_l00044}00044   \textcolor{keywordflow}{else}}
+\DoxyCodeLine{\Hypertarget{classcl__move__group__interface_1_1CbMoveCartesianRelative_l00045}00045   \{}
+\DoxyCodeLine{\Hypertarget{classcl__move__group__interface_1_1CbMoveCartesianRelative_l00046}00046     this-\/>\mbox{\hyperlink{classcl__move__group__interface_1_1CbMoveCartesianRelative_aaa16780d9496e4a6fcb1fdda8e83eeb7}{moveRelativeCartesian}}(\mbox{\hyperlink{classcl__move__group__interface_1_1CbMoveCartesianRelative_ac0226b2db9bf4de86eb64a535457e295}{moveGroupSmaccClient\_}}-\/>\mbox{\hyperlink{classcl__move__group__interface_1_1ClMoveGroup_a373720007275c5148ddacc5d7214df50}{moveGroupClientInterface}}.get(), \mbox{\hyperlink{classcl__move__group__interface_1_1CbMoveCartesianRelative_ab47910bc8592453743e3f4d4f91b14c8}{offset\_}});}
+\DoxyCodeLine{\Hypertarget{classcl__move__group__interface_1_1CbMoveCartesianRelative_l00047}00047   \}}
+\DoxyCodeLine{\Hypertarget{classcl__move__group__interface_1_1CbMoveCartesianRelative_l00048}00048 \}}
 
 \end{DoxyCode}
 
@@ -276,7 +276,7 @@ Definition at line \mbox{\hyperlink{cb__move__cartesian__relative_8cpp_source_l0
 
 
 \begin{DoxyCode}{0}
-\DoxyCodeLine{00050 \{\}}
+\DoxyCodeLine{\Hypertarget{classcl__move__group__interface_1_1CbMoveCartesianRelative_l00050}00050 \{\}}
 
 \end{DoxyCode}
 

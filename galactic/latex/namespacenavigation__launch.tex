@@ -20,198 +20,222 @@ Definition at line \mbox{\hyperlink{sm__aws__warehouse__navigation_2launch_2navi
 
 
 \begin{DoxyCode}{0}
-\DoxyCodeLine{00026 \textcolor{keyword}{def }\mbox{\hyperlink{namespacenavigation__launch_a51ed91f76212203c360b9cac51a615ef}{generate\_launch\_description}}():}
-\DoxyCodeLine{00027     \textcolor{comment}{\# Get the launch directory}}
-\DoxyCodeLine{00028     sm\_aws\_warehouse\_navigation\_dir = get\_package\_share\_directory(\textcolor{stringliteral}{"{}sm\_aws\_warehouse\_navigation"{}})}
-\DoxyCodeLine{00029     nav\_configuration\_dir = get\_package\_share\_directory(\textcolor{stringliteral}{"{}nav2\_bringup"{}})}
-\DoxyCodeLine{00030 }
-\DoxyCodeLine{00031     namespace = LaunchConfiguration(\textcolor{stringliteral}{"{}namespace"{}})}
-\DoxyCodeLine{00032     use\_sim\_time = LaunchConfiguration(\textcolor{stringliteral}{"{}use\_sim\_time"{}})}
-\DoxyCodeLine{00033     autostart = LaunchConfiguration(\textcolor{stringliteral}{"{}autostart"{}})}
-\DoxyCodeLine{00034     params\_file = LaunchConfiguration(\textcolor{stringliteral}{"{}params\_file"{}})}
-\DoxyCodeLine{00035     default\_nav\_to\_pose\_bt\_xml = LaunchConfiguration(\textcolor{stringliteral}{"{}default\_nav\_to\_pose\_bt\_xml"{}})}
-\DoxyCodeLine{00036     \textcolor{comment}{\# map\_subscribe\_transient\_local = LaunchConfiguration("{}map\_subscribe\_transient\_local"{})}}
-\DoxyCodeLine{00037 }
-\DoxyCodeLine{00038     params\_file\_path = os.path.join(}
-\DoxyCodeLine{00039         sm\_aws\_warehouse\_navigation\_dir,}
-\DoxyCodeLine{00040         \textcolor{stringliteral}{"{}params"{}},}
-\DoxyCodeLine{00041         \textcolor{stringliteral}{"{}nav2z\_client"{}},}
-\DoxyCodeLine{00042         \textcolor{stringliteral}{"{}nav2\_params.yaml"{}},}
-\DoxyCodeLine{00043     )}
-\DoxyCodeLine{00044 }
-\DoxyCodeLine{00045     \textcolor{comment}{\# params\_file\_path = os.path.join(}}
-\DoxyCodeLine{00046     \textcolor{comment}{\#                 nav\_configuration\_dir,}}
-\DoxyCodeLine{00047     \textcolor{comment}{\#                 "{}params"{},}}
-\DoxyCodeLine{00048     \textcolor{comment}{\#                 "{}nav2\_params.yaml"{},}}
-\DoxyCodeLine{00049     \textcolor{comment}{\#              )}}
-\DoxyCodeLine{00050 }
-\DoxyCodeLine{00051     default\_nav\_bt\_tree\_xml\_filepath = os.path.join(}
-\DoxyCodeLine{00052         sm\_aws\_warehouse\_navigation\_dir, \textcolor{stringliteral}{"{}params"{}}, \textcolor{stringliteral}{"{}nav2z\_client"{}}, \textcolor{stringliteral}{"{}navigation\_tree.xml"{}}}
-\DoxyCodeLine{00053     )}
-\DoxyCodeLine{00054 }
-\DoxyCodeLine{00055     \textcolor{comment}{\# default\_nav\_bt\_tree\_xml\_filepath = os.path.join(}}
-\DoxyCodeLine{00056     \textcolor{comment}{\#          get\_package\_share\_directory("{}nav2\_bt\_navigator"{}), "{}behavior\_trees"{}, "{}navigate\_to\_pose\_w\_replanning\_and\_recovery.xml"{})}}
-\DoxyCodeLine{00057 }
-\DoxyCodeLine{00058     \textcolor{comment}{\# default\_nav\_bt\_tree\_xml\_filepath = os.path.join(get\_package\_share\_directory('nav2\_bt\_navigator'),}}
-\DoxyCodeLine{00059     \textcolor{comment}{\#              'behavior\_trees', 'navigate\_w\_replanning\_and\_recovery.xml')}}
-\DoxyCodeLine{00060 }
-\DoxyCodeLine{00061     params\_file\_path = os.path.join(}
-\DoxyCodeLine{00062         sm\_aws\_warehouse\_navigation\_dir,}
-\DoxyCodeLine{00063         \textcolor{stringliteral}{"{}params"{}},}
-\DoxyCodeLine{00064         \textcolor{stringliteral}{"{}nav2z\_client"{}},}
-\DoxyCodeLine{00065         \textcolor{stringliteral}{"{}nav2\_params.yaml"{}},}
-\DoxyCodeLine{00066     )}
-\DoxyCodeLine{00067 }
-\DoxyCodeLine{00068     \textcolor{comment}{\# params\_file\_path = os.path.join(}}
-\DoxyCodeLine{00069     \textcolor{comment}{\#                 nav\_configuration\_dir,}}
-\DoxyCodeLine{00070     \textcolor{comment}{\#                 "{}params"{},}}
-\DoxyCodeLine{00071     \textcolor{comment}{\#                 "{}nav2\_params.yaml"{},}}
-\DoxyCodeLine{00072     \textcolor{comment}{\#              )}}
-\DoxyCodeLine{00073 }
-\DoxyCodeLine{00074     default\_nav\_bt\_tree\_xml\_filepath = os.path.join(}
-\DoxyCodeLine{00075         sm\_aws\_warehouse\_navigation\_dir, \textcolor{stringliteral}{"{}params"{}}, \textcolor{stringliteral}{"{}nav2z\_client"{}}, \textcolor{stringliteral}{"{}navigation\_tree.xml"{}}}
-\DoxyCodeLine{00076     )}
-\DoxyCodeLine{00077 }
-\DoxyCodeLine{00078     \textcolor{comment}{\# default\_nav\_bt\_tree\_xml\_filepath = os.path.join(}}
-\DoxyCodeLine{00079     \textcolor{comment}{\#          get\_package\_share\_directory("{}nav2\_bt\_navigator"{}), "{}behavior\_trees"{}, "{}navigate\_to\_pose\_w\_replanning\_and\_recovery.xml"{})}}
-\DoxyCodeLine{00080 }
-\DoxyCodeLine{00081     \textcolor{comment}{\# default\_nav\_bt\_tree\_xml\_filepath = os.path.join(get\_package\_share\_directory('nav2\_bt\_navigator'),}}
-\DoxyCodeLine{00082     \textcolor{comment}{\#              'behavior\_trees', 'navigate\_w\_replanning\_and\_recovery.xml')}}
-\DoxyCodeLine{00083 }
-\DoxyCodeLine{00084     lifecycle\_nodes = [\textcolor{stringliteral}{"{}controller\_server"{}}, \textcolor{stringliteral}{"{}planner\_server"{}}, \textcolor{stringliteral}{"{}recoveries\_server"{}}, \textcolor{stringliteral}{"{}bt\_navigator"{}}]}
-\DoxyCodeLine{00085 }
-\DoxyCodeLine{00086     \textcolor{comment}{\# Map fully qualified names to relative ones so the node's namespace can be prepended.}}
-\DoxyCodeLine{00087     \textcolor{comment}{\# In case of the transforms (tf), currently, there doesn't seem to be a better alternative}}
-\DoxyCodeLine{00088     \textcolor{comment}{\# https://github.com/ros/geometry2/issues/32}}
-\DoxyCodeLine{00089     \textcolor{comment}{\# https://github.com/ros/robot\_state\_publisher/pull/30}}
-\DoxyCodeLine{00090     \textcolor{comment}{\# TODO(orduno) Substitute with `PushNodeRemapping`}}
-\DoxyCodeLine{00091     \textcolor{comment}{\#              https://github.com/ros2/launch\_ros/issues/56}}
-\DoxyCodeLine{00092     remappings = [(\textcolor{stringliteral}{"{}/tf"{}}, \textcolor{stringliteral}{"{}tf"{}}), (\textcolor{stringliteral}{"{}/tf\_static"{}}, \textcolor{stringliteral}{"{}tf\_static"{}})]}
-\DoxyCodeLine{00093 }
-\DoxyCodeLine{00094     \textcolor{comment}{\# Create our own temporary YAML files that include substitutions}}
-\DoxyCodeLine{00095     param\_substitutions = \{}
-\DoxyCodeLine{00096         \textcolor{stringliteral}{"{}use\_sim\_time"{}}: use\_sim\_time,}
-\DoxyCodeLine{00097         \textcolor{comment}{\# 'default\_nav\_to\_pose\_bt\_xml': default\_nav\_to\_pose\_bt\_xml,}}
-\DoxyCodeLine{00098         \textcolor{stringliteral}{"{}default\_nav\_to\_pose\_bt\_xml"{}}: default\_nav\_bt\_tree\_xml\_filepath,}
-\DoxyCodeLine{00099         \textcolor{comment}{\# "{}autostart"{}: autostart,}}
-\DoxyCodeLine{00100         \textcolor{comment}{\# "{}map\_subscribe\_transient\_local"{}: map\_subscribe\_transient\_local,}}
-\DoxyCodeLine{00101     \}}
-\DoxyCodeLine{00102 }
-\DoxyCodeLine{00103     configured\_params = RewrittenYaml(}
-\DoxyCodeLine{00104         source\_file=params\_file,}
-\DoxyCodeLine{00105         root\_key=namespace,}
-\DoxyCodeLine{00106         param\_rewrites=param\_substitutions,}
-\DoxyCodeLine{00107         convert\_types=\textcolor{keyword}{True},}
-\DoxyCodeLine{00108     )}
-\DoxyCodeLine{00109 }
-\DoxyCodeLine{00110     xtermprefix = (}
-\DoxyCodeLine{00111         \textcolor{stringliteral}{"{}xterm -\/xrm 'XTerm*scrollBar:  true' -\/xrm 'xterm*rightScrollBar: true' "{}}}
-\DoxyCodeLine{00112         \textcolor{stringliteral}{"{}-\/hold -\/geometry 1000x600 -\/sl 10000 -\/e"{}}}
-\DoxyCodeLine{00113     )}
-\DoxyCodeLine{00114 }
-\DoxyCodeLine{00115     print(\textcolor{stringliteral}{"{}+********************************"{}})}
-\DoxyCodeLine{00116     print(str(param\_substitutions))}
-\DoxyCodeLine{00117     print(str(default\_nav\_to\_pose\_bt\_xml))}
-\DoxyCodeLine{00118 }
-\DoxyCodeLine{00119     \textcolor{keywordflow}{return} LaunchDescription(}
-\DoxyCodeLine{00120         [}
-\DoxyCodeLine{00121             \textcolor{comment}{\# Set env var to print messages to stdout immediately}}
-\DoxyCodeLine{00122             SetEnvironmentVariable(\textcolor{stringliteral}{"{}RCUTILS\_LOGGING\_BUFFERED\_STREAM"{}}, \textcolor{stringliteral}{"{}1"{}}),}
-\DoxyCodeLine{00123             DeclareLaunchArgument(}
-\DoxyCodeLine{00124                 \textcolor{stringliteral}{"{}namespace"{}}, default\_value=\textcolor{stringliteral}{"{}"{}}, description=\textcolor{stringliteral}{"{}Top-\/level namespace"{}}}
-\DoxyCodeLine{00125             ),}
-\DoxyCodeLine{00126             DeclareLaunchArgument(}
-\DoxyCodeLine{00127                 \textcolor{stringliteral}{"{}use\_sim\_time"{}},}
-\DoxyCodeLine{00128                 default\_value=\textcolor{stringliteral}{"{}false"{}},}
-\DoxyCodeLine{00129                 description=\textcolor{stringliteral}{"{}Use simulation (Gazebo) clock if true"{}},}
-\DoxyCodeLine{00130             ),}
-\DoxyCodeLine{00131             DeclareLaunchArgument(}
-\DoxyCodeLine{00132                 \textcolor{stringliteral}{"{}autostart"{}},}
-\DoxyCodeLine{00133                 default\_value=\textcolor{stringliteral}{"{}true"{}},}
-\DoxyCodeLine{00134                 description=\textcolor{stringliteral}{"{}Automatically startup the nav2 stack"{}},}
-\DoxyCodeLine{00135             ),}
-\DoxyCodeLine{00136             DeclareLaunchArgument(}
-\DoxyCodeLine{00137                 \textcolor{stringliteral}{"{}params\_file"{}},}
-\DoxyCodeLine{00138                 default\_value=params\_file\_path,}
-\DoxyCodeLine{00139                 description=\textcolor{stringliteral}{"{}Full path to the ROS2 parameters file to use"{}},}
-\DoxyCodeLine{00140             ),}
-\DoxyCodeLine{00141             DeclareLaunchArgument(}
-\DoxyCodeLine{00142                 \textcolor{stringliteral}{"{}default\_nav\_to\_pose\_bt\_xml"{}},}
-\DoxyCodeLine{00143                 \textcolor{comment}{\# default\_value=os.path.join(get\_package\_share\_directory('nav2\_bt\_navigator'),}}
-\DoxyCodeLine{00144                 \textcolor{comment}{\# 'behavior\_trees', 'navigate\_w\_replanning\_and\_recovery.xml'),}}
-\DoxyCodeLine{00145                 default\_value=os.path.join(}
-\DoxyCodeLine{00146                     nav\_configuration\_dir,}
-\DoxyCodeLine{00147                     \textcolor{stringliteral}{"{}params"{}},}
-\DoxyCodeLine{00148                     \textcolor{stringliteral}{"{}nav2z\_client"{}},}
-\DoxyCodeLine{00149                     \textcolor{stringliteral}{"{}navigation\_tree.xml"{}},}
-\DoxyCodeLine{00150                 ),}
-\DoxyCodeLine{00151                 description=\textcolor{stringliteral}{"{}Full path to the behavior tree xml file to use"{}},}
-\DoxyCodeLine{00152             ),}
-\DoxyCodeLine{00153             DeclareLaunchArgument(}
-\DoxyCodeLine{00154                 \textcolor{stringliteral}{"{}map\_subscribe\_transient\_local"{}},}
-\DoxyCodeLine{00155                 default\_value=\textcolor{stringliteral}{"{}false"{}},}
-\DoxyCodeLine{00156                 description=\textcolor{stringliteral}{"{}Whether to set the map subscriber QoS to transient local"{}},}
-\DoxyCodeLine{00157             ),}
-\DoxyCodeLine{00158             Node(}
-\DoxyCodeLine{00159                 package=\textcolor{stringliteral}{"{}nav2\_controller"{}},}
-\DoxyCodeLine{00160                 executable=\textcolor{stringliteral}{"{}controller\_server"{}},}
-\DoxyCodeLine{00161                 output=\textcolor{stringliteral}{"{}screen"{}},}
-\DoxyCodeLine{00162                 prefix=xtermprefix,}
-\DoxyCodeLine{00163                 parameters=[configured\_params],}
-\DoxyCodeLine{00164                 remappings=remappings,}
-\DoxyCodeLine{00165                 arguments=[\textcolor{stringliteral}{"{}-\/-\/ros-\/args"{}}, \textcolor{stringliteral}{"{}-\/-\/log-\/level"{}}, \textcolor{stringliteral}{"{}INFO"{}}],}
-\DoxyCodeLine{00166             ),}
-\DoxyCodeLine{00167             Node(}
-\DoxyCodeLine{00168                 package=\textcolor{stringliteral}{"{}nav2\_planner"{}},}
-\DoxyCodeLine{00169                 executable=\textcolor{stringliteral}{"{}planner\_server"{}},}
-\DoxyCodeLine{00170                 name=\textcolor{stringliteral}{"{}planner\_server"{}},}
-\DoxyCodeLine{00171                 output=\textcolor{stringliteral}{"{}screen"{}},}
-\DoxyCodeLine{00172                 prefix=xtermprefix,}
-\DoxyCodeLine{00173                 parameters=[configured\_params],}
-\DoxyCodeLine{00174                 remappings=remappings,}
-\DoxyCodeLine{00175                 arguments=[\textcolor{stringliteral}{"{}-\/-\/ros-\/args"{}}, \textcolor{stringliteral}{"{}-\/-\/log-\/level"{}}, \textcolor{stringliteral}{"{}INFO"{}}],}
-\DoxyCodeLine{00176             ),}
-\DoxyCodeLine{00177             Node(}
-\DoxyCodeLine{00178                 package=\textcolor{stringliteral}{"{}nav2\_recoveries"{}},}
-\DoxyCodeLine{00179                 executable=\textcolor{stringliteral}{"{}recoveries\_server"{}},}
-\DoxyCodeLine{00180                 name=\textcolor{stringliteral}{"{}recoveries\_server"{}},}
-\DoxyCodeLine{00181                 output=\textcolor{stringliteral}{"{}screen"{}},}
-\DoxyCodeLine{00182                 parameters=[configured\_params],}
-\DoxyCodeLine{00183                 remappings=remappings,}
-\DoxyCodeLine{00184                 arguments=[\textcolor{stringliteral}{"{}-\/-\/ros-\/args"{}}, \textcolor{stringliteral}{"{}-\/-\/log-\/level"{}}, \textcolor{stringliteral}{"{}INFO"{}}],}
-\DoxyCodeLine{00185             ),}
-\DoxyCodeLine{00186             Node(}
-\DoxyCodeLine{00187                 package=\textcolor{stringliteral}{"{}nav2\_bt\_navigator"{}},}
-\DoxyCodeLine{00188                 executable=\textcolor{stringliteral}{"{}bt\_navigator"{}},}
-\DoxyCodeLine{00189                 name=\textcolor{stringliteral}{"{}bt\_navigator"{}},}
-\DoxyCodeLine{00190                 output=\textcolor{stringliteral}{"{}screen"{}},}
-\DoxyCodeLine{00191                 prefix=xtermprefix,}
-\DoxyCodeLine{00192                 parameters=[configured\_params],}
-\DoxyCodeLine{00193                 remappings=remappings,}
-\DoxyCodeLine{00194                 arguments=[\textcolor{stringliteral}{"{}-\/-\/ros-\/args"{}}, \textcolor{stringliteral}{"{}-\/-\/log-\/level"{}}, \textcolor{stringliteral}{"{}INFO"{}}],}
-\DoxyCodeLine{00195             ),}
-\DoxyCodeLine{00196             Node(}
-\DoxyCodeLine{00197                 package=\textcolor{stringliteral}{"{}nav2\_waypoint\_follower"{}},}
-\DoxyCodeLine{00198                 executable=\textcolor{stringliteral}{"{}waypoint\_follower"{}},}
-\DoxyCodeLine{00199                 name=\textcolor{stringliteral}{"{}waypoint\_follower"{}},}
-\DoxyCodeLine{00200                 output=\textcolor{stringliteral}{"{}screen"{}},}
-\DoxyCodeLine{00201                 parameters=[configured\_params],}
-\DoxyCodeLine{00202                 remappings=remappings,}
-\DoxyCodeLine{00203             ),}
-\DoxyCodeLine{00204             Node(}
-\DoxyCodeLine{00205                 package=\textcolor{stringliteral}{"{}nav2\_lifecycle\_manager"{}},}
-\DoxyCodeLine{00206                 executable=\textcolor{stringliteral}{"{}lifecycle\_manager"{}},}
-\DoxyCodeLine{00207                 name=\textcolor{stringliteral}{"{}lifecycle\_manager\_navigation"{}},}
-\DoxyCodeLine{00208                 output=\textcolor{stringliteral}{"{}screen"{}},}
-\DoxyCodeLine{00209                 prefix=xtermprefix,}
-\DoxyCodeLine{00210                 parameters=[}
-\DoxyCodeLine{00211                     \{\textcolor{stringliteral}{"{}use\_sim\_time"{}}: use\_sim\_time\},}
-\DoxyCodeLine{00212                     \{\textcolor{stringliteral}{"{}autostart"{}}: autostart\},}
-\DoxyCodeLine{00213                     \{\textcolor{stringliteral}{"{}node\_names"{}}: lifecycle\_nodes\},}
-\DoxyCodeLine{00214                 ],}
-\DoxyCodeLine{00215                 arguments=[\textcolor{stringliteral}{"{}-\/-\/ros-\/args"{}}, \textcolor{stringliteral}{"{}-\/-\/log-\/level"{}}, \textcolor{stringliteral}{"{}INFO"{}}],}
-\DoxyCodeLine{00216             ),}
-\DoxyCodeLine{00217         ]}
-\DoxyCodeLine{00218     )}
+\DoxyCodeLine{\Hypertarget{namespacenavigation__launch_l00026}00026 \textcolor{keyword}{def }\mbox{\hyperlink{namespacenavigation__launch_a51ed91f76212203c360b9cac51a615ef}{generate\_launch\_description}}():}
+\DoxyCodeLine{\Hypertarget{namespacenavigation__launch_l00027}00027     \textcolor{comment}{\# Get the launch directory}}
+\DoxyCodeLine{\Hypertarget{namespacenavigation__launch_l00028}00028     sm\_aws\_warehouse\_navigation\_dir = get\_package\_share\_directory(\textcolor{stringliteral}{"{}sm\_aws\_warehouse\_navigation"{}})}
+\DoxyCodeLine{\Hypertarget{namespacenavigation__launch_l00029}00029     nav\_configuration\_dir = get\_package\_share\_directory(\textcolor{stringliteral}{"{}nav2\_bringup"{}})}
+\DoxyCodeLine{\Hypertarget{namespacenavigation__launch_l00030}00030 }
+\DoxyCodeLine{\Hypertarget{namespacenavigation__launch_l00031}00031     namespace = LaunchConfiguration(\textcolor{stringliteral}{"{}namespace"{}})}
+\DoxyCodeLine{\Hypertarget{namespacenavigation__launch_l00032}00032     use\_sim\_time = LaunchConfiguration(\textcolor{stringliteral}{"{}use\_sim\_time"{}})}
+\DoxyCodeLine{\Hypertarget{namespacenavigation__launch_l00033}00033     autostart = LaunchConfiguration(\textcolor{stringliteral}{"{}autostart"{}})}
+\DoxyCodeLine{\Hypertarget{namespacenavigation__launch_l00034}00034     params\_file = LaunchConfiguration(\textcolor{stringliteral}{"{}params\_file"{}})}
+\DoxyCodeLine{\Hypertarget{namespacenavigation__launch_l00035}00035     default\_nav\_to\_pose\_bt\_xml = LaunchConfiguration(\textcolor{stringliteral}{"{}default\_nav\_to\_pose\_bt\_xml"{}})}
+\DoxyCodeLine{\Hypertarget{namespacenavigation__launch_l00036}00036     \textcolor{comment}{\# map\_subscribe\_transient\_local = LaunchConfiguration("{}map\_subscribe\_transient\_local"{})}}
+\DoxyCodeLine{\Hypertarget{namespacenavigation__launch_l00037}00037 }
+\DoxyCodeLine{\Hypertarget{namespacenavigation__launch_l00038}00038     params\_file\_path = os.path.join(}
+\DoxyCodeLine{\Hypertarget{namespacenavigation__launch_l00039}00039         sm\_aws\_warehouse\_navigation\_dir,}
+\DoxyCodeLine{\Hypertarget{namespacenavigation__launch_l00040}00040         \textcolor{stringliteral}{"{}params"{}},}
+\DoxyCodeLine{\Hypertarget{namespacenavigation__launch_l00041}00041         \textcolor{stringliteral}{"{}nav2z\_client"{}},}
+\DoxyCodeLine{\Hypertarget{namespacenavigation__launch_l00042}00042         \textcolor{stringliteral}{"{}nav2\_params.yaml"{}},}
+\DoxyCodeLine{\Hypertarget{namespacenavigation__launch_l00043}00043     )}
+\DoxyCodeLine{\Hypertarget{namespacenavigation__launch_l00044}00044 }
+\DoxyCodeLine{\Hypertarget{namespacenavigation__launch_l00045}00045     \textcolor{comment}{\# params\_file\_path = os.path.join(}}
+\DoxyCodeLine{\Hypertarget{namespacenavigation__launch_l00046}00046     \textcolor{comment}{\#                 nav\_configuration\_dir,}}
+\DoxyCodeLine{\Hypertarget{namespacenavigation__launch_l00047}00047     \textcolor{comment}{\#                 "{}params"{},}}
+\DoxyCodeLine{\Hypertarget{namespacenavigation__launch_l00048}00048     \textcolor{comment}{\#                 "{}nav2\_params.yaml"{},}}
+\DoxyCodeLine{\Hypertarget{namespacenavigation__launch_l00049}00049     \textcolor{comment}{\#              )}}
+\DoxyCodeLine{\Hypertarget{namespacenavigation__launch_l00050}00050 }
+\DoxyCodeLine{\Hypertarget{namespacenavigation__launch_l00051}00051     default\_nav\_bt\_tree\_xml\_filepath = os.path.join(}
+\DoxyCodeLine{\Hypertarget{namespacenavigation__launch_l00052}00052         sm\_aws\_warehouse\_navigation\_dir, \textcolor{stringliteral}{"{}params"{}}, \textcolor{stringliteral}{"{}nav2z\_client"{}}, \textcolor{stringliteral}{"{}navigation\_tree.xml"{}}}
+\DoxyCodeLine{\Hypertarget{namespacenavigation__launch_l00053}00053     )}
+\DoxyCodeLine{\Hypertarget{namespacenavigation__launch_l00054}00054 }
+\DoxyCodeLine{\Hypertarget{namespacenavigation__launch_l00055}00055     \textcolor{comment}{\# default\_nav\_bt\_tree\_xml\_filepath = os.path.join(}}
+\DoxyCodeLine{\Hypertarget{namespacenavigation__launch_l00056}00056     \textcolor{comment}{\#          get\_package\_share\_directory("{}nav2\_bt\_navigator"{}), "{}behavior\_trees"{}, "{}navigate\_to\_pose\_w\_replanning\_and\_recovery.xml"{})}}
+\DoxyCodeLine{\Hypertarget{namespacenavigation__launch_l00057}00057 }
+\DoxyCodeLine{\Hypertarget{namespacenavigation__launch_l00058}00058     \textcolor{comment}{\# default\_nav\_bt\_tree\_xml\_filepath = os.path.join(get\_package\_share\_directory('nav2\_bt\_navigator'),}}
+\DoxyCodeLine{\Hypertarget{namespacenavigation__launch_l00059}00059     \textcolor{comment}{\#              'behavior\_trees', 'navigate\_w\_replanning\_and\_recovery.xml')}}
+\DoxyCodeLine{\Hypertarget{namespacenavigation__launch_l00060}00060 }
+\DoxyCodeLine{\Hypertarget{namespacenavigation__launch_l00061}00061     params\_file\_path = os.path.join(}
+\DoxyCodeLine{\Hypertarget{namespacenavigation__launch_l00062}00062         sm\_aws\_warehouse\_navigation\_dir,}
+\DoxyCodeLine{\Hypertarget{namespacenavigation__launch_l00063}00063         \textcolor{stringliteral}{"{}params"{}},}
+\DoxyCodeLine{\Hypertarget{namespacenavigation__launch_l00064}00064         \textcolor{stringliteral}{"{}nav2z\_client"{}},}
+\DoxyCodeLine{\Hypertarget{namespacenavigation__launch_l00065}00065         \textcolor{stringliteral}{"{}nav2\_params.yaml"{}},}
+\DoxyCodeLine{\Hypertarget{namespacenavigation__launch_l00066}00066     )}
+\DoxyCodeLine{\Hypertarget{namespacenavigation__launch_l00067}00067 }
+\DoxyCodeLine{\Hypertarget{namespacenavigation__launch_l00068}00068     \textcolor{comment}{\# params\_file\_path = os.path.join(}}
+\DoxyCodeLine{\Hypertarget{namespacenavigation__launch_l00069}00069     \textcolor{comment}{\#                 nav\_configuration\_dir,}}
+\DoxyCodeLine{\Hypertarget{namespacenavigation__launch_l00070}00070     \textcolor{comment}{\#                 "{}params"{},}}
+\DoxyCodeLine{\Hypertarget{namespacenavigation__launch_l00071}00071     \textcolor{comment}{\#                 "{}nav2\_params.yaml"{},}}
+\DoxyCodeLine{\Hypertarget{namespacenavigation__launch_l00072}00072     \textcolor{comment}{\#              )}}
+\DoxyCodeLine{\Hypertarget{namespacenavigation__launch_l00073}00073 }
+\DoxyCodeLine{\Hypertarget{namespacenavigation__launch_l00074}00074     default\_nav\_bt\_tree\_xml\_filepath = os.path.join(}
+\DoxyCodeLine{\Hypertarget{namespacenavigation__launch_l00075}00075         sm\_aws\_warehouse\_navigation\_dir, \textcolor{stringliteral}{"{}params"{}}, \textcolor{stringliteral}{"{}nav2z\_client"{}}, \textcolor{stringliteral}{"{}navigation\_tree.xml"{}}}
+\DoxyCodeLine{\Hypertarget{namespacenavigation__launch_l00076}00076     )}
+\DoxyCodeLine{\Hypertarget{namespacenavigation__launch_l00077}00077 }
+\DoxyCodeLine{\Hypertarget{namespacenavigation__launch_l00078}00078     \textcolor{comment}{\# default\_nav\_bt\_tree\_xml\_filepath = os.path.join(}}
+\DoxyCodeLine{\Hypertarget{namespacenavigation__launch_l00079}00079     \textcolor{comment}{\#          get\_package\_share\_directory("{}nav2\_bt\_navigator"{}), "{}behavior\_trees"{}, "{}navigate\_to\_pose\_w\_replanning\_and\_recovery.xml"{})}}
+\DoxyCodeLine{\Hypertarget{namespacenavigation__launch_l00080}00080 }
+\DoxyCodeLine{\Hypertarget{namespacenavigation__launch_l00081}00081     \textcolor{comment}{\# default\_nav\_bt\_tree\_xml\_filepath = os.path.join(get\_package\_share\_directory('nav2\_bt\_navigator'),}}
+\DoxyCodeLine{\Hypertarget{namespacenavigation__launch_l00082}00082     \textcolor{comment}{\#              'behavior\_trees', 'navigate\_w\_replanning\_and\_recovery.xml')}}
+\DoxyCodeLine{\Hypertarget{namespacenavigation__launch_l00083}00083 }
+\DoxyCodeLine{\Hypertarget{namespacenavigation__launch_l00084}00084     lifecycle\_nodes = [\textcolor{stringliteral}{"{}controller\_server"{}}, \textcolor{stringliteral}{"{}planner\_server"{}}, \textcolor{stringliteral}{"{}recoveries\_server"{}}, \textcolor{stringliteral}{"{}bt\_navigator"{}}]}
+\DoxyCodeLine{\Hypertarget{namespacenavigation__launch_l00085}00085 }
+\DoxyCodeLine{\Hypertarget{namespacenavigation__launch_l00086}00086     \textcolor{comment}{\# Map fully qualified names to relative ones so the node's namespace can be prepended.}}
+\DoxyCodeLine{\Hypertarget{namespacenavigation__launch_l00087}00087     \textcolor{comment}{\# In case of the transforms (tf), currently, there doesn't seem to be a better alternative}}
+\DoxyCodeLine{\Hypertarget{namespacenavigation__launch_l00088}00088     \textcolor{comment}{\# https://github.com/ros/geometry2/issues/32}}
+\DoxyCodeLine{\Hypertarget{namespacenavigation__launch_l00089}00089     \textcolor{comment}{\# https://github.com/ros/robot\_state\_publisher/pull/30}}
+\DoxyCodeLine{\Hypertarget{namespacenavigation__launch_l00090}00090     \textcolor{comment}{\# TODO(orduno) Substitute with `PushNodeRemapping`}}
+\DoxyCodeLine{\Hypertarget{namespacenavigation__launch_l00091}00091     \textcolor{comment}{\#              https://github.com/ros2/launch\_ros/issues/56}}
+\DoxyCodeLine{\Hypertarget{namespacenavigation__launch_l00092}00092     remappings = [(\textcolor{stringliteral}{"{}/tf"{}}, \textcolor{stringliteral}{"{}tf"{}}), (\textcolor{stringliteral}{"{}/tf\_static"{}}, \textcolor{stringliteral}{"{}tf\_static"{}})]}
+\DoxyCodeLine{\Hypertarget{namespacenavigation__launch_l00093}00093 }
+\DoxyCodeLine{\Hypertarget{namespacenavigation__launch_l00094}00094     \textcolor{comment}{\# Create our own temporary YAML files that include substitutions}}
+\DoxyCodeLine{\Hypertarget{namespacenavigation__launch_l00095}00095     param\_substitutions = \{}
+\DoxyCodeLine{\Hypertarget{namespacenavigation__launch_l00096}00096         \textcolor{stringliteral}{"{}use\_sim\_time"{}}: use\_sim\_time,}
+\DoxyCodeLine{\Hypertarget{namespacenavigation__launch_l00097}00097         \textcolor{comment}{\# 'default\_nav\_to\_pose\_bt\_xml': default\_nav\_to\_pose\_bt\_xml,}}
+\DoxyCodeLine{\Hypertarget{namespacenavigation__launch_l00098}00098         \textcolor{stringliteral}{"{}default\_nav\_to\_pose\_bt\_xml"{}}: default\_nav\_bt\_tree\_xml\_filepath,}
+\DoxyCodeLine{\Hypertarget{namespacenavigation__launch_l00099}00099         \textcolor{comment}{\# "{}autostart"{}: autostart,}}
+\DoxyCodeLine{\Hypertarget{namespacenavigation__launch_l00100}00100         \textcolor{comment}{\# "{}map\_subscribe\_transient\_local"{}: map\_subscribe\_transient\_local,}}
+\DoxyCodeLine{\Hypertarget{namespacenavigation__launch_l00101}00101     \}}
+\DoxyCodeLine{\Hypertarget{namespacenavigation__launch_l00102}00102 }
+\DoxyCodeLine{\Hypertarget{namespacenavigation__launch_l00103}00103     configured\_params = RewrittenYaml(}
+\DoxyCodeLine{\Hypertarget{namespacenavigation__launch_l00104}00104         source\_file=params\_file,}
+\DoxyCodeLine{\Hypertarget{namespacenavigation__launch_l00105}00105         root\_key=namespace,}
+\DoxyCodeLine{\Hypertarget{namespacenavigation__launch_l00106}00106         param\_rewrites=param\_substitutions,}
+\DoxyCodeLine{\Hypertarget{namespacenavigation__launch_l00107}00107         convert\_types=\textcolor{keyword}{True},}
+\DoxyCodeLine{\Hypertarget{namespacenavigation__launch_l00108}00108     )}
+\DoxyCodeLine{\Hypertarget{namespacenavigation__launch_l00109}00109 }
+\DoxyCodeLine{\Hypertarget{namespacenavigation__launch_l00110}00110     xtermprefix = (}
+\DoxyCodeLine{\Hypertarget{namespacenavigation__launch_l00111}00111         \textcolor{stringliteral}{"{}xterm -\/xrm 'XTerm*scrollBar:  true' -\/xrm 'xterm*rightScrollBar: true' "{}}}
+\DoxyCodeLine{\Hypertarget{namespacenavigation__launch_l00112}00112         \textcolor{stringliteral}{"{}-\/hold -\/geometry 1000x600 -\/sl 10000 -\/e"{}}}
+\DoxyCodeLine{\Hypertarget{namespacenavigation__launch_l00113}00113     )}
+\DoxyCodeLine{\Hypertarget{namespacenavigation__launch_l00114}00114 }
+\DoxyCodeLine{\Hypertarget{namespacenavigation__launch_l00115}00115     print(\textcolor{stringliteral}{"{}+********************************"{}})}
+\DoxyCodeLine{\Hypertarget{namespacenavigation__launch_l00116}00116     print(str(param\_substitutions))}
+\DoxyCodeLine{\Hypertarget{namespacenavigation__launch_l00117}00117     print(str(default\_nav\_to\_pose\_bt\_xml))}
+\DoxyCodeLine{\Hypertarget{namespacenavigation__launch_l00118}00118 }
+\DoxyCodeLine{\Hypertarget{namespacenavigation__launch_l00119}00119     \textcolor{keywordflow}{return} LaunchDescription(}
+\DoxyCodeLine{\Hypertarget{namespacenavigation__launch_l00120}00120         [}
+\DoxyCodeLine{\Hypertarget{namespacenavigation__launch_l00121}00121             \textcolor{comment}{\# Set env var to print messages to stdout immediately}}
+\DoxyCodeLine{\Hypertarget{namespacenavigation__launch_l00122}00122             SetEnvironmentVariable(\textcolor{stringliteral}{"{}RCUTILS\_LOGGING\_BUFFERED\_STREAM"{}}, \textcolor{stringliteral}{"{}1"{}}),}
+\DoxyCodeLine{\Hypertarget{namespacenavigation__launch_l00123}00123             DeclareLaunchArgument(}
+\DoxyCodeLine{\Hypertarget{namespacenavigation__launch_l00124}00124                 \textcolor{stringliteral}{"{}namespace"{}}, default\_value=\textcolor{stringliteral}{"{}"{}}, description=\textcolor{stringliteral}{"{}Top-\/level namespace"{}}}
+\DoxyCodeLine{\Hypertarget{namespacenavigation__launch_l00125}00125             ),}
+\DoxyCodeLine{\Hypertarget{namespacenavigation__launch_l00126}00126             DeclareLaunchArgument(}
+\DoxyCodeLine{\Hypertarget{namespacenavigation__launch_l00127}00127                 \textcolor{stringliteral}{"{}use\_sim\_time"{}},}
+\DoxyCodeLine{\Hypertarget{namespacenavigation__launch_l00128}00128                 default\_value=\textcolor{stringliteral}{"{}false"{}},}
+\DoxyCodeLine{\Hypertarget{namespacenavigation__launch_l00129}00129                 description=\textcolor{stringliteral}{"{}Use simulation (Gazebo) clock if true"{}},}
+\DoxyCodeLine{\Hypertarget{namespacenavigation__launch_l00130}00130             ),}
+\DoxyCodeLine{\Hypertarget{namespacenavigation__launch_l00131}00131             DeclareLaunchArgument(}
+\DoxyCodeLine{\Hypertarget{namespacenavigation__launch_l00132}00132                 \textcolor{stringliteral}{"{}autostart"{}},}
+\DoxyCodeLine{\Hypertarget{namespacenavigation__launch_l00133}00133                 default\_value=\textcolor{stringliteral}{"{}true"{}},}
+\DoxyCodeLine{\Hypertarget{namespacenavigation__launch_l00134}00134                 description=\textcolor{stringliteral}{"{}Automatically startup the nav2 stack"{}},}
+\DoxyCodeLine{\Hypertarget{namespacenavigation__launch_l00135}00135             ),}
+\DoxyCodeLine{\Hypertarget{namespacenavigation__launch_l00136}00136             DeclareLaunchArgument(}
+\DoxyCodeLine{\Hypertarget{namespacenavigation__launch_l00137}00137                 \textcolor{stringliteral}{"{}params\_file"{}},}
+\DoxyCodeLine{\Hypertarget{namespacenavigation__launch_l00138}00138                 default\_value=params\_file\_path,}
+\DoxyCodeLine{\Hypertarget{namespacenavigation__launch_l00139}00139                 description=\textcolor{stringliteral}{"{}Full path to the ROS2 parameters file to use"{}},}
+\DoxyCodeLine{\Hypertarget{namespacenavigation__launch_l00140}00140             ),}
+\DoxyCodeLine{\Hypertarget{namespacenavigation__launch_l00141}00141             DeclareLaunchArgument(}
+\DoxyCodeLine{\Hypertarget{namespacenavigation__launch_l00142}00142                 \textcolor{stringliteral}{"{}default\_nav\_to\_pose\_bt\_xml"{}},}
+\DoxyCodeLine{\Hypertarget{namespacenavigation__launch_l00143}00143                 \textcolor{comment}{\# default\_value=os.path.join(get\_package\_share\_directory('nav2\_bt\_navigator'),}}
+\DoxyCodeLine{\Hypertarget{namespacenavigation__launch_l00144}00144                 \textcolor{comment}{\# 'behavior\_trees', 'navigate\_w\_replanning\_and\_recovery.xml'),}}
+\DoxyCodeLine{\Hypertarget{namespacenavigation__launch_l00145}00145                 default\_value=os.path.join(}
+\DoxyCodeLine{\Hypertarget{namespacenavigation__launch_l00146}00146                     nav\_configuration\_dir,}
+\DoxyCodeLine{\Hypertarget{namespacenavigation__launch_l00147}00147                     \textcolor{stringliteral}{"{}params"{}},}
+\DoxyCodeLine{\Hypertarget{namespacenavigation__launch_l00148}00148                     \textcolor{stringliteral}{"{}nav2z\_client"{}},}
+\DoxyCodeLine{\Hypertarget{namespacenavigation__launch_l00149}00149                     \textcolor{stringliteral}{"{}navigation\_tree.xml"{}},}
+\DoxyCodeLine{\Hypertarget{namespacenavigation__launch_l00150}00150                 ),}
+\DoxyCodeLine{\Hypertarget{namespacenavigation__launch_l00151}00151                 description=\textcolor{stringliteral}{"{}Full path to the behavior tree xml file to use"{}},}
+\DoxyCodeLine{\Hypertarget{namespacenavigation__launch_l00152}00152             ),}
+\DoxyCodeLine{\Hypertarget{namespacenavigation__launch_l00153}00153             DeclareLaunchArgument(}
+\DoxyCodeLine{\Hypertarget{namespacenavigation__launch_l00154}00154                 \textcolor{stringliteral}{"{}map\_subscribe\_transient\_local"{}},}
+\DoxyCodeLine{\Hypertarget{namespacenavigation__launch_l00155}00155                 default\_value=\textcolor{stringliteral}{"{}false"{}},}
+\DoxyCodeLine{\Hypertarget{namespacenavigation__launch_l00156}00156                 description=\textcolor{stringliteral}{"{}Whether to set the map subscriber QoS to transient local"{}},}
+\DoxyCodeLine{\Hypertarget{namespacenavigation__launch_l00157}00157             ),}
+\DoxyCodeLine{\Hypertarget{namespacenavigation__launch_l00158}00158             Node(}
+\DoxyCodeLine{\Hypertarget{namespacenavigation__launch_l00159}00159                 package=\textcolor{stringliteral}{"{}nav2\_controller"{}},}
+\DoxyCodeLine{\Hypertarget{namespacenavigation__launch_l00160}00160                 executable=\textcolor{stringliteral}{"{}controller\_server"{}},}
+\DoxyCodeLine{\Hypertarget{namespacenavigation__launch_l00161}00161                 output=\textcolor{stringliteral}{"{}screen"{}},}
+\DoxyCodeLine{\Hypertarget{namespacenavigation__launch_l00162}00162                 prefix=xtermprefix,}
+\DoxyCodeLine{\Hypertarget{namespacenavigation__launch_l00163}00163                 parameters=[configured\_params],}
+\DoxyCodeLine{\Hypertarget{namespacenavigation__launch_l00164}00164                 remappings=remappings,}
+\DoxyCodeLine{\Hypertarget{namespacenavigation__launch_l00165}00165                 arguments=[\textcolor{stringliteral}{"{}-\/-\/ros-\/args"{}}, \textcolor{stringliteral}{"{}-\/-\/log-\/level"{}}, \textcolor{stringliteral}{"{}INFO"{}}],}
+\DoxyCodeLine{\Hypertarget{namespacenavigation__launch_l00166}00166             ),}
+\DoxyCodeLine{\Hypertarget{namespacenavigation__launch_l00167}00167             Node(}
+\DoxyCodeLine{\Hypertarget{namespacenavigation__launch_l00168}00168                 package=\textcolor{stringliteral}{"{}nav2\_planner"{}},}
+\DoxyCodeLine{\Hypertarget{namespacenavigation__launch_l00169}00169                 executable=\textcolor{stringliteral}{"{}planner\_server"{}},}
+\DoxyCodeLine{\Hypertarget{namespacenavigation__launch_l00170}00170                 name=\textcolor{stringliteral}{"{}planner\_server"{}},}
+\DoxyCodeLine{\Hypertarget{namespacenavigation__launch_l00171}00171                 output=\textcolor{stringliteral}{"{}screen"{}},}
+\DoxyCodeLine{\Hypertarget{namespacenavigation__launch_l00172}00172                 prefix=xtermprefix,}
+\DoxyCodeLine{\Hypertarget{namespacenavigation__launch_l00173}00173                 parameters=[configured\_params],}
+\DoxyCodeLine{\Hypertarget{namespacenavigation__launch_l00174}00174                 remappings=remappings,}
+\DoxyCodeLine{\Hypertarget{namespacenavigation__launch_l00175}00175                 arguments=[\textcolor{stringliteral}{"{}-\/-\/ros-\/args"{}}, \textcolor{stringliteral}{"{}-\/-\/log-\/level"{}}, \textcolor{stringliteral}{"{}INFO"{}}],}
+\DoxyCodeLine{\Hypertarget{namespacenavigation__launch_l00176}00176             ),}
+\DoxyCodeLine{\Hypertarget{namespacenavigation__launch_l00177}00177             Node(}
+\DoxyCodeLine{\Hypertarget{namespacenavigation__launch_l00178}00178                 package=\textcolor{stringliteral}{"{}nav2\_recoveries"{}},}
+\DoxyCodeLine{\Hypertarget{namespacenavigation__launch_l00179}00179                 executable=\textcolor{stringliteral}{"{}recoveries\_server"{}},}
+\DoxyCodeLine{\Hypertarget{namespacenavigation__launch_l00180}00180                 name=\textcolor{stringliteral}{"{}recoveries\_server"{}},}
+\DoxyCodeLine{\Hypertarget{namespacenavigation__launch_l00181}00181                 output=\textcolor{stringliteral}{"{}screen"{}},}
+\DoxyCodeLine{\Hypertarget{namespacenavigation__launch_l00182}00182                 parameters=[configured\_params],}
+\DoxyCodeLine{\Hypertarget{namespacenavigation__launch_l00183}00183                 remappings=remappings,}
+\DoxyCodeLine{\Hypertarget{namespacenavigation__launch_l00184}00184                 arguments=[\textcolor{stringliteral}{"{}-\/-\/ros-\/args"{}}, \textcolor{stringliteral}{"{}-\/-\/log-\/level"{}}, \textcolor{stringliteral}{"{}INFO"{}}],}
+\DoxyCodeLine{\Hypertarget{namespacenavigation__launch_l00185}00185             ),}
+\DoxyCodeLine{\Hypertarget{namespacenavigation__launch_l00186}00186             Node(}
+\DoxyCodeLine{\Hypertarget{namespacenavigation__launch_l00187}00187                 package=\textcolor{stringliteral}{"{}nav2\_bt\_navigator"{}},}
+\DoxyCodeLine{\Hypertarget{namespacenavigation__launch_l00188}00188                 executable=\textcolor{stringliteral}{"{}bt\_navigator"{}},}
+\DoxyCodeLine{\Hypertarget{namespacenavigation__launch_l00189}00189                 name=\textcolor{stringliteral}{"{}bt\_navigator"{}},}
+\DoxyCodeLine{\Hypertarget{namespacenavigation__launch_l00190}00190                 output=\textcolor{stringliteral}{"{}screen"{}},}
+\DoxyCodeLine{\Hypertarget{namespacenavigation__launch_l00191}00191                 prefix=xtermprefix,}
+\DoxyCodeLine{\Hypertarget{namespacenavigation__launch_l00192}00192                 parameters=[configured\_params],}
+\DoxyCodeLine{\Hypertarget{namespacenavigation__launch_l00193}00193                 remappings=remappings,}
+\DoxyCodeLine{\Hypertarget{namespacenavigation__launch_l00194}00194                 arguments=[\textcolor{stringliteral}{"{}-\/-\/ros-\/args"{}}, \textcolor{stringliteral}{"{}-\/-\/log-\/level"{}}, \textcolor{stringliteral}{"{}INFO"{}}],}
+\DoxyCodeLine{\Hypertarget{namespacenavigation__launch_l00195}00195             ),}
+\DoxyCodeLine{\Hypertarget{namespacenavigation__launch_l00196}00196             Node(}
+\DoxyCodeLine{\Hypertarget{namespacenavigation__launch_l00197}00197                 package=\textcolor{stringliteral}{"{}nav2\_waypoint\_follower"{}},}
+\DoxyCodeLine{\Hypertarget{namespacenavigation__launch_l00198}00198                 executable=\textcolor{stringliteral}{"{}waypoint\_follower"{}},}
+\DoxyCodeLine{\Hypertarget{namespacenavigation__launch_l00199}00199                 name=\textcolor{stringliteral}{"{}waypoint\_follower"{}},}
+\DoxyCodeLine{\Hypertarget{namespacenavigation__launch_l00200}00200                 output=\textcolor{stringliteral}{"{}screen"{}},}
+\DoxyCodeLine{\Hypertarget{namespacenavigation__launch_l00201}00201                 parameters=[configured\_params],}
+\DoxyCodeLine{\Hypertarget{namespacenavigation__launch_l00202}00202                 remappings=remappings,}
+\DoxyCodeLine{\Hypertarget{namespacenavigation__launch_l00203}00203             ),}
+\DoxyCodeLine{\Hypertarget{namespacenavigation__launch_l00204}00204             Node(}
+\DoxyCodeLine{\Hypertarget{namespacenavigation__launch_l00205}00205                 package=\textcolor{stringliteral}{"{}nav2\_lifecycle\_manager"{}},}
+\DoxyCodeLine{\Hypertarget{namespacenavigation__launch_l00206}00206                 executable=\textcolor{stringliteral}{"{}lifecycle\_manager"{}},}
+\DoxyCodeLine{\Hypertarget{namespacenavigation__launch_l00207}00207                 name=\textcolor{stringliteral}{"{}lifecycle\_manager\_navigation"{}},}
+\DoxyCodeLine{\Hypertarget{namespacenavigation__launch_l00208}00208                 output=\textcolor{stringliteral}{"{}screen"{}},}
+\DoxyCodeLine{\Hypertarget{namespacenavigation__launch_l00209}00209                 prefix=xtermprefix,}
+\DoxyCodeLine{\Hypertarget{namespacenavigation__launch_l00210}00210                 parameters=[}
+\DoxyCodeLine{\Hypertarget{namespacenavigation__launch_l00211}00211                     \{\textcolor{stringliteral}{"{}use\_sim\_time"{}}: use\_sim\_time\},}
+\DoxyCodeLine{\Hypertarget{namespacenavigation__launch_l00212}00212                     \{\textcolor{stringliteral}{"{}autostart"{}}: autostart\},}
+\DoxyCodeLine{\Hypertarget{namespacenavigation__launch_l00213}00213                     \{\textcolor{stringliteral}{"{}node\_names"{}}: lifecycle\_nodes\},}
+\DoxyCodeLine{\Hypertarget{namespacenavigation__launch_l00214}00214                 ],}
+\DoxyCodeLine{\Hypertarget{namespacenavigation__launch_l00215}00215                 arguments=[\textcolor{stringliteral}{"{}-\/-\/ros-\/args"{}}, \textcolor{stringliteral}{"{}-\/-\/log-\/level"{}}, \textcolor{stringliteral}{"{}INFO"{}}],}
+\DoxyCodeLine{\Hypertarget{namespacenavigation__launch_l00216}00216             ),}
+\DoxyCodeLine{\Hypertarget{namespacenavigation__launch_l00217}00217         ]}
+\DoxyCodeLine{\Hypertarget{namespacenavigation__launch_l00218}00218     )}
 
 \end{DoxyCode}
+
+
+References \mbox{\hyperlink{sm__aws__warehouse__navigation_2launch_2navigation__launch_8py_source_l00026}{generate\+\_\+launch\+\_\+description()}}.
+
+
+
+Referenced by \mbox{\hyperlink{sm__aws__warehouse__navigation_2launch_2navigation__launch_8py_source_l00026}{generate\+\_\+launch\+\_\+description()}}.
+
+Here is the call graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=214pt]{namespacenavigation__launch_a51ed91f76212203c360b9cac51a615ef_cgraph}
+\end{center}
+\end{figure}
+Here is the caller graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=214pt]{namespacenavigation__launch_a51ed91f76212203c360b9cac51a615ef_icgraph}
+\end{center}
+\end{figure}

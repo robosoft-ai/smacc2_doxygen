@@ -20,86 +20,110 @@ Definition at line \mbox{\hyperlink{sm__dance__bot_2launch_2gazebo__launch_8py_s
 
 
 \begin{DoxyCode}{0}
-\DoxyCodeLine{00025 \textcolor{keyword}{def }\mbox{\hyperlink{namespacegazebo__launch_a7dfb9b9152b5cd8f375f38bc66e94517}{generate\_launch\_description}}():}
-\DoxyCodeLine{00026     declare\_use\_simulator\_cmd = DeclareLaunchArgument(}
-\DoxyCodeLine{00027         \textcolor{stringliteral}{"{}use\_simulator"{}}, default\_value=\textcolor{stringliteral}{"{}False"{}}, description=\textcolor{stringliteral}{"{}Whether to execute gzclient)"{}}}
-\DoxyCodeLine{00028     )}
-\DoxyCodeLine{00029 }
-\DoxyCodeLine{00030     use\_simulator = LaunchConfiguration(\textcolor{stringliteral}{"{}use\_simulator"{}})}
-\DoxyCodeLine{00031     world = LaunchConfiguration(\textcolor{stringliteral}{"{}world"{}})}
-\DoxyCodeLine{00032     headless = LaunchConfiguration(\textcolor{stringliteral}{"{}headless"{}})}
-\DoxyCodeLine{00033     show\_gz\_lidar = LaunchConfiguration(\textcolor{stringliteral}{"{}show\_gz\_lidar"{}})}
-\DoxyCodeLine{00034 }
-\DoxyCodeLine{00035     sm\_dance\_bot\_dir = get\_package\_share\_directory(\textcolor{stringliteral}{"{}sm\_dance\_bot"{}})}
-\DoxyCodeLine{00036     launch\_dir = os.path.join(sm\_dance\_bot\_dir, \textcolor{stringliteral}{"{}launch"{}})}
-\DoxyCodeLine{00037 }
-\DoxyCodeLine{00038     declare\_use\_simulator\_cmd = DeclareLaunchArgument(}
-\DoxyCodeLine{00039         \textcolor{stringliteral}{"{}use\_simulator"{}}, default\_value=\textcolor{stringliteral}{"{}True"{}}, description=\textcolor{stringliteral}{"{}Whether to start the simulator"{}}}
-\DoxyCodeLine{00040     )}
-\DoxyCodeLine{00041 }
-\DoxyCodeLine{00042     declare\_simulator\_cmd = DeclareLaunchArgument(}
-\DoxyCodeLine{00043         \textcolor{stringliteral}{"{}headless"{}}, default\_value=\textcolor{stringliteral}{"{}False"{}}, description=\textcolor{stringliteral}{"{}Whether to execute gzclient)"{}}}
-\DoxyCodeLine{00044     )}
-\DoxyCodeLine{00045 }
-\DoxyCodeLine{00046     declare\_show\_gz\_lidar = DeclareLaunchArgument(}
-\DoxyCodeLine{00047         \textcolor{stringliteral}{"{}show\_gz\_lidar"{}},}
-\DoxyCodeLine{00048         default\_value=\textcolor{stringliteral}{"{}True"{}},}
-\DoxyCodeLine{00049         description=\textcolor{stringliteral}{"{}Whether to apply a namespace to the navigation stack"{}},}
-\DoxyCodeLine{00050     )}
-\DoxyCodeLine{00051 }
-\DoxyCodeLine{00052     declare\_world\_cmd = DeclareLaunchArgument(}
-\DoxyCodeLine{00053         \textcolor{stringliteral}{"{}world"{}},}
-\DoxyCodeLine{00054         default\_value=os.path.join(sm\_dance\_bot\_dir, \textcolor{stringliteral}{"{}worlds"{}}, \textcolor{stringliteral}{"{}ridgeback\_race.world"{}}),}
-\DoxyCodeLine{00055         description=\textcolor{stringliteral}{"{}Full path to world model file to load"{}},}
-\DoxyCodeLine{00056         condition=IfCondition(show\_gz\_lidar),}
-\DoxyCodeLine{00057     )}
-\DoxyCodeLine{00058 }
-\DoxyCodeLine{00059     declare\_world\_cmd\_2 = DeclareLaunchArgument(}
-\DoxyCodeLine{00060         \textcolor{stringliteral}{"{}world"{}},}
-\DoxyCodeLine{00061         default\_value=os.path.join(sm\_dance\_bot\_dir, \textcolor{stringliteral}{"{}worlds"{}}, \textcolor{stringliteral}{"{}ridgeback\_race\_no\_lidar.world"{}}),}
-\DoxyCodeLine{00062         description=\textcolor{stringliteral}{"{}Full path to world model file to load"{}},}
-\DoxyCodeLine{00063         condition=UnlessCondition(show\_gz\_lidar),}
-\DoxyCodeLine{00064     )}
-\DoxyCodeLine{00065 }
-\DoxyCodeLine{00066     \textcolor{comment}{\# Create the launch description and populate}}
-\DoxyCodeLine{00067     ld = LaunchDescription()}
-\DoxyCodeLine{00068 }
-\DoxyCodeLine{00069     xtermprefix = \textcolor{stringliteral}{"{}xterm -\/xrm 'XTerm*scrollBar:  true' -\/xrm 'xterm*rightScrollBar: true' -\/hold -\/geometry 1000x600 -\/sl 10000 -\/e"{}}}
-\DoxyCodeLine{00070 }
-\DoxyCodeLine{00071     gzenv = dict(os.environ)}
-\DoxyCodeLine{00072     model\_database\_uri = os.environ[\textcolor{stringliteral}{"{}GAZEBO\_MODEL\_PATH"{}}]}
-\DoxyCodeLine{00073     gzenv[\textcolor{stringliteral}{"{}GAZEBO\_MODEL\_DATABASE\_URI"{}}] = model\_database\_uri}
-\DoxyCodeLine{00074 }
-\DoxyCodeLine{00075     \textcolor{comment}{\# Specify the actions}}
-\DoxyCodeLine{00076     start\_gazebo\_server\_cmd = ExecuteProcess(}
-\DoxyCodeLine{00077         condition=IfCondition(use\_simulator),}
-\DoxyCodeLine{00078         cmd=[\textcolor{stringliteral}{"{}gzserver"{}}, \textcolor{stringliteral}{"{}-\/s"{}}, \textcolor{stringliteral}{"{}libgazebo\_ros\_init.so"{}}, world, \textcolor{stringliteral}{"{}-\/-\/verbose"{}}],}
-\DoxyCodeLine{00079         env=gzenv,}
-\DoxyCodeLine{00080         cwd=[launch\_dir],}
-\DoxyCodeLine{00081         output=\textcolor{stringliteral}{"{}screen"{}},}
-\DoxyCodeLine{00082         prefix=xtermprefix,}
-\DoxyCodeLine{00083     )}
-\DoxyCodeLine{00084 }
-\DoxyCodeLine{00085     start\_gazebo\_client\_cmd = ExecuteProcess(}
-\DoxyCodeLine{00086         condition=IfCondition(PythonExpression([use\_simulator, \textcolor{stringliteral}{"{} and not "{}}, headless])),}
-\DoxyCodeLine{00087         cmd=[\textcolor{stringliteral}{"{}gzclient"{}}],}
-\DoxyCodeLine{00088         cwd=[launch\_dir],}
-\DoxyCodeLine{00089         env=gzenv,}
-\DoxyCodeLine{00090         output=\textcolor{stringliteral}{"{}screen"{}},}
-\DoxyCodeLine{00091         prefix=xtermprefix,}
-\DoxyCodeLine{00092     )}
-\DoxyCodeLine{00093 }
-\DoxyCodeLine{00094     \textcolor{comment}{\# Add any conditioned actions}}
-\DoxyCodeLine{00095     ld.add\_action(declare\_simulator\_cmd)}
-\DoxyCodeLine{00096     ld.add\_action(declare\_use\_simulator\_cmd)}
-\DoxyCodeLine{00097     ld.add\_action(declare\_world\_cmd)}
-\DoxyCodeLine{00098     ld.add\_action(declare\_world\_cmd\_2)}
-\DoxyCodeLine{00099 }
-\DoxyCodeLine{00100     ld.add\_action(declare\_show\_gz\_lidar)}
-\DoxyCodeLine{00101 }
-\DoxyCodeLine{00102     ld.add\_action(start\_gazebo\_server\_cmd)}
-\DoxyCodeLine{00103     ld.add\_action(start\_gazebo\_client\_cmd)}
-\DoxyCodeLine{00104 }
-\DoxyCodeLine{00105     \textcolor{keywordflow}{return} ld}
+\DoxyCodeLine{\Hypertarget{namespacegazebo__launch_l00025}00025 \textcolor{keyword}{def }\mbox{\hyperlink{namespacegazebo__launch_a7dfb9b9152b5cd8f375f38bc66e94517}{generate\_launch\_description}}():}
+\DoxyCodeLine{\Hypertarget{namespacegazebo__launch_l00026}00026     declare\_use\_simulator\_cmd = DeclareLaunchArgument(}
+\DoxyCodeLine{\Hypertarget{namespacegazebo__launch_l00027}00027         \textcolor{stringliteral}{"{}use\_simulator"{}}, default\_value=\textcolor{stringliteral}{"{}False"{}}, description=\textcolor{stringliteral}{"{}Whether to execute gzclient)"{}}}
+\DoxyCodeLine{\Hypertarget{namespacegazebo__launch_l00028}00028     )}
+\DoxyCodeLine{\Hypertarget{namespacegazebo__launch_l00029}00029 }
+\DoxyCodeLine{\Hypertarget{namespacegazebo__launch_l00030}00030     use\_simulator = LaunchConfiguration(\textcolor{stringliteral}{"{}use\_simulator"{}})}
+\DoxyCodeLine{\Hypertarget{namespacegazebo__launch_l00031}00031     world = LaunchConfiguration(\textcolor{stringliteral}{"{}world"{}})}
+\DoxyCodeLine{\Hypertarget{namespacegazebo__launch_l00032}00032     headless = LaunchConfiguration(\textcolor{stringliteral}{"{}headless"{}})}
+\DoxyCodeLine{\Hypertarget{namespacegazebo__launch_l00033}00033     show\_gz\_lidar = LaunchConfiguration(\textcolor{stringliteral}{"{}show\_gz\_lidar"{}})}
+\DoxyCodeLine{\Hypertarget{namespacegazebo__launch_l00034}00034 }
+\DoxyCodeLine{\Hypertarget{namespacegazebo__launch_l00035}00035     sm\_dance\_bot\_dir = get\_package\_share\_directory(\textcolor{stringliteral}{"{}sm\_dance\_bot"{}})}
+\DoxyCodeLine{\Hypertarget{namespacegazebo__launch_l00036}00036     launch\_dir = os.path.join(sm\_dance\_bot\_dir, \textcolor{stringliteral}{"{}launch"{}})}
+\DoxyCodeLine{\Hypertarget{namespacegazebo__launch_l00037}00037 }
+\DoxyCodeLine{\Hypertarget{namespacegazebo__launch_l00038}00038     declare\_use\_simulator\_cmd = DeclareLaunchArgument(}
+\DoxyCodeLine{\Hypertarget{namespacegazebo__launch_l00039}00039         \textcolor{stringliteral}{"{}use\_simulator"{}}, default\_value=\textcolor{stringliteral}{"{}True"{}}, description=\textcolor{stringliteral}{"{}Whether to start the simulator"{}}}
+\DoxyCodeLine{\Hypertarget{namespacegazebo__launch_l00040}00040     )}
+\DoxyCodeLine{\Hypertarget{namespacegazebo__launch_l00041}00041 }
+\DoxyCodeLine{\Hypertarget{namespacegazebo__launch_l00042}00042     declare\_simulator\_cmd = DeclareLaunchArgument(}
+\DoxyCodeLine{\Hypertarget{namespacegazebo__launch_l00043}00043         \textcolor{stringliteral}{"{}headless"{}}, default\_value=\textcolor{stringliteral}{"{}False"{}}, description=\textcolor{stringliteral}{"{}Whether to execute gzclient)"{}}}
+\DoxyCodeLine{\Hypertarget{namespacegazebo__launch_l00044}00044     )}
+\DoxyCodeLine{\Hypertarget{namespacegazebo__launch_l00045}00045 }
+\DoxyCodeLine{\Hypertarget{namespacegazebo__launch_l00046}00046     declare\_show\_gz\_lidar = DeclareLaunchArgument(}
+\DoxyCodeLine{\Hypertarget{namespacegazebo__launch_l00047}00047         \textcolor{stringliteral}{"{}show\_gz\_lidar"{}},}
+\DoxyCodeLine{\Hypertarget{namespacegazebo__launch_l00048}00048         default\_value=\textcolor{stringliteral}{"{}True"{}},}
+\DoxyCodeLine{\Hypertarget{namespacegazebo__launch_l00049}00049         description=\textcolor{stringliteral}{"{}Whether to apply a namespace to the navigation stack"{}},}
+\DoxyCodeLine{\Hypertarget{namespacegazebo__launch_l00050}00050     )}
+\DoxyCodeLine{\Hypertarget{namespacegazebo__launch_l00051}00051 }
+\DoxyCodeLine{\Hypertarget{namespacegazebo__launch_l00052}00052     declare\_world\_cmd = DeclareLaunchArgument(}
+\DoxyCodeLine{\Hypertarget{namespacegazebo__launch_l00053}00053         \textcolor{stringliteral}{"{}world"{}},}
+\DoxyCodeLine{\Hypertarget{namespacegazebo__launch_l00054}00054         default\_value=os.path.join(sm\_dance\_bot\_dir, \textcolor{stringliteral}{"{}worlds"{}}, \textcolor{stringliteral}{"{}ridgeback\_race.world"{}}),}
+\DoxyCodeLine{\Hypertarget{namespacegazebo__launch_l00055}00055         description=\textcolor{stringliteral}{"{}Full path to world model file to load"{}},}
+\DoxyCodeLine{\Hypertarget{namespacegazebo__launch_l00056}00056         condition=IfCondition(show\_gz\_lidar),}
+\DoxyCodeLine{\Hypertarget{namespacegazebo__launch_l00057}00057     )}
+\DoxyCodeLine{\Hypertarget{namespacegazebo__launch_l00058}00058 }
+\DoxyCodeLine{\Hypertarget{namespacegazebo__launch_l00059}00059     declare\_world\_cmd\_2 = DeclareLaunchArgument(}
+\DoxyCodeLine{\Hypertarget{namespacegazebo__launch_l00060}00060         \textcolor{stringliteral}{"{}world"{}},}
+\DoxyCodeLine{\Hypertarget{namespacegazebo__launch_l00061}00061         default\_value=os.path.join(sm\_dance\_bot\_dir, \textcolor{stringliteral}{"{}worlds"{}}, \textcolor{stringliteral}{"{}ridgeback\_race\_no\_lidar.world"{}}),}
+\DoxyCodeLine{\Hypertarget{namespacegazebo__launch_l00062}00062         description=\textcolor{stringliteral}{"{}Full path to world model file to load"{}},}
+\DoxyCodeLine{\Hypertarget{namespacegazebo__launch_l00063}00063         condition=UnlessCondition(show\_gz\_lidar),}
+\DoxyCodeLine{\Hypertarget{namespacegazebo__launch_l00064}00064     )}
+\DoxyCodeLine{\Hypertarget{namespacegazebo__launch_l00065}00065 }
+\DoxyCodeLine{\Hypertarget{namespacegazebo__launch_l00066}00066     \textcolor{comment}{\# Create the launch description and populate}}
+\DoxyCodeLine{\Hypertarget{namespacegazebo__launch_l00067}00067     ld = LaunchDescription()}
+\DoxyCodeLine{\Hypertarget{namespacegazebo__launch_l00068}00068 }
+\DoxyCodeLine{\Hypertarget{namespacegazebo__launch_l00069}00069     xtermprefix = \textcolor{stringliteral}{"{}xterm -\/xrm 'XTerm*scrollBar:  true' -\/xrm 'xterm*rightScrollBar: true' -\/hold -\/geometry 1000x600 -\/sl 10000 -\/e"{}}}
+\DoxyCodeLine{\Hypertarget{namespacegazebo__launch_l00070}00070 }
+\DoxyCodeLine{\Hypertarget{namespacegazebo__launch_l00071}00071     gzenv = dict(os.environ)}
+\DoxyCodeLine{\Hypertarget{namespacegazebo__launch_l00072}00072     model\_database\_uri = os.environ[\textcolor{stringliteral}{"{}GAZEBO\_MODEL\_PATH"{}}]}
+\DoxyCodeLine{\Hypertarget{namespacegazebo__launch_l00073}00073     gzenv[\textcolor{stringliteral}{"{}GAZEBO\_MODEL\_DATABASE\_URI"{}}] = model\_database\_uri}
+\DoxyCodeLine{\Hypertarget{namespacegazebo__launch_l00074}00074 }
+\DoxyCodeLine{\Hypertarget{namespacegazebo__launch_l00075}00075     \textcolor{comment}{\# Specify the actions}}
+\DoxyCodeLine{\Hypertarget{namespacegazebo__launch_l00076}00076     start\_gazebo\_server\_cmd = ExecuteProcess(}
+\DoxyCodeLine{\Hypertarget{namespacegazebo__launch_l00077}00077         condition=IfCondition(use\_simulator),}
+\DoxyCodeLine{\Hypertarget{namespacegazebo__launch_l00078}00078         cmd=[\textcolor{stringliteral}{"{}gzserver"{}}, \textcolor{stringliteral}{"{}-\/s"{}}, \textcolor{stringliteral}{"{}libgazebo\_ros\_init.so"{}}, world, \textcolor{stringliteral}{"{}-\/-\/verbose"{}}],}
+\DoxyCodeLine{\Hypertarget{namespacegazebo__launch_l00079}00079         env=gzenv,}
+\DoxyCodeLine{\Hypertarget{namespacegazebo__launch_l00080}00080         cwd=[launch\_dir],}
+\DoxyCodeLine{\Hypertarget{namespacegazebo__launch_l00081}00081         output=\textcolor{stringliteral}{"{}screen"{}},}
+\DoxyCodeLine{\Hypertarget{namespacegazebo__launch_l00082}00082         prefix=xtermprefix,}
+\DoxyCodeLine{\Hypertarget{namespacegazebo__launch_l00083}00083     )}
+\DoxyCodeLine{\Hypertarget{namespacegazebo__launch_l00084}00084 }
+\DoxyCodeLine{\Hypertarget{namespacegazebo__launch_l00085}00085     start\_gazebo\_client\_cmd = ExecuteProcess(}
+\DoxyCodeLine{\Hypertarget{namespacegazebo__launch_l00086}00086         condition=IfCondition(PythonExpression([use\_simulator, \textcolor{stringliteral}{"{} and not "{}}, headless])),}
+\DoxyCodeLine{\Hypertarget{namespacegazebo__launch_l00087}00087         cmd=[\textcolor{stringliteral}{"{}gzclient"{}}],}
+\DoxyCodeLine{\Hypertarget{namespacegazebo__launch_l00088}00088         cwd=[launch\_dir],}
+\DoxyCodeLine{\Hypertarget{namespacegazebo__launch_l00089}00089         env=gzenv,}
+\DoxyCodeLine{\Hypertarget{namespacegazebo__launch_l00090}00090         output=\textcolor{stringliteral}{"{}screen"{}},}
+\DoxyCodeLine{\Hypertarget{namespacegazebo__launch_l00091}00091         prefix=xtermprefix,}
+\DoxyCodeLine{\Hypertarget{namespacegazebo__launch_l00092}00092     )}
+\DoxyCodeLine{\Hypertarget{namespacegazebo__launch_l00093}00093 }
+\DoxyCodeLine{\Hypertarget{namespacegazebo__launch_l00094}00094     \textcolor{comment}{\# Add any conditioned actions}}
+\DoxyCodeLine{\Hypertarget{namespacegazebo__launch_l00095}00095     ld.add\_action(declare\_simulator\_cmd)}
+\DoxyCodeLine{\Hypertarget{namespacegazebo__launch_l00096}00096     ld.add\_action(declare\_use\_simulator\_cmd)}
+\DoxyCodeLine{\Hypertarget{namespacegazebo__launch_l00097}00097     ld.add\_action(declare\_world\_cmd)}
+\DoxyCodeLine{\Hypertarget{namespacegazebo__launch_l00098}00098     ld.add\_action(declare\_world\_cmd\_2)}
+\DoxyCodeLine{\Hypertarget{namespacegazebo__launch_l00099}00099 }
+\DoxyCodeLine{\Hypertarget{namespacegazebo__launch_l00100}00100     ld.add\_action(declare\_show\_gz\_lidar)}
+\DoxyCodeLine{\Hypertarget{namespacegazebo__launch_l00101}00101 }
+\DoxyCodeLine{\Hypertarget{namespacegazebo__launch_l00102}00102     ld.add\_action(start\_gazebo\_server\_cmd)}
+\DoxyCodeLine{\Hypertarget{namespacegazebo__launch_l00103}00103     ld.add\_action(start\_gazebo\_client\_cmd)}
+\DoxyCodeLine{\Hypertarget{namespacegazebo__launch_l00104}00104 }
+\DoxyCodeLine{\Hypertarget{namespacegazebo__launch_l00105}00105     \textcolor{keywordflow}{return} ld}
 
 \end{DoxyCode}
+
+
+References \mbox{\hyperlink{sm__dance__bot_2launch_2gazebo__launch_8py_source_l00025}{generate\+\_\+launch\+\_\+description()}}.
+
+
+
+Referenced by \mbox{\hyperlink{sm__dance__bot_2launch_2gazebo__launch_8py_source_l00025}{generate\+\_\+launch\+\_\+description()}}.
+
+Here is the call graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=201pt]{namespacegazebo__launch_a7dfb9b9152b5cd8f375f38bc66e94517_cgraph}
+\end{center}
+\end{figure}
+Here is the caller graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=201pt]{namespacegazebo__launch_a7dfb9b9152b5cd8f375f38bc66e94517_icgraph}
+\end{center}
+\end{figure}

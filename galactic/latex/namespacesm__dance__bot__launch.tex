@@ -20,220 +20,244 @@ Definition at line \mbox{\hyperlink{sm__dance__bot__launch_8py_source_l00029}{29
 
 
 \begin{DoxyCode}{0}
-\DoxyCodeLine{00029 \textcolor{keyword}{def }\mbox{\hyperlink{namespacesm__dance__bot__launch_ada41b50d65dba5fb31523b87497699d5}{generate\_launch\_description}}():}
-\DoxyCodeLine{00030     \textcolor{comment}{\# Get the launch directory}}
-\DoxyCodeLine{00031     sm\_dance\_bot\_dir = get\_package\_share\_directory(\textcolor{stringliteral}{"{}sm\_dance\_bot"{}})}
-\DoxyCodeLine{00032     sm\_dance\_bot\_launch\_dir = os.path.join(sm\_dance\_bot\_dir, \textcolor{stringliteral}{"{}launch"{}})}
-\DoxyCodeLine{00033 }
-\DoxyCodeLine{00034     \textcolor{comment}{\# Create the launch configuration variables}}
-\DoxyCodeLine{00035     slam = LaunchConfiguration(\textcolor{stringliteral}{"{}slam"{}})}
-\DoxyCodeLine{00036     namespace = LaunchConfiguration(\textcolor{stringliteral}{"{}namespace"{}})}
-\DoxyCodeLine{00037     use\_namespace = LaunchConfiguration(\textcolor{stringliteral}{"{}use\_namespace"{}})}
-\DoxyCodeLine{00038     map\_yaml\_file = LaunchConfiguration(\textcolor{stringliteral}{"{}map"{}})}
-\DoxyCodeLine{00039     use\_sim\_time = LaunchConfiguration(\textcolor{stringliteral}{"{}use\_sim\_time"{}})}
-\DoxyCodeLine{00040     params\_file = LaunchConfiguration(\textcolor{stringliteral}{"{}params\_file"{}})}
-\DoxyCodeLine{00041     default\_nav\_to\_pose\_bt\_xml = LaunchConfiguration(\textcolor{stringliteral}{"{}default\_nav\_to\_pose\_bt\_xml"{}})}
-\DoxyCodeLine{00042     autostart = LaunchConfiguration(\textcolor{stringliteral}{"{}autostart"{}})}
-\DoxyCodeLine{00043     show\_gz\_lidar = LaunchConfiguration(\textcolor{stringliteral}{"{}show\_gz\_lidar"{}})}
-\DoxyCodeLine{00044 }
-\DoxyCodeLine{00045     \textcolor{comment}{\# Launch configuration variables specific to simulation}}
-\DoxyCodeLine{00046     rviz\_config\_file = LaunchConfiguration(\textcolor{stringliteral}{"{}rviz\_config\_file"{}})}
-\DoxyCodeLine{00047 }
-\DoxyCodeLine{00048     use\_robot\_state\_pub = LaunchConfiguration(\textcolor{stringliteral}{"{}use\_robot\_state\_pub"{}})}
-\DoxyCodeLine{00049     use\_rviz = LaunchConfiguration(\textcolor{stringliteral}{"{}use\_rviz"{}})}
-\DoxyCodeLine{00050 }
-\DoxyCodeLine{00051     urdf = os.path.join(sm\_dance\_bot\_dir, \textcolor{stringliteral}{"{}urdf"{}}, \textcolor{stringliteral}{"{}turtlebot3\_waffle.urdf"{}})}
-\DoxyCodeLine{00052 }
-\DoxyCodeLine{00053     \textcolor{comment}{\# Map fully qualified names to relative ones so the node's namespace can be prepended.}}
-\DoxyCodeLine{00054     \textcolor{comment}{\# In case of the transforms (tf), currently, there doesn't seem to be a better alternative}}
-\DoxyCodeLine{00055     \textcolor{comment}{\# https://github.com/ros/geometry2/issues/32}}
-\DoxyCodeLine{00056     \textcolor{comment}{\# https://github.com/ros/robot\_state\_publisher/pull/30}}
-\DoxyCodeLine{00057     \textcolor{comment}{\# TODO(orduno) Substitute with `PushNodeRemapping`}}
-\DoxyCodeLine{00058     \textcolor{comment}{\#              https://github.com/ros2/launch\_ros/issues/56}}
-\DoxyCodeLine{00059     remappings = [(\textcolor{stringliteral}{"{}/tf"{}}, \textcolor{stringliteral}{"{}tf"{}}), (\textcolor{stringliteral}{"{}/tf\_static"{}}, \textcolor{stringliteral}{"{}tf\_static"{}})]}
-\DoxyCodeLine{00060 }
-\DoxyCodeLine{00061     \textcolor{comment}{\# Declare the launch arguments}}
-\DoxyCodeLine{00062     declare\_namespace\_cmd = DeclareLaunchArgument(}
-\DoxyCodeLine{00063         \textcolor{stringliteral}{"{}namespace"{}}, default\_value=\textcolor{stringliteral}{"{}"{}}, description=\textcolor{stringliteral}{"{}Top-\/level namespace"{}}}
-\DoxyCodeLine{00064     )}
-\DoxyCodeLine{00065 }
-\DoxyCodeLine{00066     declare\_use\_namespace\_cmd = DeclareLaunchArgument(}
-\DoxyCodeLine{00067         \textcolor{stringliteral}{"{}use\_namespace"{}},}
-\DoxyCodeLine{00068         default\_value=\textcolor{stringliteral}{"{}false"{}},}
-\DoxyCodeLine{00069         description=\textcolor{stringliteral}{"{}Whether to apply a namespace to the navigation stack"{}},}
-\DoxyCodeLine{00070     )}
-\DoxyCodeLine{00071 }
-\DoxyCodeLine{00072     declare\_show\_gz\_lidar = DeclareLaunchArgument(}
-\DoxyCodeLine{00073         \textcolor{stringliteral}{"{}show\_gz\_lidar"{}},}
-\DoxyCodeLine{00074         default\_value=\textcolor{stringliteral}{"{}true"{}},}
-\DoxyCodeLine{00075         description=\textcolor{stringliteral}{"{}Whether to apply a namespace to the navigation stack"{}},}
-\DoxyCodeLine{00076     )}
-\DoxyCodeLine{00077 }
-\DoxyCodeLine{00078     declare\_slam\_cmd = DeclareLaunchArgument(}
-\DoxyCodeLine{00079         \textcolor{stringliteral}{"{}slam"{}}, default\_value=\textcolor{stringliteral}{"{}True"{}}, description=\textcolor{stringliteral}{"{}Whether run a SLAM"{}}}
-\DoxyCodeLine{00080     )}
-\DoxyCodeLine{00081 }
-\DoxyCodeLine{00082     declare\_use\_sim\_time\_cmd = DeclareLaunchArgument(}
-\DoxyCodeLine{00083         \textcolor{stringliteral}{"{}use\_sim\_time"{}}, default\_value=\textcolor{stringliteral}{"{}true"{}}, description=\textcolor{stringliteral}{"{}Use simulation (Gazebo) clock if true"{}}}
-\DoxyCodeLine{00084     )}
-\DoxyCodeLine{00085 }
-\DoxyCodeLine{00086     declare\_params\_file\_cmd = DeclareLaunchArgument(}
-\DoxyCodeLine{00087         \textcolor{stringliteral}{"{}params\_file"{}},}
-\DoxyCodeLine{00088         default\_value=os.path.join(sm\_dance\_bot\_dir, \textcolor{stringliteral}{"{}params"{}}, \textcolor{stringliteral}{"{}nav2z\_client"{}}, \textcolor{stringliteral}{"{}nav2\_params.yaml"{}}),}
-\DoxyCodeLine{00089         description=\textcolor{stringliteral}{"{}Full path to the ROS2 parameters file to use for all launched nodes"{}},}
-\DoxyCodeLine{00090     )}
-\DoxyCodeLine{00091 }
-\DoxyCodeLine{00092     declare\_bt\_xml\_cmd = DeclareLaunchArgument(}
-\DoxyCodeLine{00093         \textcolor{stringliteral}{"{}default\_nav\_to\_pose\_bt\_xml"{}},}
-\DoxyCodeLine{00094         default\_value=os.path.join(}
-\DoxyCodeLine{00095             sm\_dance\_bot\_dir, \textcolor{stringliteral}{"{}params"{}}, \textcolor{stringliteral}{"{}nav2z\_client"{}}, \textcolor{stringliteral}{"{}navigation\_tree.xml"{}}}
-\DoxyCodeLine{00096         ),}
-\DoxyCodeLine{00097         description=\textcolor{stringliteral}{"{}Full path to the behavior tree xml file to use"{}},}
-\DoxyCodeLine{00098     )}
-\DoxyCodeLine{00099 }
-\DoxyCodeLine{00100     declare\_autostart\_cmd = DeclareLaunchArgument(}
-\DoxyCodeLine{00101         \textcolor{stringliteral}{"{}autostart"{}}, default\_value=\textcolor{stringliteral}{"{}true"{}}, description=\textcolor{stringliteral}{"{}Automatically startup the nav2 stack"{}}}
-\DoxyCodeLine{00102     )}
-\DoxyCodeLine{00103 }
-\DoxyCodeLine{00104     declare\_rviz\_config\_file\_cmd = DeclareLaunchArgument(}
-\DoxyCodeLine{00105         \textcolor{stringliteral}{"{}rviz\_config\_file"{}},}
-\DoxyCodeLine{00106         default\_value=os.path.join(sm\_dance\_bot\_dir, \textcolor{stringliteral}{"{}rviz"{}}, \textcolor{stringliteral}{"{}nav2\_default\_view.rviz"{}}),}
-\DoxyCodeLine{00107         description=\textcolor{stringliteral}{"{}Full path to the RVIZ config file to use"{}},}
-\DoxyCodeLine{00108     )}
-\DoxyCodeLine{00109 }
-\DoxyCodeLine{00110     declare\_use\_robot\_state\_pub\_cmd = DeclareLaunchArgument(}
-\DoxyCodeLine{00111         \textcolor{stringliteral}{"{}use\_robot\_state\_pub"{}},}
-\DoxyCodeLine{00112         default\_value=\textcolor{stringliteral}{"{}True"{}},}
-\DoxyCodeLine{00113         description=\textcolor{stringliteral}{"{}Whether to start the robot state publisher"{}},}
-\DoxyCodeLine{00114     )}
-\DoxyCodeLine{00115 }
-\DoxyCodeLine{00116     declare\_use\_rviz\_cmd = DeclareLaunchArgument(}
-\DoxyCodeLine{00117         \textcolor{stringliteral}{"{}use\_rviz"{}}, default\_value=\textcolor{stringliteral}{"{}True"{}}, description=\textcolor{stringliteral}{"{}Whether to start RVIZ"{}}}
-\DoxyCodeLine{00118     )}
-\DoxyCodeLine{00119 }
-\DoxyCodeLine{00120     declare\_map\_yaml\_cmd = DeclareLaunchArgument(}
-\DoxyCodeLine{00121         \textcolor{stringliteral}{"{}map"{}},}
-\DoxyCodeLine{00122         default\_value=os.path.join(sm\_dance\_bot\_dir, \textcolor{stringliteral}{"{}maps"{}}, \textcolor{stringliteral}{"{}turtlebot3\_world.yaml"{}}),}
-\DoxyCodeLine{00123         description=\textcolor{stringliteral}{"{}Full path to map file to load"{}},}
-\DoxyCodeLine{00124     )}
-\DoxyCodeLine{00125 }
-\DoxyCodeLine{00126     start\_robot\_state\_publisher\_cmd = Node(}
-\DoxyCodeLine{00127         condition=IfCondition(use\_robot\_state\_pub),}
-\DoxyCodeLine{00128         package=\textcolor{stringliteral}{"{}robot\_state\_publisher"{}},}
-\DoxyCodeLine{00129         executable=\textcolor{stringliteral}{"{}robot\_state\_publisher"{}},}
-\DoxyCodeLine{00130         name=\textcolor{stringliteral}{"{}robot\_state\_publisher"{}},}
-\DoxyCodeLine{00131         namespace=namespace,}
-\DoxyCodeLine{00132         output=\textcolor{stringliteral}{"{}screen"{}},}
-\DoxyCodeLine{00133         parameters=[\{\textcolor{stringliteral}{"{}use\_sim\_time"{}}: use\_sim\_time\}],}
-\DoxyCodeLine{00134         remappings=remappings,}
-\DoxyCodeLine{00135         arguments=[urdf],}
-\DoxyCodeLine{00136     )}
-\DoxyCodeLine{00137 }
-\DoxyCodeLine{00138     rviz\_cmd = IncludeLaunchDescription(}
-\DoxyCodeLine{00139         PythonLaunchDescriptionSource(os.path.join(sm\_dance\_bot\_launch\_dir, \textcolor{stringliteral}{"{}rviz\_launch.py"{}})),}
-\DoxyCodeLine{00140         condition=IfCondition(use\_rviz),}
-\DoxyCodeLine{00141         launch\_arguments=\{}
-\DoxyCodeLine{00142             \textcolor{stringliteral}{"{}namespace"{}}: \textcolor{stringliteral}{"{}"{}},}
-\DoxyCodeLine{00143             \textcolor{stringliteral}{"{}use\_namespace"{}}: \textcolor{stringliteral}{"{}False"{}},}
-\DoxyCodeLine{00144             \textcolor{stringliteral}{"{}rviz\_config"{}}: rviz\_config\_file,}
-\DoxyCodeLine{00145         \}.items(),}
-\DoxyCodeLine{00146     )}
-\DoxyCodeLine{00147 }
-\DoxyCodeLine{00148     bringup\_cmd = IncludeLaunchDescription(}
-\DoxyCodeLine{00149         PythonLaunchDescriptionSource(os.path.join(sm\_dance\_bot\_launch\_dir, \textcolor{stringliteral}{"{}bringup\_launch.py"{}})),}
-\DoxyCodeLine{00150         launch\_arguments=\{}
-\DoxyCodeLine{00151             \textcolor{stringliteral}{"{}namespace"{}}: namespace,}
-\DoxyCodeLine{00152             \textcolor{stringliteral}{"{}use\_namespace"{}}: use\_namespace,}
-\DoxyCodeLine{00153             \textcolor{stringliteral}{"{}autostart"{}}: autostart,}
-\DoxyCodeLine{00154             \textcolor{stringliteral}{"{}params\_file"{}}: params\_file,}
-\DoxyCodeLine{00155             \textcolor{stringliteral}{"{}slam"{}}: slam,}
-\DoxyCodeLine{00156             \textcolor{stringliteral}{"{}map"{}}: map\_yaml\_file,}
-\DoxyCodeLine{00157             \textcolor{stringliteral}{"{}use\_sim\_time"{}}: use\_sim\_time,}
-\DoxyCodeLine{00158             \textcolor{stringliteral}{"{}default\_nav\_to\_pose\_bt\_xml"{}}: default\_nav\_to\_pose\_bt\_xml,}
-\DoxyCodeLine{00159         \}.items(),}
-\DoxyCodeLine{00160     )}
-\DoxyCodeLine{00161 }
-\DoxyCodeLine{00162     gazebo\_simulator = IncludeLaunchDescription(}
-\DoxyCodeLine{00163         PythonLaunchDescriptionSource(os.path.join(sm\_dance\_bot\_launch\_dir, \textcolor{stringliteral}{"{}gazebo\_launch.py"{}})),}
-\DoxyCodeLine{00164         launch\_arguments=\{\textcolor{stringliteral}{"{}show\_gz\_lidar"{}}: show\_gz\_lidar\}.items(),}
-\DoxyCodeLine{00165     )}
-\DoxyCodeLine{00166 }
-\DoxyCodeLine{00167     xtermprefix = \textcolor{stringliteral}{"{}xterm -\/xrm 'XTerm*scrollBar:  true' -\/xrm 'xterm*rightScrollBar: true' -\/hold -\/geometry 1000x600 -\/sl 10000 -\/e"{}}}
-\DoxyCodeLine{00168 }
-\DoxyCodeLine{00169     sm\_dance\_bot\_node = Node(}
-\DoxyCodeLine{00170         package=\textcolor{stringliteral}{"{}sm\_dance\_bot"{}},}
-\DoxyCodeLine{00171         executable=\textcolor{stringliteral}{"{}sm\_dance\_bot\_node"{}},}
-\DoxyCodeLine{00172         name=\textcolor{stringliteral}{"{}SmDanceBot"{}},}
-\DoxyCodeLine{00173         output=\textcolor{stringliteral}{"{}screen"{}},}
-\DoxyCodeLine{00174         prefix=xtermprefix,}
-\DoxyCodeLine{00175         parameters=[}
-\DoxyCodeLine{00176             os.path.join(}
-\DoxyCodeLine{00177                 get\_package\_share\_directory(\textcolor{stringliteral}{"{}sm\_dance\_bot"{}}),}
-\DoxyCodeLine{00178                 \textcolor{stringliteral}{"{}params/sm\_dance\_bot\_config.yaml"{}},}
-\DoxyCodeLine{00179             )}
-\DoxyCodeLine{00180         ],}
-\DoxyCodeLine{00181         remappings=[}
-\DoxyCodeLine{00182             \textcolor{comment}{\# ("{}/odom"{}, "{}/odometry/filtered"{}),}}
-\DoxyCodeLine{00183             \textcolor{comment}{\# ("{}/sm\_dance\_bot\_2/odom\_tracker/odom\_tracker\_path"{}, "{}/odom\_tracker\_path"{}),}}
-\DoxyCodeLine{00184             \textcolor{comment}{\# ("{}/sm\_dance\_bot\_2/odom\_tracker/odom\_tracker\_stacked\_path"{}, "{}/odom\_tracker\_path\_stacked"{})}}
-\DoxyCodeLine{00185         ],}
-\DoxyCodeLine{00186         arguments=[\textcolor{stringliteral}{"{}-\/-\/ros-\/args"{}}, \textcolor{stringliteral}{"{}-\/-\/log-\/level"{}}, \textcolor{stringliteral}{"{}INFO"{}}],}
-\DoxyCodeLine{00187     )}
-\DoxyCodeLine{00188 }
-\DoxyCodeLine{00189     led\_action\_server\_node = Node(}
-\DoxyCodeLine{00190         package=\textcolor{stringliteral}{"{}sm\_dance\_bot"{}},}
-\DoxyCodeLine{00191         executable=\textcolor{stringliteral}{"{}led\_action\_server\_node"{}},}
-\DoxyCodeLine{00192         output=\textcolor{stringliteral}{"{}screen"{}},}
-\DoxyCodeLine{00193         prefix=xtermprefix,}
-\DoxyCodeLine{00194     )}
-\DoxyCodeLine{00195 }
-\DoxyCodeLine{00196     temperature\_action\_server = Node(}
-\DoxyCodeLine{00197         package=\textcolor{stringliteral}{"{}sm\_dance\_bot"{}},}
-\DoxyCodeLine{00198         executable=\textcolor{stringliteral}{"{}temperature\_sensor\_node"{}},}
-\DoxyCodeLine{00199         output=\textcolor{stringliteral}{"{}screen"{}},}
-\DoxyCodeLine{00200         prefix=xtermprefix,}
-\DoxyCodeLine{00201     )}
-\DoxyCodeLine{00202 }
-\DoxyCodeLine{00203     service3\_node = Node(}
-\DoxyCodeLine{00204         package=\textcolor{stringliteral}{"{}sm\_dance\_bot"{}},}
-\DoxyCodeLine{00205         executable=\textcolor{stringliteral}{"{}service\_node\_3.py"{}},}
-\DoxyCodeLine{00206         output=\textcolor{stringliteral}{"{}screen"{}},}
-\DoxyCodeLine{00207         prefix=xtermprefix,}
-\DoxyCodeLine{00208         parameters=[}
-\DoxyCodeLine{00209             \{\textcolor{stringliteral}{"{}autostart"{}}: \textcolor{keyword}{True}, \textcolor{stringliteral}{"{}node\_names"{}}: [\textcolor{stringliteral}{"{}ss"{}}, \textcolor{stringliteral}{"{}dfa"{}}]\},}
-\DoxyCodeLine{00210         ],}
-\DoxyCodeLine{00211     )}
-\DoxyCodeLine{00212 }
-\DoxyCodeLine{00213     \textcolor{comment}{\# Create the launch description and populate}}
-\DoxyCodeLine{00214     ld = LaunchDescription()}
-\DoxyCodeLine{00215 }
-\DoxyCodeLine{00216     \textcolor{comment}{\# Declare the launch options}}
-\DoxyCodeLine{00217     ld.add\_action(declare\_namespace\_cmd)}
-\DoxyCodeLine{00218     ld.add\_action(declare\_use\_namespace\_cmd)}
-\DoxyCodeLine{00219     ld.add\_action(declare\_slam\_cmd)}
-\DoxyCodeLine{00220     ld.add\_action(declare\_map\_yaml\_cmd)}
-\DoxyCodeLine{00221     ld.add\_action(declare\_use\_sim\_time\_cmd)}
-\DoxyCodeLine{00222     ld.add\_action(declare\_params\_file\_cmd)}
-\DoxyCodeLine{00223     ld.add\_action(declare\_bt\_xml\_cmd)}
-\DoxyCodeLine{00224     ld.add\_action(declare\_autostart\_cmd)}
-\DoxyCodeLine{00225     ld.add\_action(declare\_map\_yaml\_cmd)}
-\DoxyCodeLine{00226     ld.add\_action(declare\_show\_gz\_lidar)}
-\DoxyCodeLine{00227 }
-\DoxyCodeLine{00228     ld.add\_action(declare\_rviz\_config\_file\_cmd)}
-\DoxyCodeLine{00229     ld.add\_action(declare\_use\_robot\_state\_pub\_cmd)}
-\DoxyCodeLine{00230     ld.add\_action(declare\_use\_rviz\_cmd)}
-\DoxyCodeLine{00231     ld.add\_action(gazebo\_simulator)}
-\DoxyCodeLine{00232 }
-\DoxyCodeLine{00233     ld.add\_action(sm\_dance\_bot\_node)}
-\DoxyCodeLine{00234     ld.add\_action(service3\_node)}
-\DoxyCodeLine{00235     ld.add\_action(temperature\_action\_server)}
-\DoxyCodeLine{00236     ld.add\_action(led\_action\_server\_node)}
-\DoxyCodeLine{00237 }
-\DoxyCodeLine{00238     \textcolor{comment}{\# \# Add the actions to launch all of the navigation nodes}}
-\DoxyCodeLine{00239     ld.add\_action(start\_robot\_state\_publisher\_cmd)}
-\DoxyCodeLine{00240     ld.add\_action(rviz\_cmd)}
-\DoxyCodeLine{00241     ld.add\_action(bringup\_cmd)}
-\DoxyCodeLine{00242 }
-\DoxyCodeLine{00243     \textcolor{keywordflow}{return} ld}
+\DoxyCodeLine{\Hypertarget{namespacesm__dance__bot__launch_l00029}00029 \textcolor{keyword}{def }\mbox{\hyperlink{namespacesm__dance__bot__launch_ada41b50d65dba5fb31523b87497699d5}{generate\_launch\_description}}():}
+\DoxyCodeLine{\Hypertarget{namespacesm__dance__bot__launch_l00030}00030     \textcolor{comment}{\# Get the launch directory}}
+\DoxyCodeLine{\Hypertarget{namespacesm__dance__bot__launch_l00031}00031     sm\_dance\_bot\_dir = get\_package\_share\_directory(\textcolor{stringliteral}{"{}sm\_dance\_bot"{}})}
+\DoxyCodeLine{\Hypertarget{namespacesm__dance__bot__launch_l00032}00032     sm\_dance\_bot\_launch\_dir = os.path.join(sm\_dance\_bot\_dir, \textcolor{stringliteral}{"{}launch"{}})}
+\DoxyCodeLine{\Hypertarget{namespacesm__dance__bot__launch_l00033}00033 }
+\DoxyCodeLine{\Hypertarget{namespacesm__dance__bot__launch_l00034}00034     \textcolor{comment}{\# Create the launch configuration variables}}
+\DoxyCodeLine{\Hypertarget{namespacesm__dance__bot__launch_l00035}00035     slam = LaunchConfiguration(\textcolor{stringliteral}{"{}slam"{}})}
+\DoxyCodeLine{\Hypertarget{namespacesm__dance__bot__launch_l00036}00036     namespace = LaunchConfiguration(\textcolor{stringliteral}{"{}namespace"{}})}
+\DoxyCodeLine{\Hypertarget{namespacesm__dance__bot__launch_l00037}00037     use\_namespace = LaunchConfiguration(\textcolor{stringliteral}{"{}use\_namespace"{}})}
+\DoxyCodeLine{\Hypertarget{namespacesm__dance__bot__launch_l00038}00038     map\_yaml\_file = LaunchConfiguration(\textcolor{stringliteral}{"{}map"{}})}
+\DoxyCodeLine{\Hypertarget{namespacesm__dance__bot__launch_l00039}00039     use\_sim\_time = LaunchConfiguration(\textcolor{stringliteral}{"{}use\_sim\_time"{}})}
+\DoxyCodeLine{\Hypertarget{namespacesm__dance__bot__launch_l00040}00040     params\_file = LaunchConfiguration(\textcolor{stringliteral}{"{}params\_file"{}})}
+\DoxyCodeLine{\Hypertarget{namespacesm__dance__bot__launch_l00041}00041     default\_nav\_to\_pose\_bt\_xml = LaunchConfiguration(\textcolor{stringliteral}{"{}default\_nav\_to\_pose\_bt\_xml"{}})}
+\DoxyCodeLine{\Hypertarget{namespacesm__dance__bot__launch_l00042}00042     autostart = LaunchConfiguration(\textcolor{stringliteral}{"{}autostart"{}})}
+\DoxyCodeLine{\Hypertarget{namespacesm__dance__bot__launch_l00043}00043     show\_gz\_lidar = LaunchConfiguration(\textcolor{stringliteral}{"{}show\_gz\_lidar"{}})}
+\DoxyCodeLine{\Hypertarget{namespacesm__dance__bot__launch_l00044}00044 }
+\DoxyCodeLine{\Hypertarget{namespacesm__dance__bot__launch_l00045}00045     \textcolor{comment}{\# Launch configuration variables specific to simulation}}
+\DoxyCodeLine{\Hypertarget{namespacesm__dance__bot__launch_l00046}00046     rviz\_config\_file = LaunchConfiguration(\textcolor{stringliteral}{"{}rviz\_config\_file"{}})}
+\DoxyCodeLine{\Hypertarget{namespacesm__dance__bot__launch_l00047}00047 }
+\DoxyCodeLine{\Hypertarget{namespacesm__dance__bot__launch_l00048}00048     use\_robot\_state\_pub = LaunchConfiguration(\textcolor{stringliteral}{"{}use\_robot\_state\_pub"{}})}
+\DoxyCodeLine{\Hypertarget{namespacesm__dance__bot__launch_l00049}00049     use\_rviz = LaunchConfiguration(\textcolor{stringliteral}{"{}use\_rviz"{}})}
+\DoxyCodeLine{\Hypertarget{namespacesm__dance__bot__launch_l00050}00050 }
+\DoxyCodeLine{\Hypertarget{namespacesm__dance__bot__launch_l00051}00051     urdf = os.path.join(sm\_dance\_bot\_dir, \textcolor{stringliteral}{"{}urdf"{}}, \textcolor{stringliteral}{"{}turtlebot3\_waffle.urdf"{}})}
+\DoxyCodeLine{\Hypertarget{namespacesm__dance__bot__launch_l00052}00052 }
+\DoxyCodeLine{\Hypertarget{namespacesm__dance__bot__launch_l00053}00053     \textcolor{comment}{\# Map fully qualified names to relative ones so the node's namespace can be prepended.}}
+\DoxyCodeLine{\Hypertarget{namespacesm__dance__bot__launch_l00054}00054     \textcolor{comment}{\# In case of the transforms (tf), currently, there doesn't seem to be a better alternative}}
+\DoxyCodeLine{\Hypertarget{namespacesm__dance__bot__launch_l00055}00055     \textcolor{comment}{\# https://github.com/ros/geometry2/issues/32}}
+\DoxyCodeLine{\Hypertarget{namespacesm__dance__bot__launch_l00056}00056     \textcolor{comment}{\# https://github.com/ros/robot\_state\_publisher/pull/30}}
+\DoxyCodeLine{\Hypertarget{namespacesm__dance__bot__launch_l00057}00057     \textcolor{comment}{\# TODO(orduno) Substitute with `PushNodeRemapping`}}
+\DoxyCodeLine{\Hypertarget{namespacesm__dance__bot__launch_l00058}00058     \textcolor{comment}{\#              https://github.com/ros2/launch\_ros/issues/56}}
+\DoxyCodeLine{\Hypertarget{namespacesm__dance__bot__launch_l00059}00059     remappings = [(\textcolor{stringliteral}{"{}/tf"{}}, \textcolor{stringliteral}{"{}tf"{}}), (\textcolor{stringliteral}{"{}/tf\_static"{}}, \textcolor{stringliteral}{"{}tf\_static"{}})]}
+\DoxyCodeLine{\Hypertarget{namespacesm__dance__bot__launch_l00060}00060 }
+\DoxyCodeLine{\Hypertarget{namespacesm__dance__bot__launch_l00061}00061     \textcolor{comment}{\# Declare the launch arguments}}
+\DoxyCodeLine{\Hypertarget{namespacesm__dance__bot__launch_l00062}00062     declare\_namespace\_cmd = DeclareLaunchArgument(}
+\DoxyCodeLine{\Hypertarget{namespacesm__dance__bot__launch_l00063}00063         \textcolor{stringliteral}{"{}namespace"{}}, default\_value=\textcolor{stringliteral}{"{}"{}}, description=\textcolor{stringliteral}{"{}Top-\/level namespace"{}}}
+\DoxyCodeLine{\Hypertarget{namespacesm__dance__bot__launch_l00064}00064     )}
+\DoxyCodeLine{\Hypertarget{namespacesm__dance__bot__launch_l00065}00065 }
+\DoxyCodeLine{\Hypertarget{namespacesm__dance__bot__launch_l00066}00066     declare\_use\_namespace\_cmd = DeclareLaunchArgument(}
+\DoxyCodeLine{\Hypertarget{namespacesm__dance__bot__launch_l00067}00067         \textcolor{stringliteral}{"{}use\_namespace"{}},}
+\DoxyCodeLine{\Hypertarget{namespacesm__dance__bot__launch_l00068}00068         default\_value=\textcolor{stringliteral}{"{}false"{}},}
+\DoxyCodeLine{\Hypertarget{namespacesm__dance__bot__launch_l00069}00069         description=\textcolor{stringliteral}{"{}Whether to apply a namespace to the navigation stack"{}},}
+\DoxyCodeLine{\Hypertarget{namespacesm__dance__bot__launch_l00070}00070     )}
+\DoxyCodeLine{\Hypertarget{namespacesm__dance__bot__launch_l00071}00071 }
+\DoxyCodeLine{\Hypertarget{namespacesm__dance__bot__launch_l00072}00072     declare\_show\_gz\_lidar = DeclareLaunchArgument(}
+\DoxyCodeLine{\Hypertarget{namespacesm__dance__bot__launch_l00073}00073         \textcolor{stringliteral}{"{}show\_gz\_lidar"{}},}
+\DoxyCodeLine{\Hypertarget{namespacesm__dance__bot__launch_l00074}00074         default\_value=\textcolor{stringliteral}{"{}true"{}},}
+\DoxyCodeLine{\Hypertarget{namespacesm__dance__bot__launch_l00075}00075         description=\textcolor{stringliteral}{"{}Whether to apply a namespace to the navigation stack"{}},}
+\DoxyCodeLine{\Hypertarget{namespacesm__dance__bot__launch_l00076}00076     )}
+\DoxyCodeLine{\Hypertarget{namespacesm__dance__bot__launch_l00077}00077 }
+\DoxyCodeLine{\Hypertarget{namespacesm__dance__bot__launch_l00078}00078     declare\_slam\_cmd = DeclareLaunchArgument(}
+\DoxyCodeLine{\Hypertarget{namespacesm__dance__bot__launch_l00079}00079         \textcolor{stringliteral}{"{}slam"{}}, default\_value=\textcolor{stringliteral}{"{}True"{}}, description=\textcolor{stringliteral}{"{}Whether run a SLAM"{}}}
+\DoxyCodeLine{\Hypertarget{namespacesm__dance__bot__launch_l00080}00080     )}
+\DoxyCodeLine{\Hypertarget{namespacesm__dance__bot__launch_l00081}00081 }
+\DoxyCodeLine{\Hypertarget{namespacesm__dance__bot__launch_l00082}00082     declare\_use\_sim\_time\_cmd = DeclareLaunchArgument(}
+\DoxyCodeLine{\Hypertarget{namespacesm__dance__bot__launch_l00083}00083         \textcolor{stringliteral}{"{}use\_sim\_time"{}}, default\_value=\textcolor{stringliteral}{"{}true"{}}, description=\textcolor{stringliteral}{"{}Use simulation (Gazebo) clock if true"{}}}
+\DoxyCodeLine{\Hypertarget{namespacesm__dance__bot__launch_l00084}00084     )}
+\DoxyCodeLine{\Hypertarget{namespacesm__dance__bot__launch_l00085}00085 }
+\DoxyCodeLine{\Hypertarget{namespacesm__dance__bot__launch_l00086}00086     declare\_params\_file\_cmd = DeclareLaunchArgument(}
+\DoxyCodeLine{\Hypertarget{namespacesm__dance__bot__launch_l00087}00087         \textcolor{stringliteral}{"{}params\_file"{}},}
+\DoxyCodeLine{\Hypertarget{namespacesm__dance__bot__launch_l00088}00088         default\_value=os.path.join(sm\_dance\_bot\_dir, \textcolor{stringliteral}{"{}params"{}}, \textcolor{stringliteral}{"{}nav2z\_client"{}}, \textcolor{stringliteral}{"{}nav2\_params.yaml"{}}),}
+\DoxyCodeLine{\Hypertarget{namespacesm__dance__bot__launch_l00089}00089         description=\textcolor{stringliteral}{"{}Full path to the ROS2 parameters file to use for all launched nodes"{}},}
+\DoxyCodeLine{\Hypertarget{namespacesm__dance__bot__launch_l00090}00090     )}
+\DoxyCodeLine{\Hypertarget{namespacesm__dance__bot__launch_l00091}00091 }
+\DoxyCodeLine{\Hypertarget{namespacesm__dance__bot__launch_l00092}00092     declare\_bt\_xml\_cmd = DeclareLaunchArgument(}
+\DoxyCodeLine{\Hypertarget{namespacesm__dance__bot__launch_l00093}00093         \textcolor{stringliteral}{"{}default\_nav\_to\_pose\_bt\_xml"{}},}
+\DoxyCodeLine{\Hypertarget{namespacesm__dance__bot__launch_l00094}00094         default\_value=os.path.join(}
+\DoxyCodeLine{\Hypertarget{namespacesm__dance__bot__launch_l00095}00095             sm\_dance\_bot\_dir, \textcolor{stringliteral}{"{}params"{}}, \textcolor{stringliteral}{"{}nav2z\_client"{}}, \textcolor{stringliteral}{"{}navigation\_tree.xml"{}}}
+\DoxyCodeLine{\Hypertarget{namespacesm__dance__bot__launch_l00096}00096         ),}
+\DoxyCodeLine{\Hypertarget{namespacesm__dance__bot__launch_l00097}00097         description=\textcolor{stringliteral}{"{}Full path to the behavior tree xml file to use"{}},}
+\DoxyCodeLine{\Hypertarget{namespacesm__dance__bot__launch_l00098}00098     )}
+\DoxyCodeLine{\Hypertarget{namespacesm__dance__bot__launch_l00099}00099 }
+\DoxyCodeLine{\Hypertarget{namespacesm__dance__bot__launch_l00100}00100     declare\_autostart\_cmd = DeclareLaunchArgument(}
+\DoxyCodeLine{\Hypertarget{namespacesm__dance__bot__launch_l00101}00101         \textcolor{stringliteral}{"{}autostart"{}}, default\_value=\textcolor{stringliteral}{"{}true"{}}, description=\textcolor{stringliteral}{"{}Automatically startup the nav2 stack"{}}}
+\DoxyCodeLine{\Hypertarget{namespacesm__dance__bot__launch_l00102}00102     )}
+\DoxyCodeLine{\Hypertarget{namespacesm__dance__bot__launch_l00103}00103 }
+\DoxyCodeLine{\Hypertarget{namespacesm__dance__bot__launch_l00104}00104     declare\_rviz\_config\_file\_cmd = DeclareLaunchArgument(}
+\DoxyCodeLine{\Hypertarget{namespacesm__dance__bot__launch_l00105}00105         \textcolor{stringliteral}{"{}rviz\_config\_file"{}},}
+\DoxyCodeLine{\Hypertarget{namespacesm__dance__bot__launch_l00106}00106         default\_value=os.path.join(sm\_dance\_bot\_dir, \textcolor{stringliteral}{"{}rviz"{}}, \textcolor{stringliteral}{"{}nav2\_default\_view.rviz"{}}),}
+\DoxyCodeLine{\Hypertarget{namespacesm__dance__bot__launch_l00107}00107         description=\textcolor{stringliteral}{"{}Full path to the RVIZ config file to use"{}},}
+\DoxyCodeLine{\Hypertarget{namespacesm__dance__bot__launch_l00108}00108     )}
+\DoxyCodeLine{\Hypertarget{namespacesm__dance__bot__launch_l00109}00109 }
+\DoxyCodeLine{\Hypertarget{namespacesm__dance__bot__launch_l00110}00110     declare\_use\_robot\_state\_pub\_cmd = DeclareLaunchArgument(}
+\DoxyCodeLine{\Hypertarget{namespacesm__dance__bot__launch_l00111}00111         \textcolor{stringliteral}{"{}use\_robot\_state\_pub"{}},}
+\DoxyCodeLine{\Hypertarget{namespacesm__dance__bot__launch_l00112}00112         default\_value=\textcolor{stringliteral}{"{}True"{}},}
+\DoxyCodeLine{\Hypertarget{namespacesm__dance__bot__launch_l00113}00113         description=\textcolor{stringliteral}{"{}Whether to start the robot state publisher"{}},}
+\DoxyCodeLine{\Hypertarget{namespacesm__dance__bot__launch_l00114}00114     )}
+\DoxyCodeLine{\Hypertarget{namespacesm__dance__bot__launch_l00115}00115 }
+\DoxyCodeLine{\Hypertarget{namespacesm__dance__bot__launch_l00116}00116     declare\_use\_rviz\_cmd = DeclareLaunchArgument(}
+\DoxyCodeLine{\Hypertarget{namespacesm__dance__bot__launch_l00117}00117         \textcolor{stringliteral}{"{}use\_rviz"{}}, default\_value=\textcolor{stringliteral}{"{}True"{}}, description=\textcolor{stringliteral}{"{}Whether to start RVIZ"{}}}
+\DoxyCodeLine{\Hypertarget{namespacesm__dance__bot__launch_l00118}00118     )}
+\DoxyCodeLine{\Hypertarget{namespacesm__dance__bot__launch_l00119}00119 }
+\DoxyCodeLine{\Hypertarget{namespacesm__dance__bot__launch_l00120}00120     declare\_map\_yaml\_cmd = DeclareLaunchArgument(}
+\DoxyCodeLine{\Hypertarget{namespacesm__dance__bot__launch_l00121}00121         \textcolor{stringliteral}{"{}map"{}},}
+\DoxyCodeLine{\Hypertarget{namespacesm__dance__bot__launch_l00122}00122         default\_value=os.path.join(sm\_dance\_bot\_dir, \textcolor{stringliteral}{"{}maps"{}}, \textcolor{stringliteral}{"{}turtlebot3\_world.yaml"{}}),}
+\DoxyCodeLine{\Hypertarget{namespacesm__dance__bot__launch_l00123}00123         description=\textcolor{stringliteral}{"{}Full path to map file to load"{}},}
+\DoxyCodeLine{\Hypertarget{namespacesm__dance__bot__launch_l00124}00124     )}
+\DoxyCodeLine{\Hypertarget{namespacesm__dance__bot__launch_l00125}00125 }
+\DoxyCodeLine{\Hypertarget{namespacesm__dance__bot__launch_l00126}00126     start\_robot\_state\_publisher\_cmd = Node(}
+\DoxyCodeLine{\Hypertarget{namespacesm__dance__bot__launch_l00127}00127         condition=IfCondition(use\_robot\_state\_pub),}
+\DoxyCodeLine{\Hypertarget{namespacesm__dance__bot__launch_l00128}00128         package=\textcolor{stringliteral}{"{}robot\_state\_publisher"{}},}
+\DoxyCodeLine{\Hypertarget{namespacesm__dance__bot__launch_l00129}00129         executable=\textcolor{stringliteral}{"{}robot\_state\_publisher"{}},}
+\DoxyCodeLine{\Hypertarget{namespacesm__dance__bot__launch_l00130}00130         name=\textcolor{stringliteral}{"{}robot\_state\_publisher"{}},}
+\DoxyCodeLine{\Hypertarget{namespacesm__dance__bot__launch_l00131}00131         namespace=namespace,}
+\DoxyCodeLine{\Hypertarget{namespacesm__dance__bot__launch_l00132}00132         output=\textcolor{stringliteral}{"{}screen"{}},}
+\DoxyCodeLine{\Hypertarget{namespacesm__dance__bot__launch_l00133}00133         parameters=[\{\textcolor{stringliteral}{"{}use\_sim\_time"{}}: use\_sim\_time\}],}
+\DoxyCodeLine{\Hypertarget{namespacesm__dance__bot__launch_l00134}00134         remappings=remappings,}
+\DoxyCodeLine{\Hypertarget{namespacesm__dance__bot__launch_l00135}00135         arguments=[urdf],}
+\DoxyCodeLine{\Hypertarget{namespacesm__dance__bot__launch_l00136}00136     )}
+\DoxyCodeLine{\Hypertarget{namespacesm__dance__bot__launch_l00137}00137 }
+\DoxyCodeLine{\Hypertarget{namespacesm__dance__bot__launch_l00138}00138     rviz\_cmd = IncludeLaunchDescription(}
+\DoxyCodeLine{\Hypertarget{namespacesm__dance__bot__launch_l00139}00139         PythonLaunchDescriptionSource(os.path.join(sm\_dance\_bot\_launch\_dir, \textcolor{stringliteral}{"{}rviz\_launch.py"{}})),}
+\DoxyCodeLine{\Hypertarget{namespacesm__dance__bot__launch_l00140}00140         condition=IfCondition(use\_rviz),}
+\DoxyCodeLine{\Hypertarget{namespacesm__dance__bot__launch_l00141}00141         launch\_arguments=\{}
+\DoxyCodeLine{\Hypertarget{namespacesm__dance__bot__launch_l00142}00142             \textcolor{stringliteral}{"{}namespace"{}}: \textcolor{stringliteral}{"{}"{}},}
+\DoxyCodeLine{\Hypertarget{namespacesm__dance__bot__launch_l00143}00143             \textcolor{stringliteral}{"{}use\_namespace"{}}: \textcolor{stringliteral}{"{}False"{}},}
+\DoxyCodeLine{\Hypertarget{namespacesm__dance__bot__launch_l00144}00144             \textcolor{stringliteral}{"{}rviz\_config"{}}: rviz\_config\_file,}
+\DoxyCodeLine{\Hypertarget{namespacesm__dance__bot__launch_l00145}00145         \}.items(),}
+\DoxyCodeLine{\Hypertarget{namespacesm__dance__bot__launch_l00146}00146     )}
+\DoxyCodeLine{\Hypertarget{namespacesm__dance__bot__launch_l00147}00147 }
+\DoxyCodeLine{\Hypertarget{namespacesm__dance__bot__launch_l00148}00148     bringup\_cmd = IncludeLaunchDescription(}
+\DoxyCodeLine{\Hypertarget{namespacesm__dance__bot__launch_l00149}00149         PythonLaunchDescriptionSource(os.path.join(sm\_dance\_bot\_launch\_dir, \textcolor{stringliteral}{"{}bringup\_launch.py"{}})),}
+\DoxyCodeLine{\Hypertarget{namespacesm__dance__bot__launch_l00150}00150         launch\_arguments=\{}
+\DoxyCodeLine{\Hypertarget{namespacesm__dance__bot__launch_l00151}00151             \textcolor{stringliteral}{"{}namespace"{}}: namespace,}
+\DoxyCodeLine{\Hypertarget{namespacesm__dance__bot__launch_l00152}00152             \textcolor{stringliteral}{"{}use\_namespace"{}}: use\_namespace,}
+\DoxyCodeLine{\Hypertarget{namespacesm__dance__bot__launch_l00153}00153             \textcolor{stringliteral}{"{}autostart"{}}: autostart,}
+\DoxyCodeLine{\Hypertarget{namespacesm__dance__bot__launch_l00154}00154             \textcolor{stringliteral}{"{}params\_file"{}}: params\_file,}
+\DoxyCodeLine{\Hypertarget{namespacesm__dance__bot__launch_l00155}00155             \textcolor{stringliteral}{"{}slam"{}}: slam,}
+\DoxyCodeLine{\Hypertarget{namespacesm__dance__bot__launch_l00156}00156             \textcolor{stringliteral}{"{}map"{}}: map\_yaml\_file,}
+\DoxyCodeLine{\Hypertarget{namespacesm__dance__bot__launch_l00157}00157             \textcolor{stringliteral}{"{}use\_sim\_time"{}}: use\_sim\_time,}
+\DoxyCodeLine{\Hypertarget{namespacesm__dance__bot__launch_l00158}00158             \textcolor{stringliteral}{"{}default\_nav\_to\_pose\_bt\_xml"{}}: default\_nav\_to\_pose\_bt\_xml,}
+\DoxyCodeLine{\Hypertarget{namespacesm__dance__bot__launch_l00159}00159         \}.items(),}
+\DoxyCodeLine{\Hypertarget{namespacesm__dance__bot__launch_l00160}00160     )}
+\DoxyCodeLine{\Hypertarget{namespacesm__dance__bot__launch_l00161}00161 }
+\DoxyCodeLine{\Hypertarget{namespacesm__dance__bot__launch_l00162}00162     gazebo\_simulator = IncludeLaunchDescription(}
+\DoxyCodeLine{\Hypertarget{namespacesm__dance__bot__launch_l00163}00163         PythonLaunchDescriptionSource(os.path.join(sm\_dance\_bot\_launch\_dir, \textcolor{stringliteral}{"{}gazebo\_launch.py"{}})),}
+\DoxyCodeLine{\Hypertarget{namespacesm__dance__bot__launch_l00164}00164         launch\_arguments=\{\textcolor{stringliteral}{"{}show\_gz\_lidar"{}}: show\_gz\_lidar\}.items(),}
+\DoxyCodeLine{\Hypertarget{namespacesm__dance__bot__launch_l00165}00165     )}
+\DoxyCodeLine{\Hypertarget{namespacesm__dance__bot__launch_l00166}00166 }
+\DoxyCodeLine{\Hypertarget{namespacesm__dance__bot__launch_l00167}00167     xtermprefix = \textcolor{stringliteral}{"{}xterm -\/xrm 'XTerm*scrollBar:  true' -\/xrm 'xterm*rightScrollBar: true' -\/hold -\/geometry 1000x600 -\/sl 10000 -\/e"{}}}
+\DoxyCodeLine{\Hypertarget{namespacesm__dance__bot__launch_l00168}00168 }
+\DoxyCodeLine{\Hypertarget{namespacesm__dance__bot__launch_l00169}00169     sm\_dance\_bot\_node = Node(}
+\DoxyCodeLine{\Hypertarget{namespacesm__dance__bot__launch_l00170}00170         package=\textcolor{stringliteral}{"{}sm\_dance\_bot"{}},}
+\DoxyCodeLine{\Hypertarget{namespacesm__dance__bot__launch_l00171}00171         executable=\textcolor{stringliteral}{"{}sm\_dance\_bot\_node"{}},}
+\DoxyCodeLine{\Hypertarget{namespacesm__dance__bot__launch_l00172}00172         name=\textcolor{stringliteral}{"{}SmDanceBot"{}},}
+\DoxyCodeLine{\Hypertarget{namespacesm__dance__bot__launch_l00173}00173         output=\textcolor{stringliteral}{"{}screen"{}},}
+\DoxyCodeLine{\Hypertarget{namespacesm__dance__bot__launch_l00174}00174         prefix=xtermprefix,}
+\DoxyCodeLine{\Hypertarget{namespacesm__dance__bot__launch_l00175}00175         parameters=[}
+\DoxyCodeLine{\Hypertarget{namespacesm__dance__bot__launch_l00176}00176             os.path.join(}
+\DoxyCodeLine{\Hypertarget{namespacesm__dance__bot__launch_l00177}00177                 get\_package\_share\_directory(\textcolor{stringliteral}{"{}sm\_dance\_bot"{}}),}
+\DoxyCodeLine{\Hypertarget{namespacesm__dance__bot__launch_l00178}00178                 \textcolor{stringliteral}{"{}params/sm\_dance\_bot\_config.yaml"{}},}
+\DoxyCodeLine{\Hypertarget{namespacesm__dance__bot__launch_l00179}00179             )}
+\DoxyCodeLine{\Hypertarget{namespacesm__dance__bot__launch_l00180}00180         ],}
+\DoxyCodeLine{\Hypertarget{namespacesm__dance__bot__launch_l00181}00181         remappings=[}
+\DoxyCodeLine{\Hypertarget{namespacesm__dance__bot__launch_l00182}00182             \textcolor{comment}{\# ("{}/odom"{}, "{}/odometry/filtered"{}),}}
+\DoxyCodeLine{\Hypertarget{namespacesm__dance__bot__launch_l00183}00183             \textcolor{comment}{\# ("{}/sm\_dance\_bot\_2/odom\_tracker/odom\_tracker\_path"{}, "{}/odom\_tracker\_path"{}),}}
+\DoxyCodeLine{\Hypertarget{namespacesm__dance__bot__launch_l00184}00184             \textcolor{comment}{\# ("{}/sm\_dance\_bot\_2/odom\_tracker/odom\_tracker\_stacked\_path"{}, "{}/odom\_tracker\_path\_stacked"{})}}
+\DoxyCodeLine{\Hypertarget{namespacesm__dance__bot__launch_l00185}00185         ],}
+\DoxyCodeLine{\Hypertarget{namespacesm__dance__bot__launch_l00186}00186         arguments=[\textcolor{stringliteral}{"{}-\/-\/ros-\/args"{}}, \textcolor{stringliteral}{"{}-\/-\/log-\/level"{}}, \textcolor{stringliteral}{"{}INFO"{}}],}
+\DoxyCodeLine{\Hypertarget{namespacesm__dance__bot__launch_l00187}00187     )}
+\DoxyCodeLine{\Hypertarget{namespacesm__dance__bot__launch_l00188}00188 }
+\DoxyCodeLine{\Hypertarget{namespacesm__dance__bot__launch_l00189}00189     led\_action\_server\_node = Node(}
+\DoxyCodeLine{\Hypertarget{namespacesm__dance__bot__launch_l00190}00190         package=\textcolor{stringliteral}{"{}sm\_dance\_bot"{}},}
+\DoxyCodeLine{\Hypertarget{namespacesm__dance__bot__launch_l00191}00191         executable=\textcolor{stringliteral}{"{}led\_action\_server\_node"{}},}
+\DoxyCodeLine{\Hypertarget{namespacesm__dance__bot__launch_l00192}00192         output=\textcolor{stringliteral}{"{}screen"{}},}
+\DoxyCodeLine{\Hypertarget{namespacesm__dance__bot__launch_l00193}00193         prefix=xtermprefix,}
+\DoxyCodeLine{\Hypertarget{namespacesm__dance__bot__launch_l00194}00194     )}
+\DoxyCodeLine{\Hypertarget{namespacesm__dance__bot__launch_l00195}00195 }
+\DoxyCodeLine{\Hypertarget{namespacesm__dance__bot__launch_l00196}00196     temperature\_action\_server = Node(}
+\DoxyCodeLine{\Hypertarget{namespacesm__dance__bot__launch_l00197}00197         package=\textcolor{stringliteral}{"{}sm\_dance\_bot"{}},}
+\DoxyCodeLine{\Hypertarget{namespacesm__dance__bot__launch_l00198}00198         executable=\textcolor{stringliteral}{"{}temperature\_sensor\_node"{}},}
+\DoxyCodeLine{\Hypertarget{namespacesm__dance__bot__launch_l00199}00199         output=\textcolor{stringliteral}{"{}screen"{}},}
+\DoxyCodeLine{\Hypertarget{namespacesm__dance__bot__launch_l00200}00200         prefix=xtermprefix,}
+\DoxyCodeLine{\Hypertarget{namespacesm__dance__bot__launch_l00201}00201     )}
+\DoxyCodeLine{\Hypertarget{namespacesm__dance__bot__launch_l00202}00202 }
+\DoxyCodeLine{\Hypertarget{namespacesm__dance__bot__launch_l00203}00203     service3\_node = Node(}
+\DoxyCodeLine{\Hypertarget{namespacesm__dance__bot__launch_l00204}00204         package=\textcolor{stringliteral}{"{}sm\_dance\_bot"{}},}
+\DoxyCodeLine{\Hypertarget{namespacesm__dance__bot__launch_l00205}00205         executable=\textcolor{stringliteral}{"{}service\_node\_3.py"{}},}
+\DoxyCodeLine{\Hypertarget{namespacesm__dance__bot__launch_l00206}00206         output=\textcolor{stringliteral}{"{}screen"{}},}
+\DoxyCodeLine{\Hypertarget{namespacesm__dance__bot__launch_l00207}00207         prefix=xtermprefix,}
+\DoxyCodeLine{\Hypertarget{namespacesm__dance__bot__launch_l00208}00208         parameters=[}
+\DoxyCodeLine{\Hypertarget{namespacesm__dance__bot__launch_l00209}00209             \{\textcolor{stringliteral}{"{}autostart"{}}: \textcolor{keyword}{True}, \textcolor{stringliteral}{"{}node\_names"{}}: [\textcolor{stringliteral}{"{}ss"{}}, \textcolor{stringliteral}{"{}dfa"{}}]\},}
+\DoxyCodeLine{\Hypertarget{namespacesm__dance__bot__launch_l00210}00210         ],}
+\DoxyCodeLine{\Hypertarget{namespacesm__dance__bot__launch_l00211}00211     )}
+\DoxyCodeLine{\Hypertarget{namespacesm__dance__bot__launch_l00212}00212 }
+\DoxyCodeLine{\Hypertarget{namespacesm__dance__bot__launch_l00213}00213     \textcolor{comment}{\# Create the launch description and populate}}
+\DoxyCodeLine{\Hypertarget{namespacesm__dance__bot__launch_l00214}00214     ld = LaunchDescription()}
+\DoxyCodeLine{\Hypertarget{namespacesm__dance__bot__launch_l00215}00215 }
+\DoxyCodeLine{\Hypertarget{namespacesm__dance__bot__launch_l00216}00216     \textcolor{comment}{\# Declare the launch options}}
+\DoxyCodeLine{\Hypertarget{namespacesm__dance__bot__launch_l00217}00217     ld.add\_action(declare\_namespace\_cmd)}
+\DoxyCodeLine{\Hypertarget{namespacesm__dance__bot__launch_l00218}00218     ld.add\_action(declare\_use\_namespace\_cmd)}
+\DoxyCodeLine{\Hypertarget{namespacesm__dance__bot__launch_l00219}00219     ld.add\_action(declare\_slam\_cmd)}
+\DoxyCodeLine{\Hypertarget{namespacesm__dance__bot__launch_l00220}00220     ld.add\_action(declare\_map\_yaml\_cmd)}
+\DoxyCodeLine{\Hypertarget{namespacesm__dance__bot__launch_l00221}00221     ld.add\_action(declare\_use\_sim\_time\_cmd)}
+\DoxyCodeLine{\Hypertarget{namespacesm__dance__bot__launch_l00222}00222     ld.add\_action(declare\_params\_file\_cmd)}
+\DoxyCodeLine{\Hypertarget{namespacesm__dance__bot__launch_l00223}00223     ld.add\_action(declare\_bt\_xml\_cmd)}
+\DoxyCodeLine{\Hypertarget{namespacesm__dance__bot__launch_l00224}00224     ld.add\_action(declare\_autostart\_cmd)}
+\DoxyCodeLine{\Hypertarget{namespacesm__dance__bot__launch_l00225}00225     ld.add\_action(declare\_map\_yaml\_cmd)}
+\DoxyCodeLine{\Hypertarget{namespacesm__dance__bot__launch_l00226}00226     ld.add\_action(declare\_show\_gz\_lidar)}
+\DoxyCodeLine{\Hypertarget{namespacesm__dance__bot__launch_l00227}00227 }
+\DoxyCodeLine{\Hypertarget{namespacesm__dance__bot__launch_l00228}00228     ld.add\_action(declare\_rviz\_config\_file\_cmd)}
+\DoxyCodeLine{\Hypertarget{namespacesm__dance__bot__launch_l00229}00229     ld.add\_action(declare\_use\_robot\_state\_pub\_cmd)}
+\DoxyCodeLine{\Hypertarget{namespacesm__dance__bot__launch_l00230}00230     ld.add\_action(declare\_use\_rviz\_cmd)}
+\DoxyCodeLine{\Hypertarget{namespacesm__dance__bot__launch_l00231}00231     ld.add\_action(gazebo\_simulator)}
+\DoxyCodeLine{\Hypertarget{namespacesm__dance__bot__launch_l00232}00232 }
+\DoxyCodeLine{\Hypertarget{namespacesm__dance__bot__launch_l00233}00233     ld.add\_action(sm\_dance\_bot\_node)}
+\DoxyCodeLine{\Hypertarget{namespacesm__dance__bot__launch_l00234}00234     ld.add\_action(service3\_node)}
+\DoxyCodeLine{\Hypertarget{namespacesm__dance__bot__launch_l00235}00235     ld.add\_action(temperature\_action\_server)}
+\DoxyCodeLine{\Hypertarget{namespacesm__dance__bot__launch_l00236}00236     ld.add\_action(led\_action\_server\_node)}
+\DoxyCodeLine{\Hypertarget{namespacesm__dance__bot__launch_l00237}00237 }
+\DoxyCodeLine{\Hypertarget{namespacesm__dance__bot__launch_l00238}00238     \textcolor{comment}{\# \# Add the actions to launch all of the navigation nodes}}
+\DoxyCodeLine{\Hypertarget{namespacesm__dance__bot__launch_l00239}00239     ld.add\_action(start\_robot\_state\_publisher\_cmd)}
+\DoxyCodeLine{\Hypertarget{namespacesm__dance__bot__launch_l00240}00240     ld.add\_action(rviz\_cmd)}
+\DoxyCodeLine{\Hypertarget{namespacesm__dance__bot__launch_l00241}00241     ld.add\_action(bringup\_cmd)}
+\DoxyCodeLine{\Hypertarget{namespacesm__dance__bot__launch_l00242}00242 }
+\DoxyCodeLine{\Hypertarget{namespacesm__dance__bot__launch_l00243}00243     \textcolor{keywordflow}{return} ld}
 
 \end{DoxyCode}
+
+
+References \mbox{\hyperlink{sm__dance__bot__launch_8py_source_l00029}{generate\+\_\+launch\+\_\+description()}}.
+
+
+
+Referenced by \mbox{\hyperlink{sm__dance__bot__launch_8py_source_l00029}{generate\+\_\+launch\+\_\+description()}}.
+
+Here is the call graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=234pt]{namespacesm__dance__bot__launch_ada41b50d65dba5fb31523b87497699d5_cgraph}
+\end{center}
+\end{figure}
+Here is the caller graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=234pt]{namespacesm__dance__bot__launch_ada41b50d65dba5fb31523b87497699d5_icgraph}
+\end{center}
+\end{figure}

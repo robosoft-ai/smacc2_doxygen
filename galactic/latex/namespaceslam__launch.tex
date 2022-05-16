@@ -20,108 +20,132 @@ Definition at line \mbox{\hyperlink{sm__aws__warehouse__navigation_2launch_2slam
 
 
 \begin{DoxyCode}{0}
-\DoxyCodeLine{00028 \textcolor{keyword}{def }\mbox{\hyperlink{namespaceslam__launch_a766616c7be3356de5b028c6e7c2c22e9}{generate\_launch\_description}}():}
-\DoxyCodeLine{00029     \textcolor{comment}{\# Input parameters declaration}}
-\DoxyCodeLine{00030     \textcolor{comment}{\# namespace = LaunchConfiguration("{}namespace"{})}}
-\DoxyCodeLine{00031     \textcolor{comment}{\# params\_file = LaunchConfiguration("{}params\_file"{})}}
-\DoxyCodeLine{00032     use\_sim\_time = LaunchConfiguration(\textcolor{stringliteral}{"{}use\_sim\_time"{}})}
-\DoxyCodeLine{00033     \textcolor{comment}{\# autostart = LaunchConfiguration("{}autostart"{})}}
-\DoxyCodeLine{00034     \textcolor{comment}{\# sm\_dance\_bot\_strikes\_back\_dir = get\_package\_share\_directory("{}sm\_dance\_bot\_strikes\_back"{})}}
-\DoxyCodeLine{00035 }
-\DoxyCodeLine{00036     \textcolor{comment}{\# Variables}}
-\DoxyCodeLine{00037     \textcolor{comment}{\# lifecycle\_nodes = ["{}slam\_toolbox"{}]}}
-\DoxyCodeLine{00038 }
-\DoxyCodeLine{00039     \textcolor{comment}{\# Getting directories and launch-\/files}}
-\DoxyCodeLine{00040     \textcolor{comment}{\# bringup\_dir = get\_package\_share\_directory("{}nav2\_bringup"{})}}
-\DoxyCodeLine{00041     sm\_aws\_warehouse\_navigation\_dir = get\_package\_share\_directory(\textcolor{stringliteral}{"{}sm\_aws\_warehouse\_navigation"{}})}
-\DoxyCodeLine{00042     \textcolor{comment}{\# slam\_launch\_file = os.path.join(sm\_dance\_bot\_strikes\_back\_dir, 'launch', 'online\_sync\_launch.py')}}
-\DoxyCodeLine{00043     slam\_launch\_file = os.path.join(}
-\DoxyCodeLine{00044         sm\_aws\_warehouse\_navigation\_dir, \textcolor{stringliteral}{"{}launch"{}}, \textcolor{stringliteral}{"{}online\_sync\_launch.py"{}}}
-\DoxyCodeLine{00045     )}
-\DoxyCodeLine{00046 }
-\DoxyCodeLine{00047     \textcolor{comment}{\# Create our own temporary YAML files that include substitutions}}
-\DoxyCodeLine{00048     \textcolor{comment}{\# param\_substitutions = \{"{}use\_sim\_time"{}: use\_sim\_time\}}}
-\DoxyCodeLine{00049 }
-\DoxyCodeLine{00050     \textcolor{comment}{\# configured\_params = RewrittenYaml(}}
-\DoxyCodeLine{00051     \textcolor{comment}{\# source\_file=params\_file,}}
-\DoxyCodeLine{00052     \textcolor{comment}{\# root\_key=namespace,}}
-\DoxyCodeLine{00053     \textcolor{comment}{\# param\_rewrites=param\_substitutions,}}
-\DoxyCodeLine{00054     \textcolor{comment}{\# convert\_types=True,}}
-\DoxyCodeLine{00055     \textcolor{comment}{\# )}}
-\DoxyCodeLine{00056 }
-\DoxyCodeLine{00057     \textcolor{comment}{\# Declare the launch arguments}}
-\DoxyCodeLine{00058     declare\_namespace\_cmd = DeclareLaunchArgument(}
-\DoxyCodeLine{00059         \textcolor{stringliteral}{"{}namespace"{}}, default\_value=\textcolor{stringliteral}{"{}"{}}, description=\textcolor{stringliteral}{"{}Top-\/level namespace"{}}}
-\DoxyCodeLine{00060     )}
-\DoxyCodeLine{00061 }
-\DoxyCodeLine{00062     \textcolor{comment}{\# declare\_params\_file\_cmd = DeclareLaunchArgument(}}
-\DoxyCodeLine{00063     \textcolor{comment}{\#     'params\_file',}}
-\DoxyCodeLine{00064     \textcolor{comment}{\#     default\_value=os.path.join(bringup\_dir, 'params', 'nav2\_params.yaml'),}}
-\DoxyCodeLine{00065     \textcolor{comment}{\#     description='Full path to the ROS2 parameters file to use for all launched nodes')}}
-\DoxyCodeLine{00066 }
-\DoxyCodeLine{00067     declare\_use\_sim\_time\_cmd = DeclareLaunchArgument(}
-\DoxyCodeLine{00068         \textcolor{stringliteral}{"{}use\_sim\_time"{}}, default\_value=\textcolor{stringliteral}{"{}True"{}}, description=\textcolor{stringliteral}{"{}Use simulation (Gazebo) clock if true"{}}}
-\DoxyCodeLine{00069     )}
-\DoxyCodeLine{00070 }
-\DoxyCodeLine{00071     declare\_autostart\_cmd = DeclareLaunchArgument(}
-\DoxyCodeLine{00072         \textcolor{stringliteral}{"{}autostart"{}}, default\_value=\textcolor{stringliteral}{"{}True"{}}, description=\textcolor{stringliteral}{"{}Automatically startup the nav2 stack"{}}}
-\DoxyCodeLine{00073     )}
-\DoxyCodeLine{00074 }
-\DoxyCodeLine{00075     \textcolor{comment}{\# Nodes launching commands}}
-\DoxyCodeLine{00076 }
-\DoxyCodeLine{00077     \textcolor{comment}{\# start\_map\_saver\_server\_cmd = Node(}}
-\DoxyCodeLine{00078     \textcolor{comment}{\#         package='nav2\_map\_server',}}
-\DoxyCodeLine{00079     \textcolor{comment}{\#         executable='map\_saver\_server',}}
-\DoxyCodeLine{00080     \textcolor{comment}{\#         output='screen',}}
-\DoxyCodeLine{00081     \textcolor{comment}{\#         parameters=[configured\_params])}}
-\DoxyCodeLine{00082 }
-\DoxyCodeLine{00083     \textcolor{comment}{\# xtermprefix = "{}xterm -\/xrm 'XTerm*scrollBar:  true' -\/xrm 'xterm*rightScrollBar: true' "{} \(\backslash\)}}
-\DoxyCodeLine{00084     \textcolor{comment}{\# "{}-\/hold -\/geometry 1000x600 -\/sl 10000 -\/e"{}}}
-\DoxyCodeLine{00085 }
-\DoxyCodeLine{00086     \textcolor{comment}{\# start\_lifecycle\_manager\_cmd = Node(}}
-\DoxyCodeLine{00087     \textcolor{comment}{\# package="{}nav2\_lifecycle\_manager"{},}}
-\DoxyCodeLine{00088     \textcolor{comment}{\# executable="{}lifecycle\_manager"{},}}
-\DoxyCodeLine{00089     \textcolor{comment}{\# name="{}lifecycle\_manager\_slam"{},}}
-\DoxyCodeLine{00090     \textcolor{comment}{\# output="{}screen"{},}}
-\DoxyCodeLine{00091     \textcolor{comment}{\# parameters=[}}
-\DoxyCodeLine{00092     \textcolor{comment}{\# \{"{}use\_sim\_time"{}: use\_sim\_time\},}}
-\DoxyCodeLine{00093     \textcolor{comment}{\# \{"{}autostart"{}: autostart\},}}
-\DoxyCodeLine{00094     \textcolor{comment}{\# \{"{}node\_names"{}: lifecycle\_nodes\},}}
-\DoxyCodeLine{00095     \textcolor{comment}{\# ],}}
-\DoxyCodeLine{00096     \textcolor{comment}{\# prefix=xtermprefix,}}
-\DoxyCodeLine{00097     \textcolor{comment}{\# )}}
-\DoxyCodeLine{00098 }
-\DoxyCodeLine{00099     \textcolor{comment}{\# If the provided param file doesn't have slam\_toolbox params, we must remove the 'params\_file'}}
-\DoxyCodeLine{00100     \textcolor{comment}{\# LaunchConfiguration, or it will be passed automatically to slam\_toolbox and will not load}}
-\DoxyCodeLine{00101     \textcolor{comment}{\# the default file}}
-\DoxyCodeLine{00102 }
-\DoxyCodeLine{00103     start\_slam\_toolbox\_cmd = IncludeLaunchDescription(}
-\DoxyCodeLine{00104         PythonLaunchDescriptionSource(slam\_launch\_file),}
-\DoxyCodeLine{00105         launch\_arguments=\{\textcolor{stringliteral}{"{}use\_sim\_time"{}}: use\_sim\_time\}.items(),}
-\DoxyCodeLine{00106     )}
-\DoxyCodeLine{00107 }
-\DoxyCodeLine{00108     \textcolor{comment}{\# Pop (or load) previous LaunchConfiguration, resetting the state of params\_file}}
-\DoxyCodeLine{00109     \textcolor{comment}{\# pop\_launch\_config = PopLaunchConfigurations(}}
-\DoxyCodeLine{00110     \textcolor{comment}{\#         condition=UnlessCondition(has\_slam\_toolbox\_params))}}
-\DoxyCodeLine{00111 }
-\DoxyCodeLine{00112     ld = LaunchDescription()}
-\DoxyCodeLine{00113 }
-\DoxyCodeLine{00114     \textcolor{comment}{\# Declare the launch options}}
-\DoxyCodeLine{00115     ld.add\_action(declare\_namespace\_cmd)}
-\DoxyCodeLine{00116     \textcolor{comment}{\# ld.add\_action(declare\_params\_file\_cmd)}}
-\DoxyCodeLine{00117     ld.add\_action(declare\_use\_sim\_time\_cmd)}
-\DoxyCodeLine{00118     ld.add\_action(declare\_autostart\_cmd)}
-\DoxyCodeLine{00119 }
-\DoxyCodeLine{00120     \textcolor{comment}{\# Running Map Saver Server}}
-\DoxyCodeLine{00121     \textcolor{comment}{\# ld.add\_action(start\_map\_saver\_server\_cmd)}}
-\DoxyCodeLine{00122     \textcolor{comment}{\# ld.add\_action(start\_lifecycle\_manager\_cmd)}}
-\DoxyCodeLine{00123 }
-\DoxyCodeLine{00124     \textcolor{comment}{\# Running SLAM Toolbox}}
-\DoxyCodeLine{00125     \textcolor{comment}{\# ld.add\_action(push\_launch\_config)}}
-\DoxyCodeLine{00126     \textcolor{comment}{\# ld.add\_action(remove\_params\_file)}}
-\DoxyCodeLine{00127     ld.add\_action(start\_slam\_toolbox\_cmd)}
-\DoxyCodeLine{00128     \textcolor{comment}{\# ld.add\_action(pop\_launch\_config)}}
-\DoxyCodeLine{00129 }
-\DoxyCodeLine{00130     \textcolor{keywordflow}{return} ld}
+\DoxyCodeLine{\Hypertarget{namespaceslam__launch_l00028}00028 \textcolor{keyword}{def }\mbox{\hyperlink{namespaceslam__launch_a766616c7be3356de5b028c6e7c2c22e9}{generate\_launch\_description}}():}
+\DoxyCodeLine{\Hypertarget{namespaceslam__launch_l00029}00029     \textcolor{comment}{\# Input parameters declaration}}
+\DoxyCodeLine{\Hypertarget{namespaceslam__launch_l00030}00030     \textcolor{comment}{\# namespace = LaunchConfiguration("{}namespace"{})}}
+\DoxyCodeLine{\Hypertarget{namespaceslam__launch_l00031}00031     \textcolor{comment}{\# params\_file = LaunchConfiguration("{}params\_file"{})}}
+\DoxyCodeLine{\Hypertarget{namespaceslam__launch_l00032}00032     use\_sim\_time = LaunchConfiguration(\textcolor{stringliteral}{"{}use\_sim\_time"{}})}
+\DoxyCodeLine{\Hypertarget{namespaceslam__launch_l00033}00033     \textcolor{comment}{\# autostart = LaunchConfiguration("{}autostart"{})}}
+\DoxyCodeLine{\Hypertarget{namespaceslam__launch_l00034}00034     \textcolor{comment}{\# sm\_dance\_bot\_strikes\_back\_dir = get\_package\_share\_directory("{}sm\_dance\_bot\_strikes\_back"{})}}
+\DoxyCodeLine{\Hypertarget{namespaceslam__launch_l00035}00035 }
+\DoxyCodeLine{\Hypertarget{namespaceslam__launch_l00036}00036     \textcolor{comment}{\# Variables}}
+\DoxyCodeLine{\Hypertarget{namespaceslam__launch_l00037}00037     \textcolor{comment}{\# lifecycle\_nodes = ["{}slam\_toolbox"{}]}}
+\DoxyCodeLine{\Hypertarget{namespaceslam__launch_l00038}00038 }
+\DoxyCodeLine{\Hypertarget{namespaceslam__launch_l00039}00039     \textcolor{comment}{\# Getting directories and launch-\/files}}
+\DoxyCodeLine{\Hypertarget{namespaceslam__launch_l00040}00040     \textcolor{comment}{\# bringup\_dir = get\_package\_share\_directory("{}nav2\_bringup"{})}}
+\DoxyCodeLine{\Hypertarget{namespaceslam__launch_l00041}00041     sm\_aws\_warehouse\_navigation\_dir = get\_package\_share\_directory(\textcolor{stringliteral}{"{}sm\_aws\_warehouse\_navigation"{}})}
+\DoxyCodeLine{\Hypertarget{namespaceslam__launch_l00042}00042     \textcolor{comment}{\# slam\_launch\_file = os.path.join(sm\_dance\_bot\_strikes\_back\_dir, 'launch', 'online\_sync\_launch.py')}}
+\DoxyCodeLine{\Hypertarget{namespaceslam__launch_l00043}00043     slam\_launch\_file = os.path.join(}
+\DoxyCodeLine{\Hypertarget{namespaceslam__launch_l00044}00044         sm\_aws\_warehouse\_navigation\_dir, \textcolor{stringliteral}{"{}launch"{}}, \textcolor{stringliteral}{"{}online\_sync\_launch.py"{}}}
+\DoxyCodeLine{\Hypertarget{namespaceslam__launch_l00045}00045     )}
+\DoxyCodeLine{\Hypertarget{namespaceslam__launch_l00046}00046 }
+\DoxyCodeLine{\Hypertarget{namespaceslam__launch_l00047}00047     \textcolor{comment}{\# Create our own temporary YAML files that include substitutions}}
+\DoxyCodeLine{\Hypertarget{namespaceslam__launch_l00048}00048     \textcolor{comment}{\# param\_substitutions = \{"{}use\_sim\_time"{}: use\_sim\_time\}}}
+\DoxyCodeLine{\Hypertarget{namespaceslam__launch_l00049}00049 }
+\DoxyCodeLine{\Hypertarget{namespaceslam__launch_l00050}00050     \textcolor{comment}{\# configured\_params = RewrittenYaml(}}
+\DoxyCodeLine{\Hypertarget{namespaceslam__launch_l00051}00051     \textcolor{comment}{\# source\_file=params\_file,}}
+\DoxyCodeLine{\Hypertarget{namespaceslam__launch_l00052}00052     \textcolor{comment}{\# root\_key=namespace,}}
+\DoxyCodeLine{\Hypertarget{namespaceslam__launch_l00053}00053     \textcolor{comment}{\# param\_rewrites=param\_substitutions,}}
+\DoxyCodeLine{\Hypertarget{namespaceslam__launch_l00054}00054     \textcolor{comment}{\# convert\_types=True,}}
+\DoxyCodeLine{\Hypertarget{namespaceslam__launch_l00055}00055     \textcolor{comment}{\# )}}
+\DoxyCodeLine{\Hypertarget{namespaceslam__launch_l00056}00056 }
+\DoxyCodeLine{\Hypertarget{namespaceslam__launch_l00057}00057     \textcolor{comment}{\# Declare the launch arguments}}
+\DoxyCodeLine{\Hypertarget{namespaceslam__launch_l00058}00058     declare\_namespace\_cmd = DeclareLaunchArgument(}
+\DoxyCodeLine{\Hypertarget{namespaceslam__launch_l00059}00059         \textcolor{stringliteral}{"{}namespace"{}}, default\_value=\textcolor{stringliteral}{"{}"{}}, description=\textcolor{stringliteral}{"{}Top-\/level namespace"{}}}
+\DoxyCodeLine{\Hypertarget{namespaceslam__launch_l00060}00060     )}
+\DoxyCodeLine{\Hypertarget{namespaceslam__launch_l00061}00061 }
+\DoxyCodeLine{\Hypertarget{namespaceslam__launch_l00062}00062     \textcolor{comment}{\# declare\_params\_file\_cmd = DeclareLaunchArgument(}}
+\DoxyCodeLine{\Hypertarget{namespaceslam__launch_l00063}00063     \textcolor{comment}{\#     'params\_file',}}
+\DoxyCodeLine{\Hypertarget{namespaceslam__launch_l00064}00064     \textcolor{comment}{\#     default\_value=os.path.join(bringup\_dir, 'params', 'nav2\_params.yaml'),}}
+\DoxyCodeLine{\Hypertarget{namespaceslam__launch_l00065}00065     \textcolor{comment}{\#     description='Full path to the ROS2 parameters file to use for all launched nodes')}}
+\DoxyCodeLine{\Hypertarget{namespaceslam__launch_l00066}00066 }
+\DoxyCodeLine{\Hypertarget{namespaceslam__launch_l00067}00067     declare\_use\_sim\_time\_cmd = DeclareLaunchArgument(}
+\DoxyCodeLine{\Hypertarget{namespaceslam__launch_l00068}00068         \textcolor{stringliteral}{"{}use\_sim\_time"{}}, default\_value=\textcolor{stringliteral}{"{}True"{}}, description=\textcolor{stringliteral}{"{}Use simulation (Gazebo) clock if true"{}}}
+\DoxyCodeLine{\Hypertarget{namespaceslam__launch_l00069}00069     )}
+\DoxyCodeLine{\Hypertarget{namespaceslam__launch_l00070}00070 }
+\DoxyCodeLine{\Hypertarget{namespaceslam__launch_l00071}00071     declare\_autostart\_cmd = DeclareLaunchArgument(}
+\DoxyCodeLine{\Hypertarget{namespaceslam__launch_l00072}00072         \textcolor{stringliteral}{"{}autostart"{}}, default\_value=\textcolor{stringliteral}{"{}True"{}}, description=\textcolor{stringliteral}{"{}Automatically startup the nav2 stack"{}}}
+\DoxyCodeLine{\Hypertarget{namespaceslam__launch_l00073}00073     )}
+\DoxyCodeLine{\Hypertarget{namespaceslam__launch_l00074}00074 }
+\DoxyCodeLine{\Hypertarget{namespaceslam__launch_l00075}00075     \textcolor{comment}{\# Nodes launching commands}}
+\DoxyCodeLine{\Hypertarget{namespaceslam__launch_l00076}00076 }
+\DoxyCodeLine{\Hypertarget{namespaceslam__launch_l00077}00077     \textcolor{comment}{\# start\_map\_saver\_server\_cmd = Node(}}
+\DoxyCodeLine{\Hypertarget{namespaceslam__launch_l00078}00078     \textcolor{comment}{\#         package='nav2\_map\_server',}}
+\DoxyCodeLine{\Hypertarget{namespaceslam__launch_l00079}00079     \textcolor{comment}{\#         executable='map\_saver\_server',}}
+\DoxyCodeLine{\Hypertarget{namespaceslam__launch_l00080}00080     \textcolor{comment}{\#         output='screen',}}
+\DoxyCodeLine{\Hypertarget{namespaceslam__launch_l00081}00081     \textcolor{comment}{\#         parameters=[configured\_params])}}
+\DoxyCodeLine{\Hypertarget{namespaceslam__launch_l00082}00082 }
+\DoxyCodeLine{\Hypertarget{namespaceslam__launch_l00083}00083     \textcolor{comment}{\# xtermprefix = "{}xterm -\/xrm 'XTerm*scrollBar:  true' -\/xrm 'xterm*rightScrollBar: true' "{} \(\backslash\)}}
+\DoxyCodeLine{\Hypertarget{namespaceslam__launch_l00084}00084     \textcolor{comment}{\# "{}-\/hold -\/geometry 1000x600 -\/sl 10000 -\/e"{}}}
+\DoxyCodeLine{\Hypertarget{namespaceslam__launch_l00085}00085 }
+\DoxyCodeLine{\Hypertarget{namespaceslam__launch_l00086}00086     \textcolor{comment}{\# start\_lifecycle\_manager\_cmd = Node(}}
+\DoxyCodeLine{\Hypertarget{namespaceslam__launch_l00087}00087     \textcolor{comment}{\# package="{}nav2\_lifecycle\_manager"{},}}
+\DoxyCodeLine{\Hypertarget{namespaceslam__launch_l00088}00088     \textcolor{comment}{\# executable="{}lifecycle\_manager"{},}}
+\DoxyCodeLine{\Hypertarget{namespaceslam__launch_l00089}00089     \textcolor{comment}{\# name="{}lifecycle\_manager\_slam"{},}}
+\DoxyCodeLine{\Hypertarget{namespaceslam__launch_l00090}00090     \textcolor{comment}{\# output="{}screen"{},}}
+\DoxyCodeLine{\Hypertarget{namespaceslam__launch_l00091}00091     \textcolor{comment}{\# parameters=[}}
+\DoxyCodeLine{\Hypertarget{namespaceslam__launch_l00092}00092     \textcolor{comment}{\# \{"{}use\_sim\_time"{}: use\_sim\_time\},}}
+\DoxyCodeLine{\Hypertarget{namespaceslam__launch_l00093}00093     \textcolor{comment}{\# \{"{}autostart"{}: autostart\},}}
+\DoxyCodeLine{\Hypertarget{namespaceslam__launch_l00094}00094     \textcolor{comment}{\# \{"{}node\_names"{}: lifecycle\_nodes\},}}
+\DoxyCodeLine{\Hypertarget{namespaceslam__launch_l00095}00095     \textcolor{comment}{\# ],}}
+\DoxyCodeLine{\Hypertarget{namespaceslam__launch_l00096}00096     \textcolor{comment}{\# prefix=xtermprefix,}}
+\DoxyCodeLine{\Hypertarget{namespaceslam__launch_l00097}00097     \textcolor{comment}{\# )}}
+\DoxyCodeLine{\Hypertarget{namespaceslam__launch_l00098}00098 }
+\DoxyCodeLine{\Hypertarget{namespaceslam__launch_l00099}00099     \textcolor{comment}{\# If the provided param file doesn't have slam\_toolbox params, we must remove the 'params\_file'}}
+\DoxyCodeLine{\Hypertarget{namespaceslam__launch_l00100}00100     \textcolor{comment}{\# LaunchConfiguration, or it will be passed automatically to slam\_toolbox and will not load}}
+\DoxyCodeLine{\Hypertarget{namespaceslam__launch_l00101}00101     \textcolor{comment}{\# the default file}}
+\DoxyCodeLine{\Hypertarget{namespaceslam__launch_l00102}00102 }
+\DoxyCodeLine{\Hypertarget{namespaceslam__launch_l00103}00103     start\_slam\_toolbox\_cmd = IncludeLaunchDescription(}
+\DoxyCodeLine{\Hypertarget{namespaceslam__launch_l00104}00104         PythonLaunchDescriptionSource(slam\_launch\_file),}
+\DoxyCodeLine{\Hypertarget{namespaceslam__launch_l00105}00105         launch\_arguments=\{\textcolor{stringliteral}{"{}use\_sim\_time"{}}: use\_sim\_time\}.items(),}
+\DoxyCodeLine{\Hypertarget{namespaceslam__launch_l00106}00106     )}
+\DoxyCodeLine{\Hypertarget{namespaceslam__launch_l00107}00107 }
+\DoxyCodeLine{\Hypertarget{namespaceslam__launch_l00108}00108     \textcolor{comment}{\# Pop (or load) previous LaunchConfiguration, resetting the state of params\_file}}
+\DoxyCodeLine{\Hypertarget{namespaceslam__launch_l00109}00109     \textcolor{comment}{\# pop\_launch\_config = PopLaunchConfigurations(}}
+\DoxyCodeLine{\Hypertarget{namespaceslam__launch_l00110}00110     \textcolor{comment}{\#         condition=UnlessCondition(has\_slam\_toolbox\_params))}}
+\DoxyCodeLine{\Hypertarget{namespaceslam__launch_l00111}00111 }
+\DoxyCodeLine{\Hypertarget{namespaceslam__launch_l00112}00112     ld = LaunchDescription()}
+\DoxyCodeLine{\Hypertarget{namespaceslam__launch_l00113}00113 }
+\DoxyCodeLine{\Hypertarget{namespaceslam__launch_l00114}00114     \textcolor{comment}{\# Declare the launch options}}
+\DoxyCodeLine{\Hypertarget{namespaceslam__launch_l00115}00115     ld.add\_action(declare\_namespace\_cmd)}
+\DoxyCodeLine{\Hypertarget{namespaceslam__launch_l00116}00116     \textcolor{comment}{\# ld.add\_action(declare\_params\_file\_cmd)}}
+\DoxyCodeLine{\Hypertarget{namespaceslam__launch_l00117}00117     ld.add\_action(declare\_use\_sim\_time\_cmd)}
+\DoxyCodeLine{\Hypertarget{namespaceslam__launch_l00118}00118     ld.add\_action(declare\_autostart\_cmd)}
+\DoxyCodeLine{\Hypertarget{namespaceslam__launch_l00119}00119 }
+\DoxyCodeLine{\Hypertarget{namespaceslam__launch_l00120}00120     \textcolor{comment}{\# Running Map Saver Server}}
+\DoxyCodeLine{\Hypertarget{namespaceslam__launch_l00121}00121     \textcolor{comment}{\# ld.add\_action(start\_map\_saver\_server\_cmd)}}
+\DoxyCodeLine{\Hypertarget{namespaceslam__launch_l00122}00122     \textcolor{comment}{\# ld.add\_action(start\_lifecycle\_manager\_cmd)}}
+\DoxyCodeLine{\Hypertarget{namespaceslam__launch_l00123}00123 }
+\DoxyCodeLine{\Hypertarget{namespaceslam__launch_l00124}00124     \textcolor{comment}{\# Running SLAM Toolbox}}
+\DoxyCodeLine{\Hypertarget{namespaceslam__launch_l00125}00125     \textcolor{comment}{\# ld.add\_action(push\_launch\_config)}}
+\DoxyCodeLine{\Hypertarget{namespaceslam__launch_l00126}00126     \textcolor{comment}{\# ld.add\_action(remove\_params\_file)}}
+\DoxyCodeLine{\Hypertarget{namespaceslam__launch_l00127}00127     ld.add\_action(start\_slam\_toolbox\_cmd)}
+\DoxyCodeLine{\Hypertarget{namespaceslam__launch_l00128}00128     \textcolor{comment}{\# ld.add\_action(pop\_launch\_config)}}
+\DoxyCodeLine{\Hypertarget{namespaceslam__launch_l00129}00129 }
+\DoxyCodeLine{\Hypertarget{namespaceslam__launch_l00130}00130     \textcolor{keywordflow}{return} ld}
 
 \end{DoxyCode}
+
+
+References \mbox{\hyperlink{sm__aws__warehouse__navigation_2launch_2slam__launch_8py_source_l00028}{generate\+\_\+launch\+\_\+description()}}.
+
+
+
+Referenced by \mbox{\hyperlink{sm__aws__warehouse__navigation_2launch_2slam__launch_8py_source_l00028}{generate\+\_\+launch\+\_\+description()}}.
+
+Here is the call graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=191pt]{namespaceslam__launch_a766616c7be3356de5b028c6e7c2c22e9_cgraph}
+\end{center}
+\end{figure}
+Here is the caller graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=191pt]{namespaceslam__launch_a766616c7be3356de5b028c6e7c2c22e9_icgraph}
+\end{center}
+\end{figure}
