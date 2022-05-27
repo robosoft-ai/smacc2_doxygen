@@ -83,7 +83,15 @@ var menudata={children:[
 {text:"d",url:"namespacemembers_type.html#index_d"},
 {text:"s",url:"namespacemembers_type.html#index_s"},
 {text:"w",url:"namespacemembers_type.html#index_w"}]},
-{text:"Enumerations",url:"namespacemembers_enum.html"}]}]},
+{text:"Enumerations",url:"namespacemembers_enum.html",children:[
+{text:"c",url:"namespacemembers_enum.html#index_c"},
+{text:"e",url:"namespacemembers_enum.html#index_e"},
+{text:"l",url:"namespacemembers_enum.html#index_l"},
+{text:"n",url:"namespacemembers_enum.html#index_n"},
+{text:"r",url:"namespacemembers_enum.html#index_r"},
+{text:"s",url:"namespacemembers_enum.html#index_s"},
+{text:"t",url:"namespacemembers_enum.html#index_t"},
+{text:"w",url:"namespacemembers_enum.html#index_w"}]}]}]},
 {text:"Classes",url:"annotated.html",children:[
 {text:"Class List",url:"annotated.html"},
 {text:"Class Index",url:"classes.html"},
@@ -206,7 +214,6 @@ var menudata={children:[
 {text:"r",url:"globals.html#index_r"},
 {text:"s",url:"globals.html#index_s"},
 {text:"t",url:"globals.html#index_t"},
-{text:"u",url:"globals.html#index_u"},
 {text:"w",url:"globals.html#index_w"}]},
 {text:"Functions",url:"globals_func.html",children:[
 {text:"c",url:"globals_func.html#index_c"},
@@ -215,8 +222,7 @@ var menudata={children:[
 {text:"m",url:"globals_func.html#index_m"},
 {text:"o",url:"globals_func.html#index_o"},
 {text:"s",url:"globals_func.html#index_s"},
-{text:"t",url:"globals_func.html#index_t"},
-{text:"u",url:"globals_func.html#index_u"}]},
+{text:"t",url:"globals_func.html#index_t"}]},
 {text:"Variables",url:"globals_vars.html"},
 {text:"Typedefs",url:"globals_type.html"},
 {text:"Macros",url:"globals_defs.html"}]}]}]}
