@@ -68,35 +68,35 @@ Definition at line \mbox{\hyperlink{cb__undo__path__backwards_8cpp_source_l00034
 
 
 \begin{DoxyCode}{0}
-\DoxyCodeLine{\Hypertarget{classcl__nav2z_1_1CbUndoPathBackwards_l00035}00035 \{}
-\DoxyCodeLine{\Hypertarget{classcl__nav2z_1_1CbUndoPathBackwards_l00036}00036   \mbox{\hyperlink{classcl__nav2z_1_1CbUndoPathBackwards_aae100fa86e382fdaf1b55ecbc4ad5a5e}{listener}} = std::make\_shared<tf2\_ros::Buffer>(this-\/>\mbox{\hyperlink{classsmacc2_1_1ISmaccClientBehavior_a95c9749af2004528fbda63ca6fde8eae}{getNode}}()-\/>get\_clock());}
-\DoxyCodeLine{\Hypertarget{classcl__nav2z_1_1CbUndoPathBackwards_l00037}00037   \textcolor{keyword}{auto} * odomTracker = \mbox{\hyperlink{classcl__nav2z_1_1CbNav2ZClientBehaviorBase_ad063ef82084fe0591d746456c3794db0}{moveBaseClient\_}}-\/>\mbox{\hyperlink{classsmacc2_1_1ISmaccClient_afc6e0f5f82a4552134c9423b75e3ca1d}{getComponent}}<OdomTracker>();}
-\DoxyCodeLine{\Hypertarget{classcl__nav2z_1_1CbUndoPathBackwards_l00038}00038 }
-\DoxyCodeLine{\Hypertarget{classcl__nav2z_1_1CbUndoPathBackwards_l00039}00039   \textcolor{keyword}{auto} plannerSwitcher = \mbox{\hyperlink{classcl__nav2z_1_1CbNav2ZClientBehaviorBase_ad063ef82084fe0591d746456c3794db0}{moveBaseClient\_}}-\/>\mbox{\hyperlink{classsmacc2_1_1ISmaccClient_afc6e0f5f82a4552134c9423b75e3ca1d}{getComponent}}<PlannerSwitcher>();}
-\DoxyCodeLine{\Hypertarget{classcl__nav2z_1_1CbUndoPathBackwards_l00040}00040 }
-\DoxyCodeLine{\Hypertarget{classcl__nav2z_1_1CbUndoPathBackwards_l00041}00041   nav\_msgs::msg::Path forwardpath = odomTracker-\/>getPath();}
-\DoxyCodeLine{\Hypertarget{classcl__nav2z_1_1CbUndoPathBackwards_l00042}00042   \textcolor{comment}{// RCLCPP\_INFO\_STREAM(getLogger(),"{}[UndoPathBackward] Current path backwards: "{} << forwardpath);}}
-\DoxyCodeLine{\Hypertarget{classcl__nav2z_1_1CbUndoPathBackwards_l00043}00043 }
-\DoxyCodeLine{\Hypertarget{classcl__nav2z_1_1CbUndoPathBackwards_l00044}00044   odomTracker-\/>setWorkingMode(WorkingMode::CLEAR\_PATH);}
-\DoxyCodeLine{\Hypertarget{classcl__nav2z_1_1CbUndoPathBackwards_l00045}00045 }
-\DoxyCodeLine{\Hypertarget{classcl__nav2z_1_1CbUndoPathBackwards_l00046}00046   \mbox{\hyperlink{classsmacc2_1_1client__bases_1_1SmaccActionClientBase_ab56ba47b81346277a471584dedf7d45c}{ClNav2Z::Goal}} goal;}
-\DoxyCodeLine{\Hypertarget{classcl__nav2z_1_1CbUndoPathBackwards_l00047}00047 }
-\DoxyCodeLine{\Hypertarget{classcl__nav2z_1_1CbUndoPathBackwards_l00048}00048   \textcolor{keyword}{auto} goalCheckerSwitcher = \mbox{\hyperlink{classcl__nav2z_1_1CbNav2ZClientBehaviorBase_ad063ef82084fe0591d746456c3794db0}{moveBaseClient\_}}-\/>\mbox{\hyperlink{classsmacc2_1_1ISmaccClient_afc6e0f5f82a4552134c9423b75e3ca1d}{getComponent}}<GoalCheckerSwitcher>();}
-\DoxyCodeLine{\Hypertarget{classcl__nav2z_1_1CbUndoPathBackwards_l00049}00049   goalCheckerSwitcher-\/>setGoalCheckerId(\textcolor{stringliteral}{"{}undo\_path\_backwards\_goal\_checker"{}});}
-\DoxyCodeLine{\Hypertarget{classcl__nav2z_1_1CbUndoPathBackwards_l00050}00050 }
-\DoxyCodeLine{\Hypertarget{classcl__nav2z_1_1CbUndoPathBackwards_l00051}00051   \textcolor{comment}{// WARNING: There might be some race condition with the remote undo global planner were the global path was not received yet}}
-\DoxyCodeLine{\Hypertarget{classcl__nav2z_1_1CbUndoPathBackwards_l00052}00052   rclcpp::sleep\_for(1\mbox{\hyperlink{namespaceservice__node__3_aa976421a49e0b54f23833423400849ae}{s}});}
-\DoxyCodeLine{\Hypertarget{classcl__nav2z_1_1CbUndoPathBackwards_l00053}00053 }
-\DoxyCodeLine{\Hypertarget{classcl__nav2z_1_1CbUndoPathBackwards_l00054}00054   \textcolor{comment}{// this line is used to flush/reset backward planner in the case it were already there}}
-\DoxyCodeLine{\Hypertarget{classcl__nav2z_1_1CbUndoPathBackwards_l00055}00055   \textcolor{comment}{// plannerSwitcher-\/>setDefaultPlanners();}}
-\DoxyCodeLine{\Hypertarget{classcl__nav2z_1_1CbUndoPathBackwards_l00056}00056   \textcolor{keywordflow}{if} (forwardpath.poses.size() > 0)}
-\DoxyCodeLine{\Hypertarget{classcl__nav2z_1_1CbUndoPathBackwards_l00057}00057   \{}
-\DoxyCodeLine{\Hypertarget{classcl__nav2z_1_1CbUndoPathBackwards_l00058}00058     goal.pose = forwardpath.poses.front();}
-\DoxyCodeLine{\Hypertarget{classcl__nav2z_1_1CbUndoPathBackwards_l00059}00059     goal.pose.header.stamp = \mbox{\hyperlink{classsmacc2_1_1ISmaccClientBehavior_a95c9749af2004528fbda63ca6fde8eae}{getNode}}()-\/>now();}
-\DoxyCodeLine{\Hypertarget{classcl__nav2z_1_1CbUndoPathBackwards_l00060}00060     plannerSwitcher-\/>setUndoPathBackwardPlanner();}
-\DoxyCodeLine{\Hypertarget{classcl__nav2z_1_1CbUndoPathBackwards_l00061}00061     \mbox{\hyperlink{classcl__nav2z_1_1CbNav2ZClientBehaviorBase_ad063ef82084fe0591d746456c3794db0}{moveBaseClient\_}}-\/>\mbox{\hyperlink{classsmacc2_1_1client__bases_1_1SmaccActionClientBase_a43176511fffe80c2de7a36b6a2858ccc}{sendGoal}}(goal);}
-\DoxyCodeLine{\Hypertarget{classcl__nav2z_1_1CbUndoPathBackwards_l00062}00062   \}}
-\DoxyCodeLine{\Hypertarget{classcl__nav2z_1_1CbUndoPathBackwards_l00063}00063 \}}
+\DoxyCodeLine{00035 \{}
+\DoxyCodeLine{00036   \mbox{\hyperlink{classcl__nav2z_1_1CbUndoPathBackwards_aae100fa86e382fdaf1b55ecbc4ad5a5e}{listener}} = std::make\_shared<tf2\_ros::Buffer>(this-\/>\mbox{\hyperlink{classsmacc2_1_1ISmaccClientBehavior_aa1b28d5e8a5208fff8160f9df9a89dc6}{getNode}}()-\/>get\_clock());}
+\DoxyCodeLine{00037   \textcolor{keyword}{auto} * odomTracker = \mbox{\hyperlink{classcl__nav2z_1_1CbNav2ZClientBehaviorBase_ad063ef82084fe0591d746456c3794db0}{moveBaseClient\_}}-\/>\mbox{\hyperlink{classsmacc2_1_1ISmaccClient_afc6e0f5f82a4552134c9423b75e3ca1d}{getComponent}}<OdomTracker>();}
+\DoxyCodeLine{00038 }
+\DoxyCodeLine{00039   \textcolor{keyword}{auto} plannerSwitcher = \mbox{\hyperlink{classcl__nav2z_1_1CbNav2ZClientBehaviorBase_ad063ef82084fe0591d746456c3794db0}{moveBaseClient\_}}-\/>\mbox{\hyperlink{classsmacc2_1_1ISmaccClient_afc6e0f5f82a4552134c9423b75e3ca1d}{getComponent}}<PlannerSwitcher>();}
+\DoxyCodeLine{00040 }
+\DoxyCodeLine{00041   nav\_msgs::msg::Path forwardpath = odomTracker-\/>getPath();}
+\DoxyCodeLine{00042   \textcolor{comment}{// RCLCPP\_INFO\_STREAM(getLogger(),"{}[UndoPathBackward] Current path backwards: "{} << forwardpath);}}
+\DoxyCodeLine{00043 }
+\DoxyCodeLine{00044   odomTracker-\/>setWorkingMode(WorkingMode::CLEAR\_PATH);}
+\DoxyCodeLine{00045 }
+\DoxyCodeLine{00046   \mbox{\hyperlink{classsmacc2_1_1client__bases_1_1SmaccActionClientBase_ab56ba47b81346277a471584dedf7d45c}{ClNav2Z::Goal}} goal;}
+\DoxyCodeLine{00047 }
+\DoxyCodeLine{00048   \textcolor{keyword}{auto} goalCheckerSwitcher = \mbox{\hyperlink{classcl__nav2z_1_1CbNav2ZClientBehaviorBase_ad063ef82084fe0591d746456c3794db0}{moveBaseClient\_}}-\/>\mbox{\hyperlink{classsmacc2_1_1ISmaccClient_afc6e0f5f82a4552134c9423b75e3ca1d}{getComponent}}<GoalCheckerSwitcher>();}
+\DoxyCodeLine{00049   goalCheckerSwitcher-\/>setGoalCheckerId(\textcolor{stringliteral}{"{}undo\_path\_backwards\_goal\_checker"{}});}
+\DoxyCodeLine{00050 }
+\DoxyCodeLine{00051   \textcolor{comment}{// WARNING: There might be some race condition with the remote undo global planner were the global path was not received yet}}
+\DoxyCodeLine{00052   rclcpp::sleep\_for(1\mbox{\hyperlink{namespaceservice__node__3_aa976421a49e0b54f23833423400849ae}{s}});}
+\DoxyCodeLine{00053 }
+\DoxyCodeLine{00054   \textcolor{comment}{// this line is used to flush/reset backward planner in the case it were already there}}
+\DoxyCodeLine{00055   \textcolor{comment}{// plannerSwitcher-\/>setDefaultPlanners();}}
+\DoxyCodeLine{00056   \textcolor{keywordflow}{if} (forwardpath.poses.size() > 0)}
+\DoxyCodeLine{00057   \{}
+\DoxyCodeLine{00058     goal.pose = forwardpath.poses.front();}
+\DoxyCodeLine{00059     goal.pose.header.stamp = \mbox{\hyperlink{classsmacc2_1_1ISmaccClientBehavior_aa1b28d5e8a5208fff8160f9df9a89dc6}{getNode}}()-\/>now();}
+\DoxyCodeLine{00060     plannerSwitcher-\/>setUndoPathBackwardPlanner();}
+\DoxyCodeLine{00061     \mbox{\hyperlink{classcl__nav2z_1_1CbNav2ZClientBehaviorBase_ad063ef82084fe0591d746456c3794db0}{moveBaseClient\_}}-\/>\mbox{\hyperlink{classsmacc2_1_1client__bases_1_1SmaccActionClientBase_a43176511fffe80c2de7a36b6a2858ccc}{sendGoal}}(goal);}
+\DoxyCodeLine{00062   \}}
+\DoxyCodeLine{00063 \}}
 
 \end{DoxyCode}
 
@@ -127,29 +127,29 @@ Definition at line \mbox{\hyperlink{cb__undo__path__backwards_8cpp_source_l00065
 
 
 \begin{DoxyCode}{0}
-\DoxyCodeLine{\Hypertarget{classcl__nav2z_1_1CbUndoPathBackwards_l00066}00066 \{}
-\DoxyCodeLine{\Hypertarget{classcl__nav2z_1_1CbUndoPathBackwards_l00067}00067   RCLCPP\_INFO\_STREAM(\mbox{\hyperlink{classsmacc2_1_1ISmaccClientBehavior_a5474074c4b45e900499e30126fb8415c}{getLogger}}(), \textcolor{stringliteral}{"{}["{}} << \mbox{\hyperlink{classsmacc2_1_1ISmaccClientBehavior_a3feaa9c382a7d376b7ba0017a63e294e}{getName}}() << \textcolor{stringliteral}{"{}] Exiting: undo navigation "{}});}
-\DoxyCodeLine{\Hypertarget{classcl__nav2z_1_1CbUndoPathBackwards_l00068}00068 }
-\DoxyCodeLine{\Hypertarget{classcl__nav2z_1_1CbUndoPathBackwards_l00069}00069   \textcolor{keywordflow}{if} (this-\/>\mbox{\hyperlink{classcl__nav2z_1_1CbNav2ZClientBehaviorBase_adc8e2d418119f46a328ca2714669cea4}{navigationResult\_}} == rclcpp\_action::ResultCode::SUCCEEDED)}
-\DoxyCodeLine{\Hypertarget{classcl__nav2z_1_1CbUndoPathBackwards_l00070}00070   \{}
-\DoxyCodeLine{\Hypertarget{classcl__nav2z_1_1CbUndoPathBackwards_l00071}00071     RCLCPP\_INFO\_STREAM(}
-\DoxyCodeLine{\Hypertarget{classcl__nav2z_1_1CbUndoPathBackwards_l00072}00072       \mbox{\hyperlink{classsmacc2_1_1ISmaccClientBehavior_a5474074c4b45e900499e30126fb8415c}{getLogger}}(),}
-\DoxyCodeLine{\Hypertarget{classcl__nav2z_1_1CbUndoPathBackwards_l00073}00073       \mbox{\hyperlink{classsmacc2_1_1ISmaccClientBehavior_a3feaa9c382a7d376b7ba0017a63e294e}{getName}}() << \textcolor{stringliteral}{"{} -\/ Exiting: undo navigation successful, popping odom tracker path"{}});}
-\DoxyCodeLine{\Hypertarget{classcl__nav2z_1_1CbUndoPathBackwards_l00074}00074     \textcolor{keyword}{auto} * odomTracker = \mbox{\hyperlink{classcl__nav2z_1_1CbNav2ZClientBehaviorBase_ad063ef82084fe0591d746456c3794db0}{moveBaseClient\_}}-\/>\mbox{\hyperlink{classsmacc2_1_1ISmaccClient_afc6e0f5f82a4552134c9423b75e3ca1d}{getComponent}}<OdomTracker>();}
-\DoxyCodeLine{\Hypertarget{classcl__nav2z_1_1CbUndoPathBackwards_l00075}00075     odomTracker-\/>popPath();}
-\DoxyCodeLine{\Hypertarget{classcl__nav2z_1_1CbUndoPathBackwards_l00076}00076   \}}
-\DoxyCodeLine{\Hypertarget{classcl__nav2z_1_1CbUndoPathBackwards_l00077}00077   \textcolor{keywordflow}{else}}
-\DoxyCodeLine{\Hypertarget{classcl__nav2z_1_1CbUndoPathBackwards_l00078}00078   \{}
-\DoxyCodeLine{\Hypertarget{classcl__nav2z_1_1CbUndoPathBackwards_l00079}00079     \textcolor{comment}{// navigation interrupted or aborted. The path may be not totally undone.}}
-\DoxyCodeLine{\Hypertarget{classcl__nav2z_1_1CbUndoPathBackwards_l00080}00080     \textcolor{comment}{// We keep the odom tracker in its current state, probably in the middle of the undoing process.}}
-\DoxyCodeLine{\Hypertarget{classcl__nav2z_1_1CbUndoPathBackwards_l00081}00081     \textcolor{comment}{// Could you try to repeat the behavior?}}
-\DoxyCodeLine{\Hypertarget{classcl__nav2z_1_1CbUndoPathBackwards_l00082}00082   \}}
-\DoxyCodeLine{\Hypertarget{classcl__nav2z_1_1CbUndoPathBackwards_l00083}00083 \}}
+\DoxyCodeLine{00066 \{}
+\DoxyCodeLine{00067   RCLCPP\_INFO\_STREAM(\mbox{\hyperlink{classsmacc2_1_1ISmaccClientBehavior_a9c3d82542c800e2ba5207c5cff0e63e8}{getLogger}}(), \textcolor{stringliteral}{"{}["{}} << \mbox{\hyperlink{classsmacc2_1_1ISmaccClientBehavior_a3feaa9c382a7d376b7ba0017a63e294e}{getName}}() << \textcolor{stringliteral}{"{}] Exiting: undo navigation "{}});}
+\DoxyCodeLine{00068 }
+\DoxyCodeLine{00069   \textcolor{keywordflow}{if} (this-\/>\mbox{\hyperlink{classcl__nav2z_1_1CbNav2ZClientBehaviorBase_adc8e2d418119f46a328ca2714669cea4}{navigationResult\_}} == rclcpp\_action::ResultCode::SUCCEEDED)}
+\DoxyCodeLine{00070   \{}
+\DoxyCodeLine{00071     RCLCPP\_INFO\_STREAM(}
+\DoxyCodeLine{00072       \mbox{\hyperlink{classsmacc2_1_1ISmaccClientBehavior_a9c3d82542c800e2ba5207c5cff0e63e8}{getLogger}}(),}
+\DoxyCodeLine{00073       \mbox{\hyperlink{classsmacc2_1_1ISmaccClientBehavior_a3feaa9c382a7d376b7ba0017a63e294e}{getName}}() << \textcolor{stringliteral}{"{} -\/ Exiting: undo navigation successful, popping odom tracker path"{}});}
+\DoxyCodeLine{00074     \textcolor{keyword}{auto} * odomTracker = \mbox{\hyperlink{classcl__nav2z_1_1CbNav2ZClientBehaviorBase_ad063ef82084fe0591d746456c3794db0}{moveBaseClient\_}}-\/>\mbox{\hyperlink{classsmacc2_1_1ISmaccClient_afc6e0f5f82a4552134c9423b75e3ca1d}{getComponent}}<OdomTracker>();}
+\DoxyCodeLine{00075     odomTracker-\/>popPath();}
+\DoxyCodeLine{00076   \}}
+\DoxyCodeLine{00077   \textcolor{keywordflow}{else}}
+\DoxyCodeLine{00078   \{}
+\DoxyCodeLine{00079     \textcolor{comment}{// navigation interrupted or aborted. The path may be not totally undone.}}
+\DoxyCodeLine{00080     \textcolor{comment}{// We keep the odom tracker in its current state, probably in the middle of the undoing process.}}
+\DoxyCodeLine{00081     \textcolor{comment}{// Could you try to repeat the behavior?}}
+\DoxyCodeLine{00082   \}}
+\DoxyCodeLine{00083 \}}
 
 \end{DoxyCode}
 
 
-References \mbox{\hyperlink{smacc__client__impl_8hpp_source_l00041}{smacc2\+::\+ISmacc\+Client\+::get\+Component()}}, \mbox{\hyperlink{smacc__client__behavior__base_8cpp_source_l00040}{smacc2\+::\+ISmacc\+Client\+Behavior\+::get\+Logger()}}, \mbox{\hyperlink{smacc__client__behavior__base_8cpp_source_l00036}{smacc2\+::\+ISmacc\+Client\+Behavior\+::get\+Name()}}, \mbox{\hyperlink{cb__nav2z__client__behavior__base_8hpp_source_l00045}{cl\+\_\+nav2z\+::\+Cb\+Nav2\+ZClient\+Behavior\+Base\+::move\+Base\+Client\+\_\+}}, \mbox{\hyperlink{cb__nav2z__client__behavior__base_8hpp_source_l00047}{cl\+\_\+nav2z\+::\+Cb\+Nav2\+ZClient\+Behavior\+Base\+::navigation\+Result\+\_\+}}, and \mbox{\hyperlink{odom__tracker_8cpp_source_l00167}{cl\+\_\+nav2z\+::odom\+\_\+tracker\+::\+Odom\+Tracker\+::pop\+Path()}}.
+References \mbox{\hyperlink{smacc__client__impl_8hpp_source_l00041}{smacc2\+::\+ISmacc\+Client\+::get\+Component()}}, \mbox{\hyperlink{smacc__client__behavior__base_8cpp_source_l00043}{smacc2\+::\+ISmacc\+Client\+Behavior\+::get\+Logger()}}, \mbox{\hyperlink{smacc__client__behavior__base_8cpp_source_l00036}{smacc2\+::\+ISmacc\+Client\+Behavior\+::get\+Name()}}, \mbox{\hyperlink{cb__nav2z__client__behavior__base_8hpp_source_l00045}{cl\+\_\+nav2z\+::\+Cb\+Nav2\+ZClient\+Behavior\+Base\+::move\+Base\+Client\+\_\+}}, \mbox{\hyperlink{cb__nav2z__client__behavior__base_8hpp_source_l00047}{cl\+\_\+nav2z\+::\+Cb\+Nav2\+ZClient\+Behavior\+Base\+::navigation\+Result\+\_\+}}, and \mbox{\hyperlink{odom__tracker_8cpp_source_l00167}{cl\+\_\+nav2z\+::odom\+\_\+tracker\+::\+Odom\+Tracker\+::pop\+Path()}}.
 
 Here is the call graph for this function\+:
 \nopagebreak

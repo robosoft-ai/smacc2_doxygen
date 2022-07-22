@@ -20,114 +20,90 @@ Definition at line \mbox{\hyperlink{localization__launch_8py_source_l00026}{26}}
 
 
 \begin{DoxyCode}{0}
-\DoxyCodeLine{\Hypertarget{namespacelocalization__launch_l00026}00026 \textcolor{keyword}{def }\mbox{\hyperlink{namespacelocalization__launch_a9117da351c1be4ad805149ec4b6a88b7}{generate\_launch\_description}}():}
-\DoxyCodeLine{\Hypertarget{namespacelocalization__launch_l00027}00027     \textcolor{comment}{\# Get the launch directory}}
-\DoxyCodeLine{\Hypertarget{namespacelocalization__launch_l00028}00028     bringup\_dir = get\_package\_share\_directory(\textcolor{stringliteral}{"{}nav2\_bringup"{}})}
-\DoxyCodeLine{\Hypertarget{namespacelocalization__launch_l00029}00029 }
-\DoxyCodeLine{\Hypertarget{namespacelocalization__launch_l00030}00030     namespace = LaunchConfiguration(\textcolor{stringliteral}{"{}namespace"{}})}
-\DoxyCodeLine{\Hypertarget{namespacelocalization__launch_l00031}00031     map\_yaml\_file = LaunchConfiguration(\textcolor{stringliteral}{"{}map"{}})}
-\DoxyCodeLine{\Hypertarget{namespacelocalization__launch_l00032}00032     use\_sim\_time = LaunchConfiguration(\textcolor{stringliteral}{"{}use\_sim\_time"{}})}
-\DoxyCodeLine{\Hypertarget{namespacelocalization__launch_l00033}00033     autostart = LaunchConfiguration(\textcolor{stringliteral}{"{}autostart"{}})}
-\DoxyCodeLine{\Hypertarget{namespacelocalization__launch_l00034}00034     params\_file = LaunchConfiguration(\textcolor{stringliteral}{"{}params\_file"{}})}
-\DoxyCodeLine{\Hypertarget{namespacelocalization__launch_l00035}00035     lifecycle\_nodes = [\textcolor{stringliteral}{"{}map\_server"{}}, \textcolor{stringliteral}{"{}amcl"{}}]}
-\DoxyCodeLine{\Hypertarget{namespacelocalization__launch_l00036}00036 }
-\DoxyCodeLine{\Hypertarget{namespacelocalization__launch_l00037}00037     \textcolor{comment}{\# Map fully qualified names to relative ones so the node's namespace can be prepended.}}
-\DoxyCodeLine{\Hypertarget{namespacelocalization__launch_l00038}00038     \textcolor{comment}{\# In case of the transforms (tf), currently, there doesn't seem to be a better alternative}}
-\DoxyCodeLine{\Hypertarget{namespacelocalization__launch_l00039}00039     \textcolor{comment}{\# https://github.com/ros/geometry2/issues/32}}
-\DoxyCodeLine{\Hypertarget{namespacelocalization__launch_l00040}00040     \textcolor{comment}{\# https://github.com/ros/robot\_state\_publisher/pull/30}}
-\DoxyCodeLine{\Hypertarget{namespacelocalization__launch_l00041}00041     \textcolor{comment}{\# TODO(orduno) Substitute with `PushNodeRemapping`}}
-\DoxyCodeLine{\Hypertarget{namespacelocalization__launch_l00042}00042     \textcolor{comment}{\#              https://github.com/ros2/launch\_ros/issues/56}}
-\DoxyCodeLine{\Hypertarget{namespacelocalization__launch_l00043}00043     remappings = [(\textcolor{stringliteral}{"{}/tf"{}}, \textcolor{stringliteral}{"{}tf"{}}), (\textcolor{stringliteral}{"{}/tf\_static"{}}, \textcolor{stringliteral}{"{}tf\_static"{}})]}
-\DoxyCodeLine{\Hypertarget{namespacelocalization__launch_l00044}00044 }
-\DoxyCodeLine{\Hypertarget{namespacelocalization__launch_l00045}00045     \textcolor{comment}{\# Create our own temporary YAML files that include substitutions}}
-\DoxyCodeLine{\Hypertarget{namespacelocalization__launch_l00046}00046     param\_substitutions = \{\textcolor{stringliteral}{"{}use\_sim\_time"{}}: use\_sim\_time, \textcolor{stringliteral}{"{}yaml\_filename"{}}: map\_yaml\_file\}}
-\DoxyCodeLine{\Hypertarget{namespacelocalization__launch_l00047}00047 }
-\DoxyCodeLine{\Hypertarget{namespacelocalization__launch_l00048}00048     configured\_params = RewrittenYaml(}
-\DoxyCodeLine{\Hypertarget{namespacelocalization__launch_l00049}00049         source\_file=params\_file,}
-\DoxyCodeLine{\Hypertarget{namespacelocalization__launch_l00050}00050         root\_key=namespace,}
-\DoxyCodeLine{\Hypertarget{namespacelocalization__launch_l00051}00051         param\_rewrites=param\_substitutions,}
-\DoxyCodeLine{\Hypertarget{namespacelocalization__launch_l00052}00052         convert\_types=\textcolor{keyword}{True},}
-\DoxyCodeLine{\Hypertarget{namespacelocalization__launch_l00053}00053     )}
-\DoxyCodeLine{\Hypertarget{namespacelocalization__launch_l00054}00054 }
-\DoxyCodeLine{\Hypertarget{namespacelocalization__launch_l00055}00055     \textcolor{keywordflow}{return} LaunchDescription(}
-\DoxyCodeLine{\Hypertarget{namespacelocalization__launch_l00056}00056         [}
-\DoxyCodeLine{\Hypertarget{namespacelocalization__launch_l00057}00057             \textcolor{comment}{\# Set env var to print messages to stdout immediately}}
-\DoxyCodeLine{\Hypertarget{namespacelocalization__launch_l00058}00058             SetEnvironmentVariable(\textcolor{stringliteral}{"{}RCUTILS\_LOGGING\_BUFFERED\_STREAM"{}}, \textcolor{stringliteral}{"{}1"{}}),}
-\DoxyCodeLine{\Hypertarget{namespacelocalization__launch_l00059}00059             DeclareLaunchArgument(}
-\DoxyCodeLine{\Hypertarget{namespacelocalization__launch_l00060}00060                 \textcolor{stringliteral}{"{}namespace"{}}, default\_value=\textcolor{stringliteral}{"{}"{}}, description=\textcolor{stringliteral}{"{}Top-\/level namespace"{}}}
-\DoxyCodeLine{\Hypertarget{namespacelocalization__launch_l00061}00061             ),}
-\DoxyCodeLine{\Hypertarget{namespacelocalization__launch_l00062}00062             DeclareLaunchArgument(}
-\DoxyCodeLine{\Hypertarget{namespacelocalization__launch_l00063}00063                 \textcolor{stringliteral}{"{}map"{}},}
-\DoxyCodeLine{\Hypertarget{namespacelocalization__launch_l00064}00064                 default\_value=os.path.join(bringup\_dir, \textcolor{stringliteral}{"{}maps"{}}, \textcolor{stringliteral}{"{}turtlebot3\_world.yaml"{}}),}
-\DoxyCodeLine{\Hypertarget{namespacelocalization__launch_l00065}00065                 description=\textcolor{stringliteral}{"{}Full path to map yaml file to load"{}},}
-\DoxyCodeLine{\Hypertarget{namespacelocalization__launch_l00066}00066             ),}
-\DoxyCodeLine{\Hypertarget{namespacelocalization__launch_l00067}00067             DeclareLaunchArgument(}
-\DoxyCodeLine{\Hypertarget{namespacelocalization__launch_l00068}00068                 \textcolor{stringliteral}{"{}use\_sim\_time"{}},}
-\DoxyCodeLine{\Hypertarget{namespacelocalization__launch_l00069}00069                 default\_value=\textcolor{stringliteral}{"{}false"{}},}
-\DoxyCodeLine{\Hypertarget{namespacelocalization__launch_l00070}00070                 description=\textcolor{stringliteral}{"{}Use simulation (Gazebo) clock if true"{}},}
-\DoxyCodeLine{\Hypertarget{namespacelocalization__launch_l00071}00071             ),}
-\DoxyCodeLine{\Hypertarget{namespacelocalization__launch_l00072}00072             DeclareLaunchArgument(}
-\DoxyCodeLine{\Hypertarget{namespacelocalization__launch_l00073}00073                 \textcolor{stringliteral}{"{}autostart"{}},}
-\DoxyCodeLine{\Hypertarget{namespacelocalization__launch_l00074}00074                 default\_value=\textcolor{stringliteral}{"{}true"{}},}
-\DoxyCodeLine{\Hypertarget{namespacelocalization__launch_l00075}00075                 description=\textcolor{stringliteral}{"{}Automatically startup the nav2 stack"{}},}
-\DoxyCodeLine{\Hypertarget{namespacelocalization__launch_l00076}00076             ),}
-\DoxyCodeLine{\Hypertarget{namespacelocalization__launch_l00077}00077             DeclareLaunchArgument(}
-\DoxyCodeLine{\Hypertarget{namespacelocalization__launch_l00078}00078                 \textcolor{stringliteral}{"{}params\_file"{}},}
-\DoxyCodeLine{\Hypertarget{namespacelocalization__launch_l00079}00079                 default\_value=os.path.join(bringup\_dir, \textcolor{stringliteral}{"{}params"{}}, \textcolor{stringliteral}{"{}nav2\_params.yaml"{}}),}
-\DoxyCodeLine{\Hypertarget{namespacelocalization__launch_l00080}00080                 description=\textcolor{stringliteral}{"{}Full path to the ROS2 parameters file to use"{}},}
-\DoxyCodeLine{\Hypertarget{namespacelocalization__launch_l00081}00081             ),}
-\DoxyCodeLine{\Hypertarget{namespacelocalization__launch_l00082}00082             Node(}
-\DoxyCodeLine{\Hypertarget{namespacelocalization__launch_l00083}00083                 package=\textcolor{stringliteral}{"{}nav2\_map\_server"{}},}
-\DoxyCodeLine{\Hypertarget{namespacelocalization__launch_l00084}00084                 executable=\textcolor{stringliteral}{"{}map\_server"{}},}
-\DoxyCodeLine{\Hypertarget{namespacelocalization__launch_l00085}00085                 name=\textcolor{stringliteral}{"{}map\_server"{}},}
-\DoxyCodeLine{\Hypertarget{namespacelocalization__launch_l00086}00086                 output=\textcolor{stringliteral}{"{}screen"{}},}
-\DoxyCodeLine{\Hypertarget{namespacelocalization__launch_l00087}00087                 parameters=[configured\_params],}
-\DoxyCodeLine{\Hypertarget{namespacelocalization__launch_l00088}00088                 remappings=remappings,}
-\DoxyCodeLine{\Hypertarget{namespacelocalization__launch_l00089}00089             ),}
-\DoxyCodeLine{\Hypertarget{namespacelocalization__launch_l00090}00090             Node(}
-\DoxyCodeLine{\Hypertarget{namespacelocalization__launch_l00091}00091                 package=\textcolor{stringliteral}{"{}nav2\_amcl"{}},}
-\DoxyCodeLine{\Hypertarget{namespacelocalization__launch_l00092}00092                 executable=\textcolor{stringliteral}{"{}amcl"{}},}
-\DoxyCodeLine{\Hypertarget{namespacelocalization__launch_l00093}00093                 name=\textcolor{stringliteral}{"{}amcl"{}},}
-\DoxyCodeLine{\Hypertarget{namespacelocalization__launch_l00094}00094                 output=\textcolor{stringliteral}{"{}screen"{}},}
-\DoxyCodeLine{\Hypertarget{namespacelocalization__launch_l00095}00095                 parameters=[configured\_params],}
-\DoxyCodeLine{\Hypertarget{namespacelocalization__launch_l00096}00096                 remappings=remappings,}
-\DoxyCodeLine{\Hypertarget{namespacelocalization__launch_l00097}00097             ),}
-\DoxyCodeLine{\Hypertarget{namespacelocalization__launch_l00098}00098             Node(}
-\DoxyCodeLine{\Hypertarget{namespacelocalization__launch_l00099}00099                 package=\textcolor{stringliteral}{"{}nav2\_lifecycle\_manager"{}},}
-\DoxyCodeLine{\Hypertarget{namespacelocalization__launch_l00100}00100                 executable=\textcolor{stringliteral}{"{}lifecycle\_manager"{}},}
-\DoxyCodeLine{\Hypertarget{namespacelocalization__launch_l00101}00101                 name=\textcolor{stringliteral}{"{}lifecycle\_manager\_localization"{}},}
-\DoxyCodeLine{\Hypertarget{namespacelocalization__launch_l00102}00102                 output=\textcolor{stringliteral}{"{}screen"{}},}
-\DoxyCodeLine{\Hypertarget{namespacelocalization__launch_l00103}00103                 parameters=[}
-\DoxyCodeLine{\Hypertarget{namespacelocalization__launch_l00104}00104                     \{\textcolor{stringliteral}{"{}use\_sim\_time"{}}: use\_sim\_time\},}
-\DoxyCodeLine{\Hypertarget{namespacelocalization__launch_l00105}00105                     \{\textcolor{stringliteral}{"{}autostart"{}}: autostart\},}
-\DoxyCodeLine{\Hypertarget{namespacelocalization__launch_l00106}00106                     \{\textcolor{stringliteral}{"{}node\_names"{}}: lifecycle\_nodes\},}
-\DoxyCodeLine{\Hypertarget{namespacelocalization__launch_l00107}00107                 ],}
-\DoxyCodeLine{\Hypertarget{namespacelocalization__launch_l00108}00108             ),}
-\DoxyCodeLine{\Hypertarget{namespacelocalization__launch_l00109}00109         ]}
-\DoxyCodeLine{\Hypertarget{namespacelocalization__launch_l00110}00110     )}
+\DoxyCodeLine{00026 \textcolor{keyword}{def }\mbox{\hyperlink{namespacelocalization__launch_a9117da351c1be4ad805149ec4b6a88b7}{generate\_launch\_description}}():}
+\DoxyCodeLine{00027     \textcolor{comment}{\# Get the launch directory}}
+\DoxyCodeLine{00028     bringup\_dir = get\_package\_share\_directory(\textcolor{stringliteral}{"{}nav2\_bringup"{}})}
+\DoxyCodeLine{00029 }
+\DoxyCodeLine{00030     namespace = LaunchConfiguration(\textcolor{stringliteral}{"{}namespace"{}})}
+\DoxyCodeLine{00031     map\_yaml\_file = LaunchConfiguration(\textcolor{stringliteral}{"{}map"{}})}
+\DoxyCodeLine{00032     use\_sim\_time = LaunchConfiguration(\textcolor{stringliteral}{"{}use\_sim\_time"{}})}
+\DoxyCodeLine{00033     autostart = LaunchConfiguration(\textcolor{stringliteral}{"{}autostart"{}})}
+\DoxyCodeLine{00034     params\_file = LaunchConfiguration(\textcolor{stringliteral}{"{}params\_file"{}})}
+\DoxyCodeLine{00035     lifecycle\_nodes = [\textcolor{stringliteral}{"{}map\_server"{}}, \textcolor{stringliteral}{"{}amcl"{}}]}
+\DoxyCodeLine{00036 }
+\DoxyCodeLine{00037     \textcolor{comment}{\# Map fully qualified names to relative ones so the node's namespace can be prepended.}}
+\DoxyCodeLine{00038     \textcolor{comment}{\# In case of the transforms (tf), currently, there doesn't seem to be a better alternative}}
+\DoxyCodeLine{00039     \textcolor{comment}{\# https://github.com/ros/geometry2/issues/32}}
+\DoxyCodeLine{00040     \textcolor{comment}{\# https://github.com/ros/robot\_state\_publisher/pull/30}}
+\DoxyCodeLine{00041     \textcolor{comment}{\# TODO(orduno) Substitute with `PushNodeRemapping`}}
+\DoxyCodeLine{00042     \textcolor{comment}{\#              https://github.com/ros2/launch\_ros/issues/56}}
+\DoxyCodeLine{00043     remappings = [(\textcolor{stringliteral}{"{}/tf"{}}, \textcolor{stringliteral}{"{}tf"{}}), (\textcolor{stringliteral}{"{}/tf\_static"{}}, \textcolor{stringliteral}{"{}tf\_static"{}})]}
+\DoxyCodeLine{00044 }
+\DoxyCodeLine{00045     \textcolor{comment}{\# Create our own temporary YAML files that include substitutions}}
+\DoxyCodeLine{00046     param\_substitutions = \{\textcolor{stringliteral}{"{}use\_sim\_time"{}}: use\_sim\_time, \textcolor{stringliteral}{"{}yaml\_filename"{}}: map\_yaml\_file\}}
+\DoxyCodeLine{00047 }
+\DoxyCodeLine{00048     configured\_params = RewrittenYaml(}
+\DoxyCodeLine{00049         source\_file=params\_file,}
+\DoxyCodeLine{00050         root\_key=namespace,}
+\DoxyCodeLine{00051         param\_rewrites=param\_substitutions,}
+\DoxyCodeLine{00052         convert\_types=\textcolor{keyword}{True},}
+\DoxyCodeLine{00053     )}
+\DoxyCodeLine{00054 }
+\DoxyCodeLine{00055     \textcolor{keywordflow}{return} LaunchDescription(}
+\DoxyCodeLine{00056         [}
+\DoxyCodeLine{00057             \textcolor{comment}{\# Set env var to print messages to stdout immediately}}
+\DoxyCodeLine{00058             SetEnvironmentVariable(\textcolor{stringliteral}{"{}RCUTILS\_LOGGING\_BUFFERED\_STREAM"{}}, \textcolor{stringliteral}{"{}1"{}}),}
+\DoxyCodeLine{00059             DeclareLaunchArgument(}
+\DoxyCodeLine{00060                 \textcolor{stringliteral}{"{}namespace"{}}, default\_value=\textcolor{stringliteral}{"{}"{}}, description=\textcolor{stringliteral}{"{}Top-\/level namespace"{}}}
+\DoxyCodeLine{00061             ),}
+\DoxyCodeLine{00062             DeclareLaunchArgument(}
+\DoxyCodeLine{00063                 \textcolor{stringliteral}{"{}map"{}},}
+\DoxyCodeLine{00064                 default\_value=os.path.join(bringup\_dir, \textcolor{stringliteral}{"{}maps"{}}, \textcolor{stringliteral}{"{}turtlebot3\_world.yaml"{}}),}
+\DoxyCodeLine{00065                 description=\textcolor{stringliteral}{"{}Full path to map yaml file to load"{}},}
+\DoxyCodeLine{00066             ),}
+\DoxyCodeLine{00067             DeclareLaunchArgument(}
+\DoxyCodeLine{00068                 \textcolor{stringliteral}{"{}use\_sim\_time"{}},}
+\DoxyCodeLine{00069                 default\_value=\textcolor{stringliteral}{"{}false"{}},}
+\DoxyCodeLine{00070                 description=\textcolor{stringliteral}{"{}Use simulation (Gazebo) clock if true"{}},}
+\DoxyCodeLine{00071             ),}
+\DoxyCodeLine{00072             DeclareLaunchArgument(}
+\DoxyCodeLine{00073                 \textcolor{stringliteral}{"{}autostart"{}},}
+\DoxyCodeLine{00074                 default\_value=\textcolor{stringliteral}{"{}true"{}},}
+\DoxyCodeLine{00075                 description=\textcolor{stringliteral}{"{}Automatically startup the nav2 stack"{}},}
+\DoxyCodeLine{00076             ),}
+\DoxyCodeLine{00077             DeclareLaunchArgument(}
+\DoxyCodeLine{00078                 \textcolor{stringliteral}{"{}params\_file"{}},}
+\DoxyCodeLine{00079                 default\_value=os.path.join(bringup\_dir, \textcolor{stringliteral}{"{}params"{}}, \textcolor{stringliteral}{"{}nav2\_params.yaml"{}}),}
+\DoxyCodeLine{00080                 description=\textcolor{stringliteral}{"{}Full path to the ROS2 parameters file to use"{}},}
+\DoxyCodeLine{00081             ),}
+\DoxyCodeLine{00082             Node(}
+\DoxyCodeLine{00083                 package=\textcolor{stringliteral}{"{}nav2\_map\_server"{}},}
+\DoxyCodeLine{00084                 executable=\textcolor{stringliteral}{"{}map\_server"{}},}
+\DoxyCodeLine{00085                 name=\textcolor{stringliteral}{"{}map\_server"{}},}
+\DoxyCodeLine{00086                 output=\textcolor{stringliteral}{"{}screen"{}},}
+\DoxyCodeLine{00087                 parameters=[configured\_params],}
+\DoxyCodeLine{00088                 remappings=remappings,}
+\DoxyCodeLine{00089             ),}
+\DoxyCodeLine{00090             Node(}
+\DoxyCodeLine{00091                 package=\textcolor{stringliteral}{"{}nav2\_amcl"{}},}
+\DoxyCodeLine{00092                 executable=\textcolor{stringliteral}{"{}amcl"{}},}
+\DoxyCodeLine{00093                 name=\textcolor{stringliteral}{"{}amcl"{}},}
+\DoxyCodeLine{00094                 output=\textcolor{stringliteral}{"{}screen"{}},}
+\DoxyCodeLine{00095                 parameters=[configured\_params],}
+\DoxyCodeLine{00096                 remappings=remappings,}
+\DoxyCodeLine{00097             ),}
+\DoxyCodeLine{00098             Node(}
+\DoxyCodeLine{00099                 package=\textcolor{stringliteral}{"{}nav2\_lifecycle\_manager"{}},}
+\DoxyCodeLine{00100                 executable=\textcolor{stringliteral}{"{}lifecycle\_manager"{}},}
+\DoxyCodeLine{00101                 name=\textcolor{stringliteral}{"{}lifecycle\_manager\_localization"{}},}
+\DoxyCodeLine{00102                 output=\textcolor{stringliteral}{"{}screen"{}},}
+\DoxyCodeLine{00103                 parameters=[}
+\DoxyCodeLine{00104                     \{\textcolor{stringliteral}{"{}use\_sim\_time"{}}: use\_sim\_time\},}
+\DoxyCodeLine{00105                     \{\textcolor{stringliteral}{"{}autostart"{}}: autostart\},}
+\DoxyCodeLine{00106                     \{\textcolor{stringliteral}{"{}node\_names"{}}: lifecycle\_nodes\},}
+\DoxyCodeLine{00107                 ],}
+\DoxyCodeLine{00108             ),}
+\DoxyCodeLine{00109         ]}
+\DoxyCodeLine{00110     )}
 
 \end{DoxyCode}
-
-
-References \mbox{\hyperlink{localization__launch_8py_source_l00026}{generate\+\_\+launch\+\_\+description()}}.
-
-
-
-Referenced by \mbox{\hyperlink{localization__launch_8py_source_l00026}{generate\+\_\+launch\+\_\+description()}}.
-
-Here is the call graph for this function\+:
-\nopagebreak
-\begin{figure}[H]
-\begin{center}
-\leavevmode
-\includegraphics[width=218pt]{namespacelocalization__launch_a9117da351c1be4ad805149ec4b6a88b7_cgraph}
-\end{center}
-\end{figure}
-Here is the caller graph for this function\+:
-\nopagebreak
-\begin{figure}[H]
-\begin{center}
-\leavevmode
-\includegraphics[width=218pt]{namespacelocalization__launch_a9117da351c1be4ad805149ec4b6a88b7_icgraph}
-\end{center}
-\end{figure}

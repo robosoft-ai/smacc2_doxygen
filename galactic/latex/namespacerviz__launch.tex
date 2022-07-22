@@ -20,123 +20,99 @@ Definition at line \mbox{\hyperlink{sm__dance__bot_2launch_2rviz__launch_8py_sou
 
 
 \begin{DoxyCode}{0}
-\DoxyCodeLine{\Hypertarget{namespacerviz__launch_l00029}00029 \textcolor{keyword}{def }\mbox{\hyperlink{namespacerviz__launch_aff9058f15602d252201c75107545f5c2}{generate\_launch\_description}}():}
-\DoxyCodeLine{\Hypertarget{namespacerviz__launch_l00030}00030     \textcolor{comment}{\# Get the launch directory}}
-\DoxyCodeLine{\Hypertarget{namespacerviz__launch_l00031}00031     bringup\_dir = get\_package\_share\_directory(\textcolor{stringliteral}{"{}nav2\_bringup"{}})}
-\DoxyCodeLine{\Hypertarget{namespacerviz__launch_l00032}00032 }
-\DoxyCodeLine{\Hypertarget{namespacerviz__launch_l00033}00033     \textcolor{comment}{\# Create the launch configuration variables}}
-\DoxyCodeLine{\Hypertarget{namespacerviz__launch_l00034}00034     namespace = LaunchConfiguration(\textcolor{stringliteral}{"{}namespace"{}})}
-\DoxyCodeLine{\Hypertarget{namespacerviz__launch_l00035}00035     use\_namespace = LaunchConfiguration(\textcolor{stringliteral}{"{}use\_namespace"{}})}
-\DoxyCodeLine{\Hypertarget{namespacerviz__launch_l00036}00036     rviz\_config\_file = LaunchConfiguration(\textcolor{stringliteral}{"{}rviz\_config"{}})}
-\DoxyCodeLine{\Hypertarget{namespacerviz__launch_l00037}00037 }
-\DoxyCodeLine{\Hypertarget{namespacerviz__launch_l00038}00038     \textcolor{comment}{\# Declare the launch arguments}}
-\DoxyCodeLine{\Hypertarget{namespacerviz__launch_l00039}00039     declare\_namespace\_cmd = DeclareLaunchArgument(}
-\DoxyCodeLine{\Hypertarget{namespacerviz__launch_l00040}00040         \textcolor{stringliteral}{"{}namespace"{}},}
-\DoxyCodeLine{\Hypertarget{namespacerviz__launch_l00041}00041         default\_value=\textcolor{stringliteral}{"{}navigation"{}},}
-\DoxyCodeLine{\Hypertarget{namespacerviz__launch_l00042}00042         description=(}
-\DoxyCodeLine{\Hypertarget{namespacerviz__launch_l00043}00043             \textcolor{stringliteral}{"{}Top-\/level namespace. The value will be used to replace the "{}}}
-\DoxyCodeLine{\Hypertarget{namespacerviz__launch_l00044}00044             \textcolor{stringliteral}{"{}<robot\_namespace> keyword on the rviz config file."{}}}
-\DoxyCodeLine{\Hypertarget{namespacerviz__launch_l00045}00045         ),}
-\DoxyCodeLine{\Hypertarget{namespacerviz__launch_l00046}00046     )}
-\DoxyCodeLine{\Hypertarget{namespacerviz__launch_l00047}00047 }
-\DoxyCodeLine{\Hypertarget{namespacerviz__launch_l00048}00048     declare\_use\_namespace\_cmd = DeclareLaunchArgument(}
-\DoxyCodeLine{\Hypertarget{namespacerviz__launch_l00049}00049         \textcolor{stringliteral}{"{}use\_namespace"{}},}
-\DoxyCodeLine{\Hypertarget{namespacerviz__launch_l00050}00050         default\_value=\textcolor{stringliteral}{"{}false"{}},}
-\DoxyCodeLine{\Hypertarget{namespacerviz__launch_l00051}00051         description=\textcolor{stringliteral}{"{}Whether to apply a namespace to the navigation stack"{}},}
-\DoxyCodeLine{\Hypertarget{namespacerviz__launch_l00052}00052     )}
-\DoxyCodeLine{\Hypertarget{namespacerviz__launch_l00053}00053 }
-\DoxyCodeLine{\Hypertarget{namespacerviz__launch_l00054}00054     declare\_rviz\_config\_file\_cmd = DeclareLaunchArgument(}
-\DoxyCodeLine{\Hypertarget{namespacerviz__launch_l00055}00055         \textcolor{stringliteral}{"{}rviz\_config"{}},}
-\DoxyCodeLine{\Hypertarget{namespacerviz__launch_l00056}00056         default\_value=os.path.join(bringup\_dir, \textcolor{stringliteral}{"{}rviz"{}}, \textcolor{stringliteral}{"{}nav2\_default\_view.rviz"{}}),}
-\DoxyCodeLine{\Hypertarget{namespacerviz__launch_l00057}00057         description=\textcolor{stringliteral}{"{}Full path to the RVIZ config file to use"{}},}
-\DoxyCodeLine{\Hypertarget{namespacerviz__launch_l00058}00058     )}
-\DoxyCodeLine{\Hypertarget{namespacerviz__launch_l00059}00059 }
-\DoxyCodeLine{\Hypertarget{namespacerviz__launch_l00060}00060     \textcolor{comment}{\# Launch rviz}}
-\DoxyCodeLine{\Hypertarget{namespacerviz__launch_l00061}00061     start\_rviz\_cmd = Node(}
-\DoxyCodeLine{\Hypertarget{namespacerviz__launch_l00062}00062         condition=UnlessCondition(use\_namespace),}
-\DoxyCodeLine{\Hypertarget{namespacerviz__launch_l00063}00063         package=\textcolor{stringliteral}{"{}rviz2"{}},}
-\DoxyCodeLine{\Hypertarget{namespacerviz__launch_l00064}00064         executable=\textcolor{stringliteral}{"{}rviz2"{}},}
-\DoxyCodeLine{\Hypertarget{namespacerviz__launch_l00065}00065         name=\textcolor{stringliteral}{"{}rviz2"{}},}
-\DoxyCodeLine{\Hypertarget{namespacerviz__launch_l00066}00066         arguments=[\textcolor{stringliteral}{"{}-\/d"{}}, rviz\_config\_file],}
-\DoxyCodeLine{\Hypertarget{namespacerviz__launch_l00067}00067         output=\textcolor{stringliteral}{"{}screen"{}},}
-\DoxyCodeLine{\Hypertarget{namespacerviz__launch_l00068}00068     )}
-\DoxyCodeLine{\Hypertarget{namespacerviz__launch_l00069}00069 }
-\DoxyCodeLine{\Hypertarget{namespacerviz__launch_l00070}00070     namespaced\_rviz\_config\_file = ReplaceString(}
-\DoxyCodeLine{\Hypertarget{namespacerviz__launch_l00071}00071         source\_file=rviz\_config\_file, replacements=\{\textcolor{stringliteral}{"{}<robot\_namespace>"{}}: (\textcolor{stringliteral}{"{}/"{}}, namespace)\}}
-\DoxyCodeLine{\Hypertarget{namespacerviz__launch_l00072}00072     )}
-\DoxyCodeLine{\Hypertarget{namespacerviz__launch_l00073}00073 }
-\DoxyCodeLine{\Hypertarget{namespacerviz__launch_l00074}00074     start\_namespaced\_rviz\_cmd = Node(}
-\DoxyCodeLine{\Hypertarget{namespacerviz__launch_l00075}00075         condition=IfCondition(use\_namespace),}
-\DoxyCodeLine{\Hypertarget{namespacerviz__launch_l00076}00076         package=\textcolor{stringliteral}{"{}rviz2"{}},}
-\DoxyCodeLine{\Hypertarget{namespacerviz__launch_l00077}00077         executable=\textcolor{stringliteral}{"{}rviz2"{}},}
-\DoxyCodeLine{\Hypertarget{namespacerviz__launch_l00078}00078         name=\textcolor{stringliteral}{"{}rviz2"{}},}
-\DoxyCodeLine{\Hypertarget{namespacerviz__launch_l00079}00079         namespace=namespace,}
-\DoxyCodeLine{\Hypertarget{namespacerviz__launch_l00080}00080         arguments=[\textcolor{stringliteral}{"{}-\/d"{}}, namespaced\_rviz\_config\_file],}
-\DoxyCodeLine{\Hypertarget{namespacerviz__launch_l00081}00081         output=\textcolor{stringliteral}{"{}screen"{}},}
-\DoxyCodeLine{\Hypertarget{namespacerviz__launch_l00082}00082         remappings=[}
-\DoxyCodeLine{\Hypertarget{namespacerviz__launch_l00083}00083             (\textcolor{stringliteral}{"{}/tf"{}}, \textcolor{stringliteral}{"{}tf"{}}),}
-\DoxyCodeLine{\Hypertarget{namespacerviz__launch_l00084}00084             (\textcolor{stringliteral}{"{}/tf\_static"{}}, \textcolor{stringliteral}{"{}tf\_static"{}}),}
-\DoxyCodeLine{\Hypertarget{namespacerviz__launch_l00085}00085             (\textcolor{stringliteral}{"{}/goal\_pose"{}}, \textcolor{stringliteral}{"{}goal\_pose"{}}),}
-\DoxyCodeLine{\Hypertarget{namespacerviz__launch_l00086}00086             (\textcolor{stringliteral}{"{}/clicked\_point"{}}, \textcolor{stringliteral}{"{}clicked\_point"{}}),}
-\DoxyCodeLine{\Hypertarget{namespacerviz__launch_l00087}00087             (\textcolor{stringliteral}{"{}/initialpose"{}}, \textcolor{stringliteral}{"{}initialpose"{}}),}
-\DoxyCodeLine{\Hypertarget{namespacerviz__launch_l00088}00088         ],}
-\DoxyCodeLine{\Hypertarget{namespacerviz__launch_l00089}00089     )}
-\DoxyCodeLine{\Hypertarget{namespacerviz__launch_l00090}00090 }
-\DoxyCodeLine{\Hypertarget{namespacerviz__launch_l00091}00091     exit\_event\_handler = RegisterEventHandler(}
-\DoxyCodeLine{\Hypertarget{namespacerviz__launch_l00092}00092         condition=UnlessCondition(use\_namespace),}
-\DoxyCodeLine{\Hypertarget{namespacerviz__launch_l00093}00093         event\_handler=OnProcessExit(}
-\DoxyCodeLine{\Hypertarget{namespacerviz__launch_l00094}00094             target\_action=start\_rviz\_cmd, on\_exit=EmitEvent(event=Shutdown(reason=\textcolor{stringliteral}{"{}rviz exited"{}}))}
-\DoxyCodeLine{\Hypertarget{namespacerviz__launch_l00095}00095         ),}
-\DoxyCodeLine{\Hypertarget{namespacerviz__launch_l00096}00096     )}
-\DoxyCodeLine{\Hypertarget{namespacerviz__launch_l00097}00097 }
-\DoxyCodeLine{\Hypertarget{namespacerviz__launch_l00098}00098     exit\_event\_handler\_namespaced = RegisterEventHandler(}
-\DoxyCodeLine{\Hypertarget{namespacerviz__launch_l00099}00099         condition=IfCondition(use\_namespace),}
-\DoxyCodeLine{\Hypertarget{namespacerviz__launch_l00100}00100         event\_handler=OnProcessExit(}
-\DoxyCodeLine{\Hypertarget{namespacerviz__launch_l00101}00101             target\_action=start\_namespaced\_rviz\_cmd,}
-\DoxyCodeLine{\Hypertarget{namespacerviz__launch_l00102}00102             on\_exit=EmitEvent(event=Shutdown(reason=\textcolor{stringliteral}{"{}rviz exited"{}})),}
-\DoxyCodeLine{\Hypertarget{namespacerviz__launch_l00103}00103         ),}
-\DoxyCodeLine{\Hypertarget{namespacerviz__launch_l00104}00104     )}
-\DoxyCodeLine{\Hypertarget{namespacerviz__launch_l00105}00105 }
-\DoxyCodeLine{\Hypertarget{namespacerviz__launch_l00106}00106     \textcolor{comment}{\# Create the launch description and populate}}
-\DoxyCodeLine{\Hypertarget{namespacerviz__launch_l00107}00107     ld = LaunchDescription()}
-\DoxyCodeLine{\Hypertarget{namespacerviz__launch_l00108}00108 }
-\DoxyCodeLine{\Hypertarget{namespacerviz__launch_l00109}00109     \textcolor{comment}{\# Declare the launch options}}
-\DoxyCodeLine{\Hypertarget{namespacerviz__launch_l00110}00110     ld.add\_action(declare\_namespace\_cmd)}
-\DoxyCodeLine{\Hypertarget{namespacerviz__launch_l00111}00111     ld.add\_action(declare\_use\_namespace\_cmd)}
-\DoxyCodeLine{\Hypertarget{namespacerviz__launch_l00112}00112     ld.add\_action(declare\_rviz\_config\_file\_cmd)}
-\DoxyCodeLine{\Hypertarget{namespacerviz__launch_l00113}00113 }
-\DoxyCodeLine{\Hypertarget{namespacerviz__launch_l00114}00114     \textcolor{comment}{\# Add any conditioned actions}}
-\DoxyCodeLine{\Hypertarget{namespacerviz__launch_l00115}00115     ld.add\_action(start\_rviz\_cmd)}
-\DoxyCodeLine{\Hypertarget{namespacerviz__launch_l00116}00116     ld.add\_action(start\_namespaced\_rviz\_cmd)}
-\DoxyCodeLine{\Hypertarget{namespacerviz__launch_l00117}00117 }
-\DoxyCodeLine{\Hypertarget{namespacerviz__launch_l00118}00118     \textcolor{comment}{\# Add other nodes and processes we need}}
-\DoxyCodeLine{\Hypertarget{namespacerviz__launch_l00119}00119     ld.add\_action(exit\_event\_handler)}
-\DoxyCodeLine{\Hypertarget{namespacerviz__launch_l00120}00120     ld.add\_action(exit\_event\_handler\_namespaced)}
-\DoxyCodeLine{\Hypertarget{namespacerviz__launch_l00121}00121 }
-\DoxyCodeLine{\Hypertarget{namespacerviz__launch_l00122}00122     \textcolor{keywordflow}{return} ld}
+\DoxyCodeLine{00029 \textcolor{keyword}{def }\mbox{\hyperlink{namespacerviz__launch_aff9058f15602d252201c75107545f5c2}{generate\_launch\_description}}():}
+\DoxyCodeLine{00030     \textcolor{comment}{\# Get the launch directory}}
+\DoxyCodeLine{00031     bringup\_dir = get\_package\_share\_directory(\textcolor{stringliteral}{"{}nav2\_bringup"{}})}
+\DoxyCodeLine{00032 }
+\DoxyCodeLine{00033     \textcolor{comment}{\# Create the launch configuration variables}}
+\DoxyCodeLine{00034     namespace = LaunchConfiguration(\textcolor{stringliteral}{"{}namespace"{}})}
+\DoxyCodeLine{00035     use\_namespace = LaunchConfiguration(\textcolor{stringliteral}{"{}use\_namespace"{}})}
+\DoxyCodeLine{00036     rviz\_config\_file = LaunchConfiguration(\textcolor{stringliteral}{"{}rviz\_config"{}})}
+\DoxyCodeLine{00037 }
+\DoxyCodeLine{00038     \textcolor{comment}{\# Declare the launch arguments}}
+\DoxyCodeLine{00039     declare\_namespace\_cmd = DeclareLaunchArgument(}
+\DoxyCodeLine{00040         \textcolor{stringliteral}{"{}namespace"{}},}
+\DoxyCodeLine{00041         default\_value=\textcolor{stringliteral}{"{}navigation"{}},}
+\DoxyCodeLine{00042         description=(}
+\DoxyCodeLine{00043             \textcolor{stringliteral}{"{}Top-\/level namespace. The value will be used to replace the "{}}}
+\DoxyCodeLine{00044             \textcolor{stringliteral}{"{}<robot\_namespace> keyword on the rviz config file."{}}}
+\DoxyCodeLine{00045         ),}
+\DoxyCodeLine{00046     )}
+\DoxyCodeLine{00047 }
+\DoxyCodeLine{00048     declare\_use\_namespace\_cmd = DeclareLaunchArgument(}
+\DoxyCodeLine{00049         \textcolor{stringliteral}{"{}use\_namespace"{}},}
+\DoxyCodeLine{00050         default\_value=\textcolor{stringliteral}{"{}false"{}},}
+\DoxyCodeLine{00051         description=\textcolor{stringliteral}{"{}Whether to apply a namespace to the navigation stack"{}},}
+\DoxyCodeLine{00052     )}
+\DoxyCodeLine{00053 }
+\DoxyCodeLine{00054     declare\_rviz\_config\_file\_cmd = DeclareLaunchArgument(}
+\DoxyCodeLine{00055         \textcolor{stringliteral}{"{}rviz\_config"{}},}
+\DoxyCodeLine{00056         default\_value=os.path.join(bringup\_dir, \textcolor{stringliteral}{"{}rviz"{}}, \textcolor{stringliteral}{"{}nav2\_default\_view.rviz"{}}),}
+\DoxyCodeLine{00057         description=\textcolor{stringliteral}{"{}Full path to the RVIZ config file to use"{}},}
+\DoxyCodeLine{00058     )}
+\DoxyCodeLine{00059 }
+\DoxyCodeLine{00060     \textcolor{comment}{\# Launch rviz}}
+\DoxyCodeLine{00061     start\_rviz\_cmd = Node(}
+\DoxyCodeLine{00062         condition=UnlessCondition(use\_namespace),}
+\DoxyCodeLine{00063         package=\textcolor{stringliteral}{"{}rviz2"{}},}
+\DoxyCodeLine{00064         executable=\textcolor{stringliteral}{"{}rviz2"{}},}
+\DoxyCodeLine{00065         name=\textcolor{stringliteral}{"{}rviz2"{}},}
+\DoxyCodeLine{00066         arguments=[\textcolor{stringliteral}{"{}-\/d"{}}, rviz\_config\_file],}
+\DoxyCodeLine{00067         output=\textcolor{stringliteral}{"{}screen"{}},}
+\DoxyCodeLine{00068     )}
+\DoxyCodeLine{00069 }
+\DoxyCodeLine{00070     namespaced\_rviz\_config\_file = ReplaceString(}
+\DoxyCodeLine{00071         source\_file=rviz\_config\_file, replacements=\{\textcolor{stringliteral}{"{}<robot\_namespace>"{}}: (\textcolor{stringliteral}{"{}/"{}}, namespace)\}}
+\DoxyCodeLine{00072     )}
+\DoxyCodeLine{00073 }
+\DoxyCodeLine{00074     start\_namespaced\_rviz\_cmd = Node(}
+\DoxyCodeLine{00075         condition=IfCondition(use\_namespace),}
+\DoxyCodeLine{00076         package=\textcolor{stringliteral}{"{}rviz2"{}},}
+\DoxyCodeLine{00077         executable=\textcolor{stringliteral}{"{}rviz2"{}},}
+\DoxyCodeLine{00078         name=\textcolor{stringliteral}{"{}rviz2"{}},}
+\DoxyCodeLine{00079         namespace=namespace,}
+\DoxyCodeLine{00080         arguments=[\textcolor{stringliteral}{"{}-\/d"{}}, namespaced\_rviz\_config\_file],}
+\DoxyCodeLine{00081         output=\textcolor{stringliteral}{"{}screen"{}},}
+\DoxyCodeLine{00082         remappings=[}
+\DoxyCodeLine{00083             (\textcolor{stringliteral}{"{}/tf"{}}, \textcolor{stringliteral}{"{}tf"{}}),}
+\DoxyCodeLine{00084             (\textcolor{stringliteral}{"{}/tf\_static"{}}, \textcolor{stringliteral}{"{}tf\_static"{}}),}
+\DoxyCodeLine{00085             (\textcolor{stringliteral}{"{}/goal\_pose"{}}, \textcolor{stringliteral}{"{}goal\_pose"{}}),}
+\DoxyCodeLine{00086             (\textcolor{stringliteral}{"{}/clicked\_point"{}}, \textcolor{stringliteral}{"{}clicked\_point"{}}),}
+\DoxyCodeLine{00087             (\textcolor{stringliteral}{"{}/initialpose"{}}, \textcolor{stringliteral}{"{}initialpose"{}}),}
+\DoxyCodeLine{00088         ],}
+\DoxyCodeLine{00089     )}
+\DoxyCodeLine{00090 }
+\DoxyCodeLine{00091     exit\_event\_handler = RegisterEventHandler(}
+\DoxyCodeLine{00092         condition=UnlessCondition(use\_namespace),}
+\DoxyCodeLine{00093         event\_handler=OnProcessExit(}
+\DoxyCodeLine{00094             target\_action=start\_rviz\_cmd, on\_exit=EmitEvent(event=Shutdown(reason=\textcolor{stringliteral}{"{}rviz exited"{}}))}
+\DoxyCodeLine{00095         ),}
+\DoxyCodeLine{00096     )}
+\DoxyCodeLine{00097 }
+\DoxyCodeLine{00098     exit\_event\_handler\_namespaced = RegisterEventHandler(}
+\DoxyCodeLine{00099         condition=IfCondition(use\_namespace),}
+\DoxyCodeLine{00100         event\_handler=OnProcessExit(}
+\DoxyCodeLine{00101             target\_action=start\_namespaced\_rviz\_cmd,}
+\DoxyCodeLine{00102             on\_exit=EmitEvent(event=Shutdown(reason=\textcolor{stringliteral}{"{}rviz exited"{}})),}
+\DoxyCodeLine{00103         ),}
+\DoxyCodeLine{00104     )}
+\DoxyCodeLine{00105 }
+\DoxyCodeLine{00106     \textcolor{comment}{\# Create the launch description and populate}}
+\DoxyCodeLine{00107     ld = LaunchDescription()}
+\DoxyCodeLine{00108 }
+\DoxyCodeLine{00109     \textcolor{comment}{\# Declare the launch options}}
+\DoxyCodeLine{00110     ld.add\_action(declare\_namespace\_cmd)}
+\DoxyCodeLine{00111     ld.add\_action(declare\_use\_namespace\_cmd)}
+\DoxyCodeLine{00112     ld.add\_action(declare\_rviz\_config\_file\_cmd)}
+\DoxyCodeLine{00113 }
+\DoxyCodeLine{00114     \textcolor{comment}{\# Add any conditioned actions}}
+\DoxyCodeLine{00115     ld.add\_action(start\_rviz\_cmd)}
+\DoxyCodeLine{00116     ld.add\_action(start\_namespaced\_rviz\_cmd)}
+\DoxyCodeLine{00117 }
+\DoxyCodeLine{00118     \textcolor{comment}{\# Add other nodes and processes we need}}
+\DoxyCodeLine{00119     ld.add\_action(exit\_event\_handler)}
+\DoxyCodeLine{00120     ld.add\_action(exit\_event\_handler\_namespaced)}
+\DoxyCodeLine{00121 }
+\DoxyCodeLine{00122     \textcolor{keywordflow}{return} ld}
 
 \end{DoxyCode}
-
-
-References \mbox{\hyperlink{sm__dance__bot_2launch_2rviz__launch_8py_source_l00029}{generate\+\_\+launch\+\_\+description()}}.
-
-
-
-Referenced by \mbox{\hyperlink{sm__dance__bot_2launch_2rviz__launch_8py_source_l00029}{generate\+\_\+launch\+\_\+description()}}.
-
-Here is the call graph for this function\+:
-\nopagebreak
-\begin{figure}[H]
-\begin{center}
-\leavevmode
-\includegraphics[width=185pt]{namespacerviz__launch_aff9058f15602d252201c75107545f5c2_cgraph}
-\end{center}
-\end{figure}
-Here is the caller graph for this function\+:
-\nopagebreak
-\begin{figure}[H]
-\begin{center}
-\leavevmode
-\includegraphics[width=185pt]{namespacerviz__launch_aff9058f15602d252201c75107545f5c2_icgraph}
-\end{center}
-\end{figure}

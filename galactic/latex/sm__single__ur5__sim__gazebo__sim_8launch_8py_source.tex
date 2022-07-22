@@ -1,0 +1,374 @@
+\hypertarget{sm__single__ur5__sim__gazebo__sim_8launch_8py_source}{}\doxysection{sm\+\_\+single\+\_\+ur5\+\_\+sim\+\_\+gazebo\+\_\+sim.\+launch.\+py}
+\label{sm__single__ur5__sim__gazebo__sim_8launch_8py_source}\index{smacc2\_sm\_reference\_library/sm\_multi\_ur5\_sim/launch/sm\_single\_ur5\_sim\_gazebo\_sim.launch.py@{smacc2\_sm\_reference\_library/sm\_multi\_ur5\_sim/launch/sm\_single\_ur5\_sim\_gazebo\_sim.launch.py}}
+\mbox{\hyperlink{sm__single__ur5__sim__gazebo__sim_8launch_8py}{Go to the documentation of this file.}}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\Hypertarget{sm__single__ur5__sim__gazebo__sim_8launch_8py_source_l00001}\mbox{\hyperlink{namespacesm__single__ur5__sim__gazebo__sim}{00001}} \textcolor{comment}{\# Copyright (c) 2021 RobosoftAI Inc.}}
+\DoxyCodeLine{\Hypertarget{sm__single__ur5__sim__gazebo__sim_8launch_8py_source_l00002}00002 \textcolor{comment}{\#}}
+\DoxyCodeLine{\Hypertarget{sm__single__ur5__sim__gazebo__sim_8launch_8py_source_l00003}00003 \textcolor{comment}{\# Licensed under the Apache License, Version 2.0 (the "{}License"{});}}
+\DoxyCodeLine{\Hypertarget{sm__single__ur5__sim__gazebo__sim_8launch_8py_source_l00004}00004 \textcolor{comment}{\# you may not use this file except in compliance with the License.}}
+\DoxyCodeLine{\Hypertarget{sm__single__ur5__sim__gazebo__sim_8launch_8py_source_l00005}00005 \textcolor{comment}{\# You may obtain a copy of the License at}}
+\DoxyCodeLine{\Hypertarget{sm__single__ur5__sim__gazebo__sim_8launch_8py_source_l00006}00006 \textcolor{comment}{\#}}
+\DoxyCodeLine{\Hypertarget{sm__single__ur5__sim__gazebo__sim_8launch_8py_source_l00007}00007 \textcolor{comment}{\#     http://www.apache.org/licenses/LICENSE-\/2.0}}
+\DoxyCodeLine{\Hypertarget{sm__single__ur5__sim__gazebo__sim_8launch_8py_source_l00008}00008 \textcolor{comment}{\#}}
+\DoxyCodeLine{\Hypertarget{sm__single__ur5__sim__gazebo__sim_8launch_8py_source_l00009}00009 \textcolor{comment}{\# Unless required by applicable law or agreed to in writing, software}}
+\DoxyCodeLine{\Hypertarget{sm__single__ur5__sim__gazebo__sim_8launch_8py_source_l00010}00010 \textcolor{comment}{\# distributed under the License is distributed on an "{}AS IS"{} BASIS,}}
+\DoxyCodeLine{\Hypertarget{sm__single__ur5__sim__gazebo__sim_8launch_8py_source_l00011}00011 \textcolor{comment}{\# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.}}
+\DoxyCodeLine{\Hypertarget{sm__single__ur5__sim__gazebo__sim_8launch_8py_source_l00012}00012 \textcolor{comment}{\# See the License for the specific language governing permissions and}}
+\DoxyCodeLine{\Hypertarget{sm__single__ur5__sim__gazebo__sim_8launch_8py_source_l00013}00013 \textcolor{comment}{\# limitations under the License.}}
+\DoxyCodeLine{\Hypertarget{sm__single__ur5__sim__gazebo__sim_8launch_8py_source_l00014}00014 }
+\DoxyCodeLine{\Hypertarget{sm__single__ur5__sim__gazebo__sim_8launch_8py_source_l00015}00015 \textcolor{comment}{\#}}
+\DoxyCodeLine{\Hypertarget{sm__single__ur5__sim__gazebo__sim_8launch_8py_source_l00016}00016 \textcolor{comment}{\# Author: Denis Štogl}}
+\DoxyCodeLine{\Hypertarget{sm__single__ur5__sim__gazebo__sim_8launch_8py_source_l00017}00017 \textcolor{comment}{\# Author: Pablo Iñigo Blasco}}
+\DoxyCodeLine{\Hypertarget{sm__single__ur5__sim__gazebo__sim_8launch_8py_source_l00018}00018 }
+\DoxyCodeLine{\Hypertarget{sm__single__ur5__sim__gazebo__sim_8launch_8py_source_l00019}00019 }
+\DoxyCodeLine{\Hypertarget{sm__single__ur5__sim__gazebo__sim_8launch_8py_source_l00020}00020 \textcolor{keyword}{from} launch \textcolor{keyword}{import} LaunchDescription}
+\DoxyCodeLine{\Hypertarget{sm__single__ur5__sim__gazebo__sim_8launch_8py_source_l00021}00021 \textcolor{keyword}{from} launch.actions \textcolor{keyword}{import} DeclareLaunchArgument, IncludeLaunchDescription, OpaqueFunction}
+\DoxyCodeLine{\Hypertarget{sm__single__ur5__sim__gazebo__sim_8launch_8py_source_l00022}00022 \textcolor{keyword}{from} launch.launch\_description\_sources \textcolor{keyword}{import} PythonLaunchDescriptionSource}
+\DoxyCodeLine{\Hypertarget{sm__single__ur5__sim__gazebo__sim_8launch_8py_source_l00023}00023 \textcolor{keyword}{from} launch.substitutions \textcolor{keyword}{import} Command, FindExecutable, LaunchConfiguration, PathJoinSubstitution}
+\DoxyCodeLine{\Hypertarget{sm__single__ur5__sim__gazebo__sim_8launch_8py_source_l00024}00024 \textcolor{keyword}{from} launch\_ros.actions \textcolor{keyword}{import} Node}
+\DoxyCodeLine{\Hypertarget{sm__single__ur5__sim__gazebo__sim_8launch_8py_source_l00025}00025 \textcolor{keyword}{from} launch\_ros.substitutions \textcolor{keyword}{import} FindPackageShare}
+\DoxyCodeLine{\Hypertarget{sm__single__ur5__sim__gazebo__sim_8launch_8py_source_l00026}00026 \textcolor{keyword}{from} launch.conditions \textcolor{keyword}{import} IfCondition}
+\DoxyCodeLine{\Hypertarget{sm__single__ur5__sim__gazebo__sim_8launch_8py_source_l00027}00027 }
+\DoxyCodeLine{\Hypertarget{sm__single__ur5__sim__gazebo__sim_8launch_8py_source_l00028}00028 \textcolor{keyword}{import} os}
+\DoxyCodeLine{\Hypertarget{sm__single__ur5__sim__gazebo__sim_8launch_8py_source_l00029}00029 \textcolor{keyword}{from} ament\_index\_python.packages \textcolor{keyword}{import} get\_package\_share\_directory}
+\DoxyCodeLine{\Hypertarget{sm__single__ur5__sim__gazebo__sim_8launch_8py_source_l00030}00030 \textcolor{keyword}{import} math}
+\DoxyCodeLine{\Hypertarget{sm__single__ur5__sim__gazebo__sim_8launch_8py_source_l00031}00031 \textcolor{keyword}{import} yaml}
+\DoxyCodeLine{\Hypertarget{sm__single__ur5__sim__gazebo__sim_8launch_8py_source_l00032}00032 }
+\DoxyCodeLine{\Hypertarget{sm__single__ur5__sim__gazebo__sim_8launch_8py_source_l00033}00033 }
+\DoxyCodeLine{\Hypertarget{sm__single__ur5__sim__gazebo__sim_8launch_8py_source_l00034}\mbox{\hyperlink{namespacesm__single__ur5__sim__gazebo__sim_a916cce5d4b81e4e792b7a78047237bed}{00034}} \textcolor{keyword}{def }\mbox{\hyperlink{namespacesm__single__ur5__sim__gazebo__sim_a916cce5d4b81e4e792b7a78047237bed}{construct\_angle\_radians}}(loader, node):}
+\DoxyCodeLine{\Hypertarget{sm__single__ur5__sim__gazebo__sim_8launch_8py_source_l00035}00035     \textcolor{stringliteral}{"{}"{}"{}utility function to construct radian values from yaml."{}"{}"{}}}
+\DoxyCodeLine{\Hypertarget{sm__single__ur5__sim__gazebo__sim_8launch_8py_source_l00036}00036     value = loader.construct\_scalar(node)}
+\DoxyCodeLine{\Hypertarget{sm__single__ur5__sim__gazebo__sim_8launch_8py_source_l00037}00037     \textcolor{keywordflow}{try}:}
+\DoxyCodeLine{\Hypertarget{sm__single__ur5__sim__gazebo__sim_8launch_8py_source_l00038}00038         \textcolor{keywordflow}{return} float(value)}
+\DoxyCodeLine{\Hypertarget{sm__single__ur5__sim__gazebo__sim_8launch_8py_source_l00039}00039     \textcolor{keywordflow}{except} SyntaxError:}
+\DoxyCodeLine{\Hypertarget{sm__single__ur5__sim__gazebo__sim_8launch_8py_source_l00040}00040         \textcolor{keywordflow}{raise} Exception(\textcolor{stringliteral}{"{}invalid expression: \%s"{}} \% value)}
+\DoxyCodeLine{\Hypertarget{sm__single__ur5__sim__gazebo__sim_8launch_8py_source_l00041}00041 }
+\DoxyCodeLine{\Hypertarget{sm__single__ur5__sim__gazebo__sim_8launch_8py_source_l00042}00042 }
+\DoxyCodeLine{\Hypertarget{sm__single__ur5__sim__gazebo__sim_8launch_8py_source_l00043}\mbox{\hyperlink{namespacesm__single__ur5__sim__gazebo__sim_a34e332c89df8a3044137ebaf19087e51}{00043}} \textcolor{keyword}{def }\mbox{\hyperlink{namespacesm__single__ur5__sim__gazebo__sim_a34e332c89df8a3044137ebaf19087e51}{construct\_angle\_degrees}}(loader, node):}
+\DoxyCodeLine{\Hypertarget{sm__single__ur5__sim__gazebo__sim_8launch_8py_source_l00044}00044     \textcolor{stringliteral}{"{}"{}"{}utility function for converting degrees into radians from yaml."{}"{}"{}}}
+\DoxyCodeLine{\Hypertarget{sm__single__ur5__sim__gazebo__sim_8launch_8py_source_l00045}00045     \textcolor{keywordflow}{return} math.radians(\mbox{\hyperlink{namespacesm__single__ur5__sim__gazebo__sim_a916cce5d4b81e4e792b7a78047237bed}{construct\_angle\_radians}}(loader, node))}
+\DoxyCodeLine{\Hypertarget{sm__single__ur5__sim__gazebo__sim_8launch_8py_source_l00046}00046 }
+\DoxyCodeLine{\Hypertarget{sm__single__ur5__sim__gazebo__sim_8launch_8py_source_l00047}00047 }
+\DoxyCodeLine{\Hypertarget{sm__single__ur5__sim__gazebo__sim_8launch_8py_source_l00048}\mbox{\hyperlink{namespacesm__single__ur5__sim__gazebo__sim_aa50ac39fc610786e8b607dd0196607ae}{00048}} \textcolor{keyword}{def }\mbox{\hyperlink{namespacesm__single__ur5__sim__gazebo__sim_aa50ac39fc610786e8b607dd0196607ae}{load\_yaml}}(package\_name, file\_path):}
+\DoxyCodeLine{\Hypertarget{sm__single__ur5__sim__gazebo__sim_8launch_8py_source_l00049}00049     package\_path = get\_package\_share\_directory(package\_name)}
+\DoxyCodeLine{\Hypertarget{sm__single__ur5__sim__gazebo__sim_8launch_8py_source_l00050}00050     absolute\_file\_path = os.path.join(package\_path, file\_path)}
+\DoxyCodeLine{\Hypertarget{sm__single__ur5__sim__gazebo__sim_8launch_8py_source_l00051}00051 }
+\DoxyCodeLine{\Hypertarget{sm__single__ur5__sim__gazebo__sim_8launch_8py_source_l00052}00052     \textcolor{keywordflow}{try}:}
+\DoxyCodeLine{\Hypertarget{sm__single__ur5__sim__gazebo__sim_8launch_8py_source_l00053}00053         yaml.SafeLoader.add\_constructor(\textcolor{stringliteral}{"{}!radians"{}}, construct\_angle\_radians)}
+\DoxyCodeLine{\Hypertarget{sm__single__ur5__sim__gazebo__sim_8launch_8py_source_l00054}00054         yaml.SafeLoader.add\_constructor(\textcolor{stringliteral}{"{}!degrees"{}}, construct\_angle\_degrees)}
+\DoxyCodeLine{\Hypertarget{sm__single__ur5__sim__gazebo__sim_8launch_8py_source_l00055}00055     \textcolor{keywordflow}{except} Exception:}
+\DoxyCodeLine{\Hypertarget{sm__single__ur5__sim__gazebo__sim_8launch_8py_source_l00056}00056         \textcolor{keywordflow}{raise} Exception(\textcolor{stringliteral}{"{}yaml support not available; install python-\/yaml"{}})}
+\DoxyCodeLine{\Hypertarget{sm__single__ur5__sim__gazebo__sim_8launch_8py_source_l00057}00057 }
+\DoxyCodeLine{\Hypertarget{sm__single__ur5__sim__gazebo__sim_8launch_8py_source_l00058}00058     \textcolor{keywordflow}{try}:}
+\DoxyCodeLine{\Hypertarget{sm__single__ur5__sim__gazebo__sim_8launch_8py_source_l00059}00059         \textcolor{keyword}{with} open(absolute\_file\_path) \textcolor{keyword}{as} file:}
+\DoxyCodeLine{\Hypertarget{sm__single__ur5__sim__gazebo__sim_8launch_8py_source_l00060}00060             \textcolor{keywordflow}{return} yaml.safe\_load(file)}
+\DoxyCodeLine{\Hypertarget{sm__single__ur5__sim__gazebo__sim_8launch_8py_source_l00061}00061     \textcolor{keywordflow}{except} OSError:  \textcolor{comment}{\# parent of IOError, OSError *and* WindowsError where available}}
+\DoxyCodeLine{\Hypertarget{sm__single__ur5__sim__gazebo__sim_8launch_8py_source_l00062}00062         \textcolor{keywordflow}{return} \textcolor{keywordtype}{None}}
+\DoxyCodeLine{\Hypertarget{sm__single__ur5__sim__gazebo__sim_8launch_8py_source_l00063}00063 }
+\DoxyCodeLine{\Hypertarget{sm__single__ur5__sim__gazebo__sim_8launch_8py_source_l00064}00064 }
+\DoxyCodeLine{\Hypertarget{sm__single__ur5__sim__gazebo__sim_8launch_8py_source_l00065}\mbox{\hyperlink{namespacesm__single__ur5__sim__gazebo__sim_a56b79c872e7f89e5ee68b19239741c6b}{00065}} \textcolor{keyword}{def }\mbox{\hyperlink{namespacesm__single__ur5__sim__gazebo__sim_a56b79c872e7f89e5ee68b19239741c6b}{launch\_setup}}(context, *args, **kwargs):}
+\DoxyCodeLine{\Hypertarget{sm__single__ur5__sim__gazebo__sim_8launch_8py_source_l00066}00066     ur\_type = \textcolor{stringliteral}{"{}ur5e"{}}}
+\DoxyCodeLine{\Hypertarget{sm__single__ur5__sim__gazebo__sim_8launch_8py_source_l00067}00067 }
+\DoxyCodeLine{\Hypertarget{sm__single__ur5__sim__gazebo__sim_8launch_8py_source_l00068}00068     \textcolor{comment}{\# General arguments}}
+\DoxyCodeLine{\Hypertarget{sm__single__ur5__sim__gazebo__sim_8launch_8py_source_l00069}00069     \textcolor{comment}{\# runtime\_config\_package = LaunchConfiguration("{}runtime\_config\_package"{})}}
+\DoxyCodeLine{\Hypertarget{sm__single__ur5__sim__gazebo__sim_8launch_8py_source_l00070}00070 }
+\DoxyCodeLine{\Hypertarget{sm__single__ur5__sim__gazebo__sim_8launch_8py_source_l00071}00071     runtime\_config\_package = LaunchConfiguration(\textcolor{stringliteral}{"{}runtime\_config\_package"{}})}
+\DoxyCodeLine{\Hypertarget{sm__single__ur5__sim__gazebo__sim_8launch_8py_source_l00072}00072 }
+\DoxyCodeLine{\Hypertarget{sm__single__ur5__sim__gazebo__sim_8launch_8py_source_l00073}00073     \textcolor{comment}{\# controllers\_file = LaunchConfiguration("{}controllers\_file"{})}}
+\DoxyCodeLine{\Hypertarget{sm__single__ur5__sim__gazebo__sim_8launch_8py_source_l00074}00074     \textcolor{comment}{\# controllers\_file = PathJoinSubstitution(}}
+\DoxyCodeLine{\Hypertarget{sm__single__ur5__sim__gazebo__sim_8launch_8py_source_l00075}00075     \textcolor{comment}{\#     [FindPackageShare("{}sm\_multi\_ur5\_sim"{}), "{}/config"{}, "{}/ros\_control"{}, "{}/ur\_controllers.yaml"{}]}}
+\DoxyCodeLine{\Hypertarget{sm__single__ur5__sim__gazebo__sim_8launch_8py_source_l00076}00076     \textcolor{comment}{\# )}}
+\DoxyCodeLine{\Hypertarget{sm__single__ur5__sim__gazebo__sim_8launch_8py_source_l00077}00077     \textcolor{comment}{\# description\_package = LaunchConfiguration("{}description\_package"{})}}
+\DoxyCodeLine{\Hypertarget{sm__single__ur5__sim__gazebo__sim_8launch_8py_source_l00078}00078     description\_package = \textcolor{stringliteral}{"{}sm\_multi\_ur5\_sim"{}}}
+\DoxyCodeLine{\Hypertarget{sm__single__ur5__sim__gazebo__sim_8launch_8py_source_l00079}00079 }
+\DoxyCodeLine{\Hypertarget{sm__single__ur5__sim__gazebo__sim_8launch_8py_source_l00080}00080     description\_file = LaunchConfiguration(\textcolor{stringliteral}{"{}description\_file"{}})}
+\DoxyCodeLine{\Hypertarget{sm__single__ur5__sim__gazebo__sim_8launch_8py_source_l00081}00081     moveit\_config\_package = LaunchConfiguration(\textcolor{stringliteral}{"{}moveit\_config\_package"{}})}
+\DoxyCodeLine{\Hypertarget{sm__single__ur5__sim__gazebo__sim_8launch_8py_source_l00082}00082     moveit\_config\_file = LaunchConfiguration(\textcolor{stringliteral}{"{}moveit\_config\_file"{}})}
+\DoxyCodeLine{\Hypertarget{sm__single__ur5__sim__gazebo__sim_8launch_8py_source_l00083}00083     prefix = LaunchConfiguration(\textcolor{stringliteral}{"{}prefix"{}})}
+\DoxyCodeLine{\Hypertarget{sm__single__ur5__sim__gazebo__sim_8launch_8py_source_l00084}00084     prefixvalue = prefix.perform(context)}
+\DoxyCodeLine{\Hypertarget{sm__single__ur5__sim__gazebo__sim_8launch_8py_source_l00085}00085     use\_moveit = LaunchConfiguration(\textcolor{stringliteral}{"{}use\_moveit"{}})}
+\DoxyCodeLine{\Hypertarget{sm__single__ur5__sim__gazebo__sim_8launch_8py_source_l00086}00086 }
+\DoxyCodeLine{\Hypertarget{sm__single__ur5__sim__gazebo__sim_8launch_8py_source_l00087}00087     use\_state\_machine = LaunchConfiguration(\textcolor{stringliteral}{"{}use\_state\_machine"{}})}
+\DoxyCodeLine{\Hypertarget{sm__single__ur5__sim__gazebo__sim_8launch_8py_source_l00088}00088 }
+\DoxyCodeLine{\Hypertarget{sm__single__ur5__sim__gazebo__sim_8launch_8py_source_l00089}00089     x = LaunchConfiguration(\textcolor{stringliteral}{"{}x"{}})}
+\DoxyCodeLine{\Hypertarget{sm__single__ur5__sim__gazebo__sim_8launch_8py_source_l00090}00090     y = LaunchConfiguration(\textcolor{stringliteral}{"{}y"{}})}
+\DoxyCodeLine{\Hypertarget{sm__single__ur5__sim__gazebo__sim_8launch_8py_source_l00091}00091     z = LaunchConfiguration(\textcolor{stringliteral}{"{}z"{}})}
+\DoxyCodeLine{\Hypertarget{sm__single__ur5__sim__gazebo__sim_8launch_8py_source_l00092}00092 }
+\DoxyCodeLine{\Hypertarget{sm__single__ur5__sim__gazebo__sim_8launch_8py_source_l00093}00093     robot\_description\_content = Command(}
+\DoxyCodeLine{\Hypertarget{sm__single__ur5__sim__gazebo__sim_8launch_8py_source_l00094}00094         [}
+\DoxyCodeLine{\Hypertarget{sm__single__ur5__sim__gazebo__sim_8launch_8py_source_l00095}00095             PathJoinSubstitution([FindExecutable(name=\textcolor{stringliteral}{"{}xacro"{}})]),}
+\DoxyCodeLine{\Hypertarget{sm__single__ur5__sim__gazebo__sim_8launch_8py_source_l00096}00096             \textcolor{stringliteral}{"{} "{}},}
+\DoxyCodeLine{\Hypertarget{sm__single__ur5__sim__gazebo__sim_8launch_8py_source_l00097}00097             PathJoinSubstitution(}
+\DoxyCodeLine{\Hypertarget{sm__single__ur5__sim__gazebo__sim_8launch_8py_source_l00098}00098                 [FindPackageShare(description\_package), \textcolor{stringliteral}{"{}urdf"{}}, description\_file]}
+\DoxyCodeLine{\Hypertarget{sm__single__ur5__sim__gazebo__sim_8launch_8py_source_l00099}00099             ),}
+\DoxyCodeLine{\Hypertarget{sm__single__ur5__sim__gazebo__sim_8launch_8py_source_l00100}00100             \textcolor{stringliteral}{"{} "{}},}
+\DoxyCodeLine{\Hypertarget{sm__single__ur5__sim__gazebo__sim_8launch_8py_source_l00101}00101             \textcolor{stringliteral}{"{}name:="{}},}
+\DoxyCodeLine{\Hypertarget{sm__single__ur5__sim__gazebo__sim_8launch_8py_source_l00102}00102             prefix,}
+\DoxyCodeLine{\Hypertarget{sm__single__ur5__sim__gazebo__sim_8launch_8py_source_l00103}00103             \textcolor{stringliteral}{"{} "{}},}
+\DoxyCodeLine{\Hypertarget{sm__single__ur5__sim__gazebo__sim_8launch_8py_source_l00104}00104             \textcolor{stringliteral}{"{}ur\_type:="{}},}
+\DoxyCodeLine{\Hypertarget{sm__single__ur5__sim__gazebo__sim_8launch_8py_source_l00105}00105             ur\_type,}
+\DoxyCodeLine{\Hypertarget{sm__single__ur5__sim__gazebo__sim_8launch_8py_source_l00106}00106             \textcolor{stringliteral}{"{} "{}},}
+\DoxyCodeLine{\Hypertarget{sm__single__ur5__sim__gazebo__sim_8launch_8py_source_l00107}00107             \textcolor{stringliteral}{"{}prefix:="{}},}
+\DoxyCodeLine{\Hypertarget{sm__single__ur5__sim__gazebo__sim_8launch_8py_source_l00108}00108             prefix,}
+\DoxyCodeLine{\Hypertarget{sm__single__ur5__sim__gazebo__sim_8launch_8py_source_l00109}00109             \textcolor{stringliteral}{"{} x:="{}},}
+\DoxyCodeLine{\Hypertarget{sm__single__ur5__sim__gazebo__sim_8launch_8py_source_l00110}00110             x,}
+\DoxyCodeLine{\Hypertarget{sm__single__ur5__sim__gazebo__sim_8launch_8py_source_l00111}00111             \textcolor{stringliteral}{"{} y:="{}},}
+\DoxyCodeLine{\Hypertarget{sm__single__ur5__sim__gazebo__sim_8launch_8py_source_l00112}00112             y,}
+\DoxyCodeLine{\Hypertarget{sm__single__ur5__sim__gazebo__sim_8launch_8py_source_l00113}00113             \textcolor{stringliteral}{"{} z:="{}},}
+\DoxyCodeLine{\Hypertarget{sm__single__ur5__sim__gazebo__sim_8launch_8py_source_l00114}00114             z,}
+\DoxyCodeLine{\Hypertarget{sm__single__ur5__sim__gazebo__sim_8launch_8py_source_l00115}00115             \textcolor{stringliteral}{"{} "{}},}
+\DoxyCodeLine{\Hypertarget{sm__single__ur5__sim__gazebo__sim_8launch_8py_source_l00116}00116         ]}
+\DoxyCodeLine{\Hypertarget{sm__single__ur5__sim__gazebo__sim_8launch_8py_source_l00117}00117     )}
+\DoxyCodeLine{\Hypertarget{sm__single__ur5__sim__gazebo__sim_8launch_8py_source_l00118}00118     robot\_description = \{\textcolor{stringliteral}{"{}robot\_description"{}}: robot\_description\_content\}}
+\DoxyCodeLine{\Hypertarget{sm__single__ur5__sim__gazebo__sim_8launch_8py_source_l00119}00119 }
+\DoxyCodeLine{\Hypertarget{sm__single__ur5__sim__gazebo__sim_8launch_8py_source_l00120}00120     \textcolor{comment}{\# MoveIt Configuration}}
+\DoxyCodeLine{\Hypertarget{sm__single__ur5__sim__gazebo__sim_8launch_8py_source_l00121}00121     robot\_description\_semantic\_content = Command(}
+\DoxyCodeLine{\Hypertarget{sm__single__ur5__sim__gazebo__sim_8launch_8py_source_l00122}00122         [}
+\DoxyCodeLine{\Hypertarget{sm__single__ur5__sim__gazebo__sim_8launch_8py_source_l00123}00123             PathJoinSubstitution([FindExecutable(name=\textcolor{stringliteral}{"{}xacro"{}})]),}
+\DoxyCodeLine{\Hypertarget{sm__single__ur5__sim__gazebo__sim_8launch_8py_source_l00124}00124             \textcolor{stringliteral}{"{} "{}},}
+\DoxyCodeLine{\Hypertarget{sm__single__ur5__sim__gazebo__sim_8launch_8py_source_l00125}00125             PathJoinSubstitution(}
+\DoxyCodeLine{\Hypertarget{sm__single__ur5__sim__gazebo__sim_8launch_8py_source_l00126}00126                 [FindPackageShare(moveit\_config\_package), \textcolor{stringliteral}{"{}srdf"{}}, moveit\_config\_file]}
+\DoxyCodeLine{\Hypertarget{sm__single__ur5__sim__gazebo__sim_8launch_8py_source_l00127}00127             ),}
+\DoxyCodeLine{\Hypertarget{sm__single__ur5__sim__gazebo__sim_8launch_8py_source_l00128}00128             \textcolor{stringliteral}{"{} "{}},}
+\DoxyCodeLine{\Hypertarget{sm__single__ur5__sim__gazebo__sim_8launch_8py_source_l00129}00129             \textcolor{stringliteral}{"{}name:="{}},}
+\DoxyCodeLine{\Hypertarget{sm__single__ur5__sim__gazebo__sim_8launch_8py_source_l00130}00130             prefixvalue,}
+\DoxyCodeLine{\Hypertarget{sm__single__ur5__sim__gazebo__sim_8launch_8py_source_l00131}00131             \textcolor{stringliteral}{"{} "{}},}
+\DoxyCodeLine{\Hypertarget{sm__single__ur5__sim__gazebo__sim_8launch_8py_source_l00132}00132             \textcolor{stringliteral}{"{}ur\_type:="{}},}
+\DoxyCodeLine{\Hypertarget{sm__single__ur5__sim__gazebo__sim_8launch_8py_source_l00133}00133             ur\_type,}
+\DoxyCodeLine{\Hypertarget{sm__single__ur5__sim__gazebo__sim_8launch_8py_source_l00134}00134             \textcolor{stringliteral}{"{} "{}},}
+\DoxyCodeLine{\Hypertarget{sm__single__ur5__sim__gazebo__sim_8launch_8py_source_l00135}00135             \textcolor{stringliteral}{"{}prefix:="{}},}
+\DoxyCodeLine{\Hypertarget{sm__single__ur5__sim__gazebo__sim_8launch_8py_source_l00136}00136             prefix,}
+\DoxyCodeLine{\Hypertarget{sm__single__ur5__sim__gazebo__sim_8launch_8py_source_l00137}00137             \textcolor{stringliteral}{"{} "{}},}
+\DoxyCodeLine{\Hypertarget{sm__single__ur5__sim__gazebo__sim_8launch_8py_source_l00138}00138         ]}
+\DoxyCodeLine{\Hypertarget{sm__single__ur5__sim__gazebo__sim_8launch_8py_source_l00139}00139     )}
+\DoxyCodeLine{\Hypertarget{sm__single__ur5__sim__gazebo__sim_8launch_8py_source_l00140}00140     robot\_description\_semantic = \{\textcolor{stringliteral}{"{}robot\_description\_semantic"{}}: robot\_description\_semantic\_content\}}
+\DoxyCodeLine{\Hypertarget{sm__single__ur5__sim__gazebo__sim_8launch_8py_source_l00141}00141 }
+\DoxyCodeLine{\Hypertarget{sm__single__ur5__sim__gazebo__sim_8launch_8py_source_l00142}00142     kinematics\_yaml = \mbox{\hyperlink{namespacesm__single__ur5__sim__gazebo__sim_aa50ac39fc610786e8b607dd0196607ae}{load\_yaml}}(}
+\DoxyCodeLine{\Hypertarget{sm__single__ur5__sim__gazebo__sim_8launch_8py_source_l00143}00143         moveit\_config\_package.perform(context), \textcolor{stringliteral}{"{}config/moveit/kinematics\_"{}} + prefixvalue + \textcolor{stringliteral}{"{}.yaml"{}}}
+\DoxyCodeLine{\Hypertarget{sm__single__ur5__sim__gazebo__sim_8launch_8py_source_l00144}00144     )}
+\DoxyCodeLine{\Hypertarget{sm__single__ur5__sim__gazebo__sim_8launch_8py_source_l00145}00145     robot\_description\_kinematics = \{\textcolor{stringliteral}{"{}robot\_description\_kinematics"{}}: kinematics\_yaml\}}
+\DoxyCodeLine{\Hypertarget{sm__single__ur5__sim__gazebo__sim_8launch_8py_source_l00146}00146 }
+\DoxyCodeLine{\Hypertarget{sm__single__ur5__sim__gazebo__sim_8launch_8py_source_l00147}00147     print(\textcolor{stringliteral}{"{}-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/"{}})}
+\DoxyCodeLine{\Hypertarget{sm__single__ur5__sim__gazebo__sim_8launch_8py_source_l00148}00148     print(robot\_description\_semantic\_content.perform(context))}
+\DoxyCodeLine{\Hypertarget{sm__single__ur5__sim__gazebo__sim_8launch_8py_source_l00149}00149     print(\textcolor{stringliteral}{"{}-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/"{}})}
+\DoxyCodeLine{\Hypertarget{sm__single__ur5__sim__gazebo__sim_8launch_8py_source_l00150}00150     print(kinematics\_yaml)}
+\DoxyCodeLine{\Hypertarget{sm__single__ur5__sim__gazebo__sim_8launch_8py_source_l00151}00151 }
+\DoxyCodeLine{\Hypertarget{sm__single__ur5__sim__gazebo__sim_8launch_8py_source_l00152}00152     smacc2\_sm\_config = PathJoinSubstitution(}
+\DoxyCodeLine{\Hypertarget{sm__single__ur5__sim__gazebo__sim_8launch_8py_source_l00153}00153         [}
+\DoxyCodeLine{\Hypertarget{sm__single__ur5__sim__gazebo__sim_8launch_8py_source_l00154}00154             FindPackageShare(\textcolor{stringliteral}{"{}sm\_multi\_ur5\_sim"{}}),}
+\DoxyCodeLine{\Hypertarget{sm__single__ur5__sim__gazebo__sim_8launch_8py_source_l00155}00155             \textcolor{stringliteral}{"{}config"{}},}
+\DoxyCodeLine{\Hypertarget{sm__single__ur5__sim__gazebo__sim_8launch_8py_source_l00156}00156             \textcolor{stringliteral}{"{}sm\_multi\_ur5\_sim\_config.yaml"{}},}
+\DoxyCodeLine{\Hypertarget{sm__single__ur5__sim__gazebo__sim_8launch_8py_source_l00157}00157         ]}
+\DoxyCodeLine{\Hypertarget{sm__single__ur5__sim__gazebo__sim_8launch_8py_source_l00158}00158     )}
+\DoxyCodeLine{\Hypertarget{sm__single__ur5__sim__gazebo__sim_8launch_8py_source_l00159}00159     xtermprefix = \textcolor{stringliteral}{"{}xterm -\/xrm 'XTerm*scrollBar:  true' -\/xrm 'xterm*rightScrollBar: true' -\/hold -\/sl 10000 -\/geometry 1000x600 -\/e"{}}}
+\DoxyCodeLine{\Hypertarget{sm__single__ur5__sim__gazebo__sim_8launch_8py_source_l00160}00160     sm\_test\_moveit\_ur5\_sim\_node = Node(}
+\DoxyCodeLine{\Hypertarget{sm__single__ur5__sim__gazebo__sim_8launch_8py_source_l00161}00161         package=\textcolor{stringliteral}{"{}sm\_multi\_ur5\_sim"{}},}
+\DoxyCodeLine{\Hypertarget{sm__single__ur5__sim__gazebo__sim_8launch_8py_source_l00162}00162         executable=\textcolor{stringliteral}{"{}sm\_multi\_ur5\_sim\_node"{}},}
+\DoxyCodeLine{\Hypertarget{sm__single__ur5__sim__gazebo__sim_8launch_8py_source_l00163}00163         \textcolor{comment}{\# namespace = prefixvalue,}}
+\DoxyCodeLine{\Hypertarget{sm__single__ur5__sim__gazebo__sim_8launch_8py_source_l00164}00164         \textcolor{comment}{\# prefix="{}xterm -\/xrm 'XTerm*scrollBar:  true' -\/xrm 'xterm*rightScrollBar: true' -\/hold -\/sl 10000 -\/geometry 1000x600 -\/e gdbserver localhost:3000"{},}}
+\DoxyCodeLine{\Hypertarget{sm__single__ur5__sim__gazebo__sim_8launch_8py_source_l00165}00165         prefix=xtermprefix,}
+\DoxyCodeLine{\Hypertarget{sm__single__ur5__sim__gazebo__sim_8launch_8py_source_l00166}00166         condition=IfCondition(use\_state\_machine),}
+\DoxyCodeLine{\Hypertarget{sm__single__ur5__sim__gazebo__sim_8launch_8py_source_l00167}00167         parameters=[}
+\DoxyCodeLine{\Hypertarget{sm__single__ur5__sim__gazebo__sim_8launch_8py_source_l00168}00168             \{\textcolor{stringliteral}{"{}use\_sim\_time"{}}: \textcolor{keyword}{True}\},}
+\DoxyCodeLine{\Hypertarget{sm__single__ur5__sim__gazebo__sim_8launch_8py_source_l00169}00169             robot\_description,}
+\DoxyCodeLine{\Hypertarget{sm__single__ur5__sim__gazebo__sim_8launch_8py_source_l00170}00170             robot\_description\_semantic,}
+\DoxyCodeLine{\Hypertarget{sm__single__ur5__sim__gazebo__sim_8launch_8py_source_l00171}00171             robot\_description\_kinematics,}
+\DoxyCodeLine{\Hypertarget{sm__single__ur5__sim__gazebo__sim_8launch_8py_source_l00172}00172             smacc2\_sm\_config,}
+\DoxyCodeLine{\Hypertarget{sm__single__ur5__sim__gazebo__sim_8launch_8py_source_l00173}00173         ],}
+\DoxyCodeLine{\Hypertarget{sm__single__ur5__sim__gazebo__sim_8launch_8py_source_l00174}00174         \textcolor{comment}{\# namespace= "{}ur5\_1"{},}}
+\DoxyCodeLine{\Hypertarget{sm__single__ur5__sim__gazebo__sim_8launch_8py_source_l00175}00175         remappings=[}
+\DoxyCodeLine{\Hypertarget{sm__single__ur5__sim__gazebo__sim_8launch_8py_source_l00176}00176             (\textcolor{stringliteral}{"{}/joint\_states"{}}, \textcolor{stringliteral}{"{}/joint\_state\_broadcaster\_"{}} + prefixvalue + \textcolor{stringliteral}{"{}/joint\_states"{}}),}
+\DoxyCodeLine{\Hypertarget{sm__single__ur5__sim__gazebo__sim_8launch_8py_source_l00177}00177             \textcolor{comment}{\# ("{}/move\_action"{}, "{}/ur5\_1/move\_action"{}),}}
+\DoxyCodeLine{\Hypertarget{sm__single__ur5__sim__gazebo__sim_8launch_8py_source_l00178}00178             \textcolor{comment}{\# ("{}/move\_group\_interface\_node"{}, "{}/"{} + prefixvalue + "{}/move\_group\_interface\_node"{})}}
+\DoxyCodeLine{\Hypertarget{sm__single__ur5__sim__gazebo__sim_8launch_8py_source_l00179}00179         ],}
+\DoxyCodeLine{\Hypertarget{sm__single__ur5__sim__gazebo__sim_8launch_8py_source_l00180}00180     )}
+\DoxyCodeLine{\Hypertarget{sm__single__ur5__sim__gazebo__sim_8launch_8py_source_l00181}00181 }
+\DoxyCodeLine{\Hypertarget{sm__single__ur5__sim__gazebo__sim_8launch_8py_source_l00182}00182     smacc2\_sm\_rviz = PathJoinSubstitution(}
+\DoxyCodeLine{\Hypertarget{sm__single__ur5__sim__gazebo__sim_8launch_8py_source_l00183}00183         [}
+\DoxyCodeLine{\Hypertarget{sm__single__ur5__sim__gazebo__sim_8launch_8py_source_l00184}00184             FindPackageShare(\textcolor{stringliteral}{"{}sm\_multi\_ur5\_sim"{}}),}
+\DoxyCodeLine{\Hypertarget{sm__single__ur5__sim__gazebo__sim_8launch_8py_source_l00185}00185             \textcolor{stringliteral}{"{}rviz"{}},}
+\DoxyCodeLine{\Hypertarget{sm__single__ur5__sim__gazebo__sim_8launch_8py_source_l00186}00186             \textcolor{stringliteral}{"{}rviz.rviz"{}},}
+\DoxyCodeLine{\Hypertarget{sm__single__ur5__sim__gazebo__sim_8launch_8py_source_l00187}00187         ]}
+\DoxyCodeLine{\Hypertarget{sm__single__ur5__sim__gazebo__sim_8launch_8py_source_l00188}00188     )}
+\DoxyCodeLine{\Hypertarget{sm__single__ur5__sim__gazebo__sim_8launch_8py_source_l00189}00189 }
+\DoxyCodeLine{\Hypertarget{sm__single__ur5__sim__gazebo__sim_8launch_8py_source_l00190}00190     \textcolor{comment}{\# Launch rviz}}
+\DoxyCodeLine{\Hypertarget{sm__single__ur5__sim__gazebo__sim_8launch_8py_source_l00191}00191     start\_rviz\_cmd = Node(}
+\DoxyCodeLine{\Hypertarget{sm__single__ur5__sim__gazebo__sim_8launch_8py_source_l00192}00192         package=\textcolor{stringliteral}{"{}rviz2"{}},}
+\DoxyCodeLine{\Hypertarget{sm__single__ur5__sim__gazebo__sim_8launch_8py_source_l00193}00193         executable=\textcolor{stringliteral}{"{}rviz2"{}},}
+\DoxyCodeLine{\Hypertarget{sm__single__ur5__sim__gazebo__sim_8launch_8py_source_l00194}00194         name=\textcolor{stringliteral}{"{}rviz2"{}},}
+\DoxyCodeLine{\Hypertarget{sm__single__ur5__sim__gazebo__sim_8launch_8py_source_l00195}00195         arguments=[\textcolor{stringliteral}{"{}-\/d"{}}, smacc2\_sm\_rviz],}
+\DoxyCodeLine{\Hypertarget{sm__single__ur5__sim__gazebo__sim_8launch_8py_source_l00196}00196         output=\textcolor{stringliteral}{"{}screen"{}},}
+\DoxyCodeLine{\Hypertarget{sm__single__ur5__sim__gazebo__sim_8launch_8py_source_l00197}00197         parameters=[}
+\DoxyCodeLine{\Hypertarget{sm__single__ur5__sim__gazebo__sim_8launch_8py_source_l00198}00198             \{\textcolor{stringliteral}{"{}use\_sim\_time"{}}: \textcolor{keyword}{True}\},}
+\DoxyCodeLine{\Hypertarget{sm__single__ur5__sim__gazebo__sim_8launch_8py_source_l00199}00199             robot\_description,}
+\DoxyCodeLine{\Hypertarget{sm__single__ur5__sim__gazebo__sim_8launch_8py_source_l00200}00200             robot\_description\_semantic,}
+\DoxyCodeLine{\Hypertarget{sm__single__ur5__sim__gazebo__sim_8launch_8py_source_l00201}00201             robot\_description\_kinematics,}
+\DoxyCodeLine{\Hypertarget{sm__single__ur5__sim__gazebo__sim_8launch_8py_source_l00202}00202         ],}
+\DoxyCodeLine{\Hypertarget{sm__single__ur5__sim__gazebo__sim_8launch_8py_source_l00203}00203     )}
+\DoxyCodeLine{\Hypertarget{sm__single__ur5__sim__gazebo__sim_8launch_8py_source_l00204}00204 }
+\DoxyCodeLine{\Hypertarget{sm__single__ur5__sim__gazebo__sim_8launch_8py_source_l00205}00205     ur\_control\_launch = IncludeLaunchDescription(}
+\DoxyCodeLine{\Hypertarget{sm__single__ur5__sim__gazebo__sim_8launch_8py_source_l00206}00206         PythonLaunchDescriptionSource(}
+\DoxyCodeLine{\Hypertarget{sm__single__ur5__sim__gazebo__sim_8launch_8py_source_l00207}00207             [FindPackageShare(\textcolor{stringliteral}{"{}sm\_multi\_ur5\_sim"{}}), \textcolor{stringliteral}{"{}/launch"{}}, \textcolor{stringliteral}{"{}/ur\_sim\_control.launch.py"{}}]}
+\DoxyCodeLine{\Hypertarget{sm__single__ur5__sim__gazebo__sim_8launch_8py_source_l00208}00208         ),}
+\DoxyCodeLine{\Hypertarget{sm__single__ur5__sim__gazebo__sim_8launch_8py_source_l00209}00209         launch\_arguments=\{}
+\DoxyCodeLine{\Hypertarget{sm__single__ur5__sim__gazebo__sim_8launch_8py_source_l00210}00210             \textcolor{stringliteral}{"{}ur\_type"{}}: ur\_type,}
+\DoxyCodeLine{\Hypertarget{sm__single__ur5__sim__gazebo__sim_8launch_8py_source_l00211}00211             \textcolor{stringliteral}{"{}runtime\_config\_package"{}}: runtime\_config\_package,}
+\DoxyCodeLine{\Hypertarget{sm__single__ur5__sim__gazebo__sim_8launch_8py_source_l00212}00212             \textcolor{stringliteral}{"{}controllers\_file"{}}: PathJoinSubstitution(}
+\DoxyCodeLine{\Hypertarget{sm__single__ur5__sim__gazebo__sim_8launch_8py_source_l00213}00213                 [}
+\DoxyCodeLine{\Hypertarget{sm__single__ur5__sim__gazebo__sim_8launch_8py_source_l00214}00214                     FindPackageShare(\textcolor{stringliteral}{"{}sm\_multi\_ur5\_sim"{}}),}
+\DoxyCodeLine{\Hypertarget{sm__single__ur5__sim__gazebo__sim_8launch_8py_source_l00215}00215                     \textcolor{stringliteral}{"{}/config"{}},}
+\DoxyCodeLine{\Hypertarget{sm__single__ur5__sim__gazebo__sim_8launch_8py_source_l00216}00216                     \textcolor{stringliteral}{"{}/ros\_control"{}},}
+\DoxyCodeLine{\Hypertarget{sm__single__ur5__sim__gazebo__sim_8launch_8py_source_l00217}00217                     \textcolor{stringliteral}{"{}/ur\_controllers.yaml"{}},}
+\DoxyCodeLine{\Hypertarget{sm__single__ur5__sim__gazebo__sim_8launch_8py_source_l00218}00218                 ]}
+\DoxyCodeLine{\Hypertarget{sm__single__ur5__sim__gazebo__sim_8launch_8py_source_l00219}00219             ),}
+\DoxyCodeLine{\Hypertarget{sm__single__ur5__sim__gazebo__sim_8launch_8py_source_l00220}00220             \textcolor{stringliteral}{"{}description\_package"{}}: description\_package,}
+\DoxyCodeLine{\Hypertarget{sm__single__ur5__sim__gazebo__sim_8launch_8py_source_l00221}00221             \textcolor{stringliteral}{"{}description\_file"{}}: description\_file,}
+\DoxyCodeLine{\Hypertarget{sm__single__ur5__sim__gazebo__sim_8launch_8py_source_l00222}00222             \textcolor{stringliteral}{"{}prefix"{}}: prefix,}
+\DoxyCodeLine{\Hypertarget{sm__single__ur5__sim__gazebo__sim_8launch_8py_source_l00223}00223             \textcolor{stringliteral}{"{}x"{}}: x,}
+\DoxyCodeLine{\Hypertarget{sm__single__ur5__sim__gazebo__sim_8launch_8py_source_l00224}00224             \textcolor{stringliteral}{"{}y"{}}: y,}
+\DoxyCodeLine{\Hypertarget{sm__single__ur5__sim__gazebo__sim_8launch_8py_source_l00225}00225             \textcolor{stringliteral}{"{}z"{}}: z,}
+\DoxyCodeLine{\Hypertarget{sm__single__ur5__sim__gazebo__sim_8launch_8py_source_l00226}00226             \textcolor{stringliteral}{"{}launch\_rviz"{}}: \textcolor{stringliteral}{"{}false"{}},}
+\DoxyCodeLine{\Hypertarget{sm__single__ur5__sim__gazebo__sim_8launch_8py_source_l00227}00227         \}.items(),}
+\DoxyCodeLine{\Hypertarget{sm__single__ur5__sim__gazebo__sim_8launch_8py_source_l00228}00228     )}
+\DoxyCodeLine{\Hypertarget{sm__single__ur5__sim__gazebo__sim_8launch_8py_source_l00229}00229 }
+\DoxyCodeLine{\Hypertarget{sm__single__ur5__sim__gazebo__sim_8launch_8py_source_l00230}00230     ur\_moveit\_launch = IncludeLaunchDescription(}
+\DoxyCodeLine{\Hypertarget{sm__single__ur5__sim__gazebo__sim_8launch_8py_source_l00231}00231         PythonLaunchDescriptionSource(}
+\DoxyCodeLine{\Hypertarget{sm__single__ur5__sim__gazebo__sim_8launch_8py_source_l00232}00232             [FindPackageShare(\textcolor{stringliteral}{"{}sm\_multi\_ur5\_sim"{}}), \textcolor{stringliteral}{"{}/launch"{}}, \textcolor{stringliteral}{"{}/ur\_moveit.launch.py"{}}]}
+\DoxyCodeLine{\Hypertarget{sm__single__ur5__sim__gazebo__sim_8launch_8py_source_l00233}00233         ),}
+\DoxyCodeLine{\Hypertarget{sm__single__ur5__sim__gazebo__sim_8launch_8py_source_l00234}00234         condition=IfCondition(use\_moveit),}
+\DoxyCodeLine{\Hypertarget{sm__single__ur5__sim__gazebo__sim_8launch_8py_source_l00235}00235         launch\_arguments=\{}
+\DoxyCodeLine{\Hypertarget{sm__single__ur5__sim__gazebo__sim_8launch_8py_source_l00236}00236             \textcolor{stringliteral}{"{}ur\_type"{}}: ur\_type,}
+\DoxyCodeLine{\Hypertarget{sm__single__ur5__sim__gazebo__sim_8launch_8py_source_l00237}00237             \textcolor{stringliteral}{"{}description\_package"{}}: description\_package,}
+\DoxyCodeLine{\Hypertarget{sm__single__ur5__sim__gazebo__sim_8launch_8py_source_l00238}00238             \textcolor{stringliteral}{"{}description\_file"{}}: description\_file,}
+\DoxyCodeLine{\Hypertarget{sm__single__ur5__sim__gazebo__sim_8launch_8py_source_l00239}00239             \textcolor{stringliteral}{"{}moveit\_config\_package"{}}: moveit\_config\_package,}
+\DoxyCodeLine{\Hypertarget{sm__single__ur5__sim__gazebo__sim_8launch_8py_source_l00240}00240             \textcolor{stringliteral}{"{}moveit\_config\_file"{}}: moveit\_config\_file,}
+\DoxyCodeLine{\Hypertarget{sm__single__ur5__sim__gazebo__sim_8launch_8py_source_l00241}00241             \textcolor{stringliteral}{"{}use\_sim\_time"{}}: \textcolor{stringliteral}{"{}true"{}},}
+\DoxyCodeLine{\Hypertarget{sm__single__ur5__sim__gazebo__sim_8launch_8py_source_l00242}00242             \textcolor{stringliteral}{"{}prefix"{}}: prefix,}
+\DoxyCodeLine{\Hypertarget{sm__single__ur5__sim__gazebo__sim_8launch_8py_source_l00243}00243             \textcolor{stringliteral}{"{}x"{}}: x,}
+\DoxyCodeLine{\Hypertarget{sm__single__ur5__sim__gazebo__sim_8launch_8py_source_l00244}00244             \textcolor{stringliteral}{"{}y"{}}: y,}
+\DoxyCodeLine{\Hypertarget{sm__single__ur5__sim__gazebo__sim_8launch_8py_source_l00245}00245             \textcolor{stringliteral}{"{}z"{}}: z,}
+\DoxyCodeLine{\Hypertarget{sm__single__ur5__sim__gazebo__sim_8launch_8py_source_l00246}00246             \textcolor{stringliteral}{"{}launch\_rviz"{}}: \textcolor{stringliteral}{"{}false"{}},}
+\DoxyCodeLine{\Hypertarget{sm__single__ur5__sim__gazebo__sim_8launch_8py_source_l00247}00247         \}.items(),}
+\DoxyCodeLine{\Hypertarget{sm__single__ur5__sim__gazebo__sim_8launch_8py_source_l00248}00248     )}
+\DoxyCodeLine{\Hypertarget{sm__single__ur5__sim__gazebo__sim_8launch_8py_source_l00249}00249 }
+\DoxyCodeLine{\Hypertarget{sm__single__ur5__sim__gazebo__sim_8launch_8py_source_l00250}00250     nodes\_to\_launch = [}
+\DoxyCodeLine{\Hypertarget{sm__single__ur5__sim__gazebo__sim_8launch_8py_source_l00251}00251         ur\_control\_launch,}
+\DoxyCodeLine{\Hypertarget{sm__single__ur5__sim__gazebo__sim_8launch_8py_source_l00252}00252         ur\_moveit\_launch,}
+\DoxyCodeLine{\Hypertarget{sm__single__ur5__sim__gazebo__sim_8launch_8py_source_l00253}00253         sm\_test\_moveit\_ur5\_sim\_node,}
+\DoxyCodeLine{\Hypertarget{sm__single__ur5__sim__gazebo__sim_8launch_8py_source_l00254}00254         start\_rviz\_cmd,}
+\DoxyCodeLine{\Hypertarget{sm__single__ur5__sim__gazebo__sim_8launch_8py_source_l00255}00255     ]}
+\DoxyCodeLine{\Hypertarget{sm__single__ur5__sim__gazebo__sim_8launch_8py_source_l00256}00256 }
+\DoxyCodeLine{\Hypertarget{sm__single__ur5__sim__gazebo__sim_8launch_8py_source_l00257}00257     \textcolor{keywordflow}{return} nodes\_to\_launch}
+\DoxyCodeLine{\Hypertarget{sm__single__ur5__sim__gazebo__sim_8launch_8py_source_l00258}00258 }
+\DoxyCodeLine{\Hypertarget{sm__single__ur5__sim__gazebo__sim_8launch_8py_source_l00259}00259 }
+\DoxyCodeLine{\Hypertarget{sm__single__ur5__sim__gazebo__sim_8launch_8py_source_l00260}\mbox{\hyperlink{namespacesm__single__ur5__sim__gazebo__sim_ad50ee43e6edd91d43c6f2c7c2355a442}{00260}} \textcolor{keyword}{def }\mbox{\hyperlink{namespacesm__single__ur5__sim__gazebo__sim_ad50ee43e6edd91d43c6f2c7c2355a442}{generate\_launch\_description}}():}
+\DoxyCodeLine{\Hypertarget{sm__single__ur5__sim__gazebo__sim_8launch_8py_source_l00261}00261     declared\_arguments = []}
+\DoxyCodeLine{\Hypertarget{sm__single__ur5__sim__gazebo__sim_8launch_8py_source_l00262}00262     \textcolor{comment}{\# General arguments}}
+\DoxyCodeLine{\Hypertarget{sm__single__ur5__sim__gazebo__sim_8launch_8py_source_l00263}00263     declared\_arguments.append(}
+\DoxyCodeLine{\Hypertarget{sm__single__ur5__sim__gazebo__sim_8launch_8py_source_l00264}00264         DeclareLaunchArgument(}
+\DoxyCodeLine{\Hypertarget{sm__single__ur5__sim__gazebo__sim_8launch_8py_source_l00265}00265             \textcolor{stringliteral}{"{}runtime\_config\_package"{}},}
+\DoxyCodeLine{\Hypertarget{sm__single__ur5__sim__gazebo__sim_8launch_8py_source_l00266}00266             default\_value=\textcolor{stringliteral}{"{}ur\_bringup"{}},}
+\DoxyCodeLine{\Hypertarget{sm__single__ur5__sim__gazebo__sim_8launch_8py_source_l00267}00267             description=\textcolor{stringliteral}{'Package with the controller\(\backslash\)'s configuration in "{}config"{} folder. \(\backslash\)}}
+\DoxyCodeLine{\Hypertarget{sm__single__ur5__sim__gazebo__sim_8launch_8py_source_l00268}00268 \textcolor{stringliteral}{        Usually the argument is not set, it enables use of a custom setup.'},}
+\DoxyCodeLine{\Hypertarget{sm__single__ur5__sim__gazebo__sim_8launch_8py_source_l00269}00269         )}
+\DoxyCodeLine{\Hypertarget{sm__single__ur5__sim__gazebo__sim_8launch_8py_source_l00270}00270     )}
+\DoxyCodeLine{\Hypertarget{sm__single__ur5__sim__gazebo__sim_8launch_8py_source_l00271}00271     declared\_arguments.append(}
+\DoxyCodeLine{\Hypertarget{sm__single__ur5__sim__gazebo__sim_8launch_8py_source_l00272}00272         DeclareLaunchArgument(}
+\DoxyCodeLine{\Hypertarget{sm__single__ur5__sim__gazebo__sim_8launch_8py_source_l00273}00273             \textcolor{stringliteral}{"{}controllers\_file"{}},}
+\DoxyCodeLine{\Hypertarget{sm__single__ur5__sim__gazebo__sim_8launch_8py_source_l00274}00274             default\_value=\textcolor{stringliteral}{"{}ur\_controllers.yaml"{}},}
+\DoxyCodeLine{\Hypertarget{sm__single__ur5__sim__gazebo__sim_8launch_8py_source_l00275}00275             description=\textcolor{stringliteral}{"{}YAML file with the controllers configuration."{}},}
+\DoxyCodeLine{\Hypertarget{sm__single__ur5__sim__gazebo__sim_8launch_8py_source_l00276}00276         )}
+\DoxyCodeLine{\Hypertarget{sm__single__ur5__sim__gazebo__sim_8launch_8py_source_l00277}00277     )}
+\DoxyCodeLine{\Hypertarget{sm__single__ur5__sim__gazebo__sim_8launch_8py_source_l00278}00278     declared\_arguments.append(}
+\DoxyCodeLine{\Hypertarget{sm__single__ur5__sim__gazebo__sim_8launch_8py_source_l00279}00279         DeclareLaunchArgument(}
+\DoxyCodeLine{\Hypertarget{sm__single__ur5__sim__gazebo__sim_8launch_8py_source_l00280}00280             \textcolor{stringliteral}{"{}description\_package"{}},}
+\DoxyCodeLine{\Hypertarget{sm__single__ur5__sim__gazebo__sim_8launch_8py_source_l00281}00281             \textcolor{comment}{\# default\_value="{}ur\_description"{},}}
+\DoxyCodeLine{\Hypertarget{sm__single__ur5__sim__gazebo__sim_8launch_8py_source_l00282}00282             description=\textcolor{stringliteral}{"{}Description package with robot URDF/XACRO files. Usually the argument \(\backslash\)}}
+\DoxyCodeLine{\Hypertarget{sm__single__ur5__sim__gazebo__sim_8launch_8py_source_l00283}00283 \textcolor{stringliteral}{        is not set, it enables use of a custom description."{}},}
+\DoxyCodeLine{\Hypertarget{sm__single__ur5__sim__gazebo__sim_8launch_8py_source_l00284}00284         )}
+\DoxyCodeLine{\Hypertarget{sm__single__ur5__sim__gazebo__sim_8launch_8py_source_l00285}00285     )}
+\DoxyCodeLine{\Hypertarget{sm__single__ur5__sim__gazebo__sim_8launch_8py_source_l00286}00286     declared\_arguments.append(}
+\DoxyCodeLine{\Hypertarget{sm__single__ur5__sim__gazebo__sim_8launch_8py_source_l00287}00287         DeclareLaunchArgument(}
+\DoxyCodeLine{\Hypertarget{sm__single__ur5__sim__gazebo__sim_8launch_8py_source_l00288}00288             \textcolor{stringliteral}{"{}description\_file"{}},}
+\DoxyCodeLine{\Hypertarget{sm__single__ur5__sim__gazebo__sim_8launch_8py_source_l00289}00289             default\_value=\textcolor{stringliteral}{"{}ur.urdf.xacro"{}},}
+\DoxyCodeLine{\Hypertarget{sm__single__ur5__sim__gazebo__sim_8launch_8py_source_l00290}00290             description=\textcolor{stringliteral}{"{}URDF/XACRO description file with the robot."{}},}
+\DoxyCodeLine{\Hypertarget{sm__single__ur5__sim__gazebo__sim_8launch_8py_source_l00291}00291         )}
+\DoxyCodeLine{\Hypertarget{sm__single__ur5__sim__gazebo__sim_8launch_8py_source_l00292}00292     )}
+\DoxyCodeLine{\Hypertarget{sm__single__ur5__sim__gazebo__sim_8launch_8py_source_l00293}00293     declared\_arguments.append(}
+\DoxyCodeLine{\Hypertarget{sm__single__ur5__sim__gazebo__sim_8launch_8py_source_l00294}00294         DeclareLaunchArgument(}
+\DoxyCodeLine{\Hypertarget{sm__single__ur5__sim__gazebo__sim_8launch_8py_source_l00295}00295             \textcolor{stringliteral}{"{}moveit\_config\_package"{}},}
+\DoxyCodeLine{\Hypertarget{sm__single__ur5__sim__gazebo__sim_8launch_8py_source_l00296}00296             default\_value=\textcolor{stringliteral}{"{}sm\_multi\_ur5\_sim"{}},}
+\DoxyCodeLine{\Hypertarget{sm__single__ur5__sim__gazebo__sim_8launch_8py_source_l00297}00297             description=\textcolor{stringliteral}{"{}MoveIt config package with robot SRDF/XACRO files. Usually the argument \(\backslash\)}}
+\DoxyCodeLine{\Hypertarget{sm__single__ur5__sim__gazebo__sim_8launch_8py_source_l00298}00298 \textcolor{stringliteral}{        is not set, it enables use of a custom moveit config."{}},}
+\DoxyCodeLine{\Hypertarget{sm__single__ur5__sim__gazebo__sim_8launch_8py_source_l00299}00299         )}
+\DoxyCodeLine{\Hypertarget{sm__single__ur5__sim__gazebo__sim_8launch_8py_source_l00300}00300     )}
+\DoxyCodeLine{\Hypertarget{sm__single__ur5__sim__gazebo__sim_8launch_8py_source_l00301}00301     declared\_arguments.append(}
+\DoxyCodeLine{\Hypertarget{sm__single__ur5__sim__gazebo__sim_8launch_8py_source_l00302}00302         DeclareLaunchArgument(}
+\DoxyCodeLine{\Hypertarget{sm__single__ur5__sim__gazebo__sim_8launch_8py_source_l00303}00303             \textcolor{stringliteral}{"{}moveit\_config\_file"{}},}
+\DoxyCodeLine{\Hypertarget{sm__single__ur5__sim__gazebo__sim_8launch_8py_source_l00304}00304             default\_value=\textcolor{stringliteral}{"{}ur.srdf.xacro"{}},}
+\DoxyCodeLine{\Hypertarget{sm__single__ur5__sim__gazebo__sim_8launch_8py_source_l00305}00305             description=\textcolor{stringliteral}{"{}MoveIt SRDF/XACRO description file with the robot."{}},}
+\DoxyCodeLine{\Hypertarget{sm__single__ur5__sim__gazebo__sim_8launch_8py_source_l00306}00306         )}
+\DoxyCodeLine{\Hypertarget{sm__single__ur5__sim__gazebo__sim_8launch_8py_source_l00307}00307     )}
+\DoxyCodeLine{\Hypertarget{sm__single__ur5__sim__gazebo__sim_8launch_8py_source_l00308}00308     declared\_arguments.append(}
+\DoxyCodeLine{\Hypertarget{sm__single__ur5__sim__gazebo__sim_8launch_8py_source_l00309}00309         DeclareLaunchArgument(}
+\DoxyCodeLine{\Hypertarget{sm__single__ur5__sim__gazebo__sim_8launch_8py_source_l00310}00310             \textcolor{stringliteral}{"{}prefix"{}},}
+\DoxyCodeLine{\Hypertarget{sm__single__ur5__sim__gazebo__sim_8launch_8py_source_l00311}00311             default\_value=\textcolor{stringliteral}{'"{}"{}'},}
+\DoxyCodeLine{\Hypertarget{sm__single__ur5__sim__gazebo__sim_8launch_8py_source_l00312}00312             description=\textcolor{stringliteral}{"{}Prefix of the joint names, useful for \(\backslash\)}}
+\DoxyCodeLine{\Hypertarget{sm__single__ur5__sim__gazebo__sim_8launch_8py_source_l00313}00313 \textcolor{stringliteral}{                         multi-\/robot setup. If changed than also joint names in the controllers' configuration \(\backslash\)}}
+\DoxyCodeLine{\Hypertarget{sm__single__ur5__sim__gazebo__sim_8launch_8py_source_l00314}00314 \textcolor{stringliteral}{                         have to be updated."{}},}
+\DoxyCodeLine{\Hypertarget{sm__single__ur5__sim__gazebo__sim_8launch_8py_source_l00315}00315         )}
+\DoxyCodeLine{\Hypertarget{sm__single__ur5__sim__gazebo__sim_8launch_8py_source_l00316}00316     )}
+\DoxyCodeLine{\Hypertarget{sm__single__ur5__sim__gazebo__sim_8launch_8py_source_l00317}00317     declared\_arguments.append(}
+\DoxyCodeLine{\Hypertarget{sm__single__ur5__sim__gazebo__sim_8launch_8py_source_l00318}00318         DeclareLaunchArgument(\textcolor{stringliteral}{"{}launch\_rviz"{}}, default\_value=\textcolor{stringliteral}{"{}true"{}}, description=\textcolor{stringliteral}{"{}Launch RViz?"{}})}
+\DoxyCodeLine{\Hypertarget{sm__single__ur5__sim__gazebo__sim_8launch_8py_source_l00319}00319     )}
+\DoxyCodeLine{\Hypertarget{sm__single__ur5__sim__gazebo__sim_8launch_8py_source_l00320}00320 }
+\DoxyCodeLine{\Hypertarget{sm__single__ur5__sim__gazebo__sim_8launch_8py_source_l00321}00321     declared\_arguments.append(}
+\DoxyCodeLine{\Hypertarget{sm__single__ur5__sim__gazebo__sim_8launch_8py_source_l00322}00322         DeclareLaunchArgument(}
+\DoxyCodeLine{\Hypertarget{sm__single__ur5__sim__gazebo__sim_8launch_8py_source_l00323}00323             \textcolor{stringliteral}{"{}x"{}},}
+\DoxyCodeLine{\Hypertarget{sm__single__ur5__sim__gazebo__sim_8launch_8py_source_l00324}00324             default\_value=\textcolor{stringliteral}{"{}0.0"{}},}
+\DoxyCodeLine{\Hypertarget{sm__single__ur5__sim__gazebo__sim_8launch_8py_source_l00325}00325             description=\textcolor{stringliteral}{"{}"{}},}
+\DoxyCodeLine{\Hypertarget{sm__single__ur5__sim__gazebo__sim_8launch_8py_source_l00326}00326         )}
+\DoxyCodeLine{\Hypertarget{sm__single__ur5__sim__gazebo__sim_8launch_8py_source_l00327}00327     ),}
+\DoxyCodeLine{\Hypertarget{sm__single__ur5__sim__gazebo__sim_8launch_8py_source_l00328}00328 }
+\DoxyCodeLine{\Hypertarget{sm__single__ur5__sim__gazebo__sim_8launch_8py_source_l00329}00329     declared\_arguments.append(}
+\DoxyCodeLine{\Hypertarget{sm__single__ur5__sim__gazebo__sim_8launch_8py_source_l00330}00330         DeclareLaunchArgument(}
+\DoxyCodeLine{\Hypertarget{sm__single__ur5__sim__gazebo__sim_8launch_8py_source_l00331}00331             \textcolor{stringliteral}{"{}y"{}},}
+\DoxyCodeLine{\Hypertarget{sm__single__ur5__sim__gazebo__sim_8launch_8py_source_l00332}00332             default\_value=\textcolor{stringliteral}{"{}0.0"{}},}
+\DoxyCodeLine{\Hypertarget{sm__single__ur5__sim__gazebo__sim_8launch_8py_source_l00333}00333             description=\textcolor{stringliteral}{"{}"{}},}
+\DoxyCodeLine{\Hypertarget{sm__single__ur5__sim__gazebo__sim_8launch_8py_source_l00334}00334         )}
+\DoxyCodeLine{\Hypertarget{sm__single__ur5__sim__gazebo__sim_8launch_8py_source_l00335}00335     ),}
+\DoxyCodeLine{\Hypertarget{sm__single__ur5__sim__gazebo__sim_8launch_8py_source_l00336}00336 }
+\DoxyCodeLine{\Hypertarget{sm__single__ur5__sim__gazebo__sim_8launch_8py_source_l00337}00337     declared\_arguments.append(}
+\DoxyCodeLine{\Hypertarget{sm__single__ur5__sim__gazebo__sim_8launch_8py_source_l00338}00338         DeclareLaunchArgument(}
+\DoxyCodeLine{\Hypertarget{sm__single__ur5__sim__gazebo__sim_8launch_8py_source_l00339}00339             \textcolor{stringliteral}{"{}z"{}},}
+\DoxyCodeLine{\Hypertarget{sm__single__ur5__sim__gazebo__sim_8launch_8py_source_l00340}00340             default\_value=\textcolor{stringliteral}{"{}0.0"{}},}
+\DoxyCodeLine{\Hypertarget{sm__single__ur5__sim__gazebo__sim_8launch_8py_source_l00341}00341             description=\textcolor{stringliteral}{"{}"{}},}
+\DoxyCodeLine{\Hypertarget{sm__single__ur5__sim__gazebo__sim_8launch_8py_source_l00342}00342         )}
+\DoxyCodeLine{\Hypertarget{sm__single__ur5__sim__gazebo__sim_8launch_8py_source_l00343}00343     ),}
+\DoxyCodeLine{\Hypertarget{sm__single__ur5__sim__gazebo__sim_8launch_8py_source_l00344}00344 }
+\DoxyCodeLine{\Hypertarget{sm__single__ur5__sim__gazebo__sim_8launch_8py_source_l00345}00345     declared\_arguments.append(}
+\DoxyCodeLine{\Hypertarget{sm__single__ur5__sim__gazebo__sim_8launch_8py_source_l00346}00346         DeclareLaunchArgument(}
+\DoxyCodeLine{\Hypertarget{sm__single__ur5__sim__gazebo__sim_8launch_8py_source_l00347}00347             \textcolor{stringliteral}{"{}ros\_control"{}},}
+\DoxyCodeLine{\Hypertarget{sm__single__ur5__sim__gazebo__sim_8launch_8py_source_l00348}00348             default\_value=\textcolor{stringliteral}{"{}False"{}},}
+\DoxyCodeLine{\Hypertarget{sm__single__ur5__sim__gazebo__sim_8launch_8py_source_l00349}00349             description=\textcolor{stringliteral}{"{}"{}},}
+\DoxyCodeLine{\Hypertarget{sm__single__ur5__sim__gazebo__sim_8launch_8py_source_l00350}00350         )}
+\DoxyCodeLine{\Hypertarget{sm__single__ur5__sim__gazebo__sim_8launch_8py_source_l00351}00351     ),}
+\DoxyCodeLine{\Hypertarget{sm__single__ur5__sim__gazebo__sim_8launch_8py_source_l00352}00352 }
+\DoxyCodeLine{\Hypertarget{sm__single__ur5__sim__gazebo__sim_8launch_8py_source_l00353}00353     declared\_arguments.append(}
+\DoxyCodeLine{\Hypertarget{sm__single__ur5__sim__gazebo__sim_8launch_8py_source_l00354}00354         DeclareLaunchArgument(}
+\DoxyCodeLine{\Hypertarget{sm__single__ur5__sim__gazebo__sim_8launch_8py_source_l00355}00355             \textcolor{stringliteral}{"{}use\_state\_machine"{}},}
+\DoxyCodeLine{\Hypertarget{sm__single__ur5__sim__gazebo__sim_8launch_8py_source_l00356}00356             default\_value=\textcolor{stringliteral}{"{}False"{}},}
+\DoxyCodeLine{\Hypertarget{sm__single__ur5__sim__gazebo__sim_8launch_8py_source_l00357}00357             description=\textcolor{stringliteral}{"{}"{}},}
+\DoxyCodeLine{\Hypertarget{sm__single__ur5__sim__gazebo__sim_8launch_8py_source_l00358}00358         )}
+\DoxyCodeLine{\Hypertarget{sm__single__ur5__sim__gazebo__sim_8launch_8py_source_l00359}00359     ),}
+\DoxyCodeLine{\Hypertarget{sm__single__ur5__sim__gazebo__sim_8launch_8py_source_l00360}00360     declared\_arguments.append(}
+\DoxyCodeLine{\Hypertarget{sm__single__ur5__sim__gazebo__sim_8launch_8py_source_l00361}00361         DeclareLaunchArgument(}
+\DoxyCodeLine{\Hypertarget{sm__single__ur5__sim__gazebo__sim_8launch_8py_source_l00362}00362             \textcolor{stringliteral}{"{}use\_moveit"{}},}
+\DoxyCodeLine{\Hypertarget{sm__single__ur5__sim__gazebo__sim_8launch_8py_source_l00363}00363             default\_value=\textcolor{stringliteral}{"{}False"{}},}
+\DoxyCodeLine{\Hypertarget{sm__single__ur5__sim__gazebo__sim_8launch_8py_source_l00364}00364             description=\textcolor{stringliteral}{"{}"{}},}
+\DoxyCodeLine{\Hypertarget{sm__single__ur5__sim__gazebo__sim_8launch_8py_source_l00365}00365         )}
+\DoxyCodeLine{\Hypertarget{sm__single__ur5__sim__gazebo__sim_8launch_8py_source_l00366}00366     )}
+\DoxyCodeLine{\Hypertarget{sm__single__ur5__sim__gazebo__sim_8launch_8py_source_l00367}00367 }
+\DoxyCodeLine{\Hypertarget{sm__single__ur5__sim__gazebo__sim_8launch_8py_source_l00368}00368     \textcolor{keywordflow}{return} LaunchDescription(declared\_arguments + [OpaqueFunction(function=launch\_setup)])}
+
+\end{DoxyCode}
