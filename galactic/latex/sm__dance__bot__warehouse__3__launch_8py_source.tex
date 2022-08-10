@@ -24,7 +24,7 @@
 \DoxyCodeLine{\Hypertarget{sm__dance__bot__warehouse__3__launch_8py_source_l00020}00020 }
 \DoxyCodeLine{\Hypertarget{sm__dance__bot__warehouse__3__launch_8py_source_l00021}00021 \textcolor{keyword}{from} launch \textcolor{keyword}{import} LaunchDescription}
 \DoxyCodeLine{\Hypertarget{sm__dance__bot__warehouse__3__launch_8py_source_l00022}00022 \textcolor{keyword}{from} launch.actions \textcolor{keyword}{import} DeclareLaunchArgument, IncludeLaunchDescription}
-\DoxyCodeLine{\Hypertarget{sm__dance__bot__warehouse__3__launch_8py_source_l00023}00023 \textcolor{keyword}{from} launch.conditions \textcolor{keyword}{import} IfCondition}
+\DoxyCodeLine{\Hypertarget{sm__dance__bot__warehouse__3__launch_8py_source_l00023}00023 \textcolor{keyword}{from} launch.conditions \textcolor{keyword}{import} IfCondition, UnlessCondition}
 \DoxyCodeLine{\Hypertarget{sm__dance__bot__warehouse__3__launch_8py_source_l00024}00024 \textcolor{keyword}{from} launch.launch\_description\_sources \textcolor{keyword}{import} PythonLaunchDescriptionSource}
 \DoxyCodeLine{\Hypertarget{sm__dance__bot__warehouse__3__launch_8py_source_l00025}00025 \textcolor{keyword}{from} launch.substitutions \textcolor{keyword}{import} LaunchConfiguration}
 \DoxyCodeLine{\Hypertarget{sm__dance__bot__warehouse__3__launch_8py_source_l00026}00026 \textcolor{keyword}{from} launch\_ros.actions \textcolor{keyword}{import} Node}
@@ -53,237 +53,245 @@
 \DoxyCodeLine{\Hypertarget{sm__dance__bot__warehouse__3__launch_8py_source_l00049}00049     use\_robot\_state\_pub = LaunchConfiguration(\textcolor{stringliteral}{"{}use\_robot\_state\_pub"{}})}
 \DoxyCodeLine{\Hypertarget{sm__dance__bot__warehouse__3__launch_8py_source_l00050}00050     use\_rviz = LaunchConfiguration(\textcolor{stringliteral}{"{}use\_rviz"{}})}
 \DoxyCodeLine{\Hypertarget{sm__dance__bot__warehouse__3__launch_8py_source_l00051}00051     headless = LaunchConfiguration(\textcolor{stringliteral}{"{}headless"{}})}
-\DoxyCodeLine{\Hypertarget{sm__dance__bot__warehouse__3__launch_8py_source_l00052}00052 }
-\DoxyCodeLine{\Hypertarget{sm__dance__bot__warehouse__3__launch_8py_source_l00053}00053     urdf = os.path.join(sm\_dance\_bot\_warehouse\_3\_dir, \textcolor{stringliteral}{"{}urdf"{}}, \textcolor{stringliteral}{"{}turtlebot3\_waffle.urdf"{}})}
-\DoxyCodeLine{\Hypertarget{sm__dance__bot__warehouse__3__launch_8py_source_l00054}00054 }
-\DoxyCodeLine{\Hypertarget{sm__dance__bot__warehouse__3__launch_8py_source_l00055}00055     \textcolor{comment}{\# Map fully qualified names to relative ones so the node's namespace can be prepended.}}
-\DoxyCodeLine{\Hypertarget{sm__dance__bot__warehouse__3__launch_8py_source_l00056}00056     \textcolor{comment}{\# In case of the transforms (tf), currently, there doesn't seem to be a better alternative}}
-\DoxyCodeLine{\Hypertarget{sm__dance__bot__warehouse__3__launch_8py_source_l00057}00057     \textcolor{comment}{\# https://github.com/ros/geometry2/issues/32}}
-\DoxyCodeLine{\Hypertarget{sm__dance__bot__warehouse__3__launch_8py_source_l00058}00058     \textcolor{comment}{\# https://github.com/ros/robot\_state\_publisher/pull/30}}
-\DoxyCodeLine{\Hypertarget{sm__dance__bot__warehouse__3__launch_8py_source_l00059}00059     \textcolor{comment}{\# TODO(orduno) Substitute with `PushNodeRemapping`}}
-\DoxyCodeLine{\Hypertarget{sm__dance__bot__warehouse__3__launch_8py_source_l00060}00060     \textcolor{comment}{\#              https://github.com/ros2/launch\_ros/issues/56}}
-\DoxyCodeLine{\Hypertarget{sm__dance__bot__warehouse__3__launch_8py_source_l00061}00061     remappings = [(\textcolor{stringliteral}{"{}/tf"{}}, \textcolor{stringliteral}{"{}tf"{}}), (\textcolor{stringliteral}{"{}/tf\_static"{}}, \textcolor{stringliteral}{"{}tf\_static"{}})]}
-\DoxyCodeLine{\Hypertarget{sm__dance__bot__warehouse__3__launch_8py_source_l00062}00062 }
-\DoxyCodeLine{\Hypertarget{sm__dance__bot__warehouse__3__launch_8py_source_l00063}00063     \textcolor{comment}{\# Declare the launch arguments}}
-\DoxyCodeLine{\Hypertarget{sm__dance__bot__warehouse__3__launch_8py_source_l00064}00064     declare\_namespace\_cmd = DeclareLaunchArgument(}
-\DoxyCodeLine{\Hypertarget{sm__dance__bot__warehouse__3__launch_8py_source_l00065}00065         \textcolor{stringliteral}{"{}namespace"{}}, default\_value=\textcolor{stringliteral}{"{}"{}}, description=\textcolor{stringliteral}{"{}Top-\/level namespace"{}}}
-\DoxyCodeLine{\Hypertarget{sm__dance__bot__warehouse__3__launch_8py_source_l00066}00066     )}
-\DoxyCodeLine{\Hypertarget{sm__dance__bot__warehouse__3__launch_8py_source_l00067}00067 }
-\DoxyCodeLine{\Hypertarget{sm__dance__bot__warehouse__3__launch_8py_source_l00068}00068     declare\_headless\_simulator\_argument = DeclareLaunchArgument(}
-\DoxyCodeLine{\Hypertarget{sm__dance__bot__warehouse__3__launch_8py_source_l00069}00069         \textcolor{stringliteral}{"{}headless"{}}, default\_value=\textcolor{stringliteral}{"{}False"{}}, description=\textcolor{stringliteral}{"{}Whether to execute gzclient)"{}}}
-\DoxyCodeLine{\Hypertarget{sm__dance__bot__warehouse__3__launch_8py_source_l00070}00070     )}
-\DoxyCodeLine{\Hypertarget{sm__dance__bot__warehouse__3__launch_8py_source_l00071}00071 }
-\DoxyCodeLine{\Hypertarget{sm__dance__bot__warehouse__3__launch_8py_source_l00072}00072     declare\_use\_namespace\_cmd = DeclareLaunchArgument(}
-\DoxyCodeLine{\Hypertarget{sm__dance__bot__warehouse__3__launch_8py_source_l00073}00073         \textcolor{stringliteral}{"{}use\_namespace"{}},}
-\DoxyCodeLine{\Hypertarget{sm__dance__bot__warehouse__3__launch_8py_source_l00074}00074         default\_value=\textcolor{stringliteral}{"{}false"{}},}
-\DoxyCodeLine{\Hypertarget{sm__dance__bot__warehouse__3__launch_8py_source_l00075}00075         description=\textcolor{stringliteral}{"{}Whether to apply a namespace to the navigation stack"{}},}
-\DoxyCodeLine{\Hypertarget{sm__dance__bot__warehouse__3__launch_8py_source_l00076}00076     )}
-\DoxyCodeLine{\Hypertarget{sm__dance__bot__warehouse__3__launch_8py_source_l00077}00077 }
-\DoxyCodeLine{\Hypertarget{sm__dance__bot__warehouse__3__launch_8py_source_l00078}00078     declare\_show\_gz\_lidar = DeclareLaunchArgument(}
-\DoxyCodeLine{\Hypertarget{sm__dance__bot__warehouse__3__launch_8py_source_l00079}00079         \textcolor{stringliteral}{"{}show\_gz\_lidar"{}},}
-\DoxyCodeLine{\Hypertarget{sm__dance__bot__warehouse__3__launch_8py_source_l00080}00080         default\_value=\textcolor{stringliteral}{"{}true"{}},}
-\DoxyCodeLine{\Hypertarget{sm__dance__bot__warehouse__3__launch_8py_source_l00081}00081         description=\textcolor{stringliteral}{"{}Whether to apply a namespace to the navigation stack"{}},}
-\DoxyCodeLine{\Hypertarget{sm__dance__bot__warehouse__3__launch_8py_source_l00082}00082     )}
-\DoxyCodeLine{\Hypertarget{sm__dance__bot__warehouse__3__launch_8py_source_l00083}00083 }
-\DoxyCodeLine{\Hypertarget{sm__dance__bot__warehouse__3__launch_8py_source_l00084}00084     declare\_slam\_cmd = DeclareLaunchArgument(}
-\DoxyCodeLine{\Hypertarget{sm__dance__bot__warehouse__3__launch_8py_source_l00085}00085         \textcolor{stringliteral}{"{}slam"{}}, default\_value=\textcolor{stringliteral}{"{}True"{}}, description=\textcolor{stringliteral}{"{}Whether run a SLAM"{}}}
-\DoxyCodeLine{\Hypertarget{sm__dance__bot__warehouse__3__launch_8py_source_l00086}00086     )}
-\DoxyCodeLine{\Hypertarget{sm__dance__bot__warehouse__3__launch_8py_source_l00087}00087 }
-\DoxyCodeLine{\Hypertarget{sm__dance__bot__warehouse__3__launch_8py_source_l00088}00088     declare\_use\_sim\_time\_cmd = DeclareLaunchArgument(}
-\DoxyCodeLine{\Hypertarget{sm__dance__bot__warehouse__3__launch_8py_source_l00089}00089         \textcolor{stringliteral}{"{}use\_sim\_time"{}}, default\_value=\textcolor{stringliteral}{"{}true"{}}, description=\textcolor{stringliteral}{"{}Use simulation (Gazebo) clock if true"{}}}
-\DoxyCodeLine{\Hypertarget{sm__dance__bot__warehouse__3__launch_8py_source_l00090}00090     )}
-\DoxyCodeLine{\Hypertarget{sm__dance__bot__warehouse__3__launch_8py_source_l00091}00091 }
-\DoxyCodeLine{\Hypertarget{sm__dance__bot__warehouse__3__launch_8py_source_l00092}00092     declare\_params\_file\_cmd = DeclareLaunchArgument(}
-\DoxyCodeLine{\Hypertarget{sm__dance__bot__warehouse__3__launch_8py_source_l00093}00093         \textcolor{stringliteral}{"{}params\_file"{}},}
-\DoxyCodeLine{\Hypertarget{sm__dance__bot__warehouse__3__launch_8py_source_l00094}00094         default\_value=os.path.join(}
-\DoxyCodeLine{\Hypertarget{sm__dance__bot__warehouse__3__launch_8py_source_l00095}00095             sm\_dance\_bot\_warehouse\_3\_dir, \textcolor{stringliteral}{"{}params"{}}, \textcolor{stringliteral}{"{}nav2z\_client"{}}, \textcolor{stringliteral}{"{}nav2\_params.yaml"{}}}
-\DoxyCodeLine{\Hypertarget{sm__dance__bot__warehouse__3__launch_8py_source_l00096}00096         ),}
-\DoxyCodeLine{\Hypertarget{sm__dance__bot__warehouse__3__launch_8py_source_l00097}00097         description=\textcolor{stringliteral}{"{}Full path to the ROS2 parameters file to use for all launched nodes"{}},}
-\DoxyCodeLine{\Hypertarget{sm__dance__bot__warehouse__3__launch_8py_source_l00098}00098     )}
-\DoxyCodeLine{\Hypertarget{sm__dance__bot__warehouse__3__launch_8py_source_l00099}00099 }
-\DoxyCodeLine{\Hypertarget{sm__dance__bot__warehouse__3__launch_8py_source_l00100}00100     declare\_bt\_xml\_cmd = DeclareLaunchArgument(}
-\DoxyCodeLine{\Hypertarget{sm__dance__bot__warehouse__3__launch_8py_source_l00101}00101         \textcolor{stringliteral}{"{}default\_nav\_to\_pose\_bt\_xml"{}},}
-\DoxyCodeLine{\Hypertarget{sm__dance__bot__warehouse__3__launch_8py_source_l00102}00102         default\_value=os.path.join(}
-\DoxyCodeLine{\Hypertarget{sm__dance__bot__warehouse__3__launch_8py_source_l00103}00103             sm\_dance\_bot\_warehouse\_3\_dir, \textcolor{stringliteral}{"{}params"{}}, \textcolor{stringliteral}{"{}nav2z\_client"{}}, \textcolor{stringliteral}{"{}navigation\_tree.xml"{}}}
-\DoxyCodeLine{\Hypertarget{sm__dance__bot__warehouse__3__launch_8py_source_l00104}00104         ),}
-\DoxyCodeLine{\Hypertarget{sm__dance__bot__warehouse__3__launch_8py_source_l00105}00105         description=\textcolor{stringliteral}{"{}Full path to the behavior tree xml file to use"{}},}
-\DoxyCodeLine{\Hypertarget{sm__dance__bot__warehouse__3__launch_8py_source_l00106}00106     )}
-\DoxyCodeLine{\Hypertarget{sm__dance__bot__warehouse__3__launch_8py_source_l00107}00107 }
-\DoxyCodeLine{\Hypertarget{sm__dance__bot__warehouse__3__launch_8py_source_l00108}00108     declare\_autostart\_cmd = DeclareLaunchArgument(}
-\DoxyCodeLine{\Hypertarget{sm__dance__bot__warehouse__3__launch_8py_source_l00109}00109         \textcolor{stringliteral}{"{}autostart"{}}, default\_value=\textcolor{stringliteral}{"{}true"{}}, description=\textcolor{stringliteral}{"{}Automatically startup the nav2 stack"{}}}
-\DoxyCodeLine{\Hypertarget{sm__dance__bot__warehouse__3__launch_8py_source_l00110}00110     )}
-\DoxyCodeLine{\Hypertarget{sm__dance__bot__warehouse__3__launch_8py_source_l00111}00111 }
-\DoxyCodeLine{\Hypertarget{sm__dance__bot__warehouse__3__launch_8py_source_l00112}00112     declare\_rviz\_config\_file\_cmd = DeclareLaunchArgument(}
-\DoxyCodeLine{\Hypertarget{sm__dance__bot__warehouse__3__launch_8py_source_l00113}00113         \textcolor{stringliteral}{"{}rviz\_config\_file"{}},}
-\DoxyCodeLine{\Hypertarget{sm__dance__bot__warehouse__3__launch_8py_source_l00114}00114         default\_value=os.path.join(sm\_dance\_bot\_warehouse\_3\_dir, \textcolor{stringliteral}{"{}rviz"{}}, \textcolor{stringliteral}{"{}nav2\_default\_view.rviz"{}}),}
-\DoxyCodeLine{\Hypertarget{sm__dance__bot__warehouse__3__launch_8py_source_l00115}00115         description=\textcolor{stringliteral}{"{}Full path to the RVIZ config file to use"{}},}
-\DoxyCodeLine{\Hypertarget{sm__dance__bot__warehouse__3__launch_8py_source_l00116}00116     )}
-\DoxyCodeLine{\Hypertarget{sm__dance__bot__warehouse__3__launch_8py_source_l00117}00117 }
-\DoxyCodeLine{\Hypertarget{sm__dance__bot__warehouse__3__launch_8py_source_l00118}00118     declare\_use\_robot\_state\_pub\_cmd = DeclareLaunchArgument(}
-\DoxyCodeLine{\Hypertarget{sm__dance__bot__warehouse__3__launch_8py_source_l00119}00119         \textcolor{stringliteral}{"{}use\_robot\_state\_pub"{}},}
-\DoxyCodeLine{\Hypertarget{sm__dance__bot__warehouse__3__launch_8py_source_l00120}00120         default\_value=\textcolor{stringliteral}{"{}True"{}},}
-\DoxyCodeLine{\Hypertarget{sm__dance__bot__warehouse__3__launch_8py_source_l00121}00121         description=\textcolor{stringliteral}{"{}Whether to start the robot state publisher"{}},}
-\DoxyCodeLine{\Hypertarget{sm__dance__bot__warehouse__3__launch_8py_source_l00122}00122     )}
-\DoxyCodeLine{\Hypertarget{sm__dance__bot__warehouse__3__launch_8py_source_l00123}00123 }
-\DoxyCodeLine{\Hypertarget{sm__dance__bot__warehouse__3__launch_8py_source_l00124}00124     declare\_use\_rviz\_cmd = DeclareLaunchArgument(}
-\DoxyCodeLine{\Hypertarget{sm__dance__bot__warehouse__3__launch_8py_source_l00125}00125         \textcolor{stringliteral}{"{}use\_rviz"{}}, default\_value=\textcolor{stringliteral}{"{}True"{}}, description=\textcolor{stringliteral}{"{}Whether to start RVIZ"{}}}
-\DoxyCodeLine{\Hypertarget{sm__dance__bot__warehouse__3__launch_8py_source_l00126}00126     )}
-\DoxyCodeLine{\Hypertarget{sm__dance__bot__warehouse__3__launch_8py_source_l00127}00127 }
-\DoxyCodeLine{\Hypertarget{sm__dance__bot__warehouse__3__launch_8py_source_l00128}00128     declare\_map\_yaml\_cmd = DeclareLaunchArgument(}
-\DoxyCodeLine{\Hypertarget{sm__dance__bot__warehouse__3__launch_8py_source_l00129}00129         \textcolor{stringliteral}{"{}map"{}},}
-\DoxyCodeLine{\Hypertarget{sm__dance__bot__warehouse__3__launch_8py_source_l00130}00130         default\_value=os.path.join(sm\_dance\_bot\_warehouse\_3\_dir, \textcolor{stringliteral}{"{}maps"{}}, \textcolor{stringliteral}{"{}turtlebot3\_world.yaml"{}}),}
-\DoxyCodeLine{\Hypertarget{sm__dance__bot__warehouse__3__launch_8py_source_l00131}00131         description=\textcolor{stringliteral}{"{}Full path to map file to load"{}},}
-\DoxyCodeLine{\Hypertarget{sm__dance__bot__warehouse__3__launch_8py_source_l00132}00132     )}
-\DoxyCodeLine{\Hypertarget{sm__dance__bot__warehouse__3__launch_8py_source_l00133}00133 }
-\DoxyCodeLine{\Hypertarget{sm__dance__bot__warehouse__3__launch_8py_source_l00134}00134     start\_robot\_state\_publisher\_cmd = Node(}
-\DoxyCodeLine{\Hypertarget{sm__dance__bot__warehouse__3__launch_8py_source_l00135}00135         condition=IfCondition(use\_robot\_state\_pub),}
-\DoxyCodeLine{\Hypertarget{sm__dance__bot__warehouse__3__launch_8py_source_l00136}00136         package=\textcolor{stringliteral}{"{}robot\_state\_publisher"{}},}
-\DoxyCodeLine{\Hypertarget{sm__dance__bot__warehouse__3__launch_8py_source_l00137}00137         executable=\textcolor{stringliteral}{"{}robot\_state\_publisher"{}},}
-\DoxyCodeLine{\Hypertarget{sm__dance__bot__warehouse__3__launch_8py_source_l00138}00138         name=\textcolor{stringliteral}{"{}robot\_state\_publisher"{}},}
-\DoxyCodeLine{\Hypertarget{sm__dance__bot__warehouse__3__launch_8py_source_l00139}00139         namespace=namespace,}
-\DoxyCodeLine{\Hypertarget{sm__dance__bot__warehouse__3__launch_8py_source_l00140}00140         output=\textcolor{stringliteral}{"{}screen"{}},}
-\DoxyCodeLine{\Hypertarget{sm__dance__bot__warehouse__3__launch_8py_source_l00141}00141         parameters=[\{\textcolor{stringliteral}{"{}use\_sim\_time"{}}: use\_sim\_time\}],}
-\DoxyCodeLine{\Hypertarget{sm__dance__bot__warehouse__3__launch_8py_source_l00142}00142         remappings=remappings,}
-\DoxyCodeLine{\Hypertarget{sm__dance__bot__warehouse__3__launch_8py_source_l00143}00143         arguments=[urdf],}
-\DoxyCodeLine{\Hypertarget{sm__dance__bot__warehouse__3__launch_8py_source_l00144}00144     )}
-\DoxyCodeLine{\Hypertarget{sm__dance__bot__warehouse__3__launch_8py_source_l00145}00145 }
-\DoxyCodeLine{\Hypertarget{sm__dance__bot__warehouse__3__launch_8py_source_l00146}00146     rviz\_cmd = IncludeLaunchDescription(}
-\DoxyCodeLine{\Hypertarget{sm__dance__bot__warehouse__3__launch_8py_source_l00147}00147         PythonLaunchDescriptionSource(}
-\DoxyCodeLine{\Hypertarget{sm__dance__bot__warehouse__3__launch_8py_source_l00148}00148             os.path.join(sm\_dance\_bot\_warehouse\_3\_launch\_dir, \textcolor{stringliteral}{"{}rviz\_launch.py"{}})}
-\DoxyCodeLine{\Hypertarget{sm__dance__bot__warehouse__3__launch_8py_source_l00149}00149         ),}
-\DoxyCodeLine{\Hypertarget{sm__dance__bot__warehouse__3__launch_8py_source_l00150}00150         condition=IfCondition(use\_rviz),}
-\DoxyCodeLine{\Hypertarget{sm__dance__bot__warehouse__3__launch_8py_source_l00151}00151         launch\_arguments=\{}
-\DoxyCodeLine{\Hypertarget{sm__dance__bot__warehouse__3__launch_8py_source_l00152}00152             \textcolor{stringliteral}{"{}namespace"{}}: \textcolor{stringliteral}{"{}"{}},}
-\DoxyCodeLine{\Hypertarget{sm__dance__bot__warehouse__3__launch_8py_source_l00153}00153             \textcolor{stringliteral}{"{}use\_namespace"{}}: \textcolor{stringliteral}{"{}False"{}},}
-\DoxyCodeLine{\Hypertarget{sm__dance__bot__warehouse__3__launch_8py_source_l00154}00154             \textcolor{stringliteral}{"{}rviz\_config"{}}: rviz\_config\_file,}
-\DoxyCodeLine{\Hypertarget{sm__dance__bot__warehouse__3__launch_8py_source_l00155}00155         \}.items(),}
-\DoxyCodeLine{\Hypertarget{sm__dance__bot__warehouse__3__launch_8py_source_l00156}00156     )}
-\DoxyCodeLine{\Hypertarget{sm__dance__bot__warehouse__3__launch_8py_source_l00157}00157 }
-\DoxyCodeLine{\Hypertarget{sm__dance__bot__warehouse__3__launch_8py_source_l00158}00158     bringup\_cmd = IncludeLaunchDescription(}
-\DoxyCodeLine{\Hypertarget{sm__dance__bot__warehouse__3__launch_8py_source_l00159}00159         PythonLaunchDescriptionSource(}
-\DoxyCodeLine{\Hypertarget{sm__dance__bot__warehouse__3__launch_8py_source_l00160}00160             os.path.join(sm\_dance\_bot\_warehouse\_3\_launch\_dir, \textcolor{stringliteral}{"{}bringup\_launch.py"{}})}
-\DoxyCodeLine{\Hypertarget{sm__dance__bot__warehouse__3__launch_8py_source_l00161}00161         ),}
-\DoxyCodeLine{\Hypertarget{sm__dance__bot__warehouse__3__launch_8py_source_l00162}00162         launch\_arguments=\{}
-\DoxyCodeLine{\Hypertarget{sm__dance__bot__warehouse__3__launch_8py_source_l00163}00163             \textcolor{stringliteral}{"{}namespace"{}}: namespace,}
-\DoxyCodeLine{\Hypertarget{sm__dance__bot__warehouse__3__launch_8py_source_l00164}00164             \textcolor{stringliteral}{"{}use\_namespace"{}}: use\_namespace,}
-\DoxyCodeLine{\Hypertarget{sm__dance__bot__warehouse__3__launch_8py_source_l00165}00165             \textcolor{stringliteral}{"{}autostart"{}}: autostart,}
-\DoxyCodeLine{\Hypertarget{sm__dance__bot__warehouse__3__launch_8py_source_l00166}00166             \textcolor{stringliteral}{"{}params\_file"{}}: params\_file,}
-\DoxyCodeLine{\Hypertarget{sm__dance__bot__warehouse__3__launch_8py_source_l00167}00167             \textcolor{stringliteral}{"{}slam"{}}: slam,}
-\DoxyCodeLine{\Hypertarget{sm__dance__bot__warehouse__3__launch_8py_source_l00168}00168             \textcolor{stringliteral}{"{}map"{}}: map\_yaml\_file,}
-\DoxyCodeLine{\Hypertarget{sm__dance__bot__warehouse__3__launch_8py_source_l00169}00169             \textcolor{stringliteral}{"{}use\_sim\_time"{}}: use\_sim\_time,}
-\DoxyCodeLine{\Hypertarget{sm__dance__bot__warehouse__3__launch_8py_source_l00170}00170             \textcolor{stringliteral}{"{}default\_nav\_to\_pose\_bt\_xml"{}}: default\_nav\_to\_pose\_bt\_xml,}
-\DoxyCodeLine{\Hypertarget{sm__dance__bot__warehouse__3__launch_8py_source_l00171}00171         \}.items(),}
-\DoxyCodeLine{\Hypertarget{sm__dance__bot__warehouse__3__launch_8py_source_l00172}00172     )}
-\DoxyCodeLine{\Hypertarget{sm__dance__bot__warehouse__3__launch_8py_source_l00173}00173 }
-\DoxyCodeLine{\Hypertarget{sm__dance__bot__warehouse__3__launch_8py_source_l00174}00174     bringup\_cmd = IncludeLaunchDescription(}
-\DoxyCodeLine{\Hypertarget{sm__dance__bot__warehouse__3__launch_8py_source_l00175}00175         PythonLaunchDescriptionSource(}
-\DoxyCodeLine{\Hypertarget{sm__dance__bot__warehouse__3__launch_8py_source_l00176}00176             os.path.join(sm\_dance\_bot\_warehouse\_3\_launch\_dir, \textcolor{stringliteral}{"{}bringup\_launch.py"{}})}
-\DoxyCodeLine{\Hypertarget{sm__dance__bot__warehouse__3__launch_8py_source_l00177}00177         ),}
-\DoxyCodeLine{\Hypertarget{sm__dance__bot__warehouse__3__launch_8py_source_l00178}00178         launch\_arguments=\{}
-\DoxyCodeLine{\Hypertarget{sm__dance__bot__warehouse__3__launch_8py_source_l00179}00179             \textcolor{stringliteral}{"{}namespace"{}}: namespace,}
-\DoxyCodeLine{\Hypertarget{sm__dance__bot__warehouse__3__launch_8py_source_l00180}00180             \textcolor{stringliteral}{"{}use\_namespace"{}}: use\_namespace,}
-\DoxyCodeLine{\Hypertarget{sm__dance__bot__warehouse__3__launch_8py_source_l00181}00181             \textcolor{stringliteral}{"{}autostart"{}}: autostart,}
-\DoxyCodeLine{\Hypertarget{sm__dance__bot__warehouse__3__launch_8py_source_l00182}00182             \textcolor{stringliteral}{"{}params\_file"{}}: params\_file,}
-\DoxyCodeLine{\Hypertarget{sm__dance__bot__warehouse__3__launch_8py_source_l00183}00183             \textcolor{stringliteral}{"{}slam"{}}: slam,}
-\DoxyCodeLine{\Hypertarget{sm__dance__bot__warehouse__3__launch_8py_source_l00184}00184             \textcolor{stringliteral}{"{}map"{}}: map\_yaml\_file,}
-\DoxyCodeLine{\Hypertarget{sm__dance__bot__warehouse__3__launch_8py_source_l00185}00185             \textcolor{stringliteral}{"{}use\_sim\_time"{}}: use\_sim\_time,}
-\DoxyCodeLine{\Hypertarget{sm__dance__bot__warehouse__3__launch_8py_source_l00186}00186             \textcolor{stringliteral}{"{}default\_nav\_to\_pose\_bt\_xml"{}}: default\_nav\_to\_pose\_bt\_xml,}
-\DoxyCodeLine{\Hypertarget{sm__dance__bot__warehouse__3__launch_8py_source_l00187}00187         \}.items(),}
-\DoxyCodeLine{\Hypertarget{sm__dance__bot__warehouse__3__launch_8py_source_l00188}00188     )}
-\DoxyCodeLine{\Hypertarget{sm__dance__bot__warehouse__3__launch_8py_source_l00189}00189 }
-\DoxyCodeLine{\Hypertarget{sm__dance__bot__warehouse__3__launch_8py_source_l00190}00190     \textcolor{comment}{\# gazebo\_husky = IncludeLaunchDescription(}}
-\DoxyCodeLine{\Hypertarget{sm__dance__bot__warehouse__3__launch_8py_source_l00191}00191     \textcolor{comment}{\#     PythonLaunchDescriptionSource(os.path.join(sm\_dance\_bot\_warehouse\_3\_launch\_dir, "{}husky\_gazebo.launch.py"{})),}}
-\DoxyCodeLine{\Hypertarget{sm__dance__bot__warehouse__3__launch_8py_source_l00192}00192     \textcolor{comment}{\#     launch\_arguments=\{'world\_path': os.path.join(sm\_dance\_bot\_warehouse\_3\_dir, "{}worlds"{}, "{}ridgeback\_race\_empty.world"{})\}.items()}}
-\DoxyCodeLine{\Hypertarget{sm__dance__bot__warehouse__3__launch_8py_source_l00193}00193     \textcolor{comment}{\# )}}
+\DoxyCodeLine{\Hypertarget{sm__dance__bot__warehouse__3__launch_8py_source_l00052}00052     debug\_sm = LaunchConfiguration(\textcolor{stringliteral}{"{}debug\_sm"{}})}
+\DoxyCodeLine{\Hypertarget{sm__dance__bot__warehouse__3__launch_8py_source_l00053}00053 }
+\DoxyCodeLine{\Hypertarget{sm__dance__bot__warehouse__3__launch_8py_source_l00054}00054     urdf = os.path.join(sm\_dance\_bot\_warehouse\_3\_dir, \textcolor{stringliteral}{"{}urdf"{}}, \textcolor{stringliteral}{"{}turtlebot3\_waffle.urdf"{}})}
+\DoxyCodeLine{\Hypertarget{sm__dance__bot__warehouse__3__launch_8py_source_l00055}00055 }
+\DoxyCodeLine{\Hypertarget{sm__dance__bot__warehouse__3__launch_8py_source_l00056}00056     \textcolor{comment}{\# Map fully qualified names to relative ones so the node's namespace can be prepended.}}
+\DoxyCodeLine{\Hypertarget{sm__dance__bot__warehouse__3__launch_8py_source_l00057}00057     \textcolor{comment}{\# In case of the transforms (tf), currently, there doesn't seem to be a better alternative}}
+\DoxyCodeLine{\Hypertarget{sm__dance__bot__warehouse__3__launch_8py_source_l00058}00058     \textcolor{comment}{\# https://github.com/ros/geometry2/issues/32}}
+\DoxyCodeLine{\Hypertarget{sm__dance__bot__warehouse__3__launch_8py_source_l00059}00059     \textcolor{comment}{\# https://github.com/ros/robot\_state\_publisher/pull/30}}
+\DoxyCodeLine{\Hypertarget{sm__dance__bot__warehouse__3__launch_8py_source_l00060}00060     \textcolor{comment}{\# TODO(orduno) Substitute with `PushNodeRemapping`}}
+\DoxyCodeLine{\Hypertarget{sm__dance__bot__warehouse__3__launch_8py_source_l00061}00061     \textcolor{comment}{\#              https://github.com/ros2/launch\_ros/issues/56}}
+\DoxyCodeLine{\Hypertarget{sm__dance__bot__warehouse__3__launch_8py_source_l00062}00062     remappings = [(\textcolor{stringliteral}{"{}/tf"{}}, \textcolor{stringliteral}{"{}tf"{}}), (\textcolor{stringliteral}{"{}/tf\_static"{}}, \textcolor{stringliteral}{"{}tf\_static"{}})]}
+\DoxyCodeLine{\Hypertarget{sm__dance__bot__warehouse__3__launch_8py_source_l00063}00063 }
+\DoxyCodeLine{\Hypertarget{sm__dance__bot__warehouse__3__launch_8py_source_l00064}00064     \textcolor{comment}{\# Declare the launch arguments}}
+\DoxyCodeLine{\Hypertarget{sm__dance__bot__warehouse__3__launch_8py_source_l00065}00065     declare\_namespace\_cmd = DeclareLaunchArgument(}
+\DoxyCodeLine{\Hypertarget{sm__dance__bot__warehouse__3__launch_8py_source_l00066}00066         \textcolor{stringliteral}{"{}namespace"{}}, default\_value=\textcolor{stringliteral}{"{}"{}}, description=\textcolor{stringliteral}{"{}Top-\/level namespace"{}}}
+\DoxyCodeLine{\Hypertarget{sm__dance__bot__warehouse__3__launch_8py_source_l00067}00067     )}
+\DoxyCodeLine{\Hypertarget{sm__dance__bot__warehouse__3__launch_8py_source_l00068}00068 }
+\DoxyCodeLine{\Hypertarget{sm__dance__bot__warehouse__3__launch_8py_source_l00069}00069     declare\_headless\_simulator\_argument = DeclareLaunchArgument(}
+\DoxyCodeLine{\Hypertarget{sm__dance__bot__warehouse__3__launch_8py_source_l00070}00070         \textcolor{stringliteral}{"{}headless"{}}, default\_value=\textcolor{stringliteral}{"{}False"{}}, description=\textcolor{stringliteral}{"{}Whether to execute gzclient)"{}}}
+\DoxyCodeLine{\Hypertarget{sm__dance__bot__warehouse__3__launch_8py_source_l00071}00071     )}
+\DoxyCodeLine{\Hypertarget{sm__dance__bot__warehouse__3__launch_8py_source_l00072}00072 }
+\DoxyCodeLine{\Hypertarget{sm__dance__bot__warehouse__3__launch_8py_source_l00073}00073     declare\_headless\_debug\_sm\_argument = DeclareLaunchArgument(}
+\DoxyCodeLine{\Hypertarget{sm__dance__bot__warehouse__3__launch_8py_source_l00074}00074         \textcolor{stringliteral}{"{}debug\_sm"{}}, default\_value=\textcolor{stringliteral}{"{}False"{}}, description=\textcolor{stringliteral}{"{}Whether to execute the sm node)"{}}}
+\DoxyCodeLine{\Hypertarget{sm__dance__bot__warehouse__3__launch_8py_source_l00075}00075     )}
+\DoxyCodeLine{\Hypertarget{sm__dance__bot__warehouse__3__launch_8py_source_l00076}00076 }
+\DoxyCodeLine{\Hypertarget{sm__dance__bot__warehouse__3__launch_8py_source_l00077}00077     declare\_use\_namespace\_cmd = DeclareLaunchArgument(}
+\DoxyCodeLine{\Hypertarget{sm__dance__bot__warehouse__3__launch_8py_source_l00078}00078         \textcolor{stringliteral}{"{}use\_namespace"{}},}
+\DoxyCodeLine{\Hypertarget{sm__dance__bot__warehouse__3__launch_8py_source_l00079}00079         default\_value=\textcolor{stringliteral}{"{}false"{}},}
+\DoxyCodeLine{\Hypertarget{sm__dance__bot__warehouse__3__launch_8py_source_l00080}00080         description=\textcolor{stringliteral}{"{}Whether to apply a namespace to the navigation stack"{}},}
+\DoxyCodeLine{\Hypertarget{sm__dance__bot__warehouse__3__launch_8py_source_l00081}00081     )}
+\DoxyCodeLine{\Hypertarget{sm__dance__bot__warehouse__3__launch_8py_source_l00082}00082 }
+\DoxyCodeLine{\Hypertarget{sm__dance__bot__warehouse__3__launch_8py_source_l00083}00083     declare\_show\_gz\_lidar = DeclareLaunchArgument(}
+\DoxyCodeLine{\Hypertarget{sm__dance__bot__warehouse__3__launch_8py_source_l00084}00084         \textcolor{stringliteral}{"{}show\_gz\_lidar"{}},}
+\DoxyCodeLine{\Hypertarget{sm__dance__bot__warehouse__3__launch_8py_source_l00085}00085         default\_value=\textcolor{stringliteral}{"{}true"{}},}
+\DoxyCodeLine{\Hypertarget{sm__dance__bot__warehouse__3__launch_8py_source_l00086}00086         description=\textcolor{stringliteral}{"{}Whether to apply a namespace to the navigation stack"{}},}
+\DoxyCodeLine{\Hypertarget{sm__dance__bot__warehouse__3__launch_8py_source_l00087}00087     )}
+\DoxyCodeLine{\Hypertarget{sm__dance__bot__warehouse__3__launch_8py_source_l00088}00088 }
+\DoxyCodeLine{\Hypertarget{sm__dance__bot__warehouse__3__launch_8py_source_l00089}00089     declare\_slam\_cmd = DeclareLaunchArgument(}
+\DoxyCodeLine{\Hypertarget{sm__dance__bot__warehouse__3__launch_8py_source_l00090}00090         \textcolor{stringliteral}{"{}slam"{}}, default\_value=\textcolor{stringliteral}{"{}True"{}}, description=\textcolor{stringliteral}{"{}Whether run a SLAM"{}}}
+\DoxyCodeLine{\Hypertarget{sm__dance__bot__warehouse__3__launch_8py_source_l00091}00091     )}
+\DoxyCodeLine{\Hypertarget{sm__dance__bot__warehouse__3__launch_8py_source_l00092}00092 }
+\DoxyCodeLine{\Hypertarget{sm__dance__bot__warehouse__3__launch_8py_source_l00093}00093     declare\_use\_sim\_time\_cmd = DeclareLaunchArgument(}
+\DoxyCodeLine{\Hypertarget{sm__dance__bot__warehouse__3__launch_8py_source_l00094}00094         \textcolor{stringliteral}{"{}use\_sim\_time"{}}, default\_value=\textcolor{stringliteral}{"{}true"{}}, description=\textcolor{stringliteral}{"{}Use simulation (Gazebo) clock if true"{}}}
+\DoxyCodeLine{\Hypertarget{sm__dance__bot__warehouse__3__launch_8py_source_l00095}00095     )}
+\DoxyCodeLine{\Hypertarget{sm__dance__bot__warehouse__3__launch_8py_source_l00096}00096 }
+\DoxyCodeLine{\Hypertarget{sm__dance__bot__warehouse__3__launch_8py_source_l00097}00097     declare\_params\_file\_cmd = DeclareLaunchArgument(}
+\DoxyCodeLine{\Hypertarget{sm__dance__bot__warehouse__3__launch_8py_source_l00098}00098         \textcolor{stringliteral}{"{}params\_file"{}},}
+\DoxyCodeLine{\Hypertarget{sm__dance__bot__warehouse__3__launch_8py_source_l00099}00099         default\_value=os.path.join(}
+\DoxyCodeLine{\Hypertarget{sm__dance__bot__warehouse__3__launch_8py_source_l00100}00100             sm\_dance\_bot\_warehouse\_3\_dir, \textcolor{stringliteral}{"{}params"{}}, \textcolor{stringliteral}{"{}nav2z\_client"{}}, \textcolor{stringliteral}{"{}nav2\_params.yaml"{}}}
+\DoxyCodeLine{\Hypertarget{sm__dance__bot__warehouse__3__launch_8py_source_l00101}00101         ),}
+\DoxyCodeLine{\Hypertarget{sm__dance__bot__warehouse__3__launch_8py_source_l00102}00102         description=\textcolor{stringliteral}{"{}Full path to the ROS2 parameters file to use for all launched nodes"{}},}
+\DoxyCodeLine{\Hypertarget{sm__dance__bot__warehouse__3__launch_8py_source_l00103}00103     )}
+\DoxyCodeLine{\Hypertarget{sm__dance__bot__warehouse__3__launch_8py_source_l00104}00104 }
+\DoxyCodeLine{\Hypertarget{sm__dance__bot__warehouse__3__launch_8py_source_l00105}00105     declare\_bt\_xml\_cmd = DeclareLaunchArgument(}
+\DoxyCodeLine{\Hypertarget{sm__dance__bot__warehouse__3__launch_8py_source_l00106}00106         \textcolor{stringliteral}{"{}default\_nav\_to\_pose\_bt\_xml"{}},}
+\DoxyCodeLine{\Hypertarget{sm__dance__bot__warehouse__3__launch_8py_source_l00107}00107         default\_value=os.path.join(}
+\DoxyCodeLine{\Hypertarget{sm__dance__bot__warehouse__3__launch_8py_source_l00108}00108             sm\_dance\_bot\_warehouse\_3\_dir, \textcolor{stringliteral}{"{}params"{}}, \textcolor{stringliteral}{"{}nav2z\_client"{}}, \textcolor{stringliteral}{"{}navigation\_tree.xml"{}}}
+\DoxyCodeLine{\Hypertarget{sm__dance__bot__warehouse__3__launch_8py_source_l00109}00109         ),}
+\DoxyCodeLine{\Hypertarget{sm__dance__bot__warehouse__3__launch_8py_source_l00110}00110         description=\textcolor{stringliteral}{"{}Full path to the behavior tree xml file to use"{}},}
+\DoxyCodeLine{\Hypertarget{sm__dance__bot__warehouse__3__launch_8py_source_l00111}00111     )}
+\DoxyCodeLine{\Hypertarget{sm__dance__bot__warehouse__3__launch_8py_source_l00112}00112 }
+\DoxyCodeLine{\Hypertarget{sm__dance__bot__warehouse__3__launch_8py_source_l00113}00113     declare\_autostart\_cmd = DeclareLaunchArgument(}
+\DoxyCodeLine{\Hypertarget{sm__dance__bot__warehouse__3__launch_8py_source_l00114}00114         \textcolor{stringliteral}{"{}autostart"{}}, default\_value=\textcolor{stringliteral}{"{}true"{}}, description=\textcolor{stringliteral}{"{}Automatically startup the nav2 stack"{}}}
+\DoxyCodeLine{\Hypertarget{sm__dance__bot__warehouse__3__launch_8py_source_l00115}00115     )}
+\DoxyCodeLine{\Hypertarget{sm__dance__bot__warehouse__3__launch_8py_source_l00116}00116 }
+\DoxyCodeLine{\Hypertarget{sm__dance__bot__warehouse__3__launch_8py_source_l00117}00117     declare\_rviz\_config\_file\_cmd = DeclareLaunchArgument(}
+\DoxyCodeLine{\Hypertarget{sm__dance__bot__warehouse__3__launch_8py_source_l00118}00118         \textcolor{stringliteral}{"{}rviz\_config\_file"{}},}
+\DoxyCodeLine{\Hypertarget{sm__dance__bot__warehouse__3__launch_8py_source_l00119}00119         default\_value=os.path.join(sm\_dance\_bot\_warehouse\_3\_dir, \textcolor{stringliteral}{"{}rviz"{}}, \textcolor{stringliteral}{"{}nav2\_default\_view.rviz"{}}),}
+\DoxyCodeLine{\Hypertarget{sm__dance__bot__warehouse__3__launch_8py_source_l00120}00120         description=\textcolor{stringliteral}{"{}Full path to the RVIZ config file to use"{}},}
+\DoxyCodeLine{\Hypertarget{sm__dance__bot__warehouse__3__launch_8py_source_l00121}00121     )}
+\DoxyCodeLine{\Hypertarget{sm__dance__bot__warehouse__3__launch_8py_source_l00122}00122 }
+\DoxyCodeLine{\Hypertarget{sm__dance__bot__warehouse__3__launch_8py_source_l00123}00123     declare\_use\_robot\_state\_pub\_cmd = DeclareLaunchArgument(}
+\DoxyCodeLine{\Hypertarget{sm__dance__bot__warehouse__3__launch_8py_source_l00124}00124         \textcolor{stringliteral}{"{}use\_robot\_state\_pub"{}},}
+\DoxyCodeLine{\Hypertarget{sm__dance__bot__warehouse__3__launch_8py_source_l00125}00125         default\_value=\textcolor{stringliteral}{"{}True"{}},}
+\DoxyCodeLine{\Hypertarget{sm__dance__bot__warehouse__3__launch_8py_source_l00126}00126         description=\textcolor{stringliteral}{"{}Whether to start the robot state publisher"{}},}
+\DoxyCodeLine{\Hypertarget{sm__dance__bot__warehouse__3__launch_8py_source_l00127}00127     )}
+\DoxyCodeLine{\Hypertarget{sm__dance__bot__warehouse__3__launch_8py_source_l00128}00128 }
+\DoxyCodeLine{\Hypertarget{sm__dance__bot__warehouse__3__launch_8py_source_l00129}00129     declare\_use\_rviz\_cmd = DeclareLaunchArgument(}
+\DoxyCodeLine{\Hypertarget{sm__dance__bot__warehouse__3__launch_8py_source_l00130}00130         \textcolor{stringliteral}{"{}use\_rviz"{}}, default\_value=\textcolor{stringliteral}{"{}True"{}}, description=\textcolor{stringliteral}{"{}Whether to start RVIZ"{}}}
+\DoxyCodeLine{\Hypertarget{sm__dance__bot__warehouse__3__launch_8py_source_l00131}00131     )}
+\DoxyCodeLine{\Hypertarget{sm__dance__bot__warehouse__3__launch_8py_source_l00132}00132 }
+\DoxyCodeLine{\Hypertarget{sm__dance__bot__warehouse__3__launch_8py_source_l00133}00133     declare\_map\_yaml\_cmd = DeclareLaunchArgument(}
+\DoxyCodeLine{\Hypertarget{sm__dance__bot__warehouse__3__launch_8py_source_l00134}00134         \textcolor{stringliteral}{"{}map"{}},}
+\DoxyCodeLine{\Hypertarget{sm__dance__bot__warehouse__3__launch_8py_source_l00135}00135         default\_value=os.path.join(sm\_dance\_bot\_warehouse\_3\_dir, \textcolor{stringliteral}{"{}maps"{}}, \textcolor{stringliteral}{"{}turtlebot3\_world.yaml"{}}),}
+\DoxyCodeLine{\Hypertarget{sm__dance__bot__warehouse__3__launch_8py_source_l00136}00136         description=\textcolor{stringliteral}{"{}Full path to map file to load"{}},}
+\DoxyCodeLine{\Hypertarget{sm__dance__bot__warehouse__3__launch_8py_source_l00137}00137     )}
+\DoxyCodeLine{\Hypertarget{sm__dance__bot__warehouse__3__launch_8py_source_l00138}00138 }
+\DoxyCodeLine{\Hypertarget{sm__dance__bot__warehouse__3__launch_8py_source_l00139}00139     start\_robot\_state\_publisher\_cmd = Node(}
+\DoxyCodeLine{\Hypertarget{sm__dance__bot__warehouse__3__launch_8py_source_l00140}00140         condition=IfCondition(use\_robot\_state\_pub),}
+\DoxyCodeLine{\Hypertarget{sm__dance__bot__warehouse__3__launch_8py_source_l00141}00141         package=\textcolor{stringliteral}{"{}robot\_state\_publisher"{}},}
+\DoxyCodeLine{\Hypertarget{sm__dance__bot__warehouse__3__launch_8py_source_l00142}00142         executable=\textcolor{stringliteral}{"{}robot\_state\_publisher"{}},}
+\DoxyCodeLine{\Hypertarget{sm__dance__bot__warehouse__3__launch_8py_source_l00143}00143         name=\textcolor{stringliteral}{"{}robot\_state\_publisher"{}},}
+\DoxyCodeLine{\Hypertarget{sm__dance__bot__warehouse__3__launch_8py_source_l00144}00144         namespace=namespace,}
+\DoxyCodeLine{\Hypertarget{sm__dance__bot__warehouse__3__launch_8py_source_l00145}00145         output=\textcolor{stringliteral}{"{}screen"{}},}
+\DoxyCodeLine{\Hypertarget{sm__dance__bot__warehouse__3__launch_8py_source_l00146}00146         parameters=[\{\textcolor{stringliteral}{"{}use\_sim\_time"{}}: use\_sim\_time\}],}
+\DoxyCodeLine{\Hypertarget{sm__dance__bot__warehouse__3__launch_8py_source_l00147}00147         remappings=remappings,}
+\DoxyCodeLine{\Hypertarget{sm__dance__bot__warehouse__3__launch_8py_source_l00148}00148         arguments=[urdf],}
+\DoxyCodeLine{\Hypertarget{sm__dance__bot__warehouse__3__launch_8py_source_l00149}00149     )}
+\DoxyCodeLine{\Hypertarget{sm__dance__bot__warehouse__3__launch_8py_source_l00150}00150 }
+\DoxyCodeLine{\Hypertarget{sm__dance__bot__warehouse__3__launch_8py_source_l00151}00151     rviz\_cmd = IncludeLaunchDescription(}
+\DoxyCodeLine{\Hypertarget{sm__dance__bot__warehouse__3__launch_8py_source_l00152}00152         PythonLaunchDescriptionSource(}
+\DoxyCodeLine{\Hypertarget{sm__dance__bot__warehouse__3__launch_8py_source_l00153}00153             os.path.join(sm\_dance\_bot\_warehouse\_3\_launch\_dir, \textcolor{stringliteral}{"{}rviz\_launch.py"{}})}
+\DoxyCodeLine{\Hypertarget{sm__dance__bot__warehouse__3__launch_8py_source_l00154}00154         ),}
+\DoxyCodeLine{\Hypertarget{sm__dance__bot__warehouse__3__launch_8py_source_l00155}00155         condition=IfCondition(use\_rviz),}
+\DoxyCodeLine{\Hypertarget{sm__dance__bot__warehouse__3__launch_8py_source_l00156}00156         launch\_arguments=\{}
+\DoxyCodeLine{\Hypertarget{sm__dance__bot__warehouse__3__launch_8py_source_l00157}00157             \textcolor{stringliteral}{"{}namespace"{}}: \textcolor{stringliteral}{"{}"{}},}
+\DoxyCodeLine{\Hypertarget{sm__dance__bot__warehouse__3__launch_8py_source_l00158}00158             \textcolor{stringliteral}{"{}use\_namespace"{}}: \textcolor{stringliteral}{"{}False"{}},}
+\DoxyCodeLine{\Hypertarget{sm__dance__bot__warehouse__3__launch_8py_source_l00159}00159             \textcolor{stringliteral}{"{}rviz\_config"{}}: rviz\_config\_file,}
+\DoxyCodeLine{\Hypertarget{sm__dance__bot__warehouse__3__launch_8py_source_l00160}00160         \}.items(),}
+\DoxyCodeLine{\Hypertarget{sm__dance__bot__warehouse__3__launch_8py_source_l00161}00161     )}
+\DoxyCodeLine{\Hypertarget{sm__dance__bot__warehouse__3__launch_8py_source_l00162}00162 }
+\DoxyCodeLine{\Hypertarget{sm__dance__bot__warehouse__3__launch_8py_source_l00163}00163     bringup\_cmd = IncludeLaunchDescription(}
+\DoxyCodeLine{\Hypertarget{sm__dance__bot__warehouse__3__launch_8py_source_l00164}00164         PythonLaunchDescriptionSource(}
+\DoxyCodeLine{\Hypertarget{sm__dance__bot__warehouse__3__launch_8py_source_l00165}00165             os.path.join(sm\_dance\_bot\_warehouse\_3\_launch\_dir, \textcolor{stringliteral}{"{}bringup\_launch.py"{}})}
+\DoxyCodeLine{\Hypertarget{sm__dance__bot__warehouse__3__launch_8py_source_l00166}00166         ),}
+\DoxyCodeLine{\Hypertarget{sm__dance__bot__warehouse__3__launch_8py_source_l00167}00167         launch\_arguments=\{}
+\DoxyCodeLine{\Hypertarget{sm__dance__bot__warehouse__3__launch_8py_source_l00168}00168             \textcolor{stringliteral}{"{}namespace"{}}: namespace,}
+\DoxyCodeLine{\Hypertarget{sm__dance__bot__warehouse__3__launch_8py_source_l00169}00169             \textcolor{stringliteral}{"{}use\_namespace"{}}: use\_namespace,}
+\DoxyCodeLine{\Hypertarget{sm__dance__bot__warehouse__3__launch_8py_source_l00170}00170             \textcolor{stringliteral}{"{}autostart"{}}: autostart,}
+\DoxyCodeLine{\Hypertarget{sm__dance__bot__warehouse__3__launch_8py_source_l00171}00171             \textcolor{stringliteral}{"{}params\_file"{}}: params\_file,}
+\DoxyCodeLine{\Hypertarget{sm__dance__bot__warehouse__3__launch_8py_source_l00172}00172             \textcolor{stringliteral}{"{}slam"{}}: slam,}
+\DoxyCodeLine{\Hypertarget{sm__dance__bot__warehouse__3__launch_8py_source_l00173}00173             \textcolor{stringliteral}{"{}map"{}}: map\_yaml\_file,}
+\DoxyCodeLine{\Hypertarget{sm__dance__bot__warehouse__3__launch_8py_source_l00174}00174             \textcolor{stringliteral}{"{}use\_sim\_time"{}}: use\_sim\_time,}
+\DoxyCodeLine{\Hypertarget{sm__dance__bot__warehouse__3__launch_8py_source_l00175}00175             \textcolor{stringliteral}{"{}default\_nav\_to\_pose\_bt\_xml"{}}: default\_nav\_to\_pose\_bt\_xml,}
+\DoxyCodeLine{\Hypertarget{sm__dance__bot__warehouse__3__launch_8py_source_l00176}00176         \}.items(),}
+\DoxyCodeLine{\Hypertarget{sm__dance__bot__warehouse__3__launch_8py_source_l00177}00177     )}
+\DoxyCodeLine{\Hypertarget{sm__dance__bot__warehouse__3__launch_8py_source_l00178}00178 }
+\DoxyCodeLine{\Hypertarget{sm__dance__bot__warehouse__3__launch_8py_source_l00179}00179     bringup\_cmd = IncludeLaunchDescription(}
+\DoxyCodeLine{\Hypertarget{sm__dance__bot__warehouse__3__launch_8py_source_l00180}00180         PythonLaunchDescriptionSource(}
+\DoxyCodeLine{\Hypertarget{sm__dance__bot__warehouse__3__launch_8py_source_l00181}00181             os.path.join(sm\_dance\_bot\_warehouse\_3\_launch\_dir, \textcolor{stringliteral}{"{}bringup\_launch.py"{}})}
+\DoxyCodeLine{\Hypertarget{sm__dance__bot__warehouse__3__launch_8py_source_l00182}00182         ),}
+\DoxyCodeLine{\Hypertarget{sm__dance__bot__warehouse__3__launch_8py_source_l00183}00183         launch\_arguments=\{}
+\DoxyCodeLine{\Hypertarget{sm__dance__bot__warehouse__3__launch_8py_source_l00184}00184             \textcolor{stringliteral}{"{}namespace"{}}: namespace,}
+\DoxyCodeLine{\Hypertarget{sm__dance__bot__warehouse__3__launch_8py_source_l00185}00185             \textcolor{stringliteral}{"{}use\_namespace"{}}: use\_namespace,}
+\DoxyCodeLine{\Hypertarget{sm__dance__bot__warehouse__3__launch_8py_source_l00186}00186             \textcolor{stringliteral}{"{}autostart"{}}: autostart,}
+\DoxyCodeLine{\Hypertarget{sm__dance__bot__warehouse__3__launch_8py_source_l00187}00187             \textcolor{stringliteral}{"{}params\_file"{}}: params\_file,}
+\DoxyCodeLine{\Hypertarget{sm__dance__bot__warehouse__3__launch_8py_source_l00188}00188             \textcolor{stringliteral}{"{}slam"{}}: slam,}
+\DoxyCodeLine{\Hypertarget{sm__dance__bot__warehouse__3__launch_8py_source_l00189}00189             \textcolor{stringliteral}{"{}map"{}}: map\_yaml\_file,}
+\DoxyCodeLine{\Hypertarget{sm__dance__bot__warehouse__3__launch_8py_source_l00190}00190             \textcolor{stringliteral}{"{}use\_sim\_time"{}}: use\_sim\_time,}
+\DoxyCodeLine{\Hypertarget{sm__dance__bot__warehouse__3__launch_8py_source_l00191}00191             \textcolor{stringliteral}{"{}default\_nav\_to\_pose\_bt\_xml"{}}: default\_nav\_to\_pose\_bt\_xml,}
+\DoxyCodeLine{\Hypertarget{sm__dance__bot__warehouse__3__launch_8py_source_l00192}00192         \}.items(),}
+\DoxyCodeLine{\Hypertarget{sm__dance__bot__warehouse__3__launch_8py_source_l00193}00193     )}
 \DoxyCodeLine{\Hypertarget{sm__dance__bot__warehouse__3__launch_8py_source_l00194}00194 }
-\DoxyCodeLine{\Hypertarget{sm__dance__bot__warehouse__3__launch_8py_source_l00195}00195     gazebo\_simulator = IncludeLaunchDescription(}
-\DoxyCodeLine{\Hypertarget{sm__dance__bot__warehouse__3__launch_8py_source_l00196}00196         PythonLaunchDescriptionSource(}
-\DoxyCodeLine{\Hypertarget{sm__dance__bot__warehouse__3__launch_8py_source_l00197}00197             os.path.join(sm\_dance\_bot\_warehouse\_3\_launch\_dir, \textcolor{stringliteral}{"{}gazebo\_launch.py"{}})}
-\DoxyCodeLine{\Hypertarget{sm__dance__bot__warehouse__3__launch_8py_source_l00198}00198         ),}
-\DoxyCodeLine{\Hypertarget{sm__dance__bot__warehouse__3__launch_8py_source_l00199}00199         launch\_arguments=\{\textcolor{stringliteral}{"{}show\_gz\_lidar"{}}: show\_gz\_lidar, \textcolor{stringliteral}{"{}headless"{}}: headless\}.items(),}
-\DoxyCodeLine{\Hypertarget{sm__dance__bot__warehouse__3__launch_8py_source_l00200}00200     )}
-\DoxyCodeLine{\Hypertarget{sm__dance__bot__warehouse__3__launch_8py_source_l00201}00201 }
-\DoxyCodeLine{\Hypertarget{sm__dance__bot__warehouse__3__launch_8py_source_l00202}00202     xtermprefix = \textcolor{stringliteral}{"{}xterm -\/xrm 'XTerm*scrollBar:  true' -\/xrm 'xterm*rightScrollBar: true' -\/hold -\/geometry 1000x600 -\/sl 10000 -\/e"{}}}
-\DoxyCodeLine{\Hypertarget{sm__dance__bot__warehouse__3__launch_8py_source_l00203}00203 }
-\DoxyCodeLine{\Hypertarget{sm__dance__bot__warehouse__3__launch_8py_source_l00204}00204     sm\_dance\_bot\_warehouse\_3\_node = Node(}
-\DoxyCodeLine{\Hypertarget{sm__dance__bot__warehouse__3__launch_8py_source_l00205}00205         package=\textcolor{stringliteral}{"{}sm\_dance\_bot\_warehouse\_3"{}},}
-\DoxyCodeLine{\Hypertarget{sm__dance__bot__warehouse__3__launch_8py_source_l00206}00206         executable=\textcolor{stringliteral}{"{}sm\_dance\_bot\_warehouse\_3\_node"{}},}
-\DoxyCodeLine{\Hypertarget{sm__dance__bot__warehouse__3__launch_8py_source_l00207}00207         name=\textcolor{stringliteral}{"{}SmDanceBotWareHouse3"{}},}
-\DoxyCodeLine{\Hypertarget{sm__dance__bot__warehouse__3__launch_8py_source_l00208}00208         output=\textcolor{stringliteral}{"{}screen"{}},}
-\DoxyCodeLine{\Hypertarget{sm__dance__bot__warehouse__3__launch_8py_source_l00209}00209         prefix=xtermprefix,}
-\DoxyCodeLine{\Hypertarget{sm__dance__bot__warehouse__3__launch_8py_source_l00210}00210         parameters=[}
-\DoxyCodeLine{\Hypertarget{sm__dance__bot__warehouse__3__launch_8py_source_l00211}00211             os.path.join(}
-\DoxyCodeLine{\Hypertarget{sm__dance__bot__warehouse__3__launch_8py_source_l00212}00212                 get\_package\_share\_directory(\textcolor{stringliteral}{"{}sm\_dance\_bot\_warehouse\_3"{}}),}
-\DoxyCodeLine{\Hypertarget{sm__dance__bot__warehouse__3__launch_8py_source_l00213}00213                 \textcolor{stringliteral}{"{}params/sm\_dance\_bot\_warehouse\_3\_config.yaml"{}},}
-\DoxyCodeLine{\Hypertarget{sm__dance__bot__warehouse__3__launch_8py_source_l00214}00214             ),}
-\DoxyCodeLine{\Hypertarget{sm__dance__bot__warehouse__3__launch_8py_source_l00215}00215             os.path.join(}
-\DoxyCodeLine{\Hypertarget{sm__dance__bot__warehouse__3__launch_8py_source_l00216}00216                 get\_package\_share\_directory(\textcolor{stringliteral}{"{}sm\_dance\_bot\_warehouse\_3"{}}),}
-\DoxyCodeLine{\Hypertarget{sm__dance__bot__warehouse__3__launch_8py_source_l00217}00217                 \textcolor{stringliteral}{"{}params/nav2z\_client/odom\_tracker.yaml"{}},}
-\DoxyCodeLine{\Hypertarget{sm__dance__bot__warehouse__3__launch_8py_source_l00218}00218             ),}
-\DoxyCodeLine{\Hypertarget{sm__dance__bot__warehouse__3__launch_8py_source_l00219}00219         ],}
-\DoxyCodeLine{\Hypertarget{sm__dance__bot__warehouse__3__launch_8py_source_l00220}00220         remappings=[}
-\DoxyCodeLine{\Hypertarget{sm__dance__bot__warehouse__3__launch_8py_source_l00221}00221             \textcolor{comment}{\# ("{}/odom"{}, "{}/odometry/filtered"{}),}}
-\DoxyCodeLine{\Hypertarget{sm__dance__bot__warehouse__3__launch_8py_source_l00222}00222             \textcolor{comment}{\# ("{}/sm\_dance\_bot\_warehouse\_3\_2/odom\_tracker/odom\_tracker\_path"{}, "{}/odom\_tracker\_path"{}),}}
-\DoxyCodeLine{\Hypertarget{sm__dance__bot__warehouse__3__launch_8py_source_l00223}00223             \textcolor{comment}{\# ("{}/sm\_dance\_bot\_warehouse\_3\_2/odom\_tracker/odom\_tracker\_stacked\_path"{}, "{}/odom\_tracker\_path\_stacked"{})}}
-\DoxyCodeLine{\Hypertarget{sm__dance__bot__warehouse__3__launch_8py_source_l00224}00224         ],}
-\DoxyCodeLine{\Hypertarget{sm__dance__bot__warehouse__3__launch_8py_source_l00225}00225         arguments=[\textcolor{stringliteral}{"{}-\/-\/ros-\/args"{}}, \textcolor{stringliteral}{"{}-\/-\/log-\/level"{}}, \textcolor{stringliteral}{"{}INFO"{}}],}
-\DoxyCodeLine{\Hypertarget{sm__dance__bot__warehouse__3__launch_8py_source_l00226}00226     )}
-\DoxyCodeLine{\Hypertarget{sm__dance__bot__warehouse__3__launch_8py_source_l00227}00227 }
-\DoxyCodeLine{\Hypertarget{sm__dance__bot__warehouse__3__launch_8py_source_l00228}00228     led\_action\_server\_node = Node(}
-\DoxyCodeLine{\Hypertarget{sm__dance__bot__warehouse__3__launch_8py_source_l00229}00229         package=\textcolor{stringliteral}{"{}sm\_dance\_bot\_warehouse\_3"{}},}
-\DoxyCodeLine{\Hypertarget{sm__dance__bot__warehouse__3__launch_8py_source_l00230}00230         executable=\textcolor{stringliteral}{"{}led\_action\_server\_node"{}},}
-\DoxyCodeLine{\Hypertarget{sm__dance__bot__warehouse__3__launch_8py_source_l00231}00231         output=\textcolor{stringliteral}{"{}screen"{}},}
-\DoxyCodeLine{\Hypertarget{sm__dance__bot__warehouse__3__launch_8py_source_l00232}00232         prefix=xtermprefix,}
+\DoxyCodeLine{\Hypertarget{sm__dance__bot__warehouse__3__launch_8py_source_l00195}00195     \textcolor{comment}{\# gazebo\_husky = IncludeLaunchDescription(}}
+\DoxyCodeLine{\Hypertarget{sm__dance__bot__warehouse__3__launch_8py_source_l00196}00196     \textcolor{comment}{\#     PythonLaunchDescriptionSource(os.path.join(sm\_dance\_bot\_warehouse\_3\_launch\_dir, "{}husky\_gazebo.launch.py"{})),}}
+\DoxyCodeLine{\Hypertarget{sm__dance__bot__warehouse__3__launch_8py_source_l00197}00197     \textcolor{comment}{\#     launch\_arguments=\{'world\_path': os.path.join(sm\_dance\_bot\_warehouse\_3\_dir, "{}worlds"{}, "{}ridgeback\_race\_empty.world"{})\}.items()}}
+\DoxyCodeLine{\Hypertarget{sm__dance__bot__warehouse__3__launch_8py_source_l00198}00198     \textcolor{comment}{\# )}}
+\DoxyCodeLine{\Hypertarget{sm__dance__bot__warehouse__3__launch_8py_source_l00199}00199 }
+\DoxyCodeLine{\Hypertarget{sm__dance__bot__warehouse__3__launch_8py_source_l00200}00200     gazebo\_simulator = IncludeLaunchDescription(}
+\DoxyCodeLine{\Hypertarget{sm__dance__bot__warehouse__3__launch_8py_source_l00201}00201         PythonLaunchDescriptionSource(}
+\DoxyCodeLine{\Hypertarget{sm__dance__bot__warehouse__3__launch_8py_source_l00202}00202             os.path.join(sm\_dance\_bot\_warehouse\_3\_launch\_dir, \textcolor{stringliteral}{"{}gazebo\_launch.py"{}})}
+\DoxyCodeLine{\Hypertarget{sm__dance__bot__warehouse__3__launch_8py_source_l00203}00203         ),}
+\DoxyCodeLine{\Hypertarget{sm__dance__bot__warehouse__3__launch_8py_source_l00204}00204         launch\_arguments=\{\textcolor{stringliteral}{"{}show\_gz\_lidar"{}}: show\_gz\_lidar, \textcolor{stringliteral}{"{}headless"{}}: headless\}.items(),}
+\DoxyCodeLine{\Hypertarget{sm__dance__bot__warehouse__3__launch_8py_source_l00205}00205     )}
+\DoxyCodeLine{\Hypertarget{sm__dance__bot__warehouse__3__launch_8py_source_l00206}00206 }
+\DoxyCodeLine{\Hypertarget{sm__dance__bot__warehouse__3__launch_8py_source_l00207}00207     xtermprefix = \textcolor{stringliteral}{"{}xterm -\/xrm 'XTerm*scrollBar:  true' -\/xrm 'xterm*rightScrollBar: true' -\/hold -\/geometry 1000x600 -\/sl 10000 -\/e"{}}}
+\DoxyCodeLine{\Hypertarget{sm__dance__bot__warehouse__3__launch_8py_source_l00208}00208     \textcolor{comment}{\# xtermprefix = "{}gnome-\/terminal -\/-\/"{}}}
+\DoxyCodeLine{\Hypertarget{sm__dance__bot__warehouse__3__launch_8py_source_l00209}00209 }
+\DoxyCodeLine{\Hypertarget{sm__dance__bot__warehouse__3__launch_8py_source_l00210}00210     sm\_dance\_bot\_warehouse\_3\_node = Node(}
+\DoxyCodeLine{\Hypertarget{sm__dance__bot__warehouse__3__launch_8py_source_l00211}00211         package=\textcolor{stringliteral}{"{}sm\_dance\_bot\_warehouse\_3"{}},}
+\DoxyCodeLine{\Hypertarget{sm__dance__bot__warehouse__3__launch_8py_source_l00212}00212         condition=UnlessCondition(debug\_sm),}
+\DoxyCodeLine{\Hypertarget{sm__dance__bot__warehouse__3__launch_8py_source_l00213}00213         executable=\textcolor{stringliteral}{"{}sm\_dance\_bot\_warehouse\_3\_node"{}},}
+\DoxyCodeLine{\Hypertarget{sm__dance__bot__warehouse__3__launch_8py_source_l00214}00214         name=\textcolor{stringliteral}{"{}SmDanceBotWareHouse3"{}},}
+\DoxyCodeLine{\Hypertarget{sm__dance__bot__warehouse__3__launch_8py_source_l00215}00215         output=\textcolor{stringliteral}{"{}screen"{}},}
+\DoxyCodeLine{\Hypertarget{sm__dance__bot__warehouse__3__launch_8py_source_l00216}00216         prefix=xtermprefix,}
+\DoxyCodeLine{\Hypertarget{sm__dance__bot__warehouse__3__launch_8py_source_l00217}00217         parameters=[}
+\DoxyCodeLine{\Hypertarget{sm__dance__bot__warehouse__3__launch_8py_source_l00218}00218             os.path.join(}
+\DoxyCodeLine{\Hypertarget{sm__dance__bot__warehouse__3__launch_8py_source_l00219}00219                 get\_package\_share\_directory(\textcolor{stringliteral}{"{}sm\_dance\_bot\_warehouse\_3"{}}),}
+\DoxyCodeLine{\Hypertarget{sm__dance__bot__warehouse__3__launch_8py_source_l00220}00220                 \textcolor{stringliteral}{"{}params/sm\_dance\_bot\_warehouse\_3\_config.yaml"{}},}
+\DoxyCodeLine{\Hypertarget{sm__dance__bot__warehouse__3__launch_8py_source_l00221}00221             ),}
+\DoxyCodeLine{\Hypertarget{sm__dance__bot__warehouse__3__launch_8py_source_l00222}00222             os.path.join(}
+\DoxyCodeLine{\Hypertarget{sm__dance__bot__warehouse__3__launch_8py_source_l00223}00223                 get\_package\_share\_directory(\textcolor{stringliteral}{"{}sm\_dance\_bot\_warehouse\_3"{}}),}
+\DoxyCodeLine{\Hypertarget{sm__dance__bot__warehouse__3__launch_8py_source_l00224}00224                 \textcolor{stringliteral}{"{}params/nav2z\_client/odom\_tracker.yaml"{}},}
+\DoxyCodeLine{\Hypertarget{sm__dance__bot__warehouse__3__launch_8py_source_l00225}00225             ),}
+\DoxyCodeLine{\Hypertarget{sm__dance__bot__warehouse__3__launch_8py_source_l00226}00226         ],}
+\DoxyCodeLine{\Hypertarget{sm__dance__bot__warehouse__3__launch_8py_source_l00227}00227         remappings=[}
+\DoxyCodeLine{\Hypertarget{sm__dance__bot__warehouse__3__launch_8py_source_l00228}00228             \textcolor{comment}{\# ("{}/odom"{}, "{}/odometry/filtered"{}),}}
+\DoxyCodeLine{\Hypertarget{sm__dance__bot__warehouse__3__launch_8py_source_l00229}00229             \textcolor{comment}{\# ("{}/sm\_dance\_bot\_warehouse\_3\_2/odom\_tracker/odom\_tracker\_path"{}, "{}/odom\_tracker\_path"{}),}}
+\DoxyCodeLine{\Hypertarget{sm__dance__bot__warehouse__3__launch_8py_source_l00230}00230             \textcolor{comment}{\# ("{}/sm\_dance\_bot\_warehouse\_3\_2/odom\_tracker/odom\_tracker\_stacked\_path"{}, "{}/odom\_tracker\_path\_stacked"{})}}
+\DoxyCodeLine{\Hypertarget{sm__dance__bot__warehouse__3__launch_8py_source_l00231}00231         ],}
+\DoxyCodeLine{\Hypertarget{sm__dance__bot__warehouse__3__launch_8py_source_l00232}00232         arguments=[\textcolor{stringliteral}{"{}-\/-\/ros-\/args"{}}, \textcolor{stringliteral}{"{}-\/-\/log-\/level"{}}, \textcolor{stringliteral}{"{}INFO"{}}],}
 \DoxyCodeLine{\Hypertarget{sm__dance__bot__warehouse__3__launch_8py_source_l00233}00233     )}
 \DoxyCodeLine{\Hypertarget{sm__dance__bot__warehouse__3__launch_8py_source_l00234}00234 }
-\DoxyCodeLine{\Hypertarget{sm__dance__bot__warehouse__3__launch_8py_source_l00235}00235     temperature\_action\_server = Node(}
+\DoxyCodeLine{\Hypertarget{sm__dance__bot__warehouse__3__launch_8py_source_l00235}00235     led\_action\_server\_node = Node(}
 \DoxyCodeLine{\Hypertarget{sm__dance__bot__warehouse__3__launch_8py_source_l00236}00236         package=\textcolor{stringliteral}{"{}sm\_dance\_bot\_warehouse\_3"{}},}
-\DoxyCodeLine{\Hypertarget{sm__dance__bot__warehouse__3__launch_8py_source_l00237}00237         executable=\textcolor{stringliteral}{"{}temperature\_sensor\_node"{}},}
+\DoxyCodeLine{\Hypertarget{sm__dance__bot__warehouse__3__launch_8py_source_l00237}00237         executable=\textcolor{stringliteral}{"{}led\_action\_server\_node"{}},}
 \DoxyCodeLine{\Hypertarget{sm__dance__bot__warehouse__3__launch_8py_source_l00238}00238         output=\textcolor{stringliteral}{"{}screen"{}},}
 \DoxyCodeLine{\Hypertarget{sm__dance__bot__warehouse__3__launch_8py_source_l00239}00239         prefix=xtermprefix,}
 \DoxyCodeLine{\Hypertarget{sm__dance__bot__warehouse__3__launch_8py_source_l00240}00240     )}
 \DoxyCodeLine{\Hypertarget{sm__dance__bot__warehouse__3__launch_8py_source_l00241}00241 }
-\DoxyCodeLine{\Hypertarget{sm__dance__bot__warehouse__3__launch_8py_source_l00242}00242     service3\_node = Node(}
+\DoxyCodeLine{\Hypertarget{sm__dance__bot__warehouse__3__launch_8py_source_l00242}00242     temperature\_action\_server = Node(}
 \DoxyCodeLine{\Hypertarget{sm__dance__bot__warehouse__3__launch_8py_source_l00243}00243         package=\textcolor{stringliteral}{"{}sm\_dance\_bot\_warehouse\_3"{}},}
-\DoxyCodeLine{\Hypertarget{sm__dance__bot__warehouse__3__launch_8py_source_l00244}00244         executable=\textcolor{stringliteral}{"{}service\_node\_3.py"{}},}
+\DoxyCodeLine{\Hypertarget{sm__dance__bot__warehouse__3__launch_8py_source_l00244}00244         executable=\textcolor{stringliteral}{"{}temperature\_sensor\_node"{}},}
 \DoxyCodeLine{\Hypertarget{sm__dance__bot__warehouse__3__launch_8py_source_l00245}00245         output=\textcolor{stringliteral}{"{}screen"{}},}
 \DoxyCodeLine{\Hypertarget{sm__dance__bot__warehouse__3__launch_8py_source_l00246}00246         prefix=xtermprefix,}
-\DoxyCodeLine{\Hypertarget{sm__dance__bot__warehouse__3__launch_8py_source_l00247}00247         parameters=[}
-\DoxyCodeLine{\Hypertarget{sm__dance__bot__warehouse__3__launch_8py_source_l00248}00248             \{\textcolor{stringliteral}{"{}autostart"{}}: \textcolor{keyword}{True}, \textcolor{stringliteral}{"{}node\_names"{}}: [\textcolor{stringliteral}{"{}ss"{}}, \textcolor{stringliteral}{"{}dfa"{}}]\},}
-\DoxyCodeLine{\Hypertarget{sm__dance__bot__warehouse__3__launch_8py_source_l00249}00249         ],}
-\DoxyCodeLine{\Hypertarget{sm__dance__bot__warehouse__3__launch_8py_source_l00250}00250     )}
-\DoxyCodeLine{\Hypertarget{sm__dance__bot__warehouse__3__launch_8py_source_l00251}00251 }
-\DoxyCodeLine{\Hypertarget{sm__dance__bot__warehouse__3__launch_8py_source_l00252}00252     \textcolor{comment}{\# Create the launch description and populate}}
-\DoxyCodeLine{\Hypertarget{sm__dance__bot__warehouse__3__launch_8py_source_l00253}00253     ld = LaunchDescription()}
-\DoxyCodeLine{\Hypertarget{sm__dance__bot__warehouse__3__launch_8py_source_l00254}00254 }
-\DoxyCodeLine{\Hypertarget{sm__dance__bot__warehouse__3__launch_8py_source_l00255}00255     \textcolor{comment}{\# Declare the launch options}}
-\DoxyCodeLine{\Hypertarget{sm__dance__bot__warehouse__3__launch_8py_source_l00256}00256     ld.add\_action(declare\_namespace\_cmd)}
-\DoxyCodeLine{\Hypertarget{sm__dance__bot__warehouse__3__launch_8py_source_l00257}00257     ld.add\_action(declare\_use\_namespace\_cmd)}
-\DoxyCodeLine{\Hypertarget{sm__dance__bot__warehouse__3__launch_8py_source_l00258}00258     ld.add\_action(declare\_slam\_cmd)}
-\DoxyCodeLine{\Hypertarget{sm__dance__bot__warehouse__3__launch_8py_source_l00259}00259     ld.add\_action(declare\_use\_sim\_time\_cmd)}
-\DoxyCodeLine{\Hypertarget{sm__dance__bot__warehouse__3__launch_8py_source_l00260}00260     ld.add\_action(declare\_params\_file\_cmd)}
-\DoxyCodeLine{\Hypertarget{sm__dance__bot__warehouse__3__launch_8py_source_l00261}00261     ld.add\_action(declare\_bt\_xml\_cmd)}
-\DoxyCodeLine{\Hypertarget{sm__dance__bot__warehouse__3__launch_8py_source_l00262}00262     ld.add\_action(declare\_autostart\_cmd)}
-\DoxyCodeLine{\Hypertarget{sm__dance__bot__warehouse__3__launch_8py_source_l00263}00263     ld.add\_action(declare\_map\_yaml\_cmd)}
-\DoxyCodeLine{\Hypertarget{sm__dance__bot__warehouse__3__launch_8py_source_l00264}00264     ld.add\_action(declare\_show\_gz\_lidar)}
-\DoxyCodeLine{\Hypertarget{sm__dance__bot__warehouse__3__launch_8py_source_l00265}00265     ld.add\_action(declare\_headless\_simulator\_argument)}
-\DoxyCodeLine{\Hypertarget{sm__dance__bot__warehouse__3__launch_8py_source_l00266}00266 }
-\DoxyCodeLine{\Hypertarget{sm__dance__bot__warehouse__3__launch_8py_source_l00267}00267     ld.add\_action(declare\_rviz\_config\_file\_cmd)}
-\DoxyCodeLine{\Hypertarget{sm__dance__bot__warehouse__3__launch_8py_source_l00268}00268     ld.add\_action(declare\_use\_robot\_state\_pub\_cmd)}
-\DoxyCodeLine{\Hypertarget{sm__dance__bot__warehouse__3__launch_8py_source_l00269}00269     ld.add\_action(declare\_use\_rviz\_cmd)}
-\DoxyCodeLine{\Hypertarget{sm__dance__bot__warehouse__3__launch_8py_source_l00270}00270     ld.add\_action(gazebo\_simulator)}
-\DoxyCodeLine{\Hypertarget{sm__dance__bot__warehouse__3__launch_8py_source_l00271}00271     \textcolor{comment}{\# ld.add\_action(gazebo\_husky)}}
-\DoxyCodeLine{\Hypertarget{sm__dance__bot__warehouse__3__launch_8py_source_l00272}00272 }
-\DoxyCodeLine{\Hypertarget{sm__dance__bot__warehouse__3__launch_8py_source_l00273}00273     ld.add\_action(sm\_dance\_bot\_warehouse\_3\_node)}
-\DoxyCodeLine{\Hypertarget{sm__dance__bot__warehouse__3__launch_8py_source_l00274}00274     ld.add\_action(service3\_node)}
-\DoxyCodeLine{\Hypertarget{sm__dance__bot__warehouse__3__launch_8py_source_l00275}00275     ld.add\_action(temperature\_action\_server)}
-\DoxyCodeLine{\Hypertarget{sm__dance__bot__warehouse__3__launch_8py_source_l00276}00276     ld.add\_action(led\_action\_server\_node)}
-\DoxyCodeLine{\Hypertarget{sm__dance__bot__warehouse__3__launch_8py_source_l00277}00277 }
-\DoxyCodeLine{\Hypertarget{sm__dance__bot__warehouse__3__launch_8py_source_l00278}00278     \textcolor{comment}{\# \# Add the actions to launch all of the navigation nodes}}
-\DoxyCodeLine{\Hypertarget{sm__dance__bot__warehouse__3__launch_8py_source_l00279}00279     ld.add\_action(start\_robot\_state\_publisher\_cmd)}
-\DoxyCodeLine{\Hypertarget{sm__dance__bot__warehouse__3__launch_8py_source_l00280}00280     ld.add\_action(rviz\_cmd)}
-\DoxyCodeLine{\Hypertarget{sm__dance__bot__warehouse__3__launch_8py_source_l00281}00281     ld.add\_action(bringup\_cmd)}
-\DoxyCodeLine{\Hypertarget{sm__dance__bot__warehouse__3__launch_8py_source_l00282}00282 }
-\DoxyCodeLine{\Hypertarget{sm__dance__bot__warehouse__3__launch_8py_source_l00283}00283     \textcolor{keywordflow}{return} ld}
+\DoxyCodeLine{\Hypertarget{sm__dance__bot__warehouse__3__launch_8py_source_l00247}00247     )}
+\DoxyCodeLine{\Hypertarget{sm__dance__bot__warehouse__3__launch_8py_source_l00248}00248 }
+\DoxyCodeLine{\Hypertarget{sm__dance__bot__warehouse__3__launch_8py_source_l00249}00249     service3\_node = Node(}
+\DoxyCodeLine{\Hypertarget{sm__dance__bot__warehouse__3__launch_8py_source_l00250}00250         package=\textcolor{stringliteral}{"{}sm\_dance\_bot\_warehouse\_3"{}},}
+\DoxyCodeLine{\Hypertarget{sm__dance__bot__warehouse__3__launch_8py_source_l00251}00251         executable=\textcolor{stringliteral}{"{}service\_node\_3.py"{}},}
+\DoxyCodeLine{\Hypertarget{sm__dance__bot__warehouse__3__launch_8py_source_l00252}00252         output=\textcolor{stringliteral}{"{}screen"{}},}
+\DoxyCodeLine{\Hypertarget{sm__dance__bot__warehouse__3__launch_8py_source_l00253}00253         prefix=xtermprefix,}
+\DoxyCodeLine{\Hypertarget{sm__dance__bot__warehouse__3__launch_8py_source_l00254}00254         parameters=[}
+\DoxyCodeLine{\Hypertarget{sm__dance__bot__warehouse__3__launch_8py_source_l00255}00255             \{\textcolor{stringliteral}{"{}autostart"{}}: \textcolor{keyword}{True}, \textcolor{stringliteral}{"{}node\_names"{}}: [\textcolor{stringliteral}{"{}ss"{}}, \textcolor{stringliteral}{"{}dfa"{}}]\},}
+\DoxyCodeLine{\Hypertarget{sm__dance__bot__warehouse__3__launch_8py_source_l00256}00256         ],}
+\DoxyCodeLine{\Hypertarget{sm__dance__bot__warehouse__3__launch_8py_source_l00257}00257     )}
+\DoxyCodeLine{\Hypertarget{sm__dance__bot__warehouse__3__launch_8py_source_l00258}00258 }
+\DoxyCodeLine{\Hypertarget{sm__dance__bot__warehouse__3__launch_8py_source_l00259}00259     \textcolor{comment}{\# Create the launch description and populate}}
+\DoxyCodeLine{\Hypertarget{sm__dance__bot__warehouse__3__launch_8py_source_l00260}00260     ld = LaunchDescription()}
+\DoxyCodeLine{\Hypertarget{sm__dance__bot__warehouse__3__launch_8py_source_l00261}00261 }
+\DoxyCodeLine{\Hypertarget{sm__dance__bot__warehouse__3__launch_8py_source_l00262}00262     \textcolor{comment}{\# Declare the launch options}}
+\DoxyCodeLine{\Hypertarget{sm__dance__bot__warehouse__3__launch_8py_source_l00263}00263     ld.add\_action(declare\_headless\_debug\_sm\_argument)}
+\DoxyCodeLine{\Hypertarget{sm__dance__bot__warehouse__3__launch_8py_source_l00264}00264     ld.add\_action(declare\_namespace\_cmd)}
+\DoxyCodeLine{\Hypertarget{sm__dance__bot__warehouse__3__launch_8py_source_l00265}00265     ld.add\_action(declare\_use\_namespace\_cmd)}
+\DoxyCodeLine{\Hypertarget{sm__dance__bot__warehouse__3__launch_8py_source_l00266}00266     ld.add\_action(declare\_slam\_cmd)}
+\DoxyCodeLine{\Hypertarget{sm__dance__bot__warehouse__3__launch_8py_source_l00267}00267     ld.add\_action(declare\_use\_sim\_time\_cmd)}
+\DoxyCodeLine{\Hypertarget{sm__dance__bot__warehouse__3__launch_8py_source_l00268}00268     ld.add\_action(declare\_params\_file\_cmd)}
+\DoxyCodeLine{\Hypertarget{sm__dance__bot__warehouse__3__launch_8py_source_l00269}00269     ld.add\_action(declare\_bt\_xml\_cmd)}
+\DoxyCodeLine{\Hypertarget{sm__dance__bot__warehouse__3__launch_8py_source_l00270}00270     ld.add\_action(declare\_autostart\_cmd)}
+\DoxyCodeLine{\Hypertarget{sm__dance__bot__warehouse__3__launch_8py_source_l00271}00271     ld.add\_action(declare\_map\_yaml\_cmd)}
+\DoxyCodeLine{\Hypertarget{sm__dance__bot__warehouse__3__launch_8py_source_l00272}00272     ld.add\_action(declare\_show\_gz\_lidar)}
+\DoxyCodeLine{\Hypertarget{sm__dance__bot__warehouse__3__launch_8py_source_l00273}00273     ld.add\_action(declare\_headless\_simulator\_argument)}
+\DoxyCodeLine{\Hypertarget{sm__dance__bot__warehouse__3__launch_8py_source_l00274}00274 }
+\DoxyCodeLine{\Hypertarget{sm__dance__bot__warehouse__3__launch_8py_source_l00275}00275     ld.add\_action(declare\_rviz\_config\_file\_cmd)}
+\DoxyCodeLine{\Hypertarget{sm__dance__bot__warehouse__3__launch_8py_source_l00276}00276     ld.add\_action(declare\_use\_robot\_state\_pub\_cmd)}
+\DoxyCodeLine{\Hypertarget{sm__dance__bot__warehouse__3__launch_8py_source_l00277}00277     ld.add\_action(declare\_use\_rviz\_cmd)}
+\DoxyCodeLine{\Hypertarget{sm__dance__bot__warehouse__3__launch_8py_source_l00278}00278     ld.add\_action(gazebo\_simulator)}
+\DoxyCodeLine{\Hypertarget{sm__dance__bot__warehouse__3__launch_8py_source_l00279}00279     \textcolor{comment}{\# ld.add\_action(gazebo\_husky)}}
+\DoxyCodeLine{\Hypertarget{sm__dance__bot__warehouse__3__launch_8py_source_l00280}00280 }
+\DoxyCodeLine{\Hypertarget{sm__dance__bot__warehouse__3__launch_8py_source_l00281}00281     ld.add\_action(sm\_dance\_bot\_warehouse\_3\_node)}
+\DoxyCodeLine{\Hypertarget{sm__dance__bot__warehouse__3__launch_8py_source_l00282}00282     ld.add\_action(service3\_node)}
+\DoxyCodeLine{\Hypertarget{sm__dance__bot__warehouse__3__launch_8py_source_l00283}00283     ld.add\_action(temperature\_action\_server)}
+\DoxyCodeLine{\Hypertarget{sm__dance__bot__warehouse__3__launch_8py_source_l00284}00284     ld.add\_action(led\_action\_server\_node)}
+\DoxyCodeLine{\Hypertarget{sm__dance__bot__warehouse__3__launch_8py_source_l00285}00285 }
+\DoxyCodeLine{\Hypertarget{sm__dance__bot__warehouse__3__launch_8py_source_l00286}00286     \textcolor{comment}{\# \# Add the actions to launch all of the navigation nodes}}
+\DoxyCodeLine{\Hypertarget{sm__dance__bot__warehouse__3__launch_8py_source_l00287}00287     ld.add\_action(start\_robot\_state\_publisher\_cmd)}
+\DoxyCodeLine{\Hypertarget{sm__dance__bot__warehouse__3__launch_8py_source_l00288}00288     ld.add\_action(rviz\_cmd)}
+\DoxyCodeLine{\Hypertarget{sm__dance__bot__warehouse__3__launch_8py_source_l00289}00289     ld.add\_action(bringup\_cmd)}
+\DoxyCodeLine{\Hypertarget{sm__dance__bot__warehouse__3__launch_8py_source_l00290}00290 }
+\DoxyCodeLine{\Hypertarget{sm__dance__bot__warehouse__3__launch_8py_source_l00291}00291     \textcolor{keywordflow}{return} ld}
 
 \end{DoxyCode}

@@ -83,15 +83,7 @@ var menudata={children:[
 {text:"d",url:"namespacemembers_type.html#index_d"},
 {text:"s",url:"namespacemembers_type.html#index_s"},
 {text:"w",url:"namespacemembers_type.html#index_w"}]},
-{text:"Enumerations",url:"namespacemembers_enum.html",children:[
-{text:"c",url:"namespacemembers_enum.html#index_c"},
-{text:"e",url:"namespacemembers_enum.html#index_e"},
-{text:"l",url:"namespacemembers_enum.html#index_l"},
-{text:"n",url:"namespacemembers_enum.html#index_n"},
-{text:"r",url:"namespacemembers_enum.html#index_r"},
-{text:"s",url:"namespacemembers_enum.html#index_s"},
-{text:"t",url:"namespacemembers_enum.html#index_t"},
-{text:"w",url:"namespacemembers_enum.html#index_w"}]}]}]},
+{text:"Enumerations",url:"namespacemembers_enum.html"}]}]},
 {text:"Classes",url:"annotated.html",children:[
 {text:"Class List",url:"annotated.html"},
 {text:"Class Index",url:"classes.html"},
