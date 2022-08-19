@@ -1,5 +1,4 @@
 var searchData=
 [
-  ['state_5fname_0',['STATE_NAME',['../smacc__state__base_8hpp.html#a0d7815723706a488b5bb65f7e3acf584',1,'smacc_state_base.hpp']]],
-  ['statename_1',['statename',['../orthogonal_8cpp.html#a3666429870447361bc8a781fcceddd37',1,'orthogonal.cpp']]]
+  ['rclcpp_5fusing_5fcustom_5ftype_5fas_5fros_5fmessage_5ftype_0',['RCLCPP_USING_CUSTOM_TYPE_AS_ROS_MESSAGE_TYPE',['../type__adapter_8hpp.html#abc5a5a1201cbff12ecd6d81f0ddf5039',1,'type_adapter.hpp']]]
 ];

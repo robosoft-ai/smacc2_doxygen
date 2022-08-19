@@ -34,258 +34,366 @@
 \DoxyCodeLine{\Hypertarget{opencv__perception__node_8cpp_source_l00030}00030 }
 \DoxyCodeLine{\Hypertarget{opencv__perception__node_8cpp_source_l00031}00031 \textcolor{preprocessor}{\#include <sensor\_msgs/msg/image.hpp>}}
 \DoxyCodeLine{\Hypertarget{opencv__perception__node_8cpp_source_l00032}00032 \textcolor{preprocessor}{\#include <std\_msgs/msg/int32.hpp>}}
-\DoxyCodeLine{\Hypertarget{opencv__perception__node_8cpp_source_l00033}00033 \textcolor{preprocessor}{\#include <iostream>}}
+\DoxyCodeLine{\Hypertarget{opencv__perception__node_8cpp_source_l00033}00033 \textcolor{preprocessor}{\#include <sm\_husky\_barrel\_search\_1/msg/detected\_objects.hpp>}}
 \DoxyCodeLine{\Hypertarget{opencv__perception__node_8cpp_source_l00034}00034 }
-\DoxyCodeLine{\Hypertarget{opencv__perception__node_8cpp_source_l00035}00035 \textcolor{preprocessor}{\#include <opencv2/opencv.hpp>}}
-\DoxyCodeLine{\Hypertarget{opencv__perception__node_8cpp_source_l00036}00036 \textcolor{preprocessor}{\#include <opencv2/features2d.hpp>}}
-\DoxyCodeLine{\Hypertarget{opencv__perception__node_8cpp_source_l00037}00037 }
-\DoxyCodeLine{\Hypertarget{opencv__perception__node_8cpp_source_l00038}00038 \textcolor{preprocessor}{\#include "{}\mbox{\hyperlink{cv__mat__sensor__msgs__image__type__adapter_8hpp}{cv\_mat\_sensor\_msgs\_image\_type\_adapter.hpp}}"{}}}
+\DoxyCodeLine{\Hypertarget{opencv__perception__node_8cpp_source_l00035}00035 \textcolor{preprocessor}{\#include <iostream>}}
+\DoxyCodeLine{\Hypertarget{opencv__perception__node_8cpp_source_l00036}00036 }
+\DoxyCodeLine{\Hypertarget{opencv__perception__node_8cpp_source_l00037}00037 \textcolor{preprocessor}{\#include <opencv2/opencv.hpp>}}
+\DoxyCodeLine{\Hypertarget{opencv__perception__node_8cpp_source_l00038}00038 \textcolor{preprocessor}{\#include <opencv2/features2d.hpp>}}
 \DoxyCodeLine{\Hypertarget{opencv__perception__node_8cpp_source_l00039}00039 }
-\DoxyCodeLine{\Hypertarget{opencv__perception__node_8cpp_source_l00040}00040 \textcolor{comment}{// RCLCPP\_USING\_CUSTOM\_TYPE\_AS\_ROS\_MESSAGE\_TYPE(}}
-\DoxyCodeLine{\Hypertarget{opencv__perception__node_8cpp_source_l00041}00041 \textcolor{comment}{//   image\_tools::sensor\_msgs::msg::Image,}}
-\DoxyCodeLine{\Hypertarget{opencv__perception__node_8cpp_source_l00042}00042 \textcolor{comment}{//   sensor\_msgs::msg::Image);}}
-\DoxyCodeLine{\Hypertarget{opencv__perception__node_8cpp_source_l00043}00043 }
-\DoxyCodeLine{\Hypertarget{opencv__perception__node_8cpp_source_l00044}\mbox{\hyperlink{opencv__perception__node_8cpp_ac5014450a03f58f3bc843ec20fafba2e}{00044}} rclcpp::Publisher<std\_msgs::msg::Int32>::SharedPtr \mbox{\hyperlink{opencv__perception__node_8cpp_ac5014450a03f58f3bc843ec20fafba2e}{detectionPub}};}
-\DoxyCodeLine{\Hypertarget{opencv__perception__node_8cpp_source_l00045}\mbox{\hyperlink{opencv__perception__node_8cpp_a28367082d098c2ebbb1b3029a65b8277}{00045}} rclcpp::Publisher<sensor\_msgs::msg::Image>::SharedPtr \mbox{\hyperlink{opencv__perception__node_8cpp_a28367082d098c2ebbb1b3029a65b8277}{debugImagePub}};}
-\DoxyCodeLine{\Hypertarget{opencv__perception__node_8cpp_source_l00046}\mbox{\hyperlink{opencv__perception__node_8cpp_ad5193eeea23e67bab0b005e2c346558b}{00046}} rclcpp::Subscription<sensor\_msgs::msg::Image>::SharedPtr \mbox{\hyperlink{opencv__perception__node_8cpp_ad5193eeea23e67bab0b005e2c346558b}{imageSub}};}
-\DoxyCodeLine{\Hypertarget{opencv__perception__node_8cpp_source_l00047}00047 }
-\DoxyCodeLine{\Hypertarget{opencv__perception__node_8cpp_source_l00048}\mbox{\hyperlink{opencv__perception__node_8cpp_ae421e45019d553d665a21585a70bfb18}{00048}} \textcolor{keywordtype}{void} \mbox{\hyperlink{opencv__perception__node_8cpp_ae421e45019d553d665a21585a70bfb18}{segmentColor}}(\textcolor{keyword}{const} cv::Mat\& inputRGB, \textcolor{keywordtype}{int} hueMean, \textcolor{keywordtype}{int} hueWindow, cv::Mat\& out, \textcolor{keywordtype}{int} minSaturation=20, \textcolor{keywordtype}{int} minValue=20, \textcolor{keywordtype}{bool} imgShow = \textcolor{keyword}{false})}
-\DoxyCodeLine{\Hypertarget{opencv__perception__node_8cpp_source_l00049}00049 \{}
-\DoxyCodeLine{\Hypertarget{opencv__perception__node_8cpp_source_l00050}00050   cv::Mat hsvInput;}
-\DoxyCodeLine{\Hypertarget{opencv__perception__node_8cpp_source_l00051}00051   cv::cvtColor(inputRGB, hsvInput, cv::COLOR\_BGR2HSV);}
-\DoxyCodeLine{\Hypertarget{opencv__perception__node_8cpp_source_l00052}00052   cv::inRange(hsvInput, cv::Scalar(hueMean -\/ hueWindow, minSaturation, minValue), cv::Scalar(hueMean + hueWindow, 255, 255), out);}
-\DoxyCodeLine{\Hypertarget{opencv__perception__node_8cpp_source_l00053}00053   cv::threshold(out, out, 100, 255, cv::THRESH\_BINARY);}
-\DoxyCodeLine{\Hypertarget{opencv__perception__node_8cpp_source_l00054}00054 }
-\DoxyCodeLine{\Hypertarget{opencv__perception__node_8cpp_source_l00055}00055   \textcolor{keywordflow}{if}(imgShow)}
-\DoxyCodeLine{\Hypertarget{opencv__perception__node_8cpp_source_l00056}00056     cv::imshow(\textcolor{stringliteral}{"{}segment"{}}, out);}
-\DoxyCodeLine{\Hypertarget{opencv__perception__node_8cpp_source_l00057}00057 \}}
-\DoxyCodeLine{\Hypertarget{opencv__perception__node_8cpp_source_l00058}00058 }
-\DoxyCodeLine{\Hypertarget{opencv__perception__node_8cpp_source_l00059}\mbox{\hyperlink{opencv__perception__node_8cpp_aefe3532cef7c23c908fcf85e38ca27e5}{00059}} \textcolor{keywordtype}{int} \mbox{\hyperlink{opencv__perception__node_8cpp_aefe3532cef7c23c908fcf85e38ca27e5}{testImage}}(cv::Mat\& input, cv::Mat\& debugImage, std::string colorName, \textcolor{keywordtype}{int} hueMean, \textcolor{keywordtype}{int} hueWindow,  std::string message =\textcolor{stringliteral}{"{}"{}}, \textcolor{keywordtype}{int} minSaturation=20, \textcolor{keywordtype}{int} minValue=20, \textcolor{keywordtype}{int} minBlobArea=100, \textcolor{keywordtype}{bool} imgShow= \textcolor{keyword}{false})}
-\DoxyCodeLine{\Hypertarget{opencv__perception__node_8cpp_source_l00060}00060 \{}
-\DoxyCodeLine{\Hypertarget{opencv__perception__node_8cpp_source_l00061}00061   cv::Mat segmented;}
-\DoxyCodeLine{\Hypertarget{opencv__perception__node_8cpp_source_l00062}00062 }
-\DoxyCodeLine{\Hypertarget{opencv__perception__node_8cpp_source_l00063}00063   \mbox{\hyperlink{opencv__perception__node_8cpp_ae421e45019d553d665a21585a70bfb18}{segmentColor}}(input, hueMean, hueWindow, segmented,minSaturation, minValue, imgShow);}
-\DoxyCodeLine{\Hypertarget{opencv__perception__node_8cpp_source_l00064}00064 }
-\DoxyCodeLine{\Hypertarget{opencv__perception__node_8cpp_source_l00065}00065   cv::SimpleBlobDetector::Params params;}
-\DoxyCodeLine{\Hypertarget{opencv__perception__node_8cpp_source_l00066}00066   \textcolor{comment}{// params.filterByArea= true;}}
-\DoxyCodeLine{\Hypertarget{opencv__perception__node_8cpp_source_l00067}00067   \textcolor{comment}{// params.minArea = 10;}}
-\DoxyCodeLine{\Hypertarget{opencv__perception__node_8cpp_source_l00068}00068   params.filterByArea = \textcolor{keyword}{true};}
-\DoxyCodeLine{\Hypertarget{opencv__perception__node_8cpp_source_l00069}00069   params.minArea = minBlobArea;}
-\DoxyCodeLine{\Hypertarget{opencv__perception__node_8cpp_source_l00070}00070   params.maxArea = 100000;}
-\DoxyCodeLine{\Hypertarget{opencv__perception__node_8cpp_source_l00071}00071   params.filterByColor = \textcolor{keyword}{true};}
-\DoxyCodeLine{\Hypertarget{opencv__perception__node_8cpp_source_l00072}00072   params.blobColor = 255;}
-\DoxyCodeLine{\Hypertarget{opencv__perception__node_8cpp_source_l00073}00073 }
-\DoxyCodeLine{\Hypertarget{opencv__perception__node_8cpp_source_l00074}00074   \textcolor{keyword}{auto} blobDetector = cv::SimpleBlobDetector::create(params);}
-\DoxyCodeLine{\Hypertarget{opencv__perception__node_8cpp_source_l00075}00075   std::vector<cv::KeyPoint> blobs;}
-\DoxyCodeLine{\Hypertarget{opencv__perception__node_8cpp_source_l00076}00076   blobDetector-\/>detect(segmented, blobs);}
-\DoxyCodeLine{\Hypertarget{opencv__perception__node_8cpp_source_l00077}00077 }
-\DoxyCodeLine{\Hypertarget{opencv__perception__node_8cpp_source_l00078}00078   std::cout << \textcolor{stringliteral}{"{}-\/-\/-\/-\/-\/-\/-\/"{}} << std::endl;}
-\DoxyCodeLine{\Hypertarget{opencv__perception__node_8cpp_source_l00079}00079   \textcolor{keywordflow}{for} (\textcolor{keyword}{auto}\& b : blobs)}
-\DoxyCodeLine{\Hypertarget{opencv__perception__node_8cpp_source_l00080}00080   \{}
-\DoxyCodeLine{\Hypertarget{opencv__perception__node_8cpp_source_l00081}00081     std::cout << \textcolor{stringliteral}{"{}blob "{}} << colorName << \textcolor{stringliteral}{"{} detected: "{}} << b.size << std::endl;}
-\DoxyCodeLine{\Hypertarget{opencv__perception__node_8cpp_source_l00082}00082   \}}
-\DoxyCodeLine{\Hypertarget{opencv__perception__node_8cpp_source_l00083}00083 }
-\DoxyCodeLine{\Hypertarget{opencv__perception__node_8cpp_source_l00084}00084   \textcolor{keywordflow}{if}(!blobs.empty())}
-\DoxyCodeLine{\Hypertarget{opencv__perception__node_8cpp_source_l00085}00085   \{}
-\DoxyCodeLine{\Hypertarget{opencv__perception__node_8cpp_source_l00086}00086     \textcolor{keywordflow}{for}(\textcolor{keyword}{auto}\& b: blobs)}
-\DoxyCodeLine{\Hypertarget{opencv__perception__node_8cpp_source_l00087}00087     \{}
-\DoxyCodeLine{\Hypertarget{opencv__perception__node_8cpp_source_l00088}00088       cv::Rect r;}
-\DoxyCodeLine{\Hypertarget{opencv__perception__node_8cpp_source_l00089}00089       \textcolor{keywordtype}{float} diameter = b.size;}
-\DoxyCodeLine{\Hypertarget{opencv__perception__node_8cpp_source_l00090}00090       \textcolor{keyword}{auto} radius = diameter*0.5;}
-\DoxyCodeLine{\Hypertarget{opencv__perception__node_8cpp_source_l00091}00091       r.x = b.pt.x -\/ radius;}
-\DoxyCodeLine{\Hypertarget{opencv__perception__node_8cpp_source_l00092}00092       r.y = b.pt.y -\/ radius;}
-\DoxyCodeLine{\Hypertarget{opencv__perception__node_8cpp_source_l00093}00093       r.width = diameter;}
-\DoxyCodeLine{\Hypertarget{opencv__perception__node_8cpp_source_l00094}00094       r.height = diameter;}
-\DoxyCodeLine{\Hypertarget{opencv__perception__node_8cpp_source_l00095}00095       cv::rectangle(debugImage,r, cv::Scalar(255,0,0),1 );}
-\DoxyCodeLine{\Hypertarget{opencv__perception__node_8cpp_source_l00096}00096       cv::putText(debugImage, message, cv::Point(r.x,r.y),cv::FONT\_HERSHEY\_SIMPLEX,0.3,cv::Vec3b(255,255, 255));}
-\DoxyCodeLine{\Hypertarget{opencv__perception__node_8cpp_source_l00097}00097 }
-\DoxyCodeLine{\Hypertarget{opencv__perception__node_8cpp_source_l00098}00098     \}}
-\DoxyCodeLine{\Hypertarget{opencv__perception__node_8cpp_source_l00099}00099   \}}
+\DoxyCodeLine{\Hypertarget{opencv__perception__node_8cpp_source_l00040}00040 \textcolor{preprocessor}{\#include "{}\mbox{\hyperlink{cv__mat__sensor__msgs__image__type__adapter_8hpp}{cv\_mat\_sensor\_msgs\_image\_type\_adapter.hpp}}"{}}}
+\DoxyCodeLine{\Hypertarget{opencv__perception__node_8cpp_source_l00041}00041 \textcolor{preprocessor}{\#include <ament\_index\_cpp/get\_package\_share\_directory.hpp>}}
+\DoxyCodeLine{\Hypertarget{opencv__perception__node_8cpp_source_l00042}00042 }
+\DoxyCodeLine{\Hypertarget{opencv__perception__node_8cpp_source_l00043}00043 \textcolor{comment}{// RCLCPP\_USING\_CUSTOM\_TYPE\_AS\_ROS\_MESSAGE\_TYPE(}}
+\DoxyCodeLine{\Hypertarget{opencv__perception__node_8cpp_source_l00044}00044 \textcolor{comment}{//   image\_tools::sensor\_msgs::msg::Image,}}
+\DoxyCodeLine{\Hypertarget{opencv__perception__node_8cpp_source_l00045}00045 \textcolor{comment}{//   sensor\_msgs::msg::Image);}}
+\DoxyCodeLine{\Hypertarget{opencv__perception__node_8cpp_source_l00046}00046 }
+\DoxyCodeLine{\Hypertarget{opencv__perception__node_8cpp_source_l00047}\mbox{\hyperlink{opencv__perception__node_8cpp_add1e617033fc8ebd018a4d08e9fe4c66}{00047}} rclcpp::Publisher<sm\_husky\_barrel\_search\_1::msg::DetectedObjects>::SharedPtr \mbox{\hyperlink{opencv__perception__node_8cpp_add1e617033fc8ebd018a4d08e9fe4c66}{detectionPub}};}
+\DoxyCodeLine{\Hypertarget{opencv__perception__node_8cpp_source_l00048}\mbox{\hyperlink{opencv__perception__node_8cpp_a28367082d098c2ebbb1b3029a65b8277}{00048}} rclcpp::Publisher<sensor\_msgs::msg::Image>::SharedPtr \mbox{\hyperlink{opencv__perception__node_8cpp_a28367082d098c2ebbb1b3029a65b8277}{debugImagePub}};}
+\DoxyCodeLine{\Hypertarget{opencv__perception__node_8cpp_source_l00049}\mbox{\hyperlink{opencv__perception__node_8cpp_ad5193eeea23e67bab0b005e2c346558b}{00049}} rclcpp::Subscription<sensor\_msgs::msg::Image>::SharedPtr \mbox{\hyperlink{opencv__perception__node_8cpp_ad5193eeea23e67bab0b005e2c346558b}{imageSub}};}
+\DoxyCodeLine{\Hypertarget{opencv__perception__node_8cpp_source_l00050}00050 }
+\DoxyCodeLine{\Hypertarget{opencv__perception__node_8cpp_source_l00051}\mbox{\hyperlink{opencv__perception__node_8cpp_ae421e45019d553d665a21585a70bfb18}{00051}} \textcolor{keywordtype}{void} \mbox{\hyperlink{opencv__perception__node_8cpp_ae421e45019d553d665a21585a70bfb18}{segmentColor}}(\textcolor{keyword}{const} cv::Mat\& inputRGB, \textcolor{keywordtype}{int} hueMean, \textcolor{keywordtype}{int} hueWindow, cv::Mat\& out, \textcolor{keywordtype}{int} minSaturation = 20,}
+\DoxyCodeLine{\Hypertarget{opencv__perception__node_8cpp_source_l00052}00052                   \textcolor{keywordtype}{int} minValue = 20, \textcolor{keywordtype}{bool} imgShow = \textcolor{keyword}{false})}
+\DoxyCodeLine{\Hypertarget{opencv__perception__node_8cpp_source_l00053}00053 \{}
+\DoxyCodeLine{\Hypertarget{opencv__perception__node_8cpp_source_l00054}00054   cv::Mat hsvInput;}
+\DoxyCodeLine{\Hypertarget{opencv__perception__node_8cpp_source_l00055}00055   cv::cvtColor(inputRGB, hsvInput, cv::COLOR\_RGB2HSV);}
+\DoxyCodeLine{\Hypertarget{opencv__perception__node_8cpp_source_l00056}00056   cv::inRange(hsvInput, cv::Scalar(hueMean -\/ hueWindow, minSaturation, minValue),}
+\DoxyCodeLine{\Hypertarget{opencv__perception__node_8cpp_source_l00057}00057               cv::Scalar(hueMean + hueWindow, 255, 255), out);}
+\DoxyCodeLine{\Hypertarget{opencv__perception__node_8cpp_source_l00058}00058   cv::threshold(out, out, 100, 255, cv::THRESH\_BINARY);}
+\DoxyCodeLine{\Hypertarget{opencv__perception__node_8cpp_source_l00059}00059 }
+\DoxyCodeLine{\Hypertarget{opencv__perception__node_8cpp_source_l00060}00060   \textcolor{keywordflow}{if} (imgShow)}
+\DoxyCodeLine{\Hypertarget{opencv__perception__node_8cpp_source_l00061}00061   \{}
+\DoxyCodeLine{\Hypertarget{opencv__perception__node_8cpp_source_l00062}00062     cv::imshow(\textcolor{stringliteral}{"{}segment"{}}, out);}
+\DoxyCodeLine{\Hypertarget{opencv__perception__node_8cpp_source_l00063}00063     cv::waitKey();}
+\DoxyCodeLine{\Hypertarget{opencv__perception__node_8cpp_source_l00064}00064   \}}
+\DoxyCodeLine{\Hypertarget{opencv__perception__node_8cpp_source_l00065}00065 \}}
+\DoxyCodeLine{\Hypertarget{opencv__perception__node_8cpp_source_l00066}00066 }
+\DoxyCodeLine{\Hypertarget{opencv__perception__node_8cpp_source_l00067}\mbox{\hyperlink{opencv__perception__node_8cpp_a7dcacec141358e7fbddc2a5877a39df4}{00067}} \textcolor{preprocessor}{\#define DEFAULT\_MIN\_SATURATION 20}}
+\DoxyCodeLine{\Hypertarget{opencv__perception__node_8cpp_source_l00068}\mbox{\hyperlink{opencv__perception__node_8cpp_ae3cfbb4af6690620166a5507e225b647}{00068}} \textcolor{preprocessor}{\#define DEFAULT\_MIN\_VALUE 20}}
+\DoxyCodeLine{\Hypertarget{opencv__perception__node_8cpp_source_l00069}\mbox{\hyperlink{opencv__perception__node_8cpp_a5dffb40786d94915fee060e8feb0530c}{00069}} \textcolor{preprocessor}{\#define DEFAULT\_MIN\_BLOB\_AREA 20}}
+\DoxyCodeLine{\Hypertarget{opencv__perception__node_8cpp_source_l00070}00070 }
+\DoxyCodeLine{\Hypertarget{opencv__perception__node_8cpp_source_l00071}\mbox{\hyperlink{opencv__perception__node_8cpp_a35367a568a53ed21c0b702c98c9d9455}{00071}} \textcolor{keywordtype}{int} \mbox{\hyperlink{opencv__perception__node_8cpp_a35367a568a53ed21c0b702c98c9d9455}{testImage}}(cv::Mat\& input, cv::Mat\& debugImage, std::vector<sm\_husky\_barrel\_search\_1::msg::DetectedObject>\& detectedObjects, std::string colorName,}
+\DoxyCodeLine{\Hypertarget{opencv__perception__node_8cpp_source_l00072}00072               \textcolor{keywordtype}{int} hueMean, \textcolor{keywordtype}{int} hueWindow, std::string message = \textcolor{stringliteral}{"{}"{}}, \textcolor{keywordtype}{int} minSaturation = \mbox{\hyperlink{opencv__perception__node_8cpp_a7dcacec141358e7fbddc2a5877a39df4}{DEFAULT\_MIN\_SATURATION}},}
+\DoxyCodeLine{\Hypertarget{opencv__perception__node_8cpp_source_l00073}00073               \textcolor{keywordtype}{int} minValue = \mbox{\hyperlink{opencv__perception__node_8cpp_ae3cfbb4af6690620166a5507e225b647}{DEFAULT\_MIN\_VALUE}}, \textcolor{keywordtype}{int} minBlobArea = \mbox{\hyperlink{opencv__perception__node_8cpp_a5dffb40786d94915fee060e8feb0530c}{DEFAULT\_MIN\_BLOB\_AREA}}, \textcolor{keywordtype}{bool} imgShow = \textcolor{keyword}{false})}
+\DoxyCodeLine{\Hypertarget{opencv__perception__node_8cpp_source_l00074}00074 \{}
+\DoxyCodeLine{\Hypertarget{opencv__perception__node_8cpp_source_l00075}00075   cv::Mat segmented;}
+\DoxyCodeLine{\Hypertarget{opencv__perception__node_8cpp_source_l00076}00076 }
+\DoxyCodeLine{\Hypertarget{opencv__perception__node_8cpp_source_l00077}00077   \mbox{\hyperlink{opencv__perception__node_8cpp_ae421e45019d553d665a21585a70bfb18}{segmentColor}}(input, hueMean, hueWindow, segmented, minSaturation, minValue, imgShow);}
+\DoxyCodeLine{\Hypertarget{opencv__perception__node_8cpp_source_l00078}00078 }
+\DoxyCodeLine{\Hypertarget{opencv__perception__node_8cpp_source_l00079}00079   std::vector<std::vector<cv::Point> > contours;}
+\DoxyCodeLine{\Hypertarget{opencv__perception__node_8cpp_source_l00080}00080 }
+\DoxyCodeLine{\Hypertarget{opencv__perception__node_8cpp_source_l00081}00081   std::vector<cv::Vec4i> hierarchy;}
+\DoxyCodeLine{\Hypertarget{opencv__perception__node_8cpp_source_l00082}00082 }
+\DoxyCodeLine{\Hypertarget{opencv__perception__node_8cpp_source_l00083}00083   cv::Mat contourOutput = segmented.clone();}
+\DoxyCodeLine{\Hypertarget{opencv__perception__node_8cpp_source_l00084}00084   cv::findContours(contourOutput, contours, hierarchy, cv::RETR\_TREE, cv::CHAIN\_APPROX\_NONE);}
+\DoxyCodeLine{\Hypertarget{opencv__perception__node_8cpp_source_l00085}00085 }
+\DoxyCodeLine{\Hypertarget{opencv__perception__node_8cpp_source_l00086}00086   \textcolor{keywordtype}{int} foundCount = 0;}
+\DoxyCodeLine{\Hypertarget{opencv__perception__node_8cpp_source_l00087}00087 }
+\DoxyCodeLine{\Hypertarget{opencv__perception__node_8cpp_source_l00088}00088   cv::Mat contourImage(segmented.size(), CV\_8UC3, cv::Scalar(0, 0, 0));}
+\DoxyCodeLine{\Hypertarget{opencv__perception__node_8cpp_source_l00089}00089   \textcolor{keywordflow}{for} (\textcolor{keywordtype}{size\_t} idx = 0; idx < contours.size(); idx++)}
+\DoxyCodeLine{\Hypertarget{opencv__perception__node_8cpp_source_l00090}00090   \{}
+\DoxyCodeLine{\Hypertarget{opencv__perception__node_8cpp_source_l00091}00091     \textcolor{keyword}{auto} currentCountour = contours[idx];}
+\DoxyCodeLine{\Hypertarget{opencv__perception__node_8cpp_source_l00092}00092     \textcolor{keyword}{auto} area = cv::contourArea(currentCountour);}
+\DoxyCodeLine{\Hypertarget{opencv__perception__node_8cpp_source_l00093}00093     \textcolor{keyword}{auto} currentHierarchy = hierarchy[idx];}
+\DoxyCodeLine{\Hypertarget{opencv__perception__node_8cpp_source_l00094}00094 }
+\DoxyCodeLine{\Hypertarget{opencv__perception__node_8cpp_source_l00095}00095     \textcolor{keywordflow}{if} (area > minBlobArea \&\& currentHierarchy[3] < 0)}
+\DoxyCodeLine{\Hypertarget{opencv__perception__node_8cpp_source_l00096}00096     \{}
+\DoxyCodeLine{\Hypertarget{opencv__perception__node_8cpp_source_l00097}00097       foundCount++;}
+\DoxyCodeLine{\Hypertarget{opencv__perception__node_8cpp_source_l00098}00098       \textcolor{keyword}{auto} r = cv::boundingRect(currentCountour);}
+\DoxyCodeLine{\Hypertarget{opencv__perception__node_8cpp_source_l00099}00099       cv::drawContours(contourImage, contours, idx, cv::Scalar(255, 0, 0), 1, cv::LINE\_8, hierarchy, 0);}
 \DoxyCodeLine{\Hypertarget{opencv__perception__node_8cpp_source_l00100}00100 }
-\DoxyCodeLine{\Hypertarget{opencv__perception__node_8cpp_source_l00101}00101   \textcolor{keywordflow}{return} blobs.size();}
-\DoxyCodeLine{\Hypertarget{opencv__perception__node_8cpp_source_l00102}00102 \}}
-\DoxyCodeLine{\Hypertarget{opencv__perception__node_8cpp_source_l00103}00103 }
-\DoxyCodeLine{\Hypertarget{opencv__perception__node_8cpp_source_l00104}\mbox{\hyperlink{opencv__perception__node_8cpp_af34daf56383e255fd0e908edf46c7256}{00104}} \textcolor{keywordtype}{int} \mbox{\hyperlink{opencv__perception__node_8cpp_af34daf56383e255fd0e908edf46c7256}{testRed}}(cv::Mat\& input, cv::Mat\& debugImage, \textcolor{keywordtype}{bool} imShow = \textcolor{keyword}{false})}
-\DoxyCodeLine{\Hypertarget{opencv__perception__node_8cpp_source_l00105}00105 \{}
-\DoxyCodeLine{\Hypertarget{opencv__perception__node_8cpp_source_l00106}00106   \textcolor{keywordflow}{return} \mbox{\hyperlink{opencv__perception__node_8cpp_aefe3532cef7c23c908fcf85e38ca27e5}{testImage}}(input, debugImage, \textcolor{stringliteral}{"{}red"{}}, 130, 20,  \textcolor{stringliteral}{"{}enemy"{}});}
-\DoxyCodeLine{\Hypertarget{opencv__perception__node_8cpp_source_l00107}00107 \}}
-\DoxyCodeLine{\Hypertarget{opencv__perception__node_8cpp_source_l00108}00108 }
-\DoxyCodeLine{\Hypertarget{opencv__perception__node_8cpp_source_l00109}\mbox{\hyperlink{opencv__perception__node_8cpp_a2a0df5bef04f7bb41f61f5b312229a64}{00109}} \textcolor{keywordtype}{int} \mbox{\hyperlink{opencv__perception__node_8cpp_a2a0df5bef04f7bb41f61f5b312229a64}{testBlue}}(cv::Mat\& input, cv::Mat\& debugImage, \textcolor{keywordtype}{bool} imShow = \textcolor{keyword}{false})}
-\DoxyCodeLine{\Hypertarget{opencv__perception__node_8cpp_source_l00110}00110 \{}
+\DoxyCodeLine{\Hypertarget{opencv__perception__node_8cpp_source_l00101}00101       cv::drawContours(debugImage, contours, idx, cv::Scalar(255, 0, 0), 1, cv::LINE\_8, hierarchy, 0);}
+\DoxyCodeLine{\Hypertarget{opencv__perception__node_8cpp_source_l00102}00102       cv::rectangle(debugImage, r, cv::Scalar(255, 0, 0), 1);}
+\DoxyCodeLine{\Hypertarget{opencv__perception__node_8cpp_source_l00103}00103       cv::putText(debugImage, message, cv::Point(r.x, r.y), cv::FONT\_HERSHEY\_SIMPLEX, 0.3, cv::Vec3b(255, 255, 255));}
+\DoxyCodeLine{\Hypertarget{opencv__perception__node_8cpp_source_l00104}00104 }
+\DoxyCodeLine{\Hypertarget{opencv__perception__node_8cpp_source_l00105}00105       sm\_husky\_barrel\_search\_1::msg::DetectedObject detectedObject;}
+\DoxyCodeLine{\Hypertarget{opencv__perception__node_8cpp_source_l00106}00106       detectedObject.name = message;}
+\DoxyCodeLine{\Hypertarget{opencv__perception__node_8cpp_source_l00107}00107       detectedObject.blob\_area = area;}
+\DoxyCodeLine{\Hypertarget{opencv__perception__node_8cpp_source_l00108}00108       detectedObjects.push\_back(detectedObject);}
+\DoxyCodeLine{\Hypertarget{opencv__perception__node_8cpp_source_l00109}00109     \}}
+\DoxyCodeLine{\Hypertarget{opencv__perception__node_8cpp_source_l00110}00110   \}}
 \DoxyCodeLine{\Hypertarget{opencv__perception__node_8cpp_source_l00111}00111 }
-\DoxyCodeLine{\Hypertarget{opencv__perception__node_8cpp_source_l00112}00112   \textcolor{keywordflow}{return} \mbox{\hyperlink{opencv__perception__node_8cpp_aefe3532cef7c23c908fcf85e38ca27e5}{testImage}}(input, debugImage, \textcolor{stringliteral}{"{}blue"{}}, 10, 10,  \textcolor{stringliteral}{"{}blue-\/barrel"{}});}
-\DoxyCodeLine{\Hypertarget{opencv__perception__node_8cpp_source_l00113}00113 \}}
-\DoxyCodeLine{\Hypertarget{opencv__perception__node_8cpp_source_l00114}00114 }
-\DoxyCodeLine{\Hypertarget{opencv__perception__node_8cpp_source_l00115}\mbox{\hyperlink{opencv__perception__node_8cpp_a6afa9f86775bd008d0c78efdc1d4e003}{00115}} \textcolor{keywordtype}{int} \mbox{\hyperlink{opencv__perception__node_8cpp_a6afa9f86775bd008d0c78efdc1d4e003}{testGreen}}(cv::Mat\& input, cv::Mat\& debugImage,  \textcolor{keywordtype}{bool} imShow = \textcolor{keyword}{false})}
-\DoxyCodeLine{\Hypertarget{opencv__perception__node_8cpp_source_l00116}00116 \{}
-\DoxyCodeLine{\Hypertarget{opencv__perception__node_8cpp_source_l00117}00117   \textcolor{keywordflow}{return} \mbox{\hyperlink{opencv__perception__node_8cpp_aefe3532cef7c23c908fcf85e38ca27e5}{testImage}}(input, debugImage, \textcolor{stringliteral}{"{}green"{}}, 50, 10, \textcolor{stringliteral}{"{}ally"{}});}
-\DoxyCodeLine{\Hypertarget{opencv__perception__node_8cpp_source_l00118}00118 \}}
+\DoxyCodeLine{\Hypertarget{opencv__perception__node_8cpp_source_l00112}00112   \textcolor{keywordflow}{if} (imgShow)}
+\DoxyCodeLine{\Hypertarget{opencv__perception__node_8cpp_source_l00113}00113   \{}
+\DoxyCodeLine{\Hypertarget{opencv__perception__node_8cpp_source_l00114}00114     cv::imshow(\textcolor{stringliteral}{"{}contours"{}}, contourImage);}
+\DoxyCodeLine{\Hypertarget{opencv__perception__node_8cpp_source_l00115}00115     cv::imshow(\textcolor{stringliteral}{"{}debugImage"{}}, debugImage);}
+\DoxyCodeLine{\Hypertarget{opencv__perception__node_8cpp_source_l00116}00116   \}}
+\DoxyCodeLine{\Hypertarget{opencv__perception__node_8cpp_source_l00117}00117 }
+\DoxyCodeLine{\Hypertarget{opencv__perception__node_8cpp_source_l00118}00118   \textcolor{keywordflow}{return} foundCount;}
 \DoxyCodeLine{\Hypertarget{opencv__perception__node_8cpp_source_l00119}00119 }
-\DoxyCodeLine{\Hypertarget{opencv__perception__node_8cpp_source_l00120}\mbox{\hyperlink{opencv__perception__node_8cpp_a94bc8504aa610ada7ca8e2e2b848ce87}{00120}} \textcolor{keywordtype}{int} \mbox{\hyperlink{opencv__perception__node_8cpp_a94bc8504aa610ada7ca8e2e2b848ce87}{testYellow}}(cv::Mat\& input, cv::Mat\& debugImage, \textcolor{keywordtype}{bool} imShow = \textcolor{keyword}{false})}
-\DoxyCodeLine{\Hypertarget{opencv__perception__node_8cpp_source_l00121}00121 \{}
-\DoxyCodeLine{\Hypertarget{opencv__perception__node_8cpp_source_l00122}00122   \textcolor{comment}{// hue: 31 , minvalue: 200, minsat: 40, in rgb}}
-\DoxyCodeLine{\Hypertarget{opencv__perception__node_8cpp_source_l00123}00123   \textcolor{comment}{//return testImage(input, debugImage, "{}yellow"{}, 31, 10, "{}mine"{}, 40, 200, 100, imShow);}}
-\DoxyCodeLine{\Hypertarget{opencv__perception__node_8cpp_source_l00124}00124 }
-\DoxyCodeLine{\Hypertarget{opencv__perception__node_8cpp_source_l00125}00125   \textcolor{comment}{//return testImage(input, debugImage, "{}yellow"{}, 195, 40, "{}mine"{}, 40, 20, 100, imShow);}}
-\DoxyCodeLine{\Hypertarget{opencv__perception__node_8cpp_source_l00126}00126   \textcolor{keywordflow}{return} \mbox{\hyperlink{opencv__perception__node_8cpp_aefe3532cef7c23c908fcf85e38ca27e5}{testImage}}(input, debugImage, \textcolor{stringliteral}{"{}yellow"{}}, 90, 10, \textcolor{stringliteral}{"{}mine"{}}, 40, 200, 100);}
-\DoxyCodeLine{\Hypertarget{opencv__perception__node_8cpp_source_l00127}00127 \}}
+\DoxyCodeLine{\Hypertarget{opencv__perception__node_8cpp_source_l00120}00120   \textcolor{comment}{// cv::SimpleBlobDetector::Params params;}}
+\DoxyCodeLine{\Hypertarget{opencv__perception__node_8cpp_source_l00121}00121   \textcolor{comment}{// // params.filterByArea= true;}}
+\DoxyCodeLine{\Hypertarget{opencv__perception__node_8cpp_source_l00122}00122   \textcolor{comment}{// // params.minArea = 10;}}
+\DoxyCodeLine{\Hypertarget{opencv__perception__node_8cpp_source_l00123}00123   \textcolor{comment}{// params.filterByArea = true;}}
+\DoxyCodeLine{\Hypertarget{opencv__perception__node_8cpp_source_l00124}00124   \textcolor{comment}{// params.minArea = minBlobArea;}}
+\DoxyCodeLine{\Hypertarget{opencv__perception__node_8cpp_source_l00125}00125   \textcolor{comment}{// params.maxArea = 100000;}}
+\DoxyCodeLine{\Hypertarget{opencv__perception__node_8cpp_source_l00126}00126   \textcolor{comment}{// params.filterByColor = false;}}
+\DoxyCodeLine{\Hypertarget{opencv__perception__node_8cpp_source_l00127}00127   \textcolor{comment}{// params.blobColor = 255;}}
 \DoxyCodeLine{\Hypertarget{opencv__perception__node_8cpp_source_l00128}00128 }
-\DoxyCodeLine{\Hypertarget{opencv__perception__node_8cpp_source_l00129}\mbox{\hyperlink{opencv__perception__node_8cpp_a658e8377d8471fe3812b05bc8c0558ec}{00129}} \textcolor{keywordtype}{void} \mbox{\hyperlink{opencv__perception__node_8cpp_a658e8377d8471fe3812b05bc8c0558ec}{testYellowFile}}(std::string path)}
-\DoxyCodeLine{\Hypertarget{opencv__perception__node_8cpp_source_l00130}00130 \{}
-\DoxyCodeLine{\Hypertarget{opencv__perception__node_8cpp_source_l00131}00131   cv::Mat input;}
-\DoxyCodeLine{\Hypertarget{opencv__perception__node_8cpp_source_l00132}00132     cv::cvtColor(cv::imread(path), input, cv::COLOR\_RGB2BGR);}
-\DoxyCodeLine{\Hypertarget{opencv__perception__node_8cpp_source_l00133}00133 }
-\DoxyCodeLine{\Hypertarget{opencv__perception__node_8cpp_source_l00134}00134   cv::Mat debugImage= input.clone();}
-\DoxyCodeLine{\Hypertarget{opencv__perception__node_8cpp_source_l00135}00135 }
-\DoxyCodeLine{\Hypertarget{opencv__perception__node_8cpp_source_l00136}00136 }
-\DoxyCodeLine{\Hypertarget{opencv__perception__node_8cpp_source_l00137}00137   \mbox{\hyperlink{opencv__perception__node_8cpp_a94bc8504aa610ada7ca8e2e2b848ce87}{testYellow}}(input, debugImage, \textcolor{keyword}{true});}
+\DoxyCodeLine{\Hypertarget{opencv__perception__node_8cpp_source_l00129}00129   \textcolor{comment}{// auto blobDetector = cv::SimpleBlobDetector::create(params);}}
+\DoxyCodeLine{\Hypertarget{opencv__perception__node_8cpp_source_l00130}00130   \textcolor{comment}{// std::vector<cv::KeyPoint> blobs;}}
+\DoxyCodeLine{\Hypertarget{opencv__perception__node_8cpp_source_l00131}00131   \textcolor{comment}{// blobDetector-\/>detect(segmented, blobs);}}
+\DoxyCodeLine{\Hypertarget{opencv__perception__node_8cpp_source_l00132}00132 }
+\DoxyCodeLine{\Hypertarget{opencv__perception__node_8cpp_source_l00133}00133   \textcolor{comment}{// // std::cout << "{}-\/-\/-\/-\/-\/-\/-\/"{} << std::endl;}}
+\DoxyCodeLine{\Hypertarget{opencv__perception__node_8cpp_source_l00134}00134   \textcolor{comment}{// for (auto\& b : blobs)}}
+\DoxyCodeLine{\Hypertarget{opencv__perception__node_8cpp_source_l00135}00135   \textcolor{comment}{// \{}}
+\DoxyCodeLine{\Hypertarget{opencv__perception__node_8cpp_source_l00136}00136   \textcolor{comment}{//   std::cout << "{}-\/blob "{} << colorName << "{} detected: "{} << b.size << std::endl;}}
+\DoxyCodeLine{\Hypertarget{opencv__perception__node_8cpp_source_l00137}00137   \textcolor{comment}{// \}}}
 \DoxyCodeLine{\Hypertarget{opencv__perception__node_8cpp_source_l00138}00138 }
-\DoxyCodeLine{\Hypertarget{opencv__perception__node_8cpp_source_l00139}00139   cv::imshow(\textcolor{stringliteral}{"{}yellow filter -\/ "{}}+ path, debugImage);}
-\DoxyCodeLine{\Hypertarget{opencv__perception__node_8cpp_source_l00140}00140   cv::waitKey();}
-\DoxyCodeLine{\Hypertarget{opencv__perception__node_8cpp_source_l00141}00141 }
-\DoxyCodeLine{\Hypertarget{opencv__perception__node_8cpp_source_l00142}00142 \}}
-\DoxyCodeLine{\Hypertarget{opencv__perception__node_8cpp_source_l00143}00143 }
-\DoxyCodeLine{\Hypertarget{opencv__perception__node_8cpp_source_l00144}\mbox{\hyperlink{opencv__perception__node_8cpp_a1fe3b75debb1dd8157962e733f134ddc}{00144}} \textcolor{keywordtype}{void} \mbox{\hyperlink{opencv__perception__node_8cpp_a1fe3b75debb1dd8157962e733f134ddc}{testRedFile}}(std::string path)}
-\DoxyCodeLine{\Hypertarget{opencv__perception__node_8cpp_source_l00145}00145 \{}
-\DoxyCodeLine{\Hypertarget{opencv__perception__node_8cpp_source_l00146}00146   cv::Mat input = cv::imread(path);}
-\DoxyCodeLine{\Hypertarget{opencv__perception__node_8cpp_source_l00147}00147   cv::cvtColor(input, input, cv::COLOR\_RGB2BGR);}
-\DoxyCodeLine{\Hypertarget{opencv__perception__node_8cpp_source_l00148}00148 }
-\DoxyCodeLine{\Hypertarget{opencv__perception__node_8cpp_source_l00149}00149   cv::Mat debugImage= input.clone();}
-\DoxyCodeLine{\Hypertarget{opencv__perception__node_8cpp_source_l00150}00150 }
-\DoxyCodeLine{\Hypertarget{opencv__perception__node_8cpp_source_l00151}00151 }
-\DoxyCodeLine{\Hypertarget{opencv__perception__node_8cpp_source_l00152}00152   \mbox{\hyperlink{opencv__perception__node_8cpp_af34daf56383e255fd0e908edf46c7256}{testRed}}(input, debugImage, \textcolor{keyword}{true});}
-\DoxyCodeLine{\Hypertarget{opencv__perception__node_8cpp_source_l00153}00153 }
-\DoxyCodeLine{\Hypertarget{opencv__perception__node_8cpp_source_l00154}00154   cv::imshow(\textcolor{stringliteral}{"{}yellow filter -\/ "{}}+ path, debugImage);}
-\DoxyCodeLine{\Hypertarget{opencv__perception__node_8cpp_source_l00155}00155   cv::waitKey();}
-\DoxyCodeLine{\Hypertarget{opencv__perception__node_8cpp_source_l00156}00156 }
-\DoxyCodeLine{\Hypertarget{opencv__perception__node_8cpp_source_l00157}00157 \}}
-\DoxyCodeLine{\Hypertarget{opencv__perception__node_8cpp_source_l00158}00158 }
-\DoxyCodeLine{\Hypertarget{opencv__perception__node_8cpp_source_l00159}\mbox{\hyperlink{opencv__perception__node_8cpp_a5c4b81611c1e3cfb78e1fed9c1832ba0}{00159}} \textcolor{keywordtype}{void} \mbox{\hyperlink{opencv__perception__node_8cpp_a5c4b81611c1e3cfb78e1fed9c1832ba0}{testBlueFile}}(std::string path, cv::Mat\& debugImage)}
-\DoxyCodeLine{\Hypertarget{opencv__perception__node_8cpp_source_l00160}00160 \{}
-\DoxyCodeLine{\Hypertarget{opencv__perception__node_8cpp_source_l00161}00161   cv::Mat input = cv::imread(path);}
-\DoxyCodeLine{\Hypertarget{opencv__perception__node_8cpp_source_l00162}00162   \mbox{\hyperlink{opencv__perception__node_8cpp_aefe3532cef7c23c908fcf85e38ca27e5}{testImage}}(input, debugImage, \textcolor{stringliteral}{"{}blue"{}}, 10, 10, \textcolor{stringliteral}{"{}"{}});}
-\DoxyCodeLine{\Hypertarget{opencv__perception__node_8cpp_source_l00163}00163 \}}
-\DoxyCodeLine{\Hypertarget{opencv__perception__node_8cpp_source_l00164}00164 }
-\DoxyCodeLine{\Hypertarget{opencv__perception__node_8cpp_source_l00165}\mbox{\hyperlink{opencv__perception__node_8cpp_a4f5983436f96777451d7cd72c1400e92}{00165}} \textcolor{keywordtype}{void} \mbox{\hyperlink{opencv__perception__node_8cpp_a4f5983436f96777451d7cd72c1400e92}{testGreenFile}}(std::string path, cv::Mat\& debugImage)}
-\DoxyCodeLine{\Hypertarget{opencv__perception__node_8cpp_source_l00166}00166 \{}
-\DoxyCodeLine{\Hypertarget{opencv__perception__node_8cpp_source_l00167}00167   cv::Mat input = cv::imread(path);}
-\DoxyCodeLine{\Hypertarget{opencv__perception__node_8cpp_source_l00168}00168   \mbox{\hyperlink{opencv__perception__node_8cpp_aefe3532cef7c23c908fcf85e38ca27e5}{testImage}}(input, debugImage, \textcolor{stringliteral}{"{}green"{}}, 50, 10, \textcolor{stringliteral}{"{}"{}});}
-\DoxyCodeLine{\Hypertarget{opencv__perception__node_8cpp_source_l00169}00169 \}}
-\DoxyCodeLine{\Hypertarget{opencv__perception__node_8cpp_source_l00170}00170 }
-\DoxyCodeLine{\Hypertarget{opencv__perception__node_8cpp_source_l00171}00171 }
-\DoxyCodeLine{\Hypertarget{opencv__perception__node_8cpp_source_l00172}00172 \textcolor{keywordtype}{int}}
-\DoxyCodeLine{\Hypertarget{opencv__perception__node_8cpp_source_l00173}\mbox{\hyperlink{opencv__perception__node_8cpp_a2db6f7375c0723ea6a7b88345b26dabb}{00173}} \mbox{\hyperlink{opencv__perception__node_8cpp_a2db6f7375c0723ea6a7b88345b26dabb}{encoding2mat\_type}}(\textcolor{keyword}{const} std::string \& encoding)}
-\DoxyCodeLine{\Hypertarget{opencv__perception__node_8cpp_source_l00174}00174 \{}
-\DoxyCodeLine{\Hypertarget{opencv__perception__node_8cpp_source_l00175}00175   \textcolor{keywordflow}{if} (encoding == \textcolor{stringliteral}{"{}mono8"{}}) \{}
-\DoxyCodeLine{\Hypertarget{opencv__perception__node_8cpp_source_l00176}00176     \textcolor{keywordflow}{return} CV\_8UC1;}
-\DoxyCodeLine{\Hypertarget{opencv__perception__node_8cpp_source_l00177}00177   \} \textcolor{keywordflow}{else} \textcolor{keywordflow}{if} (encoding == \textcolor{stringliteral}{"{}bgr8"{}}) \{}
-\DoxyCodeLine{\Hypertarget{opencv__perception__node_8cpp_source_l00178}00178     \textcolor{keywordflow}{return} CV\_8UC3;}
-\DoxyCodeLine{\Hypertarget{opencv__perception__node_8cpp_source_l00179}00179   \} \textcolor{keywordflow}{else} \textcolor{keywordflow}{if} (encoding == \textcolor{stringliteral}{"{}mono16"{}}) \{}
-\DoxyCodeLine{\Hypertarget{opencv__perception__node_8cpp_source_l00180}00180     \textcolor{keywordflow}{return} CV\_16SC1;}
-\DoxyCodeLine{\Hypertarget{opencv__perception__node_8cpp_source_l00181}00181   \} \textcolor{keywordflow}{else} \textcolor{keywordflow}{if} (encoding == \textcolor{stringliteral}{"{}rgba8"{}}) \{}
-\DoxyCodeLine{\Hypertarget{opencv__perception__node_8cpp_source_l00182}00182     \textcolor{keywordflow}{return} CV\_8UC4;}
-\DoxyCodeLine{\Hypertarget{opencv__perception__node_8cpp_source_l00183}00183   \} \textcolor{keywordflow}{else} \textcolor{keywordflow}{if} (encoding == \textcolor{stringliteral}{"{}bgra8"{}}) \{}
-\DoxyCodeLine{\Hypertarget{opencv__perception__node_8cpp_source_l00184}00184     \textcolor{keywordflow}{return} CV\_8UC4;}
-\DoxyCodeLine{\Hypertarget{opencv__perception__node_8cpp_source_l00185}00185   \} \textcolor{keywordflow}{else} \textcolor{keywordflow}{if} (encoding == \textcolor{stringliteral}{"{}32FC1"{}}) \{}
-\DoxyCodeLine{\Hypertarget{opencv__perception__node_8cpp_source_l00186}00186     \textcolor{keywordflow}{return} CV\_32FC1;}
-\DoxyCodeLine{\Hypertarget{opencv__perception__node_8cpp_source_l00187}00187   \} \textcolor{keywordflow}{else} \textcolor{keywordflow}{if} (encoding == \textcolor{stringliteral}{"{}rgb8"{}}) \{}
-\DoxyCodeLine{\Hypertarget{opencv__perception__node_8cpp_source_l00188}00188     \textcolor{keywordflow}{return} CV\_8UC3;}
-\DoxyCodeLine{\Hypertarget{opencv__perception__node_8cpp_source_l00189}00189   \} \textcolor{keywordflow}{else} \textcolor{keywordflow}{if} (encoding == \textcolor{stringliteral}{"{}yuv422"{}}) \{}
-\DoxyCodeLine{\Hypertarget{opencv__perception__node_8cpp_source_l00190}00190     \textcolor{keywordflow}{return} CV\_8UC2;}
-\DoxyCodeLine{\Hypertarget{opencv__perception__node_8cpp_source_l00191}00191   \} \textcolor{keywordflow}{else} \{}
-\DoxyCodeLine{\Hypertarget{opencv__perception__node_8cpp_source_l00192}00192     \textcolor{keywordflow}{throw} std::runtime\_error(\textcolor{stringliteral}{"{}Unsupported encoding type"{}});}
-\DoxyCodeLine{\Hypertarget{opencv__perception__node_8cpp_source_l00193}00193   \}}
-\DoxyCodeLine{\Hypertarget{opencv__perception__node_8cpp_source_l00194}00194 \}}
-\DoxyCodeLine{\Hypertarget{opencv__perception__node_8cpp_source_l00195}00195 }
-\DoxyCodeLine{\Hypertarget{opencv__perception__node_8cpp_source_l00196}\mbox{\hyperlink{opencv__perception__node_8cpp_a2b6f2fd406fbfff968fa7d0f6541923c}{00196}} cv::Mat \mbox{\hyperlink{opencv__perception__node_8cpp_a2b6f2fd406fbfff968fa7d0f6541923c}{to\_cv\_mat}}(\textcolor{keyword}{const} sensor\_msgs::msg::Image\& img)}
-\DoxyCodeLine{\Hypertarget{opencv__perception__node_8cpp_source_l00197}00197 \{}
-\DoxyCodeLine{\Hypertarget{opencv__perception__node_8cpp_source_l00198}00198     \textcolor{keywordflow}{return} cv::Mat(cv::Size(img.width, img.height),}
-\DoxyCodeLine{\Hypertarget{opencv__perception__node_8cpp_source_l00199}00199                     \mbox{\hyperlink{opencv__perception__node_8cpp_a2db6f7375c0723ea6a7b88345b26dabb}{encoding2mat\_type}}(img.encoding),}
-\DoxyCodeLine{\Hypertarget{opencv__perception__node_8cpp_source_l00200}00200                     \textcolor{keyword}{const\_cast<}\textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{char} *\textcolor{keyword}{>}(img.data.data()));}
+\DoxyCodeLine{\Hypertarget{opencv__perception__node_8cpp_source_l00139}00139   \textcolor{comment}{// if (!blobs.empty())}}
+\DoxyCodeLine{\Hypertarget{opencv__perception__node_8cpp_source_l00140}00140   \textcolor{comment}{// \{}}
+\DoxyCodeLine{\Hypertarget{opencv__perception__node_8cpp_source_l00141}00141   \textcolor{comment}{//   for (auto\& b : blobs)}}
+\DoxyCodeLine{\Hypertarget{opencv__perception__node_8cpp_source_l00142}00142   \textcolor{comment}{//   \{}}
+\DoxyCodeLine{\Hypertarget{opencv__perception__node_8cpp_source_l00143}00143   \textcolor{comment}{//     cv::Rect r;}}
+\DoxyCodeLine{\Hypertarget{opencv__perception__node_8cpp_source_l00144}00144   \textcolor{comment}{//     float diameter = b.size;}}
+\DoxyCodeLine{\Hypertarget{opencv__perception__node_8cpp_source_l00145}00145   \textcolor{comment}{//     auto radius = diameter * 0.5;}}
+\DoxyCodeLine{\Hypertarget{opencv__perception__node_8cpp_source_l00146}00146   \textcolor{comment}{//     r.x = b.pt.x -\/ radius;}}
+\DoxyCodeLine{\Hypertarget{opencv__perception__node_8cpp_source_l00147}00147   \textcolor{comment}{//     r.y = b.pt.y -\/ radius;}}
+\DoxyCodeLine{\Hypertarget{opencv__perception__node_8cpp_source_l00148}00148   \textcolor{comment}{//     r.width = diameter;}}
+\DoxyCodeLine{\Hypertarget{opencv__perception__node_8cpp_source_l00149}00149   \textcolor{comment}{//     r.height = diameter;}}
+\DoxyCodeLine{\Hypertarget{opencv__perception__node_8cpp_source_l00150}00150   \textcolor{comment}{//     cv::rectangle(debugImage, r, cv::Scalar(255, 0, 0), 1);}}
+\DoxyCodeLine{\Hypertarget{opencv__perception__node_8cpp_source_l00151}00151   \textcolor{comment}{//     cv::putText(debugImage, message, cv::Point(r.x, r.y), cv::FONT\_HERSHEY\_SIMPLEX, 0.3, cv::Vec3b(255, 255, 255));}}
+\DoxyCodeLine{\Hypertarget{opencv__perception__node_8cpp_source_l00152}00152   \textcolor{comment}{//   \}}}
+\DoxyCodeLine{\Hypertarget{opencv__perception__node_8cpp_source_l00153}00153   \textcolor{comment}{// \}}}
+\DoxyCodeLine{\Hypertarget{opencv__perception__node_8cpp_source_l00154}00154 }
+\DoxyCodeLine{\Hypertarget{opencv__perception__node_8cpp_source_l00155}00155   \textcolor{comment}{// return blobs.size();}}
+\DoxyCodeLine{\Hypertarget{opencv__perception__node_8cpp_source_l00156}00156 \}}
+\DoxyCodeLine{\Hypertarget{opencv__perception__node_8cpp_source_l00157}00157 }
+\DoxyCodeLine{\Hypertarget{opencv__perception__node_8cpp_source_l00158}\mbox{\hyperlink{opencv__perception__node_8cpp_a286626fd5b2efe3ed73abe3839a83608}{00158}} \textcolor{keywordtype}{int} \mbox{\hyperlink{opencv__perception__node_8cpp_a286626fd5b2efe3ed73abe3839a83608}{testRed}}(cv::Mat\& input, cv::Mat\& debugImage, std::vector<sm\_husky\_barrel\_search\_1::msg::DetectedObject>\& detectedObjects, \textcolor{keywordtype}{bool} imShow = \textcolor{keyword}{false})}
+\DoxyCodeLine{\Hypertarget{opencv__perception__node_8cpp_source_l00159}00159 \{}
+\DoxyCodeLine{\Hypertarget{opencv__perception__node_8cpp_source_l00160}00160   \textcolor{keywordflow}{return} \mbox{\hyperlink{opencv__perception__node_8cpp_a35367a568a53ed21c0b702c98c9d9455}{testImage}}(input, debugImage, detectedObjects, \textcolor{stringliteral}{"{}red"{}}, 130, 20, \textcolor{stringliteral}{"{}enemy"{}}, \mbox{\hyperlink{opencv__perception__node_8cpp_a7dcacec141358e7fbddc2a5877a39df4}{DEFAULT\_MIN\_SATURATION}},}
+\DoxyCodeLine{\Hypertarget{opencv__perception__node_8cpp_source_l00161}00161                    \mbox{\hyperlink{opencv__perception__node_8cpp_ae3cfbb4af6690620166a5507e225b647}{DEFAULT\_MIN\_VALUE}}, \mbox{\hyperlink{opencv__perception__node_8cpp_a5dffb40786d94915fee060e8feb0530c}{DEFAULT\_MIN\_BLOB\_AREA}}, imShow);}
+\DoxyCodeLine{\Hypertarget{opencv__perception__node_8cpp_source_l00162}00162 }
+\DoxyCodeLine{\Hypertarget{opencv__perception__node_8cpp_source_l00163}00163   \textcolor{comment}{// RGB}}
+\DoxyCodeLine{\Hypertarget{opencv__perception__node_8cpp_source_l00164}00164   \textcolor{comment}{// return testImage(input, debugImage, "{}red"{}, 10, 10, "{}enemy"{}, DEFAULT\_MIN\_SATURATION, DEFAULT\_MIN\_VALUE,}}
+\DoxyCodeLine{\Hypertarget{opencv__perception__node_8cpp_source_l00165}00165   \textcolor{comment}{// DEFAULT\_MIN\_BLOB\_AREA, imShow);}}
+\DoxyCodeLine{\Hypertarget{opencv__perception__node_8cpp_source_l00166}00166 \}}
+\DoxyCodeLine{\Hypertarget{opencv__perception__node_8cpp_source_l00167}00167 }
+\DoxyCodeLine{\Hypertarget{opencv__perception__node_8cpp_source_l00168}\mbox{\hyperlink{opencv__perception__node_8cpp_a347cab2e0cb7b41b7eba53051f56ddd6}{00168}} \textcolor{keywordtype}{int} \mbox{\hyperlink{opencv__perception__node_8cpp_a347cab2e0cb7b41b7eba53051f56ddd6}{testBlue}}(cv::Mat\& input, cv::Mat\& debugImage, std::vector<sm\_husky\_barrel\_search\_1::msg::DetectedObject>\& detectedObjects, \textcolor{keywordtype}{bool} imShow = \textcolor{keyword}{false})}
+\DoxyCodeLine{\Hypertarget{opencv__perception__node_8cpp_source_l00169}00169 \{}
+\DoxyCodeLine{\Hypertarget{opencv__perception__node_8cpp_source_l00170}00170   \textcolor{keywordflow}{return} \mbox{\hyperlink{opencv__perception__node_8cpp_a35367a568a53ed21c0b702c98c9d9455}{testImage}}(input, debugImage, detectedObjects, \textcolor{stringliteral}{"{}blue"{}}, 10, 10, \textcolor{stringliteral}{"{}blue-\/barrel"{}}, \mbox{\hyperlink{opencv__perception__node_8cpp_a7dcacec141358e7fbddc2a5877a39df4}{DEFAULT\_MIN\_SATURATION}},}
+\DoxyCodeLine{\Hypertarget{opencv__perception__node_8cpp_source_l00171}00171                    \mbox{\hyperlink{opencv__perception__node_8cpp_ae3cfbb4af6690620166a5507e225b647}{DEFAULT\_MIN\_VALUE}}, \mbox{\hyperlink{opencv__perception__node_8cpp_a5dffb40786d94915fee060e8feb0530c}{DEFAULT\_MIN\_BLOB\_AREA}}, imShow);}
+\DoxyCodeLine{\Hypertarget{opencv__perception__node_8cpp_source_l00172}00172 \}}
+\DoxyCodeLine{\Hypertarget{opencv__perception__node_8cpp_source_l00173}00173 }
+\DoxyCodeLine{\Hypertarget{opencv__perception__node_8cpp_source_l00174}\mbox{\hyperlink{opencv__perception__node_8cpp_aa03a273071360f092f1eecbb53beb4d3}{00174}} \textcolor{keywordtype}{int} \mbox{\hyperlink{opencv__perception__node_8cpp_aa03a273071360f092f1eecbb53beb4d3}{testGreen}}(cv::Mat\& input, cv::Mat\& debugImage, std::vector<sm\_husky\_barrel\_search\_1::msg::DetectedObject>\& detectedObjects, \textcolor{keywordtype}{bool} imShow = \textcolor{keyword}{false})}
+\DoxyCodeLine{\Hypertarget{opencv__perception__node_8cpp_source_l00175}00175 \{}
+\DoxyCodeLine{\Hypertarget{opencv__perception__node_8cpp_source_l00176}00176   \textcolor{keywordflow}{return} \mbox{\hyperlink{opencv__perception__node_8cpp_a35367a568a53ed21c0b702c98c9d9455}{testImage}}(input, debugImage, detectedObjects, \textcolor{stringliteral}{"{}green"{}}, 50, 10, \textcolor{stringliteral}{"{}ally"{}}, \mbox{\hyperlink{opencv__perception__node_8cpp_a7dcacec141358e7fbddc2a5877a39df4}{DEFAULT\_MIN\_SATURATION}},}
+\DoxyCodeLine{\Hypertarget{opencv__perception__node_8cpp_source_l00177}00177                    \mbox{\hyperlink{opencv__perception__node_8cpp_ae3cfbb4af6690620166a5507e225b647}{DEFAULT\_MIN\_VALUE}}, \mbox{\hyperlink{opencv__perception__node_8cpp_a5dffb40786d94915fee060e8feb0530c}{DEFAULT\_MIN\_BLOB\_AREA}}, imShow);}
+\DoxyCodeLine{\Hypertarget{opencv__perception__node_8cpp_source_l00178}00178 \}}
+\DoxyCodeLine{\Hypertarget{opencv__perception__node_8cpp_source_l00179}00179 }
+\DoxyCodeLine{\Hypertarget{opencv__perception__node_8cpp_source_l00180}\mbox{\hyperlink{opencv__perception__node_8cpp_a9ec33a5e871eb7e5bbecef485ed61ba2}{00180}} \textcolor{keywordtype}{int} \mbox{\hyperlink{opencv__perception__node_8cpp_a9ec33a5e871eb7e5bbecef485ed61ba2}{testYellow}}(cv::Mat\& input, cv::Mat\& debugImage, std::vector<sm\_husky\_barrel\_search\_1::msg::DetectedObject>\& detectedObjects, \textcolor{keywordtype}{bool} imShow = \textcolor{keyword}{false})}
+\DoxyCodeLine{\Hypertarget{opencv__perception__node_8cpp_source_l00181}00181 \{}
+\DoxyCodeLine{\Hypertarget{opencv__perception__node_8cpp_source_l00182}00182   \textcolor{comment}{// hue: 31 , minvalue: 200, minsat: 40, in rgb}}
+\DoxyCodeLine{\Hypertarget{opencv__perception__node_8cpp_source_l00183}00183   \textcolor{comment}{// return testImage(input, debugImage, "{}yellow"{}, 31, 10, "{}mine"{}, 40, 200, 100, imShow);}}
+\DoxyCodeLine{\Hypertarget{opencv__perception__node_8cpp_source_l00184}00184 }
+\DoxyCodeLine{\Hypertarget{opencv__perception__node_8cpp_source_l00185}00185   \textcolor{comment}{// return testImage(input, debugImage, "{}yellow"{}, 195, 40, "{}mine"{}, 40, 20, 100, imShow);}}
+\DoxyCodeLine{\Hypertarget{opencv__perception__node_8cpp_source_l00186}00186   \textcolor{keywordflow}{return} \mbox{\hyperlink{opencv__perception__node_8cpp_a35367a568a53ed21c0b702c98c9d9455}{testImage}}(input, debugImage, detectedObjects, \textcolor{stringliteral}{"{}yellow"{}}, 90, 10, \textcolor{stringliteral}{"{}mine"{}}, 40, 200, 100, imShow);}
+\DoxyCodeLine{\Hypertarget{opencv__perception__node_8cpp_source_l00187}00187 \}}
+\DoxyCodeLine{\Hypertarget{opencv__perception__node_8cpp_source_l00188}00188 }
+\DoxyCodeLine{\Hypertarget{opencv__perception__node_8cpp_source_l00189}\mbox{\hyperlink{opencv__perception__node_8cpp_a658e8377d8471fe3812b05bc8c0558ec}{00189}} \textcolor{keywordtype}{void} \mbox{\hyperlink{opencv__perception__node_8cpp_a658e8377d8471fe3812b05bc8c0558ec}{testYellowFile}}(std::string path)}
+\DoxyCodeLine{\Hypertarget{opencv__perception__node_8cpp_source_l00190}00190 \{}
+\DoxyCodeLine{\Hypertarget{opencv__perception__node_8cpp_source_l00191}00191   cv::Mat input;}
+\DoxyCodeLine{\Hypertarget{opencv__perception__node_8cpp_source_l00192}00192   cv::cvtColor(cv::imread(path), input, cv::COLOR\_RGB2BGR);}
+\DoxyCodeLine{\Hypertarget{opencv__perception__node_8cpp_source_l00193}00193   std::vector<sm\_husky\_barrel\_search\_1::msg::DetectedObject> detectedObjects;}
+\DoxyCodeLine{\Hypertarget{opencv__perception__node_8cpp_source_l00194}00194 }
+\DoxyCodeLine{\Hypertarget{opencv__perception__node_8cpp_source_l00195}00195   cv::Mat debugImage = input.clone();}
+\DoxyCodeLine{\Hypertarget{opencv__perception__node_8cpp_source_l00196}00196 }
+\DoxyCodeLine{\Hypertarget{opencv__perception__node_8cpp_source_l00197}00197   \mbox{\hyperlink{opencv__perception__node_8cpp_a9ec33a5e871eb7e5bbecef485ed61ba2}{testYellow}}(input, debugImage, detectedObjects, \textcolor{keyword}{true});}
+\DoxyCodeLine{\Hypertarget{opencv__perception__node_8cpp_source_l00198}00198 }
+\DoxyCodeLine{\Hypertarget{opencv__perception__node_8cpp_source_l00199}00199   cv::imshow(\textcolor{stringliteral}{"{}yellow filter -\/ "{}} + path, debugImage);}
+\DoxyCodeLine{\Hypertarget{opencv__perception__node_8cpp_source_l00200}00200   cv::waitKey();}
 \DoxyCodeLine{\Hypertarget{opencv__perception__node_8cpp_source_l00201}00201 \}}
 \DoxyCodeLine{\Hypertarget{opencv__perception__node_8cpp_source_l00202}00202 }
-\DoxyCodeLine{\Hypertarget{opencv__perception__node_8cpp_source_l00203}00203 }
-\DoxyCodeLine{\Hypertarget{opencv__perception__node_8cpp_source_l00204}\mbox{\hyperlink{opencv__perception__node_8cpp_a0828b61f09ebc4fc864ef4bb6898d0da}{00204}} \textcolor{keywordtype}{void} \mbox{\hyperlink{opencv__perception__node_8cpp_a0828b61f09ebc4fc864ef4bb6898d0da}{callback}}(\textcolor{keyword}{const} sensor\_msgs::msg::Image\& img)}
-\DoxyCodeLine{\Hypertarget{opencv__perception__node_8cpp_source_l00205}00205 \{}
-\DoxyCodeLine{\Hypertarget{opencv__perception__node_8cpp_source_l00206}00206   cv::Mat image = \mbox{\hyperlink{opencv__perception__node_8cpp_a2b6f2fd406fbfff968fa7d0f6541923c}{to\_cv\_mat}}(img);}
-\DoxyCodeLine{\Hypertarget{opencv__perception__node_8cpp_source_l00207}00207   sensor\_msgs::msg::Image outimg = img;}
-\DoxyCodeLine{\Hypertarget{opencv__perception__node_8cpp_source_l00208}00208 }
-\DoxyCodeLine{\Hypertarget{opencv__perception__node_8cpp_source_l00209}00209   \textcolor{comment}{// cv::cvtColor(image, outmat, cv::COLOR\_RGB2BGR);}}
-\DoxyCodeLine{\Hypertarget{opencv__perception__node_8cpp_source_l00210}00210   \textcolor{comment}{// cv::cvtColor(image, image, cv::COLOR\_RGB2BGR);}}
-\DoxyCodeLine{\Hypertarget{opencv__perception__node_8cpp_source_l00211}00211   \textcolor{keyword}{auto} outmat = \mbox{\hyperlink{opencv__perception__node_8cpp_a2b6f2fd406fbfff968fa7d0f6541923c}{to\_cv\_mat}}(outimg);}
+\DoxyCodeLine{\Hypertarget{opencv__perception__node_8cpp_source_l00203}\mbox{\hyperlink{opencv__perception__node_8cpp_a1fe3b75debb1dd8157962e733f134ddc}{00203}} \textcolor{keywordtype}{void} \mbox{\hyperlink{opencv__perception__node_8cpp_a1fe3b75debb1dd8157962e733f134ddc}{testRedFile}}(std::string path)}
+\DoxyCodeLine{\Hypertarget{opencv__perception__node_8cpp_source_l00204}00204 \{}
+\DoxyCodeLine{\Hypertarget{opencv__perception__node_8cpp_source_l00205}00205   cv::Mat input = cv::imread(path);}
+\DoxyCodeLine{\Hypertarget{opencv__perception__node_8cpp_source_l00206}00206   std::vector<sm\_husky\_barrel\_search\_1::msg::DetectedObject> detectedObjects;}
+\DoxyCodeLine{\Hypertarget{opencv__perception__node_8cpp_source_l00207}00207   cv::Mat debugImage = input.clone();}
+\DoxyCodeLine{\Hypertarget{opencv__perception__node_8cpp_source_l00208}00208   \textcolor{keywordtype}{bool} imShow = \textcolor{keyword}{true};}
+\DoxyCodeLine{\Hypertarget{opencv__perception__node_8cpp_source_l00209}00209   \mbox{\hyperlink{opencv__perception__node_8cpp_a286626fd5b2efe3ed73abe3839a83608}{testRed}}(input, debugImage, detectedObjects, imShow);}
+\DoxyCodeLine{\Hypertarget{opencv__perception__node_8cpp_source_l00210}00210 }
+\DoxyCodeLine{\Hypertarget{opencv__perception__node_8cpp_source_l00211}00211   cv::imshow(\textcolor{stringliteral}{"{}red filter -\/ "{}} + path, debugImage);}
 \DoxyCodeLine{\Hypertarget{opencv__perception__node_8cpp_source_l00212}00212 }
-\DoxyCodeLine{\Hypertarget{opencv__perception__node_8cpp_source_l00213}00213 }
-\DoxyCodeLine{\Hypertarget{opencv__perception__node_8cpp_source_l00214}00214   \textcolor{keywordtype}{int} detectedColor = 0;}
-\DoxyCodeLine{\Hypertarget{opencv__perception__node_8cpp_source_l00215}00215   \textcolor{keywordflow}{if} (\mbox{\hyperlink{opencv__perception__node_8cpp_af34daf56383e255fd0e908edf46c7256}{testRed}}(image, outmat) > 0)}
-\DoxyCodeLine{\Hypertarget{opencv__perception__node_8cpp_source_l00216}00216   \{}
-\DoxyCodeLine{\Hypertarget{opencv__perception__node_8cpp_source_l00217}00217     detectedColor = 1;}
-\DoxyCodeLine{\Hypertarget{opencv__perception__node_8cpp_source_l00218}00218   \}}
-\DoxyCodeLine{\Hypertarget{opencv__perception__node_8cpp_source_l00219}00219 }
-\DoxyCodeLine{\Hypertarget{opencv__perception__node_8cpp_source_l00220}00220   \textcolor{keywordflow}{if} (\mbox{\hyperlink{opencv__perception__node_8cpp_a6afa9f86775bd008d0c78efdc1d4e003}{testGreen}}(image, outmat) > 0)}
-\DoxyCodeLine{\Hypertarget{opencv__perception__node_8cpp_source_l00221}00221   \{}
-\DoxyCodeLine{\Hypertarget{opencv__perception__node_8cpp_source_l00222}00222     detectedColor = 2;}
-\DoxyCodeLine{\Hypertarget{opencv__perception__node_8cpp_source_l00223}00223   \}}
+\DoxyCodeLine{\Hypertarget{opencv__perception__node_8cpp_source_l00213}00213   cv::waitKey();}
+\DoxyCodeLine{\Hypertarget{opencv__perception__node_8cpp_source_l00214}00214 \}}
+\DoxyCodeLine{\Hypertarget{opencv__perception__node_8cpp_source_l00215}00215 }
+\DoxyCodeLine{\Hypertarget{opencv__perception__node_8cpp_source_l00216}\mbox{\hyperlink{opencv__perception__node_8cpp_aae6a3307dbd4d3185c26f545621c5c8c}{00216}} \textcolor{keywordtype}{void} \mbox{\hyperlink{opencv__perception__node_8cpp_aae6a3307dbd4d3185c26f545621c5c8c}{testRedFileBench}}(std::string path)}
+\DoxyCodeLine{\Hypertarget{opencv__perception__node_8cpp_source_l00217}00217 \{}
+\DoxyCodeLine{\Hypertarget{opencv__perception__node_8cpp_source_l00218}00218   cv::Mat input = cv::imread(path);}
+\DoxyCodeLine{\Hypertarget{opencv__perception__node_8cpp_source_l00219}00219   std::vector<sm\_husky\_barrel\_search\_1::msg::DetectedObject> detectedObjects;}
+\DoxyCodeLine{\Hypertarget{opencv__perception__node_8cpp_source_l00220}00220   \textcolor{comment}{// cv::cvtColor(input, input, cv::COLOR\_RGB2BGR);}}
+\DoxyCodeLine{\Hypertarget{opencv__perception__node_8cpp_source_l00221}00221 }
+\DoxyCodeLine{\Hypertarget{opencv__perception__node_8cpp_source_l00222}00222   cv::Mat debugImage = input.clone();}
+\DoxyCodeLine{\Hypertarget{opencv__perception__node_8cpp_source_l00223}00223   \textcolor{keywordtype}{bool} imShow = \textcolor{keyword}{true};}
 \DoxyCodeLine{\Hypertarget{opencv__perception__node_8cpp_source_l00224}00224 }
-\DoxyCodeLine{\Hypertarget{opencv__perception__node_8cpp_source_l00225}00225   \textcolor{keywordflow}{if} (\mbox{\hyperlink{opencv__perception__node_8cpp_a2a0df5bef04f7bb41f61f5b312229a64}{testBlue}}(image, outmat) > 0)}
-\DoxyCodeLine{\Hypertarget{opencv__perception__node_8cpp_source_l00226}00226   \{}
-\DoxyCodeLine{\Hypertarget{opencv__perception__node_8cpp_source_l00227}00227     detectedColor = 3;}
-\DoxyCodeLine{\Hypertarget{opencv__perception__node_8cpp_source_l00228}00228   \}}
-\DoxyCodeLine{\Hypertarget{opencv__perception__node_8cpp_source_l00229}00229 }
-\DoxyCodeLine{\Hypertarget{opencv__perception__node_8cpp_source_l00230}00230   \textcolor{keywordflow}{if} (\mbox{\hyperlink{opencv__perception__node_8cpp_a94bc8504aa610ada7ca8e2e2b848ce87}{testYellow}}(image, outmat) > 0)}
-\DoxyCodeLine{\Hypertarget{opencv__perception__node_8cpp_source_l00231}00231   \{}
-\DoxyCodeLine{\Hypertarget{opencv__perception__node_8cpp_source_l00232}00232     detectedColor = 4;}
-\DoxyCodeLine{\Hypertarget{opencv__perception__node_8cpp_source_l00233}00233   \}}
-\DoxyCodeLine{\Hypertarget{opencv__perception__node_8cpp_source_l00234}00234 }
-\DoxyCodeLine{\Hypertarget{opencv__perception__node_8cpp_source_l00235}00235   std\_msgs::msg::Int32 detectedColorMsg;}
-\DoxyCodeLine{\Hypertarget{opencv__perception__node_8cpp_source_l00236}00236   detectedColorMsg.data = detectedColor;}
-\DoxyCodeLine{\Hypertarget{opencv__perception__node_8cpp_source_l00237}00237   \mbox{\hyperlink{opencv__perception__node_8cpp_ac5014450a03f58f3bc843ec20fafba2e}{detectionPub}}-\/>publish(detectedColorMsg);}
-\DoxyCodeLine{\Hypertarget{opencv__perception__node_8cpp_source_l00238}00238 }
-\DoxyCodeLine{\Hypertarget{opencv__perception__node_8cpp_source_l00239}00239 }
-\DoxyCodeLine{\Hypertarget{opencv__perception__node_8cpp_source_l00240}00240   outimg.header = img.header;}
-\DoxyCodeLine{\Hypertarget{opencv__perception__node_8cpp_source_l00241}00241   \mbox{\hyperlink{opencv__perception__node_8cpp_a28367082d098c2ebbb1b3029a65b8277}{debugImagePub}}-\/>publish(outimg);}
-\DoxyCodeLine{\Hypertarget{opencv__perception__node_8cpp_source_l00242}00242 \}}
-\DoxyCodeLine{\Hypertarget{opencv__perception__node_8cpp_source_l00243}00243 }
+\DoxyCodeLine{\Hypertarget{opencv__perception__node_8cpp_source_l00225}00225   \textcolor{keywordtype}{int} size = 60;}
+\DoxyCodeLine{\Hypertarget{opencv__perception__node_8cpp_source_l00226}00226   \textcolor{keywordtype}{int} step = 5;}
+\DoxyCodeLine{\Hypertarget{opencv__perception__node_8cpp_source_l00227}00227   \textcolor{keywordflow}{for} (\textcolor{keywordtype}{int} i = 0; i < 255; i++)}
+\DoxyCodeLine{\Hypertarget{opencv__perception__node_8cpp_source_l00228}00228   \{}
+\DoxyCodeLine{\Hypertarget{opencv__perception__node_8cpp_source_l00229}00229     \textcolor{keyword}{auto} huevalue = i;}
+\DoxyCodeLine{\Hypertarget{opencv__perception__node_8cpp_source_l00230}00230     std::cout << \textcolor{stringliteral}{"{}huevalue: "{}} << huevalue << std::endl;}
+\DoxyCodeLine{\Hypertarget{opencv__perception__node_8cpp_source_l00231}00231     \mbox{\hyperlink{opencv__perception__node_8cpp_a35367a568a53ed21c0b702c98c9d9455}{testImage}}(input, debugImage, detectedObjects, \textcolor{stringliteral}{"{}red"{}}, huevalue, 20, \textcolor{stringliteral}{"{}red"{}}, \mbox{\hyperlink{opencv__perception__node_8cpp_a7dcacec141358e7fbddc2a5877a39df4}{DEFAULT\_MIN\_SATURATION}}, \mbox{\hyperlink{opencv__perception__node_8cpp_ae3cfbb4af6690620166a5507e225b647}{DEFAULT\_MIN\_VALUE}},}
+\DoxyCodeLine{\Hypertarget{opencv__perception__node_8cpp_source_l00232}00232               \mbox{\hyperlink{opencv__perception__node_8cpp_a5dffb40786d94915fee060e8feb0530c}{DEFAULT\_MIN\_BLOB\_AREA}}, imShow);}
+\DoxyCodeLine{\Hypertarget{opencv__perception__node_8cpp_source_l00233}00233     cv::imshow(\textcolor{stringliteral}{"{}red filter -\/ "{}} + path, debugImage);}
+\DoxyCodeLine{\Hypertarget{opencv__perception__node_8cpp_source_l00234}00234     cv::waitKey();}
+\DoxyCodeLine{\Hypertarget{opencv__perception__node_8cpp_source_l00235}00235   \}}
+\DoxyCodeLine{\Hypertarget{opencv__perception__node_8cpp_source_l00236}00236 \}}
+\DoxyCodeLine{\Hypertarget{opencv__perception__node_8cpp_source_l00237}00237 }
+\DoxyCodeLine{\Hypertarget{opencv__perception__node_8cpp_source_l00238}\mbox{\hyperlink{opencv__perception__node_8cpp_a5c4b81611c1e3cfb78e1fed9c1832ba0}{00238}} \textcolor{keywordtype}{void} \mbox{\hyperlink{opencv__perception__node_8cpp_a5c4b81611c1e3cfb78e1fed9c1832ba0}{testBlueFile}}(std::string path, cv::Mat\& debugImage)}
+\DoxyCodeLine{\Hypertarget{opencv__perception__node_8cpp_source_l00239}00239 \{}
+\DoxyCodeLine{\Hypertarget{opencv__perception__node_8cpp_source_l00240}00240   cv::Mat input = cv::imread(path);}
+\DoxyCodeLine{\Hypertarget{opencv__perception__node_8cpp_source_l00241}00241   std::vector<sm\_husky\_barrel\_search\_1::msg::DetectedObject> detectedObjects;}
+\DoxyCodeLine{\Hypertarget{opencv__perception__node_8cpp_source_l00242}00242   \mbox{\hyperlink{opencv__perception__node_8cpp_a35367a568a53ed21c0b702c98c9d9455}{testImage}}(input, debugImage, detectedObjects, \textcolor{stringliteral}{"{}blue"{}}, 10, 10, \textcolor{stringliteral}{"{}"{}});}
+\DoxyCodeLine{\Hypertarget{opencv__perception__node_8cpp_source_l00243}00243 \}}
 \DoxyCodeLine{\Hypertarget{opencv__perception__node_8cpp_source_l00244}00244 }
-\DoxyCodeLine{\Hypertarget{opencv__perception__node_8cpp_source_l00245}\mbox{\hyperlink{opencv__perception__node_8cpp_a612fba4536fe14c1e7f811938ead6918}{00245}} \textcolor{keywordtype}{void} \mbox{\hyperlink{opencv__perception__node_8cpp_a612fba4536fe14c1e7f811938ead6918}{main\_ros\_loop}}(\textcolor{keywordtype}{int} argc, \textcolor{keywordtype}{char}** argv)}
+\DoxyCodeLine{\Hypertarget{opencv__perception__node_8cpp_source_l00245}\mbox{\hyperlink{opencv__perception__node_8cpp_a4f5983436f96777451d7cd72c1400e92}{00245}} \textcolor{keywordtype}{void} \mbox{\hyperlink{opencv__perception__node_8cpp_a4f5983436f96777451d7cd72c1400e92}{testGreenFile}}(std::string path, cv::Mat\& debugImage)}
 \DoxyCodeLine{\Hypertarget{opencv__perception__node_8cpp_source_l00246}00246 \{}
-\DoxyCodeLine{\Hypertarget{opencv__perception__node_8cpp_source_l00247}00247   rclcpp::init(argc, argv);}
-\DoxyCodeLine{\Hypertarget{opencv__perception__node_8cpp_source_l00248}00248   rclcpp::Node::SharedPtr \mbox{\hyperlink{odom__to__tf_8cpp_abd70cc27fb93648b9c90abe64106c1f7}{nh}} = rclcpp::Node::make\_shared(\textcolor{stringliteral}{"{}opencv\_perception\_node"{}});}
-\DoxyCodeLine{\Hypertarget{opencv__perception__node_8cpp_source_l00249}00249 }
-\DoxyCodeLine{\Hypertarget{opencv__perception__node_8cpp_source_l00250}00250   RCLCPP\_INFO(\mbox{\hyperlink{odom__to__tf_8cpp_abd70cc27fb93648b9c90abe64106c1f7}{nh}}-\/>get\_logger(), \textcolor{stringliteral}{"{}opencv perception node started"{}});}
-\DoxyCodeLine{\Hypertarget{opencv__perception__node_8cpp_source_l00251}00251   \mbox{\hyperlink{opencv__perception__node_8cpp_ac5014450a03f58f3bc843ec20fafba2e}{detectionPub}} = \mbox{\hyperlink{odom__to__tf_8cpp_abd70cc27fb93648b9c90abe64106c1f7}{nh}}-\/>create\_publisher<std\_msgs::msg::Int32>(\textcolor{stringliteral}{"{}detected\_color"{}}, 1);}
-\DoxyCodeLine{\Hypertarget{opencv__perception__node_8cpp_source_l00252}00252   \mbox{\hyperlink{opencv__perception__node_8cpp_ad5193eeea23e67bab0b005e2c346558b}{imageSub}} = \mbox{\hyperlink{odom__to__tf_8cpp_abd70cc27fb93648b9c90abe64106c1f7}{nh}}-\/>create\_subscription<sensor\_msgs::msg::Image>(\textcolor{stringliteral}{"{}/image\_raw"{}}, rclcpp::QoS(1).best\_effort(), \mbox{\hyperlink{opencv__perception__node_8cpp_a0828b61f09ebc4fc864ef4bb6898d0da}{callback}});}
-\DoxyCodeLine{\Hypertarget{opencv__perception__node_8cpp_source_l00253}00253   \mbox{\hyperlink{opencv__perception__node_8cpp_a28367082d098c2ebbb1b3029a65b8277}{debugImagePub}} = \mbox{\hyperlink{odom__to__tf_8cpp_abd70cc27fb93648b9c90abe64106c1f7}{nh}}-\/>create\_publisher<sensor\_msgs::msg::Image>(\textcolor{stringliteral}{"{}/opencv\_debug\_image"{}}, rclcpp::QoS(1).best\_effort());}
-\DoxyCodeLine{\Hypertarget{opencv__perception__node_8cpp_source_l00254}00254 }
-\DoxyCodeLine{\Hypertarget{opencv__perception__node_8cpp_source_l00255}00255   rclcpp::Rate r(10);}
-\DoxyCodeLine{\Hypertarget{opencv__perception__node_8cpp_source_l00256}00256 }
-\DoxyCodeLine{\Hypertarget{opencv__perception__node_8cpp_source_l00257}00257   \textcolor{keywordflow}{while} (rclcpp::ok())}
-\DoxyCodeLine{\Hypertarget{opencv__perception__node_8cpp_source_l00258}00258   \{}
-\DoxyCodeLine{\Hypertarget{opencv__perception__node_8cpp_source_l00259}00259     rclcpp::spin\_some(\mbox{\hyperlink{odom__to__tf_8cpp_abd70cc27fb93648b9c90abe64106c1f7}{nh}});}
-\DoxyCodeLine{\Hypertarget{opencv__perception__node_8cpp_source_l00260}00260     r.sleep();}
+\DoxyCodeLine{\Hypertarget{opencv__perception__node_8cpp_source_l00247}00247   cv::Mat input = cv::imread(path);}
+\DoxyCodeLine{\Hypertarget{opencv__perception__node_8cpp_source_l00248}00248   std::vector<sm\_husky\_barrel\_search\_1::msg::DetectedObject> detectedObjects;}
+\DoxyCodeLine{\Hypertarget{opencv__perception__node_8cpp_source_l00249}00249   \mbox{\hyperlink{opencv__perception__node_8cpp_a35367a568a53ed21c0b702c98c9d9455}{testImage}}(input, debugImage, detectedObjects, \textcolor{stringliteral}{"{}green"{}}, 50, 10, \textcolor{stringliteral}{"{}"{}});}
+\DoxyCodeLine{\Hypertarget{opencv__perception__node_8cpp_source_l00250}00250 \}}
+\DoxyCodeLine{\Hypertarget{opencv__perception__node_8cpp_source_l00251}00251 }
+\DoxyCodeLine{\Hypertarget{opencv__perception__node_8cpp_source_l00252}\mbox{\hyperlink{opencv__perception__node_8cpp_a2db6f7375c0723ea6a7b88345b26dabb}{00252}} \textcolor{keywordtype}{int} \mbox{\hyperlink{opencv__perception__node_8cpp_a2db6f7375c0723ea6a7b88345b26dabb}{encoding2mat\_type}}(\textcolor{keyword}{const} std::string\& encoding)}
+\DoxyCodeLine{\Hypertarget{opencv__perception__node_8cpp_source_l00253}00253 \{}
+\DoxyCodeLine{\Hypertarget{opencv__perception__node_8cpp_source_l00254}00254   \textcolor{keywordflow}{if} (encoding == \textcolor{stringliteral}{"{}mono8"{}})}
+\DoxyCodeLine{\Hypertarget{opencv__perception__node_8cpp_source_l00255}00255   \{}
+\DoxyCodeLine{\Hypertarget{opencv__perception__node_8cpp_source_l00256}00256     \textcolor{keywordflow}{return} CV\_8UC1;}
+\DoxyCodeLine{\Hypertarget{opencv__perception__node_8cpp_source_l00257}00257   \}}
+\DoxyCodeLine{\Hypertarget{opencv__perception__node_8cpp_source_l00258}00258   \textcolor{keywordflow}{else} \textcolor{keywordflow}{if} (encoding == \textcolor{stringliteral}{"{}bgr8"{}})}
+\DoxyCodeLine{\Hypertarget{opencv__perception__node_8cpp_source_l00259}00259   \{}
+\DoxyCodeLine{\Hypertarget{opencv__perception__node_8cpp_source_l00260}00260     \textcolor{keywordflow}{return} CV\_8UC3;}
 \DoxyCodeLine{\Hypertarget{opencv__perception__node_8cpp_source_l00261}00261   \}}
-\DoxyCodeLine{\Hypertarget{opencv__perception__node_8cpp_source_l00262}00262 }
-\DoxyCodeLine{\Hypertarget{opencv__perception__node_8cpp_source_l00263}00263 \}}
-\DoxyCodeLine{\Hypertarget{opencv__perception__node_8cpp_source_l00264}00264 }
-\DoxyCodeLine{\Hypertarget{opencv__perception__node_8cpp_source_l00265}\mbox{\hyperlink{opencv__perception__node_8cpp_a3c04138a5bfe5d72780bb7e82a18e627}{00265}} \textcolor{keywordtype}{int} \mbox{\hyperlink{opencv__perception__node_8cpp_a3c04138a5bfe5d72780bb7e82a18e627}{main}}(\textcolor{keywordtype}{int} argc, \textcolor{keywordtype}{char}** argv)}
-\DoxyCodeLine{\Hypertarget{opencv__perception__node_8cpp_source_l00266}00266 \{}
-\DoxyCodeLine{\Hypertarget{opencv__perception__node_8cpp_source_l00267}00267   \mbox{\hyperlink{opencv__perception__node_8cpp_a612fba4536fe14c1e7f811938ead6918}{main\_ros\_loop}}(argc, argv);}
-\DoxyCodeLine{\Hypertarget{opencv__perception__node_8cpp_source_l00268}00268 }
-\DoxyCodeLine{\Hypertarget{opencv__perception__node_8cpp_source_l00269}00269   \textcolor{comment}{/*}}
-\DoxyCodeLine{\Hypertarget{opencv__perception__node_8cpp_source_l00270}00270 \textcolor{comment}{  testRed("{}../../red1.png"{});}}
-\DoxyCodeLine{\Hypertarget{opencv__perception__node_8cpp_source_l00271}00271 \textcolor{comment}{  testRed("{}../../green1.png"{});}}
-\DoxyCodeLine{\Hypertarget{opencv__perception__node_8cpp_source_l00272}00272 \textcolor{comment}{  testRed("{}../../blue1.png"{});}}
-\DoxyCodeLine{\Hypertarget{opencv__perception__node_8cpp_source_l00273}00273 \textcolor{comment}{  testRed("{}../../red2.png"{});}}
-\DoxyCodeLine{\Hypertarget{opencv__perception__node_8cpp_source_l00274}00274 \textcolor{comment}{}}
-\DoxyCodeLine{\Hypertarget{opencv__perception__node_8cpp_source_l00275}00275 \textcolor{comment}{  testGreen("{}../../red1.png"{});}}
-\DoxyCodeLine{\Hypertarget{opencv__perception__node_8cpp_source_l00276}00276 \textcolor{comment}{  testGreen("{}../../green1.png"{});}}
-\DoxyCodeLine{\Hypertarget{opencv__perception__node_8cpp_source_l00277}00277 \textcolor{comment}{  testGreen("{}../../blue1.png"{});}}
-\DoxyCodeLine{\Hypertarget{opencv__perception__node_8cpp_source_l00278}00278 \textcolor{comment}{  testGreen("{}../../red2.png"{});}}
-\DoxyCodeLine{\Hypertarget{opencv__perception__node_8cpp_source_l00279}00279 \textcolor{comment}{}}
-\DoxyCodeLine{\Hypertarget{opencv__perception__node_8cpp_source_l00280}00280 \textcolor{comment}{  testBlue("{}../../red1.png"{});}}
-\DoxyCodeLine{\Hypertarget{opencv__perception__node_8cpp_source_l00281}00281 \textcolor{comment}{  testBlue("{}../../green1.png"{});}}
-\DoxyCodeLine{\Hypertarget{opencv__perception__node_8cpp_source_l00282}00282 \textcolor{comment}{  testBlue("{}../../blue1.png"{});}}
-\DoxyCodeLine{\Hypertarget{opencv__perception__node_8cpp_source_l00283}00283 \textcolor{comment}{  testBlue("{}../../red2.png"{});}}
-\DoxyCodeLine{\Hypertarget{opencv__perception__node_8cpp_source_l00284}00284 \textcolor{comment}{  */}}
-\DoxyCodeLine{\Hypertarget{opencv__perception__node_8cpp_source_l00285}00285 \}}
+\DoxyCodeLine{\Hypertarget{opencv__perception__node_8cpp_source_l00262}00262   \textcolor{keywordflow}{else} \textcolor{keywordflow}{if} (encoding == \textcolor{stringliteral}{"{}mono16"{}})}
+\DoxyCodeLine{\Hypertarget{opencv__perception__node_8cpp_source_l00263}00263   \{}
+\DoxyCodeLine{\Hypertarget{opencv__perception__node_8cpp_source_l00264}00264     \textcolor{keywordflow}{return} CV\_16SC1;}
+\DoxyCodeLine{\Hypertarget{opencv__perception__node_8cpp_source_l00265}00265   \}}
+\DoxyCodeLine{\Hypertarget{opencv__perception__node_8cpp_source_l00266}00266   \textcolor{keywordflow}{else} \textcolor{keywordflow}{if} (encoding == \textcolor{stringliteral}{"{}rgba8"{}})}
+\DoxyCodeLine{\Hypertarget{opencv__perception__node_8cpp_source_l00267}00267   \{}
+\DoxyCodeLine{\Hypertarget{opencv__perception__node_8cpp_source_l00268}00268     \textcolor{keywordflow}{return} CV\_8UC4;}
+\DoxyCodeLine{\Hypertarget{opencv__perception__node_8cpp_source_l00269}00269   \}}
+\DoxyCodeLine{\Hypertarget{opencv__perception__node_8cpp_source_l00270}00270   \textcolor{keywordflow}{else} \textcolor{keywordflow}{if} (encoding == \textcolor{stringliteral}{"{}bgra8"{}})}
+\DoxyCodeLine{\Hypertarget{opencv__perception__node_8cpp_source_l00271}00271   \{}
+\DoxyCodeLine{\Hypertarget{opencv__perception__node_8cpp_source_l00272}00272     \textcolor{keywordflow}{return} CV\_8UC4;}
+\DoxyCodeLine{\Hypertarget{opencv__perception__node_8cpp_source_l00273}00273   \}}
+\DoxyCodeLine{\Hypertarget{opencv__perception__node_8cpp_source_l00274}00274   \textcolor{keywordflow}{else} \textcolor{keywordflow}{if} (encoding == \textcolor{stringliteral}{"{}32FC1"{}})}
+\DoxyCodeLine{\Hypertarget{opencv__perception__node_8cpp_source_l00275}00275   \{}
+\DoxyCodeLine{\Hypertarget{opencv__perception__node_8cpp_source_l00276}00276     \textcolor{keywordflow}{return} CV\_32FC1;}
+\DoxyCodeLine{\Hypertarget{opencv__perception__node_8cpp_source_l00277}00277   \}}
+\DoxyCodeLine{\Hypertarget{opencv__perception__node_8cpp_source_l00278}00278   \textcolor{keywordflow}{else} \textcolor{keywordflow}{if} (encoding == \textcolor{stringliteral}{"{}rgb8"{}})}
+\DoxyCodeLine{\Hypertarget{opencv__perception__node_8cpp_source_l00279}00279   \{}
+\DoxyCodeLine{\Hypertarget{opencv__perception__node_8cpp_source_l00280}00280     \textcolor{keywordflow}{return} CV\_8UC3;}
+\DoxyCodeLine{\Hypertarget{opencv__perception__node_8cpp_source_l00281}00281   \}}
+\DoxyCodeLine{\Hypertarget{opencv__perception__node_8cpp_source_l00282}00282   \textcolor{keywordflow}{else} \textcolor{keywordflow}{if} (encoding == \textcolor{stringliteral}{"{}yuv422"{}})}
+\DoxyCodeLine{\Hypertarget{opencv__perception__node_8cpp_source_l00283}00283   \{}
+\DoxyCodeLine{\Hypertarget{opencv__perception__node_8cpp_source_l00284}00284     \textcolor{keywordflow}{return} CV\_8UC2;}
+\DoxyCodeLine{\Hypertarget{opencv__perception__node_8cpp_source_l00285}00285   \}}
+\DoxyCodeLine{\Hypertarget{opencv__perception__node_8cpp_source_l00286}00286   \textcolor{keywordflow}{else}}
+\DoxyCodeLine{\Hypertarget{opencv__perception__node_8cpp_source_l00287}00287   \{}
+\DoxyCodeLine{\Hypertarget{opencv__perception__node_8cpp_source_l00288}00288     \textcolor{keywordflow}{throw} std::runtime\_error(\textcolor{stringliteral}{"{}Unsupported encoding type"{}});}
+\DoxyCodeLine{\Hypertarget{opencv__perception__node_8cpp_source_l00289}00289   \}}
+\DoxyCodeLine{\Hypertarget{opencv__perception__node_8cpp_source_l00290}00290 \}}
+\DoxyCodeLine{\Hypertarget{opencv__perception__node_8cpp_source_l00291}00291 }
+\DoxyCodeLine{\Hypertarget{opencv__perception__node_8cpp_source_l00292}\mbox{\hyperlink{opencv__perception__node_8cpp_a2b6f2fd406fbfff968fa7d0f6541923c}{00292}} cv::Mat \mbox{\hyperlink{opencv__perception__node_8cpp_a2b6f2fd406fbfff968fa7d0f6541923c}{to\_cv\_mat}}(\textcolor{keyword}{const} sensor\_msgs::msg::Image\& img)}
+\DoxyCodeLine{\Hypertarget{opencv__perception__node_8cpp_source_l00293}00293 \{}
+\DoxyCodeLine{\Hypertarget{opencv__perception__node_8cpp_source_l00294}00294   \textcolor{keywordflow}{return} cv::Mat(cv::Size(img.width, img.height), \mbox{\hyperlink{opencv__perception__node_8cpp_a2db6f7375c0723ea6a7b88345b26dabb}{encoding2mat\_type}}(img.encoding),}
+\DoxyCodeLine{\Hypertarget{opencv__perception__node_8cpp_source_l00295}00295                  \textcolor{keyword}{const\_cast<}\textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{char}*\textcolor{keyword}{>}(img.data.data()));}
+\DoxyCodeLine{\Hypertarget{opencv__perception__node_8cpp_source_l00296}00296 \}}
+\DoxyCodeLine{\Hypertarget{opencv__perception__node_8cpp_source_l00297}00297 }
+\DoxyCodeLine{\Hypertarget{opencv__perception__node_8cpp_source_l00298}\mbox{\hyperlink{opencv__perception__node_8cpp_a9c212b9e4749b23ec1e8fc14b5ff0441}{00298}} \textcolor{keywordtype}{void} \mbox{\hyperlink{opencv__perception__node_8cpp_a9c212b9e4749b23ec1e8fc14b5ff0441}{callback}}(\textcolor{keyword}{const} sensor\_msgs::msg::Image\& imgMsg)}
+\DoxyCodeLine{\Hypertarget{opencv__perception__node_8cpp_source_l00299}00299 \{}
+\DoxyCodeLine{\Hypertarget{opencv__perception__node_8cpp_source_l00300}00300   cv::Mat image = \mbox{\hyperlink{opencv__perception__node_8cpp_a2b6f2fd406fbfff968fa7d0f6541923c}{to\_cv\_mat}}(imgMsg);}
+\DoxyCodeLine{\Hypertarget{opencv__perception__node_8cpp_source_l00301}00301   \textcolor{comment}{// BUG: for some reason we get an image message from gazebo with as RGB but in practice we see it is BGR}}
+\DoxyCodeLine{\Hypertarget{opencv__perception__node_8cpp_source_l00302}00302   cv::cvtColor(image, image, cv::COLOR\_BGR2RGB);}
+\DoxyCodeLine{\Hypertarget{opencv__perception__node_8cpp_source_l00303}00303 }
+\DoxyCodeLine{\Hypertarget{opencv__perception__node_8cpp_source_l00304}00304   sensor\_msgs::msg::Image outimg = imgMsg;}
+\DoxyCodeLine{\Hypertarget{opencv__perception__node_8cpp_source_l00305}00305 }
+\DoxyCodeLine{\Hypertarget{opencv__perception__node_8cpp_source_l00306}00306   \textcolor{comment}{// cv::cvtColor(image, image, cv::COLOR\_RGB2BGR);}}
+\DoxyCodeLine{\Hypertarget{opencv__perception__node_8cpp_source_l00307}00307   \textcolor{keyword}{auto} outmat = \mbox{\hyperlink{opencv__perception__node_8cpp_a2b6f2fd406fbfff968fa7d0f6541923c}{to\_cv\_mat}}(outimg);}
+\DoxyCodeLine{\Hypertarget{opencv__perception__node_8cpp_source_l00308}00308 }
+\DoxyCodeLine{\Hypertarget{opencv__perception__node_8cpp_source_l00309}00309   \textcolor{comment}{// USED TO WORK IN FILE MODE}}
+\DoxyCodeLine{\Hypertarget{opencv__perception__node_8cpp_source_l00310}00310   \textcolor{comment}{// cv::imwrite("{}/tmp/out.png"{}, outmat);}}
+\DoxyCodeLine{\Hypertarget{opencv__perception__node_8cpp_source_l00311}00311 }
+\DoxyCodeLine{\Hypertarget{opencv__perception__node_8cpp_source_l00312}00312   \textcolor{keywordtype}{bool} testGreenAlly = \textcolor{keyword}{false};}
+\DoxyCodeLine{\Hypertarget{opencv__perception__node_8cpp_source_l00313}00313 }
+\DoxyCodeLine{\Hypertarget{opencv__perception__node_8cpp_source_l00314}00314   std::vector<sm\_husky\_barrel\_search\_1::msg::DetectedObject> detectedObjects;}
+\DoxyCodeLine{\Hypertarget{opencv__perception__node_8cpp_source_l00315}00315 }
+\DoxyCodeLine{\Hypertarget{opencv__perception__node_8cpp_source_l00316}00316   \textcolor{keywordtype}{int} detectedColor = 0;}
+\DoxyCodeLine{\Hypertarget{opencv__perception__node_8cpp_source_l00317}00317   \textcolor{keywordflow}{if} (\mbox{\hyperlink{opencv__perception__node_8cpp_a286626fd5b2efe3ed73abe3839a83608}{testRed}}(image, outmat, detectedObjects) > 0)}
+\DoxyCodeLine{\Hypertarget{opencv__perception__node_8cpp_source_l00318}00318   \{}
+\DoxyCodeLine{\Hypertarget{opencv__perception__node_8cpp_source_l00319}00319     detectedColor = 1;}
+\DoxyCodeLine{\Hypertarget{opencv__perception__node_8cpp_source_l00320}00320   \}}
+\DoxyCodeLine{\Hypertarget{opencv__perception__node_8cpp_source_l00321}00321 }
+\DoxyCodeLine{\Hypertarget{opencv__perception__node_8cpp_source_l00322}00322   \textcolor{keywordflow}{if} (testGreenAlly \&\& \mbox{\hyperlink{opencv__perception__node_8cpp_aa03a273071360f092f1eecbb53beb4d3}{testGreen}}(image, outmat, detectedObjects) > 0)}
+\DoxyCodeLine{\Hypertarget{opencv__perception__node_8cpp_source_l00323}00323   \{}
+\DoxyCodeLine{\Hypertarget{opencv__perception__node_8cpp_source_l00324}00324     detectedColor = 2;}
+\DoxyCodeLine{\Hypertarget{opencv__perception__node_8cpp_source_l00325}00325   \}}
+\DoxyCodeLine{\Hypertarget{opencv__perception__node_8cpp_source_l00326}00326 }
+\DoxyCodeLine{\Hypertarget{opencv__perception__node_8cpp_source_l00327}00327   \textcolor{keywordflow}{if} (\mbox{\hyperlink{opencv__perception__node_8cpp_a347cab2e0cb7b41b7eba53051f56ddd6}{testBlue}}(image, outmat, detectedObjects) > 0)}
+\DoxyCodeLine{\Hypertarget{opencv__perception__node_8cpp_source_l00328}00328   \{}
+\DoxyCodeLine{\Hypertarget{opencv__perception__node_8cpp_source_l00329}00329     detectedColor = 3;}
+\DoxyCodeLine{\Hypertarget{opencv__perception__node_8cpp_source_l00330}00330   \}}
+\DoxyCodeLine{\Hypertarget{opencv__perception__node_8cpp_source_l00331}00331 }
+\DoxyCodeLine{\Hypertarget{opencv__perception__node_8cpp_source_l00332}00332   \textcolor{keywordflow}{if} (\mbox{\hyperlink{opencv__perception__node_8cpp_a9ec33a5e871eb7e5bbecef485ed61ba2}{testYellow}}(image, outmat, detectedObjects) > 0)}
+\DoxyCodeLine{\Hypertarget{opencv__perception__node_8cpp_source_l00333}00333   \{}
+\DoxyCodeLine{\Hypertarget{opencv__perception__node_8cpp_source_l00334}00334     detectedColor = 4;}
+\DoxyCodeLine{\Hypertarget{opencv__perception__node_8cpp_source_l00335}00335   \}}
+\DoxyCodeLine{\Hypertarget{opencv__perception__node_8cpp_source_l00336}00336 }
+\DoxyCodeLine{\Hypertarget{opencv__perception__node_8cpp_source_l00337}00337   sm\_husky\_barrel\_search\_1::msg::DetectedObjects detectedColorMsg;}
+\DoxyCodeLine{\Hypertarget{opencv__perception__node_8cpp_source_l00338}00338   detectedColorMsg.detected\_objects = detectedObjects;}
+\DoxyCodeLine{\Hypertarget{opencv__perception__node_8cpp_source_l00339}00339 }
+\DoxyCodeLine{\Hypertarget{opencv__perception__node_8cpp_source_l00340}00340   \mbox{\hyperlink{opencv__perception__node_8cpp_add1e617033fc8ebd018a4d08e9fe4c66}{detectionPub}}-\/>publish(detectedColorMsg);}
+\DoxyCodeLine{\Hypertarget{opencv__perception__node_8cpp_source_l00341}00341 }
+\DoxyCodeLine{\Hypertarget{opencv__perception__node_8cpp_source_l00342}00342   cv::cvtColor(outmat, outmat, cv::COLOR\_RGB2BGR);}
+\DoxyCodeLine{\Hypertarget{opencv__perception__node_8cpp_source_l00343}00343 }
+\DoxyCodeLine{\Hypertarget{opencv__perception__node_8cpp_source_l00344}00344   outimg.header = imgMsg.header;}
+\DoxyCodeLine{\Hypertarget{opencv__perception__node_8cpp_source_l00345}00345   \mbox{\hyperlink{opencv__perception__node_8cpp_a28367082d098c2ebbb1b3029a65b8277}{debugImagePub}}-\/>publish(outimg);}
+\DoxyCodeLine{\Hypertarget{opencv__perception__node_8cpp_source_l00346}00346 \}}
+\DoxyCodeLine{\Hypertarget{opencv__perception__node_8cpp_source_l00347}00347 }
+\DoxyCodeLine{\Hypertarget{opencv__perception__node_8cpp_source_l00348}\mbox{\hyperlink{opencv__perception__node_8cpp_a612fba4536fe14c1e7f811938ead6918}{00348}} \textcolor{keywordtype}{void} \mbox{\hyperlink{opencv__perception__node_8cpp_a612fba4536fe14c1e7f811938ead6918}{main\_ros\_loop}}(\textcolor{keywordtype}{int} argc, \textcolor{keywordtype}{char}** argv)}
+\DoxyCodeLine{\Hypertarget{opencv__perception__node_8cpp_source_l00349}00349 \{}
+\DoxyCodeLine{\Hypertarget{opencv__perception__node_8cpp_source_l00350}00350   rclcpp::init(argc, argv);}
+\DoxyCodeLine{\Hypertarget{opencv__perception__node_8cpp_source_l00351}00351   rclcpp::Node::SharedPtr \mbox{\hyperlink{odom__to__tf_8cpp_abd70cc27fb93648b9c90abe64106c1f7}{nh}} = rclcpp::Node::make\_shared(\textcolor{stringliteral}{"{}opencv\_perception\_node"{}});}
+\DoxyCodeLine{\Hypertarget{opencv__perception__node_8cpp_source_l00352}00352 }
+\DoxyCodeLine{\Hypertarget{opencv__perception__node_8cpp_source_l00353}00353   RCLCPP\_INFO(\mbox{\hyperlink{odom__to__tf_8cpp_abd70cc27fb93648b9c90abe64106c1f7}{nh}}-\/>get\_logger(), \textcolor{stringliteral}{"{}opencv perception node started"{}});}
+\DoxyCodeLine{\Hypertarget{opencv__perception__node_8cpp_source_l00354}00354   \mbox{\hyperlink{opencv__perception__node_8cpp_add1e617033fc8ebd018a4d08e9fe4c66}{detectionPub}} = \mbox{\hyperlink{odom__to__tf_8cpp_abd70cc27fb93648b9c90abe64106c1f7}{nh}}-\/>create\_publisher<sm\_husky\_barrel\_search\_1::msg::DetectedObjects>(\textcolor{stringliteral}{"{}detected\_objects"{}}, 1);}
+\DoxyCodeLine{\Hypertarget{opencv__perception__node_8cpp_source_l00355}00355   \mbox{\hyperlink{opencv__perception__node_8cpp_ad5193eeea23e67bab0b005e2c346558b}{imageSub}} = \mbox{\hyperlink{odom__to__tf_8cpp_abd70cc27fb93648b9c90abe64106c1f7}{nh}}-\/>create\_subscription<sensor\_msgs::msg::Image>(\textcolor{stringliteral}{"{}/image\_raw"{}}, rclcpp::QoS(1).best\_effort(), \mbox{\hyperlink{opencv__perception__node_8cpp_a9c212b9e4749b23ec1e8fc14b5ff0441}{callback}});}
+\DoxyCodeLine{\Hypertarget{opencv__perception__node_8cpp_source_l00356}00356   \mbox{\hyperlink{opencv__perception__node_8cpp_a28367082d098c2ebbb1b3029a65b8277}{debugImagePub}} = \mbox{\hyperlink{odom__to__tf_8cpp_abd70cc27fb93648b9c90abe64106c1f7}{nh}}-\/>create\_publisher<sensor\_msgs::msg::Image>(\textcolor{stringliteral}{"{}/opencv\_debug\_image"{}}, rclcpp::QoS(1).best\_effort());}
+\DoxyCodeLine{\Hypertarget{opencv__perception__node_8cpp_source_l00357}00357 }
+\DoxyCodeLine{\Hypertarget{opencv__perception__node_8cpp_source_l00358}00358   rclcpp::Rate r(10);}
+\DoxyCodeLine{\Hypertarget{opencv__perception__node_8cpp_source_l00359}00359 }
+\DoxyCodeLine{\Hypertarget{opencv__perception__node_8cpp_source_l00360}00360   \textcolor{keywordflow}{while} (rclcpp::ok())}
+\DoxyCodeLine{\Hypertarget{opencv__perception__node_8cpp_source_l00361}00361   \{}
+\DoxyCodeLine{\Hypertarget{opencv__perception__node_8cpp_source_l00362}00362     rclcpp::spin\_some(\mbox{\hyperlink{odom__to__tf_8cpp_abd70cc27fb93648b9c90abe64106c1f7}{nh}});}
+\DoxyCodeLine{\Hypertarget{opencv__perception__node_8cpp_source_l00363}00363     r.sleep();}
+\DoxyCodeLine{\Hypertarget{opencv__perception__node_8cpp_source_l00364}00364   \}}
+\DoxyCodeLine{\Hypertarget{opencv__perception__node_8cpp_source_l00365}00365 \}}
+\DoxyCodeLine{\Hypertarget{opencv__perception__node_8cpp_source_l00366}00366 }
+\DoxyCodeLine{\Hypertarget{opencv__perception__node_8cpp_source_l00367}\mbox{\hyperlink{opencv__perception__node_8cpp_a3c04138a5bfe5d72780bb7e82a18e627}{00367}} \textcolor{keywordtype}{int} \mbox{\hyperlink{opencv__perception__node_8cpp_a3c04138a5bfe5d72780bb7e82a18e627}{main}}(\textcolor{keywordtype}{int} argc, \textcolor{keywordtype}{char}** argv)}
+\DoxyCodeLine{\Hypertarget{opencv__perception__node_8cpp_source_l00368}00368 \{}
+\DoxyCodeLine{\Hypertarget{opencv__perception__node_8cpp_source_l00369}00369   \mbox{\hyperlink{opencv__perception__node_8cpp_a612fba4536fe14c1e7f811938ead6918}{main\_ros\_loop}}(argc, argv);}
+\DoxyCodeLine{\Hypertarget{opencv__perception__node_8cpp_source_l00370}00370 }
+\DoxyCodeLine{\Hypertarget{opencv__perception__node_8cpp_source_l00371}00371   \textcolor{keyword}{auto} testImagePath =}
+\DoxyCodeLine{\Hypertarget{opencv__perception__node_8cpp_source_l00372}00372       ament\_index\_cpp::get\_package\_share\_directory(\textcolor{stringliteral}{"{}sm\_husky\_barrel\_search\_1"{}}) + \textcolor{stringliteral}{"{}/test\_images/red4.png"{}};}
+\DoxyCodeLine{\Hypertarget{opencv__perception__node_8cpp_source_l00373}00373 }
+\DoxyCodeLine{\Hypertarget{opencv__perception__node_8cpp_source_l00374}00374   \textcolor{comment}{// testRedFileBench(testImagePath);}}
+\DoxyCodeLine{\Hypertarget{opencv__perception__node_8cpp_source_l00375}00375   \textcolor{comment}{// testRedFile(testImagePath);}}
+\DoxyCodeLine{\Hypertarget{opencv__perception__node_8cpp_source_l00376}00376 }
+\DoxyCodeLine{\Hypertarget{opencv__perception__node_8cpp_source_l00377}00377   \textcolor{comment}{/*}}
+\DoxyCodeLine{\Hypertarget{opencv__perception__node_8cpp_source_l00378}00378 \textcolor{comment}{  testRedFile("{}../../red1.png"{});}}
+\DoxyCodeLine{\Hypertarget{opencv__perception__node_8cpp_source_l00379}00379 \textcolor{comment}{  testRedFile("{}../../green1.png"{});}}
+\DoxyCodeLine{\Hypertarget{opencv__perception__node_8cpp_source_l00380}00380 \textcolor{comment}{  testRedFile("{}../../blue1.png"{});}}
+\DoxyCodeLine{\Hypertarget{opencv__perception__node_8cpp_source_l00381}00381 \textcolor{comment}{}}
+\DoxyCodeLine{\Hypertarget{opencv__perception__node_8cpp_source_l00382}00382 \textcolor{comment}{}}
+\DoxyCodeLine{\Hypertarget{opencv__perception__node_8cpp_source_l00383}00383 \textcolor{comment}{  testGreen("{}../../red1.png"{});}}
+\DoxyCodeLine{\Hypertarget{opencv__perception__node_8cpp_source_l00384}00384 \textcolor{comment}{  testGreen("{}../../green1.png"{});}}
+\DoxyCodeLine{\Hypertarget{opencv__perception__node_8cpp_source_l00385}00385 \textcolor{comment}{  testGreen("{}../../blue1.png"{});}}
+\DoxyCodeLine{\Hypertarget{opencv__perception__node_8cpp_source_l00386}00386 \textcolor{comment}{  testGreen("{}../../red2.png"{});}}
+\DoxyCodeLine{\Hypertarget{opencv__perception__node_8cpp_source_l00387}00387 \textcolor{comment}{}}
+\DoxyCodeLine{\Hypertarget{opencv__perception__node_8cpp_source_l00388}00388 \textcolor{comment}{  testBlue("{}../../red1.png"{});}}
+\DoxyCodeLine{\Hypertarget{opencv__perception__node_8cpp_source_l00389}00389 \textcolor{comment}{  testBlue("{}../../green1.png"{});}}
+\DoxyCodeLine{\Hypertarget{opencv__perception__node_8cpp_source_l00390}00390 \textcolor{comment}{  testBlue("{}../../blue1.png"{});}}
+\DoxyCodeLine{\Hypertarget{opencv__perception__node_8cpp_source_l00391}00391 \textcolor{comment}{  testBlue("{}../../red2.png"{});}}
+\DoxyCodeLine{\Hypertarget{opencv__perception__node_8cpp_source_l00392}00392 \textcolor{comment}{  */}}
+\DoxyCodeLine{\Hypertarget{opencv__perception__node_8cpp_source_l00393}00393 \}}
 
 \end{DoxyCode}
