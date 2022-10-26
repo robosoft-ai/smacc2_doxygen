@@ -98,51 +98,58 @@ Reimplemented from \mbox{\hyperlink{classsmacc2_1_1ISmaccClientBehavior_aca7382c
 
 
 
-Definition at line \mbox{\hyperlink{cb__sequence_8cpp_source_l00054}{54}} of file \mbox{\hyperlink{cb__sequence_8cpp_source}{cb\+\_\+sequence.\+cpp}}.
+Definition at line \mbox{\hyperlink{cb__sequence_8cpp_source_l00060}{60}} of file \mbox{\hyperlink{cb__sequence_8cpp_source}{cb\+\_\+sequence.\+cpp}}.
 
 
 \begin{DoxyCode}{0}
-\DoxyCodeLine{00055 \{}
-\DoxyCodeLine{00056   this-\/>\mbox{\hyperlink{classsmacc2_1_1client__behaviors_1_1CbSequence_a12134dc5895463a357084e4d02307e34}{recursiveConsumeNext}}();}
-\DoxyCodeLine{00057   \textcolor{keywordflow}{while} (!\mbox{\hyperlink{classsmacc2_1_1client__behaviors_1_1CbSequence_a8e7beb5dcbb4e8aff74a6fb6ee14bca9}{sequenceNodes\_}}.empty() \&\& !this-\/>isShutdownRequested())}
-\DoxyCodeLine{00058   \{}
-\DoxyCodeLine{00059     rclcpp::sleep\_for(std::chrono::milliseconds(200));}
-\DoxyCodeLine{00060     RCLCPP\_INFO\_THROTTLE(}
-\DoxyCodeLine{00061       \mbox{\hyperlink{classsmacc2_1_1ISmaccClientBehavior_a9c3d82542c800e2ba5207c5cff0e63e8}{getLogger}}(), *(\mbox{\hyperlink{classsmacc2_1_1ISmaccClientBehavior_aa1b28d5e8a5208fff8160f9df9a89dc6}{getNode}}()-\/>get\_clock()), 1000,}
-\DoxyCodeLine{00062       \textcolor{stringliteral}{"{}[CbSequence] Waiting for subnodes to finish \%ld"{}}, \mbox{\hyperlink{classsmacc2_1_1client__behaviors_1_1CbSequence_a8e7beb5dcbb4e8aff74a6fb6ee14bca9}{sequenceNodes\_}}.size());}
-\DoxyCodeLine{00063 }
-\DoxyCodeLine{00064     \textcolor{keywordflow}{if} (\mbox{\hyperlink{classsmacc2_1_1client__behaviors_1_1CbSequence_a498c9c163400a4ea21fad845e01d5f58}{consume\_}})}
-\DoxyCodeLine{00065     \{}
-\DoxyCodeLine{00066       \textcolor{comment}{// bh\_-\/>waitOnEntryThread();}}
-\DoxyCodeLine{00067       this-\/>\mbox{\hyperlink{classsmacc2_1_1client__behaviors_1_1CbSequence_a6ed853b7fbe50ce6763fcb000abb9318}{conn\_}}.disconnect();}
-\DoxyCodeLine{00068       this-\/>\mbox{\hyperlink{classsmacc2_1_1client__behaviors_1_1CbSequence_a71569e0313ae61d995c6d4cb343a4dbc}{conn2\_}}.disconnect();}
-\DoxyCodeLine{00069 }
-\DoxyCodeLine{00070       \mbox{\hyperlink{classsmacc2_1_1client__behaviors_1_1CbSequence_a8e7beb5dcbb4e8aff74a6fb6ee14bca9}{sequenceNodes\_}}.pop\_front();}
-\DoxyCodeLine{00071       \mbox{\hyperlink{classsmacc2_1_1client__behaviors_1_1CbSequence_a498c9c163400a4ea21fad845e01d5f58}{consume\_}}-\/-\/;}
-\DoxyCodeLine{00072 }
-\DoxyCodeLine{00073       \textcolor{keywordflow}{if} (\mbox{\hyperlink{classsmacc2_1_1client__behaviors_1_1CbSequence_a8e7beb5dcbb4e8aff74a6fb6ee14bca9}{sequenceNodes\_}}.size() > 0)}
-\DoxyCodeLine{00074       \{}
-\DoxyCodeLine{00075         this-\/>\mbox{\hyperlink{classsmacc2_1_1client__behaviors_1_1CbSequence_a12134dc5895463a357084e4d02307e34}{recursiveConsumeNext}}();}
-\DoxyCodeLine{00076       \}}
-\DoxyCodeLine{00077     \}}
-\DoxyCodeLine{00078   \}}
-\DoxyCodeLine{00079 }
-\DoxyCodeLine{00080   \textcolor{keywordflow}{if} (\mbox{\hyperlink{classsmacc2_1_1client__behaviors_1_1CbSequence_a8e7beb5dcbb4e8aff74a6fb6ee14bca9}{sequenceNodes\_}}.empty())}
-\DoxyCodeLine{00081   \{}
-\DoxyCodeLine{00082     RCLCPP\_INFO(\mbox{\hyperlink{classsmacc2_1_1ISmaccClientBehavior_a9c3d82542c800e2ba5207c5cff0e63e8}{getLogger}}(), \textcolor{stringliteral}{"{}[CbSequence] All subnodes finished"{}});}
-\DoxyCodeLine{00083     this-\/>\mbox{\hyperlink{classsmacc2_1_1SmaccAsyncClientBehavior_a2fb4de26d011fbbb55bc1bbaed2e6f5b}{postSuccessEvent}}();}
-\DoxyCodeLine{00084   \}}
-\DoxyCodeLine{00085   \textcolor{keywordflow}{else}}
-\DoxyCodeLine{00086   \{}
-\DoxyCodeLine{00087     RCLCPP\_INFO(\mbox{\hyperlink{classsmacc2_1_1ISmaccClientBehavior_a9c3d82542c800e2ba5207c5cff0e63e8}{getLogger}}(), \textcolor{stringliteral}{"{}[CbSequence] Aborting"{}});}
-\DoxyCodeLine{00088     this-\/>\mbox{\hyperlink{classsmacc2_1_1SmaccAsyncClientBehavior_afcb5c1a0bf3b9bae6c54e8f5ef1bc04d}{postFailureEvent}}();}
-\DoxyCodeLine{00089   \}}
-\DoxyCodeLine{00090 \}}
+\DoxyCodeLine{00061 \{}
+\DoxyCodeLine{00062   this-\/>\mbox{\hyperlink{classsmacc2_1_1client__behaviors_1_1CbSequence_a12134dc5895463a357084e4d02307e34}{recursiveConsumeNext}}();}
+\DoxyCodeLine{00063   \textcolor{keywordflow}{while} (!\mbox{\hyperlink{classsmacc2_1_1client__behaviors_1_1CbSequence_a8e7beb5dcbb4e8aff74a6fb6ee14bca9}{sequenceNodes\_}}.empty())}
+\DoxyCodeLine{00064   \{}
+\DoxyCodeLine{00065     \textcolor{keywordtype}{bool} is\_shutdown\_requested = this-\/>\mbox{\hyperlink{classsmacc2_1_1SmaccAsyncClientBehavior_a3fdbe8ec497fef82e2441e8e87899955}{isShutdownRequested}}();}
+\DoxyCodeLine{00066     \textcolor{keywordflow}{if} (is\_shutdown\_requested)}
+\DoxyCodeLine{00067     \{}
+\DoxyCodeLine{00068       \textcolor{keywordflow}{break};}
+\DoxyCodeLine{00069     \}}
+\DoxyCodeLine{00070 }
+\DoxyCodeLine{00071     rclcpp::sleep\_for(std::chrono::milliseconds(200));}
+\DoxyCodeLine{00072     RCLCPP\_INFO\_THROTTLE(}
+\DoxyCodeLine{00073       \mbox{\hyperlink{classsmacc2_1_1ISmaccClientBehavior_a9c3d82542c800e2ba5207c5cff0e63e8}{getLogger}}(), *(\mbox{\hyperlink{classsmacc2_1_1ISmaccClientBehavior_aa1b28d5e8a5208fff8160f9df9a89dc6}{getNode}}()-\/>get\_clock()), 1000,}
+\DoxyCodeLine{00074       \textcolor{stringliteral}{"{}[CbSequence \%ld] Waiting for subnodes to finish \%ld. Current head Behavior: \%s "{}}, (\textcolor{keywordtype}{long})\textcolor{keyword}{this},}
+\DoxyCodeLine{00075       \mbox{\hyperlink{classsmacc2_1_1client__behaviors_1_1CbSequence_a8e7beb5dcbb4e8aff74a6fb6ee14bca9}{sequenceNodes\_}}.size(), \mbox{\hyperlink{namespacesmacc2_1_1introspection_af0776d8076fe19b4f806405e9ab08cfe}{demangleType}}(\&\textcolor{keyword}{typeid}(*\mbox{\hyperlink{classsmacc2_1_1client__behaviors_1_1CbSequence_ad9c6823bb35917e12d495bf415ae258c}{bh\_}})).c\_str());}
+\DoxyCodeLine{00076 }
+\DoxyCodeLine{00077     \textcolor{keywordflow}{if} (\mbox{\hyperlink{classsmacc2_1_1client__behaviors_1_1CbSequence_a498c9c163400a4ea21fad845e01d5f58}{consume\_}})}
+\DoxyCodeLine{00078     \{}
+\DoxyCodeLine{00079       \textcolor{comment}{// bh\_-\/>waitOnEntryThread();}}
+\DoxyCodeLine{00080       this-\/>\mbox{\hyperlink{classsmacc2_1_1client__behaviors_1_1CbSequence_a6ed853b7fbe50ce6763fcb000abb9318}{conn\_}}.disconnect();}
+\DoxyCodeLine{00081       this-\/>\mbox{\hyperlink{classsmacc2_1_1client__behaviors_1_1CbSequence_a71569e0313ae61d995c6d4cb343a4dbc}{conn2\_}}.disconnect();}
+\DoxyCodeLine{00082 }
+\DoxyCodeLine{00083       \mbox{\hyperlink{classsmacc2_1_1client__behaviors_1_1CbSequence_a8e7beb5dcbb4e8aff74a6fb6ee14bca9}{sequenceNodes\_}}.pop\_front();}
+\DoxyCodeLine{00084       \mbox{\hyperlink{classsmacc2_1_1client__behaviors_1_1CbSequence_a498c9c163400a4ea21fad845e01d5f58}{consume\_}}-\/-\/;}
+\DoxyCodeLine{00085 }
+\DoxyCodeLine{00086       \textcolor{keywordflow}{if} (\mbox{\hyperlink{classsmacc2_1_1client__behaviors_1_1CbSequence_a8e7beb5dcbb4e8aff74a6fb6ee14bca9}{sequenceNodes\_}}.size() > 0)}
+\DoxyCodeLine{00087       \{}
+\DoxyCodeLine{00088         this-\/>\mbox{\hyperlink{classsmacc2_1_1client__behaviors_1_1CbSequence_a12134dc5895463a357084e4d02307e34}{recursiveConsumeNext}}();}
+\DoxyCodeLine{00089       \}}
+\DoxyCodeLine{00090     \}}
+\DoxyCodeLine{00091   \}}
+\DoxyCodeLine{00092 }
+\DoxyCodeLine{00093   \textcolor{keywordflow}{if} (\mbox{\hyperlink{classsmacc2_1_1client__behaviors_1_1CbSequence_a8e7beb5dcbb4e8aff74a6fb6ee14bca9}{sequenceNodes\_}}.empty())}
+\DoxyCodeLine{00094   \{}
+\DoxyCodeLine{00095     RCLCPP\_INFO(\mbox{\hyperlink{classsmacc2_1_1ISmaccClientBehavior_a9c3d82542c800e2ba5207c5cff0e63e8}{getLogger}}(), \textcolor{stringliteral}{"{}[CbSequence \%ld] All subnodes finished"{}}, (\textcolor{keywordtype}{long})\textcolor{keyword}{this});}
+\DoxyCodeLine{00096     this-\/>\mbox{\hyperlink{classsmacc2_1_1SmaccAsyncClientBehavior_a2fb4de26d011fbbb55bc1bbaed2e6f5b}{postSuccessEvent}}();}
+\DoxyCodeLine{00097   \}}
+\DoxyCodeLine{00098   \textcolor{keywordflow}{else}}
+\DoxyCodeLine{00099   \{}
+\DoxyCodeLine{00100     RCLCPP\_INFO(\mbox{\hyperlink{classsmacc2_1_1ISmaccClientBehavior_a9c3d82542c800e2ba5207c5cff0e63e8}{getLogger}}(), \textcolor{stringliteral}{"{}[CbSequence \%ld] Aborting"{}}, (\textcolor{keywordtype}{long})\textcolor{keyword}{this});}
+\DoxyCodeLine{00101     this-\/>\mbox{\hyperlink{classsmacc2_1_1SmaccAsyncClientBehavior_afcb5c1a0bf3b9bae6c54e8f5ef1bc04d}{postFailureEvent}}();}
+\DoxyCodeLine{00102   \}}
+\DoxyCodeLine{00103 \}}
 
 \end{DoxyCode}
 
 
-References \mbox{\hyperlink{cb__sequence_8hpp_source_l00083}{conn2\+\_\+}}, \mbox{\hyperlink{cb__sequence_8hpp_source_l00082}{conn\+\_\+}}, \mbox{\hyperlink{cb__sequence_8hpp_source_l00086}{consume\+\_\+}}, \mbox{\hyperlink{smacc__client__behavior__base_8cpp_source_l00043}{smacc2\+::\+ISmacc\+Client\+Behavior\+::get\+Logger()}}, \mbox{\hyperlink{smacc__client__behavior__base_8cpp_source_l00038}{smacc2\+::\+ISmacc\+Client\+Behavior\+::get\+Node()}}, \mbox{\hyperlink{smacc__client__async__behavior_8cpp_source_l00142}{smacc2\+::\+Smacc\+Async\+Client\+Behavior\+::post\+Failure\+Event()}}, \mbox{\hyperlink{smacc__client__async__behavior_8cpp_source_l00140}{smacc2\+::\+Smacc\+Async\+Client\+Behavior\+::post\+Success\+Event()}}, \mbox{\hyperlink{cb__sequence_8cpp_source_l00032}{recursive\+Consume\+Next()}}, and \mbox{\hyperlink{cb__sequence_8hpp_source_l00081}{sequence\+Nodes\+\_\+}}.
+References \mbox{\hyperlink{cb__sequence_8hpp_source_l00087}{bh\+\_\+}}, \mbox{\hyperlink{cb__sequence_8hpp_source_l00085}{conn2\+\_\+}}, \mbox{\hyperlink{cb__sequence_8hpp_source_l00084}{conn\+\_\+}}, \mbox{\hyperlink{cb__sequence_8hpp_source_l00088}{consume\+\_\+}}, \mbox{\hyperlink{introspection_8hpp_source_l00106}{smacc2\+::introspection\+::demangle\+Type()}}, \mbox{\hyperlink{smacc__client__behavior__base_8cpp_source_l00043}{smacc2\+::\+ISmacc\+Client\+Behavior\+::get\+Logger()}}, \mbox{\hyperlink{smacc__client__behavior__base_8cpp_source_l00038}{smacc2\+::\+ISmacc\+Client\+Behavior\+::get\+Node()}}, \mbox{\hyperlink{smacc__asynchronous__client__behavior_8hpp_source_l00087}{smacc2\+::\+Smacc\+Async\+Client\+Behavior\+::is\+Shutdown\+Requested()}}, \mbox{\hyperlink{smacc__client__async__behavior_8cpp_source_l00147}{smacc2\+::\+Smacc\+Async\+Client\+Behavior\+::post\+Failure\+Event()}}, \mbox{\hyperlink{smacc__client__async__behavior_8cpp_source_l00145}{smacc2\+::\+Smacc\+Async\+Client\+Behavior\+::post\+Success\+Event()}}, \mbox{\hyperlink{cb__sequence_8cpp_source_l00032}{recursive\+Consume\+Next()}}, and \mbox{\hyperlink{cb__sequence_8hpp_source_l00083}{sequence\+Nodes\+\_\+}}.
 
 Here is the call graph for this function\+:
 \nopagebreak
@@ -173,7 +180,7 @@ Definition at line \mbox{\hyperlink{cb__sequence_8hpp_source_l00055}{55}} of fil
 \end{DoxyCode}
 
 
-References \mbox{\hyperlink{cb__sequence_8hpp_source_l00081}{sequence\+Nodes\+\_\+}}.
+References \mbox{\hyperlink{cb__sequence_8hpp_source_l00083}{sequence\+Nodes\+\_\+}}.
 
 \mbox{\Hypertarget{classsmacc2_1_1client__behaviors_1_1CbSequence_aaedd8949d2b735ab33736cd7cd50e3d1}\label{classsmacc2_1_1client__behaviors_1_1CbSequence_aaedd8949d2b735ab33736cd7cd50e3d1}} 
 \index{smacc2::client\_behaviors::CbSequence@{smacc2::client\_behaviors::CbSequence}!onSubNodeAbort@{onSubNodeAbort}}
@@ -183,25 +190,28 @@ References \mbox{\hyperlink{cb__sequence_8hpp_source_l00081}{sequence\+Nodes\+\_
 
 
 
-Definition at line \mbox{\hyperlink{cb__sequence_8cpp_source_l00098}{98}} of file \mbox{\hyperlink{cb__sequence_8cpp_source}{cb\+\_\+sequence.\+cpp}}.
+Definition at line \mbox{\hyperlink{cb__sequence_8cpp_source_l00112}{112}} of file \mbox{\hyperlink{cb__sequence_8cpp_source}{cb\+\_\+sequence.\+cpp}}.
 
 
 \begin{DoxyCode}{0}
-\DoxyCodeLine{00099 \{}
-\DoxyCodeLine{00100   RCLCPP\_INFO(\mbox{\hyperlink{classsmacc2_1_1ISmaccClientBehavior_a9c3d82542c800e2ba5207c5cff0e63e8}{getLogger}}(), \textcolor{stringliteral}{"{}[CbSequence] Abort NextCbSequence \%ld"{}}, \mbox{\hyperlink{classsmacc2_1_1client__behaviors_1_1CbSequence_a8e7beb5dcbb4e8aff74a6fb6ee14bca9}{sequenceNodes\_}}.size());}
-\DoxyCodeLine{00101   \textcolor{comment}{// bh\_-\/>waitOnEntryThread();}}
-\DoxyCodeLine{00102   this-\/>\mbox{\hyperlink{classsmacc2_1_1client__behaviors_1_1CbSequence_a6ed853b7fbe50ce6763fcb000abb9318}{conn\_}}.disconnect();}
-\DoxyCodeLine{00103   this-\/>\mbox{\hyperlink{classsmacc2_1_1client__behaviors_1_1CbSequence_a71569e0313ae61d995c6d4cb343a4dbc}{conn2\_}}.disconnect();}
-\DoxyCodeLine{00104 }
-\DoxyCodeLine{00105   this-\/>\mbox{\hyperlink{classsmacc2_1_1SmaccAsyncClientBehavior_afcb5c1a0bf3b9bae6c54e8f5ef1bc04d}{postFailureEvent}}();}
-\DoxyCodeLine{00106   RCLCPP\_INFO(\mbox{\hyperlink{classsmacc2_1_1ISmaccClientBehavior_a9c3d82542c800e2ba5207c5cff0e63e8}{getLogger}}(), \textcolor{stringliteral}{"{}[CbSequence] Abort NextCbSequence requesting for force finish"{}});}
-\DoxyCodeLine{00107   this-\/>\mbox{\hyperlink{classsmacc2_1_1SmaccAsyncClientBehavior_abc3c38acbfdaaacae312c2f1ea5fc0c0}{requestForceFinish}}();}
-\DoxyCodeLine{00108 \}}
+\DoxyCodeLine{00113 \{}
+\DoxyCodeLine{00114   RCLCPP\_INFO(}
+\DoxyCodeLine{00115     \mbox{\hyperlink{classsmacc2_1_1ISmaccClientBehavior_a9c3d82542c800e2ba5207c5cff0e63e8}{getLogger}}(), \textcolor{stringliteral}{"{}[CbSequence \%ld] Abort NextCbSequence \%ld"{}}, (\textcolor{keywordtype}{long})\textcolor{keyword}{this}, \mbox{\hyperlink{classsmacc2_1_1client__behaviors_1_1CbSequence_a8e7beb5dcbb4e8aff74a6fb6ee14bca9}{sequenceNodes\_}}.size());}
+\DoxyCodeLine{00116   \textcolor{comment}{// bh\_-\/>waitOnEntryThread();}}
+\DoxyCodeLine{00117   this-\/>\mbox{\hyperlink{classsmacc2_1_1client__behaviors_1_1CbSequence_a6ed853b7fbe50ce6763fcb000abb9318}{conn\_}}.disconnect();}
+\DoxyCodeLine{00118   this-\/>\mbox{\hyperlink{classsmacc2_1_1client__behaviors_1_1CbSequence_a71569e0313ae61d995c6d4cb343a4dbc}{conn2\_}}.disconnect();}
+\DoxyCodeLine{00119 }
+\DoxyCodeLine{00120   this-\/>\mbox{\hyperlink{classsmacc2_1_1SmaccAsyncClientBehavior_afcb5c1a0bf3b9bae6c54e8f5ef1bc04d}{postFailureEvent}}();}
+\DoxyCodeLine{00121   RCLCPP\_INFO(}
+\DoxyCodeLine{00122     \mbox{\hyperlink{classsmacc2_1_1ISmaccClientBehavior_a9c3d82542c800e2ba5207c5cff0e63e8}{getLogger}}(), \textcolor{stringliteral}{"{}[CbSequence \%ld] Abort NextCbSequence requesting for force finish"{}}, (\textcolor{keywordtype}{long})\textcolor{keyword}{this});}
+\DoxyCodeLine{00123   this-\/>\mbox{\hyperlink{classsmacc2_1_1SmaccAsyncClientBehavior_abc3c38acbfdaaacae312c2f1ea5fc0c0}{requestForceFinish}}();}
+\DoxyCodeLine{00124   \mbox{\hyperlink{classsmacc2_1_1client__behaviors_1_1CbSequence_a498c9c163400a4ea21fad845e01d5f58}{consume\_}}++;}
+\DoxyCodeLine{00125 \}}
 
 \end{DoxyCode}
 
 
-References \mbox{\hyperlink{cb__sequence_8hpp_source_l00083}{conn2\+\_\+}}, \mbox{\hyperlink{cb__sequence_8hpp_source_l00082}{conn\+\_\+}}, \mbox{\hyperlink{smacc__client__behavior__base_8cpp_source_l00043}{smacc2\+::\+ISmacc\+Client\+Behavior\+::get\+Logger()}}, \mbox{\hyperlink{smacc__client__async__behavior_8cpp_source_l00142}{smacc2\+::\+Smacc\+Async\+Client\+Behavior\+::post\+Failure\+Event()}}, \mbox{\hyperlink{smacc__client__async__behavior_8cpp_source_l00144}{smacc2\+::\+Smacc\+Async\+Client\+Behavior\+::request\+Force\+Finish()}}, and \mbox{\hyperlink{cb__sequence_8hpp_source_l00081}{sequence\+Nodes\+\_\+}}.
+References \mbox{\hyperlink{cb__sequence_8hpp_source_l00085}{conn2\+\_\+}}, \mbox{\hyperlink{cb__sequence_8hpp_source_l00084}{conn\+\_\+}}, \mbox{\hyperlink{cb__sequence_8hpp_source_l00088}{consume\+\_\+}}, \mbox{\hyperlink{smacc__client__behavior__base_8cpp_source_l00043}{smacc2\+::\+ISmacc\+Client\+Behavior\+::get\+Logger()}}, \mbox{\hyperlink{smacc__client__async__behavior_8cpp_source_l00147}{smacc2\+::\+Smacc\+Async\+Client\+Behavior\+::post\+Failure\+Event()}}, \mbox{\hyperlink{smacc__client__async__behavior_8cpp_source_l00149}{smacc2\+::\+Smacc\+Async\+Client\+Behavior\+::request\+Force\+Finish()}}, and \mbox{\hyperlink{cb__sequence_8hpp_source_l00083}{sequence\+Nodes\+\_\+}}.
 
 
 
@@ -231,19 +241,20 @@ Here is the caller graph for this function\+:
 
 
 
-Definition at line \mbox{\hyperlink{cb__sequence_8cpp_source_l00092}{92}} of file \mbox{\hyperlink{cb__sequence_8cpp_source}{cb\+\_\+sequence.\+cpp}}.
+Definition at line \mbox{\hyperlink{cb__sequence_8cpp_source_l00105}{105}} of file \mbox{\hyperlink{cb__sequence_8cpp_source}{cb\+\_\+sequence.\+cpp}}.
 
 
 \begin{DoxyCode}{0}
-\DoxyCodeLine{00093 \{}
-\DoxyCodeLine{00094   RCLCPP\_INFO(\mbox{\hyperlink{classsmacc2_1_1ISmaccClientBehavior_a9c3d82542c800e2ba5207c5cff0e63e8}{getLogger}}(), \textcolor{stringliteral}{"{}[CbSequence] Success NextCbSequence \%ld"{}}, \mbox{\hyperlink{classsmacc2_1_1client__behaviors_1_1CbSequence_a8e7beb5dcbb4e8aff74a6fb6ee14bca9}{sequenceNodes\_}}.size());}
-\DoxyCodeLine{00095   \mbox{\hyperlink{classsmacc2_1_1client__behaviors_1_1CbSequence_a498c9c163400a4ea21fad845e01d5f58}{consume\_}}++;}
-\DoxyCodeLine{00096 \}}
+\DoxyCodeLine{00106 \{}
+\DoxyCodeLine{00107   RCLCPP\_INFO(}
+\DoxyCodeLine{00108     \mbox{\hyperlink{classsmacc2_1_1ISmaccClientBehavior_a9c3d82542c800e2ba5207c5cff0e63e8}{getLogger}}(), \textcolor{stringliteral}{"{}[CbSequence \%ld] Success NextCbSequence \%ld"{}}, (\textcolor{keywordtype}{long})\textcolor{keyword}{this}, \mbox{\hyperlink{classsmacc2_1_1client__behaviors_1_1CbSequence_a8e7beb5dcbb4e8aff74a6fb6ee14bca9}{sequenceNodes\_}}.size());}
+\DoxyCodeLine{00109   \mbox{\hyperlink{classsmacc2_1_1client__behaviors_1_1CbSequence_a498c9c163400a4ea21fad845e01d5f58}{consume\_}}++;}
+\DoxyCodeLine{00110 \}}
 
 \end{DoxyCode}
 
 
-References \mbox{\hyperlink{cb__sequence_8hpp_source_l00086}{consume\+\_\+}}, \mbox{\hyperlink{smacc__client__behavior__base_8cpp_source_l00043}{smacc2\+::\+ISmacc\+Client\+Behavior\+::get\+Logger()}}, and \mbox{\hyperlink{cb__sequence_8hpp_source_l00081}{sequence\+Nodes\+\_\+}}.
+References \mbox{\hyperlink{cb__sequence_8hpp_source_l00088}{consume\+\_\+}}, \mbox{\hyperlink{smacc__client__behavior__base_8cpp_source_l00043}{smacc2\+::\+ISmacc\+Client\+Behavior\+::get\+Logger()}}, and \mbox{\hyperlink{cb__sequence_8hpp_source_l00083}{sequence\+Nodes\+\_\+}}.
 
 
 
@@ -278,34 +289,40 @@ Definition at line \mbox{\hyperlink{cb__sequence_8cpp_source_l00032}{32}} of fil
 
 \begin{DoxyCode}{0}
 \DoxyCodeLine{00033 \{}
-\DoxyCodeLine{00034   RCLCPP\_INFO(\mbox{\hyperlink{classsmacc2_1_1ISmaccClientBehavior_a9c3d82542c800e2ba5207c5cff0e63e8}{getLogger}}(), \textcolor{stringliteral}{"{}[SequenceNode] on entry: \%ld"{}}, \mbox{\hyperlink{classsmacc2_1_1client__behaviors_1_1CbSequence_a8e7beb5dcbb4e8aff74a6fb6ee14bca9}{sequenceNodes\_}}.size());}
-\DoxyCodeLine{00035 }
-\DoxyCodeLine{00036   \textcolor{keyword}{auto} first = \mbox{\hyperlink{classsmacc2_1_1client__behaviors_1_1CbSequence_a8e7beb5dcbb4e8aff74a6fb6ee14bca9}{sequenceNodes\_}}.front();}
-\DoxyCodeLine{00037   \textcolor{keyword}{auto} onDelayedConfigureFn = first;}
-\DoxyCodeLine{00038 }
-\DoxyCodeLine{00039   RCLCPP\_INFO(\mbox{\hyperlink{classsmacc2_1_1ISmaccClientBehavior_a9c3d82542c800e2ba5207c5cff0e63e8}{getLogger}}(), \textcolor{stringliteral}{"{}[SequenceNode]Behavior on delayed sequence configure"{}});}
-\DoxyCodeLine{00040   \mbox{\hyperlink{classsmacc2_1_1client__behaviors_1_1CbSequence_ad9c6823bb35917e12d495bf415ae258c}{bh\_}} = onDelayedConfigureFn();}
-\DoxyCodeLine{00041   std::string currentNodeName = \mbox{\hyperlink{classsmacc2_1_1client__behaviors_1_1CbSequence_ad9c6823bb35917e12d495bf415ae258c}{bh\_}}-\/>getName();}
-\DoxyCodeLine{00042 }
-\DoxyCodeLine{00043   RCLCPP\_INFO(\mbox{\hyperlink{classsmacc2_1_1ISmaccClientBehavior_a9c3d82542c800e2ba5207c5cff0e63e8}{getLogger}}(), \textcolor{stringliteral}{"{}[SequenceNode]Subscribing OnSuccess"{}});}
-\DoxyCodeLine{00044   this-\/>\mbox{\hyperlink{classsmacc2_1_1client__behaviors_1_1CbSequence_a6ed853b7fbe50ce6763fcb000abb9318}{conn\_}} = \mbox{\hyperlink{classsmacc2_1_1client__behaviors_1_1CbSequence_ad9c6823bb35917e12d495bf415ae258c}{bh\_}}-\/>onSuccess(\&\mbox{\hyperlink{classsmacc2_1_1client__behaviors_1_1CbSequence_a32b382ce5e7c67ed483422fc166d36ad}{CbSequence::onSubNodeSuccess}}, \textcolor{keyword}{this});}
-\DoxyCodeLine{00045   this-\/>\mbox{\hyperlink{classsmacc2_1_1client__behaviors_1_1CbSequence_a71569e0313ae61d995c6d4cb343a4dbc}{conn2\_}} = \mbox{\hyperlink{classsmacc2_1_1client__behaviors_1_1CbSequence_ad9c6823bb35917e12d495bf415ae258c}{bh\_}}-\/>onFailure(\&\mbox{\hyperlink{classsmacc2_1_1client__behaviors_1_1CbSequence_aaedd8949d2b735ab33736cd7cd50e3d1}{CbSequence::onSubNodeAbort}}, \textcolor{keyword}{this});}
-\DoxyCodeLine{00046 }
-\DoxyCodeLine{00047   RCLCPP\_INFO(\mbox{\hyperlink{classsmacc2_1_1ISmaccClientBehavior_a9c3d82542c800e2ba5207c5cff0e63e8}{getLogger}}(), \textcolor{stringliteral}{"{}[SequenceNode] subnode \%s on entry"{}}, currentNodeName.c\_str());}
-\DoxyCodeLine{00048   \mbox{\hyperlink{classsmacc2_1_1client__behaviors_1_1CbSequence_ad9c6823bb35917e12d495bf415ae258c}{bh\_}}-\/>executeOnEntry();}
-\DoxyCodeLine{00049   RCLCPP\_INFO(\mbox{\hyperlink{classsmacc2_1_1ISmaccClientBehavior_a9c3d82542c800e2ba5207c5cff0e63e8}{getLogger}}(), \textcolor{stringliteral}{"{}[SequenceNode] subnode \%s on entry finished"{}}, currentNodeName.c\_str());}
-\DoxyCodeLine{00050   \mbox{\hyperlink{classsmacc2_1_1client__behaviors_1_1CbSequence_ad9c6823bb35917e12d495bf415ae258c}{bh\_}}-\/>waitOnEntryThread(\textcolor{keyword}{false});  \textcolor{comment}{// we do not request to finish to keep on subscriptions}}
-\DoxyCodeLine{00051   RCLCPP\_INFO(\mbox{\hyperlink{classsmacc2_1_1ISmaccClientBehavior_a9c3d82542c800e2ba5207c5cff0e63e8}{getLogger}}(), \textcolor{stringliteral}{"{}[SequenceNode] subnode \%s thread finished"{}}, currentNodeName.c\_str());}
-\DoxyCodeLine{00052 \}}
+\DoxyCodeLine{00034   RCLCPP\_INFO(}
+\DoxyCodeLine{00035     \mbox{\hyperlink{classsmacc2_1_1ISmaccClientBehavior_a9c3d82542c800e2ba5207c5cff0e63e8}{getLogger}}(), \textcolor{stringliteral}{"{}[SequenceNode \%ld] next onEntry: \%ld"{}}, (\textcolor{keywordtype}{long})\textcolor{keyword}{this}, \mbox{\hyperlink{classsmacc2_1_1client__behaviors_1_1CbSequence_a8e7beb5dcbb4e8aff74a6fb6ee14bca9}{sequenceNodes\_}}.size());}
+\DoxyCodeLine{00036 }
+\DoxyCodeLine{00037   \textcolor{keyword}{auto} first = \mbox{\hyperlink{classsmacc2_1_1client__behaviors_1_1CbSequence_a8e7beb5dcbb4e8aff74a6fb6ee14bca9}{sequenceNodes\_}}.front();}
+\DoxyCodeLine{00038   \textcolor{keyword}{auto} onDelayedConfigureFn = first;}
+\DoxyCodeLine{00039 }
+\DoxyCodeLine{00040   RCLCPP\_INFO(\mbox{\hyperlink{classsmacc2_1_1ISmaccClientBehavior_a9c3d82542c800e2ba5207c5cff0e63e8}{getLogger}}(), \textcolor{stringliteral}{"{}[SequenceNode \%ld] Behavior on delayed sequence configure"{}}, (\textcolor{keywordtype}{long})\textcolor{keyword}{this});}
+\DoxyCodeLine{00041   \mbox{\hyperlink{classsmacc2_1_1client__behaviors_1_1CbSequence_ad9c6823bb35917e12d495bf415ae258c}{bh\_}} = onDelayedConfigureFn();}
+\DoxyCodeLine{00042   std::string currentNodeName = \mbox{\hyperlink{classsmacc2_1_1client__behaviors_1_1CbSequence_ad9c6823bb35917e12d495bf415ae258c}{bh\_}}-\/>getName();}
+\DoxyCodeLine{00043 }
+\DoxyCodeLine{00044   RCLCPP\_INFO(\mbox{\hyperlink{classsmacc2_1_1ISmaccClientBehavior_a9c3d82542c800e2ba5207c5cff0e63e8}{getLogger}}(), \textcolor{stringliteral}{"{}[SequenceNode \%ld] Subscribing OnSuccess"{}}, (\textcolor{keywordtype}{long})\textcolor{keyword}{this});}
+\DoxyCodeLine{00045   this-\/>\mbox{\hyperlink{classsmacc2_1_1client__behaviors_1_1CbSequence_a6ed853b7fbe50ce6763fcb000abb9318}{conn\_}} = \mbox{\hyperlink{classsmacc2_1_1client__behaviors_1_1CbSequence_ad9c6823bb35917e12d495bf415ae258c}{bh\_}}-\/>onSuccess(\&\mbox{\hyperlink{classsmacc2_1_1client__behaviors_1_1CbSequence_a32b382ce5e7c67ed483422fc166d36ad}{CbSequence::onSubNodeSuccess}}, \textcolor{keyword}{this});}
+\DoxyCodeLine{00046   this-\/>\mbox{\hyperlink{classsmacc2_1_1client__behaviors_1_1CbSequence_a71569e0313ae61d995c6d4cb343a4dbc}{conn2\_}} = \mbox{\hyperlink{classsmacc2_1_1client__behaviors_1_1CbSequence_ad9c6823bb35917e12d495bf415ae258c}{bh\_}}-\/>onFailure(\&\mbox{\hyperlink{classsmacc2_1_1client__behaviors_1_1CbSequence_aaedd8949d2b735ab33736cd7cd50e3d1}{CbSequence::onSubNodeAbort}}, \textcolor{keyword}{this});}
+\DoxyCodeLine{00047 }
+\DoxyCodeLine{00048   RCLCPP\_INFO(}
+\DoxyCodeLine{00049     \mbox{\hyperlink{classsmacc2_1_1ISmaccClientBehavior_a9c3d82542c800e2ba5207c5cff0e63e8}{getLogger}}(), \textcolor{stringliteral}{"{}[SequenceNode \%ld] subnode \%s on entry"{}}, (\textcolor{keywordtype}{long})\textcolor{keyword}{this}, currentNodeName.c\_str());}
+\DoxyCodeLine{00050   \mbox{\hyperlink{classsmacc2_1_1client__behaviors_1_1CbSequence_ad9c6823bb35917e12d495bf415ae258c}{bh\_}}-\/>executeOnEntry();}
+\DoxyCodeLine{00051   RCLCPP\_INFO(}
+\DoxyCodeLine{00052     \mbox{\hyperlink{classsmacc2_1_1ISmaccClientBehavior_a9c3d82542c800e2ba5207c5cff0e63e8}{getLogger}}(), \textcolor{stringliteral}{"{}[SequenceNode \%ld] subnode \%s on entry finished"{}}, (\textcolor{keywordtype}{long})\textcolor{keyword}{this},}
+\DoxyCodeLine{00053     currentNodeName.c\_str());}
+\DoxyCodeLine{00054   \mbox{\hyperlink{classsmacc2_1_1client__behaviors_1_1CbSequence_ad9c6823bb35917e12d495bf415ae258c}{bh\_}}-\/>waitOnEntryThread(\textcolor{keyword}{false});  \textcolor{comment}{// we do not request to finish to keep on subscriptions}}
+\DoxyCodeLine{00055   RCLCPP\_INFO(}
+\DoxyCodeLine{00056     \mbox{\hyperlink{classsmacc2_1_1ISmaccClientBehavior_a9c3d82542c800e2ba5207c5cff0e63e8}{getLogger}}(), \textcolor{stringliteral}{"{}[SequenceNode \%ld] subnode \%s thread finished"{}}, (\textcolor{keywordtype}{long})\textcolor{keyword}{this},}
+\DoxyCodeLine{00057     currentNodeName.c\_str());}
+\DoxyCodeLine{00058 \}}
 
 \end{DoxyCode}
 
 
-References \mbox{\hyperlink{cb__sequence_8hpp_source_l00085}{bh\+\_\+}}, \mbox{\hyperlink{cb__sequence_8hpp_source_l00083}{conn2\+\_\+}}, \mbox{\hyperlink{cb__sequence_8hpp_source_l00082}{conn\+\_\+}}, \mbox{\hyperlink{smacc__client__behavior__base_8cpp_source_l00043}{smacc2\+::\+ISmacc\+Client\+Behavior\+::get\+Logger()}}, \mbox{\hyperlink{cb__sequence_8cpp_source_l00098}{on\+Sub\+Node\+Abort()}}, \mbox{\hyperlink{cb__sequence_8cpp_source_l00092}{on\+Sub\+Node\+Success()}}, and \mbox{\hyperlink{cb__sequence_8hpp_source_l00081}{sequence\+Nodes\+\_\+}}.
+References \mbox{\hyperlink{cb__sequence_8hpp_source_l00087}{bh\+\_\+}}, \mbox{\hyperlink{cb__sequence_8hpp_source_l00085}{conn2\+\_\+}}, \mbox{\hyperlink{cb__sequence_8hpp_source_l00084}{conn\+\_\+}}, \mbox{\hyperlink{smacc__client__behavior__base_8cpp_source_l00043}{smacc2\+::\+ISmacc\+Client\+Behavior\+::get\+Logger()}}, \mbox{\hyperlink{cb__sequence_8cpp_source_l00112}{on\+Sub\+Node\+Abort()}}, \mbox{\hyperlink{cb__sequence_8cpp_source_l00105}{on\+Sub\+Node\+Success()}}, and \mbox{\hyperlink{cb__sequence_8hpp_source_l00083}{sequence\+Nodes\+\_\+}}.
 
 
 
-Referenced by \mbox{\hyperlink{cb__sequence_8cpp_source_l00054}{on\+Entry()}}.
+Referenced by \mbox{\hyperlink{cb__sequence_8cpp_source_l00060}{on\+Entry()}}.
 
 Here is the call graph for this function\+:
 \nopagebreak
@@ -339,24 +356,26 @@ Definition at line \mbox{\hyperlink{cb__sequence_8hpp_source_l00058}{58}} of fil
 \DoxyCodeLine{00059   \{}
 \DoxyCodeLine{00060     std::function<std::shared\_ptr<smacc2::SmaccAsyncClientBehavior>()> delayedCBFactoryFn =}
 \DoxyCodeLine{00061       [\textcolor{keyword}{this}, \mbox{\hyperlink{namespacegenerate__debs_a75f9143e38df82d83b2e8a6f99cae02c}{args}}...]() \{}
-\DoxyCodeLine{00062         RCLCPP\_INFO(\mbox{\hyperlink{classsmacc2_1_1ISmaccClientBehavior_a9c3d82542c800e2ba5207c5cff0e63e8}{getLogger}}(), \textcolor{stringliteral}{"{}CbSequence::then creating new sub behavior"{}});}
-\DoxyCodeLine{00063         \textcolor{keyword}{auto} createdBh = std::shared\_ptr<TBehavior>(\textcolor{keyword}{new} TBehavior(\mbox{\hyperlink{namespacegenerate__debs_a75f9143e38df82d83b2e8a6f99cae02c}{args}}...));}
-\DoxyCodeLine{00064 }
-\DoxyCodeLine{00065         this-\/>\mbox{\hyperlink{classsmacc2_1_1ISmaccClientBehavior_a1a667b94eddb33662912587e87289cc1}{getCurrentState}}()-\/>\mbox{\hyperlink{classsmacc2_1_1ISmaccState_aab04cff8d200dd9a5dfa07a2a1e0d868}{getOrthogonal}}<TOrthogonal>()-\/>addClientBehavior(createdBh);}
-\DoxyCodeLine{00066         createdBh-\/>template onOrthogonalAllocation<TOrthogonal, TBehavior>();}
-\DoxyCodeLine{00067 }
-\DoxyCodeLine{00068         \textcolor{keywordflow}{return} createdBh;}
-\DoxyCodeLine{00069       \};}
-\DoxyCodeLine{00070 }
-\DoxyCodeLine{00071     \mbox{\hyperlink{classsmacc2_1_1client__behaviors_1_1CbSequence_a8e7beb5dcbb4e8aff74a6fb6ee14bca9}{sequenceNodes\_}}.push\_back(delayedCBFactoryFn);}
+\DoxyCodeLine{00062         RCLCPP\_INFO(}
+\DoxyCodeLine{00063           \mbox{\hyperlink{classsmacc2_1_1ISmaccClientBehavior_a9c3d82542c800e2ba5207c5cff0e63e8}{getLogger}}(), \textcolor{stringliteral}{"{}[CbSequence] then creating new sub behavior \%s "{}},}
+\DoxyCodeLine{00064           demangleSymbol<TBehavior>().c\_str());}
+\DoxyCodeLine{00065         \textcolor{keyword}{auto} createdBh = std::shared\_ptr<TBehavior>(\textcolor{keyword}{new} TBehavior(\mbox{\hyperlink{namespacegenerate__debs_a75f9143e38df82d83b2e8a6f99cae02c}{args}}...));}
+\DoxyCodeLine{00066 }
+\DoxyCodeLine{00067         this-\/>\mbox{\hyperlink{classsmacc2_1_1ISmaccClientBehavior_a1a667b94eddb33662912587e87289cc1}{getCurrentState}}()-\/>\mbox{\hyperlink{classsmacc2_1_1ISmaccState_aab04cff8d200dd9a5dfa07a2a1e0d868}{getOrthogonal}}<TOrthogonal>()-\/>addClientBehavior(createdBh);}
+\DoxyCodeLine{00068         createdBh-\/>template onOrthogonalAllocation<TOrthogonal, TBehavior>();}
+\DoxyCodeLine{00069 }
+\DoxyCodeLine{00070         \textcolor{keywordflow}{return} createdBh;}
+\DoxyCodeLine{00071       \};}
 \DoxyCodeLine{00072 }
-\DoxyCodeLine{00073     \textcolor{keywordflow}{return} \textcolor{keyword}{this};}
-\DoxyCodeLine{00074   \}}
+\DoxyCodeLine{00073     \mbox{\hyperlink{classsmacc2_1_1client__behaviors_1_1CbSequence_a8e7beb5dcbb4e8aff74a6fb6ee14bca9}{sequenceNodes\_}}.push\_back(delayedCBFactoryFn);}
+\DoxyCodeLine{00074 }
+\DoxyCodeLine{00075     \textcolor{keywordflow}{return} \textcolor{keyword}{this};}
+\DoxyCodeLine{00076   \}}
 
 \end{DoxyCode}
 
 
-References \mbox{\hyperlink{generate__debs_8py_source_l00257}{generate\+\_\+debs\+::args}}, \mbox{\hyperlink{smacc__client__behavior__impl_8hpp_source_l00064}{smacc2\+::\+ISmacc\+Client\+Behavior\+::get\+Current\+State()}}, \mbox{\hyperlink{smacc__client__behavior__base_8cpp_source_l00043}{smacc2\+::\+ISmacc\+Client\+Behavior\+::get\+Logger()}}, \mbox{\hyperlink{smacc__state__impl_8hpp_source_l00171}{smacc2\+::\+ISmacc\+State\+::get\+Orthogonal()}}, and \mbox{\hyperlink{cb__sequence_8hpp_source_l00081}{sequence\+Nodes\+\_\+}}.
+References \mbox{\hyperlink{generate__debs_8py_source_l00268}{generate\+\_\+debs\+::args}}, \mbox{\hyperlink{smacc__client__behavior__impl_8hpp_source_l00064}{smacc2\+::\+ISmacc\+Client\+Behavior\+::get\+Current\+State()}}, \mbox{\hyperlink{smacc__client__behavior__base_8cpp_source_l00043}{smacc2\+::\+ISmacc\+Client\+Behavior\+::get\+Logger()}}, \mbox{\hyperlink{smacc__state__impl_8hpp_source_l00171}{smacc2\+::\+ISmacc\+State\+::get\+Orthogonal()}}, and \mbox{\hyperlink{cb__sequence_8hpp_source_l00083}{sequence\+Nodes\+\_\+}}.
 
 Here is the call graph for this function\+:
 \nopagebreak
@@ -377,11 +396,11 @@ Here is the call graph for this function\+:
 
 
 
-Definition at line \mbox{\hyperlink{cb__sequence_8hpp_source_l00085}{85}} of file \mbox{\hyperlink{cb__sequence_8hpp_source}{cb\+\_\+sequence.\+hpp}}.
+Definition at line \mbox{\hyperlink{cb__sequence_8hpp_source_l00087}{87}} of file \mbox{\hyperlink{cb__sequence_8hpp_source}{cb\+\_\+sequence.\+hpp}}.
 
 
 
-Referenced by \mbox{\hyperlink{cb__sequence_8cpp_source_l00032}{recursive\+Consume\+Next()}}.
+Referenced by \mbox{\hyperlink{cb__sequence_8cpp_source_l00060}{on\+Entry()}}, and \mbox{\hyperlink{cb__sequence_8cpp_source_l00032}{recursive\+Consume\+Next()}}.
 
 \mbox{\Hypertarget{classsmacc2_1_1client__behaviors_1_1CbSequence_a71569e0313ae61d995c6d4cb343a4dbc}\label{classsmacc2_1_1client__behaviors_1_1CbSequence_a71569e0313ae61d995c6d4cb343a4dbc}} 
 \index{smacc2::client\_behaviors::CbSequence@{smacc2::client\_behaviors::CbSequence}!conn2\_@{conn2\_}}
@@ -391,11 +410,11 @@ Referenced by \mbox{\hyperlink{cb__sequence_8cpp_source_l00032}{recursive\+Consu
 
 
 
-Definition at line \mbox{\hyperlink{cb__sequence_8hpp_source_l00083}{83}} of file \mbox{\hyperlink{cb__sequence_8hpp_source}{cb\+\_\+sequence.\+hpp}}.
+Definition at line \mbox{\hyperlink{cb__sequence_8hpp_source_l00085}{85}} of file \mbox{\hyperlink{cb__sequence_8hpp_source}{cb\+\_\+sequence.\+hpp}}.
 
 
 
-Referenced by \mbox{\hyperlink{cb__sequence_8cpp_source_l00054}{on\+Entry()}}, \mbox{\hyperlink{cb__sequence_8cpp_source_l00098}{on\+Sub\+Node\+Abort()}}, and \mbox{\hyperlink{cb__sequence_8cpp_source_l00032}{recursive\+Consume\+Next()}}.
+Referenced by \mbox{\hyperlink{cb__sequence_8cpp_source_l00060}{on\+Entry()}}, \mbox{\hyperlink{cb__sequence_8cpp_source_l00112}{on\+Sub\+Node\+Abort()}}, and \mbox{\hyperlink{cb__sequence_8cpp_source_l00032}{recursive\+Consume\+Next()}}.
 
 \mbox{\Hypertarget{classsmacc2_1_1client__behaviors_1_1CbSequence_a6ed853b7fbe50ce6763fcb000abb9318}\label{classsmacc2_1_1client__behaviors_1_1CbSequence_a6ed853b7fbe50ce6763fcb000abb9318}} 
 \index{smacc2::client\_behaviors::CbSequence@{smacc2::client\_behaviors::CbSequence}!conn\_@{conn\_}}
@@ -405,11 +424,11 @@ Referenced by \mbox{\hyperlink{cb__sequence_8cpp_source_l00054}{on\+Entry()}}, \
 
 
 
-Definition at line \mbox{\hyperlink{cb__sequence_8hpp_source_l00082}{82}} of file \mbox{\hyperlink{cb__sequence_8hpp_source}{cb\+\_\+sequence.\+hpp}}.
+Definition at line \mbox{\hyperlink{cb__sequence_8hpp_source_l00084}{84}} of file \mbox{\hyperlink{cb__sequence_8hpp_source}{cb\+\_\+sequence.\+hpp}}.
 
 
 
-Referenced by \mbox{\hyperlink{cb__sequence_8cpp_source_l00054}{on\+Entry()}}, \mbox{\hyperlink{cb__sequence_8cpp_source_l00098}{on\+Sub\+Node\+Abort()}}, and \mbox{\hyperlink{cb__sequence_8cpp_source_l00032}{recursive\+Consume\+Next()}}.
+Referenced by \mbox{\hyperlink{cb__sequence_8cpp_source_l00060}{on\+Entry()}}, \mbox{\hyperlink{cb__sequence_8cpp_source_l00112}{on\+Sub\+Node\+Abort()}}, and \mbox{\hyperlink{cb__sequence_8cpp_source_l00032}{recursive\+Consume\+Next()}}.
 
 \mbox{\Hypertarget{classsmacc2_1_1client__behaviors_1_1CbSequence_a498c9c163400a4ea21fad845e01d5f58}\label{classsmacc2_1_1client__behaviors_1_1CbSequence_a498c9c163400a4ea21fad845e01d5f58}} 
 \index{smacc2::client\_behaviors::CbSequence@{smacc2::client\_behaviors::CbSequence}!consume\_@{consume\_}}
@@ -419,11 +438,11 @@ Referenced by \mbox{\hyperlink{cb__sequence_8cpp_source_l00054}{on\+Entry()}}, \
 
 
 
-Definition at line \mbox{\hyperlink{cb__sequence_8hpp_source_l00086}{86}} of file \mbox{\hyperlink{cb__sequence_8hpp_source}{cb\+\_\+sequence.\+hpp}}.
+Definition at line \mbox{\hyperlink{cb__sequence_8hpp_source_l00088}{88}} of file \mbox{\hyperlink{cb__sequence_8hpp_source}{cb\+\_\+sequence.\+hpp}}.
 
 
 
-Referenced by \mbox{\hyperlink{cb__sequence_8cpp_source_l00054}{on\+Entry()}}, and \mbox{\hyperlink{cb__sequence_8cpp_source_l00092}{on\+Sub\+Node\+Success()}}.
+Referenced by \mbox{\hyperlink{cb__sequence_8cpp_source_l00060}{on\+Entry()}}, \mbox{\hyperlink{cb__sequence_8cpp_source_l00112}{on\+Sub\+Node\+Abort()}}, and \mbox{\hyperlink{cb__sequence_8cpp_source_l00105}{on\+Sub\+Node\+Success()}}.
 
 \mbox{\Hypertarget{classsmacc2_1_1client__behaviors_1_1CbSequence_a8e7beb5dcbb4e8aff74a6fb6ee14bca9}\label{classsmacc2_1_1client__behaviors_1_1CbSequence_a8e7beb5dcbb4e8aff74a6fb6ee14bca9}} 
 \index{smacc2::client\_behaviors::CbSequence@{smacc2::client\_behaviors::CbSequence}!sequenceNodes\_@{sequenceNodes\_}}
@@ -433,11 +452,11 @@ Referenced by \mbox{\hyperlink{cb__sequence_8cpp_source_l00054}{on\+Entry()}}, a
 
 
 
-Definition at line \mbox{\hyperlink{cb__sequence_8hpp_source_l00081}{81}} of file \mbox{\hyperlink{cb__sequence_8hpp_source}{cb\+\_\+sequence.\+hpp}}.
+Definition at line \mbox{\hyperlink{cb__sequence_8hpp_source_l00083}{83}} of file \mbox{\hyperlink{cb__sequence_8hpp_source}{cb\+\_\+sequence.\+hpp}}.
 
 
 
-Referenced by \mbox{\hyperlink{cb__sequence_8cpp_source_l00054}{on\+Entry()}}, \mbox{\hyperlink{cb__sequence_8hpp_source_l00055}{on\+Exit()}}, \mbox{\hyperlink{cb__sequence_8cpp_source_l00098}{on\+Sub\+Node\+Abort()}}, \mbox{\hyperlink{cb__sequence_8cpp_source_l00092}{on\+Sub\+Node\+Success()}}, \mbox{\hyperlink{cb__sequence_8cpp_source_l00032}{recursive\+Consume\+Next()}}, and \mbox{\hyperlink{cb__sequence_8hpp_source_l00058}{then()}}.
+Referenced by \mbox{\hyperlink{cb__sequence_8cpp_source_l00060}{on\+Entry()}}, \mbox{\hyperlink{cb__sequence_8hpp_source_l00055}{on\+Exit()}}, \mbox{\hyperlink{cb__sequence_8cpp_source_l00112}{on\+Sub\+Node\+Abort()}}, \mbox{\hyperlink{cb__sequence_8cpp_source_l00105}{on\+Sub\+Node\+Success()}}, \mbox{\hyperlink{cb__sequence_8cpp_source_l00032}{recursive\+Consume\+Next()}}, and \mbox{\hyperlink{cb__sequence_8hpp_source_l00058}{then()}}.
 
 
 
