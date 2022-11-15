@@ -1,0 +1,471 @@
+\hypertarget{cb__move__end__effector__trajectory_8cpp_source}{}\doxysection{cb\+\_\+move\+\_\+end\+\_\+effector\+\_\+trajectory.\+cpp}
+\label{cb__move__end__effector__trajectory_8cpp_source}\index{smacc2\_client\_library/move\_group\_interface\_client/src/move\_group\_interface\_client/client\_behaviors/cb\_move\_end\_effector\_trajectory.cpp@{smacc2\_client\_library/move\_group\_interface\_client/src/move\_group\_interface\_client/client\_behaviors/cb\_move\_end\_effector\_trajectory.cpp}}
+\mbox{\hyperlink{cb__move__end__effector__trajectory_8cpp}{Go to the documentation of this file.}}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\Hypertarget{cb__move__end__effector__trajectory_8cpp_source_l00001}00001 \textcolor{comment}{// Copyright 2021 RobosoftAI Inc.}}
+\DoxyCodeLine{\Hypertarget{cb__move__end__effector__trajectory_8cpp_source_l00002}00002 \textcolor{comment}{//}}
+\DoxyCodeLine{\Hypertarget{cb__move__end__effector__trajectory_8cpp_source_l00003}00003 \textcolor{comment}{// Licensed under the Apache License, Version 2.0 (the "{}License"{});}}
+\DoxyCodeLine{\Hypertarget{cb__move__end__effector__trajectory_8cpp_source_l00004}00004 \textcolor{comment}{// you may not use this file except in compliance with the License.}}
+\DoxyCodeLine{\Hypertarget{cb__move__end__effector__trajectory_8cpp_source_l00005}00005 \textcolor{comment}{// You may obtain a copy of the License at}}
+\DoxyCodeLine{\Hypertarget{cb__move__end__effector__trajectory_8cpp_source_l00006}00006 \textcolor{comment}{//}}
+\DoxyCodeLine{\Hypertarget{cb__move__end__effector__trajectory_8cpp_source_l00007}00007 \textcolor{comment}{//     http://www.apache.org/licenses/LICENSE-\/2.0}}
+\DoxyCodeLine{\Hypertarget{cb__move__end__effector__trajectory_8cpp_source_l00008}00008 \textcolor{comment}{//}}
+\DoxyCodeLine{\Hypertarget{cb__move__end__effector__trajectory_8cpp_source_l00009}00009 \textcolor{comment}{// Unless required by applicable law or agreed to in writing, software}}
+\DoxyCodeLine{\Hypertarget{cb__move__end__effector__trajectory_8cpp_source_l00010}00010 \textcolor{comment}{// distributed under the License is distributed on an "{}AS IS"{} BASIS,}}
+\DoxyCodeLine{\Hypertarget{cb__move__end__effector__trajectory_8cpp_source_l00011}00011 \textcolor{comment}{// WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.}}
+\DoxyCodeLine{\Hypertarget{cb__move__end__effector__trajectory_8cpp_source_l00012}00012 \textcolor{comment}{// See the License for the specific language governing permissions and}}
+\DoxyCodeLine{\Hypertarget{cb__move__end__effector__trajectory_8cpp_source_l00013}00013 \textcolor{comment}{// limitations under the License.}}
+\DoxyCodeLine{\Hypertarget{cb__move__end__effector__trajectory_8cpp_source_l00014}00014 }
+\DoxyCodeLine{\Hypertarget{cb__move__end__effector__trajectory_8cpp_source_l00015}00015 \textcolor{comment}{/*****************************************************************************************************************}}
+\DoxyCodeLine{\Hypertarget{cb__move__end__effector__trajectory_8cpp_source_l00016}00016 \textcolor{comment}{ *}}
+\DoxyCodeLine{\Hypertarget{cb__move__end__effector__trajectory_8cpp_source_l00017}00017 \textcolor{comment}{ *   Authors: Pablo Inigo Blasco, Brett Aldrich}}
+\DoxyCodeLine{\Hypertarget{cb__move__end__effector__trajectory_8cpp_source_l00018}00018 \textcolor{comment}{ *}}
+\DoxyCodeLine{\Hypertarget{cb__move__end__effector__trajectory_8cpp_source_l00019}00019 \textcolor{comment}{ ******************************************************************************************************************/}}
+\DoxyCodeLine{\Hypertarget{cb__move__end__effector__trajectory_8cpp_source_l00020}00020 }
+\DoxyCodeLine{\Hypertarget{cb__move__end__effector__trajectory_8cpp_source_l00021}00021 \textcolor{preprocessor}{\#include <tf2/transform\_datatypes.h>}}
+\DoxyCodeLine{\Hypertarget{cb__move__end__effector__trajectory_8cpp_source_l00022}00022 \textcolor{preprocessor}{\#include <tf2\_ros/transform\_listener.h>}}
+\DoxyCodeLine{\Hypertarget{cb__move__end__effector__trajectory_8cpp_source_l00023}00023 }
+\DoxyCodeLine{\Hypertarget{cb__move__end__effector__trajectory_8cpp_source_l00024}00024 \textcolor{preprocessor}{\#include <\mbox{\hyperlink{cb__move__end__effector__trajectory_8hpp}{move\_group\_interface\_client/client\_behaviors/cb\_move\_end\_effector\_trajectory.hpp}}>}}
+\DoxyCodeLine{\Hypertarget{cb__move__end__effector__trajectory_8cpp_source_l00025}00025 \textcolor{preprocessor}{\#include <\mbox{\hyperlink{client__library_2move__group__interface__client_2include_2move__group__interface__client_2common_8hpp}{move\_group\_interface\_client/common.hpp}}>}}
+\DoxyCodeLine{\Hypertarget{cb__move__end__effector__trajectory_8cpp_source_l00026}00026 \textcolor{preprocessor}{\#include <\mbox{\hyperlink{cp__trajectory__history_8hpp}{move\_group\_interface\_client/components/cp\_trajectory\_history.hpp}}>}}
+\DoxyCodeLine{\Hypertarget{cb__move__end__effector__trajectory_8cpp_source_l00027}00027 \textcolor{preprocessor}{\#include <moveit\_msgs/srv/get\_position\_ik.hpp>}}
+\DoxyCodeLine{\Hypertarget{cb__move__end__effector__trajectory_8cpp_source_l00028}00028 }
+\DoxyCodeLine{\Hypertarget{cb__move__end__effector__trajectory_8cpp_source_l00029}00029 \textcolor{preprocessor}{\#include <visualization\_msgs/msg/marker\_array.hpp>}}
+\DoxyCodeLine{\Hypertarget{cb__move__end__effector__trajectory_8cpp_source_l00030}00030 }
+\DoxyCodeLine{\Hypertarget{cb__move__end__effector__trajectory_8cpp_source_l00031}00031 \textcolor{keyword}{using namespace }std::chrono\_literals;}
+\DoxyCodeLine{\Hypertarget{cb__move__end__effector__trajectory_8cpp_source_l00032}00032 }
+\DoxyCodeLine{\Hypertarget{cb__move__end__effector__trajectory_8cpp_source_l00033}00033 \textcolor{keyword}{namespace }\mbox{\hyperlink{namespacecl__move__group__interface}{cl\_move\_group\_interface}}}
+\DoxyCodeLine{\Hypertarget{cb__move__end__effector__trajectory_8cpp_source_l00034}00034 \{}
+\DoxyCodeLine{\Hypertarget{cb__move__end__effector__trajectory_8cpp_source_l00035}\mbox{\hyperlink{classcl__move__group__interface_1_1CbMoveEndEffectorTrajectory_ae79eab4454818ede1d7bbac0b2076e78}{00035}} \mbox{\hyperlink{classcl__move__group__interface_1_1CbMoveEndEffectorTrajectory_ae79eab4454818ede1d7bbac0b2076e78}{CbMoveEndEffectorTrajectory::CbMoveEndEffectorTrajectory}}(std::optional<std::string> tipLink)}
+\DoxyCodeLine{\Hypertarget{cb__move__end__effector__trajectory_8cpp_source_l00036}00036 : tipLink\_(tipLink), markersInitialized\_(false)}
+\DoxyCodeLine{\Hypertarget{cb__move__end__effector__trajectory_8cpp_source_l00037}00037 \{}
+\DoxyCodeLine{\Hypertarget{cb__move__end__effector__trajectory_8cpp_source_l00038}00038 \}}
+\DoxyCodeLine{\Hypertarget{cb__move__end__effector__trajectory_8cpp_source_l00039}00039 }
+\DoxyCodeLine{\Hypertarget{cb__move__end__effector__trajectory_8cpp_source_l00040}\mbox{\hyperlink{classcl__move__group__interface_1_1CbMoveEndEffectorTrajectory_a557a14a6ed6b81b1d5ed7232c08a060e}{00040}} \mbox{\hyperlink{classcl__move__group__interface_1_1CbMoveEndEffectorTrajectory_ae79eab4454818ede1d7bbac0b2076e78}{CbMoveEndEffectorTrajectory::CbMoveEndEffectorTrajectory}}(}
+\DoxyCodeLine{\Hypertarget{cb__move__end__effector__trajectory_8cpp_source_l00041}00041   \textcolor{keyword}{const} std::vector<geometry\_msgs::msg::PoseStamped> \& endEffectorTrajectory,}
+\DoxyCodeLine{\Hypertarget{cb__move__end__effector__trajectory_8cpp_source_l00042}00042   std::optional<std::string> tipLink)}
+\DoxyCodeLine{\Hypertarget{cb__move__end__effector__trajectory_8cpp_source_l00043}00043 : tipLink\_(tipLink), endEffectorTrajectory\_(endEffectorTrajectory), markersInitialized\_(false)}
+\DoxyCodeLine{\Hypertarget{cb__move__end__effector__trajectory_8cpp_source_l00044}00044 }
+\DoxyCodeLine{\Hypertarget{cb__move__end__effector__trajectory_8cpp_source_l00045}00045 \{}
+\DoxyCodeLine{\Hypertarget{cb__move__end__effector__trajectory_8cpp_source_l00046}00046 \}}
+\DoxyCodeLine{\Hypertarget{cb__move__end__effector__trajectory_8cpp_source_l00047}00047 }
+\DoxyCodeLine{\Hypertarget{cb__move__end__effector__trajectory_8cpp_source_l00048}\mbox{\hyperlink{classcl__move__group__interface_1_1CbMoveEndEffectorTrajectory_afcee8f3853a5cef8806137a304c8a14b}{00048}} \textcolor{keywordtype}{void} \mbox{\hyperlink{classcl__move__group__interface_1_1CbMoveEndEffectorTrajectory_afcee8f3853a5cef8806137a304c8a14b}{CbMoveEndEffectorTrajectory::initializeROS}}()}
+\DoxyCodeLine{\Hypertarget{cb__move__end__effector__trajectory_8cpp_source_l00049}00049 \{}
+\DoxyCodeLine{\Hypertarget{cb__move__end__effector__trajectory_8cpp_source_l00050}00050   RCLCPP\_INFO\_STREAM(\mbox{\hyperlink{classsmacc2_1_1ISmaccClientBehavior_a9c3d82542c800e2ba5207c5cff0e63e8}{getLogger}}(), \textcolor{stringliteral}{"{}["{}} << \mbox{\hyperlink{classsmacc2_1_1ISmaccClientBehavior_a3feaa9c382a7d376b7ba0017a63e294e}{getName}}() << \textcolor{stringliteral}{"{}] initializing ros"{}});}
+\DoxyCodeLine{\Hypertarget{cb__move__end__effector__trajectory_8cpp_source_l00051}00051 }
+\DoxyCodeLine{\Hypertarget{cb__move__end__effector__trajectory_8cpp_source_l00052}00052   \textcolor{keyword}{auto} nh = this-\/>\mbox{\hyperlink{classsmacc2_1_1ISmaccClientBehavior_aa1b28d5e8a5208fff8160f9df9a89dc6}{getNode}}();}
+\DoxyCodeLine{\Hypertarget{cb__move__end__effector__trajectory_8cpp_source_l00053}00053   \mbox{\hyperlink{classcl__move__group__interface_1_1CbMoveEndEffectorTrajectory_aa472312c401315a0047c23a67ac7b91c}{markersPub\_}} = nh-\/>create\_publisher<visualization\_msgs::msg::MarkerArray>(}
+\DoxyCodeLine{\Hypertarget{cb__move__end__effector__trajectory_8cpp_source_l00054}00054     \textcolor{stringliteral}{"{}trajectory\_markers"{}}, rclcpp::QoS(1));}
+\DoxyCodeLine{\Hypertarget{cb__move__end__effector__trajectory_8cpp_source_l00055}00055   \mbox{\hyperlink{classcl__move__group__interface_1_1CbMoveEndEffectorTrajectory_ab4c33ad9cca1805334f195c649fbc862}{iksrv\_}} = nh-\/>create\_client<moveit\_msgs::srv::GetPositionIK>(\textcolor{stringliteral}{"{}/compute\_ik"{}});}
+\DoxyCodeLine{\Hypertarget{cb__move__end__effector__trajectory_8cpp_source_l00056}00056 \}}
+\DoxyCodeLine{\Hypertarget{cb__move__end__effector__trajectory_8cpp_source_l00057}00057 }
+\DoxyCodeLine{\Hypertarget{cb__move__end__effector__trajectory_8cpp_source_l00058}\mbox{\hyperlink{classcl__move__group__interface_1_1CbMoveEndEffectorTrajectory_a055e5496616a4290dedc221eadf7b765}{00058}} \mbox{\hyperlink{namespacecl__move__group__interface_ae5fc1caf9a16ae5ad1c97c2e137a7017}{ComputeJointTrajectoryErrorCode}} \mbox{\hyperlink{classcl__move__group__interface_1_1CbMoveEndEffectorTrajectory_a055e5496616a4290dedc221eadf7b765}{CbMoveEndEffectorTrajectory::computeJointSpaceTrajectory}}(}
+\DoxyCodeLine{\Hypertarget{cb__move__end__effector__trajectory_8cpp_source_l00059}00059   moveit\_msgs::msg::RobotTrajectory \& computedJointTrajectory)}
+\DoxyCodeLine{\Hypertarget{cb__move__end__effector__trajectory_8cpp_source_l00060}00060 \{}
+\DoxyCodeLine{\Hypertarget{cb__move__end__effector__trajectory_8cpp_source_l00061}00061   RCLCPP\_INFO\_STREAM(\mbox{\hyperlink{classsmacc2_1_1ISmaccClientBehavior_a9c3d82542c800e2ba5207c5cff0e63e8}{getLogger}}(), \textcolor{stringliteral}{"{}["{}} << \mbox{\hyperlink{classsmacc2_1_1ISmaccClientBehavior_a3feaa9c382a7d376b7ba0017a63e294e}{getName}}() << \textcolor{stringliteral}{"{}] getting current state.. waiting"{}});}
+\DoxyCodeLine{\Hypertarget{cb__move__end__effector__trajectory_8cpp_source_l00062}00062 }
+\DoxyCodeLine{\Hypertarget{cb__move__end__effector__trajectory_8cpp_source_l00063}00063   \textcolor{comment}{// get current robot state}}
+\DoxyCodeLine{\Hypertarget{cb__move__end__effector__trajectory_8cpp_source_l00064}00064   \textcolor{keyword}{auto} \mbox{\hyperlink{classsmacc2_1_1ISmaccClientBehavior_aaed9d13c89ef6817faa0175dc9c8de17}{currentState}} = \mbox{\hyperlink{classcl__move__group__interface_1_1CbMoveEndEffectorTrajectory_aea650d3e7836125b32be97392b71a7f3}{movegroupClient\_}}-\/>\mbox{\hyperlink{classcl__move__group__interface_1_1ClMoveGroup_a373720007275c5148ddacc5d7214df50}{moveGroupClientInterface}}-\/>getCurrentState(100);}
+\DoxyCodeLine{\Hypertarget{cb__move__end__effector__trajectory_8cpp_source_l00065}00065 }
+\DoxyCodeLine{\Hypertarget{cb__move__end__effector__trajectory_8cpp_source_l00066}00066   \textcolor{comment}{// get the IK client}}
+\DoxyCodeLine{\Hypertarget{cb__move__end__effector__trajectory_8cpp_source_l00067}00067   \textcolor{keyword}{auto} groupname = \mbox{\hyperlink{classcl__move__group__interface_1_1CbMoveEndEffectorTrajectory_aea650d3e7836125b32be97392b71a7f3}{movegroupClient\_}}-\/>\mbox{\hyperlink{classcl__move__group__interface_1_1ClMoveGroup_a373720007275c5148ddacc5d7214df50}{moveGroupClientInterface}}-\/>getName();}
+\DoxyCodeLine{\Hypertarget{cb__move__end__effector__trajectory_8cpp_source_l00068}00068 }
+\DoxyCodeLine{\Hypertarget{cb__move__end__effector__trajectory_8cpp_source_l00069}00069   RCLCPP\_INFO\_STREAM(\mbox{\hyperlink{classsmacc2_1_1ISmaccClientBehavior_a9c3d82542c800e2ba5207c5cff0e63e8}{getLogger}}(), \textcolor{stringliteral}{"{}["{}} << \mbox{\hyperlink{classsmacc2_1_1ISmaccClientBehavior_a3feaa9c382a7d376b7ba0017a63e294e}{getName}}() << \textcolor{stringliteral}{"{}] getting joint names"{}});}
+\DoxyCodeLine{\Hypertarget{cb__move__end__effector__trajectory_8cpp_source_l00070}00070   \textcolor{keyword}{auto} currentjointnames = \mbox{\hyperlink{classsmacc2_1_1ISmaccClientBehavior_aaed9d13c89ef6817faa0175dc9c8de17}{currentState}}-\/>getJointModelGroup(groupname)-\/>getActiveJointModelNames();}
+\DoxyCodeLine{\Hypertarget{cb__move__end__effector__trajectory_8cpp_source_l00071}00071 }
+\DoxyCodeLine{\Hypertarget{cb__move__end__effector__trajectory_8cpp_source_l00072}00072   \textcolor{keywordflow}{if} (!\mbox{\hyperlink{classcl__move__group__interface_1_1CbMoveEndEffectorTrajectory_a440ac01b15730ce115301af8d5cd06b6}{tipLink\_}} || *\mbox{\hyperlink{classcl__move__group__interface_1_1CbMoveEndEffectorTrajectory_a440ac01b15730ce115301af8d5cd06b6}{tipLink\_}} == \textcolor{stringliteral}{"{}"{}})}
+\DoxyCodeLine{\Hypertarget{cb__move__end__effector__trajectory_8cpp_source_l00073}00073   \{}
+\DoxyCodeLine{\Hypertarget{cb__move__end__effector__trajectory_8cpp_source_l00074}00074     \mbox{\hyperlink{classcl__move__group__interface_1_1CbMoveEndEffectorTrajectory_a440ac01b15730ce115301af8d5cd06b6}{tipLink\_}} = \mbox{\hyperlink{classcl__move__group__interface_1_1CbMoveEndEffectorTrajectory_aea650d3e7836125b32be97392b71a7f3}{movegroupClient\_}}-\/>\mbox{\hyperlink{classcl__move__group__interface_1_1ClMoveGroup_a373720007275c5148ddacc5d7214df50}{moveGroupClientInterface}}-\/>getEndEffectorLink();}
+\DoxyCodeLine{\Hypertarget{cb__move__end__effector__trajectory_8cpp_source_l00075}00075   \}}
+\DoxyCodeLine{\Hypertarget{cb__move__end__effector__trajectory_8cpp_source_l00076}00076 }
+\DoxyCodeLine{\Hypertarget{cb__move__end__effector__trajectory_8cpp_source_l00077}00077   std::vector<double> jointPositions;}
+\DoxyCodeLine{\Hypertarget{cb__move__end__effector__trajectory_8cpp_source_l00078}00078   \mbox{\hyperlink{classsmacc2_1_1ISmaccClientBehavior_aaed9d13c89ef6817faa0175dc9c8de17}{currentState}}-\/>copyJointGroupPositions(groupname, jointPositions);}
+\DoxyCodeLine{\Hypertarget{cb__move__end__effector__trajectory_8cpp_source_l00079}00079 }
+\DoxyCodeLine{\Hypertarget{cb__move__end__effector__trajectory_8cpp_source_l00080}00080   std::vector<std::vector<double>> trajectory;}
+\DoxyCodeLine{\Hypertarget{cb__move__end__effector__trajectory_8cpp_source_l00081}00081   std::vector<rclcpp::Duration> trajectoryTimeStamps;}
+\DoxyCodeLine{\Hypertarget{cb__move__end__effector__trajectory_8cpp_source_l00082}00082 }
+\DoxyCodeLine{\Hypertarget{cb__move__end__effector__trajectory_8cpp_source_l00083}00083   trajectory.push\_back(jointPositions);}
+\DoxyCodeLine{\Hypertarget{cb__move__end__effector__trajectory_8cpp_source_l00084}00084   trajectoryTimeStamps.push\_back(rclcpp::Duration(0\mbox{\hyperlink{namespaceservice__node__3_aa976421a49e0b54f23833423400849ae}{s}}));}
+\DoxyCodeLine{\Hypertarget{cb__move__end__effector__trajectory_8cpp_source_l00085}00085 }
+\DoxyCodeLine{\Hypertarget{cb__move__end__effector__trajectory_8cpp_source_l00086}00086   \textcolor{keyword}{auto} \& first = \mbox{\hyperlink{classcl__move__group__interface_1_1CbMoveEndEffectorTrajectory_a74b9be206657836792fcab3fe109b72b}{endEffectorTrajectory\_}}.front();}
+\DoxyCodeLine{\Hypertarget{cb__move__end__effector__trajectory_8cpp_source_l00087}00087   rclcpp::Time referenceTime(first.header.stamp);}
+\DoxyCodeLine{\Hypertarget{cb__move__end__effector__trajectory_8cpp_source_l00088}00088 }
+\DoxyCodeLine{\Hypertarget{cb__move__end__effector__trajectory_8cpp_source_l00089}00089   std::vector<int> discontinuityIndexes;}
+\DoxyCodeLine{\Hypertarget{cb__move__end__effector__trajectory_8cpp_source_l00090}00090 }
+\DoxyCodeLine{\Hypertarget{cb__move__end__effector__trajectory_8cpp_source_l00091}00091   \textcolor{keywordtype}{int} ikAttempts = 4;}
+\DoxyCodeLine{\Hypertarget{cb__move__end__effector__trajectory_8cpp_source_l00092}00092   \textcolor{keywordflow}{for} (\textcolor{keywordtype}{size\_t} k = 0; k < this-\/>\mbox{\hyperlink{classcl__move__group__interface_1_1CbMoveEndEffectorTrajectory_a74b9be206657836792fcab3fe109b72b}{endEffectorTrajectory\_}}.size(); k++)}
+\DoxyCodeLine{\Hypertarget{cb__move__end__effector__trajectory_8cpp_source_l00093}00093   \{}
+\DoxyCodeLine{\Hypertarget{cb__move__end__effector__trajectory_8cpp_source_l00094}00094     \textcolor{keyword}{auto} \& pose = this-\/>\mbox{\hyperlink{classcl__move__group__interface_1_1CbMoveEndEffectorTrajectory_a74b9be206657836792fcab3fe109b72b}{endEffectorTrajectory\_}}[k];}
+\DoxyCodeLine{\Hypertarget{cb__move__end__effector__trajectory_8cpp_source_l00095}00095     \textcolor{keyword}{auto} req = std::make\_shared<moveit\_msgs::srv::GetPositionIK::Request>();}
+\DoxyCodeLine{\Hypertarget{cb__move__end__effector__trajectory_8cpp_source_l00096}00096     \textcolor{comment}{//req.ik\_request.attempts = 20;}}
+\DoxyCodeLine{\Hypertarget{cb__move__end__effector__trajectory_8cpp_source_l00097}00097 }
+\DoxyCodeLine{\Hypertarget{cb__move__end__effector__trajectory_8cpp_source_l00098}00098     req-\/>ik\_request.ik\_link\_name = *\mbox{\hyperlink{classcl__move__group__interface_1_1CbMoveEndEffectorTrajectory_a440ac01b15730ce115301af8d5cd06b6}{tipLink\_}};}
+\DoxyCodeLine{\Hypertarget{cb__move__end__effector__trajectory_8cpp_source_l00099}00099     req-\/>ik\_request.robot\_state.joint\_state.name = currentjointnames;}
+\DoxyCodeLine{\Hypertarget{cb__move__end__effector__trajectory_8cpp_source_l00100}00100     req-\/>ik\_request.robot\_state.joint\_state.position = jointPositions;}
+\DoxyCodeLine{\Hypertarget{cb__move__end__effector__trajectory_8cpp_source_l00101}00101 }
+\DoxyCodeLine{\Hypertarget{cb__move__end__effector__trajectory_8cpp_source_l00102}00102     req-\/>ik\_request.group\_name = groupname;}
+\DoxyCodeLine{\Hypertarget{cb__move__end__effector__trajectory_8cpp_source_l00103}00103     req-\/>ik\_request.avoid\_collisions = \textcolor{keyword}{true};}
+\DoxyCodeLine{\Hypertarget{cb__move__end__effector__trajectory_8cpp_source_l00104}00104 }
+\DoxyCodeLine{\Hypertarget{cb__move__end__effector__trajectory_8cpp_source_l00105}00105     \textcolor{comment}{//pose.header.stamp = getNode()-\/>now();}}
+\DoxyCodeLine{\Hypertarget{cb__move__end__effector__trajectory_8cpp_source_l00106}00106     req-\/>ik\_request.pose\_stamped = pose;}
+\DoxyCodeLine{\Hypertarget{cb__move__end__effector__trajectory_8cpp_source_l00107}00107 }
+\DoxyCodeLine{\Hypertarget{cb__move__end__effector__trajectory_8cpp_source_l00108}00108     RCLCPP\_INFO\_STREAM(\mbox{\hyperlink{classsmacc2_1_1ISmaccClientBehavior_a9c3d82542c800e2ba5207c5cff0e63e8}{getLogger}}(), \textcolor{stringliteral}{"{}["{}} << \mbox{\hyperlink{classsmacc2_1_1ISmaccClientBehavior_a3feaa9c382a7d376b7ba0017a63e294e}{getName}}() << \textcolor{stringliteral}{"{}] IK request: "{}} << k << \textcolor{stringliteral}{"{} "{}} << *req);}
+\DoxyCodeLine{\Hypertarget{cb__move__end__effector__trajectory_8cpp_source_l00109}00109 }
+\DoxyCodeLine{\Hypertarget{cb__move__end__effector__trajectory_8cpp_source_l00110}00110     \textcolor{keyword}{auto} resfut = \mbox{\hyperlink{classcl__move__group__interface_1_1CbMoveEndEffectorTrajectory_ab4c33ad9cca1805334f195c649fbc862}{iksrv\_}}-\/>async\_send\_request(req);}
+\DoxyCodeLine{\Hypertarget{cb__move__end__effector__trajectory_8cpp_source_l00111}00111 }
+\DoxyCodeLine{\Hypertarget{cb__move__end__effector__trajectory_8cpp_source_l00112}00112     \textcolor{keyword}{auto} status = resfut.wait\_for(3\mbox{\hyperlink{namespaceservice__node__3_aa976421a49e0b54f23833423400849ae}{s}});}
+\DoxyCodeLine{\Hypertarget{cb__move__end__effector__trajectory_8cpp_source_l00113}00113     \textcolor{keywordflow}{if} (status == std::future\_status::ready)}
+\DoxyCodeLine{\Hypertarget{cb__move__end__effector__trajectory_8cpp_source_l00114}00114     \{}
+\DoxyCodeLine{\Hypertarget{cb__move__end__effector__trajectory_8cpp_source_l00115}00115       \textcolor{comment}{//if (rclcpp::spin\_until\_future\_complete(getNode(), resfut) == rclcpp::FutureReturnCode::SUCCESS)}}
+\DoxyCodeLine{\Hypertarget{cb__move__end__effector__trajectory_8cpp_source_l00116}00116       \textcolor{comment}{//\{}}
+\DoxyCodeLine{\Hypertarget{cb__move__end__effector__trajectory_8cpp_source_l00117}00117       \textcolor{keyword}{auto} \& prevtrajpoint = trajectory.back();}
+\DoxyCodeLine{\Hypertarget{cb__move__end__effector__trajectory_8cpp_source_l00118}00118       \textcolor{comment}{//jointPositions.clear();}}
+\DoxyCodeLine{\Hypertarget{cb__move__end__effector__trajectory_8cpp_source_l00119}00119 }
+\DoxyCodeLine{\Hypertarget{cb__move__end__effector__trajectory_8cpp_source_l00120}00120       \textcolor{keyword}{auto} res = resfut.get();}
+\DoxyCodeLine{\Hypertarget{cb__move__end__effector__trajectory_8cpp_source_l00121}00121       std::stringstream ss;}
+\DoxyCodeLine{\Hypertarget{cb__move__end__effector__trajectory_8cpp_source_l00122}00122       \textcolor{keywordflow}{for} (\textcolor{keywordtype}{size\_t} j = 0; j < res-\/>solution.joint\_state.position.size(); j++)}
+\DoxyCodeLine{\Hypertarget{cb__move__end__effector__trajectory_8cpp_source_l00123}00123       \{}
+\DoxyCodeLine{\Hypertarget{cb__move__end__effector__trajectory_8cpp_source_l00124}00124         \textcolor{keyword}{auto} \& jointname = res-\/>solution.joint\_state.name[j];}
+\DoxyCodeLine{\Hypertarget{cb__move__end__effector__trajectory_8cpp_source_l00125}00125         \textcolor{keyword}{auto} it = std::find(currentjointnames.begin(), currentjointnames.end(), jointname);}
+\DoxyCodeLine{\Hypertarget{cb__move__end__effector__trajectory_8cpp_source_l00126}00126         \textcolor{keywordflow}{if} (it != currentjointnames.end())}
+\DoxyCodeLine{\Hypertarget{cb__move__end__effector__trajectory_8cpp_source_l00127}00127         \{}
+\DoxyCodeLine{\Hypertarget{cb__move__end__effector__trajectory_8cpp_source_l00128}00128           \textcolor{keywordtype}{int} index = std::distance(currentjointnames.begin(), it);}
+\DoxyCodeLine{\Hypertarget{cb__move__end__effector__trajectory_8cpp_source_l00129}00129           jointPositions[index] = res-\/>solution.joint\_state.position[j];}
+\DoxyCodeLine{\Hypertarget{cb__move__end__effector__trajectory_8cpp_source_l00130}00130           ss << jointname << \textcolor{stringliteral}{"{}("{}} << index << \textcolor{stringliteral}{"{}): "{}} << jointPositions[index] << std::endl;}
+\DoxyCodeLine{\Hypertarget{cb__move__end__effector__trajectory_8cpp_source_l00131}00131         \}}
+\DoxyCodeLine{\Hypertarget{cb__move__end__effector__trajectory_8cpp_source_l00132}00132       \}}
+\DoxyCodeLine{\Hypertarget{cb__move__end__effector__trajectory_8cpp_source_l00133}00133 }
+\DoxyCodeLine{\Hypertarget{cb__move__end__effector__trajectory_8cpp_source_l00134}00134       \textcolor{comment}{// continuity check}}
+\DoxyCodeLine{\Hypertarget{cb__move__end__effector__trajectory_8cpp_source_l00135}00135       \textcolor{keywordtype}{size\_t} jointindex = 0;}
+\DoxyCodeLine{\Hypertarget{cb__move__end__effector__trajectory_8cpp_source_l00136}00136       \textcolor{keywordtype}{int} discontinuityJointIndex = -\/1;}
+\DoxyCodeLine{\Hypertarget{cb__move__end__effector__trajectory_8cpp_source_l00137}00137       \textcolor{keywordtype}{double} discontinuityDeltaJointIndex = -\/1;}
+\DoxyCodeLine{\Hypertarget{cb__move__end__effector__trajectory_8cpp_source_l00138}00138       \textcolor{keywordtype}{double} deltajoint;}
+\DoxyCodeLine{\Hypertarget{cb__move__end__effector__trajectory_8cpp_source_l00139}00139 }
+\DoxyCodeLine{\Hypertarget{cb__move__end__effector__trajectory_8cpp_source_l00140}00140       \textcolor{keywordtype}{bool} check = k > 0 || !\mbox{\hyperlink{classcl__move__group__interface_1_1CbMoveEndEffectorTrajectory_a2b90fb449266512edb237062a45c30d6}{allowInitialTrajectoryStateJointDiscontinuity\_}} ||}
+\DoxyCodeLine{\Hypertarget{cb__move__end__effector__trajectory_8cpp_source_l00141}00141                    (\mbox{\hyperlink{classcl__move__group__interface_1_1CbMoveEndEffectorTrajectory_a2b90fb449266512edb237062a45c30d6}{allowInitialTrajectoryStateJointDiscontinuity\_}} \&\&}
+\DoxyCodeLine{\Hypertarget{cb__move__end__effector__trajectory_8cpp_source_l00142}00142                     !(*allowInitialTrajectoryStateJointDiscontinuity\_));}
+\DoxyCodeLine{\Hypertarget{cb__move__end__effector__trajectory_8cpp_source_l00143}00143       \textcolor{keywordflow}{if} (check)}
+\DoxyCodeLine{\Hypertarget{cb__move__end__effector__trajectory_8cpp_source_l00144}00144       \{}
+\DoxyCodeLine{\Hypertarget{cb__move__end__effector__trajectory_8cpp_source_l00145}00145         \textcolor{keywordflow}{for} (jointindex = 0; jointindex < jointPositions.size(); jointindex++)}
+\DoxyCodeLine{\Hypertarget{cb__move__end__effector__trajectory_8cpp_source_l00146}00146         \{}
+\DoxyCodeLine{\Hypertarget{cb__move__end__effector__trajectory_8cpp_source_l00147}00147           deltajoint = jointPositions[jointindex] -\/ prevtrajpoint[jointindex];}
+\DoxyCodeLine{\Hypertarget{cb__move__end__effector__trajectory_8cpp_source_l00148}00148 }
+\DoxyCodeLine{\Hypertarget{cb__move__end__effector__trajectory_8cpp_source_l00149}00149           \textcolor{keywordflow}{if} (fabs(deltajoint) > 0.3 \textcolor{comment}{/*2.5 deg*/})}
+\DoxyCodeLine{\Hypertarget{cb__move__end__effector__trajectory_8cpp_source_l00150}00150           \{}
+\DoxyCodeLine{\Hypertarget{cb__move__end__effector__trajectory_8cpp_source_l00151}00151             discontinuityDeltaJointIndex = deltajoint;}
+\DoxyCodeLine{\Hypertarget{cb__move__end__effector__trajectory_8cpp_source_l00152}00152             discontinuityJointIndex = jointindex;}
+\DoxyCodeLine{\Hypertarget{cb__move__end__effector__trajectory_8cpp_source_l00153}00153           \}}
+\DoxyCodeLine{\Hypertarget{cb__move__end__effector__trajectory_8cpp_source_l00154}00154         \}}
+\DoxyCodeLine{\Hypertarget{cb__move__end__effector__trajectory_8cpp_source_l00155}00155       \}}
+\DoxyCodeLine{\Hypertarget{cb__move__end__effector__trajectory_8cpp_source_l00156}00156 }
+\DoxyCodeLine{\Hypertarget{cb__move__end__effector__trajectory_8cpp_source_l00157}00157       \textcolor{keywordflow}{if} (ikAttempts > 0 \&\& discontinuityJointIndex != -\/1)}
+\DoxyCodeLine{\Hypertarget{cb__move__end__effector__trajectory_8cpp_source_l00158}00158       \{}
+\DoxyCodeLine{\Hypertarget{cb__move__end__effector__trajectory_8cpp_source_l00159}00159         k-\/-\/;}
+\DoxyCodeLine{\Hypertarget{cb__move__end__effector__trajectory_8cpp_source_l00160}00160         ikAttempts-\/-\/;}
+\DoxyCodeLine{\Hypertarget{cb__move__end__effector__trajectory_8cpp_source_l00161}00161         \textcolor{keywordflow}{continue};}
+\DoxyCodeLine{\Hypertarget{cb__move__end__effector__trajectory_8cpp_source_l00162}00162       \}}
+\DoxyCodeLine{\Hypertarget{cb__move__end__effector__trajectory_8cpp_source_l00163}00163       \textcolor{keywordflow}{else}}
+\DoxyCodeLine{\Hypertarget{cb__move__end__effector__trajectory_8cpp_source_l00164}00164       \{}
+\DoxyCodeLine{\Hypertarget{cb__move__end__effector__trajectory_8cpp_source_l00165}00165         \textcolor{keywordtype}{bool} discontinuity = \textcolor{keyword}{false};}
+\DoxyCodeLine{\Hypertarget{cb__move__end__effector__trajectory_8cpp_source_l00166}00166         \textcolor{keywordflow}{if} (ikAttempts == 0)}
+\DoxyCodeLine{\Hypertarget{cb__move__end__effector__trajectory_8cpp_source_l00167}00167         \{}
+\DoxyCodeLine{\Hypertarget{cb__move__end__effector__trajectory_8cpp_source_l00168}00168           discontinuityIndexes.push\_back(k);}
+\DoxyCodeLine{\Hypertarget{cb__move__end__effector__trajectory_8cpp_source_l00169}00169           discontinuity = \textcolor{keyword}{true};}
+\DoxyCodeLine{\Hypertarget{cb__move__end__effector__trajectory_8cpp_source_l00170}00170         \}}
+\DoxyCodeLine{\Hypertarget{cb__move__end__effector__trajectory_8cpp_source_l00171}00171 }
+\DoxyCodeLine{\Hypertarget{cb__move__end__effector__trajectory_8cpp_source_l00172}00172         ikAttempts = 4;}
+\DoxyCodeLine{\Hypertarget{cb__move__end__effector__trajectory_8cpp_source_l00173}00173 }
+\DoxyCodeLine{\Hypertarget{cb__move__end__effector__trajectory_8cpp_source_l00174}00174         \textcolor{keywordflow}{if} (discontinuity \&\& discontinuityJointIndex != -\/1)}
+\DoxyCodeLine{\Hypertarget{cb__move__end__effector__trajectory_8cpp_source_l00175}00175         \{}
+\DoxyCodeLine{\Hypertarget{cb__move__end__effector__trajectory_8cpp_source_l00176}00176           \textcolor{comment}{// show a message and stop the trajectory generation \&\& jointindex!= 7 || fabs(deltajoint) > 0.1 /*2.5 deg*/  \&\& jointindex== 7}}
+\DoxyCodeLine{\Hypertarget{cb__move__end__effector__trajectory_8cpp_source_l00177}00177           std::stringstream ss;}
+\DoxyCodeLine{\Hypertarget{cb__move__end__effector__trajectory_8cpp_source_l00178}00178           ss << \textcolor{stringliteral}{"{}Traj["{}} << k << \textcolor{stringliteral}{"{}/"{}} << \mbox{\hyperlink{classcl__move__group__interface_1_1CbMoveEndEffectorTrajectory_a74b9be206657836792fcab3fe109b72b}{endEffectorTrajectory\_}}.size() << \textcolor{stringliteral}{"{}] "{}}}
+\DoxyCodeLine{\Hypertarget{cb__move__end__effector__trajectory_8cpp_source_l00179}00179              << currentjointnames[discontinuityJointIndex]}
+\DoxyCodeLine{\Hypertarget{cb__move__end__effector__trajectory_8cpp_source_l00180}00180              << \textcolor{stringliteral}{"{} IK discontinuity : "{}} << discontinuityDeltaJointIndex << std::endl}
+\DoxyCodeLine{\Hypertarget{cb__move__end__effector__trajectory_8cpp_source_l00181}00181              << \textcolor{stringliteral}{"{}prev joint value: "{}} << prevtrajpoint[discontinuityJointIndex] << std::endl}
+\DoxyCodeLine{\Hypertarget{cb__move__end__effector__trajectory_8cpp_source_l00182}00182              << \textcolor{stringliteral}{"{}current joint value: "{}} << jointPositions[discontinuityJointIndex] << std::endl;}
+\DoxyCodeLine{\Hypertarget{cb__move__end__effector__trajectory_8cpp_source_l00183}00183 }
+\DoxyCodeLine{\Hypertarget{cb__move__end__effector__trajectory_8cpp_source_l00184}00184           ss << std::endl;}
+\DoxyCodeLine{\Hypertarget{cb__move__end__effector__trajectory_8cpp_source_l00185}00185           \textcolor{keywordflow}{for} (\textcolor{keywordtype}{size\_t} ji = 0; ji < jointPositions.size(); ji++)}
+\DoxyCodeLine{\Hypertarget{cb__move__end__effector__trajectory_8cpp_source_l00186}00186           \{}
+\DoxyCodeLine{\Hypertarget{cb__move__end__effector__trajectory_8cpp_source_l00187}00187             ss << currentjointnames[ji] << \textcolor{stringliteral}{"{}: "{}} << jointPositions[ji] << std::endl;}
+\DoxyCodeLine{\Hypertarget{cb__move__end__effector__trajectory_8cpp_source_l00188}00188           \}}
+\DoxyCodeLine{\Hypertarget{cb__move__end__effector__trajectory_8cpp_source_l00189}00189 }
+\DoxyCodeLine{\Hypertarget{cb__move__end__effector__trajectory_8cpp_source_l00190}00190           \textcolor{keywordflow}{for} (\textcolor{keywordtype}{size\_t} kindex = 0; kindex < trajectory.size(); kindex++)}
+\DoxyCodeLine{\Hypertarget{cb__move__end__effector__trajectory_8cpp_source_l00191}00191           \{}
+\DoxyCodeLine{\Hypertarget{cb__move__end__effector__trajectory_8cpp_source_l00192}00192             ss << \textcolor{stringliteral}{"{}["{}} << kindex << \textcolor{stringliteral}{"{}]: "{}} << trajectory[kindex][discontinuityJointIndex]}
+\DoxyCodeLine{\Hypertarget{cb__move__end__effector__trajectory_8cpp_source_l00193}00193                << std::endl;}
+\DoxyCodeLine{\Hypertarget{cb__move__end__effector__trajectory_8cpp_source_l00194}00194           \}}
+\DoxyCodeLine{\Hypertarget{cb__move__end__effector__trajectory_8cpp_source_l00195}00195 }
+\DoxyCodeLine{\Hypertarget{cb__move__end__effector__trajectory_8cpp_source_l00196}00196           \textcolor{keywordflow}{if} (k == 0)}
+\DoxyCodeLine{\Hypertarget{cb__move__end__effector__trajectory_8cpp_source_l00197}00197           \{}
+\DoxyCodeLine{\Hypertarget{cb__move__end__effector__trajectory_8cpp_source_l00198}00198             ss << \textcolor{stringliteral}{"{}This is the first posture of the trajectory. Maybe the robot initial posture is "{}}}
+\DoxyCodeLine{\Hypertarget{cb__move__end__effector__trajectory_8cpp_source_l00199}00199                   \textcolor{stringliteral}{"{}not coincident to the initial posture of the generated joint trajectory."{}}}
+\DoxyCodeLine{\Hypertarget{cb__move__end__effector__trajectory_8cpp_source_l00200}00200                << std::endl;}
+\DoxyCodeLine{\Hypertarget{cb__move__end__effector__trajectory_8cpp_source_l00201}00201           \}}
+\DoxyCodeLine{\Hypertarget{cb__move__end__effector__trajectory_8cpp_source_l00202}00202 }
+\DoxyCodeLine{\Hypertarget{cb__move__end__effector__trajectory_8cpp_source_l00203}00203           RCLCPP\_ERROR\_STREAM(\mbox{\hyperlink{classsmacc2_1_1ISmaccClientBehavior_a9c3d82542c800e2ba5207c5cff0e63e8}{getLogger}}(), ss.str());}
+\DoxyCodeLine{\Hypertarget{cb__move__end__effector__trajectory_8cpp_source_l00204}00204 }
+\DoxyCodeLine{\Hypertarget{cb__move__end__effector__trajectory_8cpp_source_l00205}00205           trajectory.push\_back(jointPositions);}
+\DoxyCodeLine{\Hypertarget{cb__move__end__effector__trajectory_8cpp_source_l00206}00206           rclcpp::Duration durationFromStart = rclcpp::Time(pose.header.stamp) -\/ referenceTime;}
+\DoxyCodeLine{\Hypertarget{cb__move__end__effector__trajectory_8cpp_source_l00207}00207           trajectoryTimeStamps.push\_back(durationFromStart);}
+\DoxyCodeLine{\Hypertarget{cb__move__end__effector__trajectory_8cpp_source_l00208}00208 }
+\DoxyCodeLine{\Hypertarget{cb__move__end__effector__trajectory_8cpp_source_l00209}00209           \textcolor{keywordflow}{continue};}
+\DoxyCodeLine{\Hypertarget{cb__move__end__effector__trajectory_8cpp_source_l00210}00210         \}}
+\DoxyCodeLine{\Hypertarget{cb__move__end__effector__trajectory_8cpp_source_l00211}00211         \textcolor{keywordflow}{else}}
+\DoxyCodeLine{\Hypertarget{cb__move__end__effector__trajectory_8cpp_source_l00212}00212         \{}
+\DoxyCodeLine{\Hypertarget{cb__move__end__effector__trajectory_8cpp_source_l00213}00213           trajectory.push\_back(jointPositions);}
+\DoxyCodeLine{\Hypertarget{cb__move__end__effector__trajectory_8cpp_source_l00214}00214           rclcpp::Duration durationFromStart = rclcpp::Time(pose.header.stamp) -\/ referenceTime;}
+\DoxyCodeLine{\Hypertarget{cb__move__end__effector__trajectory_8cpp_source_l00215}00215           trajectoryTimeStamps.push\_back(durationFromStart);}
+\DoxyCodeLine{\Hypertarget{cb__move__end__effector__trajectory_8cpp_source_l00216}00216 }
+\DoxyCodeLine{\Hypertarget{cb__move__end__effector__trajectory_8cpp_source_l00217}00217           RCLCPP\_DEBUG\_STREAM(\mbox{\hyperlink{classsmacc2_1_1ISmaccClientBehavior_a9c3d82542c800e2ba5207c5cff0e63e8}{getLogger}}(), \textcolor{stringliteral}{"{}IK solution: "{}} << res-\/>solution.joint\_state);}
+\DoxyCodeLine{\Hypertarget{cb__move__end__effector__trajectory_8cpp_source_l00218}00218           RCLCPP\_DEBUG\_STREAM(\mbox{\hyperlink{classsmacc2_1_1ISmaccClientBehavior_a9c3d82542c800e2ba5207c5cff0e63e8}{getLogger}}(), \textcolor{stringliteral}{"{}trajpoint: "{}} << std::endl << ss.str());}
+\DoxyCodeLine{\Hypertarget{cb__move__end__effector__trajectory_8cpp_source_l00219}00219         \}}
+\DoxyCodeLine{\Hypertarget{cb__move__end__effector__trajectory_8cpp_source_l00220}00220       \}}
+\DoxyCodeLine{\Hypertarget{cb__move__end__effector__trajectory_8cpp_source_l00221}00221     \}}
+\DoxyCodeLine{\Hypertarget{cb__move__end__effector__trajectory_8cpp_source_l00222}00222     \textcolor{keywordflow}{else}}
+\DoxyCodeLine{\Hypertarget{cb__move__end__effector__trajectory_8cpp_source_l00223}00223     \{}
+\DoxyCodeLine{\Hypertarget{cb__move__end__effector__trajectory_8cpp_source_l00224}00224       RCLCPP\_ERROR\_STREAM(\mbox{\hyperlink{classsmacc2_1_1ISmaccClientBehavior_a9c3d82542c800e2ba5207c5cff0e63e8}{getLogger}}(), \textcolor{stringliteral}{"{}["{}} << \mbox{\hyperlink{classsmacc2_1_1ISmaccClientBehavior_a3feaa9c382a7d376b7ba0017a63e294e}{getName}}() << \textcolor{stringliteral}{"{}] wrong IK call"{}});}
+\DoxyCodeLine{\Hypertarget{cb__move__end__effector__trajectory_8cpp_source_l00225}00225     \}}
+\DoxyCodeLine{\Hypertarget{cb__move__end__effector__trajectory_8cpp_source_l00226}00226   \}}
+\DoxyCodeLine{\Hypertarget{cb__move__end__effector__trajectory_8cpp_source_l00227}00227 }
+\DoxyCodeLine{\Hypertarget{cb__move__end__effector__trajectory_8cpp_source_l00228}00228   \textcolor{comment}{// interpolate speeds?}}
+\DoxyCodeLine{\Hypertarget{cb__move__end__effector__trajectory_8cpp_source_l00229}00229 }
+\DoxyCodeLine{\Hypertarget{cb__move__end__effector__trajectory_8cpp_source_l00230}00230   \textcolor{comment}{// interpolate accelerations?}}
+\DoxyCodeLine{\Hypertarget{cb__move__end__effector__trajectory_8cpp_source_l00231}00231 }
+\DoxyCodeLine{\Hypertarget{cb__move__end__effector__trajectory_8cpp_source_l00232}00232   \textcolor{comment}{// get current robot state}}
+\DoxyCodeLine{\Hypertarget{cb__move__end__effector__trajectory_8cpp_source_l00233}00233   \textcolor{comment}{// fill plan message}}
+\DoxyCodeLine{\Hypertarget{cb__move__end__effector__trajectory_8cpp_source_l00234}00234   \textcolor{comment}{// computedMotionPlan.start\_state\_.joint\_state.name = currentjointnames;}}
+\DoxyCodeLine{\Hypertarget{cb__move__end__effector__trajectory_8cpp_source_l00235}00235   \textcolor{comment}{// computedMotionPlan.start\_state\_.joint\_state.position = trajectory.front();}}
+\DoxyCodeLine{\Hypertarget{cb__move__end__effector__trajectory_8cpp_source_l00236}00236   \textcolor{comment}{// computedMotionPlan.trajectory\_.joint\_trajectory.joint\_names = currentjointnames;}}
+\DoxyCodeLine{\Hypertarget{cb__move__end__effector__trajectory_8cpp_source_l00237}00237 }
+\DoxyCodeLine{\Hypertarget{cb__move__end__effector__trajectory_8cpp_source_l00238}00238   computedJointTrajectory.joint\_trajectory.joint\_names = currentjointnames;}
+\DoxyCodeLine{\Hypertarget{cb__move__end__effector__trajectory_8cpp_source_l00239}00239   \textcolor{keywordtype}{int} i = 0;}
+\DoxyCodeLine{\Hypertarget{cb__move__end__effector__trajectory_8cpp_source_l00240}00240   \textcolor{keywordflow}{for} (\textcolor{keyword}{auto} \& p : trajectory)}
+\DoxyCodeLine{\Hypertarget{cb__move__end__effector__trajectory_8cpp_source_l00241}00241   \{}
+\DoxyCodeLine{\Hypertarget{cb__move__end__effector__trajectory_8cpp_source_l00242}00242     \textcolor{keywordflow}{if} (}
+\DoxyCodeLine{\Hypertarget{cb__move__end__effector__trajectory_8cpp_source_l00243}00243       i ==}
+\DoxyCodeLine{\Hypertarget{cb__move__end__effector__trajectory_8cpp_source_l00244}00244       0)  \textcolor{comment}{// not copy the current state in the trajectory (used to solve discontinuity in other behaviors)}}
+\DoxyCodeLine{\Hypertarget{cb__move__end__effector__trajectory_8cpp_source_l00245}00245     \{}
+\DoxyCodeLine{\Hypertarget{cb__move__end__effector__trajectory_8cpp_source_l00246}00246       i++;}
+\DoxyCodeLine{\Hypertarget{cb__move__end__effector__trajectory_8cpp_source_l00247}00247       \textcolor{keywordflow}{continue};}
+\DoxyCodeLine{\Hypertarget{cb__move__end__effector__trajectory_8cpp_source_l00248}00248     \}}
+\DoxyCodeLine{\Hypertarget{cb__move__end__effector__trajectory_8cpp_source_l00249}00249 }
+\DoxyCodeLine{\Hypertarget{cb__move__end__effector__trajectory_8cpp_source_l00250}00250     trajectory\_msgs::msg::JointTrajectoryPoint jp;}
+\DoxyCodeLine{\Hypertarget{cb__move__end__effector__trajectory_8cpp_source_l00251}00251     jp.positions = p;}
+\DoxyCodeLine{\Hypertarget{cb__move__end__effector__trajectory_8cpp_source_l00252}00252     jp.time\_from\_start = trajectoryTimeStamps[i];  \textcolor{comment}{//rclcpp::Duration(t);}}
+\DoxyCodeLine{\Hypertarget{cb__move__end__effector__trajectory_8cpp_source_l00253}00253     computedJointTrajectory.joint\_trajectory.points.push\_back(jp);}
+\DoxyCodeLine{\Hypertarget{cb__move__end__effector__trajectory_8cpp_source_l00254}00254     i++;}
+\DoxyCodeLine{\Hypertarget{cb__move__end__effector__trajectory_8cpp_source_l00255}00255   \}}
+\DoxyCodeLine{\Hypertarget{cb__move__end__effector__trajectory_8cpp_source_l00256}00256 }
+\DoxyCodeLine{\Hypertarget{cb__move__end__effector__trajectory_8cpp_source_l00257}00257   \textcolor{keywordflow}{if} (discontinuityIndexes.size())}
+\DoxyCodeLine{\Hypertarget{cb__move__end__effector__trajectory_8cpp_source_l00258}00258   \{}
+\DoxyCodeLine{\Hypertarget{cb__move__end__effector__trajectory_8cpp_source_l00259}00259     \textcolor{keywordflow}{if} (discontinuityIndexes[0] == 0)}
+\DoxyCodeLine{\Hypertarget{cb__move__end__effector__trajectory_8cpp_source_l00260}00260       \textcolor{keywordflow}{return} \mbox{\hyperlink{namespacecl__move__group__interface_ae5fc1caf9a16ae5ad1c97c2e137a7017a1b748367c8d468cb9b65ecd6b2eab32c}{ComputeJointTrajectoryErrorCode::INCORRECT\_INITIAL\_STATE}};}
+\DoxyCodeLine{\Hypertarget{cb__move__end__effector__trajectory_8cpp_source_l00261}00261     \textcolor{keywordflow}{else}}
+\DoxyCodeLine{\Hypertarget{cb__move__end__effector__trajectory_8cpp_source_l00262}00262       \textcolor{keywordflow}{return} \mbox{\hyperlink{namespacecl__move__group__interface_ae5fc1caf9a16ae5ad1c97c2e137a7017a3e86842785cd7c42003e516418347c8e}{ComputeJointTrajectoryErrorCode::JOINT\_TRAJECTORY\_DISCONTINUITY}};}
+\DoxyCodeLine{\Hypertarget{cb__move__end__effector__trajectory_8cpp_source_l00263}00263   \}}
+\DoxyCodeLine{\Hypertarget{cb__move__end__effector__trajectory_8cpp_source_l00264}00264 }
+\DoxyCodeLine{\Hypertarget{cb__move__end__effector__trajectory_8cpp_source_l00265}00265   \textcolor{keywordflow}{return} \mbox{\hyperlink{namespacecl__move__group__interface_ae5fc1caf9a16ae5ad1c97c2e137a7017ad0749aaba8b833466dfcbb0428e4f89c}{ComputeJointTrajectoryErrorCode::SUCCESS}};}
+\DoxyCodeLine{\Hypertarget{cb__move__end__effector__trajectory_8cpp_source_l00266}00266 \}}
+\DoxyCodeLine{\Hypertarget{cb__move__end__effector__trajectory_8cpp_source_l00267}00267 }
+\DoxyCodeLine{\Hypertarget{cb__move__end__effector__trajectory_8cpp_source_l00268}\mbox{\hyperlink{classcl__move__group__interface_1_1CbMoveEndEffectorTrajectory_af3fdebf965562ae42df2030855797568}{00268}} \textcolor{keywordtype}{void} \mbox{\hyperlink{classcl__move__group__interface_1_1CbMoveEndEffectorTrajectory_af3fdebf965562ae42df2030855797568}{CbMoveEndEffectorTrajectory::executeJointSpaceTrajectory}}(}
+\DoxyCodeLine{\Hypertarget{cb__move__end__effector__trajectory_8cpp_source_l00269}00269   \textcolor{keyword}{const} moveit\_msgs::msg::RobotTrajectory \& computedJointTrajectory)}
+\DoxyCodeLine{\Hypertarget{cb__move__end__effector__trajectory_8cpp_source_l00270}00270 \{}
+\DoxyCodeLine{\Hypertarget{cb__move__end__effector__trajectory_8cpp_source_l00271}00271   RCLCPP\_INFO\_STREAM(\mbox{\hyperlink{classsmacc2_1_1ISmaccClientBehavior_a9c3d82542c800e2ba5207c5cff0e63e8}{getLogger}}(), \textcolor{stringliteral}{"{}["{}} << this-\/>\mbox{\hyperlink{classsmacc2_1_1ISmaccClientBehavior_a3feaa9c382a7d376b7ba0017a63e294e}{getName}}() << \textcolor{stringliteral}{"{}] Executing joint trajectory"{}});}
+\DoxyCodeLine{\Hypertarget{cb__move__end__effector__trajectory_8cpp_source_l00272}00272   \textcolor{comment}{// call execute}}
+\DoxyCodeLine{\Hypertarget{cb__move__end__effector__trajectory_8cpp_source_l00273}00273   \textcolor{keyword}{auto} executionResult =}
+\DoxyCodeLine{\Hypertarget{cb__move__end__effector__trajectory_8cpp_source_l00274}00274     this-\/>\mbox{\hyperlink{classcl__move__group__interface_1_1CbMoveEndEffectorTrajectory_aea650d3e7836125b32be97392b71a7f3}{movegroupClient\_}}-\/>\mbox{\hyperlink{classcl__move__group__interface_1_1ClMoveGroup_a373720007275c5148ddacc5d7214df50}{moveGroupClientInterface}}-\/>execute(computedJointTrajectory);}
+\DoxyCodeLine{\Hypertarget{cb__move__end__effector__trajectory_8cpp_source_l00275}00275 }
+\DoxyCodeLine{\Hypertarget{cb__move__end__effector__trajectory_8cpp_source_l00276}00276   \textcolor{keywordflow}{if} (executionResult == moveit\_msgs::msg::MoveItErrorCodes::SUCCESS)}
+\DoxyCodeLine{\Hypertarget{cb__move__end__effector__trajectory_8cpp_source_l00277}00277   \{}
+\DoxyCodeLine{\Hypertarget{cb__move__end__effector__trajectory_8cpp_source_l00278}00278     RCLCPP\_INFO\_STREAM(\mbox{\hyperlink{classsmacc2_1_1ISmaccClientBehavior_a9c3d82542c800e2ba5207c5cff0e63e8}{getLogger}}(), \textcolor{stringliteral}{"{}["{}} << this-\/>\mbox{\hyperlink{classsmacc2_1_1ISmaccClientBehavior_a3feaa9c382a7d376b7ba0017a63e294e}{getName}}() << \textcolor{stringliteral}{"{}] motion execution succeeded"{}});}
+\DoxyCodeLine{\Hypertarget{cb__move__end__effector__trajectory_8cpp_source_l00279}00279     \mbox{\hyperlink{classcl__move__group__interface_1_1CbMoveEndEffectorTrajectory_aea650d3e7836125b32be97392b71a7f3}{movegroupClient\_}}-\/>\mbox{\hyperlink{classcl__move__group__interface_1_1ClMoveGroup_aebaf269db373d41837bae87651458e54}{postEventMotionExecutionSucceded}}();}
+\DoxyCodeLine{\Hypertarget{cb__move__end__effector__trajectory_8cpp_source_l00280}00280     this-\/>\mbox{\hyperlink{classsmacc2_1_1SmaccAsyncClientBehavior_a2fb4de26d011fbbb55bc1bbaed2e6f5b}{postSuccessEvent}}();}
+\DoxyCodeLine{\Hypertarget{cb__move__end__effector__trajectory_8cpp_source_l00281}00281   \}}
+\DoxyCodeLine{\Hypertarget{cb__move__end__effector__trajectory_8cpp_source_l00282}00282   \textcolor{keywordflow}{else}}
+\DoxyCodeLine{\Hypertarget{cb__move__end__effector__trajectory_8cpp_source_l00283}00283   \{}
+\DoxyCodeLine{\Hypertarget{cb__move__end__effector__trajectory_8cpp_source_l00284}00284     this-\/>\mbox{\hyperlink{classcl__move__group__interface_1_1CbMoveEndEffectorTrajectory_a72c4a469b70617dc5ea75e225a013582}{postMotionExecutionFailureEvents}}();}
+\DoxyCodeLine{\Hypertarget{cb__move__end__effector__trajectory_8cpp_source_l00285}00285     this-\/>\mbox{\hyperlink{classsmacc2_1_1SmaccAsyncClientBehavior_afcb5c1a0bf3b9bae6c54e8f5ef1bc04d}{postFailureEvent}}();}
+\DoxyCodeLine{\Hypertarget{cb__move__end__effector__trajectory_8cpp_source_l00286}00286   \}}
+\DoxyCodeLine{\Hypertarget{cb__move__end__effector__trajectory_8cpp_source_l00287}00287 \}}
+\DoxyCodeLine{\Hypertarget{cb__move__end__effector__trajectory_8cpp_source_l00288}00288 }
+\DoxyCodeLine{\Hypertarget{cb__move__end__effector__trajectory_8cpp_source_l00289}\mbox{\hyperlink{classcl__move__group__interface_1_1CbMoveEndEffectorTrajectory_aaedd074fd178c6390a4a3f1ccff23ad3}{00289}} \textcolor{keywordtype}{void} \mbox{\hyperlink{classcl__move__group__interface_1_1CbMoveEndEffectorTrajectory_aaedd074fd178c6390a4a3f1ccff23ad3}{CbMoveEndEffectorTrajectory::onEntry}}()}
+\DoxyCodeLine{\Hypertarget{cb__move__end__effector__trajectory_8cpp_source_l00290}00290 \{}
+\DoxyCodeLine{\Hypertarget{cb__move__end__effector__trajectory_8cpp_source_l00291}00291   this-\/>\mbox{\hyperlink{classsmacc2_1_1ISmaccClientBehavior_ad32d91e7aa6ac921b8d29610bd925244}{requiresClient}}(\mbox{\hyperlink{classcl__move__group__interface_1_1CbMoveEndEffectorTrajectory_aea650d3e7836125b32be97392b71a7f3}{movegroupClient\_}});}
+\DoxyCodeLine{\Hypertarget{cb__move__end__effector__trajectory_8cpp_source_l00292}00292 }
+\DoxyCodeLine{\Hypertarget{cb__move__end__effector__trajectory_8cpp_source_l00293}00293   RCLCPP\_INFO\_STREAM(\mbox{\hyperlink{classsmacc2_1_1ISmaccClientBehavior_a9c3d82542c800e2ba5207c5cff0e63e8}{getLogger}}(), \textcolor{stringliteral}{"{}["{}} << \mbox{\hyperlink{classsmacc2_1_1ISmaccClientBehavior_a3feaa9c382a7d376b7ba0017a63e294e}{getName}}() << \textcolor{stringliteral}{"{}] Generating end effector trajectory"{}});}
+\DoxyCodeLine{\Hypertarget{cb__move__end__effector__trajectory_8cpp_source_l00294}00294 }
+\DoxyCodeLine{\Hypertarget{cb__move__end__effector__trajectory_8cpp_source_l00295}00295   this-\/>\mbox{\hyperlink{classcl__move__group__interface_1_1CbMoveEndEffectorTrajectory_ab415fcc599d156158fc017a0beb29c20}{generateTrajectory}}();}
+\DoxyCodeLine{\Hypertarget{cb__move__end__effector__trajectory_8cpp_source_l00296}00296 }
+\DoxyCodeLine{\Hypertarget{cb__move__end__effector__trajectory_8cpp_source_l00297}00297   \textcolor{keywordflow}{if} (this-\/>\mbox{\hyperlink{classcl__move__group__interface_1_1CbMoveEndEffectorTrajectory_a74b9be206657836792fcab3fe109b72b}{endEffectorTrajectory\_}}.size() == 0)}
+\DoxyCodeLine{\Hypertarget{cb__move__end__effector__trajectory_8cpp_source_l00298}00298   \{}
+\DoxyCodeLine{\Hypertarget{cb__move__end__effector__trajectory_8cpp_source_l00299}00299     RCLCPP\_WARN\_STREAM(}
+\DoxyCodeLine{\Hypertarget{cb__move__end__effector__trajectory_8cpp_source_l00300}00300       \mbox{\hyperlink{classsmacc2_1_1ISmaccClientBehavior_a9c3d82542c800e2ba5207c5cff0e63e8}{getLogger}}(), \textcolor{stringliteral}{"{}["{}} << \mbox{\hyperlink{namespacesmacc2_1_1introspection_af128012926f4e326233da853b75520fc}{smacc2::demangleSymbol}}(\textcolor{keyword}{typeid}(*this).name())}
+\DoxyCodeLine{\Hypertarget{cb__move__end__effector__trajectory_8cpp_source_l00301}00301                        << \textcolor{stringliteral}{"{}] No points in the trajectory. Skipping behavior."{}});}
+\DoxyCodeLine{\Hypertarget{cb__move__end__effector__trajectory_8cpp_source_l00302}00302     \textcolor{keywordflow}{return};}
+\DoxyCodeLine{\Hypertarget{cb__move__end__effector__trajectory_8cpp_source_l00303}00303   \}}
+\DoxyCodeLine{\Hypertarget{cb__move__end__effector__trajectory_8cpp_source_l00304}00304 }
+\DoxyCodeLine{\Hypertarget{cb__move__end__effector__trajectory_8cpp_source_l00305}00305   RCLCPP\_INFO\_STREAM(\mbox{\hyperlink{classsmacc2_1_1ISmaccClientBehavior_a9c3d82542c800e2ba5207c5cff0e63e8}{getLogger}}(), \textcolor{stringliteral}{"{}["{}} << \mbox{\hyperlink{classsmacc2_1_1ISmaccClientBehavior_a3feaa9c382a7d376b7ba0017a63e294e}{getName}}() << \textcolor{stringliteral}{"{}] Creating markers."{}});}
+\DoxyCodeLine{\Hypertarget{cb__move__end__effector__trajectory_8cpp_source_l00306}00306 }
+\DoxyCodeLine{\Hypertarget{cb__move__end__effector__trajectory_8cpp_source_l00307}00307   this-\/>\mbox{\hyperlink{classcl__move__group__interface_1_1CbMoveEndEffectorTrajectory_a442efa1d5bc9e9a16f74ecd31b13d9b5}{createMarkers}}();}
+\DoxyCodeLine{\Hypertarget{cb__move__end__effector__trajectory_8cpp_source_l00308}00308   \mbox{\hyperlink{classcl__move__group__interface_1_1CbMoveEndEffectorTrajectory_ac140a7f0adfb20f1e2900a5c8cd2ca5b}{markersInitialized\_}} = \textcolor{keyword}{true};}
+\DoxyCodeLine{\Hypertarget{cb__move__end__effector__trajectory_8cpp_source_l00309}00309   moveit\_msgs::msg::RobotTrajectory computedTrajectory;}
+\DoxyCodeLine{\Hypertarget{cb__move__end__effector__trajectory_8cpp_source_l00310}00310 }
+\DoxyCodeLine{\Hypertarget{cb__move__end__effector__trajectory_8cpp_source_l00311}00311   RCLCPP\_INFO\_STREAM(\mbox{\hyperlink{classsmacc2_1_1ISmaccClientBehavior_a9c3d82542c800e2ba5207c5cff0e63e8}{getLogger}}(), \textcolor{stringliteral}{"{}["{}} << \mbox{\hyperlink{classsmacc2_1_1ISmaccClientBehavior_a3feaa9c382a7d376b7ba0017a63e294e}{getName}}() << \textcolor{stringliteral}{"{}] Computing joint space trajectory."{}});}
+\DoxyCodeLine{\Hypertarget{cb__move__end__effector__trajectory_8cpp_source_l00312}00312 }
+\DoxyCodeLine{\Hypertarget{cb__move__end__effector__trajectory_8cpp_source_l00313}00313   \textcolor{keyword}{auto} errorcode = \mbox{\hyperlink{classcl__move__group__interface_1_1CbMoveEndEffectorTrajectory_a055e5496616a4290dedc221eadf7b765}{computeJointSpaceTrajectory}}(computedTrajectory);}
+\DoxyCodeLine{\Hypertarget{cb__move__end__effector__trajectory_8cpp_source_l00314}00314 }
+\DoxyCodeLine{\Hypertarget{cb__move__end__effector__trajectory_8cpp_source_l00315}00315   \textcolor{keywordtype}{bool} trajectoryGenerationSuccess = errorcode == \mbox{\hyperlink{namespacecl__move__group__interface_ae5fc1caf9a16ae5ad1c97c2e137a7017ad0749aaba8b833466dfcbb0428e4f89c}{ComputeJointTrajectoryErrorCode::SUCCESS}};}
+\DoxyCodeLine{\Hypertarget{cb__move__end__effector__trajectory_8cpp_source_l00316}00316 }
+\DoxyCodeLine{\Hypertarget{cb__move__end__effector__trajectory_8cpp_source_l00317}00317   \mbox{\hyperlink{classcl__move__group__interface_1_1CpTrajectoryHistory}{CpTrajectoryHistory}} * trajectoryHistory;}
+\DoxyCodeLine{\Hypertarget{cb__move__end__effector__trajectory_8cpp_source_l00318}00318   this-\/>\mbox{\hyperlink{classsmacc2_1_1ISmaccClientBehavior_ae07cf749254cca233e15dc6f991aec12}{requiresComponent}}(trajectoryHistory);}
+\DoxyCodeLine{\Hypertarget{cb__move__end__effector__trajectory_8cpp_source_l00319}00319 }
+\DoxyCodeLine{\Hypertarget{cb__move__end__effector__trajectory_8cpp_source_l00320}00320   \textcolor{keywordflow}{if} (!trajectoryGenerationSuccess)}
+\DoxyCodeLine{\Hypertarget{cb__move__end__effector__trajectory_8cpp_source_l00321}00321   \{}
+\DoxyCodeLine{\Hypertarget{cb__move__end__effector__trajectory_8cpp_source_l00322}00322     RCLCPP\_INFO\_STREAM(}
+\DoxyCodeLine{\Hypertarget{cb__move__end__effector__trajectory_8cpp_source_l00323}00323       \mbox{\hyperlink{classsmacc2_1_1ISmaccClientBehavior_a9c3d82542c800e2ba5207c5cff0e63e8}{getLogger}}(), \textcolor{stringliteral}{"{}["{}} << this-\/>\mbox{\hyperlink{classsmacc2_1_1ISmaccClientBehavior_a3feaa9c382a7d376b7ba0017a63e294e}{getName}}() << \textcolor{stringliteral}{"{}] Incorrect trajectory. Posting failure event."{}});}
+\DoxyCodeLine{\Hypertarget{cb__move__end__effector__trajectory_8cpp_source_l00324}00324     \textcolor{keywordflow}{if} (trajectoryHistory != \textcolor{keyword}{nullptr})}
+\DoxyCodeLine{\Hypertarget{cb__move__end__effector__trajectory_8cpp_source_l00325}00325     \{}
+\DoxyCodeLine{\Hypertarget{cb__move__end__effector__trajectory_8cpp_source_l00326}00326       moveit\_msgs::msg::MoveItErrorCodes error;}
+\DoxyCodeLine{\Hypertarget{cb__move__end__effector__trajectory_8cpp_source_l00327}00327       error.val = moveit\_msgs::msg::MoveItErrorCodes::NO\_IK\_SOLUTION;}
+\DoxyCodeLine{\Hypertarget{cb__move__end__effector__trajectory_8cpp_source_l00328}00328       trajectoryHistory-\/>\mbox{\hyperlink{classcl__move__group__interface_1_1CpTrajectoryHistory_a33bc8d402d71e79dd9234ed8db31c6ee}{pushTrajectory}}(this-\/>\mbox{\hyperlink{classsmacc2_1_1ISmaccClientBehavior_a3feaa9c382a7d376b7ba0017a63e294e}{getName}}(), computedTrajectory, error);}
+\DoxyCodeLine{\Hypertarget{cb__move__end__effector__trajectory_8cpp_source_l00329}00329     \}}
+\DoxyCodeLine{\Hypertarget{cb__move__end__effector__trajectory_8cpp_source_l00330}00330 }
+\DoxyCodeLine{\Hypertarget{cb__move__end__effector__trajectory_8cpp_source_l00331}00331     \mbox{\hyperlink{classcl__move__group__interface_1_1CbMoveEndEffectorTrajectory_aea650d3e7836125b32be97392b71a7f3}{movegroupClient\_}}-\/>\mbox{\hyperlink{classcl__move__group__interface_1_1ClMoveGroup_a39dc3871d29b2af1ab739057f6ca6daa}{postEventMotionExecutionFailed}}();}
+\DoxyCodeLine{\Hypertarget{cb__move__end__effector__trajectory_8cpp_source_l00332}00332     this-\/>\mbox{\hyperlink{classsmacc2_1_1SmaccAsyncClientBehavior_afcb5c1a0bf3b9bae6c54e8f5ef1bc04d}{postFailureEvent}}();}
+\DoxyCodeLine{\Hypertarget{cb__move__end__effector__trajectory_8cpp_source_l00333}00333 }
+\DoxyCodeLine{\Hypertarget{cb__move__end__effector__trajectory_8cpp_source_l00334}00334     \textcolor{keywordflow}{if} (errorcode == \mbox{\hyperlink{namespacecl__move__group__interface_ae5fc1caf9a16ae5ad1c97c2e137a7017a3e86842785cd7c42003e516418347c8e}{ComputeJointTrajectoryErrorCode::JOINT\_TRAJECTORY\_DISCONTINUITY}})}
+\DoxyCodeLine{\Hypertarget{cb__move__end__effector__trajectory_8cpp_source_l00335}00335     \{}
+\DoxyCodeLine{\Hypertarget{cb__move__end__effector__trajectory_8cpp_source_l00336}00336       this-\/>\mbox{\hyperlink{classcl__move__group__interface_1_1CbMoveEndEffectorTrajectory_a6a790d8f32c95f8b843eaee3f18b92a5}{postJointDiscontinuityEvent}}(computedTrajectory);}
+\DoxyCodeLine{\Hypertarget{cb__move__end__effector__trajectory_8cpp_source_l00337}00337     \}}
+\DoxyCodeLine{\Hypertarget{cb__move__end__effector__trajectory_8cpp_source_l00338}00338     \textcolor{keywordflow}{else} \textcolor{keywordflow}{if} (errorcode == \mbox{\hyperlink{namespacecl__move__group__interface_ae5fc1caf9a16ae5ad1c97c2e137a7017a1b748367c8d468cb9b65ecd6b2eab32c}{ComputeJointTrajectoryErrorCode::INCORRECT\_INITIAL\_STATE}})}
+\DoxyCodeLine{\Hypertarget{cb__move__end__effector__trajectory_8cpp_source_l00339}00339     \{}
+\DoxyCodeLine{\Hypertarget{cb__move__end__effector__trajectory_8cpp_source_l00340}00340       this-\/>\mbox{\hyperlink{classcl__move__group__interface_1_1CbMoveEndEffectorTrajectory_a0a47cfd3f0121601499f7f86df80e85d}{postIncorrectInitialStateEvent}}(computedTrajectory);}
+\DoxyCodeLine{\Hypertarget{cb__move__end__effector__trajectory_8cpp_source_l00341}00341     \}}
+\DoxyCodeLine{\Hypertarget{cb__move__end__effector__trajectory_8cpp_source_l00342}00342     \textcolor{keywordflow}{return};}
+\DoxyCodeLine{\Hypertarget{cb__move__end__effector__trajectory_8cpp_source_l00343}00343   \}}
+\DoxyCodeLine{\Hypertarget{cb__move__end__effector__trajectory_8cpp_source_l00344}00344   \textcolor{keywordflow}{else}}
+\DoxyCodeLine{\Hypertarget{cb__move__end__effector__trajectory_8cpp_source_l00345}00345   \{}
+\DoxyCodeLine{\Hypertarget{cb__move__end__effector__trajectory_8cpp_source_l00346}00346     \textcolor{keywordflow}{if} (trajectoryHistory != \textcolor{keyword}{nullptr})}
+\DoxyCodeLine{\Hypertarget{cb__move__end__effector__trajectory_8cpp_source_l00347}00347     \{}
+\DoxyCodeLine{\Hypertarget{cb__move__end__effector__trajectory_8cpp_source_l00348}00348       moveit\_msgs::msg::MoveItErrorCodes error;}
+\DoxyCodeLine{\Hypertarget{cb__move__end__effector__trajectory_8cpp_source_l00349}00349       error.val = moveit\_msgs::msg::MoveItErrorCodes::SUCCESS;}
+\DoxyCodeLine{\Hypertarget{cb__move__end__effector__trajectory_8cpp_source_l00350}00350       trajectoryHistory-\/>\mbox{\hyperlink{classcl__move__group__interface_1_1CpTrajectoryHistory_a33bc8d402d71e79dd9234ed8db31c6ee}{pushTrajectory}}(this-\/>\mbox{\hyperlink{classsmacc2_1_1ISmaccClientBehavior_a3feaa9c382a7d376b7ba0017a63e294e}{getName}}(), computedTrajectory, error);}
+\DoxyCodeLine{\Hypertarget{cb__move__end__effector__trajectory_8cpp_source_l00351}00351     \}}
+\DoxyCodeLine{\Hypertarget{cb__move__end__effector__trajectory_8cpp_source_l00352}00352 }
+\DoxyCodeLine{\Hypertarget{cb__move__end__effector__trajectory_8cpp_source_l00353}00353     this-\/>\mbox{\hyperlink{classcl__move__group__interface_1_1CbMoveEndEffectorTrajectory_af3fdebf965562ae42df2030855797568}{executeJointSpaceTrajectory}}(computedTrajectory);}
+\DoxyCodeLine{\Hypertarget{cb__move__end__effector__trajectory_8cpp_source_l00354}00354   \}}
+\DoxyCodeLine{\Hypertarget{cb__move__end__effector__trajectory_8cpp_source_l00355}00355 }
+\DoxyCodeLine{\Hypertarget{cb__move__end__effector__trajectory_8cpp_source_l00356}00356   \textcolor{comment}{// handle finishing events}}
+\DoxyCodeLine{\Hypertarget{cb__move__end__effector__trajectory_8cpp_source_l00357}00357 \}  \textcolor{comment}{// namespace cl\_move\_group\_interface}}
+\DoxyCodeLine{\Hypertarget{cb__move__end__effector__trajectory_8cpp_source_l00358}00358 }
+\DoxyCodeLine{\Hypertarget{cb__move__end__effector__trajectory_8cpp_source_l00359}\mbox{\hyperlink{classcl__move__group__interface_1_1CbMoveEndEffectorTrajectory_a57fedb6a0603fe569842a13faf19f5cd}{00359}} \textcolor{keywordtype}{void} \mbox{\hyperlink{classcl__move__group__interface_1_1CbMoveEndEffectorTrajectory_a57fedb6a0603fe569842a13faf19f5cd}{CbMoveEndEffectorTrajectory::update}}()}
+\DoxyCodeLine{\Hypertarget{cb__move__end__effector__trajectory_8cpp_source_l00360}00360 \{}
+\DoxyCodeLine{\Hypertarget{cb__move__end__effector__trajectory_8cpp_source_l00361}00361   \textcolor{keywordflow}{if} (\mbox{\hyperlink{classcl__move__group__interface_1_1CbMoveEndEffectorTrajectory_ac140a7f0adfb20f1e2900a5c8cd2ca5b}{markersInitialized\_}})}
+\DoxyCodeLine{\Hypertarget{cb__move__end__effector__trajectory_8cpp_source_l00362}00362   \{}
+\DoxyCodeLine{\Hypertarget{cb__move__end__effector__trajectory_8cpp_source_l00363}00363     std::lock\_guard<std::mutex> guard(\mbox{\hyperlink{classcl__move__group__interface_1_1CbMoveEndEffectorTrajectory_a2a98ef725cb3fc7f61654d3d6a2066bb}{m\_mutex\_}});}
+\DoxyCodeLine{\Hypertarget{cb__move__end__effector__trajectory_8cpp_source_l00364}00364     \mbox{\hyperlink{classcl__move__group__interface_1_1CbMoveEndEffectorTrajectory_aa472312c401315a0047c23a67ac7b91c}{markersPub\_}}-\/>publish(\mbox{\hyperlink{classcl__move__group__interface_1_1CbMoveEndEffectorTrajectory_ac12590d68ee344157ed4b3b45085771b}{beahiorMarkers\_}});}
+\DoxyCodeLine{\Hypertarget{cb__move__end__effector__trajectory_8cpp_source_l00365}00365   \}}
+\DoxyCodeLine{\Hypertarget{cb__move__end__effector__trajectory_8cpp_source_l00366}00366 \}}
+\DoxyCodeLine{\Hypertarget{cb__move__end__effector__trajectory_8cpp_source_l00367}00367 }
+\DoxyCodeLine{\Hypertarget{cb__move__end__effector__trajectory_8cpp_source_l00368}\mbox{\hyperlink{classcl__move__group__interface_1_1CbMoveEndEffectorTrajectory_a4952c092e69bc6e9831568de32888da5}{00368}} \textcolor{keywordtype}{void} \mbox{\hyperlink{classcl__move__group__interface_1_1CbMoveEndEffectorTrajectory_a4952c092e69bc6e9831568de32888da5}{CbMoveEndEffectorTrajectory::onExit}}()}
+\DoxyCodeLine{\Hypertarget{cb__move__end__effector__trajectory_8cpp_source_l00369}00369 \{}
+\DoxyCodeLine{\Hypertarget{cb__move__end__effector__trajectory_8cpp_source_l00370}00370   \mbox{\hyperlink{classcl__move__group__interface_1_1CbMoveEndEffectorTrajectory_ac140a7f0adfb20f1e2900a5c8cd2ca5b}{markersInitialized\_}} = \textcolor{keyword}{false};}
+\DoxyCodeLine{\Hypertarget{cb__move__end__effector__trajectory_8cpp_source_l00371}00371 }
+\DoxyCodeLine{\Hypertarget{cb__move__end__effector__trajectory_8cpp_source_l00372}00372   \textcolor{keywordflow}{if} (\mbox{\hyperlink{classcl__move__group__interface_1_1CbMoveEndEffectorTrajectory_a790c30b94509dc6f4d0064f6356a04db}{autocleanmarkers}})}
+\DoxyCodeLine{\Hypertarget{cb__move__end__effector__trajectory_8cpp_source_l00373}00373   \{}
+\DoxyCodeLine{\Hypertarget{cb__move__end__effector__trajectory_8cpp_source_l00374}00374     std::lock\_guard<std::mutex> guard(\mbox{\hyperlink{classcl__move__group__interface_1_1CbMoveEndEffectorTrajectory_a2a98ef725cb3fc7f61654d3d6a2066bb}{m\_mutex\_}});}
+\DoxyCodeLine{\Hypertarget{cb__move__end__effector__trajectory_8cpp_source_l00375}00375     \textcolor{keywordflow}{for} (\textcolor{keyword}{auto} \& marker : this-\/>\mbox{\hyperlink{classcl__move__group__interface_1_1CbMoveEndEffectorTrajectory_ac12590d68ee344157ed4b3b45085771b}{beahiorMarkers\_}}.markers)}
+\DoxyCodeLine{\Hypertarget{cb__move__end__effector__trajectory_8cpp_source_l00376}00376     \{}
+\DoxyCodeLine{\Hypertarget{cb__move__end__effector__trajectory_8cpp_source_l00377}00377       marker.header.stamp = \mbox{\hyperlink{classsmacc2_1_1ISmaccClientBehavior_aa1b28d5e8a5208fff8160f9df9a89dc6}{getNode}}()-\/>now();}
+\DoxyCodeLine{\Hypertarget{cb__move__end__effector__trajectory_8cpp_source_l00378}00378       marker.action = visualization\_msgs::msg::Marker::DELETE;}
+\DoxyCodeLine{\Hypertarget{cb__move__end__effector__trajectory_8cpp_source_l00379}00379     \}}
+\DoxyCodeLine{\Hypertarget{cb__move__end__effector__trajectory_8cpp_source_l00380}00380 }
+\DoxyCodeLine{\Hypertarget{cb__move__end__effector__trajectory_8cpp_source_l00381}00381     \mbox{\hyperlink{classcl__move__group__interface_1_1CbMoveEndEffectorTrajectory_aa472312c401315a0047c23a67ac7b91c}{markersPub\_}}-\/>publish(\mbox{\hyperlink{classcl__move__group__interface_1_1CbMoveEndEffectorTrajectory_ac12590d68ee344157ed4b3b45085771b}{beahiorMarkers\_}});}
+\DoxyCodeLine{\Hypertarget{cb__move__end__effector__trajectory_8cpp_source_l00382}00382   \}}
+\DoxyCodeLine{\Hypertarget{cb__move__end__effector__trajectory_8cpp_source_l00383}00383 \}}
+\DoxyCodeLine{\Hypertarget{cb__move__end__effector__trajectory_8cpp_source_l00384}00384 }
+\DoxyCodeLine{\Hypertarget{cb__move__end__effector__trajectory_8cpp_source_l00385}\mbox{\hyperlink{classcl__move__group__interface_1_1CbMoveEndEffectorTrajectory_a442efa1d5bc9e9a16f74ecd31b13d9b5}{00385}} \textcolor{keywordtype}{void} \mbox{\hyperlink{classcl__move__group__interface_1_1CbMoveEndEffectorTrajectory_a442efa1d5bc9e9a16f74ecd31b13d9b5}{CbMoveEndEffectorTrajectory::createMarkers}}()}
+\DoxyCodeLine{\Hypertarget{cb__move__end__effector__trajectory_8cpp_source_l00386}00386 \{}
+\DoxyCodeLine{\Hypertarget{cb__move__end__effector__trajectory_8cpp_source_l00387}00387   tf2::Transform localdirection;}
+\DoxyCodeLine{\Hypertarget{cb__move__end__effector__trajectory_8cpp_source_l00388}00388   localdirection.setIdentity();}
+\DoxyCodeLine{\Hypertarget{cb__move__end__effector__trajectory_8cpp_source_l00389}00389   localdirection.setOrigin(tf2::Vector3(0.05, 0, 0));}
+\DoxyCodeLine{\Hypertarget{cb__move__end__effector__trajectory_8cpp_source_l00390}00390   \textcolor{keyword}{auto} \mbox{\hyperlink{namespacecl__nav2z_a34ec05c7bbb636198f0eb71efb1eb1e8}{frameid}} = this-\/>\mbox{\hyperlink{classcl__move__group__interface_1_1CbMoveEndEffectorTrajectory_a74b9be206657836792fcab3fe109b72b}{endEffectorTrajectory\_}}.front().header.frame\_id;}
+\DoxyCodeLine{\Hypertarget{cb__move__end__effector__trajectory_8cpp_source_l00391}00391 }
+\DoxyCodeLine{\Hypertarget{cb__move__end__effector__trajectory_8cpp_source_l00392}00392   \textcolor{keywordflow}{for} (\textcolor{keyword}{auto} \& pose : this-\/>\mbox{\hyperlink{classcl__move__group__interface_1_1CbMoveEndEffectorTrajectory_a74b9be206657836792fcab3fe109b72b}{endEffectorTrajectory\_}})}
+\DoxyCodeLine{\Hypertarget{cb__move__end__effector__trajectory_8cpp_source_l00393}00393   \{}
+\DoxyCodeLine{\Hypertarget{cb__move__end__effector__trajectory_8cpp_source_l00394}00394     visualization\_msgs::msg::Marker marker;}
+\DoxyCodeLine{\Hypertarget{cb__move__end__effector__trajectory_8cpp_source_l00395}00395     marker.header.frame\_id = \mbox{\hyperlink{namespacecl__nav2z_a34ec05c7bbb636198f0eb71efb1eb1e8}{frameid}};}
+\DoxyCodeLine{\Hypertarget{cb__move__end__effector__trajectory_8cpp_source_l00396}00396     marker.header.stamp = \mbox{\hyperlink{classsmacc2_1_1ISmaccClientBehavior_aa1b28d5e8a5208fff8160f9df9a89dc6}{getNode}}()-\/>now();}
+\DoxyCodeLine{\Hypertarget{cb__move__end__effector__trajectory_8cpp_source_l00397}00397     marker.ns = \textcolor{stringliteral}{"{}trajectory"{}};}
+\DoxyCodeLine{\Hypertarget{cb__move__end__effector__trajectory_8cpp_source_l00398}00398     marker.id = this-\/>\mbox{\hyperlink{classcl__move__group__interface_1_1CbMoveEndEffectorTrajectory_ac12590d68ee344157ed4b3b45085771b}{beahiorMarkers\_}}.markers.size();}
+\DoxyCodeLine{\Hypertarget{cb__move__end__effector__trajectory_8cpp_source_l00399}00399     marker.type = visualization\_msgs::msg::Marker::ARROW;}
+\DoxyCodeLine{\Hypertarget{cb__move__end__effector__trajectory_8cpp_source_l00400}00400     marker.action = visualization\_msgs::msg::Marker::ADD;}
+\DoxyCodeLine{\Hypertarget{cb__move__end__effector__trajectory_8cpp_source_l00401}00401     marker.scale.x = 0.005;}
+\DoxyCodeLine{\Hypertarget{cb__move__end__effector__trajectory_8cpp_source_l00402}00402     marker.scale.y = 0.01;}
+\DoxyCodeLine{\Hypertarget{cb__move__end__effector__trajectory_8cpp_source_l00403}00403     marker.scale.z = 0.01;}
+\DoxyCodeLine{\Hypertarget{cb__move__end__effector__trajectory_8cpp_source_l00404}00404     marker.color.a = 0.8;}
+\DoxyCodeLine{\Hypertarget{cb__move__end__effector__trajectory_8cpp_source_l00405}00405     marker.color.r = 1.0;}
+\DoxyCodeLine{\Hypertarget{cb__move__end__effector__trajectory_8cpp_source_l00406}00406     marker.color.g = 0;}
+\DoxyCodeLine{\Hypertarget{cb__move__end__effector__trajectory_8cpp_source_l00407}00407     marker.color.b = 0;}
+\DoxyCodeLine{\Hypertarget{cb__move__end__effector__trajectory_8cpp_source_l00408}00408 }
+\DoxyCodeLine{\Hypertarget{cb__move__end__effector__trajectory_8cpp_source_l00409}00409     geometry\_msgs::msg::Point start, end;}
+\DoxyCodeLine{\Hypertarget{cb__move__end__effector__trajectory_8cpp_source_l00410}00410     start.x = 0;}
+\DoxyCodeLine{\Hypertarget{cb__move__end__effector__trajectory_8cpp_source_l00411}00411     start.y = 0;}
+\DoxyCodeLine{\Hypertarget{cb__move__end__effector__trajectory_8cpp_source_l00412}00412     start.z = 0;}
+\DoxyCodeLine{\Hypertarget{cb__move__end__effector__trajectory_8cpp_source_l00413}00413 }
+\DoxyCodeLine{\Hypertarget{cb__move__end__effector__trajectory_8cpp_source_l00414}00414     tf2::Transform basetransform;}
+\DoxyCodeLine{\Hypertarget{cb__move__end__effector__trajectory_8cpp_source_l00415}00415     tf2::fromMsg(pose.pose, basetransform);}
+\DoxyCodeLine{\Hypertarget{cb__move__end__effector__trajectory_8cpp_source_l00416}00416     \textcolor{comment}{// tf2::Transform endarrow = localdirection * basetransform;}}
+\DoxyCodeLine{\Hypertarget{cb__move__end__effector__trajectory_8cpp_source_l00417}00417 }
+\DoxyCodeLine{\Hypertarget{cb__move__end__effector__trajectory_8cpp_source_l00418}00418     end.x = localdirection.getOrigin().x();}
+\DoxyCodeLine{\Hypertarget{cb__move__end__effector__trajectory_8cpp_source_l00419}00419     end.y = localdirection.getOrigin().y();}
+\DoxyCodeLine{\Hypertarget{cb__move__end__effector__trajectory_8cpp_source_l00420}00420     end.z = localdirection.getOrigin().z();}
+\DoxyCodeLine{\Hypertarget{cb__move__end__effector__trajectory_8cpp_source_l00421}00421 }
+\DoxyCodeLine{\Hypertarget{cb__move__end__effector__trajectory_8cpp_source_l00422}00422     marker.pose.position = pose.pose.position;}
+\DoxyCodeLine{\Hypertarget{cb__move__end__effector__trajectory_8cpp_source_l00423}00423     marker.pose.orientation = pose.pose.orientation;}
+\DoxyCodeLine{\Hypertarget{cb__move__end__effector__trajectory_8cpp_source_l00424}00424     marker.points.push\_back(start);}
+\DoxyCodeLine{\Hypertarget{cb__move__end__effector__trajectory_8cpp_source_l00425}00425     marker.points.push\_back(end);}
+\DoxyCodeLine{\Hypertarget{cb__move__end__effector__trajectory_8cpp_source_l00426}00426 }
+\DoxyCodeLine{\Hypertarget{cb__move__end__effector__trajectory_8cpp_source_l00427}00427     \mbox{\hyperlink{classcl__move__group__interface_1_1CbMoveEndEffectorTrajectory_ac12590d68ee344157ed4b3b45085771b}{beahiorMarkers\_}}.markers.push\_back(marker);}
+\DoxyCodeLine{\Hypertarget{cb__move__end__effector__trajectory_8cpp_source_l00428}00428   \}}
+\DoxyCodeLine{\Hypertarget{cb__move__end__effector__trajectory_8cpp_source_l00429}00429 \}}
+\DoxyCodeLine{\Hypertarget{cb__move__end__effector__trajectory_8cpp_source_l00430}00430 }
+\DoxyCodeLine{\Hypertarget{cb__move__end__effector__trajectory_8cpp_source_l00431}\mbox{\hyperlink{classcl__move__group__interface_1_1CbMoveEndEffectorTrajectory_ab415fcc599d156158fc017a0beb29c20}{00431}} \textcolor{keywordtype}{void} \mbox{\hyperlink{classcl__move__group__interface_1_1CbMoveEndEffectorTrajectory_ab415fcc599d156158fc017a0beb29c20}{CbMoveEndEffectorTrajectory::generateTrajectory}}()}
+\DoxyCodeLine{\Hypertarget{cb__move__end__effector__trajectory_8cpp_source_l00432}00432 \{}
+\DoxyCodeLine{\Hypertarget{cb__move__end__effector__trajectory_8cpp_source_l00433}00433   \textcolor{comment}{// bypass current trajectory, overridden in derived classes}}
+\DoxyCodeLine{\Hypertarget{cb__move__end__effector__trajectory_8cpp_source_l00434}00434   \textcolor{comment}{// this-\/>endEffectorTrajectory\_ = ...}}
+\DoxyCodeLine{\Hypertarget{cb__move__end__effector__trajectory_8cpp_source_l00435}00435 \}}
+\DoxyCodeLine{\Hypertarget{cb__move__end__effector__trajectory_8cpp_source_l00436}00436 }
+\DoxyCodeLine{\Hypertarget{cb__move__end__effector__trajectory_8cpp_source_l00437}\mbox{\hyperlink{classcl__move__group__interface_1_1CbMoveEndEffectorTrajectory_a5bc57c28c9a7b050e584d4d0ebf3019a}{00437}} \textcolor{keywordtype}{void} \mbox{\hyperlink{classcl__move__group__interface_1_1CbMoveEndEffectorTrajectory_a5bc57c28c9a7b050e584d4d0ebf3019a}{CbMoveEndEffectorTrajectory::getCurrentEndEffectorPose}}(}
+\DoxyCodeLine{\Hypertarget{cb__move__end__effector__trajectory_8cpp_source_l00438}00438   std::string globalFrame, tf2::Stamped<tf2::Transform> \& currentEndEffectorTransform)}
+\DoxyCodeLine{\Hypertarget{cb__move__end__effector__trajectory_8cpp_source_l00439}00439 \{}
+\DoxyCodeLine{\Hypertarget{cb__move__end__effector__trajectory_8cpp_source_l00440}00440   tf2\_ros::Buffer tfBuffer(\mbox{\hyperlink{classsmacc2_1_1ISmaccClientBehavior_aa1b28d5e8a5208fff8160f9df9a89dc6}{getNode}}()-\/>get\_clock());}
+\DoxyCodeLine{\Hypertarget{cb__move__end__effector__trajectory_8cpp_source_l00441}00441   tf2\_ros::TransformListener tfListener(tfBuffer);}
+\DoxyCodeLine{\Hypertarget{cb__move__end__effector__trajectory_8cpp_source_l00442}00442 }
+\DoxyCodeLine{\Hypertarget{cb__move__end__effector__trajectory_8cpp_source_l00443}00443   \textcolor{keywordflow}{try}}
+\DoxyCodeLine{\Hypertarget{cb__move__end__effector__trajectory_8cpp_source_l00444}00444   \{}
+\DoxyCodeLine{\Hypertarget{cb__move__end__effector__trajectory_8cpp_source_l00445}00445     \textcolor{keywordflow}{if} (!\mbox{\hyperlink{classcl__move__group__interface_1_1CbMoveEndEffectorTrajectory_a440ac01b15730ce115301af8d5cd06b6}{tipLink\_}} || *\mbox{\hyperlink{classcl__move__group__interface_1_1CbMoveEndEffectorTrajectory_a440ac01b15730ce115301af8d5cd06b6}{tipLink\_}} == \textcolor{stringliteral}{"{}"{}})}
+\DoxyCodeLine{\Hypertarget{cb__move__end__effector__trajectory_8cpp_source_l00446}00446     \{}
+\DoxyCodeLine{\Hypertarget{cb__move__end__effector__trajectory_8cpp_source_l00447}00447       \mbox{\hyperlink{classcl__move__group__interface_1_1CbMoveEndEffectorTrajectory_a440ac01b15730ce115301af8d5cd06b6}{tipLink\_}} = this-\/>\mbox{\hyperlink{classcl__move__group__interface_1_1CbMoveEndEffectorTrajectory_aea650d3e7836125b32be97392b71a7f3}{movegroupClient\_}}-\/>\mbox{\hyperlink{classcl__move__group__interface_1_1ClMoveGroup_a373720007275c5148ddacc5d7214df50}{moveGroupClientInterface}}-\/>getEndEffectorLink();}
+\DoxyCodeLine{\Hypertarget{cb__move__end__effector__trajectory_8cpp_source_l00448}00448     \}}
+\DoxyCodeLine{\Hypertarget{cb__move__end__effector__trajectory_8cpp_source_l00449}00449 }
+\DoxyCodeLine{\Hypertarget{cb__move__end__effector__trajectory_8cpp_source_l00450}00450     tf2::fromMsg(}
+\DoxyCodeLine{\Hypertarget{cb__move__end__effector__trajectory_8cpp_source_l00451}00451       tfBuffer.lookupTransform(globalFrame, *\mbox{\hyperlink{classcl__move__group__interface_1_1CbMoveEndEffectorTrajectory_a440ac01b15730ce115301af8d5cd06b6}{tipLink\_}}, rclcpp::Time(0), rclcpp::Duration(10\mbox{\hyperlink{namespaceservice__node__3_aa976421a49e0b54f23833423400849ae}{s}})),}
+\DoxyCodeLine{\Hypertarget{cb__move__end__effector__trajectory_8cpp_source_l00452}00452       currentEndEffectorTransform);}
+\DoxyCodeLine{\Hypertarget{cb__move__end__effector__trajectory_8cpp_source_l00453}00453 }
+\DoxyCodeLine{\Hypertarget{cb__move__end__effector__trajectory_8cpp_source_l00454}00454     \textcolor{comment}{//tfListener.lookupTransform(globalFrame, *tipLink\_, rclcpp::Time(0), currentEndEffectorTransform);}}
+\DoxyCodeLine{\Hypertarget{cb__move__end__effector__trajectory_8cpp_source_l00455}00455 }
+\DoxyCodeLine{\Hypertarget{cb__move__end__effector__trajectory_8cpp_source_l00456}00456     \textcolor{comment}{// we define here the global frame as the pivot frame id}}
+\DoxyCodeLine{\Hypertarget{cb__move__end__effector__trajectory_8cpp_source_l00457}00457     \textcolor{comment}{// tfListener.waitForTransform(currentRobotEndEffectorPose.header.frame\_id, planePivotPose\_.header.frame\_id, rclcpp::Time(0), rclcpp::Duration(10));}}
+\DoxyCodeLine{\Hypertarget{cb__move__end__effector__trajectory_8cpp_source_l00458}00458     \textcolor{comment}{// tfListener.lookupTransform(currentRobotEndEffectorPose.header.frame\_id, planePivotPose\_.header.frame\_id, rclcpp::Time(0), globalBaseLink);}}
+\DoxyCodeLine{\Hypertarget{cb__move__end__effector__trajectory_8cpp_source_l00459}00459   \}}
+\DoxyCodeLine{\Hypertarget{cb__move__end__effector__trajectory_8cpp_source_l00460}00460   \textcolor{keywordflow}{catch} (\textcolor{keyword}{const} std::exception \& e)}
+\DoxyCodeLine{\Hypertarget{cb__move__end__effector__trajectory_8cpp_source_l00461}00461   \{}
+\DoxyCodeLine{\Hypertarget{cb__move__end__effector__trajectory_8cpp_source_l00462}00462     std::cerr << e.what() << std::endl;}
+\DoxyCodeLine{\Hypertarget{cb__move__end__effector__trajectory_8cpp_source_l00463}00463   \}}
+\DoxyCodeLine{\Hypertarget{cb__move__end__effector__trajectory_8cpp_source_l00464}00464 \}}
+\DoxyCodeLine{\Hypertarget{cb__move__end__effector__trajectory_8cpp_source_l00465}00465 \}  \textcolor{comment}{// namespace cl\_move\_group\_interface}}
+
+\end{DoxyCode}

@@ -1,0 +1,92 @@
+\hypertarget{cb__wait__topic__message_8hpp_source}{}\doxysection{cb\+\_\+wait\+\_\+topic\+\_\+message.\+hpp}
+\label{cb__wait__topic__message_8hpp_source}\index{smacc2/include/smacc2/client\_behaviors/cb\_wait\_topic\_message.hpp@{smacc2/include/smacc2/client\_behaviors/cb\_wait\_topic\_message.hpp}}
+\mbox{\hyperlink{cb__wait__topic__message_8hpp}{Go to the documentation of this file.}}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\Hypertarget{cb__wait__topic__message_8hpp_source_l00001}00001 \textcolor{comment}{// Copyright 2021 RobosoftAI Inc.}}
+\DoxyCodeLine{\Hypertarget{cb__wait__topic__message_8hpp_source_l00002}00002 \textcolor{comment}{//}}
+\DoxyCodeLine{\Hypertarget{cb__wait__topic__message_8hpp_source_l00003}00003 \textcolor{comment}{// Licensed under the Apache License, Version 2.0 (the "{}License"{});}}
+\DoxyCodeLine{\Hypertarget{cb__wait__topic__message_8hpp_source_l00004}00004 \textcolor{comment}{// you may not use this file except in compliance with the License.}}
+\DoxyCodeLine{\Hypertarget{cb__wait__topic__message_8hpp_source_l00005}00005 \textcolor{comment}{// You may obtain a copy of the License at}}
+\DoxyCodeLine{\Hypertarget{cb__wait__topic__message_8hpp_source_l00006}00006 \textcolor{comment}{//}}
+\DoxyCodeLine{\Hypertarget{cb__wait__topic__message_8hpp_source_l00007}00007 \textcolor{comment}{//     http://www.apache.org/licenses/LICENSE-\/2.0}}
+\DoxyCodeLine{\Hypertarget{cb__wait__topic__message_8hpp_source_l00008}00008 \textcolor{comment}{//}}
+\DoxyCodeLine{\Hypertarget{cb__wait__topic__message_8hpp_source_l00009}00009 \textcolor{comment}{// Unless required by applicable law or agreed to in writing, software}}
+\DoxyCodeLine{\Hypertarget{cb__wait__topic__message_8hpp_source_l00010}00010 \textcolor{comment}{// distributed under the License is distributed on an "{}AS IS"{} BASIS,}}
+\DoxyCodeLine{\Hypertarget{cb__wait__topic__message_8hpp_source_l00011}00011 \textcolor{comment}{// WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.}}
+\DoxyCodeLine{\Hypertarget{cb__wait__topic__message_8hpp_source_l00012}00012 \textcolor{comment}{// See the License for the specific language governing permissions and}}
+\DoxyCodeLine{\Hypertarget{cb__wait__topic__message_8hpp_source_l00013}00013 \textcolor{comment}{// limitations under the License.}}
+\DoxyCodeLine{\Hypertarget{cb__wait__topic__message_8hpp_source_l00014}00014 }
+\DoxyCodeLine{\Hypertarget{cb__wait__topic__message_8hpp_source_l00015}00015 \textcolor{comment}{/*****************************************************************************************************************}}
+\DoxyCodeLine{\Hypertarget{cb__wait__topic__message_8hpp_source_l00016}00016 \textcolor{comment}{ *}}
+\DoxyCodeLine{\Hypertarget{cb__wait__topic__message_8hpp_source_l00017}00017 \textcolor{comment}{ *   Authors: Pablo Inigo Blasco, Brett Aldrich}}
+\DoxyCodeLine{\Hypertarget{cb__wait__topic__message_8hpp_source_l00018}00018 \textcolor{comment}{ *}}
+\DoxyCodeLine{\Hypertarget{cb__wait__topic__message_8hpp_source_l00019}00019 \textcolor{comment}{ ******************************************************************************************************************/}}
+\DoxyCodeLine{\Hypertarget{cb__wait__topic__message_8hpp_source_l00020}00020 }
+\DoxyCodeLine{\Hypertarget{cb__wait__topic__message_8hpp_source_l00021}00021 \textcolor{preprocessor}{\#pragma once}}
+\DoxyCodeLine{\Hypertarget{cb__wait__topic__message_8hpp_source_l00022}00022 }
+\DoxyCodeLine{\Hypertarget{cb__wait__topic__message_8hpp_source_l00023}00023 \textcolor{preprocessor}{\#include <functional>}}
+\DoxyCodeLine{\Hypertarget{cb__wait__topic__message_8hpp_source_l00024}00024 \textcolor{preprocessor}{\#include <rclcpp/rclcpp.hpp>}}
+\DoxyCodeLine{\Hypertarget{cb__wait__topic__message_8hpp_source_l00025}00025 \textcolor{preprocessor}{\#include <\mbox{\hyperlink{smacc__asynchronous__client__behavior_8hpp}{smacc2/smacc\_asynchronous\_client\_behavior.hpp}}>}}
+\DoxyCodeLine{\Hypertarget{cb__wait__topic__message_8hpp_source_l00026}00026 }
+\DoxyCodeLine{\Hypertarget{cb__wait__topic__message_8hpp_source_l00027}00027 \textcolor{keyword}{namespace }\mbox{\hyperlink{namespacesmacc2}{smacc2}}}
+\DoxyCodeLine{\Hypertarget{cb__wait__topic__message_8hpp_source_l00028}00028 \{}
+\DoxyCodeLine{\Hypertarget{cb__wait__topic__message_8hpp_source_l00029}00029 \textcolor{keyword}{namespace }client\_behaviors}
+\DoxyCodeLine{\Hypertarget{cb__wait__topic__message_8hpp_source_l00030}00030 \{}
+\DoxyCodeLine{\Hypertarget{cb__wait__topic__message_8hpp_source_l00031}00031 \textcolor{keyword}{using namespace }std::chrono\_literals;}
+\DoxyCodeLine{\Hypertarget{cb__wait__topic__message_8hpp_source_l00032}00032 }
+\DoxyCodeLine{\Hypertarget{cb__wait__topic__message_8hpp_source_l00033}00033 \textcolor{comment}{// Asynchronous behavior that waits to a topic message to send EvCbSuccess event}}
+\DoxyCodeLine{\Hypertarget{cb__wait__topic__message_8hpp_source_l00034}00034 \textcolor{comment}{// a guard function can be set to use conditions on the contents}}
+\DoxyCodeLine{\Hypertarget{cb__wait__topic__message_8hpp_source_l00035}00035 \textcolor{keyword}{template} <\textcolor{keyword}{typename} TMessage>}
+\DoxyCodeLine{\Hypertarget{cb__wait__topic__message_8hpp_source_l00036}\mbox{\hyperlink{classsmacc2_1_1client__behaviors_1_1CbWaitTopicMessage}{00036}} \textcolor{keyword}{class }\mbox{\hyperlink{classsmacc2_1_1client__behaviors_1_1CbWaitTopicMessage}{CbWaitTopicMessage}} : \textcolor{keyword}{public} \mbox{\hyperlink{classsmacc2_1_1SmaccAsyncClientBehavior}{smacc2::SmaccAsyncClientBehavior}}}
+\DoxyCodeLine{\Hypertarget{cb__wait__topic__message_8hpp_source_l00037}00037 \{}
+\DoxyCodeLine{\Hypertarget{cb__wait__topic__message_8hpp_source_l00038}00038 \textcolor{keyword}{public}:}
+\DoxyCodeLine{\Hypertarget{cb__wait__topic__message_8hpp_source_l00039}\mbox{\hyperlink{classsmacc2_1_1client__behaviors_1_1CbWaitTopicMessage_ab1284bcd8eee0d68e59b09ad20e8ed2a}{00039}}   \mbox{\hyperlink{classsmacc2_1_1client__behaviors_1_1CbWaitTopicMessage_ab1284bcd8eee0d68e59b09ad20e8ed2a}{CbWaitTopicMessage}}(}
+\DoxyCodeLine{\Hypertarget{cb__wait__topic__message_8hpp_source_l00040}00040     \textcolor{keyword}{const} \textcolor{keywordtype}{char} * topicname, std::function<\textcolor{keywordtype}{bool}(\textcolor{keyword}{const} TMessage \&)> guardFunction = \textcolor{keyword}{nullptr})}
+\DoxyCodeLine{\Hypertarget{cb__wait__topic__message_8hpp_source_l00041}00041   \{}
+\DoxyCodeLine{\Hypertarget{cb__wait__topic__message_8hpp_source_l00042}00042     \mbox{\hyperlink{classsmacc2_1_1client__behaviors_1_1CbWaitTopicMessage_adc91936d8c4343421d47c0e6522075c3}{topicname\_}} = topicname;}
+\DoxyCodeLine{\Hypertarget{cb__wait__topic__message_8hpp_source_l00043}00043     \mbox{\hyperlink{classsmacc2_1_1client__behaviors_1_1CbWaitTopicMessage_ad236450c6f71e14fec485380a249deda}{guardFn\_}} = guardFunction;}
+\DoxyCodeLine{\Hypertarget{cb__wait__topic__message_8hpp_source_l00044}00044   \}}
+\DoxyCodeLine{\Hypertarget{cb__wait__topic__message_8hpp_source_l00045}00045 }
+\DoxyCodeLine{\Hypertarget{cb__wait__topic__message_8hpp_source_l00046}\mbox{\hyperlink{classsmacc2_1_1client__behaviors_1_1CbWaitTopicMessage_a0fb4fe2cf6faa639b3b8a3cf1bde28c2}{00046}}   \textcolor{keyword}{virtual} \mbox{\hyperlink{classsmacc2_1_1client__behaviors_1_1CbWaitTopicMessage_a0fb4fe2cf6faa639b3b8a3cf1bde28c2}{\string~CbWaitTopicMessage}}() \{\}}
+\DoxyCodeLine{\Hypertarget{cb__wait__topic__message_8hpp_source_l00047}00047 }
+\DoxyCodeLine{\Hypertarget{cb__wait__topic__message_8hpp_source_l00048}\mbox{\hyperlink{classsmacc2_1_1client__behaviors_1_1CbWaitTopicMessage_af32119d355d659a52f61b7ec86139248}{00048}}   \textcolor{keywordtype}{void} \mbox{\hyperlink{classsmacc2_1_1client__behaviors_1_1CbWaitTopicMessage_af32119d355d659a52f61b7ec86139248}{onEntry}}()\textcolor{keyword}{ override}}
+\DoxyCodeLine{\Hypertarget{cb__wait__topic__message_8hpp_source_l00049}00049 \textcolor{keyword}{  }\{}
+\DoxyCodeLine{\Hypertarget{cb__wait__topic__message_8hpp_source_l00050}00050     rclcpp::SensorDataQoS qos;}
+\DoxyCodeLine{\Hypertarget{cb__wait__topic__message_8hpp_source_l00051}00051     \textcolor{comment}{// qos.reliable();}}
+\DoxyCodeLine{\Hypertarget{cb__wait__topic__message_8hpp_source_l00052}00052     \textcolor{comment}{// rclcpp::SubscriptionOptions sub\_option;}}
+\DoxyCodeLine{\Hypertarget{cb__wait__topic__message_8hpp_source_l00053}00053     RCLCPP\_INFO\_STREAM(}
+\DoxyCodeLine{\Hypertarget{cb__wait__topic__message_8hpp_source_l00054}00054       \mbox{\hyperlink{classsmacc2_1_1ISmaccClientBehavior_a9c3d82542c800e2ba5207c5cff0e63e8}{getLogger}}(), \textcolor{stringliteral}{"{}[CbWaitTopicMessage] waiting message from topic: "{}}}
+\DoxyCodeLine{\Hypertarget{cb__wait__topic__message_8hpp_source_l00055}00055                      << \mbox{\hyperlink{classsmacc2_1_1client__behaviors_1_1CbWaitTopicMessage_adc91936d8c4343421d47c0e6522075c3}{topicname\_}} << \textcolor{stringliteral}{"{}["{}} << demangledTypeName<TMessage>() << \textcolor{stringliteral}{"{}]"{}});}
+\DoxyCodeLine{\Hypertarget{cb__wait__topic__message_8hpp_source_l00056}00056 }
+\DoxyCodeLine{\Hypertarget{cb__wait__topic__message_8hpp_source_l00057}00057     \textcolor{comment}{// sub\_ = getNode()-\/>create\_subscription<TMessage>(}}
+\DoxyCodeLine{\Hypertarget{cb__wait__topic__message_8hpp_source_l00058}00058     \textcolor{comment}{//   topicname\_, qos,}}
+\DoxyCodeLine{\Hypertarget{cb__wait__topic__message_8hpp_source_l00059}00059     \textcolor{comment}{//   std::bind(\&CbWaitTopicMessage<TMessage>::onMessageReceived, this, std::placeholders::\_1),}}
+\DoxyCodeLine{\Hypertarget{cb__wait__topic__message_8hpp_source_l00060}00060     \textcolor{comment}{//   sub\_option);}}
+\DoxyCodeLine{\Hypertarget{cb__wait__topic__message_8hpp_source_l00061}00061 }
+\DoxyCodeLine{\Hypertarget{cb__wait__topic__message_8hpp_source_l00062}00062     std::function<void(\textcolor{keyword}{typename} TMessage::SharedPtr)> fn = [\textcolor{keyword}{this}](\textcolor{keyword}{auto} msg)}
+\DoxyCodeLine{\Hypertarget{cb__wait__topic__message_8hpp_source_l00063}00063     \{ this-\/>\mbox{\hyperlink{classsmacc2_1_1client__behaviors_1_1CbWaitTopicMessage_a373938a6c7bd8c0cead2a70000ece324}{onMessageReceived}}(msg); \};}
+\DoxyCodeLine{\Hypertarget{cb__wait__topic__message_8hpp_source_l00064}00064 }
+\DoxyCodeLine{\Hypertarget{cb__wait__topic__message_8hpp_source_l00065}00065     \textcolor{keyword}{auto} nh = \mbox{\hyperlink{classsmacc2_1_1ISmaccClientBehavior_aa1b28d5e8a5208fff8160f9df9a89dc6}{getNode}}();}
+\DoxyCodeLine{\Hypertarget{cb__wait__topic__message_8hpp_source_l00066}00066     \mbox{\hyperlink{classsmacc2_1_1client__behaviors_1_1CbWaitTopicMessage_af77f242e3749de8fdd2f0def5e198c7c}{sub\_}} = nh-\/>create\_subscription<TMessage>(\mbox{\hyperlink{classsmacc2_1_1client__behaviors_1_1CbWaitTopicMessage_adc91936d8c4343421d47c0e6522075c3}{topicname\_}}, qos, fn);}
+\DoxyCodeLine{\Hypertarget{cb__wait__topic__message_8hpp_source_l00067}00067   \}}
+\DoxyCodeLine{\Hypertarget{cb__wait__topic__message_8hpp_source_l00068}00068 }
+\DoxyCodeLine{\Hypertarget{cb__wait__topic__message_8hpp_source_l00069}\mbox{\hyperlink{classsmacc2_1_1client__behaviors_1_1CbWaitTopicMessage_a373938a6c7bd8c0cead2a70000ece324}{00069}}   \textcolor{keywordtype}{void} \mbox{\hyperlink{classsmacc2_1_1client__behaviors_1_1CbWaitTopicMessage_a373938a6c7bd8c0cead2a70000ece324}{onMessageReceived}}(\textcolor{keyword}{const} \textcolor{keyword}{typename} TMessage::SharedPtr msg)}
+\DoxyCodeLine{\Hypertarget{cb__wait__topic__message_8hpp_source_l00070}00070   \{}
+\DoxyCodeLine{\Hypertarget{cb__wait__topic__message_8hpp_source_l00071}00071     \textcolor{keywordflow}{if} (\mbox{\hyperlink{classsmacc2_1_1client__behaviors_1_1CbWaitTopicMessage_ad236450c6f71e14fec485380a249deda}{guardFn\_}} == \textcolor{keyword}{nullptr} || \mbox{\hyperlink{classsmacc2_1_1client__behaviors_1_1CbWaitTopicMessage_ad236450c6f71e14fec485380a249deda}{guardFn\_}}(*msg))}
+\DoxyCodeLine{\Hypertarget{cb__wait__topic__message_8hpp_source_l00072}00072     \{}
+\DoxyCodeLine{\Hypertarget{cb__wait__topic__message_8hpp_source_l00073}00073       RCLCPP\_INFO(\mbox{\hyperlink{classsmacc2_1_1ISmaccClientBehavior_a9c3d82542c800e2ba5207c5cff0e63e8}{getLogger}}(), \textcolor{stringliteral}{"{}[CbWaitTopicMessage] message received."{}});}
+\DoxyCodeLine{\Hypertarget{cb__wait__topic__message_8hpp_source_l00074}00074       \mbox{\hyperlink{classsmacc2_1_1client__behaviors_1_1CbWaitTopicMessage_a3507692d2bfb6d382ccb103774fe9e08}{success}} = \textcolor{keyword}{true};}
+\DoxyCodeLine{\Hypertarget{cb__wait__topic__message_8hpp_source_l00075}00075       this-\/>\mbox{\hyperlink{classsmacc2_1_1SmaccAsyncClientBehavior_a2fb4de26d011fbbb55bc1bbaed2e6f5b}{postSuccessEvent}}();}
+\DoxyCodeLine{\Hypertarget{cb__wait__topic__message_8hpp_source_l00076}00076     \}}
+\DoxyCodeLine{\Hypertarget{cb__wait__topic__message_8hpp_source_l00077}00077   \}}
+\DoxyCodeLine{\Hypertarget{cb__wait__topic__message_8hpp_source_l00078}00078 }
+\DoxyCodeLine{\Hypertarget{cb__wait__topic__message_8hpp_source_l00079}00079 \textcolor{keyword}{protected}:}
+\DoxyCodeLine{\Hypertarget{cb__wait__topic__message_8hpp_source_l00080}\mbox{\hyperlink{classsmacc2_1_1client__behaviors_1_1CbWaitTopicMessage_a3507692d2bfb6d382ccb103774fe9e08}{00080}}   \textcolor{keywordtype}{bool} \mbox{\hyperlink{classsmacc2_1_1client__behaviors_1_1CbWaitTopicMessage_a3507692d2bfb6d382ccb103774fe9e08}{success}} = \textcolor{keyword}{false};}
+\DoxyCodeLine{\Hypertarget{cb__wait__topic__message_8hpp_source_l00081}\mbox{\hyperlink{classsmacc2_1_1client__behaviors_1_1CbWaitTopicMessage_af77f242e3749de8fdd2f0def5e198c7c}{00081}}   \textcolor{keyword}{typename} rclcpp::Subscription<TMessage>::SharedPtr \mbox{\hyperlink{classsmacc2_1_1client__behaviors_1_1CbWaitTopicMessage_af77f242e3749de8fdd2f0def5e198c7c}{sub\_}};}
+\DoxyCodeLine{\Hypertarget{cb__wait__topic__message_8hpp_source_l00082}\mbox{\hyperlink{classsmacc2_1_1client__behaviors_1_1CbWaitTopicMessage_ad236450c6f71e14fec485380a249deda}{00082}}   std::function<\mbox{\hyperlink{classbool}{bool}}(\textcolor{keyword}{const} TMessage \&)> \mbox{\hyperlink{classsmacc2_1_1client__behaviors_1_1CbWaitTopicMessage_ad236450c6f71e14fec485380a249deda}{guardFn\_}};}
+\DoxyCodeLine{\Hypertarget{cb__wait__topic__message_8hpp_source_l00083}\mbox{\hyperlink{classsmacc2_1_1client__behaviors_1_1CbWaitTopicMessage_adc91936d8c4343421d47c0e6522075c3}{00083}}   std::string \mbox{\hyperlink{classsmacc2_1_1client__behaviors_1_1CbWaitTopicMessage_adc91936d8c4343421d47c0e6522075c3}{topicname\_}};}
+\DoxyCodeLine{\Hypertarget{cb__wait__topic__message_8hpp_source_l00084}00084 \};}
+\DoxyCodeLine{\Hypertarget{cb__wait__topic__message_8hpp_source_l00085}00085 \}  \textcolor{comment}{// namespace client\_behaviors}}
+\DoxyCodeLine{\Hypertarget{cb__wait__topic__message_8hpp_source_l00086}00086 \}  \textcolor{comment}{// namespace smacc2}}
+
+\end{DoxyCode}

@@ -1,0 +1,503 @@
+\hypertarget{smacc__state__base_8hpp_source}{}\doxysection{smacc\+\_\+state\+\_\+base.\+hpp}
+\label{smacc__state__base_8hpp_source}\index{smacc2/include/smacc2/smacc\_state\_base.hpp@{smacc2/include/smacc2/smacc\_state\_base.hpp}}
+\mbox{\hyperlink{smacc__state__base_8hpp}{Go to the documentation of this file.}}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\Hypertarget{smacc__state__base_8hpp_source_l00001}00001 \textcolor{comment}{// Copyright 2021 RobosoftAI Inc.}}
+\DoxyCodeLine{\Hypertarget{smacc__state__base_8hpp_source_l00002}00002 \textcolor{comment}{//}}
+\DoxyCodeLine{\Hypertarget{smacc__state__base_8hpp_source_l00003}00003 \textcolor{comment}{// Licensed under the Apache License, Version 2.0 (the "{}License"{});}}
+\DoxyCodeLine{\Hypertarget{smacc__state__base_8hpp_source_l00004}00004 \textcolor{comment}{// you may not use this file except in compliance with the License.}}
+\DoxyCodeLine{\Hypertarget{smacc__state__base_8hpp_source_l00005}00005 \textcolor{comment}{// You may obtain a copy of the License at}}
+\DoxyCodeLine{\Hypertarget{smacc__state__base_8hpp_source_l00006}00006 \textcolor{comment}{//}}
+\DoxyCodeLine{\Hypertarget{smacc__state__base_8hpp_source_l00007}00007 \textcolor{comment}{//     http://www.apache.org/licenses/LICENSE-\/2.0}}
+\DoxyCodeLine{\Hypertarget{smacc__state__base_8hpp_source_l00008}00008 \textcolor{comment}{//}}
+\DoxyCodeLine{\Hypertarget{smacc__state__base_8hpp_source_l00009}00009 \textcolor{comment}{// Unless required by applicable law or agreed to in writing, software}}
+\DoxyCodeLine{\Hypertarget{smacc__state__base_8hpp_source_l00010}00010 \textcolor{comment}{// distributed under the License is distributed on an "{}AS IS"{} BASIS,}}
+\DoxyCodeLine{\Hypertarget{smacc__state__base_8hpp_source_l00011}00011 \textcolor{comment}{// WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.}}
+\DoxyCodeLine{\Hypertarget{smacc__state__base_8hpp_source_l00012}00012 \textcolor{comment}{// See the License for the specific language governing permissions and}}
+\DoxyCodeLine{\Hypertarget{smacc__state__base_8hpp_source_l00013}00013 \textcolor{comment}{// limitations under the License.}}
+\DoxyCodeLine{\Hypertarget{smacc__state__base_8hpp_source_l00014}00014 }
+\DoxyCodeLine{\Hypertarget{smacc__state__base_8hpp_source_l00015}00015 \textcolor{comment}{/*****************************************************************************************************************}}
+\DoxyCodeLine{\Hypertarget{smacc__state__base_8hpp_source_l00016}00016 \textcolor{comment}{ *}}
+\DoxyCodeLine{\Hypertarget{smacc__state__base_8hpp_source_l00017}00017 \textcolor{comment}{ *   Authors: Pablo Inigo Blasco, Brett Aldrich}}
+\DoxyCodeLine{\Hypertarget{smacc__state__base_8hpp_source_l00018}00018 \textcolor{comment}{ *}}
+\DoxyCodeLine{\Hypertarget{smacc__state__base_8hpp_source_l00019}00019 \textcolor{comment}{ ******************************************************************************************************************/}}
+\DoxyCodeLine{\Hypertarget{smacc__state__base_8hpp_source_l00020}00020 }
+\DoxyCodeLine{\Hypertarget{smacc__state__base_8hpp_source_l00021}00021 \textcolor{preprocessor}{\#pragma once}}
+\DoxyCodeLine{\Hypertarget{smacc__state__base_8hpp_source_l00022}00022 \textcolor{preprocessor}{\#include <\mbox{\hyperlink{state__traits_8hpp}{smacc2/introspection/state\_traits.hpp}}>}}
+\DoxyCodeLine{\Hypertarget{smacc__state__base_8hpp_source_l00023}00023 \textcolor{preprocessor}{\#include <\mbox{\hyperlink{smacc__event__generator_8hpp}{smacc2/smacc\_event\_generator.hpp}}>}}
+\DoxyCodeLine{\Hypertarget{smacc__state__base_8hpp_source_l00024}00024 \textcolor{preprocessor}{\#include <\mbox{\hyperlink{smacc__state_8hpp}{smacc2/smacc\_state.hpp}}>}}
+\DoxyCodeLine{\Hypertarget{smacc__state__base_8hpp_source_l00025}00025 \textcolor{preprocessor}{\#include <\mbox{\hyperlink{smacc__state__machine_8hpp}{smacc2/smacc\_state\_machine.hpp}}>}}
+\DoxyCodeLine{\Hypertarget{smacc__state__base_8hpp_source_l00026}00026 \textcolor{preprocessor}{\#include <\mbox{\hyperlink{smacc__state__reactor_8hpp}{smacc2/smacc\_state\_reactor.hpp}}>}}
+\DoxyCodeLine{\Hypertarget{smacc__state__base_8hpp_source_l00027}00027 \textcolor{preprocessor}{\#include <\mbox{\hyperlink{trace__provider_8hpp}{smacc2/smacc\_tracing/trace\_provider.hpp}}>}}
+\DoxyCodeLine{\Hypertarget{smacc__state__base_8hpp_source_l00028}00028 }
+\DoxyCodeLine{\Hypertarget{smacc__state__base_8hpp_source_l00029}\mbox{\hyperlink{smacc__state__base_8hpp_a0d7815723706a488b5bb65f7e3acf584}{00029}} \textcolor{preprocessor}{\#define STATE\_NAME (demangleSymbol(typeid(MostDerived).name()).c\_str())}}
+\DoxyCodeLine{\Hypertarget{smacc__state__base_8hpp_source_l00030}00030 }
+\DoxyCodeLine{\Hypertarget{smacc__state__base_8hpp_source_l00031}00031 \textcolor{keyword}{namespace }\mbox{\hyperlink{namespacesmacc2}{smacc2}}}
+\DoxyCodeLine{\Hypertarget{smacc__state__base_8hpp_source_l00032}00032 \{}
+\DoxyCodeLine{\Hypertarget{smacc__state__base_8hpp_source_l00033}00033 \textcolor{keyword}{using namespace }\mbox{\hyperlink{namespacesmacc2_1_1introspection}{smacc2::introspection}};}
+\DoxyCodeLine{\Hypertarget{smacc__state__base_8hpp_source_l00034}00034 \textcolor{keyword}{using namespace }\mbox{\hyperlink{namespacesmacc2_1_1default__events}{smacc2::default\_events}};}
+\DoxyCodeLine{\Hypertarget{smacc__state__base_8hpp_source_l00035}00035 }
+\DoxyCodeLine{\Hypertarget{smacc__state__base_8hpp_source_l00036}00036 \textcolor{keyword}{template} <}
+\DoxyCodeLine{\Hypertarget{smacc__state__base_8hpp_source_l00037}00037   \textcolor{keyword}{class }MostDerived, \textcolor{keyword}{class }Context, \textcolor{keyword}{class }InnerInitial = mpl::list<>,}
+\DoxyCodeLine{\Hypertarget{smacc__state__base_8hpp_source_l00038}00038   sc::history\_mode historyMode = sc::has\_deep\_history>}
+\DoxyCodeLine{\Hypertarget{smacc__state__base_8hpp_source_l00039}\mbox{\hyperlink{classsmacc2_1_1SmaccState}{00039}} \textcolor{keyword}{class }\mbox{\hyperlink{classsmacc2_1_1SmaccState}{SmaccState}} : \textcolor{keyword}{public} sc::simple\_state<MostDerived, Context, InnerInitial, historyMode>,}
+\DoxyCodeLine{\Hypertarget{smacc__state__base_8hpp_source_l00040}00040                    \textcolor{keyword}{public} \mbox{\hyperlink{classsmacc2_1_1ISmaccState}{ISmaccState}}}
+\DoxyCodeLine{\Hypertarget{smacc__state__base_8hpp_source_l00041}00041 \{}
+\DoxyCodeLine{\Hypertarget{smacc__state__base_8hpp_source_l00042}\mbox{\hyperlink{classsmacc2_1_1SmaccState_a04704034eca82551bb7148e21855a7bd}{00042}}   \textcolor{keyword}{typedef} sc::simple\_state<MostDerived, Context, InnerInitial, historyMode> \mbox{\hyperlink{classsmacc2_1_1SmaccState_a04704034eca82551bb7148e21855a7bd}{base\_type}};}
+\DoxyCodeLine{\Hypertarget{smacc__state__base_8hpp_source_l00043}00043 }
+\DoxyCodeLine{\Hypertarget{smacc__state__base_8hpp_source_l00044}00044 \textcolor{keyword}{public}:}
+\DoxyCodeLine{\Hypertarget{smacc__state__base_8hpp_source_l00045}\mbox{\hyperlink{classsmacc2_1_1SmaccState_a4e7fed520b1b48169d2725d6603668a6}{00045}}   \textcolor{keyword}{typedef} Context \mbox{\hyperlink{classsmacc2_1_1SmaccState_a4e7fed520b1b48169d2725d6603668a6}{TContext}};}
+\DoxyCodeLine{\Hypertarget{smacc__state__base_8hpp_source_l00046}\mbox{\hyperlink{classsmacc2_1_1SmaccState_ab87502f09726ac0b28bbd5ab1501f95e}{00046}}   \textcolor{keyword}{typedef} \textcolor{keyword}{typename} Context::inner\_context\_type \mbox{\hyperlink{classsmacc2_1_1SmaccState_ab87502f09726ac0b28bbd5ab1501f95e}{context\_type}};}
+\DoxyCodeLine{\Hypertarget{smacc__state__base_8hpp_source_l00047}\mbox{\hyperlink{classsmacc2_1_1SmaccState_aa2317a8019682334efb06217c5f47c09}{00047}}   \textcolor{keyword}{typedef} \textcolor{keyword}{typename} context\_type::state\_iterator \mbox{\hyperlink{classsmacc2_1_1SmaccState_aa2317a8019682334efb06217c5f47c09}{state\_iterator}};}
+\DoxyCodeLine{\Hypertarget{smacc__state__base_8hpp_source_l00048}00048 }
+\DoxyCodeLine{\Hypertarget{smacc__state__base_8hpp_source_l00049}\mbox{\hyperlink{classsmacc2_1_1SmaccState_a8a514852da8c1c8387113796cda3941b}{00049}}   \textcolor{keyword}{typedef} InnerInitial \mbox{\hyperlink{classsmacc2_1_1SmaccState_a8a514852da8c1c8387113796cda3941b}{LastDeepState}};}
+\DoxyCodeLine{\Hypertarget{smacc__state__base_8hpp_source_l00050}00050 }
+\DoxyCodeLine{\Hypertarget{smacc__state__base_8hpp_source_l00051}\mbox{\hyperlink{classsmacc2_1_1SmaccState_ae886de123f7a7f921b0d33ca1f2e9a62}{00051}}   \textcolor{keywordtype}{bool} \mbox{\hyperlink{classsmacc2_1_1SmaccState_ae886de123f7a7f921b0d33ca1f2e9a62}{finishStateThrown}};}
+\DoxyCodeLine{\Hypertarget{smacc__state__base_8hpp_source_l00052}\mbox{\hyperlink{classsmacc2_1_1SmaccState_a2bc660ffa80a35e6a1e40dc4c3cc33a0}{00052}}   InnerInitial * \mbox{\hyperlink{classsmacc2_1_1SmaccState_a2bc660ffa80a35e6a1e40dc4c3cc33a0}{smacc\_inner\_type}};}
+\DoxyCodeLine{\Hypertarget{smacc__state__base_8hpp_source_l00053}00053 }
+\DoxyCodeLine{\Hypertarget{smacc__state__base_8hpp_source_l00055}\mbox{\hyperlink{structsmacc2_1_1SmaccState_1_1my__context}{00055}}   \textcolor{keyword}{struct }\mbox{\hyperlink{structsmacc2_1_1SmaccState_1_1my__context}{my\_context}}}
+\DoxyCodeLine{\Hypertarget{smacc__state__base_8hpp_source_l00056}00056   \{}
+\DoxyCodeLine{\Hypertarget{smacc__state__base_8hpp_source_l00057}\mbox{\hyperlink{structsmacc2_1_1SmaccState_1_1my__context_a0b820bfb5f743d5dc6193454242fed32}{00057}}     \mbox{\hyperlink{structsmacc2_1_1SmaccState_1_1my__context_a0b820bfb5f743d5dc6193454242fed32}{my\_context}}(\textcolor{keyword}{typename} base\_type::context\_ptr\_type pContext) : \mbox{\hyperlink{structsmacc2_1_1SmaccState_1_1my__context_a52c079137d251f37f6cc227e1e3783be}{pContext\_}}(pContext) \{\}}
+\DoxyCodeLine{\Hypertarget{smacc__state__base_8hpp_source_l00058}00058 }
+\DoxyCodeLine{\Hypertarget{smacc__state__base_8hpp_source_l00059}\mbox{\hyperlink{structsmacc2_1_1SmaccState_1_1my__context_a52c079137d251f37f6cc227e1e3783be}{00059}}     \textcolor{keyword}{typename} base\_type::context\_ptr\_type \mbox{\hyperlink{structsmacc2_1_1SmaccState_1_1my__context_a52c079137d251f37f6cc227e1e3783be}{pContext\_}};}
+\DoxyCodeLine{\Hypertarget{smacc__state__base_8hpp_source_l00060}00060   \};}
+\DoxyCodeLine{\Hypertarget{smacc__state__base_8hpp_source_l00061}00061 }
+\DoxyCodeLine{\Hypertarget{smacc__state__base_8hpp_source_l00062}\mbox{\hyperlink{classsmacc2_1_1SmaccState_a5333e88bbf720cadc5182f5fd9957ca8}{00062}}   \mbox{\hyperlink{classsmacc2_1_1SmaccState_a5333e88bbf720cadc5182f5fd9957ca8}{SmaccState}}() = \textcolor{keyword}{delete};}
+\DoxyCodeLine{\Hypertarget{smacc__state__base_8hpp_source_l00063}00063 }
+\DoxyCodeLine{\Hypertarget{smacc__state__base_8hpp_source_l00064}00064   \textcolor{comment}{// Constructor that initializes the state ros node handle}}
+\DoxyCodeLine{\Hypertarget{smacc__state__base_8hpp_source_l00065}\mbox{\hyperlink{classsmacc2_1_1SmaccState_a9d1a99ca5afc44ca2bd865694e34e1a5}{00065}}   \mbox{\hyperlink{classsmacc2_1_1SmaccState_a9d1a99ca5afc44ca2bd865694e34e1a5}{SmaccState}}(\mbox{\hyperlink{structsmacc2_1_1SmaccState_1_1my__context}{my\_context}} ctx)}
+\DoxyCodeLine{\Hypertarget{smacc__state__base_8hpp_source_l00066}00066   \{}
+\DoxyCodeLine{\Hypertarget{smacc__state__base_8hpp_source_l00067}00067     \textcolor{keyword}{static\_assert}(}
+\DoxyCodeLine{\Hypertarget{smacc__state__base_8hpp_source_l00068}00068       std::is\_base\_of<ISmaccState, Context>::value ||}
+\DoxyCodeLine{\Hypertarget{smacc__state__base_8hpp_source_l00069}00069         std::is\_base\_of<ISmaccStateMachine, Context>::value,}
+\DoxyCodeLine{\Hypertarget{smacc__state__base_8hpp_source_l00070}00070       \textcolor{stringliteral}{"{}The context class must be a SmaccState or a SmaccStateMachine"{}});}
+\DoxyCodeLine{\Hypertarget{smacc__state__base_8hpp_source_l00071}00071     \textcolor{keyword}{static\_assert}(}
+\DoxyCodeLine{\Hypertarget{smacc__state__base_8hpp_source_l00072}00072       !std::is\_same<MostDerived, Context>::value,}
+\DoxyCodeLine{\Hypertarget{smacc__state__base_8hpp_source_l00073}00073       \textcolor{stringliteral}{"{}The context must be a different state or state machine "{}}}
+\DoxyCodeLine{\Hypertarget{smacc__state__base_8hpp_source_l00074}00074       \textcolor{stringliteral}{"{}than the current state"{}});}
+\DoxyCodeLine{\Hypertarget{smacc__state__base_8hpp_source_l00075}00075 }
+\DoxyCodeLine{\Hypertarget{smacc__state__base_8hpp_source_l00076}00076     \mbox{\hyperlink{classsmacc2_1_1ISmaccState_a05d1116e83e537fa5686660bd4a9cc0e}{logger\_}}.reset(\textcolor{keyword}{new} rclcpp::Logger(}
+\DoxyCodeLine{\Hypertarget{smacc__state__base_8hpp_source_l00077}00077       rclcpp::get\_logger(\mbox{\hyperlink{namespacesmacc2_1_1utils_a8e351c9e84f898c9dff598d5300f735b}{smacc2::utils::cleanShortTypeName}}(\textcolor{keyword}{typeid}(MostDerived)))));}
+\DoxyCodeLine{\Hypertarget{smacc__state__base_8hpp_source_l00078}00078 }
+\DoxyCodeLine{\Hypertarget{smacc__state__base_8hpp_source_l00079}00079     RCLCPP\_INFO(\mbox{\hyperlink{classsmacc2_1_1ISmaccState_a197a2c11b2510484138af98b55761fc3}{getLogger}}(), \textcolor{stringliteral}{"{}[\%s] creating state "{}}, \mbox{\hyperlink{smacc__state__base_8hpp_a0d7815723706a488b5bb65f7e3acf584}{STATE\_NAME}});}
+\DoxyCodeLine{\Hypertarget{smacc__state__base_8hpp_source_l00080}00080     this-\/>set\_context(ctx.\mbox{\hyperlink{structsmacc2_1_1SmaccState_1_1my__context_a52c079137d251f37f6cc227e1e3783be}{pContext\_}});}
+\DoxyCodeLine{\Hypertarget{smacc__state__base_8hpp_source_l00081}00081 }
+\DoxyCodeLine{\Hypertarget{smacc__state__base_8hpp_source_l00082}00082     \mbox{\hyperlink{classsmacc2_1_1ISmaccState_a599c28b313410f63488f400f830d4706}{node\_}} = this-\/>\mbox{\hyperlink{classsmacc2_1_1SmaccState_a5d4c6a7ca27204c325f6e951942c839a}{getStateMachine}}().\mbox{\hyperlink{classsmacc2_1_1ISmaccStateMachine_a2cf8b817f7e137fc648e373ae4614a2f}{getNode}}();}
+\DoxyCodeLine{\Hypertarget{smacc__state__base_8hpp_source_l00083}00083 }
+\DoxyCodeLine{\Hypertarget{smacc__state__base_8hpp_source_l00084}00084     this-\/>\mbox{\hyperlink{classsmacc2_1_1ISmaccState_acf3d957f7c9c68b406848cffa51f12a1}{stateInfo\_}} = \mbox{\hyperlink{classsmacc2_1_1SmaccState_a6649b0f35a99c301fb3159c6882ff0b0}{getStateInfo}}();}
+\DoxyCodeLine{\Hypertarget{smacc__state__base_8hpp_source_l00085}00085 }
+\DoxyCodeLine{\Hypertarget{smacc__state__base_8hpp_source_l00086}00086     \textcolor{comment}{// storing a reference to the parent state}}
+\DoxyCodeLine{\Hypertarget{smacc__state__base_8hpp_source_l00087}00087     \textcolor{keyword}{auto} \& ps = this-\/>\textcolor{keyword}{template} context<Context>();}
+\DoxyCodeLine{\Hypertarget{smacc__state__base_8hpp_source_l00088}00088     \mbox{\hyperlink{classsmacc2_1_1ISmaccState_a5c56710774f7717648534649fd8de3ce}{parentState\_}} = \textcolor{keyword}{dynamic\_cast<}\mbox{\hyperlink{classsmacc2_1_1ISmaccState}{ISmaccState}} *\textcolor{keyword}{>}(\&ps);}
+\DoxyCodeLine{\Hypertarget{smacc__state__base_8hpp_source_l00089}00089     \mbox{\hyperlink{classsmacc2_1_1SmaccState_ae886de123f7a7f921b0d33ca1f2e9a62}{finishStateThrown}} = \textcolor{keyword}{false};}
+\DoxyCodeLine{\Hypertarget{smacc__state__base_8hpp_source_l00090}00090   \}}
+\DoxyCodeLine{\Hypertarget{smacc__state__base_8hpp_source_l00091}00091 }
+\DoxyCodeLine{\Hypertarget{smacc__state__base_8hpp_source_l00092}\mbox{\hyperlink{classsmacc2_1_1SmaccState_a226383a635cd9e0a32ae3a788016136e}{00092}}   \textcolor{keyword}{virtual} \mbox{\hyperlink{classsmacc2_1_1SmaccState_a226383a635cd9e0a32ae3a788016136e}{\string~SmaccState}}() \{\}}
+\DoxyCodeLine{\Hypertarget{smacc__state__base_8hpp_source_l00093}00093 }
+\DoxyCodeLine{\Hypertarget{smacc__state__base_8hpp_source_l00094}\mbox{\hyperlink{classsmacc2_1_1SmaccState_a6649b0f35a99c301fb3159c6882ff0b0}{00094}}   \textcolor{keyword}{const} \mbox{\hyperlink{classsmacc2_1_1introspection_1_1SmaccStateInfo}{smacc2::introspection::SmaccStateInfo}} * \mbox{\hyperlink{classsmacc2_1_1SmaccState_a6649b0f35a99c301fb3159c6882ff0b0}{getStateInfo}}()}
+\DoxyCodeLine{\Hypertarget{smacc__state__base_8hpp_source_l00095}00095   \{}
+\DoxyCodeLine{\Hypertarget{smacc__state__base_8hpp_source_l00096}00096     \textcolor{keyword}{auto} smInfo = this-\/>\mbox{\hyperlink{classsmacc2_1_1SmaccState_a5d4c6a7ca27204c325f6e951942c839a}{getStateMachine}}().\mbox{\hyperlink{classsmacc2_1_1ISmaccStateMachine_a8a88905a7fc766c923acfdf25196284f}{getStateMachineInfo}}();}
+\DoxyCodeLine{\Hypertarget{smacc__state__base_8hpp_source_l00097}00097 }
+\DoxyCodeLine{\Hypertarget{smacc__state__base_8hpp_source_l00098}00098     \textcolor{keyword}{auto} key = \textcolor{keyword}{typeid}(MostDerived).name();}
+\DoxyCodeLine{\Hypertarget{smacc__state__base_8hpp_source_l00099}00099     \textcolor{keywordflow}{if} (smInfo.states.count(key))}
+\DoxyCodeLine{\Hypertarget{smacc__state__base_8hpp_source_l00100}00100     \{}
+\DoxyCodeLine{\Hypertarget{smacc__state__base_8hpp_source_l00101}00101       \textcolor{keywordflow}{return} smInfo.\mbox{\hyperlink{classsmacc2_1_1introspection_1_1SmaccStateMachineInfo_a80941de783a1ae5c282fbceb7599eecf}{states}}[key].get();}
+\DoxyCodeLine{\Hypertarget{smacc__state__base_8hpp_source_l00102}00102     \}}
+\DoxyCodeLine{\Hypertarget{smacc__state__base_8hpp_source_l00103}00103     \textcolor{keywordflow}{else}}
+\DoxyCodeLine{\Hypertarget{smacc__state__base_8hpp_source_l00104}00104     \{}
+\DoxyCodeLine{\Hypertarget{smacc__state__base_8hpp_source_l00105}00105       \textcolor{keywordflow}{return} \textcolor{keyword}{nullptr};}
+\DoxyCodeLine{\Hypertarget{smacc__state__base_8hpp_source_l00106}00106     \}}
+\DoxyCodeLine{\Hypertarget{smacc__state__base_8hpp_source_l00107}00107   \}}
+\DoxyCodeLine{\Hypertarget{smacc__state__base_8hpp_source_l00108}00108 }
+\DoxyCodeLine{\Hypertarget{smacc__state__base_8hpp_source_l00109}\mbox{\hyperlink{classsmacc2_1_1SmaccState_ab19841bf2627c8cbdce0e05a6d44c60c}{00109}}   std::string \mbox{\hyperlink{classsmacc2_1_1SmaccState_ab19841bf2627c8cbdce0e05a6d44c60c}{getName}}()\textcolor{keyword}{ override }\{ \textcolor{keywordflow}{return} \mbox{\hyperlink{classsmacc2_1_1SmaccState_ae72f8eab16c39423314fa11c72186607}{getShortName}}(); \}}
+\DoxyCodeLine{\Hypertarget{smacc__state__base_8hpp_source_l00110}00110 }
+\DoxyCodeLine{\Hypertarget{smacc__state__base_8hpp_source_l00111}\mbox{\hyperlink{classsmacc2_1_1SmaccState_a7ae024a8315955e0cdabfd690a730605}{00111}}   std::string \mbox{\hyperlink{classsmacc2_1_1SmaccState_a7ae024a8315955e0cdabfd690a730605}{getFullName}}() \{ \textcolor{keywordflow}{return} \mbox{\hyperlink{namespacesmacc2_1_1introspection_af128012926f4e326233da853b75520fc}{demangleSymbol}}(\textcolor{keyword}{typeid}(MostDerived).name()); \}}
+\DoxyCodeLine{\Hypertarget{smacc__state__base_8hpp_source_l00112}00112 }
+\DoxyCodeLine{\Hypertarget{smacc__state__base_8hpp_source_l00113}\mbox{\hyperlink{classsmacc2_1_1SmaccState_ae72f8eab16c39423314fa11c72186607}{00113}}   std::string \mbox{\hyperlink{classsmacc2_1_1SmaccState_ae72f8eab16c39423314fa11c72186607}{getShortName}}() \{ \textcolor{keywordflow}{return} \mbox{\hyperlink{namespacesmacc2_1_1utils_a8e351c9e84f898c9dff598d5300f735b}{smacc2::utils::cleanShortTypeName}}(\textcolor{keyword}{typeid}(MostDerived)); \}}
+\DoxyCodeLine{\Hypertarget{smacc__state__base_8hpp_source_l00114}00114 }
+\DoxyCodeLine{\Hypertarget{smacc__state__base_8hpp_source_l00115}\mbox{\hyperlink{classsmacc2_1_1SmaccState_a8a99693e624074b3aa7bcfdafd984041}{00115}}   \textcolor{keyword}{virtual} \mbox{\hyperlink{classsmacc2_1_1ISmaccState}{ISmaccState}} * \mbox{\hyperlink{classsmacc2_1_1SmaccState_a8a99693e624074b3aa7bcfdafd984041}{getParentState}}()}
+\DoxyCodeLine{\Hypertarget{smacc__state__base_8hpp_source_l00116}00116   \{}
+\DoxyCodeLine{\Hypertarget{smacc__state__base_8hpp_source_l00117}00117     \textcolor{comment}{// auto* ctx = dynamic\_cast<ISmaccState*>(this-\/>template context<Context *>());}}
+\DoxyCodeLine{\Hypertarget{smacc__state__base_8hpp_source_l00118}00118 }
+\DoxyCodeLine{\Hypertarget{smacc__state__base_8hpp_source_l00119}00119     \textcolor{keywordflow}{return} \mbox{\hyperlink{classsmacc2_1_1ISmaccState_a5c56710774f7717648534649fd8de3ce}{parentState\_}};}
+\DoxyCodeLine{\Hypertarget{smacc__state__base_8hpp_source_l00120}00120   \}}
+\DoxyCodeLine{\Hypertarget{smacc__state__base_8hpp_source_l00121}00121 }
+\DoxyCodeLine{\Hypertarget{smacc__state__base_8hpp_source_l00122}00122   \textcolor{comment}{// this function is called by boot statechart before the destructor call}}
+\DoxyCodeLine{\Hypertarget{smacc__state__base_8hpp_source_l00123}\mbox{\hyperlink{classsmacc2_1_1SmaccState_a0af186fa1ef8434232d4f4838c889aa9}{00123}}   \textcolor{keywordtype}{void} \mbox{\hyperlink{classsmacc2_1_1SmaccState_a0af186fa1ef8434232d4f4838c889aa9}{exit}}()}
+\DoxyCodeLine{\Hypertarget{smacc__state__base_8hpp_source_l00124}00124   \{}
+\DoxyCodeLine{\Hypertarget{smacc__state__base_8hpp_source_l00125}00125     \textcolor{keyword}{auto} * derivedThis = \textcolor{keyword}{static\_cast<}MostDerived *\textcolor{keyword}{>}(\textcolor{keyword}{this});}
+\DoxyCodeLine{\Hypertarget{smacc__state__base_8hpp_source_l00126}00126     this-\/>\mbox{\hyperlink{classsmacc2_1_1SmaccState_a5d4c6a7ca27204c325f6e951942c839a}{getStateMachine}}().\mbox{\hyperlink{classsmacc2_1_1ISmaccStateMachine_a380ecb6f3767060cbc4447e6c814d917}{notifyOnStateExitting}}(derivedThis);}
+\DoxyCodeLine{\Hypertarget{smacc__state__base_8hpp_source_l00127}00127     \{}
+\DoxyCodeLine{\Hypertarget{smacc__state__base_8hpp_source_l00128}00128       std::lock\_guard<std::recursive\_mutex> lock(this-\/>\mbox{\hyperlink{classsmacc2_1_1SmaccState_a5d4c6a7ca27204c325f6e951942c839a}{getStateMachine}}().getMutex());}
+\DoxyCodeLine{\Hypertarget{smacc__state__base_8hpp_source_l00129}00129       this-\/>\mbox{\hyperlink{classsmacc2_1_1SmaccState_a5d4c6a7ca27204c325f6e951942c839a}{getStateMachine}}().\mbox{\hyperlink{classsmacc2_1_1ISmaccStateMachine_a409f2e942a2e386a3fb7f3c09ae2eba7}{disposeStateAndDisconnectSignals}}();}
+\DoxyCodeLine{\Hypertarget{smacc__state__base_8hpp_source_l00130}00130       \textcolor{keywordflow}{try}}
+\DoxyCodeLine{\Hypertarget{smacc__state__base_8hpp_source_l00131}00131       \{}
+\DoxyCodeLine{\Hypertarget{smacc__state__base_8hpp_source_l00132}00132         \mbox{\hyperlink{smacc__tracing_8cpp_a99b909db1e382a9b899ec134046d0213}{TRACEPOINT}}(\mbox{\hyperlink{trace__provider_8hpp_aadd69430cea25f68d18c26881c92fd1a}{smacc2\_state\_onExit\_start}}, \mbox{\hyperlink{smacc__state__base_8hpp_a0d7815723706a488b5bb65f7e3acf584}{STATE\_NAME}});}
+\DoxyCodeLine{\Hypertarget{smacc__state__base_8hpp_source_l00133}00133         \textcolor{comment}{// static\_cast<MostDerived *>(this)-\/>onExit();}}
+\DoxyCodeLine{\Hypertarget{smacc__state__base_8hpp_source_l00134}00134         \mbox{\hyperlink{namespacesmacc2_aaba144ff4f53f5006fd2258292713b2c}{standardOnExit}}(*derivedThis);}
+\DoxyCodeLine{\Hypertarget{smacc__state__base_8hpp_source_l00135}00135         \mbox{\hyperlink{smacc__tracing_8cpp_a99b909db1e382a9b899ec134046d0213}{TRACEPOINT}}(\mbox{\hyperlink{trace__provider_8hpp_a2803a9831f412138f508253ff7efeeb1}{smacc2\_state\_onExit\_end}}, \mbox{\hyperlink{smacc__state__base_8hpp_a0d7815723706a488b5bb65f7e3acf584}{STATE\_NAME}});}
+\DoxyCodeLine{\Hypertarget{smacc__state__base_8hpp_source_l00136}00136       \}}
+\DoxyCodeLine{\Hypertarget{smacc__state__base_8hpp_source_l00137}00137       \textcolor{keywordflow}{catch} (...)}
+\DoxyCodeLine{\Hypertarget{smacc__state__base_8hpp_source_l00138}00138       \{}
+\DoxyCodeLine{\Hypertarget{smacc__state__base_8hpp_source_l00139}00139       \}}
+\DoxyCodeLine{\Hypertarget{smacc__state__base_8hpp_source_l00140}00140       this-\/>\mbox{\hyperlink{classsmacc2_1_1SmaccState_a5d4c6a7ca27204c325f6e951942c839a}{getStateMachine}}().\mbox{\hyperlink{classsmacc2_1_1ISmaccStateMachine_a73ee6bc299f74724ad5c734b55e544c5}{notifyOnStateExited}}(derivedThis);}
+\DoxyCodeLine{\Hypertarget{smacc__state__base_8hpp_source_l00141}00141     \}}
+\DoxyCodeLine{\Hypertarget{smacc__state__base_8hpp_source_l00142}00142   \}}
+\DoxyCodeLine{\Hypertarget{smacc__state__base_8hpp_source_l00143}00143 }
+\DoxyCodeLine{\Hypertarget{smacc__state__base_8hpp_source_l00144}00144 \textcolor{keyword}{public}:}
+\DoxyCodeLine{\Hypertarget{smacc__state__base_8hpp_source_l00145}00145   \textcolor{comment}{// This method is static-\/polymorphic because of the curiously recurring template pattern. It}}
+\DoxyCodeLine{\Hypertarget{smacc__state__base_8hpp_source_l00146}00146   \textcolor{comment}{// calls to the most derived class onEntry method if declared on smacc state construction}}
+\DoxyCodeLine{\Hypertarget{smacc__state__base_8hpp_source_l00147}\mbox{\hyperlink{classsmacc2_1_1SmaccState_a30fca17707570d2940cf2096a747ae93}{00147}}   \textcolor{keywordtype}{void} \mbox{\hyperlink{classsmacc2_1_1SmaccState_a30fca17707570d2940cf2096a747ae93}{runtimeConfigure}}() \{\}}
+\DoxyCodeLine{\Hypertarget{smacc__state__base_8hpp_source_l00148}00148 }
+\DoxyCodeLine{\Hypertarget{smacc__state__base_8hpp_source_l00149}00149   \textcolor{comment}{// This method is static-\/polymorphic because of the curiously recurring template pattern. It}}
+\DoxyCodeLine{\Hypertarget{smacc__state__base_8hpp_source_l00150}00150   \textcolor{comment}{// calls to the most derived class onEntry method if declared on smacc state construction}}
+\DoxyCodeLine{\Hypertarget{smacc__state__base_8hpp_source_l00151}\mbox{\hyperlink{classsmacc2_1_1SmaccState_a7262a90a3c5173ed45ae5467a38867f0}{00151}}   \textcolor{keywordtype}{void} \mbox{\hyperlink{classsmacc2_1_1SmaccState_a7262a90a3c5173ed45ae5467a38867f0}{onEntry}}() \{\}}
+\DoxyCodeLine{\Hypertarget{smacc__state__base_8hpp_source_l00152}00152 }
+\DoxyCodeLine{\Hypertarget{smacc__state__base_8hpp_source_l00153}00153   \textcolor{comment}{// this method is static-\/polimorphic because of the curiously recurreing pattern. It}}
+\DoxyCodeLine{\Hypertarget{smacc__state__base_8hpp_source_l00154}00154   \textcolor{comment}{// calls to the most derived class onExit method if declared on smacc state destruction}}
+\DoxyCodeLine{\Hypertarget{smacc__state__base_8hpp_source_l00155}\mbox{\hyperlink{classsmacc2_1_1SmaccState_ac30e29d2805498de07591f20c4485661}{00155}}   \textcolor{keywordtype}{void} \mbox{\hyperlink{classsmacc2_1_1SmaccState_ac30e29d2805498de07591f20c4485661}{onExit}}() \{\}}
+\DoxyCodeLine{\Hypertarget{smacc__state__base_8hpp_source_l00156}00156 }
+\DoxyCodeLine{\Hypertarget{smacc__state__base_8hpp_source_l00157}00157   \textcolor{keyword}{template} <\textcolor{keyword}{typename} T>}
+\DoxyCodeLine{\Hypertarget{smacc__state__base_8hpp_source_l00158}\mbox{\hyperlink{classsmacc2_1_1SmaccState_a6cf8e0d08ad3a2456513843149eb11fc}{00158}}   \textcolor{keywordtype}{bool} \mbox{\hyperlink{classsmacc2_1_1SmaccState_a6cf8e0d08ad3a2456513843149eb11fc}{getGlobalSMData}}(std::string name, T \& ret)}
+\DoxyCodeLine{\Hypertarget{smacc__state__base_8hpp_source_l00159}00159   \{}
+\DoxyCodeLine{\Hypertarget{smacc__state__base_8hpp_source_l00160}00160     \textcolor{keywordflow}{return} base\_type::outermost\_context().getGlobalSMData(name, ret);}
+\DoxyCodeLine{\Hypertarget{smacc__state__base_8hpp_source_l00161}00161   \}}
+\DoxyCodeLine{\Hypertarget{smacc__state__base_8hpp_source_l00162}00162 }
+\DoxyCodeLine{\Hypertarget{smacc__state__base_8hpp_source_l00163}00163   \textcolor{comment}{// Store globally in this state machine. (By value parameter )}}
+\DoxyCodeLine{\Hypertarget{smacc__state__base_8hpp_source_l00164}00164   \textcolor{keyword}{template} <\textcolor{keyword}{typename} T>}
+\DoxyCodeLine{\Hypertarget{smacc__state__base_8hpp_source_l00165}\mbox{\hyperlink{classsmacc2_1_1SmaccState_ab666737dd9f0872f255041bc9250116f}{00165}}   \textcolor{keywordtype}{void} \mbox{\hyperlink{classsmacc2_1_1SmaccState_ab666737dd9f0872f255041bc9250116f}{setGlobalSMData}}(std::string name, T value)}
+\DoxyCodeLine{\Hypertarget{smacc__state__base_8hpp_source_l00166}00166   \{}
+\DoxyCodeLine{\Hypertarget{smacc__state__base_8hpp_source_l00167}00167     base\_type::outermost\_context().setGlobalSMData(name, value);}
+\DoxyCodeLine{\Hypertarget{smacc__state__base_8hpp_source_l00168}00168   \}}
+\DoxyCodeLine{\Hypertarget{smacc__state__base_8hpp_source_l00169}00169 }
+\DoxyCodeLine{\Hypertarget{smacc__state__base_8hpp_source_l00170}00170   \textcolor{keyword}{template} <\textcolor{keyword}{typename} SmaccComponentType>}
+\DoxyCodeLine{\Hypertarget{smacc__state__base_8hpp_source_l00171}\mbox{\hyperlink{classsmacc2_1_1SmaccState_ade308639213bfa6080089a0b58c1050a}{00171}}   \textcolor{keywordtype}{void} \mbox{\hyperlink{classsmacc2_1_1SmaccState_ade308639213bfa6080089a0b58c1050a}{requiresComponent}}(SmaccComponentType *\& storage)}
+\DoxyCodeLine{\Hypertarget{smacc__state__base_8hpp_source_l00172}00172   \{}
+\DoxyCodeLine{\Hypertarget{smacc__state__base_8hpp_source_l00173}00173     base\_type::outermost\_context().requiresComponent(storage);}
+\DoxyCodeLine{\Hypertarget{smacc__state__base_8hpp_source_l00174}00174   \}}
+\DoxyCodeLine{\Hypertarget{smacc__state__base_8hpp_source_l00175}00175 }
+\DoxyCodeLine{\Hypertarget{smacc__state__base_8hpp_source_l00176}\mbox{\hyperlink{classsmacc2_1_1SmaccState_a5d4c6a7ca27204c325f6e951942c839a}{00176}}   \textcolor{keyword}{virtual} \mbox{\hyperlink{classsmacc2_1_1ISmaccStateMachine}{ISmaccStateMachine}} \& \mbox{\hyperlink{classsmacc2_1_1SmaccState_a5d4c6a7ca27204c325f6e951942c839a}{getStateMachine}}() \{ \textcolor{keywordflow}{return} base\_type::outermost\_context(); \}}
+\DoxyCodeLine{\Hypertarget{smacc__state__base_8hpp_source_l00177}00177 }
+\DoxyCodeLine{\Hypertarget{smacc__state__base_8hpp_source_l00178}00178   \textcolor{keyword}{template} <\textcolor{keyword}{typename} TOrthogonal, \textcolor{keyword}{typename} TBehavior>}
+\DoxyCodeLine{\Hypertarget{smacc__state__base_8hpp_source_l00179}\mbox{\hyperlink{classsmacc2_1_1SmaccState_ae85964a63b9b2da623ee6f851fb0ffb4}{00179}}   \textcolor{keyword}{static} \textcolor{keywordtype}{void} \mbox{\hyperlink{classsmacc2_1_1SmaccState_ae85964a63b9b2da623ee6f851fb0ffb4}{configure\_orthogonal\_runtime}}(}
+\DoxyCodeLine{\Hypertarget{smacc__state__base_8hpp_source_l00180}00180     std::function<\textcolor{keywordtype}{void}(TBehavior \& bh, MostDerived \&)> initializationFunction)}
+\DoxyCodeLine{\Hypertarget{smacc__state__base_8hpp_source_l00181}00181   \{}
+\DoxyCodeLine{\Hypertarget{smacc__state__base_8hpp_source_l00182}00182     configure\_orthogonal\_internal<TOrthogonal, TBehavior>(}
+\DoxyCodeLine{\Hypertarget{smacc__state__base_8hpp_source_l00183}00183       [=](\mbox{\hyperlink{classsmacc2_1_1ISmaccState}{ISmaccState}} * state)}
+\DoxyCodeLine{\Hypertarget{smacc__state__base_8hpp_source_l00184}00184       \{}
+\DoxyCodeLine{\Hypertarget{smacc__state__base_8hpp_source_l00185}00185         \textcolor{comment}{// auto bh = std::make\_shared<TBehavior>(args...);}}
+\DoxyCodeLine{\Hypertarget{smacc__state__base_8hpp_source_l00186}00186         \textcolor{keyword}{auto} bh = state-\/>\mbox{\hyperlink{classsmacc2_1_1ISmaccState_a4fb93a9c3933ad7a2755da758634d00d}{configure}}<TOrthogonal, TBehavior>();}
+\DoxyCodeLine{\Hypertarget{smacc__state__base_8hpp_source_l00187}00187         initializationFunction(*bh, *(\textcolor{keyword}{static\_cast<}MostDerived *\textcolor{keyword}{>}(state)));}
+\DoxyCodeLine{\Hypertarget{smacc__state__base_8hpp_source_l00188}00188       \});}
+\DoxyCodeLine{\Hypertarget{smacc__state__base_8hpp_source_l00189}00189   \}}
+\DoxyCodeLine{\Hypertarget{smacc__state__base_8hpp_source_l00190}00190 }
+\DoxyCodeLine{\Hypertarget{smacc__state__base_8hpp_source_l00191}00191   \textcolor{keyword}{template} <\textcolor{keyword}{typename} TOrthogonal, \textcolor{keyword}{typename} TBehavior>}
+\DoxyCodeLine{\Hypertarget{smacc__state__base_8hpp_source_l00192}\mbox{\hyperlink{classsmacc2_1_1SmaccState_ac0b4b415cf28e1e275a47459a564d16c}{00192}}   \textcolor{keyword}{static} \textcolor{keywordtype}{void} \mbox{\hyperlink{classsmacc2_1_1SmaccState_ac0b4b415cf28e1e275a47459a564d16c}{configure\_orthogonal\_runtime}}(}
+\DoxyCodeLine{\Hypertarget{smacc__state__base_8hpp_source_l00193}00193     std::function<\textcolor{keywordtype}{void}(TBehavior \& bh)> initializationFunction)}
+\DoxyCodeLine{\Hypertarget{smacc__state__base_8hpp_source_l00194}00194   \{}
+\DoxyCodeLine{\Hypertarget{smacc__state__base_8hpp_source_l00195}00195     configure\_orthogonal\_internal<TOrthogonal, TBehavior>(}
+\DoxyCodeLine{\Hypertarget{smacc__state__base_8hpp_source_l00196}00196       [=](\mbox{\hyperlink{classsmacc2_1_1ISmaccState}{ISmaccState}} * state)}
+\DoxyCodeLine{\Hypertarget{smacc__state__base_8hpp_source_l00197}00197       \{}
+\DoxyCodeLine{\Hypertarget{smacc__state__base_8hpp_source_l00198}00198         \textcolor{comment}{// auto bh = std::make\_shared<TBehavior>(args...);}}
+\DoxyCodeLine{\Hypertarget{smacc__state__base_8hpp_source_l00199}00199         \textcolor{keyword}{auto} bh = state-\/>\mbox{\hyperlink{classsmacc2_1_1ISmaccState_a4fb93a9c3933ad7a2755da758634d00d}{configure}}<TOrthogonal, TBehavior>();}
+\DoxyCodeLine{\Hypertarget{smacc__state__base_8hpp_source_l00200}00200         initializationFunction(*bh);}
+\DoxyCodeLine{\Hypertarget{smacc__state__base_8hpp_source_l00201}00201       \});}
+\DoxyCodeLine{\Hypertarget{smacc__state__base_8hpp_source_l00202}00202   \}}
+\DoxyCodeLine{\Hypertarget{smacc__state__base_8hpp_source_l00203}00203 }
+\DoxyCodeLine{\Hypertarget{smacc__state__base_8hpp_source_l00204}00204   \textcolor{keyword}{template} <\textcolor{keyword}{typename} TOrthogonal, \textcolor{keyword}{typename} TBehavior, \textcolor{keyword}{typename}... Args>}
+\DoxyCodeLine{\Hypertarget{smacc__state__base_8hpp_source_l00205}\mbox{\hyperlink{classsmacc2_1_1SmaccState_aeb080a6a67b39552c31e3ee16ae5336b}{00205}}   \textcolor{keyword}{static} \textcolor{keywordtype}{void} \mbox{\hyperlink{classsmacc2_1_1SmaccState_aeb080a6a67b39552c31e3ee16ae5336b}{configure\_orthogonal}}(Args \&\&... \mbox{\hyperlink{namespacegenerate__debs_a75f9143e38df82d83b2e8a6f99cae02c}{args}})}
+\DoxyCodeLine{\Hypertarget{smacc__state__base_8hpp_source_l00206}00206   \{}
+\DoxyCodeLine{\Hypertarget{smacc__state__base_8hpp_source_l00207}00207     configure\_orthogonal\_internal<TOrthogonal, TBehavior>(}
+\DoxyCodeLine{\Hypertarget{smacc__state__base_8hpp_source_l00208}00208       [=](\mbox{\hyperlink{classsmacc2_1_1ISmaccState}{ISmaccState}} * state)}
+\DoxyCodeLine{\Hypertarget{smacc__state__base_8hpp_source_l00209}00209       \{}
+\DoxyCodeLine{\Hypertarget{smacc__state__base_8hpp_source_l00210}00210         \textcolor{comment}{// auto bh = std::make\_shared<TBehavior>(args...);}}
+\DoxyCodeLine{\Hypertarget{smacc__state__base_8hpp_source_l00211}00211         state-\/>\mbox{\hyperlink{classsmacc2_1_1ISmaccState_a4fb93a9c3933ad7a2755da758634d00d}{configure}}<TOrthogonal, TBehavior>(\mbox{\hyperlink{namespacegenerate__debs_a75f9143e38df82d83b2e8a6f99cae02c}{args}}...);}
+\DoxyCodeLine{\Hypertarget{smacc__state__base_8hpp_source_l00212}00212       \});}
+\DoxyCodeLine{\Hypertarget{smacc__state__base_8hpp_source_l00213}00213   \}}
+\DoxyCodeLine{\Hypertarget{smacc__state__base_8hpp_source_l00214}00214 }
+\DoxyCodeLine{\Hypertarget{smacc__state__base_8hpp_source_l00215}00215   \textcolor{keyword}{template} <}
+\DoxyCodeLine{\Hypertarget{smacc__state__base_8hpp_source_l00216}00216     \textcolor{keyword}{typename} TStateReactor, \textcolor{keyword}{typename} TOutputEvent, \textcolor{keyword}{typename} TInputEventList, \textcolor{keyword}{typename}... TArgs>}
+\DoxyCodeLine{\Hypertarget{smacc__state__base_8hpp_source_l00217}\mbox{\hyperlink{classsmacc2_1_1SmaccState_a0fc37a9ab018cc58f09c04ff76eef748}{00217}}   \textcolor{keyword}{static} std::shared\_ptr<smacc2::introspection::StateReactorHandler> \mbox{\hyperlink{classsmacc2_1_1SmaccState_a0fc37a9ab018cc58f09c04ff76eef748}{static\_createStateReactor}}(}
+\DoxyCodeLine{\Hypertarget{smacc__state__base_8hpp_source_l00218}00218     TArgs... \mbox{\hyperlink{namespacegenerate__debs_a75f9143e38df82d83b2e8a6f99cae02c}{args}})}
+\DoxyCodeLine{\Hypertarget{smacc__state__base_8hpp_source_l00219}00219   \{}
+\DoxyCodeLine{\Hypertarget{smacc__state__base_8hpp_source_l00220}00220     \textcolor{keyword}{auto} srh = std::make\_shared<smacc2::introspection::StateReactorHandler>(\mbox{\hyperlink{namespacesmacc2_1_1introspection_a413b791d0aea9733dfa59aae4c82fb15}{globalNh\_}});}
+\DoxyCodeLine{\Hypertarget{smacc__state__base_8hpp_source_l00221}00221     \textcolor{keyword}{auto} srinfo = std::make\_shared<SmaccStateReactorInfo>();}
+\DoxyCodeLine{\Hypertarget{smacc__state__base_8hpp_source_l00222}00222 }
+\DoxyCodeLine{\Hypertarget{smacc__state__base_8hpp_source_l00223}00223     srinfo-\/>stateReactorType = TypeInfo::getTypeInfoFromType<TStateReactor>();}
+\DoxyCodeLine{\Hypertarget{smacc__state__base_8hpp_source_l00224}00224     srinfo-\/>outputEventType = TypeInfo::getTypeInfoFromType<TOutputEvent>();}
+\DoxyCodeLine{\Hypertarget{smacc__state__base_8hpp_source_l00225}00225 }
+\DoxyCodeLine{\Hypertarget{smacc__state__base_8hpp_source_l00226}00226     \textcolor{keywordflow}{if} (srinfo-\/>outputEventType-\/>templateParameters.size() == 2)}
+\DoxyCodeLine{\Hypertarget{smacc__state__base_8hpp_source_l00227}00227     \{}
+\DoxyCodeLine{\Hypertarget{smacc__state__base_8hpp_source_l00228}00228       srinfo-\/>objectTagType = srinfo-\/>outputEventType-\/>templateParameters[1];}
+\DoxyCodeLine{\Hypertarget{smacc__state__base_8hpp_source_l00229}00229     \}}
+\DoxyCodeLine{\Hypertarget{smacc__state__base_8hpp_source_l00230}00230     \textcolor{keywordflow}{else} \textcolor{keywordflow}{if} (srinfo-\/>outputEventType-\/>templateParameters.size() == 1)}
+\DoxyCodeLine{\Hypertarget{smacc__state__base_8hpp_source_l00231}00231     \{}
+\DoxyCodeLine{\Hypertarget{smacc__state__base_8hpp_source_l00232}00232       srinfo-\/>objectTagType = TypeInfo::getTypeInfoFromType<state\_reactors::EmptyObjectTag>();}
+\DoxyCodeLine{\Hypertarget{smacc__state__base_8hpp_source_l00233}00233     \}}
+\DoxyCodeLine{\Hypertarget{smacc__state__base_8hpp_source_l00234}00234     \textcolor{keywordflow}{else}}
+\DoxyCodeLine{\Hypertarget{smacc__state__base_8hpp_source_l00235}00235     \{}
+\DoxyCodeLine{\Hypertarget{smacc__state__base_8hpp_source_l00236}00236       assert(}
+\DoxyCodeLine{\Hypertarget{smacc__state__base_8hpp_source_l00237}00237         \textcolor{keyword}{false} \&\&}
+\DoxyCodeLine{\Hypertarget{smacc__state__base_8hpp_source_l00238}00238         \textcolor{stringliteral}{"{}state reactor output events should have one or two parameters (SourceType, ObjectTag)"{}});}
+\DoxyCodeLine{\Hypertarget{smacc__state__base_8hpp_source_l00239}00239     \}}
+\DoxyCodeLine{\Hypertarget{smacc__state__base_8hpp_source_l00240}00240 }
+\DoxyCodeLine{\Hypertarget{smacc__state__base_8hpp_source_l00241}00241     \textcolor{comment}{// iterate statically on all event sources}}
+\DoxyCodeLine{\Hypertarget{smacc__state__base_8hpp_source_l00242}00242     \textcolor{keyword}{using }boost::mpl::\_1;}
+\DoxyCodeLine{\Hypertarget{smacc__state__base_8hpp_source_l00243}00243     \textcolor{keyword}{using }wrappedList = \textcolor{keyword}{typename} \mbox{\hyperlink{namespacegenerate__debs_a50bc9a7ecac9584553e089a448bcde58}{boost::mpl::transform<TInputEventList, \_1>::type}};}
+\DoxyCodeLine{\Hypertarget{smacc__state__base_8hpp_source_l00244}00244     \mbox{\hyperlink{structsmacc2_1_1AddTEventTypeStateReactorInfo}{AddTEventTypeStateReactorInfo<TInputEventList>}} op(srinfo.get());}
+\DoxyCodeLine{\Hypertarget{smacc__state__base_8hpp_source_l00245}00245     boost::mpl::for\_each<wrappedList>(op);}
+\DoxyCodeLine{\Hypertarget{smacc__state__base_8hpp_source_l00246}00246 }
+\DoxyCodeLine{\Hypertarget{smacc__state__base_8hpp_source_l00247}00247     srinfo-\/>srh = srh;}
+\DoxyCodeLine{\Hypertarget{smacc__state__base_8hpp_source_l00248}00248     srh-\/>srInfo\_ = srinfo;}
+\DoxyCodeLine{\Hypertarget{smacc__state__base_8hpp_source_l00249}00249 }
+\DoxyCodeLine{\Hypertarget{smacc__state__base_8hpp_source_l00250}00250     \textcolor{keyword}{const} std::type\_info * tindex = \&(\textcolor{keyword}{typeid}(MostDerived));  \textcolor{comment}{// get identifier of the current state}}
+\DoxyCodeLine{\Hypertarget{smacc__state__base_8hpp_source_l00251}00251 }
+\DoxyCodeLine{\Hypertarget{smacc__state__base_8hpp_source_l00252}00252     \textcolor{keywordflow}{if} (!\mbox{\hyperlink{classsmacc2_1_1introspection_1_1SmaccStateInfo_a6b04901c8fcac6dcb4f613cb195ab65f}{SmaccStateInfo::stateReactorsInfo}}.count(tindex))}
+\DoxyCodeLine{\Hypertarget{smacc__state__base_8hpp_source_l00253}00253       \mbox{\hyperlink{classsmacc2_1_1introspection_1_1SmaccStateInfo_a6b04901c8fcac6dcb4f613cb195ab65f}{SmaccStateInfo::stateReactorsInfo}}[tindex] =}
+\DoxyCodeLine{\Hypertarget{smacc__state__base_8hpp_source_l00254}00254         std::vector<std::shared\_ptr<SmaccStateReactorInfo>>();}
+\DoxyCodeLine{\Hypertarget{smacc__state__base_8hpp_source_l00255}00255 }
+\DoxyCodeLine{\Hypertarget{smacc__state__base_8hpp_source_l00256}00256     srinfo-\/>factoryFunction = [\&, srh, \mbox{\hyperlink{namespacegenerate__debs_a75f9143e38df82d83b2e8a6f99cae02c}{args}}...](\mbox{\hyperlink{classsmacc2_1_1ISmaccState}{ISmaccState}} * state)}
+\DoxyCodeLine{\Hypertarget{smacc__state__base_8hpp_source_l00257}00257     \{}
+\DoxyCodeLine{\Hypertarget{smacc__state__base_8hpp_source_l00258}00258       \textcolor{keyword}{auto} sr =}
+\DoxyCodeLine{\Hypertarget{smacc__state__base_8hpp_source_l00259}00259         state-\/>createStateReactor<TStateReactor, TOutputEvent, TInputEventList, TArgs...>(\mbox{\hyperlink{namespacegenerate__debs_a75f9143e38df82d83b2e8a6f99cae02c}{args}}...);}
+\DoxyCodeLine{\Hypertarget{smacc__state__base_8hpp_source_l00260}00260       srh-\/>configureStateReactor(sr);}
+\DoxyCodeLine{\Hypertarget{smacc__state__base_8hpp_source_l00261}00261       sr-\/>initialize(state);}
+\DoxyCodeLine{\Hypertarget{smacc__state__base_8hpp_source_l00262}00262       \textcolor{keywordflow}{return} sr;}
+\DoxyCodeLine{\Hypertarget{smacc__state__base_8hpp_source_l00263}00263     \};}
+\DoxyCodeLine{\Hypertarget{smacc__state__base_8hpp_source_l00264}00264 }
+\DoxyCodeLine{\Hypertarget{smacc__state__base_8hpp_source_l00265}00265     \mbox{\hyperlink{classsmacc2_1_1introspection_1_1SmaccStateInfo_a6b04901c8fcac6dcb4f613cb195ab65f}{SmaccStateInfo::stateReactorsInfo}}[tindex].push\_back(srinfo);}
+\DoxyCodeLine{\Hypertarget{smacc__state__base_8hpp_source_l00266}00266 }
+\DoxyCodeLine{\Hypertarget{smacc__state__base_8hpp_source_l00267}00267     \textcolor{keywordflow}{return} srh;}
+\DoxyCodeLine{\Hypertarget{smacc__state__base_8hpp_source_l00268}00268   \}}
+\DoxyCodeLine{\Hypertarget{smacc__state__base_8hpp_source_l00269}00269 }
+\DoxyCodeLine{\Hypertarget{smacc__state__base_8hpp_source_l00270}00270   \textcolor{keyword}{template} <\textcolor{keyword}{typename} TEventGenerator, \textcolor{keyword}{typename}... TUArgs>}
+\DoxyCodeLine{\Hypertarget{smacc__state__base_8hpp_source_l00271}\mbox{\hyperlink{classsmacc2_1_1SmaccState_a5d442ee551898e0833f3fad26e217b54}{00271}}   \textcolor{keyword}{static} std::shared\_ptr<smacc2::introspection::EventGeneratorHandler> \mbox{\hyperlink{classsmacc2_1_1SmaccState_a5d442ee551898e0833f3fad26e217b54}{static\_createEventGenerator}}(}
+\DoxyCodeLine{\Hypertarget{smacc__state__base_8hpp_source_l00272}00272     TUArgs... \mbox{\hyperlink{namespacegenerate__debs_a75f9143e38df82d83b2e8a6f99cae02c}{args}})}
+\DoxyCodeLine{\Hypertarget{smacc__state__base_8hpp_source_l00273}00273   \{}
+\DoxyCodeLine{\Hypertarget{smacc__state__base_8hpp_source_l00274}00274     \textcolor{keyword}{auto} egh = std::make\_shared<smacc2::introspection::EventGeneratorHandler>();}
+\DoxyCodeLine{\Hypertarget{smacc__state__base_8hpp_source_l00275}00275     \textcolor{keyword}{auto} eginfo = std::make\_shared<SmaccEventGeneratorInfo>();}
+\DoxyCodeLine{\Hypertarget{smacc__state__base_8hpp_source_l00276}00276     eginfo-\/>eventGeneratorType = TypeInfo::getTypeInfoFromType<TEventGenerator>();}
+\DoxyCodeLine{\Hypertarget{smacc__state__base_8hpp_source_l00277}00277 }
+\DoxyCodeLine{\Hypertarget{smacc__state__base_8hpp_source_l00278}00278     eginfo-\/>egh = egh;}
+\DoxyCodeLine{\Hypertarget{smacc__state__base_8hpp_source_l00279}00279     egh-\/>egInfo\_ = eginfo;}
+\DoxyCodeLine{\Hypertarget{smacc__state__base_8hpp_source_l00280}00280 }
+\DoxyCodeLine{\Hypertarget{smacc__state__base_8hpp_source_l00281}00281     \textcolor{keyword}{const} std::type\_info * tindex = \&(\textcolor{keyword}{typeid}(MostDerived));  \textcolor{comment}{// get identifier of the current state}}
+\DoxyCodeLine{\Hypertarget{smacc__state__base_8hpp_source_l00282}00282 }
+\DoxyCodeLine{\Hypertarget{smacc__state__base_8hpp_source_l00283}00283     \textcolor{keywordflow}{if} (!\mbox{\hyperlink{classsmacc2_1_1introspection_1_1SmaccStateInfo_aea447ccf862aec5bd5e4eb378a6a159d}{SmaccStateInfo::eventGeneratorsInfo}}.count(tindex))}
+\DoxyCodeLine{\Hypertarget{smacc__state__base_8hpp_source_l00284}00284       \mbox{\hyperlink{classsmacc2_1_1introspection_1_1SmaccStateInfo_aea447ccf862aec5bd5e4eb378a6a159d}{SmaccStateInfo::eventGeneratorsInfo}}[tindex] =}
+\DoxyCodeLine{\Hypertarget{smacc__state__base_8hpp_source_l00285}00285         std::vector<std::shared\_ptr<SmaccEventGeneratorInfo>>();}
+\DoxyCodeLine{\Hypertarget{smacc__state__base_8hpp_source_l00286}00286 }
+\DoxyCodeLine{\Hypertarget{smacc__state__base_8hpp_source_l00287}00287     eginfo-\/>factoryFunction = [\&, egh, \mbox{\hyperlink{namespacegenerate__debs_a75f9143e38df82d83b2e8a6f99cae02c}{args}}...](\mbox{\hyperlink{classsmacc2_1_1ISmaccState}{ISmaccState}} * state)}
+\DoxyCodeLine{\Hypertarget{smacc__state__base_8hpp_source_l00288}00288     \{}
+\DoxyCodeLine{\Hypertarget{smacc__state__base_8hpp_source_l00289}00289       \textcolor{keyword}{auto} eg = state-\/>createEventGenerator<TEventGenerator>(\mbox{\hyperlink{namespacegenerate__debs_a75f9143e38df82d83b2e8a6f99cae02c}{args}}...);}
+\DoxyCodeLine{\Hypertarget{smacc__state__base_8hpp_source_l00290}00290       egh-\/>configureEventGenerator(eg);}
+\DoxyCodeLine{\Hypertarget{smacc__state__base_8hpp_source_l00291}00291       eg-\/>initialize(state);}
+\DoxyCodeLine{\Hypertarget{smacc__state__base_8hpp_source_l00292}00292       eg-\/>template onStateAllocation<MostDerived, TEventGenerator>();}
+\DoxyCodeLine{\Hypertarget{smacc__state__base_8hpp_source_l00293}00293       \textcolor{keywordflow}{return} eg;}
+\DoxyCodeLine{\Hypertarget{smacc__state__base_8hpp_source_l00294}00294     \};}
+\DoxyCodeLine{\Hypertarget{smacc__state__base_8hpp_source_l00295}00295 }
+\DoxyCodeLine{\Hypertarget{smacc__state__base_8hpp_source_l00296}00296     \mbox{\hyperlink{classsmacc2_1_1introspection_1_1SmaccStateInfo_aea447ccf862aec5bd5e4eb378a6a159d}{SmaccStateInfo::eventGeneratorsInfo}}[tindex].push\_back(eginfo);}
+\DoxyCodeLine{\Hypertarget{smacc__state__base_8hpp_source_l00297}00297     \textcolor{keywordflow}{return} egh;}
+\DoxyCodeLine{\Hypertarget{smacc__state__base_8hpp_source_l00298}00298   \}}
+\DoxyCodeLine{\Hypertarget{smacc__state__base_8hpp_source_l00299}00299 }
+\DoxyCodeLine{\Hypertarget{smacc__state__base_8hpp_source_l00300}00300   \textcolor{keyword}{template} <\textcolor{keyword}{typename} TStateReactor, \textcolor{keyword}{typename}... TUArgs>}
+\DoxyCodeLine{\Hypertarget{smacc__state__base_8hpp_source_l00301}\mbox{\hyperlink{classsmacc2_1_1SmaccState_a5e1eb79e3e8406de655fbfdab33ed4bf}{00301}}   \textcolor{keyword}{static} std::shared\_ptr<smacc2::introspection::StateReactorHandler> \mbox{\hyperlink{classsmacc2_1_1SmaccState_a5e1eb79e3e8406de655fbfdab33ed4bf}{static\_createStateReactor\_aux}}(}
+\DoxyCodeLine{\Hypertarget{smacc__state__base_8hpp_source_l00302}00302     TUArgs... \mbox{\hyperlink{namespacegenerate__debs_a75f9143e38df82d83b2e8a6f99cae02c}{args}})}
+\DoxyCodeLine{\Hypertarget{smacc__state__base_8hpp_source_l00303}00303   \{}
+\DoxyCodeLine{\Hypertarget{smacc__state__base_8hpp_source_l00304}00304     \textcolor{keyword}{auto} srh = std::make\_shared<smacc2::introspection::StateReactorHandler>(\mbox{\hyperlink{namespacesmacc2_1_1introspection_a413b791d0aea9733dfa59aae4c82fb15}{globalNh\_}});}
+\DoxyCodeLine{\Hypertarget{smacc__state__base_8hpp_source_l00305}00305     \textcolor{keyword}{auto} srinfo = std::make\_shared<SmaccStateReactorInfo>();}
+\DoxyCodeLine{\Hypertarget{smacc__state__base_8hpp_source_l00306}00306 }
+\DoxyCodeLine{\Hypertarget{smacc__state__base_8hpp_source_l00307}00307     srinfo-\/>stateReactorType = TypeInfo::getTypeInfoFromType<TStateReactor>();}
+\DoxyCodeLine{\Hypertarget{smacc__state__base_8hpp_source_l00308}00308     srinfo-\/>srh = srh;}
+\DoxyCodeLine{\Hypertarget{smacc__state__base_8hpp_source_l00309}00309     srh-\/>srInfo\_ = srinfo;}
+\DoxyCodeLine{\Hypertarget{smacc__state__base_8hpp_source_l00310}00310 }
+\DoxyCodeLine{\Hypertarget{smacc__state__base_8hpp_source_l00311}00311     \textcolor{keyword}{const} std::type\_info * tindex = \&(\textcolor{keyword}{typeid}(MostDerived));  \textcolor{comment}{// get identifier of the current state}}
+\DoxyCodeLine{\Hypertarget{smacc__state__base_8hpp_source_l00312}00312 }
+\DoxyCodeLine{\Hypertarget{smacc__state__base_8hpp_source_l00313}00313     \textcolor{keywordflow}{if} (!\mbox{\hyperlink{classsmacc2_1_1introspection_1_1SmaccStateInfo_a6b04901c8fcac6dcb4f613cb195ab65f}{SmaccStateInfo::stateReactorsInfo}}.count(tindex))}
+\DoxyCodeLine{\Hypertarget{smacc__state__base_8hpp_source_l00314}00314       \mbox{\hyperlink{classsmacc2_1_1introspection_1_1SmaccStateInfo_a6b04901c8fcac6dcb4f613cb195ab65f}{SmaccStateInfo::stateReactorsInfo}}[tindex] =}
+\DoxyCodeLine{\Hypertarget{smacc__state__base_8hpp_source_l00315}00315         std::vector<std::shared\_ptr<SmaccStateReactorInfo>>();}
+\DoxyCodeLine{\Hypertarget{smacc__state__base_8hpp_source_l00316}00316 }
+\DoxyCodeLine{\Hypertarget{smacc__state__base_8hpp_source_l00317}00317     srinfo-\/>factoryFunction = [\&, srh, \mbox{\hyperlink{namespacegenerate__debs_a75f9143e38df82d83b2e8a6f99cae02c}{args}}...](\mbox{\hyperlink{classsmacc2_1_1ISmaccState}{ISmaccState}} * state)}
+\DoxyCodeLine{\Hypertarget{smacc__state__base_8hpp_source_l00318}00318     \{}
+\DoxyCodeLine{\Hypertarget{smacc__state__base_8hpp_source_l00319}00319       \textcolor{keyword}{auto} sr = state-\/>createStateReactor<TStateReactor>(\mbox{\hyperlink{namespacegenerate__debs_a75f9143e38df82d83b2e8a6f99cae02c}{args}}...);}
+\DoxyCodeLine{\Hypertarget{smacc__state__base_8hpp_source_l00320}00320       srh-\/>configureStateReactor(sr);}
+\DoxyCodeLine{\Hypertarget{smacc__state__base_8hpp_source_l00321}00321       sr-\/>initialize(state);}
+\DoxyCodeLine{\Hypertarget{smacc__state__base_8hpp_source_l00322}00322       \textcolor{keywordflow}{return} sr;}
+\DoxyCodeLine{\Hypertarget{smacc__state__base_8hpp_source_l00323}00323     \};}
+\DoxyCodeLine{\Hypertarget{smacc__state__base_8hpp_source_l00324}00324 }
+\DoxyCodeLine{\Hypertarget{smacc__state__base_8hpp_source_l00325}00325     \mbox{\hyperlink{classsmacc2_1_1introspection_1_1SmaccStateInfo_a6b04901c8fcac6dcb4f613cb195ab65f}{SmaccStateInfo::stateReactorsInfo}}[tindex].push\_back(srinfo);}
+\DoxyCodeLine{\Hypertarget{smacc__state__base_8hpp_source_l00326}00326 }
+\DoxyCodeLine{\Hypertarget{smacc__state__base_8hpp_source_l00327}00327     \textcolor{keywordflow}{return} srh;}
+\DoxyCodeLine{\Hypertarget{smacc__state__base_8hpp_source_l00328}00328   \}}
+\DoxyCodeLine{\Hypertarget{smacc__state__base_8hpp_source_l00329}00329 }
+\DoxyCodeLine{\Hypertarget{smacc__state__base_8hpp_source_l00330}\mbox{\hyperlink{classsmacc2_1_1SmaccState_a379a8f1b99b10d7aec9a6526baea44e4}{00330}}   \textcolor{keywordtype}{void} \mbox{\hyperlink{classsmacc2_1_1SmaccState_a379a8f1b99b10d7aec9a6526baea44e4}{checkWhileLoopConditionAndThrowEvent}}(\textcolor{keywordtype}{bool} (MostDerived::*conditionFn)())}
+\DoxyCodeLine{\Hypertarget{smacc__state__base_8hpp_source_l00331}00331   \{}
+\DoxyCodeLine{\Hypertarget{smacc__state__base_8hpp_source_l00332}00332     \textcolor{keyword}{auto} * thisobject = \textcolor{keyword}{static\_cast<}MostDerived *\textcolor{keyword}{>}(\textcolor{keyword}{this});}
+\DoxyCodeLine{\Hypertarget{smacc__state__base_8hpp_source_l00333}00333     \textcolor{keyword}{auto} condition = boost::bind(conditionFn, thisobject);}
+\DoxyCodeLine{\Hypertarget{smacc__state__base_8hpp_source_l00334}00334     \textcolor{keywordtype}{bool} conditionResult = condition();}
+\DoxyCodeLine{\Hypertarget{smacc__state__base_8hpp_source_l00335}00335 }
+\DoxyCodeLine{\Hypertarget{smacc__state__base_8hpp_source_l00336}00336     \textcolor{comment}{// RCLCPP\_INFO("{}LOOP EVENT CONDITION: \%d"{}, conditionResult);}}
+\DoxyCodeLine{\Hypertarget{smacc__state__base_8hpp_source_l00337}00337     \textcolor{keywordflow}{if} (conditionResult)}
+\DoxyCodeLine{\Hypertarget{smacc__state__base_8hpp_source_l00338}00338     \{}
+\DoxyCodeLine{\Hypertarget{smacc__state__base_8hpp_source_l00339}00339       this-\/>postEvent<EvLoopContinue<MostDerived>>();}
+\DoxyCodeLine{\Hypertarget{smacc__state__base_8hpp_source_l00340}00340     \}}
+\DoxyCodeLine{\Hypertarget{smacc__state__base_8hpp_source_l00341}00341     \textcolor{keywordflow}{else}}
+\DoxyCodeLine{\Hypertarget{smacc__state__base_8hpp_source_l00342}00342     \{}
+\DoxyCodeLine{\Hypertarget{smacc__state__base_8hpp_source_l00343}00343       this-\/>postEvent<EvLoopEnd<MostDerived>>();}
+\DoxyCodeLine{\Hypertarget{smacc__state__base_8hpp_source_l00344}00344     \}}
+\DoxyCodeLine{\Hypertarget{smacc__state__base_8hpp_source_l00345}00345     RCLCPP\_INFO(\mbox{\hyperlink{classsmacc2_1_1ISmaccState_a197a2c11b2510484138af98b55761fc3}{getLogger}}(), \textcolor{stringliteral}{"{}[\%s] POST THROW CONDITION"{}}, \mbox{\hyperlink{smacc__state__base_8hpp_a0d7815723706a488b5bb65f7e3acf584}{STATE\_NAME}});}
+\DoxyCodeLine{\Hypertarget{smacc__state__base_8hpp_source_l00346}00346   \}}
+\DoxyCodeLine{\Hypertarget{smacc__state__base_8hpp_source_l00347}00347 }
+\DoxyCodeLine{\Hypertarget{smacc__state__base_8hpp_source_l00348}\mbox{\hyperlink{classsmacc2_1_1SmaccState_acecda8c2c57b6040834d47de9845fe08}{00348}}   \textcolor{keywordtype}{void} \mbox{\hyperlink{classsmacc2_1_1SmaccState_acecda8c2c57b6040834d47de9845fe08}{throwSequenceFinishedEvent}}() \{ this-\/>postEvent<EvSequenceFinished<MostDerived>>(); \}}
+\DoxyCodeLine{\Hypertarget{smacc__state__base_8hpp_source_l00349}00349 }
+\DoxyCodeLine{\Hypertarget{smacc__state__base_8hpp_source_l00351}00351   \textcolor{comment}{// The following declarations should be private.}}
+\DoxyCodeLine{\Hypertarget{smacc__state__base_8hpp_source_l00352}00352   \textcolor{comment}{// They are only public because many compilers lack template friends.}}
+\DoxyCodeLine{\Hypertarget{smacc__state__base_8hpp_source_l00354}00354 \textcolor{comment}{}  \textcolor{comment}{// See base class for documentation}}
+\DoxyCodeLine{\Hypertarget{smacc__state__base_8hpp_source_l00355}\mbox{\hyperlink{classsmacc2_1_1SmaccState_a897de6b8bccd955b2bcb24746830db89}{00355}}   \textcolor{keyword}{typedef} \textcolor{keyword}{typename} base\_type::outermost\_context\_base\_type \mbox{\hyperlink{classsmacc2_1_1SmaccState_a897de6b8bccd955b2bcb24746830db89}{outermost\_context\_base\_type}};}
+\DoxyCodeLine{\Hypertarget{smacc__state__base_8hpp_source_l00356}\mbox{\hyperlink{classsmacc2_1_1SmaccState_a349bea89252a038e3ff736f351715e4f}{00356}}   \textcolor{keyword}{typedef} \textcolor{keyword}{typename} base\_type::inner\_context\_ptr\_type \mbox{\hyperlink{classsmacc2_1_1SmaccState_a349bea89252a038e3ff736f351715e4f}{inner\_context\_ptr\_type}};}
+\DoxyCodeLine{\Hypertarget{smacc__state__base_8hpp_source_l00357}\mbox{\hyperlink{classsmacc2_1_1SmaccState_a1603bedfb25c050732f0305a0a5c6166}{00357}}   \textcolor{keyword}{typedef} \textcolor{keyword}{typename} base\_type::context\_ptr\_type \mbox{\hyperlink{classsmacc2_1_1SmaccState_a1603bedfb25c050732f0305a0a5c6166}{context\_ptr\_type}};}
+\DoxyCodeLine{\Hypertarget{smacc__state__base_8hpp_source_l00358}\mbox{\hyperlink{classsmacc2_1_1SmaccState_a51291bf5a950ae24504f803ed76949d7}{00358}}   \textcolor{keyword}{typedef} \textcolor{keyword}{typename} base\_type::inner\_initial\_list \mbox{\hyperlink{classsmacc2_1_1SmaccState_a51291bf5a950ae24504f803ed76949d7}{inner\_initial\_list}};}
+\DoxyCodeLine{\Hypertarget{smacc__state__base_8hpp_source_l00359}00359 }
+\DoxyCodeLine{\Hypertarget{smacc__state__base_8hpp_source_l00360}\mbox{\hyperlink{classsmacc2_1_1SmaccState_a192932bf7a1c21f1a96461589b98416b}{00360}}   \textcolor{keyword}{static} \textcolor{keywordtype}{void} \mbox{\hyperlink{classsmacc2_1_1SmaccState_a192932bf7a1c21f1a96461589b98416b}{initial\_deep\_construct}}(\mbox{\hyperlink{classsmacc2_1_1SmaccState_a897de6b8bccd955b2bcb24746830db89}{outermost\_context\_base\_type}} \& outermostContextBase)}
+\DoxyCodeLine{\Hypertarget{smacc__state__base_8hpp_source_l00361}00361   \{}
+\DoxyCodeLine{\Hypertarget{smacc__state__base_8hpp_source_l00362}00362     \mbox{\hyperlink{classsmacc2_1_1SmaccState_a7fcda56261d00444d05c7138ec9fa339}{deep\_construct}}(\&outermostContextBase, outermostContextBase);}
+\DoxyCodeLine{\Hypertarget{smacc__state__base_8hpp_source_l00363}00363   \}}
+\DoxyCodeLine{\Hypertarget{smacc__state__base_8hpp_source_l00364}00364 }
+\DoxyCodeLine{\Hypertarget{smacc__state__base_8hpp_source_l00365}00365   \textcolor{comment}{// See base class for documentation}}
+\DoxyCodeLine{\Hypertarget{smacc__state__base_8hpp_source_l00366}\mbox{\hyperlink{classsmacc2_1_1SmaccState_a7fcda56261d00444d05c7138ec9fa339}{00366}}   \textcolor{keyword}{static} \textcolor{keywordtype}{void} \mbox{\hyperlink{classsmacc2_1_1SmaccState_a7fcda56261d00444d05c7138ec9fa339}{deep\_construct}}(}
+\DoxyCodeLine{\Hypertarget{smacc__state__base_8hpp_source_l00367}00367     \textcolor{keyword}{const} \mbox{\hyperlink{classsmacc2_1_1SmaccState_a1603bedfb25c050732f0305a0a5c6166}{context\_ptr\_type}} \& pContext, \mbox{\hyperlink{classsmacc2_1_1SmaccState_a897de6b8bccd955b2bcb24746830db89}{outermost\_context\_base\_type}} \& outermostContextBase)}
+\DoxyCodeLine{\Hypertarget{smacc__state__base_8hpp_source_l00368}00368   \{}
+\DoxyCodeLine{\Hypertarget{smacc__state__base_8hpp_source_l00369}00369     \textcolor{keyword}{const} \mbox{\hyperlink{classsmacc2_1_1SmaccState_a349bea89252a038e3ff736f351715e4f}{inner\_context\_ptr\_type}} pInnerContext(\mbox{\hyperlink{classsmacc2_1_1SmaccState_a0570a2880e2e11fce6a1ff11b067cdc2}{shallow\_construct}}(pContext, outermostContextBase));}
+\DoxyCodeLine{\Hypertarget{smacc__state__base_8hpp_source_l00370}00370     base\_type::template deep\_construct\_inner<inner\_initial\_list>(}
+\DoxyCodeLine{\Hypertarget{smacc__state__base_8hpp_source_l00371}00371       pInnerContext, outermostContextBase);}
+\DoxyCodeLine{\Hypertarget{smacc__state__base_8hpp_source_l00372}00372   \}}
+\DoxyCodeLine{\Hypertarget{smacc__state__base_8hpp_source_l00373}00373 }
+\DoxyCodeLine{\Hypertarget{smacc__state__base_8hpp_source_l00374}\mbox{\hyperlink{classsmacc2_1_1SmaccState_a0570a2880e2e11fce6a1ff11b067cdc2}{00374}}   \textcolor{keyword}{static} \mbox{\hyperlink{classsmacc2_1_1SmaccState_a349bea89252a038e3ff736f351715e4f}{inner\_context\_ptr\_type}} \mbox{\hyperlink{classsmacc2_1_1SmaccState_a0570a2880e2e11fce6a1ff11b067cdc2}{shallow\_construct}}(}
+\DoxyCodeLine{\Hypertarget{smacc__state__base_8hpp_source_l00375}00375     \textcolor{keyword}{const} \mbox{\hyperlink{classsmacc2_1_1SmaccState_a1603bedfb25c050732f0305a0a5c6166}{context\_ptr\_type}} \& pContext, \mbox{\hyperlink{classsmacc2_1_1SmaccState_a897de6b8bccd955b2bcb24746830db89}{outermost\_context\_base\_type}} \& outermostContextBase)}
+\DoxyCodeLine{\Hypertarget{smacc__state__base_8hpp_source_l00376}00376   \{}
+\DoxyCodeLine{\Hypertarget{smacc__state__base_8hpp_source_l00377}00377     \textcolor{comment}{// allocating in memory}}
+\DoxyCodeLine{\Hypertarget{smacc__state__base_8hpp_source_l00378}00378     \textcolor{keyword}{auto} state = \textcolor{keyword}{new} MostDerived(}
+\DoxyCodeLine{\Hypertarget{smacc__state__base_8hpp_source_l00379}00379       \mbox{\hyperlink{structsmacc2_1_1SmaccState_1_1my__context}{SmaccState<MostDerived, Context, InnerInitial, historyMode>::my\_context}}(pContext));}
+\DoxyCodeLine{\Hypertarget{smacc__state__base_8hpp_source_l00380}00380     \textcolor{keyword}{const} \mbox{\hyperlink{classsmacc2_1_1SmaccState_a349bea89252a038e3ff736f351715e4f}{inner\_context\_ptr\_type}} pInnerContext(state);}
+\DoxyCodeLine{\Hypertarget{smacc__state__base_8hpp_source_l00381}00381 }
+\DoxyCodeLine{\Hypertarget{smacc__state__base_8hpp_source_l00382}00382     \mbox{\hyperlink{smacc__tracing_8cpp_a99b909db1e382a9b899ec134046d0213}{TRACEPOINT}}(\mbox{\hyperlink{trace__provider_8hpp_a64a3e4db5af95c9bb0de44e78303358c}{smacc2\_state\_onEntry\_start}}, \mbox{\hyperlink{smacc__state__base_8hpp_a0d7815723706a488b5bb65f7e3acf584}{STATE\_NAME}});}
+\DoxyCodeLine{\Hypertarget{smacc__state__base_8hpp_source_l00383}00383     state-\/>entryStateInternal();}
+\DoxyCodeLine{\Hypertarget{smacc__state__base_8hpp_source_l00384}00384     \mbox{\hyperlink{smacc__tracing_8cpp_a99b909db1e382a9b899ec134046d0213}{TRACEPOINT}}(\mbox{\hyperlink{trace__provider_8hpp_a4c147b0be28050c029e7c028332f9f18}{smacc2\_state\_onEntry\_end}}, \mbox{\hyperlink{smacc__state__base_8hpp_a0d7815723706a488b5bb65f7e3acf584}{STATE\_NAME}});}
+\DoxyCodeLine{\Hypertarget{smacc__state__base_8hpp_source_l00385}00385 }
+\DoxyCodeLine{\Hypertarget{smacc__state__base_8hpp_source_l00386}00386     outermostContextBase.add(pInnerContext);}
+\DoxyCodeLine{\Hypertarget{smacc__state__base_8hpp_source_l00387}00387     \textcolor{keywordflow}{return} pInnerContext;}
+\DoxyCodeLine{\Hypertarget{smacc__state__base_8hpp_source_l00388}00388   \}}
+\DoxyCodeLine{\Hypertarget{smacc__state__base_8hpp_source_l00389}00389 }
+\DoxyCodeLine{\Hypertarget{smacc__state__base_8hpp_source_l00390}00390 \textcolor{keyword}{private}:}
+\DoxyCodeLine{\Hypertarget{smacc__state__base_8hpp_source_l00391}00391   \textcolor{keyword}{template} <\textcolor{keyword}{typename} TOrthogonal, \textcolor{keyword}{typename} TBehavior>}
+\DoxyCodeLine{\Hypertarget{smacc__state__base_8hpp_source_l00392}\mbox{\hyperlink{classsmacc2_1_1SmaccState_a47bb3e02250418b50f1586c10a83d029}{00392}}   \textcolor{keyword}{static} \textcolor{keywordtype}{void} \mbox{\hyperlink{classsmacc2_1_1SmaccState_a47bb3e02250418b50f1586c10a83d029}{configure\_orthogonal\_internal}}(}
+\DoxyCodeLine{\Hypertarget{smacc__state__base_8hpp_source_l00393}00393     std::function<\textcolor{keywordtype}{void}(\mbox{\hyperlink{classsmacc2_1_1ISmaccState}{ISmaccState}} * state)> initializationFunction)}
+\DoxyCodeLine{\Hypertarget{smacc__state__base_8hpp_source_l00394}00394   \{}
+\DoxyCodeLine{\Hypertarget{smacc__state__base_8hpp_source_l00395}00395     \mbox{\hyperlink{structsmacc2_1_1introspection_1_1ClientBehaviorInfoEntry}{ClientBehaviorInfoEntry}} bhinfo;}
+\DoxyCodeLine{\Hypertarget{smacc__state__base_8hpp_source_l00396}00396     bhinfo.\mbox{\hyperlink{structsmacc2_1_1introspection_1_1ClientBehaviorInfoEntry_acf418a4a06132c84ac818f5a10180676}{factoryFunction}} = initializationFunction;}
+\DoxyCodeLine{\Hypertarget{smacc__state__base_8hpp_source_l00397}00397 }
+\DoxyCodeLine{\Hypertarget{smacc__state__base_8hpp_source_l00398}00398     bhinfo.\mbox{\hyperlink{structsmacc2_1_1introspection_1_1ClientBehaviorInfoEntry_a081b627e8a471c38384e2c92560a140c}{behaviorType}} = \&(\textcolor{keyword}{typeid}(TBehavior));}
+\DoxyCodeLine{\Hypertarget{smacc__state__base_8hpp_source_l00399}00399     bhinfo.\mbox{\hyperlink{structsmacc2_1_1introspection_1_1ClientBehaviorInfoEntry_a0a393550ea9dce759f545b35efc2d256}{orthogonalType}} = \&(\textcolor{keyword}{typeid}(TOrthogonal));}
+\DoxyCodeLine{\Hypertarget{smacc__state__base_8hpp_source_l00400}00400 }
+\DoxyCodeLine{\Hypertarget{smacc__state__base_8hpp_source_l00401}00401     \textcolor{keyword}{const} std::type\_info * tindex = \&(\textcolor{keyword}{typeid}(MostDerived));}
+\DoxyCodeLine{\Hypertarget{smacc__state__base_8hpp_source_l00402}00402     \textcolor{keywordflow}{if} (!\mbox{\hyperlink{classsmacc2_1_1introspection_1_1SmaccStateInfo_af0df7561d09c3ba667bbd1dc532da66f}{SmaccStateInfo::staticBehaviorInfo}}.count(tindex))}
+\DoxyCodeLine{\Hypertarget{smacc__state__base_8hpp_source_l00403}00403       \mbox{\hyperlink{classsmacc2_1_1introspection_1_1SmaccStateInfo_af0df7561d09c3ba667bbd1dc532da66f}{SmaccStateInfo::staticBehaviorInfo}}[tindex] = std::vector<ClientBehaviorInfoEntry>();}
+\DoxyCodeLine{\Hypertarget{smacc__state__base_8hpp_source_l00404}00404 }
+\DoxyCodeLine{\Hypertarget{smacc__state__base_8hpp_source_l00405}00405     \mbox{\hyperlink{classsmacc2_1_1introspection_1_1SmaccStateInfo_af0df7561d09c3ba667bbd1dc532da66f}{SmaccStateInfo::staticBehaviorInfo}}[tindex].push\_back(bhinfo);}
+\DoxyCodeLine{\Hypertarget{smacc__state__base_8hpp_source_l00406}00406     RCLCPP\_INFO\_STREAM(}
+\DoxyCodeLine{\Hypertarget{smacc__state__base_8hpp_source_l00407}00407       rclcpp::get\_logger(\textcolor{stringliteral}{"{}static"{}}), \textcolor{stringliteral}{"{}[states walking] State "{}}}
+\DoxyCodeLine{\Hypertarget{smacc__state__base_8hpp_source_l00408}00408                                       << \mbox{\hyperlink{namespacesmacc2_1_1utils_a8e351c9e84f898c9dff598d5300f735b}{smacc2::utils::cleanShortTypeName}}(*tindex)}
+\DoxyCodeLine{\Hypertarget{smacc__state__base_8hpp_source_l00409}00409                                       << \textcolor{stringliteral}{"{}client behavior count: "{}}}
+\DoxyCodeLine{\Hypertarget{smacc__state__base_8hpp_source_l00410}00410                                       << \mbox{\hyperlink{classsmacc2_1_1introspection_1_1SmaccStateInfo_af0df7561d09c3ba667bbd1dc532da66f}{SmaccStateInfo::staticBehaviorInfo}}[tindex].size());}
+\DoxyCodeLine{\Hypertarget{smacc__state__base_8hpp_source_l00411}00411   \}}
+\DoxyCodeLine{\Hypertarget{smacc__state__base_8hpp_source_l00412}00412 }
+\DoxyCodeLine{\Hypertarget{smacc__state__base_8hpp_source_l00413}\mbox{\hyperlink{classsmacc2_1_1SmaccState_aeeaa708975d375657bf294a2935d5c9e}{00413}}   \textcolor{keywordtype}{void} \mbox{\hyperlink{classsmacc2_1_1SmaccState_aeeaa708975d375657bf294a2935d5c9e}{entryStateInternal}}()}
+\DoxyCodeLine{\Hypertarget{smacc__state__base_8hpp_source_l00414}00414   \{}
+\DoxyCodeLine{\Hypertarget{smacc__state__base_8hpp_source_l00415}00415     \textcolor{comment}{// finally we go to the derived state onEntry Function}}
+\DoxyCodeLine{\Hypertarget{smacc__state__base_8hpp_source_l00416}00416 }
+\DoxyCodeLine{\Hypertarget{smacc__state__base_8hpp_source_l00417}00417     RCLCPP\_DEBUG(\mbox{\hyperlink{classsmacc2_1_1ISmaccState_a197a2c11b2510484138af98b55761fc3}{getLogger}}(), \textcolor{stringliteral}{"{}[\%s] State object created. Initializating..."{}}, \mbox{\hyperlink{smacc__state__base_8hpp_a0d7815723706a488b5bb65f7e3acf584}{STATE\_NAME}});}
+\DoxyCodeLine{\Hypertarget{smacc__state__base_8hpp_source_l00418}00418     this-\/>\mbox{\hyperlink{classsmacc2_1_1SmaccState_a5d4c6a7ca27204c325f6e951942c839a}{getStateMachine}}().\mbox{\hyperlink{classsmacc2_1_1ISmaccStateMachine_afcf1bd46804d7e1b0784067b0f8339dd}{notifyOnStateEntryStart}}(\textcolor{keyword}{static\_cast<}MostDerived *\textcolor{keyword}{>}(\textcolor{keyword}{this}));}
+\DoxyCodeLine{\Hypertarget{smacc__state__base_8hpp_source_l00419}00419 }
+\DoxyCodeLine{\Hypertarget{smacc__state__base_8hpp_source_l00420}00420     RCLCPP\_DEBUG\_STREAM(}
+\DoxyCodeLine{\Hypertarget{smacc__state__base_8hpp_source_l00421}00421       \mbox{\hyperlink{classsmacc2_1_1ISmaccState_a197a2c11b2510484138af98b55761fc3}{getLogger}}(), \textcolor{stringliteral}{"{}["{}} << \mbox{\hyperlink{namespacesmacc2_1_1utils_a8e351c9e84f898c9dff598d5300f735b}{smacc2::utils::cleanShortTypeName}}(\textcolor{keyword}{typeid}(MostDerived)).c\_str()}
+\DoxyCodeLine{\Hypertarget{smacc__state__base_8hpp_source_l00422}00422                        << \textcolor{stringliteral}{"{}] creating ros subnode"{}});}
+\DoxyCodeLine{\Hypertarget{smacc__state__base_8hpp_source_l00423}00423 }
+\DoxyCodeLine{\Hypertarget{smacc__state__base_8hpp_source_l00424}00424     \textcolor{comment}{// before dynamic runtimeConfigure, we execute the staticConfigure behavior configurations}}
+\DoxyCodeLine{\Hypertarget{smacc__state__base_8hpp_source_l00425}00425     \{}
+\DoxyCodeLine{\Hypertarget{smacc__state__base_8hpp_source_l00426}00426       RCLCPP\_DEBUG(\mbox{\hyperlink{classsmacc2_1_1ISmaccState_a197a2c11b2510484138af98b55761fc3}{getLogger}}(), \textcolor{stringliteral}{"{}[\%s] -\/-\/ STATIC STATE DESCRIPTION -\/-\/"{}}, \mbox{\hyperlink{smacc__state__base_8hpp_a0d7815723706a488b5bb65f7e3acf584}{STATE\_NAME}});}
+\DoxyCodeLine{\Hypertarget{smacc__state__base_8hpp_source_l00427}00427 }
+\DoxyCodeLine{\Hypertarget{smacc__state__base_8hpp_source_l00428}00428       \textcolor{keywordflow}{for} (\textcolor{keyword}{const} \textcolor{keyword}{auto} \& clientBehavior : \mbox{\hyperlink{classsmacc2_1_1introspection_1_1SmaccStateInfo_af0df7561d09c3ba667bbd1dc532da66f}{SmaccStateInfo::staticBehaviorInfo}})}
+\DoxyCodeLine{\Hypertarget{smacc__state__base_8hpp_source_l00429}00429       \{}
+\DoxyCodeLine{\Hypertarget{smacc__state__base_8hpp_source_l00430}00430         RCLCPP\_DEBUG(}
+\DoxyCodeLine{\Hypertarget{smacc__state__base_8hpp_source_l00431}00431           \mbox{\hyperlink{classsmacc2_1_1ISmaccState_a197a2c11b2510484138af98b55761fc3}{getLogger}}(), \textcolor{stringliteral}{"{}[\%s] client behavior info: \%s"{}}, \mbox{\hyperlink{smacc__state__base_8hpp_a0d7815723706a488b5bb65f7e3acf584}{STATE\_NAME}},}
+\DoxyCodeLine{\Hypertarget{smacc__state__base_8hpp_source_l00432}00432           \mbox{\hyperlink{namespacesmacc2_1_1introspection_af128012926f4e326233da853b75520fc}{demangleSymbol}}(clientBehavior.first-\/>name()).c\_str());}
+\DoxyCodeLine{\Hypertarget{smacc__state__base_8hpp_source_l00433}00433         \textcolor{keywordflow}{for} (\textcolor{keyword}{auto} \& cbinfo : clientBehavior.second)}
+\DoxyCodeLine{\Hypertarget{smacc__state__base_8hpp_source_l00434}00434         \{}
+\DoxyCodeLine{\Hypertarget{smacc__state__base_8hpp_source_l00435}00435           RCLCPP\_DEBUG(}
+\DoxyCodeLine{\Hypertarget{smacc__state__base_8hpp_source_l00436}00436             \mbox{\hyperlink{classsmacc2_1_1ISmaccState_a197a2c11b2510484138af98b55761fc3}{getLogger}}(), \textcolor{stringliteral}{"{}[\%s] client behavior: \%s"{}}, \mbox{\hyperlink{smacc__state__base_8hpp_a0d7815723706a488b5bb65f7e3acf584}{STATE\_NAME}},}
+\DoxyCodeLine{\Hypertarget{smacc__state__base_8hpp_source_l00437}00437             \mbox{\hyperlink{namespacesmacc2_1_1introspection_af128012926f4e326233da853b75520fc}{demangleSymbol}}(cbinfo.behaviorType-\/>name()).c\_str());}
+\DoxyCodeLine{\Hypertarget{smacc__state__base_8hpp_source_l00438}00438         \}}
+\DoxyCodeLine{\Hypertarget{smacc__state__base_8hpp_source_l00439}00439       \}}
+\DoxyCodeLine{\Hypertarget{smacc__state__base_8hpp_source_l00440}00440 }
+\DoxyCodeLine{\Hypertarget{smacc__state__base_8hpp_source_l00441}00441       \textcolor{keyword}{const} std::type\_info * tindex = \&(\textcolor{keyword}{typeid}(MostDerived));}
+\DoxyCodeLine{\Hypertarget{smacc__state__base_8hpp_source_l00442}00442       \textcolor{keyword}{auto} \& staticDefinedBehaviors = \mbox{\hyperlink{classsmacc2_1_1introspection_1_1SmaccStateInfo_af0df7561d09c3ba667bbd1dc532da66f}{SmaccStateInfo::staticBehaviorInfo}}[tindex];}
+\DoxyCodeLine{\Hypertarget{smacc__state__base_8hpp_source_l00443}00443       \textcolor{keyword}{auto} \& staticDefinedStateReactors = \mbox{\hyperlink{classsmacc2_1_1introspection_1_1SmaccStateInfo_a6b04901c8fcac6dcb4f613cb195ab65f}{SmaccStateInfo::stateReactorsInfo}}[tindex];}
+\DoxyCodeLine{\Hypertarget{smacc__state__base_8hpp_source_l00444}00444       \textcolor{keyword}{auto} \& staticDefinedEventGenerators = \mbox{\hyperlink{classsmacc2_1_1introspection_1_1SmaccStateInfo_aea447ccf862aec5bd5e4eb378a6a159d}{SmaccStateInfo::eventGeneratorsInfo}}[tindex];}
+\DoxyCodeLine{\Hypertarget{smacc__state__base_8hpp_source_l00445}00445 }
+\DoxyCodeLine{\Hypertarget{smacc__state__base_8hpp_source_l00446}00446       RCLCPP\_DEBUG\_STREAM(}
+\DoxyCodeLine{\Hypertarget{smacc__state__base_8hpp_source_l00447}00447         \mbox{\hyperlink{classsmacc2_1_1ISmaccState_a197a2c11b2510484138af98b55761fc3}{getLogger}}(), \textcolor{stringliteral}{"{}finding static client behaviors. State Database: "{}}}
+\DoxyCodeLine{\Hypertarget{smacc__state__base_8hpp_source_l00448}00448                        << \mbox{\hyperlink{classsmacc2_1_1introspection_1_1SmaccStateInfo_af0df7561d09c3ba667bbd1dc532da66f}{SmaccStateInfo::staticBehaviorInfo}}.size() << \textcolor{stringliteral}{"{}. Current state "{}}}
+\DoxyCodeLine{\Hypertarget{smacc__state__base_8hpp_source_l00449}00449                        << \mbox{\hyperlink{namespacesmacc2_1_1utils_a8e351c9e84f898c9dff598d5300f735b}{cleanShortTypeName}}(*tindex)}
+\DoxyCodeLine{\Hypertarget{smacc__state__base_8hpp_source_l00450}00450                        << \textcolor{stringliteral}{"{} cbs: "{}} << \mbox{\hyperlink{classsmacc2_1_1introspection_1_1SmaccStateInfo_af0df7561d09c3ba667bbd1dc532da66f}{SmaccStateInfo::staticBehaviorInfo}}[tindex].size());}
+\DoxyCodeLine{\Hypertarget{smacc__state__base_8hpp_source_l00451}00451       \textcolor{keywordflow}{for} (\textcolor{keyword}{auto} \& bhinfo : staticDefinedBehaviors)}
+\DoxyCodeLine{\Hypertarget{smacc__state__base_8hpp_source_l00452}00452       \{}
+\DoxyCodeLine{\Hypertarget{smacc__state__base_8hpp_source_l00453}00453         RCLCPP\_DEBUG(}
+\DoxyCodeLine{\Hypertarget{smacc__state__base_8hpp_source_l00454}00454           \mbox{\hyperlink{classsmacc2_1_1ISmaccState_a197a2c11b2510484138af98b55761fc3}{getLogger}}(), \textcolor{stringliteral}{"{}[\%s] Creating static client behavior: \%s"{}}, \mbox{\hyperlink{smacc__state__base_8hpp_a0d7815723706a488b5bb65f7e3acf584}{STATE\_NAME}},}
+\DoxyCodeLine{\Hypertarget{smacc__state__base_8hpp_source_l00455}00455           \mbox{\hyperlink{namespacesmacc2_1_1introspection_af128012926f4e326233da853b75520fc}{demangleSymbol}}(bhinfo.behaviorType-\/>name()).c\_str());}
+\DoxyCodeLine{\Hypertarget{smacc__state__base_8hpp_source_l00456}00456         bhinfo.factoryFunction(\textcolor{keyword}{this});}
+\DoxyCodeLine{\Hypertarget{smacc__state__base_8hpp_source_l00457}00457       \}}
+\DoxyCodeLine{\Hypertarget{smacc__state__base_8hpp_source_l00458}00458 }
+\DoxyCodeLine{\Hypertarget{smacc__state__base_8hpp_source_l00459}00459       \textcolor{keywordflow}{for} (\textcolor{keyword}{auto} \& sr : staticDefinedStateReactors)}
+\DoxyCodeLine{\Hypertarget{smacc__state__base_8hpp_source_l00460}00460       \{}
+\DoxyCodeLine{\Hypertarget{smacc__state__base_8hpp_source_l00461}00461         RCLCPP\_DEBUG(}
+\DoxyCodeLine{\Hypertarget{smacc__state__base_8hpp_source_l00462}00462           \mbox{\hyperlink{classsmacc2_1_1ISmaccState_a197a2c11b2510484138af98b55761fc3}{getLogger}}(), \textcolor{stringliteral}{"{}[\%s] Creating static state reactor: \%s"{}}, \mbox{\hyperlink{smacc__state__base_8hpp_a0d7815723706a488b5bb65f7e3acf584}{STATE\_NAME}},}
+\DoxyCodeLine{\Hypertarget{smacc__state__base_8hpp_source_l00463}00463           sr-\/>stateReactorType-\/>getFullName().c\_str());}
+\DoxyCodeLine{\Hypertarget{smacc__state__base_8hpp_source_l00464}00464         sr-\/>factoryFunction(\textcolor{keyword}{this});}
+\DoxyCodeLine{\Hypertarget{smacc__state__base_8hpp_source_l00465}00465       \}}
+\DoxyCodeLine{\Hypertarget{smacc__state__base_8hpp_source_l00466}00466 }
+\DoxyCodeLine{\Hypertarget{smacc__state__base_8hpp_source_l00467}00467       \textcolor{keywordflow}{for} (\textcolor{keyword}{auto} \& eg : staticDefinedEventGenerators)}
+\DoxyCodeLine{\Hypertarget{smacc__state__base_8hpp_source_l00468}00468       \{}
+\DoxyCodeLine{\Hypertarget{smacc__state__base_8hpp_source_l00469}00469         RCLCPP\_DEBUG(}
+\DoxyCodeLine{\Hypertarget{smacc__state__base_8hpp_source_l00470}00470           \mbox{\hyperlink{classsmacc2_1_1ISmaccState_a197a2c11b2510484138af98b55761fc3}{getLogger}}(), \textcolor{stringliteral}{"{}[\%s] Creating static event generator: \%s"{}}, \mbox{\hyperlink{smacc__state__base_8hpp_a0d7815723706a488b5bb65f7e3acf584}{STATE\_NAME}},}
+\DoxyCodeLine{\Hypertarget{smacc__state__base_8hpp_source_l00471}00471           eg-\/>eventGeneratorType-\/>getFullName().c\_str());}
+\DoxyCodeLine{\Hypertarget{smacc__state__base_8hpp_source_l00472}00472         eg-\/>factoryFunction(\textcolor{keyword}{this});}
+\DoxyCodeLine{\Hypertarget{smacc__state__base_8hpp_source_l00473}00473       \}}
+\DoxyCodeLine{\Hypertarget{smacc__state__base_8hpp_source_l00474}00474 }
+\DoxyCodeLine{\Hypertarget{smacc__state__base_8hpp_source_l00475}00475       RCLCPP\_DEBUG(\mbox{\hyperlink{classsmacc2_1_1ISmaccState_a197a2c11b2510484138af98b55761fc3}{getLogger}}(), \textcolor{stringliteral}{"{}[\%s] -\/-\/-\/-\/ END STATIC DESCRIPTION"{}}, \mbox{\hyperlink{smacc__state__base_8hpp_a0d7815723706a488b5bb65f7e3acf584}{STATE\_NAME}});}
+\DoxyCodeLine{\Hypertarget{smacc__state__base_8hpp_source_l00476}00476     \}}
+\DoxyCodeLine{\Hypertarget{smacc__state__base_8hpp_source_l00477}00477 }
+\DoxyCodeLine{\Hypertarget{smacc__state__base_8hpp_source_l00478}00478     RCLCPP\_DEBUG(\mbox{\hyperlink{classsmacc2_1_1ISmaccState_a197a2c11b2510484138af98b55761fc3}{getLogger}}(), \textcolor{stringliteral}{"{}[\%s] State runtime configuration"{}}, \mbox{\hyperlink{smacc__state__base_8hpp_a0d7815723706a488b5bb65f7e3acf584}{STATE\_NAME}});}
+\DoxyCodeLine{\Hypertarget{smacc__state__base_8hpp_source_l00479}00479 }
+\DoxyCodeLine{\Hypertarget{smacc__state__base_8hpp_source_l00480}00480     \textcolor{keyword}{auto} * derivedthis = \textcolor{keyword}{static\_cast<}MostDerived *\textcolor{keyword}{>}(\textcolor{keyword}{this});}
+\DoxyCodeLine{\Hypertarget{smacc__state__base_8hpp_source_l00481}00481 }
+\DoxyCodeLine{\Hypertarget{smacc__state__base_8hpp_source_l00482}00482     \textcolor{comment}{// second the orthogonals are internally configured}}
+\DoxyCodeLine{\Hypertarget{smacc__state__base_8hpp_source_l00483}00483     this-\/>\mbox{\hyperlink{classsmacc2_1_1SmaccState_a5d4c6a7ca27204c325f6e951942c839a}{getStateMachine}}().\mbox{\hyperlink{classsmacc2_1_1ISmaccStateMachine_acf60f5f164a8767b47394657971bd90d}{notifyOnRuntimeConfigured}}(derivedthis);}
+\DoxyCodeLine{\Hypertarget{smacc__state__base_8hpp_source_l00484}00484 }
+\DoxyCodeLine{\Hypertarget{smacc__state__base_8hpp_source_l00485}00485     \mbox{\hyperlink{smacc__tracing_8cpp_a99b909db1e382a9b899ec134046d0213}{TRACEPOINT}}(\mbox{\hyperlink{trace__provider_8hpp_a3dc1ab072de4183f8e2d12d9a25b5a04}{smacc2\_state\_onRuntimeConfigure\_start}}, \mbox{\hyperlink{smacc__state__base_8hpp_a0d7815723706a488b5bb65f7e3acf584}{STATE\_NAME}});}
+\DoxyCodeLine{\Hypertarget{smacc__state__base_8hpp_source_l00486}00486     \textcolor{comment}{// first we runtime configure the state, where we create client behaviors}}
+\DoxyCodeLine{\Hypertarget{smacc__state__base_8hpp_source_l00487}00487     \textcolor{keyword}{static\_cast<}MostDerived *\textcolor{keyword}{>}(\textcolor{keyword}{this})-\/>\mbox{\hyperlink{classsmacc2_1_1SmaccState_a30fca17707570d2940cf2096a747ae93}{runtimeConfigure}}();}
+\DoxyCodeLine{\Hypertarget{smacc__state__base_8hpp_source_l00488}00488     \mbox{\hyperlink{smacc__tracing_8cpp_a99b909db1e382a9b899ec134046d0213}{TRACEPOINT}}(\mbox{\hyperlink{trace__provider_8hpp_a5e929b14ec054917e5587024577f64a2}{smacc2\_state\_onRuntimeConfigure\_end}}, \mbox{\hyperlink{smacc__state__base_8hpp_a0d7815723706a488b5bb65f7e3acf584}{STATE\_NAME}});}
+\DoxyCodeLine{\Hypertarget{smacc__state__base_8hpp_source_l00489}00489 }
+\DoxyCodeLine{\Hypertarget{smacc__state__base_8hpp_source_l00490}00490     this-\/>\mbox{\hyperlink{classsmacc2_1_1SmaccState_a5d4c6a7ca27204c325f6e951942c839a}{getStateMachine}}().\mbox{\hyperlink{classsmacc2_1_1ISmaccStateMachine_a4f7ee7ef3de845c21d44c73a4e472826}{notifyOnRuntimeConfigurationFinished}}(derivedthis);}
+\DoxyCodeLine{\Hypertarget{smacc__state__base_8hpp_source_l00491}00491 }
+\DoxyCodeLine{\Hypertarget{smacc__state__base_8hpp_source_l00492}00492     RCLCPP\_DEBUG(\mbox{\hyperlink{classsmacc2_1_1ISmaccState_a197a2c11b2510484138af98b55761fc3}{getLogger}}(), \textcolor{stringliteral}{"{}[\%s] State OnEntry"{}}, \mbox{\hyperlink{smacc__state__base_8hpp_a0d7815723706a488b5bb65f7e3acf584}{STATE\_NAME}});}
+\DoxyCodeLine{\Hypertarget{smacc__state__base_8hpp_source_l00493}00493 }
+\DoxyCodeLine{\Hypertarget{smacc__state__base_8hpp_source_l00494}00494     \textcolor{keyword}{static\_cast<}MostDerived *\textcolor{keyword}{>}(\textcolor{keyword}{this})-\/>\mbox{\hyperlink{classsmacc2_1_1SmaccState_a7262a90a3c5173ed45ae5467a38867f0}{onEntry}}();}
+\DoxyCodeLine{\Hypertarget{smacc__state__base_8hpp_source_l00495}00495 }
+\DoxyCodeLine{\Hypertarget{smacc__state__base_8hpp_source_l00496}00496     \textcolor{comment}{// here orthogonals and client behaviors are entered OnEntry}}
+\DoxyCodeLine{\Hypertarget{smacc__state__base_8hpp_source_l00497}00497     this-\/>\mbox{\hyperlink{classsmacc2_1_1SmaccState_a5d4c6a7ca27204c325f6e951942c839a}{getStateMachine}}().\mbox{\hyperlink{classsmacc2_1_1ISmaccStateMachine_a80d1d07569569bddd2f8fab8d5f82e58}{notifyOnStateEntryEnd}}(derivedthis);}
+\DoxyCodeLine{\Hypertarget{smacc__state__base_8hpp_source_l00498}00498   \}}
+\DoxyCodeLine{\Hypertarget{smacc__state__base_8hpp_source_l00499}00499 \};}
+\DoxyCodeLine{\Hypertarget{smacc__state__base_8hpp_source_l00500}00500 \}  \textcolor{comment}{// namespace smacc2}}
+
+\end{DoxyCode}
