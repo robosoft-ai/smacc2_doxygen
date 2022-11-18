@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['keyboardpublisher_0',['KeyboardPublisher',['../classkeyboard__server__node_1_1KeyboardPublisher.html',1,'keyboard_server_node']]]
+  ['navigatenextwaypointoptions_0',['NavigateNextWaypointOptions',['../structcl__nav2z_1_1NavigateNextWaypointOptions.html',1,'cl_nav2z']]]
 ];
