@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['rclcpp_5fusing_5fcustom_5ftype_5fas_5fros_5fmessage_5ftype_0',['RCLCPP_USING_CUSTOM_TYPE_AS_ROS_MESSAGE_TYPE',['../type__adapter_8hpp.html#abc5a5a1201cbff12ecd6d81f0ddf5039',1,'type_adapter.hpp']]]
+  ['waypoints_5feventcount_0',['WAYPOINTS_EVENTCOUNT',['../waypoints__event__dispatcher_8hpp.html#add4ce0c5d955be6047a4820c63e7df08',1,'waypoints_event_dispatcher.hpp']]]
 ];

@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['have_5fnew_5fyamlcpp_0',['HAVE_NEW_YAMLCPP',['../cb__move__known__state_8cpp.html#a8f298134094422968fe45aeb8b32b9aa',1,'HAVE_NEW_YAMLCPP():&#160;cb_move_known_state.cpp'],['../waypoints__navigator_8cpp.html#a8f298134094422968fe45aeb8b32b9aa',1,'HAVE_NEW_YAMLCPP():&#160;waypoints_navigator.cpp']]]
+  ['orthogonalname_0',['orthogonalName',['../orthogonal_8cpp.html#a294d77d5e6b9796fe0c76cb99167652b',1,'orthogonal.cpp']]]
 ];
