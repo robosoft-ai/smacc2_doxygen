@@ -8,6 +8,5 @@ var searchData=
   ['demangletype_5',['demangleType',['../namespacesmacc2_1_1introspection.html#af0776d8076fe19b4f806405e9ab08cfe',1,'smacc2::introspection::demangleType(const std::type_info *tinfo)'],['../namespacesmacc2_1_1introspection.html#a34b8300f708f6798d0696740fa6d7daa',1,'smacc2::introspection::demangleType(const std::type_info &amp;tinfo)']]],
   ['depth_6',['depth',['../classsmacc2_1_1introspection_1_1SmaccStateInfo.html#ae20f8d03f12d9b8fd0d0c780a834f3d3',1,'smacc2::introspection::SmaccStateInfo']]],
   ['dispose_7',['dispose',['../classsmacc2_1_1SmaccAsyncClientBehavior.html#a47bfbd4f801b61e43cd16d42eace3461',1,'smacc2::SmaccAsyncClientBehavior::dispose()'],['../classsmacc2_1_1ISmaccClientBehavior.html#adb196968cb9f7487292ed97c743df13d',1,'smacc2::ISmaccClientBehavior::dispose()']]],
-  ['disposestateanddisconnectsignals_8',['disposeStateAndDisconnectSignals',['../classsmacc2_1_1ISmaccStateMachine.html#a409f2e942a2e386a3fb7f3c09ae2eba7',1,'smacc2::ISmaccStateMachine']]],
-  ['dtotal_5fiterations_9',['dtotal_iterations',['../classsm__multi__stage__1_1_1MsMode4.html#a96d75e4f3bac60564dda822c65a8ae39',1,'sm_multi_stage_1::MsMode4::dtotal_iterations()'],['../structsm__multi__stage__1_1_1SsMode4SequenceC.html#a62f9a09cefe127164b3bfc593b8fe187',1,'sm_multi_stage_1::SsMode4SequenceC::dtotal_iterations()']]]
+  ['disposestateanddisconnectsignals_8',['disposeStateAndDisconnectSignals',['../classsmacc2_1_1ISmaccStateMachine.html#a409f2e942a2e386a3fb7f3c09ae2eba7',1,'smacc2::ISmaccStateMachine']]]
 ];
