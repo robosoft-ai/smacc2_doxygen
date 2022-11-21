@@ -1,5 +1,4 @@
 var searchData=
 [
-  ['_24sm_5fname_24_0',['$sm_name$',['../namespace_0bsm__name_0b.html',1,'']]],
-  ['_24smname_24_1',['$SmName$',['../struct_0bsm__name_0b_1_1_0bSmName_0b.html',1,'$sm_name$']]]
+  ['_5ftracepoint_5fprovider_5fprovider_5fh_0',['_TRACEPOINT_PROVIDER_PROVIDER_H',['../trace__provider_8hpp.html#ab7f9d925779b3824e67c66da532a0a9d',1,'trace_provider.hpp']]]
 ];
