@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['my_5fcontext_0',['my_context',['../structsmacc2_1_1SmaccState_1_1my__context.html',1,'smacc2::SmaccState']]]
+  ['reactions_0',['reactions',['../structsmacc2_1_1Transition_1_1reactions.html',1,'smacc2::Transition']]]
 ];

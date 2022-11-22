@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['join_0',['join',['../classsmacc2_1_1SignalDetector.html#a3bd69a0b127939119472d9ee70d4b653',1,'smacc2::SignalDetector']]]
+  ['launch_0',['launch',['../classsmacc2_1_1client__bases_1_1ClRosLaunch.html#ab1556711e46d77a4a78df73dbb33556d',1,'smacc2::client_bases::ClRosLaunch']]]
 ];
