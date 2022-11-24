@@ -629,49 +629,50 @@ Here is the caller graph for this function:</div>
 <div class="line"><span class="lineno">  360</span>    <span class="keywordflow">if</span> (wp_node != NULL)</div>
 <div class="line"><span class="lineno">  361</span>    {</div>
 <div class="line"><span class="lineno">  362</span>      <span class="keywordflow">for</span> (uint64_t i = 0; i &lt; wp_node-&gt;size(); ++i)</div>
-<div class="line"><span class="lineno">  363</span>      {</div>
-<div class="line"><span class="lineno">  364</span>        <span class="comment">// Parse waypoint entries on YAML</span></div>
-<div class="line"><span class="lineno">  365</span>        geometry_msgs::msg::Pose wp;</div>
-<div class="line"><span class="lineno">  366</span> </div>
-<div class="line"><span class="lineno">  367</span>        <span class="keywordflow">try</span></div>
-<div class="line"><span class="lineno">  368</span>        {</div>
-<div class="line"><span class="lineno">  369</span>          <span class="comment">// (*wp_node)[i][&quot;name&quot;] &gt;&gt; wp.name;</span></div>
-<div class="line"><span class="lineno">  370</span>          <span class="comment">// (*wp_node)[i][&quot;frame_id&quot;] &gt;&gt; wp.header.frame_id;</span></div>
-<div class="line"><span class="lineno">  371</span> </div>
-<div class="line"><span class="lineno">  372</span>          <span class="keyword">auto</span> wpnodei = (*wp_node)[i];</div>
-<div class="line"><span class="lineno">  373</span>          wp.position.x = wpnodei[<span class="stringliteral">&quot;position&quot;</span>][<span class="stringliteral">&quot;x&quot;</span>].as&lt;<span class="keywordtype">double</span>&gt;();</div>
-<div class="line"><span class="lineno">  374</span>          wp.position.y = wpnodei[<span class="stringliteral">&quot;position&quot;</span>][<span class="stringliteral">&quot;y&quot;</span>].as&lt;<span class="keywordtype">double</span>&gt;();</div>
-<div class="line"><span class="lineno">  375</span>          wp.position.z = wpnodei[<span class="stringliteral">&quot;position&quot;</span>][<span class="stringliteral">&quot;z&quot;</span>].as&lt;<span class="keywordtype">double</span>&gt;();</div>
-<div class="line"><span class="lineno">  376</span>          wp.orientation.x = wpnodei[<span class="stringliteral">&quot;orientation&quot;</span>][<span class="stringliteral">&quot;x&quot;</span>].as&lt;<span class="keywordtype">double</span>&gt;();</div>
-<div class="line"><span class="lineno">  377</span>          wp.orientation.y = wpnodei[<span class="stringliteral">&quot;orientation&quot;</span>][<span class="stringliteral">&quot;y&quot;</span>].as&lt;<span class="keywordtype">double</span>&gt;();</div>
-<div class="line"><span class="lineno">  378</span>          wp.orientation.z = wpnodei[<span class="stringliteral">&quot;orientation&quot;</span>][<span class="stringliteral">&quot;z&quot;</span>].as&lt;<span class="keywordtype">double</span>&gt;();</div>
-<div class="line"><span class="lineno">  379</span>          wp.orientation.w = wpnodei[<span class="stringliteral">&quot;orientation&quot;</span>][<span class="stringliteral">&quot;w&quot;</span>].as&lt;<span class="keywordtype">double</span>&gt;();</div>
-<div class="line"><span class="lineno">  380</span> </div>
-<div class="line"><span class="lineno">  381</span>          <span class="keywordflow">if</span> (wpnodei[<span class="stringliteral">&quot;name&quot;</span>].IsDefined())</div>
-<div class="line"><span class="lineno">  382</span>          {</div>
-<div class="line"><span class="lineno">  383</span>            this-&gt;<a class="code hl_variable" href="classcl__nav2z_1_1WaypointNavigator.html#a625117c48f857e4e882d724743771a82">waypointsNames_</a>.push_back(wpnodei[<span class="stringliteral">&quot;name&quot;</span>].as&lt;std::string&gt;());</div>
-<div class="line"><span class="lineno">  384</span>          }</div>
-<div class="line"><span class="lineno">  385</span> </div>
-<div class="line"><span class="lineno">  386</span>          this-&gt;<a class="code hl_variable" href="classcl__nav2z_1_1WaypointNavigator.html#a9c1cff4a35d0c55423c2a73aba764a7d">waypoints_</a>.push_back(wp);</div>
-<div class="line"><span class="lineno">  387</span>        }</div>
-<div class="line"><span class="lineno">  388</span>        <span class="keywordflow">catch</span> (...)</div>
-<div class="line"><span class="lineno">  389</span>        {</div>
-<div class="line"><span class="lineno">  390</span>          RCLCPP_ERROR(<a class="code hl_function" href="classsmacc2_1_1ISmaccComponent.html#a77ee85823bab8d84edcdf5d28782b728">getLogger</a>(), <span class="stringliteral">&quot;parsing waypoint file, syntax error in point %d&quot;</span>, i);</div>
-<div class="line"><span class="lineno">  391</span>        }</div>
-<div class="line"><span class="lineno">  392</span>      }</div>
-<div class="line"><span class="lineno">  393</span>      RCLCPP_INFO_STREAM(<a class="code hl_function" href="classsmacc2_1_1ISmaccComponent.html#a77ee85823bab8d84edcdf5d28782b728">getLogger</a>(), <span class="stringliteral">&quot;Parsed &quot;</span> &lt;&lt; this-&gt;<a class="code hl_variable" href="classcl__nav2z_1_1WaypointNavigator.html#a9c1cff4a35d0c55423c2a73aba764a7d">waypoints_</a>.size() &lt;&lt; <span class="stringliteral">&quot; waypoints.&quot;</span>);</div>
-<div class="line"><span class="lineno">  394</span>    }</div>
-<div class="line"><span class="lineno">  395</span>    <span class="keywordflow">else</span></div>
-<div class="line"><span class="lineno">  396</span>    {</div>
-<div class="line"><span class="lineno">  397</span>      RCLCPP_WARN_STREAM(<a class="code hl_function" href="classsmacc2_1_1ISmaccComponent.html#a77ee85823bab8d84edcdf5d28782b728">getLogger</a>(), <span class="stringliteral">&quot;Couldn&#39;t find any waypoints in the provided yaml file.&quot;</span>);</div>
-<div class="line"><span class="lineno">  398</span>    }</div>
-<div class="line"><span class="lineno">  399</span>  }</div>
-<div class="line"><span class="lineno">  400</span>  <span class="keywordflow">catch</span> (<span class="keyword">const</span> YAML::ParserException &amp; ex)</div>
-<div class="line"><span class="lineno">  401</span>  {</div>
-<div class="line"><span class="lineno">  402</span>    RCLCPP_ERROR_STREAM(</div>
-<div class="line"><span class="lineno">  403</span>      <a class="code hl_function" href="classsmacc2_1_1ISmaccComponent.html#a77ee85823bab8d84edcdf5d28782b728">getLogger</a>(), <span class="stringliteral">&quot;Error loading the Waypoints YAML file. Incorrect syntax: &quot;</span> &lt;&lt; ex.what());</div>
-<div class="line"><span class="lineno">  404</span>  }</div>
-<div class="line"><span class="lineno">  405</span>}</div>
+<div class="line"><span class="lineno">  363</span> </div>
+<div class="line"><span class="lineno">  364</span>      {</div>
+<div class="line"><span class="lineno">  365</span>        <span class="comment">// Parse waypoint entries on YAML</span></div>
+<div class="line"><span class="lineno">  366</span>        geometry_msgs::msg::Pose wp;</div>
+<div class="line"><span class="lineno">  367</span> </div>
+<div class="line"><span class="lineno">  368</span>        <span class="keywordflow">try</span></div>
+<div class="line"><span class="lineno">  369</span>        {</div>
+<div class="line"><span class="lineno">  370</span>          <span class="comment">// (*wp_node)[i][&quot;name&quot;] &gt;&gt; wp.name;</span></div>
+<div class="line"><span class="lineno">  371</span>          <span class="comment">// (*wp_node)[i][&quot;frame_id&quot;] &gt;&gt; wp.header.frame_id;</span></div>
+<div class="line"><span class="lineno">  372</span> </div>
+<div class="line"><span class="lineno">  373</span>          <span class="keyword">auto</span> wpnodei = (*wp_node)[i];</div>
+<div class="line"><span class="lineno">  374</span>          wp.position.x = wpnodei[<span class="stringliteral">&quot;position&quot;</span>][<span class="stringliteral">&quot;x&quot;</span>].as&lt;<span class="keywordtype">double</span>&gt;();</div>
+<div class="line"><span class="lineno">  375</span>          wp.position.y = wpnodei[<span class="stringliteral">&quot;position&quot;</span>][<span class="stringliteral">&quot;y&quot;</span>].as&lt;<span class="keywordtype">double</span>&gt;();</div>
+<div class="line"><span class="lineno">  376</span>          wp.position.z = wpnodei[<span class="stringliteral">&quot;position&quot;</span>][<span class="stringliteral">&quot;z&quot;</span>].as&lt;<span class="keywordtype">double</span>&gt;();</div>
+<div class="line"><span class="lineno">  377</span>          wp.orientation.x = wpnodei[<span class="stringliteral">&quot;orientation&quot;</span>][<span class="stringliteral">&quot;x&quot;</span>].as&lt;<span class="keywordtype">double</span>&gt;();</div>
+<div class="line"><span class="lineno">  378</span>          wp.orientation.y = wpnodei[<span class="stringliteral">&quot;orientation&quot;</span>][<span class="stringliteral">&quot;y&quot;</span>].as&lt;<span class="keywordtype">double</span>&gt;();</div>
+<div class="line"><span class="lineno">  379</span>          wp.orientation.z = wpnodei[<span class="stringliteral">&quot;orientation&quot;</span>][<span class="stringliteral">&quot;z&quot;</span>].as&lt;<span class="keywordtype">double</span>&gt;();</div>
+<div class="line"><span class="lineno">  380</span>          wp.orientation.w = wpnodei[<span class="stringliteral">&quot;orientation&quot;</span>][<span class="stringliteral">&quot;w&quot;</span>].as&lt;<span class="keywordtype">double</span>&gt;();</div>
+<div class="line"><span class="lineno">  381</span> </div>
+<div class="line"><span class="lineno">  382</span>          <span class="keywordflow">if</span> (wpnodei[<span class="stringliteral">&quot;name&quot;</span>].IsDefined())</div>
+<div class="line"><span class="lineno">  383</span>          {</div>
+<div class="line"><span class="lineno">  384</span>            this-&gt;<a class="code hl_variable" href="classcl__nav2z_1_1WaypointNavigator.html#a625117c48f857e4e882d724743771a82">waypointsNames_</a>.push_back(wpnodei[<span class="stringliteral">&quot;name&quot;</span>].as&lt;std::string&gt;());</div>
+<div class="line"><span class="lineno">  385</span>          }</div>
+<div class="line"><span class="lineno">  386</span> </div>
+<div class="line"><span class="lineno">  387</span>          this-&gt;<a class="code hl_variable" href="classcl__nav2z_1_1WaypointNavigator.html#a9c1cff4a35d0c55423c2a73aba764a7d">waypoints_</a>.push_back(wp);</div>
+<div class="line"><span class="lineno">  388</span>        }</div>
+<div class="line"><span class="lineno">  389</span>        <span class="keywordflow">catch</span> (...)</div>
+<div class="line"><span class="lineno">  390</span>        {</div>
+<div class="line"><span class="lineno">  391</span>          RCLCPP_ERROR(<a class="code hl_function" href="classsmacc2_1_1ISmaccComponent.html#a77ee85823bab8d84edcdf5d28782b728">getLogger</a>(), <span class="stringliteral">&quot;parsing waypoint file, syntax error in point %d&quot;</span>, i);</div>
+<div class="line"><span class="lineno">  392</span>        }</div>
+<div class="line"><span class="lineno">  393</span>      }</div>
+<div class="line"><span class="lineno">  394</span>      RCLCPP_INFO_STREAM(<a class="code hl_function" href="classsmacc2_1_1ISmaccComponent.html#a77ee85823bab8d84edcdf5d28782b728">getLogger</a>(), <span class="stringliteral">&quot;Parsed &quot;</span> &lt;&lt; this-&gt;<a class="code hl_variable" href="classcl__nav2z_1_1WaypointNavigator.html#a9c1cff4a35d0c55423c2a73aba764a7d">waypoints_</a>.size() &lt;&lt; <span class="stringliteral">&quot; waypoints.&quot;</span>);</div>
+<div class="line"><span class="lineno">  395</span>    }</div>
+<div class="line"><span class="lineno">  396</span>    <span class="keywordflow">else</span></div>
+<div class="line"><span class="lineno">  397</span>    {</div>
+<div class="line"><span class="lineno">  398</span>      RCLCPP_WARN_STREAM(<a class="code hl_function" href="classsmacc2_1_1ISmaccComponent.html#a77ee85823bab8d84edcdf5d28782b728">getLogger</a>(), <span class="stringliteral">&quot;Couldn&#39;t find any waypoints in the provided yaml file.&quot;</span>);</div>
+<div class="line"><span class="lineno">  399</span>    }</div>
+<div class="line"><span class="lineno">  400</span>  }</div>
+<div class="line"><span class="lineno">  401</span>  <span class="keywordflow">catch</span> (<span class="keyword">const</span> YAML::ParserException &amp; ex)</div>
+<div class="line"><span class="lineno">  402</span>  {</div>
+<div class="line"><span class="lineno">  403</span>    RCLCPP_ERROR_STREAM(</div>
+<div class="line"><span class="lineno">  404</span>      <a class="code hl_function" href="classsmacc2_1_1ISmaccComponent.html#a77ee85823bab8d84edcdf5d28782b728">getLogger</a>(), <span class="stringliteral">&quot;Error loading the Waypoints YAML file. Incorrect syntax: &quot;</span> &lt;&lt; ex.what());</div>
+<div class="line"><span class="lineno">  405</span>  }</div>
+<div class="line"><span class="lineno">  406</span>}</div>
 <div class="ttc" id="aclasssmacc2_1_1ISmaccComponent_html_a77ee85823bab8d84edcdf5d28782b728"><div class="ttname"><a href="classsmacc2_1_1ISmaccComponent.html#a77ee85823bab8d84edcdf5d28782b728">smacc2::ISmaccComponent::getLogger</a></div><div class="ttdeci">rclcpp::Logger getLogger() const</div><div class="ttdef"><b>Definition:</b> <a href="smacc__component_8cpp_source.html#l00044">smacc_component.cpp:44</a></div></div>
 </div><!-- fragment -->
 <p class="reference">References <a class="el" href="smacc__component_8cpp_source.html#l00044">smacc2::ISmaccComponent::getLogger()</a>, <a class="el" href="waypoints__navigator_8hpp_source.html#l00116">waypoints_</a>, and <a class="el" href="waypoints__navigator_8hpp_source.html#l00118">waypointsNames_</a>.</p>
@@ -707,68 +708,68 @@ Here is the call graph for this function:</div>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="waypoints__navigator_8cpp_source.html#l00407">407</a> of file <a class="el" href="waypoints__navigator_8cpp_source.html">waypoints_navigator.cpp</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">  408</span>{</div>
-<div class="line"><span class="lineno">  409</span>  RCLCPP_INFO_STREAM(<a class="code hl_function" href="classsmacc2_1_1ISmaccComponent.html#a77ee85823bab8d84edcdf5d28782b728">getLogger</a>(), <span class="stringliteral">&quot;[WaypointNavigator] Loading file:&quot;</span> &lt;&lt; filepath);</div>
-<div class="line"><span class="lineno">  410</span>  this-&gt;<a class="code hl_variable" href="classcl__nav2z_1_1WaypointNavigator.html#a9c1cff4a35d0c55423c2a73aba764a7d">waypoints_</a>.clear();</div>
-<div class="line"><span class="lineno">  411</span>  std::ifstream ifs(filepath.c_str(), std::ifstream::in);</div>
-<div class="line"><span class="lineno">  412</span>  <span class="keywordflow">if</span> (ifs.good() == <span class="keyword">false</span>)</div>
-<div class="line"><span class="lineno">  413</span>  {</div>
-<div class="line"><span class="lineno">  414</span>    <span class="keywordflow">throw</span> std::string(<span class="stringliteral">&quot;Waypoints file not found&quot;</span>);</div>
-<div class="line"><span class="lineno">  415</span>  }</div>
-<div class="line"><span class="lineno">  416</span> </div>
-<div class="line"><span class="lineno">  417</span>  <span class="keywordflow">try</span></div>
-<div class="line"><span class="lineno">  418</span>  {</div>
-<div class="line"><span class="lineno">  419</span><span class="preprocessor">#ifdef HAVE_NEW_YAMLCPP</span></div>
-<div class="line"><span class="lineno">  420</span>    YAML::Node node = YAML::Load(ifs);</div>
-<div class="line"><span class="lineno">  421</span><span class="preprocessor">#else</span></div>
-<div class="line"><span class="lineno">  422</span>    YAML::Parser parser(ifs);</div>
-<div class="line"><span class="lineno">  423</span>    parser.GetNextDocument(node);</div>
-<div class="line"><span class="lineno">  424</span><span class="preprocessor">#endif</span></div>
-<div class="line"><span class="lineno">  425</span> </div>
-<div class="line"><span class="lineno">  426</span><span class="preprocessor">#ifdef HAVE_NEW_YAMLCPP</span></div>
-<div class="line"><span class="lineno">  427</span>    <span class="keyword">const</span> YAML::Node &amp; wp_node_tmp = node[<span class="stringliteral">&quot;waypoints&quot;</span>];</div>
-<div class="line"><span class="lineno">  428</span>    <span class="keyword">const</span> YAML::Node * wp_node = wp_node_tmp ? &amp;wp_node_tmp : NULL;</div>
-<div class="line"><span class="lineno">  429</span><span class="preprocessor">#else</span></div>
-<div class="line"><span class="lineno">  430</span>    <span class="keyword">const</span> YAML::Node * wp_node = node.FindValue(<span class="stringliteral">&quot;waypoints&quot;</span>);</div>
-<div class="line"><span class="lineno">  431</span><span class="preprocessor">#endif</span></div>
-<div class="line"><span class="lineno">  432</span> </div>
-<div class="line"><span class="lineno">  433</span>    <span class="keywordflow">if</span> (wp_node != NULL)</div>
-<div class="line"><span class="lineno">  434</span>    {</div>
-<div class="line"><span class="lineno">  435</span>      <span class="keywordflow">for</span> (uint64_t i = 0; i &lt; wp_node-&gt;size(); ++i)</div>
-<div class="line"><span class="lineno">  436</span>      {</div>
-<div class="line"><span class="lineno">  437</span>        <span class="comment">// Parse waypoint entries on YAML</span></div>
-<div class="line"><span class="lineno">  438</span>        geometry_msgs::msg::Pose wp;</div>
-<div class="line"><span class="lineno">  439</span> </div>
-<div class="line"><span class="lineno">  440</span>        <span class="keywordflow">try</span></div>
-<div class="line"><span class="lineno">  441</span>        {</div>
-<div class="line"><span class="lineno">  442</span>          <span class="comment">// (*wp_node)[i][&quot;name&quot;] &gt;&gt; wp.name;</span></div>
-<div class="line"><span class="lineno">  443</span>          <span class="comment">// (*wp_node)[i][&quot;frame_id&quot;] &gt;&gt; wp.header.frame_id;</span></div>
-<div class="line"><span class="lineno">  444</span>          wp.position.x = (*wp_node)[i][<span class="stringliteral">&quot;x&quot;</span>].as&lt;<span class="keywordtype">double</span>&gt;();</div>
-<div class="line"><span class="lineno">  445</span>          wp.position.y = (*wp_node)[i][<span class="stringliteral">&quot;y&quot;</span>].as&lt;<span class="keywordtype">double</span>&gt;();</div>
-<div class="line"><span class="lineno">  446</span>          <span class="keyword">auto</span> name = (*wp_node)[i][<span class="stringliteral">&quot;name&quot;</span>].as&lt;std::string&gt;();</div>
-<div class="line"><span class="lineno">  447</span> </div>
-<div class="line"><span class="lineno">  448</span>          this-&gt;<a class="code hl_variable" href="classcl__nav2z_1_1WaypointNavigator.html#a9c1cff4a35d0c55423c2a73aba764a7d">waypoints_</a>.push_back(wp);</div>
-<div class="line"><span class="lineno">  449</span>          this-&gt;<a class="code hl_variable" href="classcl__nav2z_1_1WaypointNavigator.html#a625117c48f857e4e882d724743771a82">waypointsNames_</a>.push_back(name);</div>
-<div class="line"><span class="lineno">  450</span>        }</div>
-<div class="line"><span class="lineno">  451</span>        <span class="keywordflow">catch</span> (...)</div>
-<div class="line"><span class="lineno">  452</span>        {</div>
-<div class="line"><span class="lineno">  453</span>          RCLCPP_ERROR(<a class="code hl_function" href="classsmacc2_1_1ISmaccComponent.html#a77ee85823bab8d84edcdf5d28782b728">getLogger</a>(), <span class="stringliteral">&quot;parsing waypoint file, syntax error in point %d&quot;</span>, i);</div>
-<div class="line"><span class="lineno">  454</span>        }</div>
-<div class="line"><span class="lineno">  455</span>      }</div>
-<div class="line"><span class="lineno">  456</span>      RCLCPP_INFO_STREAM(<a class="code hl_function" href="classsmacc2_1_1ISmaccComponent.html#a77ee85823bab8d84edcdf5d28782b728">getLogger</a>(), <span class="stringliteral">&quot;Parsed &quot;</span> &lt;&lt; this-&gt;<a class="code hl_variable" href="classcl__nav2z_1_1WaypointNavigator.html#a9c1cff4a35d0c55423c2a73aba764a7d">waypoints_</a>.size() &lt;&lt; <span class="stringliteral">&quot; waypoints.&quot;</span>);</div>
-<div class="line"><span class="lineno">  457</span>    }</div>
-<div class="line"><span class="lineno">  458</span>    <span class="keywordflow">else</span></div>
-<div class="line"><span class="lineno">  459</span>    {</div>
-<div class="line"><span class="lineno">  460</span>      RCLCPP_WARN_STREAM(<a class="code hl_function" href="classsmacc2_1_1ISmaccComponent.html#a77ee85823bab8d84edcdf5d28782b728">getLogger</a>(), <span class="stringliteral">&quot;Couldn&#39;t find any waypoints in the provided yaml file.&quot;</span>);</div>
-<div class="line"><span class="lineno">  461</span>    }</div>
-<div class="line"><span class="lineno">  462</span>  }</div>
-<div class="line"><span class="lineno">  463</span>  <span class="keywordflow">catch</span> (<span class="keyword">const</span> YAML::ParserException &amp; ex)</div>
-<div class="line"><span class="lineno">  464</span>  {</div>
-<div class="line"><span class="lineno">  465</span>    RCLCPP_ERROR_STREAM(</div>
-<div class="line"><span class="lineno">  466</span>      <a class="code hl_function" href="classsmacc2_1_1ISmaccComponent.html#a77ee85823bab8d84edcdf5d28782b728">getLogger</a>(), <span class="stringliteral">&quot;Error loading the Waypoints YAML file. Incorrect syntax: &quot;</span> &lt;&lt; ex.what());</div>
-<div class="line"><span class="lineno">  467</span>  }</div>
-<div class="line"><span class="lineno">  468</span>}</div>
+<p class="definition">Definition at line <a class="el" href="waypoints__navigator_8cpp_source.html#l00408">408</a> of file <a class="el" href="waypoints__navigator_8cpp_source.html">waypoints_navigator.cpp</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">  409</span>{</div>
+<div class="line"><span class="lineno">  410</span>  RCLCPP_INFO_STREAM(<a class="code hl_function" href="classsmacc2_1_1ISmaccComponent.html#a77ee85823bab8d84edcdf5d28782b728">getLogger</a>(), <span class="stringliteral">&quot;[WaypointNavigator] Loading file:&quot;</span> &lt;&lt; filepath);</div>
+<div class="line"><span class="lineno">  411</span>  this-&gt;<a class="code hl_variable" href="classcl__nav2z_1_1WaypointNavigator.html#a9c1cff4a35d0c55423c2a73aba764a7d">waypoints_</a>.clear();</div>
+<div class="line"><span class="lineno">  412</span>  std::ifstream ifs(filepath.c_str(), std::ifstream::in);</div>
+<div class="line"><span class="lineno">  413</span>  <span class="keywordflow">if</span> (ifs.good() == <span class="keyword">false</span>)</div>
+<div class="line"><span class="lineno">  414</span>  {</div>
+<div class="line"><span class="lineno">  415</span>    <span class="keywordflow">throw</span> std::string(<span class="stringliteral">&quot;Waypoints file not found&quot;</span>);</div>
+<div class="line"><span class="lineno">  416</span>  }</div>
+<div class="line"><span class="lineno">  417</span> </div>
+<div class="line"><span class="lineno">  418</span>  <span class="keywordflow">try</span></div>
+<div class="line"><span class="lineno">  419</span>  {</div>
+<div class="line"><span class="lineno">  420</span><span class="preprocessor">#ifdef HAVE_NEW_YAMLCPP</span></div>
+<div class="line"><span class="lineno">  421</span>    YAML::Node node = YAML::Load(ifs);</div>
+<div class="line"><span class="lineno">  422</span><span class="preprocessor">#else</span></div>
+<div class="line"><span class="lineno">  423</span>    YAML::Parser parser(ifs);</div>
+<div class="line"><span class="lineno">  424</span>    parser.GetNextDocument(node);</div>
+<div class="line"><span class="lineno">  425</span><span class="preprocessor">#endif</span></div>
+<div class="line"><span class="lineno">  426</span> </div>
+<div class="line"><span class="lineno">  427</span><span class="preprocessor">#ifdef HAVE_NEW_YAMLCPP</span></div>
+<div class="line"><span class="lineno">  428</span>    <span class="keyword">const</span> YAML::Node &amp; wp_node_tmp = node[<span class="stringliteral">&quot;waypoints&quot;</span>];</div>
+<div class="line"><span class="lineno">  429</span>    <span class="keyword">const</span> YAML::Node * wp_node = wp_node_tmp ? &amp;wp_node_tmp : NULL;</div>
+<div class="line"><span class="lineno">  430</span><span class="preprocessor">#else</span></div>
+<div class="line"><span class="lineno">  431</span>    <span class="keyword">const</span> YAML::Node * wp_node = node.FindValue(<span class="stringliteral">&quot;waypoints&quot;</span>);</div>
+<div class="line"><span class="lineno">  432</span><span class="preprocessor">#endif</span></div>
+<div class="line"><span class="lineno">  433</span> </div>
+<div class="line"><span class="lineno">  434</span>    <span class="keywordflow">if</span> (wp_node != NULL)</div>
+<div class="line"><span class="lineno">  435</span>    {</div>
+<div class="line"><span class="lineno">  436</span>      <span class="keywordflow">for</span> (uint64_t i = 0; i &lt; wp_node-&gt;size(); ++i)</div>
+<div class="line"><span class="lineno">  437</span>      {</div>
+<div class="line"><span class="lineno">  438</span>        <span class="comment">// Parse waypoint entries on YAML</span></div>
+<div class="line"><span class="lineno">  439</span>        geometry_msgs::msg::Pose wp;</div>
+<div class="line"><span class="lineno">  440</span> </div>
+<div class="line"><span class="lineno">  441</span>        <span class="keywordflow">try</span></div>
+<div class="line"><span class="lineno">  442</span>        {</div>
+<div class="line"><span class="lineno">  443</span>          <span class="comment">// (*wp_node)[i][&quot;name&quot;] &gt;&gt; wp.name;</span></div>
+<div class="line"><span class="lineno">  444</span>          <span class="comment">// (*wp_node)[i][&quot;frame_id&quot;] &gt;&gt; wp.header.frame_id;</span></div>
+<div class="line"><span class="lineno">  445</span>          wp.position.x = (*wp_node)[i][<span class="stringliteral">&quot;x&quot;</span>].as&lt;<span class="keywordtype">double</span>&gt;();</div>
+<div class="line"><span class="lineno">  446</span>          wp.position.y = (*wp_node)[i][<span class="stringliteral">&quot;y&quot;</span>].as&lt;<span class="keywordtype">double</span>&gt;();</div>
+<div class="line"><span class="lineno">  447</span>          <span class="keyword">auto</span> name = (*wp_node)[i][<span class="stringliteral">&quot;name&quot;</span>].as&lt;std::string&gt;();</div>
+<div class="line"><span class="lineno">  448</span> </div>
+<div class="line"><span class="lineno">  449</span>          this-&gt;<a class="code hl_variable" href="classcl__nav2z_1_1WaypointNavigator.html#a9c1cff4a35d0c55423c2a73aba764a7d">waypoints_</a>.push_back(wp);</div>
+<div class="line"><span class="lineno">  450</span>          this-&gt;<a class="code hl_variable" href="classcl__nav2z_1_1WaypointNavigator.html#a625117c48f857e4e882d724743771a82">waypointsNames_</a>.push_back(name);</div>
+<div class="line"><span class="lineno">  451</span>        }</div>
+<div class="line"><span class="lineno">  452</span>        <span class="keywordflow">catch</span> (...)</div>
+<div class="line"><span class="lineno">  453</span>        {</div>
+<div class="line"><span class="lineno">  454</span>          RCLCPP_ERROR(<a class="code hl_function" href="classsmacc2_1_1ISmaccComponent.html#a77ee85823bab8d84edcdf5d28782b728">getLogger</a>(), <span class="stringliteral">&quot;parsing waypoint file, syntax error in point %d&quot;</span>, i);</div>
+<div class="line"><span class="lineno">  455</span>        }</div>
+<div class="line"><span class="lineno">  456</span>      }</div>
+<div class="line"><span class="lineno">  457</span>      RCLCPP_INFO_STREAM(<a class="code hl_function" href="classsmacc2_1_1ISmaccComponent.html#a77ee85823bab8d84edcdf5d28782b728">getLogger</a>(), <span class="stringliteral">&quot;Parsed &quot;</span> &lt;&lt; this-&gt;<a class="code hl_variable" href="classcl__nav2z_1_1WaypointNavigator.html#a9c1cff4a35d0c55423c2a73aba764a7d">waypoints_</a>.size() &lt;&lt; <span class="stringliteral">&quot; waypoints.&quot;</span>);</div>
+<div class="line"><span class="lineno">  458</span>    }</div>
+<div class="line"><span class="lineno">  459</span>    <span class="keywordflow">else</span></div>
+<div class="line"><span class="lineno">  460</span>    {</div>
+<div class="line"><span class="lineno">  461</span>      RCLCPP_WARN_STREAM(<a class="code hl_function" href="classsmacc2_1_1ISmaccComponent.html#a77ee85823bab8d84edcdf5d28782b728">getLogger</a>(), <span class="stringliteral">&quot;Couldn&#39;t find any waypoints in the provided yaml file.&quot;</span>);</div>
+<div class="line"><span class="lineno">  462</span>    }</div>
+<div class="line"><span class="lineno">  463</span>  }</div>
+<div class="line"><span class="lineno">  464</span>  <span class="keywordflow">catch</span> (<span class="keyword">const</span> YAML::ParserException &amp; ex)</div>
+<div class="line"><span class="lineno">  465</span>  {</div>
+<div class="line"><span class="lineno">  466</span>    RCLCPP_ERROR_STREAM(</div>
+<div class="line"><span class="lineno">  467</span>      <a class="code hl_function" href="classsmacc2_1_1ISmaccComponent.html#a77ee85823bab8d84edcdf5d28782b728">getLogger</a>(), <span class="stringliteral">&quot;Error loading the Waypoints YAML file. Incorrect syntax: &quot;</span> &lt;&lt; ex.what());</div>
+<div class="line"><span class="lineno">  468</span>  }</div>
+<div class="line"><span class="lineno">  469</span>}</div>
 </div><!-- fragment -->
 <p class="reference">References <a class="el" href="smacc__component_8cpp_source.html#l00044">smacc2::ISmaccComponent::getLogger()</a>, <a class="el" href="waypoints__navigator_8hpp_source.html#l00116">waypoints_</a>, and <a class="el" href="waypoints__navigator_8hpp_source.html#l00118">waypointsNames_</a>.</p>
 <div class="dynheader">
@@ -1739,7 +1740,7 @@ Here is the caller graph for this function:</div>
 
 <p class="definition">Definition at line <a class="el" href="waypoints__navigator_8hpp_source.html#l00116">116</a> of file <a class="el" href="waypoints__navigator_8hpp_source.html">waypoints_navigator.hpp</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="waypoints__navigator_8cpp_source.html#l00073">forward()</a>, <a class="el" href="waypoints__navigator_8cpp_source.html#l00301">getNamedPose()</a>, <a class="el" href="waypoints__navigator_8cpp_source.html#l00296">getWaypoints()</a>, <a class="el" href="waypoints__navigator_8cpp_source.html#l00255">insertWaypoint()</a>, <a class="el" href="waypoints__navigator_8cpp_source.html#l00334">loadWayPointsFromFile()</a>, <a class="el" href="waypoints__navigator_8cpp_source.html#l00407">loadWayPointsFromFile2()</a>, <a class="el" href="waypoints__navigator_8cpp_source.html#l00288">removeWaypoint()</a>, <a class="el" href="waypoints__navigator_8cpp_source.html#l00080">seekName()</a>, <a class="el" href="waypoints__navigator_8cpp_source.html#l00155">sendNextGoal()</a>, and <a class="el" href="waypoints__navigator_8cpp_source.html#l00263">setWaypoints()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="waypoints__navigator_8cpp_source.html#l00073">forward()</a>, <a class="el" href="waypoints__navigator_8cpp_source.html#l00301">getNamedPose()</a>, <a class="el" href="waypoints__navigator_8cpp_source.html#l00296">getWaypoints()</a>, <a class="el" href="waypoints__navigator_8cpp_source.html#l00255">insertWaypoint()</a>, <a class="el" href="waypoints__navigator_8cpp_source.html#l00334">loadWayPointsFromFile()</a>, <a class="el" href="waypoints__navigator_8cpp_source.html#l00408">loadWayPointsFromFile2()</a>, <a class="el" href="waypoints__navigator_8cpp_source.html#l00288">removeWaypoint()</a>, <a class="el" href="waypoints__navigator_8cpp_source.html#l00080">seekName()</a>, <a class="el" href="waypoints__navigator_8cpp_source.html#l00155">sendNextGoal()</a>, and <a class="el" href="waypoints__navigator_8cpp_source.html#l00263">setWaypoints()</a>.</p>
 
 </div>
 </div>
@@ -1783,7 +1784,7 @@ Here is the caller graph for this function:</div>
 
 <p class="definition">Definition at line <a class="el" href="waypoints__navigator_8hpp_source.html#l00118">118</a> of file <a class="el" href="waypoints__navigator_8hpp_source.html">waypoints_navigator.hpp</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="waypoints__navigator_8cpp_source.html#l00322">getCurrentWaypointName()</a>, <a class="el" href="waypoints__navigator_8cpp_source.html#l00301">getNamedPose()</a>, <a class="el" href="waypoints__navigator_8cpp_source.html#l00317">getWaypointNames()</a>, <a class="el" href="waypoints__navigator_8cpp_source.html#l00334">loadWayPointsFromFile()</a>, <a class="el" href="waypoints__navigator_8cpp_source.html#l00407">loadWayPointsFromFile2()</a>, <a class="el" href="waypoints__navigator_8cpp_source.html#l00080">seekName()</a>, <a class="el" href="waypoints__navigator_8cpp_source.html#l00155">sendNextGoal()</a>, and <a class="el" href="waypoints__navigator_8cpp_source.html#l00268">setWaypoints()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="waypoints__navigator_8cpp_source.html#l00322">getCurrentWaypointName()</a>, <a class="el" href="waypoints__navigator_8cpp_source.html#l00301">getNamedPose()</a>, <a class="el" href="waypoints__navigator_8cpp_source.html#l00317">getWaypointNames()</a>, <a class="el" href="waypoints__navigator_8cpp_source.html#l00334">loadWayPointsFromFile()</a>, <a class="el" href="waypoints__navigator_8cpp_source.html#l00408">loadWayPointsFromFile2()</a>, <a class="el" href="waypoints__navigator_8cpp_source.html#l00080">seekName()</a>, <a class="el" href="waypoints__navigator_8cpp_source.html#l00155">sendNextGoal()</a>, and <a class="el" href="waypoints__navigator_8cpp_source.html#l00268">setWaypoints()</a>.</p>
 
 </div>
 </div>
