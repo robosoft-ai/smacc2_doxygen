@@ -1,0 +1,98 @@
+\hypertarget{classsmacc2_1_1Orthogonal}{}\doxysection{smacc2\+::Orthogonal\texorpdfstring{$<$}{<} TOrthogonal \texorpdfstring{$>$}{>} Class Template Reference}
+\label{classsmacc2_1_1Orthogonal}\index{smacc2::Orthogonal$<$ TOrthogonal $>$@{smacc2::Orthogonal$<$ TOrthogonal $>$}}
+
+
+{\ttfamily \#include $<$smacc\+\_\+orthogonal\+\_\+impl.\+hpp$>$}
+
+
+
+Inheritance diagram for smacc2\+::Orthogonal\texorpdfstring{$<$}{<} TOrthogonal \texorpdfstring{$>$}{>}\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=222pt]{classsmacc2_1_1Orthogonal__inherit__graph}
+\end{center}
+\end{figure}
+
+
+Collaboration diagram for smacc2\+::Orthogonal\texorpdfstring{$<$}{<} TOrthogonal \texorpdfstring{$>$}{>}\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{classsmacc2_1_1Orthogonal__coll__graph}
+\end{center}
+\end{figure}
+\doxysubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+{\footnotesize template$<$typename \mbox{\hyperlink{classTClient}{TClient}} , typename... TArgs$>$ }\\std\+::shared\+\_\+ptr$<$ \mbox{\hyperlink{classsmacc2_1_1ClientHandler}{Client\+Handler}}$<$ TOrthogonal, \mbox{\hyperlink{classTClient}{TClient}} $>$ $>$ \mbox{\hyperlink{classsmacc2_1_1Orthogonal_a73b1ab3d0a5ed0a597e8dffabcc2b8c0}{create\+Client}} (TArgs... args)
+\end{DoxyCompactItemize}
+\doxysubsection*{Additional Inherited Members}
+
+
+\doxysubsection{Detailed Description}
+\subsubsection*{template$<$typename TOrthogonal$>$\newline
+class smacc2\+::\+Orthogonal$<$ TOrthogonal $>$}
+
+
+Definition at line \mbox{\hyperlink{smacc__orthogonal__impl_8hpp_source_l00167}{167}} of file \mbox{\hyperlink{smacc__orthogonal__impl_8hpp_source}{smacc\+\_\+orthogonal\+\_\+impl.\+hpp}}.
+
+
+
+\doxysubsection{Member Function Documentation}
+\mbox{\Hypertarget{classsmacc2_1_1Orthogonal_a73b1ab3d0a5ed0a597e8dffabcc2b8c0}\label{classsmacc2_1_1Orthogonal_a73b1ab3d0a5ed0a597e8dffabcc2b8c0}} 
+\index{smacc2::Orthogonal$<$ TOrthogonal $>$@{smacc2::Orthogonal$<$ TOrthogonal $>$}!createClient@{createClient}}
+\index{createClient@{createClient}!smacc2::Orthogonal$<$ TOrthogonal $>$@{smacc2::Orthogonal$<$ TOrthogonal $>$}}
+\doxysubsubsection{\texorpdfstring{createClient()}{createClient()}}
+{\footnotesize\ttfamily template$<$typename TOrthogonal $>$ \\
+template$<$typename \mbox{\hyperlink{classTClient}{TClient}} , typename... TArgs$>$ \\
+std\+::shared\+\_\+ptr$<$ \mbox{\hyperlink{classsmacc2_1_1ClientHandler}{Client\+Handler}}$<$ TOrthogonal, \mbox{\hyperlink{classTClient}{TClient}} $>$ $>$ \mbox{\hyperlink{classsmacc2_1_1Orthogonal}{smacc2\+::\+Orthogonal}}$<$ TOrthogonal $>$\+::create\+Client (\begin{DoxyParamCaption}\item[{TArgs...}]{args }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Definition at line \mbox{\hyperlink{smacc__orthogonal__impl_8hpp_source_l00171}{171}} of file \mbox{\hyperlink{smacc__orthogonal__impl_8hpp_source}{smacc\+\_\+orthogonal\+\_\+impl.\+hpp}}.
+
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00172   \{}
+\DoxyCodeLine{00173     \textcolor{comment}{//static\_assert(std::is\_base\_of<ISmaccOrthogonal, TOrthogonal>::value, "{}The object Tag must be the orthogonal type where the client was created"{});}}
+\DoxyCodeLine{00174     \textcolor{comment}{// if (typeid(*this) != typeid(TOrthogonal))}}
+\DoxyCodeLine{00175     \textcolor{comment}{// \{}}
+\DoxyCodeLine{00176     \textcolor{comment}{//     RCLCPP\_ERROR\_STREAM(getLogger(),"{}Error creating client. The object Tag must be the type of the orthogonal where the client was created:"{} << demangleType(typeid(*this)) << "{}. The object creation was skipped and a nullptr was returned"{});}}
+\DoxyCodeLine{00177     \textcolor{comment}{//     return nullptr;}}
+\DoxyCodeLine{00178     \textcolor{comment}{// \}}}
+\DoxyCodeLine{00179 }
+\DoxyCodeLine{00180     RCLCPP\_INFO(}
+\DoxyCodeLine{00181       \mbox{\hyperlink{classsmacc2_1_1ISmaccOrthogonal_a9f4ef0ad85f7ad0fbb02a26d8601889d}{getLogger}}(), \textcolor{stringliteral}{"{}[\%s] creating client object, type:'\%s' object tag: '\%s'"{}},}
+\DoxyCodeLine{00182       \mbox{\hyperlink{namespacesmacc2_1_1introspection_af0776d8076fe19b4f806405e9ab08cfe}{demangleType}}(\textcolor{keyword}{typeid}(*\textcolor{keyword}{this})).c\_str(), demangledTypeName<TClient>().c\_str(),}
+\DoxyCodeLine{00183       demangledTypeName<TOrthogonal>().c\_str());}
+\DoxyCodeLine{00184 }
+\DoxyCodeLine{00185     \textcolor{keyword}{auto} client = std::make\_shared<ClientHandler<TOrthogonal, TClient>>(args...);}
+\DoxyCodeLine{00186     this-\/>\textcolor{keyword}{template} assignClientToOrthogonal<TOrthogonal, TClient>(client.get());}
+\DoxyCodeLine{00187 }
+\DoxyCodeLine{00188     \textcolor{comment}{// it is stored the client (not the client handler)}}
+\DoxyCodeLine{00189     \mbox{\hyperlink{classsmacc2_1_1ISmaccOrthogonal_ad03b3f59cfbc5eaac529910ed965bd1f}{clients\_}}.push\_back(client);}
+\DoxyCodeLine{00190 }
+\DoxyCodeLine{00191     \textcolor{keywordflow}{return} client;}
+\DoxyCodeLine{00192   \}}
+
+\end{DoxyCode}
+
+
+References \mbox{\hyperlink{smacc__orthogonal_8hpp_source_l00077}{smacc2\+::\+ISmacc\+Orthogonal\+::clients\+\_\+}}, \mbox{\hyperlink{introspection_8hpp_source_l00106}{smacc2\+::introspection\+::demangle\+Type()}}, and \mbox{\hyperlink{smacc__orthogonal_8hpp_source_l00067}{smacc2\+::\+ISmacc\+Orthogonal\+::get\+Logger()}}.
+
+Here is the call graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{classsmacc2_1_1Orthogonal_a73b1ab3d0a5ed0a597e8dffabcc2b8c0_cgraph}
+\end{center}
+\end{figure}
+
+
+The documentation for this class was generated from the following file\+:\begin{DoxyCompactItemize}
+\item 
+smacc2/include/smacc2/impl/\mbox{\hyperlink{smacc__orthogonal__impl_8hpp}{smacc\+\_\+orthogonal\+\_\+impl.\+hpp}}\end{DoxyCompactItemize}
