@@ -90,50 +90,57 @@
 \DoxyCodeLine{\Hypertarget{cb__move__joints_8cpp_source_l00086}00086   \{}
 \DoxyCodeLine{\Hypertarget{cb__move__joints_8cpp_source_l00087}00087     moveGroupInterface.setJointValueTarget(\mbox{\hyperlink{classcl__move__group__interface_1_1CbMoveJoints_a8103f7c923a34d9bf5a2c374ff88a277}{jointValueTarget\_}});}
 \DoxyCodeLine{\Hypertarget{cb__move__joints_8cpp_source_l00088}00088     \textcolor{comment}{//moveGroupInterface.setGoalJointTolerance(0.01);}}
-\DoxyCodeLine{\Hypertarget{cb__move__joints_8cpp_source_l00089}00089     success =}
-\DoxyCodeLine{\Hypertarget{cb__move__joints_8cpp_source_l00090}00090       (moveGroupInterface.plan(computedMotionPlan) ==}
-\DoxyCodeLine{\Hypertarget{cb__move__joints_8cpp_source_l00091}00091        moveit::planning\_interface::MoveItErrorCode::SUCCESS);}
-\DoxyCodeLine{\Hypertarget{cb__move__joints_8cpp_source_l00092}00092     RCLCPP\_INFO(\mbox{\hyperlink{classsmacc2_1_1ISmaccClientBehavior_a9c3d82542c800e2ba5207c5cff0e63e8}{getLogger}}(), \textcolor{stringliteral}{"{}Success Visualizing plan 1 (pose goal) \%s"{}}, success ? \textcolor{stringliteral}{"{}"{}} : \textcolor{stringliteral}{"{}FAILED"{}});}
-\DoxyCodeLine{\Hypertarget{cb__move__joints_8cpp_source_l00093}00093   \}}
-\DoxyCodeLine{\Hypertarget{cb__move__joints_8cpp_source_l00094}00094 }
-\DoxyCodeLine{\Hypertarget{cb__move__joints_8cpp_source_l00095}00095   \textcolor{keywordflow}{if} (success)}
-\DoxyCodeLine{\Hypertarget{cb__move__joints_8cpp_source_l00096}00096   \{}
-\DoxyCodeLine{\Hypertarget{cb__move__joints_8cpp_source_l00097}00097     \textcolor{keyword}{auto} executionResult = moveGroupInterface.execute(computedMotionPlan);}
+\DoxyCodeLine{\Hypertarget{cb__move__joints_8cpp_source_l00089}00089 }
+\DoxyCodeLine{\Hypertarget{cb__move__joints_8cpp_source_l00090}00090     \textcolor{keyword}{auto} result = moveGroupInterface.plan(computedMotionPlan);}
+\DoxyCodeLine{\Hypertarget{cb__move__joints_8cpp_source_l00091}00091 }
+\DoxyCodeLine{\Hypertarget{cb__move__joints_8cpp_source_l00092}00092     success = (result == moveit::core::MoveItErrorCode::SUCCESS);}
+\DoxyCodeLine{\Hypertarget{cb__move__joints_8cpp_source_l00093}00093 }
+\DoxyCodeLine{\Hypertarget{cb__move__joints_8cpp_source_l00094}00094     RCLCPP\_INFO(}
+\DoxyCodeLine{\Hypertarget{cb__move__joints_8cpp_source_l00095}00095       \mbox{\hyperlink{classsmacc2_1_1ISmaccClientBehavior_a9c3d82542c800e2ba5207c5cff0e63e8}{getLogger}}(), \textcolor{stringliteral}{"{}[CbMoveJoints] Execution plan result \%s (\%d)"{}}, success ? \textcolor{stringliteral}{"{}SUCCESS"{}} : \textcolor{stringliteral}{"{}FAILED"{}},}
+\DoxyCodeLine{\Hypertarget{cb__move__joints_8cpp_source_l00096}00096       result.val);}
+\DoxyCodeLine{\Hypertarget{cb__move__joints_8cpp_source_l00097}00097   \}}
 \DoxyCodeLine{\Hypertarget{cb__move__joints_8cpp_source_l00098}00098 }
-\DoxyCodeLine{\Hypertarget{cb__move__joints_8cpp_source_l00099}00099     \textcolor{keyword}{auto} statestr = \mbox{\hyperlink{namespacecl__move__group__interface_aad71400738b3e25d9fa9ac924670de5d}{currentJointStatesToString}}(moveGroupInterface, \mbox{\hyperlink{classcl__move__group__interface_1_1CbMoveJoints_a8103f7c923a34d9bf5a2c374ff88a277}{jointValueTarget\_}});}
-\DoxyCodeLine{\Hypertarget{cb__move__joints_8cpp_source_l00100}00100 }
-\DoxyCodeLine{\Hypertarget{cb__move__joints_8cpp_source_l00101}00101     \textcolor{keywordflow}{if} (executionResult == moveit\_msgs::msg::MoveItErrorCodes::SUCCESS)}
-\DoxyCodeLine{\Hypertarget{cb__move__joints_8cpp_source_l00102}00102     \{}
-\DoxyCodeLine{\Hypertarget{cb__move__joints_8cpp_source_l00103}00103       RCLCPP\_INFO\_STREAM(}
-\DoxyCodeLine{\Hypertarget{cb__move__joints_8cpp_source_l00104}00104         \mbox{\hyperlink{classsmacc2_1_1ISmaccClientBehavior_a9c3d82542c800e2ba5207c5cff0e63e8}{getLogger}}(), \textcolor{stringliteral}{"{}["{}} << this-\/>\mbox{\hyperlink{classsmacc2_1_1ISmaccClientBehavior_a3feaa9c382a7d376b7ba0017a63e294e}{getName}}()}
-\DoxyCodeLine{\Hypertarget{cb__move__joints_8cpp_source_l00105}00105                          << \textcolor{stringliteral}{"{}] motion execution succeeded. Throwing success event. "{}} << std::endl}
-\DoxyCodeLine{\Hypertarget{cb__move__joints_8cpp_source_l00106}00106                          << statestr);}
-\DoxyCodeLine{\Hypertarget{cb__move__joints_8cpp_source_l00107}00107       \mbox{\hyperlink{classcl__move__group__interface_1_1CbMoveJoints_aa5749bbc6bb5f09069e9e8115326f024}{movegroupClient\_}}-\/>\mbox{\hyperlink{classcl__move__group__interface_1_1ClMoveGroup_aebaf269db373d41837bae87651458e54}{postEventMotionExecutionSucceded}}();}
-\DoxyCodeLine{\Hypertarget{cb__move__joints_8cpp_source_l00108}00108       this-\/>\mbox{\hyperlink{classsmacc2_1_1SmaccAsyncClientBehavior_a2fb4de26d011fbbb55bc1bbaed2e6f5b}{postSuccessEvent}}();}
-\DoxyCodeLine{\Hypertarget{cb__move__joints_8cpp_source_l00109}00109     \}}
-\DoxyCodeLine{\Hypertarget{cb__move__joints_8cpp_source_l00110}00110     \textcolor{keywordflow}{else}}
-\DoxyCodeLine{\Hypertarget{cb__move__joints_8cpp_source_l00111}00111     \{}
-\DoxyCodeLine{\Hypertarget{cb__move__joints_8cpp_source_l00112}00112       RCLCPP\_WARN\_STREAM(}
-\DoxyCodeLine{\Hypertarget{cb__move__joints_8cpp_source_l00113}00113         \mbox{\hyperlink{classsmacc2_1_1ISmaccClientBehavior_a9c3d82542c800e2ba5207c5cff0e63e8}{getLogger}}(), \textcolor{stringliteral}{"{}["{}} << this-\/>\mbox{\hyperlink{classsmacc2_1_1ISmaccClientBehavior_a3feaa9c382a7d376b7ba0017a63e294e}{getName}}() << \textcolor{stringliteral}{"{}] motion execution failed. Throwing fail event."{}}}
-\DoxyCodeLine{\Hypertarget{cb__move__joints_8cpp_source_l00114}00114                          << std::endl}
-\DoxyCodeLine{\Hypertarget{cb__move__joints_8cpp_source_l00115}00115                          << statestr);}
-\DoxyCodeLine{\Hypertarget{cb__move__joints_8cpp_source_l00116}00116       \mbox{\hyperlink{classcl__move__group__interface_1_1CbMoveJoints_aa5749bbc6bb5f09069e9e8115326f024}{movegroupClient\_}}-\/>\mbox{\hyperlink{classcl__move__group__interface_1_1ClMoveGroup_a39dc3871d29b2af1ab739057f6ca6daa}{postEventMotionExecutionFailed}}();}
-\DoxyCodeLine{\Hypertarget{cb__move__joints_8cpp_source_l00117}00117       this-\/>\mbox{\hyperlink{classsmacc2_1_1SmaccAsyncClientBehavior_afcb5c1a0bf3b9bae6c54e8f5ef1bc04d}{postFailureEvent}}();}
-\DoxyCodeLine{\Hypertarget{cb__move__joints_8cpp_source_l00118}00118     \}}
-\DoxyCodeLine{\Hypertarget{cb__move__joints_8cpp_source_l00119}00119   \}}
-\DoxyCodeLine{\Hypertarget{cb__move__joints_8cpp_source_l00120}00120   \textcolor{keywordflow}{else}}
-\DoxyCodeLine{\Hypertarget{cb__move__joints_8cpp_source_l00121}00121   \{}
-\DoxyCodeLine{\Hypertarget{cb__move__joints_8cpp_source_l00122}00122     \textcolor{keyword}{auto} statestr = \mbox{\hyperlink{namespacecl__move__group__interface_aad71400738b3e25d9fa9ac924670de5d}{currentJointStatesToString}}(moveGroupInterface, \mbox{\hyperlink{classcl__move__group__interface_1_1CbMoveJoints_a8103f7c923a34d9bf5a2c374ff88a277}{jointValueTarget\_}});}
-\DoxyCodeLine{\Hypertarget{cb__move__joints_8cpp_source_l00123}00123     RCLCPP\_WARN\_STREAM(}
-\DoxyCodeLine{\Hypertarget{cb__move__joints_8cpp_source_l00124}00124       \mbox{\hyperlink{classsmacc2_1_1ISmaccClientBehavior_a9c3d82542c800e2ba5207c5cff0e63e8}{getLogger}}(), \textcolor{stringliteral}{"{}["{}} << this-\/>\mbox{\hyperlink{classsmacc2_1_1ISmaccClientBehavior_a3feaa9c382a7d376b7ba0017a63e294e}{getName}}() << \textcolor{stringliteral}{"{}] motion execution failed. Throwing fail event."{}}}
-\DoxyCodeLine{\Hypertarget{cb__move__joints_8cpp_source_l00125}00125                        << std::endl}
-\DoxyCodeLine{\Hypertarget{cb__move__joints_8cpp_source_l00126}00126                        << statestr);}
-\DoxyCodeLine{\Hypertarget{cb__move__joints_8cpp_source_l00127}00127     \mbox{\hyperlink{classcl__move__group__interface_1_1CbMoveJoints_aa5749bbc6bb5f09069e9e8115326f024}{movegroupClient\_}}-\/>\mbox{\hyperlink{classcl__move__group__interface_1_1ClMoveGroup_a39dc3871d29b2af1ab739057f6ca6daa}{postEventMotionExecutionFailed}}();}
-\DoxyCodeLine{\Hypertarget{cb__move__joints_8cpp_source_l00128}00128     this-\/>\mbox{\hyperlink{classsmacc2_1_1SmaccAsyncClientBehavior_afcb5c1a0bf3b9bae6c54e8f5ef1bc04d}{postFailureEvent}}();}
-\DoxyCodeLine{\Hypertarget{cb__move__joints_8cpp_source_l00129}00129   \}}
-\DoxyCodeLine{\Hypertarget{cb__move__joints_8cpp_source_l00130}00130 \}}
-\DoxyCodeLine{\Hypertarget{cb__move__joints_8cpp_source_l00131}00131 }
-\DoxyCodeLine{\Hypertarget{cb__move__joints_8cpp_source_l00132}\mbox{\hyperlink{classcl__move__group__interface_1_1CbMoveJoints_aff7d27d2427a5a771cb9abce1609aa27}{00132}} \textcolor{keywordtype}{void} \mbox{\hyperlink{classcl__move__group__interface_1_1CbMoveJoints_aff7d27d2427a5a771cb9abce1609aa27}{CbMoveJoints::onExit}}() \{\}}
-\DoxyCodeLine{\Hypertarget{cb__move__joints_8cpp_source_l00133}00133 \}  \textcolor{comment}{// namespace cl\_move\_group\_interface}}
+\DoxyCodeLine{\Hypertarget{cb__move__joints_8cpp_source_l00099}00099   \textcolor{keywordflow}{if} (success)}
+\DoxyCodeLine{\Hypertarget{cb__move__joints_8cpp_source_l00100}00100   \{}
+\DoxyCodeLine{\Hypertarget{cb__move__joints_8cpp_source_l00101}00101     \textcolor{keyword}{auto} executionResult = moveGroupInterface.execute(computedMotionPlan);}
+\DoxyCodeLine{\Hypertarget{cb__move__joints_8cpp_source_l00102}00102 }
+\DoxyCodeLine{\Hypertarget{cb__move__joints_8cpp_source_l00103}00103     \textcolor{comment}{//auto statestr = currentJointStatesToString(moveGroupInterface, jointValueTarget\_);}}
+\DoxyCodeLine{\Hypertarget{cb__move__joints_8cpp_source_l00104}00104 }
+\DoxyCodeLine{\Hypertarget{cb__move__joints_8cpp_source_l00105}00105     \textcolor{keywordflow}{if} (executionResult == moveit\_msgs::msg::MoveItErrorCodes::SUCCESS)}
+\DoxyCodeLine{\Hypertarget{cb__move__joints_8cpp_source_l00106}00106     \{}
+\DoxyCodeLine{\Hypertarget{cb__move__joints_8cpp_source_l00107}00107       RCLCPP\_INFO\_STREAM(}
+\DoxyCodeLine{\Hypertarget{cb__move__joints_8cpp_source_l00108}00108         \mbox{\hyperlink{classsmacc2_1_1ISmaccClientBehavior_a9c3d82542c800e2ba5207c5cff0e63e8}{getLogger}}(), \textcolor{stringliteral}{"{}["{}} << this-\/>\mbox{\hyperlink{classsmacc2_1_1ISmaccClientBehavior_a3feaa9c382a7d376b7ba0017a63e294e}{getName}}()}
+\DoxyCodeLine{\Hypertarget{cb__move__joints_8cpp_source_l00109}00109                          << \textcolor{stringliteral}{"{}] motion execution succeeded. Throwing success event. "{}} << std::endl}
+\DoxyCodeLine{\Hypertarget{cb__move__joints_8cpp_source_l00110}00110         \textcolor{comment}{//                         << statestr}}
+\DoxyCodeLine{\Hypertarget{cb__move__joints_8cpp_source_l00111}00111       );}
+\DoxyCodeLine{\Hypertarget{cb__move__joints_8cpp_source_l00112}00112       \mbox{\hyperlink{classcl__move__group__interface_1_1CbMoveJoints_aa5749bbc6bb5f09069e9e8115326f024}{movegroupClient\_}}-\/>\mbox{\hyperlink{classcl__move__group__interface_1_1ClMoveGroup_aebaf269db373d41837bae87651458e54}{postEventMotionExecutionSucceded}}();}
+\DoxyCodeLine{\Hypertarget{cb__move__joints_8cpp_source_l00113}00113       this-\/>\mbox{\hyperlink{classsmacc2_1_1SmaccAsyncClientBehavior_a2fb4de26d011fbbb55bc1bbaed2e6f5b}{postSuccessEvent}}();}
+\DoxyCodeLine{\Hypertarget{cb__move__joints_8cpp_source_l00114}00114     \}}
+\DoxyCodeLine{\Hypertarget{cb__move__joints_8cpp_source_l00115}00115     \textcolor{keywordflow}{else}}
+\DoxyCodeLine{\Hypertarget{cb__move__joints_8cpp_source_l00116}00116     \{}
+\DoxyCodeLine{\Hypertarget{cb__move__joints_8cpp_source_l00117}00117       RCLCPP\_WARN\_STREAM(}
+\DoxyCodeLine{\Hypertarget{cb__move__joints_8cpp_source_l00118}00118         \mbox{\hyperlink{classsmacc2_1_1ISmaccClientBehavior_a9c3d82542c800e2ba5207c5cff0e63e8}{getLogger}}(),}
+\DoxyCodeLine{\Hypertarget{cb__move__joints_8cpp_source_l00119}00119         \textcolor{stringliteral}{"{}["{}} << this-\/>\mbox{\hyperlink{classsmacc2_1_1ISmaccClientBehavior_a3feaa9c382a7d376b7ba0017a63e294e}{getName}}() << \textcolor{stringliteral}{"{}] motion execution failed. Throwing fail event."{}} << std::endl}
+\DoxyCodeLine{\Hypertarget{cb__move__joints_8cpp_source_l00120}00120         \textcolor{comment}{//                         << statestr}}
+\DoxyCodeLine{\Hypertarget{cb__move__joints_8cpp_source_l00121}00121       );}
+\DoxyCodeLine{\Hypertarget{cb__move__joints_8cpp_source_l00122}00122       \mbox{\hyperlink{classcl__move__group__interface_1_1CbMoveJoints_aa5749bbc6bb5f09069e9e8115326f024}{movegroupClient\_}}-\/>\mbox{\hyperlink{classcl__move__group__interface_1_1ClMoveGroup_a39dc3871d29b2af1ab739057f6ca6daa}{postEventMotionExecutionFailed}}();}
+\DoxyCodeLine{\Hypertarget{cb__move__joints_8cpp_source_l00123}00123       this-\/>\mbox{\hyperlink{classsmacc2_1_1SmaccAsyncClientBehavior_afcb5c1a0bf3b9bae6c54e8f5ef1bc04d}{postFailureEvent}}();}
+\DoxyCodeLine{\Hypertarget{cb__move__joints_8cpp_source_l00124}00124     \}}
+\DoxyCodeLine{\Hypertarget{cb__move__joints_8cpp_source_l00125}00125   \}}
+\DoxyCodeLine{\Hypertarget{cb__move__joints_8cpp_source_l00126}00126   \textcolor{keywordflow}{else}}
+\DoxyCodeLine{\Hypertarget{cb__move__joints_8cpp_source_l00127}00127   \{}
+\DoxyCodeLine{\Hypertarget{cb__move__joints_8cpp_source_l00128}00128     \textcolor{keyword}{auto} statestr = \mbox{\hyperlink{namespacecl__move__group__interface_aad71400738b3e25d9fa9ac924670de5d}{currentJointStatesToString}}(moveGroupInterface, \mbox{\hyperlink{classcl__move__group__interface_1_1CbMoveJoints_a8103f7c923a34d9bf5a2c374ff88a277}{jointValueTarget\_}});}
+\DoxyCodeLine{\Hypertarget{cb__move__joints_8cpp_source_l00129}00129     RCLCPP\_WARN\_STREAM(}
+\DoxyCodeLine{\Hypertarget{cb__move__joints_8cpp_source_l00130}00130       \mbox{\hyperlink{classsmacc2_1_1ISmaccClientBehavior_a9c3d82542c800e2ba5207c5cff0e63e8}{getLogger}}(),}
+\DoxyCodeLine{\Hypertarget{cb__move__joints_8cpp_source_l00131}00131       \textcolor{stringliteral}{"{}["{}} << this-\/>\mbox{\hyperlink{classsmacc2_1_1ISmaccClientBehavior_a3feaa9c382a7d376b7ba0017a63e294e}{getName}}() << \textcolor{stringliteral}{"{}] motion execution failed. Throwing fail event."{}} << std::endl}
+\DoxyCodeLine{\Hypertarget{cb__move__joints_8cpp_source_l00132}00132       \textcolor{comment}{//                       << statestr}}
+\DoxyCodeLine{\Hypertarget{cb__move__joints_8cpp_source_l00133}00133     );}
+\DoxyCodeLine{\Hypertarget{cb__move__joints_8cpp_source_l00134}00134     \mbox{\hyperlink{classcl__move__group__interface_1_1CbMoveJoints_aa5749bbc6bb5f09069e9e8115326f024}{movegroupClient\_}}-\/>\mbox{\hyperlink{classcl__move__group__interface_1_1ClMoveGroup_a39dc3871d29b2af1ab739057f6ca6daa}{postEventMotionExecutionFailed}}();}
+\DoxyCodeLine{\Hypertarget{cb__move__joints_8cpp_source_l00135}00135     this-\/>\mbox{\hyperlink{classsmacc2_1_1SmaccAsyncClientBehavior_afcb5c1a0bf3b9bae6c54e8f5ef1bc04d}{postFailureEvent}}();}
+\DoxyCodeLine{\Hypertarget{cb__move__joints_8cpp_source_l00136}00136   \}}
+\DoxyCodeLine{\Hypertarget{cb__move__joints_8cpp_source_l00137}00137 \}}
+\DoxyCodeLine{\Hypertarget{cb__move__joints_8cpp_source_l00138}00138 }
+\DoxyCodeLine{\Hypertarget{cb__move__joints_8cpp_source_l00139}\mbox{\hyperlink{classcl__move__group__interface_1_1CbMoveJoints_aff7d27d2427a5a771cb9abce1609aa27}{00139}} \textcolor{keywordtype}{void} \mbox{\hyperlink{classcl__move__group__interface_1_1CbMoveJoints_aff7d27d2427a5a771cb9abce1609aa27}{CbMoveJoints::onExit}}() \{\}}
+\DoxyCodeLine{\Hypertarget{cb__move__joints_8cpp_source_l00140}00140 \}  \textcolor{comment}{// namespace cl\_move\_group\_interface}}
 
 \end{DoxyCode}

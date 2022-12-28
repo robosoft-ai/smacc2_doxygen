@@ -7,23 +7,11 @@
 
 
 Inheritance diagram for cl\+\_\+move\+\_\+group\+\_\+interface\+::Cb\+Move\+Joints\+:
-\nopagebreak
-\begin{figure}[H]
-\begin{center}
-\leavevmode
-\includegraphics[height=550pt]{classcl__move__group__interface_1_1CbMoveJoints__inherit__graph}
-\end{center}
-\end{figure}
+% FIG 0
 
 
 Collaboration diagram for cl\+\_\+move\+\_\+group\+\_\+interface\+::Cb\+Move\+Joints\+:
-\nopagebreak
-\begin{figure}[H]
-\begin{center}
-\leavevmode
-\includegraphics[width=350pt]{classcl__move__group__interface_1_1CbMoveJoints__coll__graph}
-\end{center}
-\end{figure}
+% FIG 1
 \doxysubsection*{Public Member Functions}
 \begin{DoxyCompactItemize}
 \item 
@@ -127,48 +115,55 @@ Definition at line \mbox{\hyperlink{cb__move__joints_8cpp_source_l00072}{72}} of
 \DoxyCodeLine{00086   \{}
 \DoxyCodeLine{00087     moveGroupInterface.setJointValueTarget(\mbox{\hyperlink{classcl__move__group__interface_1_1CbMoveJoints_a8103f7c923a34d9bf5a2c374ff88a277}{jointValueTarget\_}});}
 \DoxyCodeLine{00088     \textcolor{comment}{//moveGroupInterface.setGoalJointTolerance(0.01);}}
-\DoxyCodeLine{00089     success =}
-\DoxyCodeLine{00090       (moveGroupInterface.plan(computedMotionPlan) ==}
-\DoxyCodeLine{00091        moveit::planning\_interface::MoveItErrorCode::SUCCESS);}
-\DoxyCodeLine{00092     RCLCPP\_INFO(\mbox{\hyperlink{classsmacc2_1_1ISmaccClientBehavior_a9c3d82542c800e2ba5207c5cff0e63e8}{getLogger}}(), \textcolor{stringliteral}{"{}Success Visualizing plan 1 (pose goal) \%s"{}}, success ? \textcolor{stringliteral}{"{}"{}} : \textcolor{stringliteral}{"{}FAILED"{}});}
-\DoxyCodeLine{00093   \}}
-\DoxyCodeLine{00094 }
-\DoxyCodeLine{00095   \textcolor{keywordflow}{if} (success)}
-\DoxyCodeLine{00096   \{}
-\DoxyCodeLine{00097     \textcolor{keyword}{auto} executionResult = moveGroupInterface.execute(computedMotionPlan);}
+\DoxyCodeLine{00089 }
+\DoxyCodeLine{00090     \textcolor{keyword}{auto} result = moveGroupInterface.plan(computedMotionPlan);}
+\DoxyCodeLine{00091 }
+\DoxyCodeLine{00092     success = (result == moveit::core::MoveItErrorCode::SUCCESS);}
+\DoxyCodeLine{00093 }
+\DoxyCodeLine{00094     RCLCPP\_INFO(}
+\DoxyCodeLine{00095       \mbox{\hyperlink{classsmacc2_1_1ISmaccClientBehavior_a9c3d82542c800e2ba5207c5cff0e63e8}{getLogger}}(), \textcolor{stringliteral}{"{}[CbMoveJoints] Execution plan result \%s (\%d)"{}}, success ? \textcolor{stringliteral}{"{}SUCCESS"{}} : \textcolor{stringliteral}{"{}FAILED"{}},}
+\DoxyCodeLine{00096       result.val);}
+\DoxyCodeLine{00097   \}}
 \DoxyCodeLine{00098 }
-\DoxyCodeLine{00099     \textcolor{keyword}{auto} statestr = \mbox{\hyperlink{namespacecl__move__group__interface_aad71400738b3e25d9fa9ac924670de5d}{currentJointStatesToString}}(moveGroupInterface, \mbox{\hyperlink{classcl__move__group__interface_1_1CbMoveJoints_a8103f7c923a34d9bf5a2c374ff88a277}{jointValueTarget\_}});}
-\DoxyCodeLine{00100 }
-\DoxyCodeLine{00101     \textcolor{keywordflow}{if} (executionResult == moveit\_msgs::msg::MoveItErrorCodes::SUCCESS)}
-\DoxyCodeLine{00102     \{}
-\DoxyCodeLine{00103       RCLCPP\_INFO\_STREAM(}
-\DoxyCodeLine{00104         \mbox{\hyperlink{classsmacc2_1_1ISmaccClientBehavior_a9c3d82542c800e2ba5207c5cff0e63e8}{getLogger}}(), \textcolor{stringliteral}{"{}["{}} << this-\/>\mbox{\hyperlink{classsmacc2_1_1ISmaccClientBehavior_a3feaa9c382a7d376b7ba0017a63e294e}{getName}}()}
-\DoxyCodeLine{00105                          << \textcolor{stringliteral}{"{}] motion execution succeeded. Throwing success event. "{}} << std::endl}
-\DoxyCodeLine{00106                          << statestr);}
-\DoxyCodeLine{00107       \mbox{\hyperlink{classcl__move__group__interface_1_1CbMoveJoints_aa5749bbc6bb5f09069e9e8115326f024}{movegroupClient\_}}-\/>\mbox{\hyperlink{classcl__move__group__interface_1_1ClMoveGroup_aebaf269db373d41837bae87651458e54}{postEventMotionExecutionSucceded}}();}
-\DoxyCodeLine{00108       this-\/>\mbox{\hyperlink{classsmacc2_1_1SmaccAsyncClientBehavior_a2fb4de26d011fbbb55bc1bbaed2e6f5b}{postSuccessEvent}}();}
-\DoxyCodeLine{00109     \}}
-\DoxyCodeLine{00110     \textcolor{keywordflow}{else}}
-\DoxyCodeLine{00111     \{}
-\DoxyCodeLine{00112       RCLCPP\_WARN\_STREAM(}
-\DoxyCodeLine{00113         \mbox{\hyperlink{classsmacc2_1_1ISmaccClientBehavior_a9c3d82542c800e2ba5207c5cff0e63e8}{getLogger}}(), \textcolor{stringliteral}{"{}["{}} << this-\/>\mbox{\hyperlink{classsmacc2_1_1ISmaccClientBehavior_a3feaa9c382a7d376b7ba0017a63e294e}{getName}}() << \textcolor{stringliteral}{"{}] motion execution failed. Throwing fail event."{}}}
-\DoxyCodeLine{00114                          << std::endl}
-\DoxyCodeLine{00115                          << statestr);}
-\DoxyCodeLine{00116       \mbox{\hyperlink{classcl__move__group__interface_1_1CbMoveJoints_aa5749bbc6bb5f09069e9e8115326f024}{movegroupClient\_}}-\/>\mbox{\hyperlink{classcl__move__group__interface_1_1ClMoveGroup_a39dc3871d29b2af1ab739057f6ca6daa}{postEventMotionExecutionFailed}}();}
-\DoxyCodeLine{00117       this-\/>\mbox{\hyperlink{classsmacc2_1_1SmaccAsyncClientBehavior_afcb5c1a0bf3b9bae6c54e8f5ef1bc04d}{postFailureEvent}}();}
-\DoxyCodeLine{00118     \}}
-\DoxyCodeLine{00119   \}}
-\DoxyCodeLine{00120   \textcolor{keywordflow}{else}}
-\DoxyCodeLine{00121   \{}
-\DoxyCodeLine{00122     \textcolor{keyword}{auto} statestr = \mbox{\hyperlink{namespacecl__move__group__interface_aad71400738b3e25d9fa9ac924670de5d}{currentJointStatesToString}}(moveGroupInterface, \mbox{\hyperlink{classcl__move__group__interface_1_1CbMoveJoints_a8103f7c923a34d9bf5a2c374ff88a277}{jointValueTarget\_}});}
-\DoxyCodeLine{00123     RCLCPP\_WARN\_STREAM(}
-\DoxyCodeLine{00124       \mbox{\hyperlink{classsmacc2_1_1ISmaccClientBehavior_a9c3d82542c800e2ba5207c5cff0e63e8}{getLogger}}(), \textcolor{stringliteral}{"{}["{}} << this-\/>\mbox{\hyperlink{classsmacc2_1_1ISmaccClientBehavior_a3feaa9c382a7d376b7ba0017a63e294e}{getName}}() << \textcolor{stringliteral}{"{}] motion execution failed. Throwing fail event."{}}}
-\DoxyCodeLine{00125                        << std::endl}
-\DoxyCodeLine{00126                        << statestr);}
-\DoxyCodeLine{00127     \mbox{\hyperlink{classcl__move__group__interface_1_1CbMoveJoints_aa5749bbc6bb5f09069e9e8115326f024}{movegroupClient\_}}-\/>\mbox{\hyperlink{classcl__move__group__interface_1_1ClMoveGroup_a39dc3871d29b2af1ab739057f6ca6daa}{postEventMotionExecutionFailed}}();}
-\DoxyCodeLine{00128     this-\/>\mbox{\hyperlink{classsmacc2_1_1SmaccAsyncClientBehavior_afcb5c1a0bf3b9bae6c54e8f5ef1bc04d}{postFailureEvent}}();}
-\DoxyCodeLine{00129   \}}
-\DoxyCodeLine{00130 \}}
+\DoxyCodeLine{00099   \textcolor{keywordflow}{if} (success)}
+\DoxyCodeLine{00100   \{}
+\DoxyCodeLine{00101     \textcolor{keyword}{auto} executionResult = moveGroupInterface.execute(computedMotionPlan);}
+\DoxyCodeLine{00102 }
+\DoxyCodeLine{00103     \textcolor{comment}{//auto statestr = currentJointStatesToString(moveGroupInterface, jointValueTarget\_);}}
+\DoxyCodeLine{00104 }
+\DoxyCodeLine{00105     \textcolor{keywordflow}{if} (executionResult == moveit\_msgs::msg::MoveItErrorCodes::SUCCESS)}
+\DoxyCodeLine{00106     \{}
+\DoxyCodeLine{00107       RCLCPP\_INFO\_STREAM(}
+\DoxyCodeLine{00108         \mbox{\hyperlink{classsmacc2_1_1ISmaccClientBehavior_a9c3d82542c800e2ba5207c5cff0e63e8}{getLogger}}(), \textcolor{stringliteral}{"{}["{}} << this-\/>\mbox{\hyperlink{classsmacc2_1_1ISmaccClientBehavior_a3feaa9c382a7d376b7ba0017a63e294e}{getName}}()}
+\DoxyCodeLine{00109                          << \textcolor{stringliteral}{"{}] motion execution succeeded. Throwing success event. "{}} << std::endl}
+\DoxyCodeLine{00110         \textcolor{comment}{//                         << statestr}}
+\DoxyCodeLine{00111       );}
+\DoxyCodeLine{00112       \mbox{\hyperlink{classcl__move__group__interface_1_1CbMoveJoints_aa5749bbc6bb5f09069e9e8115326f024}{movegroupClient\_}}-\/>\mbox{\hyperlink{classcl__move__group__interface_1_1ClMoveGroup_aebaf269db373d41837bae87651458e54}{postEventMotionExecutionSucceded}}();}
+\DoxyCodeLine{00113       this-\/>\mbox{\hyperlink{classsmacc2_1_1SmaccAsyncClientBehavior_a2fb4de26d011fbbb55bc1bbaed2e6f5b}{postSuccessEvent}}();}
+\DoxyCodeLine{00114     \}}
+\DoxyCodeLine{00115     \textcolor{keywordflow}{else}}
+\DoxyCodeLine{00116     \{}
+\DoxyCodeLine{00117       RCLCPP\_WARN\_STREAM(}
+\DoxyCodeLine{00118         \mbox{\hyperlink{classsmacc2_1_1ISmaccClientBehavior_a9c3d82542c800e2ba5207c5cff0e63e8}{getLogger}}(),}
+\DoxyCodeLine{00119         \textcolor{stringliteral}{"{}["{}} << this-\/>\mbox{\hyperlink{classsmacc2_1_1ISmaccClientBehavior_a3feaa9c382a7d376b7ba0017a63e294e}{getName}}() << \textcolor{stringliteral}{"{}] motion execution failed. Throwing fail event."{}} << std::endl}
+\DoxyCodeLine{00120         \textcolor{comment}{//                         << statestr}}
+\DoxyCodeLine{00121       );}
+\DoxyCodeLine{00122       \mbox{\hyperlink{classcl__move__group__interface_1_1CbMoveJoints_aa5749bbc6bb5f09069e9e8115326f024}{movegroupClient\_}}-\/>\mbox{\hyperlink{classcl__move__group__interface_1_1ClMoveGroup_a39dc3871d29b2af1ab739057f6ca6daa}{postEventMotionExecutionFailed}}();}
+\DoxyCodeLine{00123       this-\/>\mbox{\hyperlink{classsmacc2_1_1SmaccAsyncClientBehavior_afcb5c1a0bf3b9bae6c54e8f5ef1bc04d}{postFailureEvent}}();}
+\DoxyCodeLine{00124     \}}
+\DoxyCodeLine{00125   \}}
+\DoxyCodeLine{00126   \textcolor{keywordflow}{else}}
+\DoxyCodeLine{00127   \{}
+\DoxyCodeLine{00128     \textcolor{keyword}{auto} statestr = \mbox{\hyperlink{namespacecl__move__group__interface_aad71400738b3e25d9fa9ac924670de5d}{currentJointStatesToString}}(moveGroupInterface, \mbox{\hyperlink{classcl__move__group__interface_1_1CbMoveJoints_a8103f7c923a34d9bf5a2c374ff88a277}{jointValueTarget\_}});}
+\DoxyCodeLine{00129     RCLCPP\_WARN\_STREAM(}
+\DoxyCodeLine{00130       \mbox{\hyperlink{classsmacc2_1_1ISmaccClientBehavior_a9c3d82542c800e2ba5207c5cff0e63e8}{getLogger}}(),}
+\DoxyCodeLine{00131       \textcolor{stringliteral}{"{}["{}} << this-\/>\mbox{\hyperlink{classsmacc2_1_1ISmaccClientBehavior_a3feaa9c382a7d376b7ba0017a63e294e}{getName}}() << \textcolor{stringliteral}{"{}] motion execution failed. Throwing fail event."{}} << std::endl}
+\DoxyCodeLine{00132       \textcolor{comment}{//                       << statestr}}
+\DoxyCodeLine{00133     );}
+\DoxyCodeLine{00134     \mbox{\hyperlink{classcl__move__group__interface_1_1CbMoveJoints_aa5749bbc6bb5f09069e9e8115326f024}{movegroupClient\_}}-\/>\mbox{\hyperlink{classcl__move__group__interface_1_1ClMoveGroup_a39dc3871d29b2af1ab739057f6ca6daa}{postEventMotionExecutionFailed}}();}
+\DoxyCodeLine{00135     this-\/>\mbox{\hyperlink{classsmacc2_1_1SmaccAsyncClientBehavior_afcb5c1a0bf3b9bae6c54e8f5ef1bc04d}{postFailureEvent}}();}
+\DoxyCodeLine{00136   \}}
+\DoxyCodeLine{00137 \}}
 
 \end{DoxyCode}
 
@@ -180,21 +175,9 @@ References \mbox{\hyperlink{cb__move__joints_8cpp_source_l00049}{cl\+\_\+move\+\
 Referenced by \mbox{\hyperlink{cb__move__joints_8cpp_source_l00033}{on\+Entry()}}.
 
 Here is the call graph for this function\+:
-\nopagebreak
-\begin{figure}[H]
-\begin{center}
-\leavevmode
-\includegraphics[width=350pt]{classcl__move__group__interface_1_1CbMoveJoints_ad91d243eb8a818e240d85e5a7fdea68d_cgraph}
-\end{center}
-\end{figure}
+% FIG 2
 Here is the caller graph for this function\+:
-\nopagebreak
-\begin{figure}[H]
-\begin{center}
-\leavevmode
-\includegraphics[width=350pt]{classcl__move__group__interface_1_1CbMoveJoints_ad91d243eb8a818e240d85e5a7fdea68d_icgraph}
-\end{center}
-\end{figure}
+% FIG 3
 \mbox{\Hypertarget{classcl__move__group__interface_1_1CbMoveJoints_a23e4181af695aed9fa6bb4ae3f17fd76}\label{classcl__move__group__interface_1_1CbMoveJoints_a23e4181af695aed9fa6bb4ae3f17fd76}} 
 \index{cl\_move\_group\_interface::CbMoveJoints@{cl\_move\_group\_interface::CbMoveJoints}!onEntry@{onEntry}}
 \index{onEntry@{onEntry}!cl\_move\_group\_interface::CbMoveJoints@{cl\_move\_group\_interface::CbMoveJoints}}
@@ -240,21 +223,9 @@ References \mbox{\hyperlink{smacc__client__behavior__base_8cpp_source_l00038}{sm
 Referenced by \mbox{\hyperlink{cb__move__known__state_8cpp_source_l00036}{cl\+\_\+move\+\_\+group\+\_\+interface\+::\+Cb\+Move\+Known\+State\+::on\+Entry()}}, and \mbox{\hyperlink{cb__move__last__trajectory__initial__state_8cpp_source_l00035}{cl\+\_\+move\+\_\+group\+\_\+interface\+::\+Cb\+Move\+Last\+Trajectory\+Initial\+State\+::on\+Entry()}}.
 
 Here is the call graph for this function\+:
-\nopagebreak
-\begin{figure}[H]
-\begin{center}
-\leavevmode
-\includegraphics[width=350pt]{classcl__move__group__interface_1_1CbMoveJoints_a23e4181af695aed9fa6bb4ae3f17fd76_cgraph}
-\end{center}
-\end{figure}
+% FIG 4
 Here is the caller graph for this function\+:
-\nopagebreak
-\begin{figure}[H]
-\begin{center}
-\leavevmode
-\includegraphics[width=350pt]{classcl__move__group__interface_1_1CbMoveJoints_a23e4181af695aed9fa6bb4ae3f17fd76_icgraph}
-\end{center}
-\end{figure}
+% FIG 5
 \mbox{\Hypertarget{classcl__move__group__interface_1_1CbMoveJoints_aff7d27d2427a5a771cb9abce1609aa27}\label{classcl__move__group__interface_1_1CbMoveJoints_aff7d27d2427a5a771cb9abce1609aa27}} 
 \index{cl\_move\_group\_interface::CbMoveJoints@{cl\_move\_group\_interface::CbMoveJoints}!onExit@{onExit}}
 \index{onExit@{onExit}!cl\_move\_group\_interface::CbMoveJoints@{cl\_move\_group\_interface::CbMoveJoints}}
@@ -267,11 +238,11 @@ Reimplemented from \mbox{\hyperlink{classsmacc2_1_1ISmaccClientBehavior_a52b767b
 
 
 
-Definition at line \mbox{\hyperlink{cb__move__joints_8cpp_source_l00132}{132}} of file \mbox{\hyperlink{cb__move__joints_8cpp_source}{cb\+\_\+move\+\_\+joints.\+cpp}}.
+Definition at line \mbox{\hyperlink{cb__move__joints_8cpp_source_l00139}{139}} of file \mbox{\hyperlink{cb__move__joints_8cpp_source}{cb\+\_\+move\+\_\+joints.\+cpp}}.
 
 
 \begin{DoxyCode}{0}
-\DoxyCodeLine{00132 \{\}}
+\DoxyCodeLine{00139 \{\}}
 
 \end{DoxyCode}
 
