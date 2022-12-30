@@ -73,9 +73,8 @@ var searchData=
   ['tserviceresponse_70',['TServiceResponse',['../classsmacc2_1_1client__bases_1_1SmaccServiceServerClient.html#a2e895925e176efc6584da5fecbd5d49e',1,'smacc2::client_bases::SmaccServiceServerClient']]],
   ['type_71',['type',['../classsmacc2_1_1HasStandardOnExit.html#a8a0565c7bd5d014be603728a074f6129',1,'smacc2::HasStandardOnExit::type()'],['../classsmacc2_1_1HasSpecificNamedOnExit.html#a7ad1fc41bbf166572c02deb889623f8d',1,'smacc2::HasSpecificNamedOnExit::type()'],['../structsmacc2_1_1introspection_1_1add__type__wrapper.html#a9bd3fabf0a5d5eb941eac4322781f767',1,'smacc2::introspection::add_type_wrapper::type()'],['../structsmacc2_1_1introspection_1_1type__.html#a9e75dd8d4bd256d4eae74fad74524ec8',1,'smacc2::introspection::type_::type()']]],
   ['type_5f_72',['type_',['../structsmacc2_1_1introspection_1_1type__.html',1,'smacc2::introspection']]],
-  ['typeinfo_73',['TypeInfo',['../classsmacc2_1_1introspection_1_1TypeInfo.html',1,'smacc2::introspection']]],
+  ['typeinfo_73',['TypeInfo',['../classsmacc2_1_1introspection_1_1TypeInfo.html',1,'smacc2::introspection::TypeInfo'],['../classsmacc2_1_1introspection_1_1TypeInfo.html#abc281e8d027d7b3fde9393a7e154edbc',1,'smacc2::introspection::TypeInfo::TypeInfo()']]],
   ['typeinfo_74',['typeinfo',['../structsmacc2_1_1ComponentKey.html#a3f24aa44694ac722e6dcc53a3bd799b5',1,'smacc2::ComponentKey']]],
-  ['typeinfo_75',['TypeInfo',['../classsmacc2_1_1introspection_1_1TypeInfo.html#abc281e8d027d7b3fde9393a7e154edbc',1,'smacc2::introspection::TypeInfo']]],
-  ['typeinfodatabase_76',['typeInfoDatabase',['../classsmacc2_1_1introspection_1_1TypeInfo.html#aaf9136c5cc970c23bfaf3a32f1683b17',1,'smacc2::introspection::TypeInfo']]],
-  ['typelist_77',['typelist',['../structsmacc2_1_1introspection_1_1typelist.html',1,'smacc2::introspection']]]
+  ['typeinfodatabase_75',['typeInfoDatabase',['../classsmacc2_1_1introspection_1_1TypeInfo.html#aaf9136c5cc970c23bfaf3a32f1683b17',1,'smacc2::introspection::TypeInfo']]],
+  ['typelist_76',['typelist',['../structsmacc2_1_1introspection_1_1typelist.html',1,'smacc2::introspection']]]
 ];
