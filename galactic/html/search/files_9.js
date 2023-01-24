@@ -1,7 +1,7 @@
 var searchData=
 [
-  ['planner_5fswitcher_2ecpp_0',['planner_switcher.cpp',['../planner__switcher_8cpp.html',1,'']]],
-  ['planner_5fswitcher_2ehpp_1',['planner_switcher.hpp',['../planner__switcher_8hpp.html',1,'']]],
-  ['pure_5fspinning_5flocal_5fplanner_2ecpp_2',['pure_spinning_local_planner.cpp',['../pure__spinning__local__planner_8cpp.html',1,'']]],
-  ['pure_5fspinning_5flocal_5fplanner_2ehpp_3',['pure_spinning_local_planner.hpp',['../pure__spinning__local__planner_8hpp.html',1,'']]]
+  ['odom_5ftracker_2ecpp_0',['odom_tracker.cpp',['../odom__tracker_8cpp.html',1,'']]],
+  ['odom_5ftracker_2ehpp_1',['odom_tracker.hpp',['../odom__tracker_8hpp.html',1,'']]],
+  ['odom_5ftracker_5fnode_2ecpp_2',['odom_tracker_node.cpp',['../odom__tracker__node_8cpp.html',1,'']]],
+  ['orthogonal_2ecpp_3',['orthogonal.cpp',['../orthogonal_8cpp.html',1,'']]]
 ];
