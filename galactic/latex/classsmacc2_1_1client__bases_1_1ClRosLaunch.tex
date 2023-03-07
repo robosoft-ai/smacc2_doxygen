@@ -101,35 +101,38 @@ Definition at line \mbox{\hyperlink{smacc__ros__launch__client_8cpp_source_l0004
 
 \begin{DoxyCode}{0}
 \DoxyCodeLine{00044 \{}
-\DoxyCodeLine{00045   \textcolor{keywordflow}{return} std::async(std::launch::async, [=]() \{}
-\DoxyCodeLine{00046     RCLCPP\_WARN\_STREAM(}
-\DoxyCodeLine{00047       rclcpp::get\_logger(\textcolor{stringliteral}{"{}smacc2"{}}), \textcolor{stringliteral}{"{}[ClRosLaunch static] starting ros launch thread "{}});}
-\DoxyCodeLine{00048 }
-\DoxyCodeLine{00049     std::stringstream cmd;}
-\DoxyCodeLine{00050     cmd << \textcolor{stringliteral}{"{}ros2 launch "{}} << packageName << \textcolor{stringliteral}{"{} "{}} << launchFileName;}
+\DoxyCodeLine{00045   \textcolor{keywordflow}{return} std::async(}
+\DoxyCodeLine{00046     std::launch::async,}
+\DoxyCodeLine{00047     [=]()}
+\DoxyCodeLine{00048     \{}
+\DoxyCodeLine{00049       RCLCPP\_WARN\_STREAM(}
+\DoxyCodeLine{00050         rclcpp::get\_logger(\textcolor{stringliteral}{"{}smacc2"{}}), \textcolor{stringliteral}{"{}[ClRosLaunch static] starting ros launch thread "{}});}
 \DoxyCodeLine{00051 }
-\DoxyCodeLine{00052     std::array<char, 128> buffer;}
-\DoxyCodeLine{00053     std::string result;}
-\DoxyCodeLine{00054     std::unique\_ptr<FILE, \textcolor{keyword}{decltype}(\&pclose)> pipe(popen(cmd.str().c\_str(), \textcolor{stringliteral}{"{}r"{}}), pclose);}
-\DoxyCodeLine{00055     \textcolor{keywordflow}{if} (!pipe)}
-\DoxyCodeLine{00056     \{}
-\DoxyCodeLine{00057       \textcolor{keywordflow}{throw} std::runtime\_error(\textcolor{stringliteral}{"{}popen() failed!"{}});}
-\DoxyCodeLine{00058     \}}
-\DoxyCodeLine{00059 }
-\DoxyCodeLine{00060     std::stringstream ss;}
-\DoxyCodeLine{00061     \textcolor{keywordtype}{bool} cancelled = \textcolor{keyword}{false};}
-\DoxyCodeLine{00062     \textcolor{keywordflow}{while} (fgets(buffer.data(), buffer.size(), pipe.get()) != \textcolor{keyword}{nullptr} \&\&}
-\DoxyCodeLine{00063            !(cancelled = cancelCondition()))}
-\DoxyCodeLine{00064     \{}
-\DoxyCodeLine{00065       ss << buffer.data();}
-\DoxyCodeLine{00066     \}}
-\DoxyCodeLine{00067 }
-\DoxyCodeLine{00068     result = ss.str();}
-\DoxyCodeLine{00069     RCLCPP\_WARN\_STREAM(}
-\DoxyCodeLine{00070       rclcpp::get\_logger(\textcolor{stringliteral}{"{}smacc2"{}}), \textcolor{stringliteral}{"{}[ClRosLaunch static]] RESULT = \(\backslash\)n "{}} << ss.str());}
-\DoxyCodeLine{00071     \textcolor{keywordflow}{return} result;}
-\DoxyCodeLine{00072   \});}
-\DoxyCodeLine{00073 \}}
+\DoxyCodeLine{00052       std::stringstream cmd;}
+\DoxyCodeLine{00053       cmd << \textcolor{stringliteral}{"{}ros2 launch "{}} << packageName << \textcolor{stringliteral}{"{} "{}} << launchFileName;}
+\DoxyCodeLine{00054 }
+\DoxyCodeLine{00055       std::array<char, 128> buffer;}
+\DoxyCodeLine{00056       std::string result;}
+\DoxyCodeLine{00057       std::unique\_ptr<FILE, \textcolor{keyword}{decltype}(\&pclose)> pipe(popen(cmd.str().c\_str(), \textcolor{stringliteral}{"{}r"{}}), pclose);}
+\DoxyCodeLine{00058       \textcolor{keywordflow}{if} (!pipe)}
+\DoxyCodeLine{00059       \{}
+\DoxyCodeLine{00060         \textcolor{keywordflow}{throw} std::runtime\_error(\textcolor{stringliteral}{"{}popen() failed!"{}});}
+\DoxyCodeLine{00061       \}}
+\DoxyCodeLine{00062 }
+\DoxyCodeLine{00063       std::stringstream ss;}
+\DoxyCodeLine{00064       \textcolor{keywordtype}{bool} cancelled = \textcolor{keyword}{false};}
+\DoxyCodeLine{00065       \textcolor{keywordflow}{while} (fgets(buffer.data(), buffer.size(), pipe.get()) != \textcolor{keyword}{nullptr} \&\&}
+\DoxyCodeLine{00066              !(cancelled = cancelCondition()))}
+\DoxyCodeLine{00067       \{}
+\DoxyCodeLine{00068         ss << buffer.data();}
+\DoxyCodeLine{00069       \}}
+\DoxyCodeLine{00070 }
+\DoxyCodeLine{00071       result = ss.str();}
+\DoxyCodeLine{00072       RCLCPP\_WARN\_STREAM(}
+\DoxyCodeLine{00073         rclcpp::get\_logger(\textcolor{stringliteral}{"{}smacc2"{}}), \textcolor{stringliteral}{"{}[ClRosLaunch static]] RESULT = \(\backslash\)n "{}} << ss.str());}
+\DoxyCodeLine{00074       \textcolor{keywordflow}{return} result;}
+\DoxyCodeLine{00075     \});}
+\DoxyCodeLine{00076 \}}
 
 \end{DoxyCode}
 

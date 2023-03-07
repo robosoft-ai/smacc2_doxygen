@@ -222,125 +222,129 @@ $(function() {
 <div class="line"><a id="l00144" name="l00144"></a><span class="lineno">  144</span>    {</div>
 <div class="line"><a id="l00145" name="l00145"></a><span class="lineno">  145</span>      <span class="comment">// save old yaw tolerance</span></div>
 <div class="line"><a id="l00146" name="l00146"></a><span class="lineno">  146</span>      <span class="keyword">auto</span> fut = parameters_client-&gt;get_parameters(</div>
-<div class="line"><a id="l00147" name="l00147"></a><span class="lineno">  147</span>        {localPlannerName + <span class="stringliteral">&quot;.yaw_goal_tolerance&quot;</span>}, [&amp;](<span class="keyword">auto</span> futureParameters) {</div>
-<div class="line"><a id="l00148" name="l00148"></a><span class="lineno">  148</span>          <span class="keyword">auto</span> params = futureParameters.get();</div>
-<div class="line"><a id="l00149" name="l00149"></a><span class="lineno">  149</span>          <a class="code hl_variable" href="classcl__nav2z_1_1CbAbsoluteRotate.html#af7f14e8b176c9007248ba3d0f6da5262">oldYawTolerance</a> = params[0].as_double();</div>
-<div class="line"><a id="l00150" name="l00150"></a><span class="lineno">  150</span>        });</div>
-<div class="line"><a id="l00151" name="l00151"></a><span class="lineno">  151</span> </div>
-<div class="line"><a id="l00152" name="l00152"></a><span class="lineno">  152</span>      <span class="comment">// make synchronous</span></div>
-<div class="line"><a id="l00153" name="l00153"></a><span class="lineno">  153</span>      fut.get();</div>
-<div class="line"><a id="l00154" name="l00154"></a><span class="lineno">  154</span> </div>
-<div class="line"><a id="l00155" name="l00155"></a><span class="lineno">  155</span>      yaw_goal_tolerance = rclcpp::Parameter(<span class="stringliteral">&quot;goal_checker.yaw_goal_tolerance&quot;</span>, *<a class="code hl_variable" href="classcl__nav2z_1_1CbAbsoluteRotate.html#ac2aee07b0ac8f2456c80112af72f89b0">yawGoalTolerance</a>);</div>
-<div class="line"><a id="l00156" name="l00156"></a><span class="lineno">  156</span>      parameters.push_back(yaw_goal_tolerance);</div>
-<div class="line"><a id="l00157" name="l00157"></a><span class="lineno">  157</span>      RCLCPP_INFO_STREAM(</div>
-<div class="line"><a id="l00158" name="l00158"></a><span class="lineno">  158</span>        <a class="code hl_function" href="classsmacc2_1_1ISmaccClientBehavior.html#a9c3d82542c800e2ba5207c5cff0e63e8">getLogger</a>(), <span class="stringliteral">&quot;[&quot;</span> &lt;&lt; <a class="code hl_function" href="classsmacc2_1_1ISmaccClientBehavior.html#a3feaa9c382a7d376b7ba0017a63e294e">getName</a>()</div>
-<div class="line"><a id="l00159" name="l00159"></a><span class="lineno">  159</span>                         &lt;&lt; <span class="stringliteral">&quot;] updating yaw tolerance local planner to: &quot;</span> &lt;&lt; *<a class="code hl_variable" href="classcl__nav2z_1_1CbAbsoluteRotate.html#ac2aee07b0ac8f2456c80112af72f89b0">yawGoalTolerance</a></div>
-<div class="line"><a id="l00160" name="l00160"></a><span class="lineno">  160</span>                         &lt;&lt; <span class="stringliteral">&quot;, from previous value: &quot;</span> &lt;&lt; this-&gt;<a class="code hl_variable" href="classcl__nav2z_1_1CbAbsoluteRotate.html#af7f14e8b176c9007248ba3d0f6da5262">oldYawTolerance</a>);</div>
-<div class="line"><a id="l00161" name="l00161"></a><span class="lineno">  161</span>    }</div>
-<div class="line"><a id="l00162" name="l00162"></a><span class="lineno">  162</span> </div>
-<div class="line"><a id="l00163" name="l00163"></a><span class="lineno">  163</span>    <span class="keywordflow">if</span> (<a class="code hl_variable" href="classcl__nav2z_1_1CbAbsoluteRotate.html#a37db07e24a84986fa5d7eac36a819283">maxVelTheta</a>)</div>
-<div class="line"><a id="l00164" name="l00164"></a><span class="lineno">  164</span>    {</div>
-<div class="line"><a id="l00165" name="l00165"></a><span class="lineno">  165</span>      <span class="keywordflow">if</span> (isRosBasePlanner)</div>
-<div class="line"><a id="l00166" name="l00166"></a><span class="lineno">  166</span>      {</div>
-<div class="line"><a id="l00167" name="l00167"></a><span class="lineno">  167</span>        <span class="comment">// nh.getParam(nodename + &quot;/&quot;  + localPlannerName+&quot;/min_vel_theta&quot;, oldMinVelTheta);</span></div>
-<div class="line"><a id="l00168" name="l00168"></a><span class="lineno">  168</span>        <span class="comment">// getCurrentState()-&gt;getParam(nodename + &quot;/&quot; + localPlannerName + &quot;/max_vel_theta&quot;, oldMaxVelTheta);</span></div>
-<div class="line"><a id="l00169" name="l00169"></a><span class="lineno">  169</span> </div>
-<div class="line"><a id="l00170" name="l00170"></a><span class="lineno">  170</span>        <span class="comment">// save old yaw tolerance</span></div>
-<div class="line"><a id="l00171" name="l00171"></a><span class="lineno">  171</span>        <span class="keyword">auto</span> fut = parameters_client-&gt;get_parameters(</div>
-<div class="line"><a id="l00172" name="l00172"></a><span class="lineno">  172</span>          {localPlannerName + <span class="stringliteral">&quot;.max_vel_theta&quot;</span>}, [&amp;](<span class="keyword">auto</span> futureParameters) {</div>
-<div class="line"><a id="l00173" name="l00173"></a><span class="lineno">  173</span>            <span class="keyword">auto</span> params = futureParameters.get();</div>
-<div class="line"><a id="l00174" name="l00174"></a><span class="lineno">  174</span>            <a class="code hl_variable" href="classcl__nav2z_1_1CbAbsoluteRotate.html#a3011402959a6eaba38433e109d0f9bf6">oldMaxVelTheta</a> = params[0].as_double();</div>
-<div class="line"><a id="l00175" name="l00175"></a><span class="lineno">  175</span>          });</div>
-<div class="line"><a id="l00176" name="l00176"></a><span class="lineno">  176</span> </div>
-<div class="line"><a id="l00177" name="l00177"></a><span class="lineno">  177</span>        <span class="comment">// make synchronous</span></div>
-<div class="line"><a id="l00178" name="l00178"></a><span class="lineno">  178</span>        fut.get();</div>
-<div class="line"><a id="l00179" name="l00179"></a><span class="lineno">  179</span>      }</div>
+<div class="line"><a id="l00147" name="l00147"></a><span class="lineno">  147</span>        {localPlannerName + <span class="stringliteral">&quot;.yaw_goal_tolerance&quot;</span>},</div>
+<div class="line"><a id="l00148" name="l00148"></a><span class="lineno">  148</span>        [&amp;](<span class="keyword">auto</span> futureParameters)</div>
+<div class="line"><a id="l00149" name="l00149"></a><span class="lineno">  149</span>        {</div>
+<div class="line"><a id="l00150" name="l00150"></a><span class="lineno">  150</span>          <span class="keyword">auto</span> params = futureParameters.get();</div>
+<div class="line"><a id="l00151" name="l00151"></a><span class="lineno">  151</span>          <a class="code hl_variable" href="classcl__nav2z_1_1CbAbsoluteRotate.html#af7f14e8b176c9007248ba3d0f6da5262">oldYawTolerance</a> = params[0].as_double();</div>
+<div class="line"><a id="l00152" name="l00152"></a><span class="lineno">  152</span>        });</div>
+<div class="line"><a id="l00153" name="l00153"></a><span class="lineno">  153</span> </div>
+<div class="line"><a id="l00154" name="l00154"></a><span class="lineno">  154</span>      <span class="comment">// make synchronous</span></div>
+<div class="line"><a id="l00155" name="l00155"></a><span class="lineno">  155</span>      fut.get();</div>
+<div class="line"><a id="l00156" name="l00156"></a><span class="lineno">  156</span> </div>
+<div class="line"><a id="l00157" name="l00157"></a><span class="lineno">  157</span>      yaw_goal_tolerance = rclcpp::Parameter(<span class="stringliteral">&quot;goal_checker.yaw_goal_tolerance&quot;</span>, *<a class="code hl_variable" href="classcl__nav2z_1_1CbAbsoluteRotate.html#ac2aee07b0ac8f2456c80112af72f89b0">yawGoalTolerance</a>);</div>
+<div class="line"><a id="l00158" name="l00158"></a><span class="lineno">  158</span>      parameters.push_back(yaw_goal_tolerance);</div>
+<div class="line"><a id="l00159" name="l00159"></a><span class="lineno">  159</span>      RCLCPP_INFO_STREAM(</div>
+<div class="line"><a id="l00160" name="l00160"></a><span class="lineno">  160</span>        <a class="code hl_function" href="classsmacc2_1_1ISmaccClientBehavior.html#a9c3d82542c800e2ba5207c5cff0e63e8">getLogger</a>(), <span class="stringliteral">&quot;[&quot;</span> &lt;&lt; <a class="code hl_function" href="classsmacc2_1_1ISmaccClientBehavior.html#a3feaa9c382a7d376b7ba0017a63e294e">getName</a>()</div>
+<div class="line"><a id="l00161" name="l00161"></a><span class="lineno">  161</span>                         &lt;&lt; <span class="stringliteral">&quot;] updating yaw tolerance local planner to: &quot;</span> &lt;&lt; *<a class="code hl_variable" href="classcl__nav2z_1_1CbAbsoluteRotate.html#ac2aee07b0ac8f2456c80112af72f89b0">yawGoalTolerance</a></div>
+<div class="line"><a id="l00162" name="l00162"></a><span class="lineno">  162</span>                         &lt;&lt; <span class="stringliteral">&quot;, from previous value: &quot;</span> &lt;&lt; this-&gt;<a class="code hl_variable" href="classcl__nav2z_1_1CbAbsoluteRotate.html#af7f14e8b176c9007248ba3d0f6da5262">oldYawTolerance</a>);</div>
+<div class="line"><a id="l00163" name="l00163"></a><span class="lineno">  163</span>    }</div>
+<div class="line"><a id="l00164" name="l00164"></a><span class="lineno">  164</span> </div>
+<div class="line"><a id="l00165" name="l00165"></a><span class="lineno">  165</span>    <span class="keywordflow">if</span> (<a class="code hl_variable" href="classcl__nav2z_1_1CbAbsoluteRotate.html#a37db07e24a84986fa5d7eac36a819283">maxVelTheta</a>)</div>
+<div class="line"><a id="l00166" name="l00166"></a><span class="lineno">  166</span>    {</div>
+<div class="line"><a id="l00167" name="l00167"></a><span class="lineno">  167</span>      <span class="keywordflow">if</span> (isRosBasePlanner)</div>
+<div class="line"><a id="l00168" name="l00168"></a><span class="lineno">  168</span>      {</div>
+<div class="line"><a id="l00169" name="l00169"></a><span class="lineno">  169</span>        <span class="comment">// nh.getParam(nodename + &quot;/&quot;  + localPlannerName+&quot;/min_vel_theta&quot;, oldMinVelTheta);</span></div>
+<div class="line"><a id="l00170" name="l00170"></a><span class="lineno">  170</span>        <span class="comment">// getCurrentState()-&gt;getParam(nodename + &quot;/&quot; + localPlannerName + &quot;/max_vel_theta&quot;, oldMaxVelTheta);</span></div>
+<div class="line"><a id="l00171" name="l00171"></a><span class="lineno">  171</span> </div>
+<div class="line"><a id="l00172" name="l00172"></a><span class="lineno">  172</span>        <span class="comment">// save old yaw tolerance</span></div>
+<div class="line"><a id="l00173" name="l00173"></a><span class="lineno">  173</span>        <span class="keyword">auto</span> fut = parameters_client-&gt;get_parameters(</div>
+<div class="line"><a id="l00174" name="l00174"></a><span class="lineno">  174</span>          {localPlannerName + <span class="stringliteral">&quot;.max_vel_theta&quot;</span>},</div>
+<div class="line"><a id="l00175" name="l00175"></a><span class="lineno">  175</span>          [&amp;](<span class="keyword">auto</span> futureParameters)</div>
+<div class="line"><a id="l00176" name="l00176"></a><span class="lineno">  176</span>          {</div>
+<div class="line"><a id="l00177" name="l00177"></a><span class="lineno">  177</span>            <span class="keyword">auto</span> params = futureParameters.get();</div>
+<div class="line"><a id="l00178" name="l00178"></a><span class="lineno">  178</span>            <a class="code hl_variable" href="classcl__nav2z_1_1CbAbsoluteRotate.html#a3011402959a6eaba38433e109d0f9bf6">oldMaxVelTheta</a> = params[0].as_double();</div>
+<div class="line"><a id="l00179" name="l00179"></a><span class="lineno">  179</span>          });</div>
 <div class="line"><a id="l00180" name="l00180"></a><span class="lineno">  180</span> </div>
-<div class="line"><a id="l00181" name="l00181"></a><span class="lineno">  181</span>      max_vel_theta = rclcpp::Parameter(localPlannerName + <span class="stringliteral">&quot;.max_vel_theta&quot;</span>, *<a class="code hl_variable" href="classcl__nav2z_1_1CbAbsoluteRotate.html#a37db07e24a84986fa5d7eac36a819283">maxVelTheta</a>);</div>
-<div class="line"><a id="l00182" name="l00182"></a><span class="lineno">  182</span>      min_vel_theta = rclcpp::Parameter(localPlannerName + <span class="stringliteral">&quot;.min_vel_theta&quot;</span>, -*<a class="code hl_variable" href="classcl__nav2z_1_1CbAbsoluteRotate.html#a37db07e24a84986fa5d7eac36a819283">maxVelTheta</a>);</div>
-<div class="line"><a id="l00183" name="l00183"></a><span class="lineno">  183</span>      parameters.push_back(max_vel_theta);</div>
-<div class="line"><a id="l00184" name="l00184"></a><span class="lineno">  184</span>      parameters.push_back(min_vel_theta);</div>
-<div class="line"><a id="l00185" name="l00185"></a><span class="lineno">  185</span> </div>
-<div class="line"><a id="l00186" name="l00186"></a><span class="lineno">  186</span>      RCLCPP_INFO_STREAM(</div>
-<div class="line"><a id="l00187" name="l00187"></a><span class="lineno">  187</span>        log, <span class="stringliteral">&quot;[&quot;</span> &lt;&lt; <a class="code hl_function" href="classsmacc2_1_1ISmaccClientBehavior.html#a3feaa9c382a7d376b7ba0017a63e294e">getName</a>() &lt;&lt; <span class="stringliteral">&quot;] updating max vel theta local planner to: &quot;</span> &lt;&lt; *<a class="code hl_variable" href="classcl__nav2z_1_1CbAbsoluteRotate.html#a37db07e24a84986fa5d7eac36a819283">maxVelTheta</a></div>
-<div class="line"><a id="l00188" name="l00188"></a><span class="lineno">  188</span>                 &lt;&lt; <span class="stringliteral">&quot;, from previous value: &quot;</span> &lt;&lt; this-&gt;<a class="code hl_variable" href="classcl__nav2z_1_1CbAbsoluteRotate.html#a3011402959a6eaba38433e109d0f9bf6">oldMaxVelTheta</a>);</div>
-<div class="line"><a id="l00189" name="l00189"></a><span class="lineno">  189</span>      RCLCPP_INFO_STREAM(</div>
-<div class="line"><a id="l00190" name="l00190"></a><span class="lineno">  190</span>        log, <span class="stringliteral">&quot;[&quot;</span> &lt;&lt; <a class="code hl_function" href="classsmacc2_1_1ISmaccClientBehavior.html#a3feaa9c382a7d376b7ba0017a63e294e">getName</a>() &lt;&lt; <span class="stringliteral">&quot;] updating min vel theta local planner to: &quot;</span> &lt;&lt; -*<a class="code hl_variable" href="classcl__nav2z_1_1CbAbsoluteRotate.html#a37db07e24a84986fa5d7eac36a819283">maxVelTheta</a></div>
-<div class="line"><a id="l00191" name="l00191"></a><span class="lineno">  191</span>                 &lt;&lt; <span class="stringliteral">&quot;, from previous value: &quot;</span> &lt;&lt; this-&gt;<a class="code hl_variable" href="classcl__nav2z_1_1CbAbsoluteRotate.html#a6584cd5def35dc00feeba250d642db3f">oldMinVelTheta</a>);</div>
-<div class="line"><a id="l00192" name="l00192"></a><span class="lineno">  192</span>    }</div>
-<div class="line"><a id="l00193" name="l00193"></a><span class="lineno">  193</span>  }</div>
-<div class="line"><a id="l00194" name="l00194"></a><span class="lineno">  194</span>  <span class="keywordflow">else</span></div>
-<div class="line"><a id="l00195" name="l00195"></a><span class="lineno">  195</span>  {</div>
-<div class="line"><a id="l00196" name="l00196"></a><span class="lineno">  196</span>    <span class="keywordflow">if</span> (<a class="code hl_variable" href="classcl__nav2z_1_1CbAbsoluteRotate.html#ac2aee07b0ac8f2456c80112af72f89b0">yawGoalTolerance</a>)</div>
-<div class="line"><a id="l00197" name="l00197"></a><span class="lineno">  197</span>    {</div>
-<div class="line"><a id="l00198" name="l00198"></a><span class="lineno">  198</span>      yaw_goal_tolerance = rclcpp::Parameter(<span class="stringliteral">&quot;goal_checker.yaw_goal_tolerance&quot;</span>, <a class="code hl_variable" href="classcl__nav2z_1_1CbAbsoluteRotate.html#af7f14e8b176c9007248ba3d0f6da5262">oldYawTolerance</a>);</div>
-<div class="line"><a id="l00199" name="l00199"></a><span class="lineno">  199</span>      RCLCPP_INFO_STREAM(</div>
-<div class="line"><a id="l00200" name="l00200"></a><span class="lineno">  200</span>        log, <span class="stringliteral">&quot;[&quot;</span> &lt;&lt; <a class="code hl_function" href="classsmacc2_1_1ISmaccClientBehavior.html#a3feaa9c382a7d376b7ba0017a63e294e">getName</a>() &lt;&lt; <span class="stringliteral">&quot;] restoring yaw tolerance local planner from: &quot;</span></div>
-<div class="line"><a id="l00201" name="l00201"></a><span class="lineno">  201</span>                 &lt;&lt; *<a class="code hl_variable" href="classcl__nav2z_1_1CbAbsoluteRotate.html#ac2aee07b0ac8f2456c80112af72f89b0">yawGoalTolerance</a> &lt;&lt; <span class="stringliteral">&quot; , to previous value: &quot;</span> &lt;&lt; this-&gt;<a class="code hl_variable" href="classcl__nav2z_1_1CbAbsoluteRotate.html#af7f14e8b176c9007248ba3d0f6da5262">oldYawTolerance</a>);</div>
-<div class="line"><a id="l00202" name="l00202"></a><span class="lineno">  202</span>    }</div>
-<div class="line"><a id="l00203" name="l00203"></a><span class="lineno">  203</span> </div>
-<div class="line"><a id="l00204" name="l00204"></a><span class="lineno">  204</span>    <span class="keywordflow">if</span> (<a class="code hl_variable" href="classcl__nav2z_1_1CbAbsoluteRotate.html#a37db07e24a84986fa5d7eac36a819283">maxVelTheta</a>)</div>
-<div class="line"><a id="l00205" name="l00205"></a><span class="lineno">  205</span>    {</div>
-<div class="line"><a id="l00206" name="l00206"></a><span class="lineno">  206</span>      <span class="keywordflow">if</span> (isRosBasePlanner)</div>
-<div class="line"><a id="l00207" name="l00207"></a><span class="lineno">  207</span>      {</div>
-<div class="line"><a id="l00208" name="l00208"></a><span class="lineno">  208</span>        max_vel_theta = rclcpp::Parameter(localPlannerName + <span class="stringliteral">&quot;.max_vel_theta&quot;</span>, <a class="code hl_variable" href="classcl__nav2z_1_1CbAbsoluteRotate.html#a3011402959a6eaba38433e109d0f9bf6">oldMaxVelTheta</a>);</div>
-<div class="line"><a id="l00209" name="l00209"></a><span class="lineno">  209</span>        min_vel_theta = rclcpp::Parameter(localPlannerName + <span class="stringliteral">&quot;.max_vel_theta&quot;</span>, <a class="code hl_variable" href="classcl__nav2z_1_1CbAbsoluteRotate.html#a6584cd5def35dc00feeba250d642db3f">oldMinVelTheta</a>);</div>
-<div class="line"><a id="l00210" name="l00210"></a><span class="lineno">  210</span>      }</div>
-<div class="line"><a id="l00211" name="l00211"></a><span class="lineno">  211</span> </div>
-<div class="line"><a id="l00212" name="l00212"></a><span class="lineno">  212</span>      parameters.push_back(max_vel_theta);</div>
-<div class="line"><a id="l00213" name="l00213"></a><span class="lineno">  213</span>      parameters.push_back(min_vel_theta);</div>
-<div class="line"><a id="l00214" name="l00214"></a><span class="lineno">  214</span>      RCLCPP_INFO_STREAM(</div>
-<div class="line"><a id="l00215" name="l00215"></a><span class="lineno">  215</span>        log, <span class="stringliteral">&quot;[&quot;</span> &lt;&lt; <a class="code hl_function" href="classsmacc2_1_1ISmaccClientBehavior.html#a3feaa9c382a7d376b7ba0017a63e294e">getName</a>() &lt;&lt; <span class="stringliteral">&quot;] restoring max vel theta local planner from: &quot;</span> &lt;&lt; *<a class="code hl_variable" href="classcl__nav2z_1_1CbAbsoluteRotate.html#a37db07e24a84986fa5d7eac36a819283">maxVelTheta</a></div>
-<div class="line"><a id="l00216" name="l00216"></a><span class="lineno">  216</span>                 &lt;&lt; <span class="stringliteral">&quot;, to previous value: &quot;</span> &lt;&lt; this-&gt;<a class="code hl_variable" href="classcl__nav2z_1_1CbAbsoluteRotate.html#a3011402959a6eaba38433e109d0f9bf6">oldMaxVelTheta</a>);</div>
-<div class="line"><a id="l00217" name="l00217"></a><span class="lineno">  217</span>      RCLCPP_INFO_STREAM(</div>
-<div class="line"><a id="l00218" name="l00218"></a><span class="lineno">  218</span>        log, <span class="stringliteral">&quot;[&quot;</span> &lt;&lt; <a class="code hl_function" href="classsmacc2_1_1ISmaccClientBehavior.html#a3feaa9c382a7d376b7ba0017a63e294e">getName</a>() &lt;&lt; <span class="stringliteral">&quot;] restoring min vel theta local planner from: &quot;</span> &lt;&lt; -(*<a class="code hl_variable" href="classcl__nav2z_1_1CbAbsoluteRotate.html#a37db07e24a84986fa5d7eac36a819283">maxVelTheta</a>)</div>
-<div class="line"><a id="l00219" name="l00219"></a><span class="lineno">  219</span>                 &lt;&lt; <span class="stringliteral">&quot;, to previous value: &quot;</span> &lt;&lt; this-&gt;<a class="code hl_variable" href="classcl__nav2z_1_1CbAbsoluteRotate.html#a6584cd5def35dc00feeba250d642db3f">oldMinVelTheta</a>);</div>
-<div class="line"><a id="l00220" name="l00220"></a><span class="lineno">  220</span>    }</div>
-<div class="line"><a id="l00221" name="l00221"></a><span class="lineno">  221</span>  }</div>
-<div class="line"><a id="l00222" name="l00222"></a><span class="lineno">  222</span> </div>
-<div class="line"><a id="l00223" name="l00223"></a><span class="lineno">  223</span>  <span class="keywordflow">if</span> (parameters.size())</div>
-<div class="line"><a id="l00224" name="l00224"></a><span class="lineno">  224</span>  {</div>
-<div class="line"><a id="l00225" name="l00225"></a><span class="lineno">  225</span>    std::stringstream ss;</div>
-<div class="line"><a id="l00226" name="l00226"></a><span class="lineno">  226</span>    ss &lt;&lt; <span class="stringliteral">&quot;Executing asynchronous request. Parameters to update: &quot;</span> &lt;&lt; std::endl;</div>
-<div class="line"><a id="l00227" name="l00227"></a><span class="lineno">  227</span>    <span class="keywordflow">for</span> (<span class="keyword">auto</span> &amp; p : parameters)</div>
-<div class="line"><a id="l00228" name="l00228"></a><span class="lineno">  228</span>    {</div>
-<div class="line"><a id="l00229" name="l00229"></a><span class="lineno">  229</span>      ss &lt;&lt; p.get_name() &lt;&lt; <span class="stringliteral">&quot; - &quot;</span> &lt;&lt; p.value_to_string() &lt;&lt; std::endl;</div>
-<div class="line"><a id="l00230" name="l00230"></a><span class="lineno">  230</span>    }</div>
-<div class="line"><a id="l00231" name="l00231"></a><span class="lineno">  231</span> </div>
-<div class="line"><a id="l00232" name="l00232"></a><span class="lineno">  232</span>    RCLCPP_INFO_STREAM(<a class="code hl_function" href="classsmacc2_1_1ISmaccClientBehavior.html#a9c3d82542c800e2ba5207c5cff0e63e8">getLogger</a>(), <span class="stringliteral">&quot;[CbAbsoluteRotate] &quot;</span> &lt;&lt; ss.str());</div>
-<div class="line"><a id="l00233" name="l00233"></a><span class="lineno">  233</span> </div>
-<div class="line"><a id="l00234" name="l00234"></a><span class="lineno">  234</span>    <span class="keyword">auto</span> futureResults = parameters_client-&gt;set_parameters(parameters);</div>
+<div class="line"><a id="l00181" name="l00181"></a><span class="lineno">  181</span>        <span class="comment">// make synchronous</span></div>
+<div class="line"><a id="l00182" name="l00182"></a><span class="lineno">  182</span>        fut.get();</div>
+<div class="line"><a id="l00183" name="l00183"></a><span class="lineno">  183</span>      }</div>
+<div class="line"><a id="l00184" name="l00184"></a><span class="lineno">  184</span> </div>
+<div class="line"><a id="l00185" name="l00185"></a><span class="lineno">  185</span>      max_vel_theta = rclcpp::Parameter(localPlannerName + <span class="stringliteral">&quot;.max_vel_theta&quot;</span>, *<a class="code hl_variable" href="classcl__nav2z_1_1CbAbsoluteRotate.html#a37db07e24a84986fa5d7eac36a819283">maxVelTheta</a>);</div>
+<div class="line"><a id="l00186" name="l00186"></a><span class="lineno">  186</span>      min_vel_theta = rclcpp::Parameter(localPlannerName + <span class="stringliteral">&quot;.min_vel_theta&quot;</span>, -*<a class="code hl_variable" href="classcl__nav2z_1_1CbAbsoluteRotate.html#a37db07e24a84986fa5d7eac36a819283">maxVelTheta</a>);</div>
+<div class="line"><a id="l00187" name="l00187"></a><span class="lineno">  187</span>      parameters.push_back(max_vel_theta);</div>
+<div class="line"><a id="l00188" name="l00188"></a><span class="lineno">  188</span>      parameters.push_back(min_vel_theta);</div>
+<div class="line"><a id="l00189" name="l00189"></a><span class="lineno">  189</span> </div>
+<div class="line"><a id="l00190" name="l00190"></a><span class="lineno">  190</span>      RCLCPP_INFO_STREAM(</div>
+<div class="line"><a id="l00191" name="l00191"></a><span class="lineno">  191</span>        log, <span class="stringliteral">&quot;[&quot;</span> &lt;&lt; <a class="code hl_function" href="classsmacc2_1_1ISmaccClientBehavior.html#a3feaa9c382a7d376b7ba0017a63e294e">getName</a>() &lt;&lt; <span class="stringliteral">&quot;] updating max vel theta local planner to: &quot;</span> &lt;&lt; *<a class="code hl_variable" href="classcl__nav2z_1_1CbAbsoluteRotate.html#a37db07e24a84986fa5d7eac36a819283">maxVelTheta</a></div>
+<div class="line"><a id="l00192" name="l00192"></a><span class="lineno">  192</span>                 &lt;&lt; <span class="stringliteral">&quot;, from previous value: &quot;</span> &lt;&lt; this-&gt;<a class="code hl_variable" href="classcl__nav2z_1_1CbAbsoluteRotate.html#a3011402959a6eaba38433e109d0f9bf6">oldMaxVelTheta</a>);</div>
+<div class="line"><a id="l00193" name="l00193"></a><span class="lineno">  193</span>      RCLCPP_INFO_STREAM(</div>
+<div class="line"><a id="l00194" name="l00194"></a><span class="lineno">  194</span>        log, <span class="stringliteral">&quot;[&quot;</span> &lt;&lt; <a class="code hl_function" href="classsmacc2_1_1ISmaccClientBehavior.html#a3feaa9c382a7d376b7ba0017a63e294e">getName</a>() &lt;&lt; <span class="stringliteral">&quot;] updating min vel theta local planner to: &quot;</span> &lt;&lt; -*<a class="code hl_variable" href="classcl__nav2z_1_1CbAbsoluteRotate.html#a37db07e24a84986fa5d7eac36a819283">maxVelTheta</a></div>
+<div class="line"><a id="l00195" name="l00195"></a><span class="lineno">  195</span>                 &lt;&lt; <span class="stringliteral">&quot;, from previous value: &quot;</span> &lt;&lt; this-&gt;<a class="code hl_variable" href="classcl__nav2z_1_1CbAbsoluteRotate.html#a6584cd5def35dc00feeba250d642db3f">oldMinVelTheta</a>);</div>
+<div class="line"><a id="l00196" name="l00196"></a><span class="lineno">  196</span>    }</div>
+<div class="line"><a id="l00197" name="l00197"></a><span class="lineno">  197</span>  }</div>
+<div class="line"><a id="l00198" name="l00198"></a><span class="lineno">  198</span>  <span class="keywordflow">else</span></div>
+<div class="line"><a id="l00199" name="l00199"></a><span class="lineno">  199</span>  {</div>
+<div class="line"><a id="l00200" name="l00200"></a><span class="lineno">  200</span>    <span class="keywordflow">if</span> (<a class="code hl_variable" href="classcl__nav2z_1_1CbAbsoluteRotate.html#ac2aee07b0ac8f2456c80112af72f89b0">yawGoalTolerance</a>)</div>
+<div class="line"><a id="l00201" name="l00201"></a><span class="lineno">  201</span>    {</div>
+<div class="line"><a id="l00202" name="l00202"></a><span class="lineno">  202</span>      yaw_goal_tolerance = rclcpp::Parameter(<span class="stringliteral">&quot;goal_checker.yaw_goal_tolerance&quot;</span>, <a class="code hl_variable" href="classcl__nav2z_1_1CbAbsoluteRotate.html#af7f14e8b176c9007248ba3d0f6da5262">oldYawTolerance</a>);</div>
+<div class="line"><a id="l00203" name="l00203"></a><span class="lineno">  203</span>      RCLCPP_INFO_STREAM(</div>
+<div class="line"><a id="l00204" name="l00204"></a><span class="lineno">  204</span>        log, <span class="stringliteral">&quot;[&quot;</span> &lt;&lt; <a class="code hl_function" href="classsmacc2_1_1ISmaccClientBehavior.html#a3feaa9c382a7d376b7ba0017a63e294e">getName</a>() &lt;&lt; <span class="stringliteral">&quot;] restoring yaw tolerance local planner from: &quot;</span></div>
+<div class="line"><a id="l00205" name="l00205"></a><span class="lineno">  205</span>                 &lt;&lt; *<a class="code hl_variable" href="classcl__nav2z_1_1CbAbsoluteRotate.html#ac2aee07b0ac8f2456c80112af72f89b0">yawGoalTolerance</a> &lt;&lt; <span class="stringliteral">&quot; , to previous value: &quot;</span> &lt;&lt; this-&gt;<a class="code hl_variable" href="classcl__nav2z_1_1CbAbsoluteRotate.html#af7f14e8b176c9007248ba3d0f6da5262">oldYawTolerance</a>);</div>
+<div class="line"><a id="l00206" name="l00206"></a><span class="lineno">  206</span>    }</div>
+<div class="line"><a id="l00207" name="l00207"></a><span class="lineno">  207</span> </div>
+<div class="line"><a id="l00208" name="l00208"></a><span class="lineno">  208</span>    <span class="keywordflow">if</span> (<a class="code hl_variable" href="classcl__nav2z_1_1CbAbsoluteRotate.html#a37db07e24a84986fa5d7eac36a819283">maxVelTheta</a>)</div>
+<div class="line"><a id="l00209" name="l00209"></a><span class="lineno">  209</span>    {</div>
+<div class="line"><a id="l00210" name="l00210"></a><span class="lineno">  210</span>      <span class="keywordflow">if</span> (isRosBasePlanner)</div>
+<div class="line"><a id="l00211" name="l00211"></a><span class="lineno">  211</span>      {</div>
+<div class="line"><a id="l00212" name="l00212"></a><span class="lineno">  212</span>        max_vel_theta = rclcpp::Parameter(localPlannerName + <span class="stringliteral">&quot;.max_vel_theta&quot;</span>, <a class="code hl_variable" href="classcl__nav2z_1_1CbAbsoluteRotate.html#a3011402959a6eaba38433e109d0f9bf6">oldMaxVelTheta</a>);</div>
+<div class="line"><a id="l00213" name="l00213"></a><span class="lineno">  213</span>        min_vel_theta = rclcpp::Parameter(localPlannerName + <span class="stringliteral">&quot;.max_vel_theta&quot;</span>, <a class="code hl_variable" href="classcl__nav2z_1_1CbAbsoluteRotate.html#a6584cd5def35dc00feeba250d642db3f">oldMinVelTheta</a>);</div>
+<div class="line"><a id="l00214" name="l00214"></a><span class="lineno">  214</span>      }</div>
+<div class="line"><a id="l00215" name="l00215"></a><span class="lineno">  215</span> </div>
+<div class="line"><a id="l00216" name="l00216"></a><span class="lineno">  216</span>      parameters.push_back(max_vel_theta);</div>
+<div class="line"><a id="l00217" name="l00217"></a><span class="lineno">  217</span>      parameters.push_back(min_vel_theta);</div>
+<div class="line"><a id="l00218" name="l00218"></a><span class="lineno">  218</span>      RCLCPP_INFO_STREAM(</div>
+<div class="line"><a id="l00219" name="l00219"></a><span class="lineno">  219</span>        log, <span class="stringliteral">&quot;[&quot;</span> &lt;&lt; <a class="code hl_function" href="classsmacc2_1_1ISmaccClientBehavior.html#a3feaa9c382a7d376b7ba0017a63e294e">getName</a>() &lt;&lt; <span class="stringliteral">&quot;] restoring max vel theta local planner from: &quot;</span> &lt;&lt; *<a class="code hl_variable" href="classcl__nav2z_1_1CbAbsoluteRotate.html#a37db07e24a84986fa5d7eac36a819283">maxVelTheta</a></div>
+<div class="line"><a id="l00220" name="l00220"></a><span class="lineno">  220</span>                 &lt;&lt; <span class="stringliteral">&quot;, to previous value: &quot;</span> &lt;&lt; this-&gt;<a class="code hl_variable" href="classcl__nav2z_1_1CbAbsoluteRotate.html#a3011402959a6eaba38433e109d0f9bf6">oldMaxVelTheta</a>);</div>
+<div class="line"><a id="l00221" name="l00221"></a><span class="lineno">  221</span>      RCLCPP_INFO_STREAM(</div>
+<div class="line"><a id="l00222" name="l00222"></a><span class="lineno">  222</span>        log, <span class="stringliteral">&quot;[&quot;</span> &lt;&lt; <a class="code hl_function" href="classsmacc2_1_1ISmaccClientBehavior.html#a3feaa9c382a7d376b7ba0017a63e294e">getName</a>() &lt;&lt; <span class="stringliteral">&quot;] restoring min vel theta local planner from: &quot;</span> &lt;&lt; -(*<a class="code hl_variable" href="classcl__nav2z_1_1CbAbsoluteRotate.html#a37db07e24a84986fa5d7eac36a819283">maxVelTheta</a>)</div>
+<div class="line"><a id="l00223" name="l00223"></a><span class="lineno">  223</span>                 &lt;&lt; <span class="stringliteral">&quot;, to previous value: &quot;</span> &lt;&lt; this-&gt;<a class="code hl_variable" href="classcl__nav2z_1_1CbAbsoluteRotate.html#a6584cd5def35dc00feeba250d642db3f">oldMinVelTheta</a>);</div>
+<div class="line"><a id="l00224" name="l00224"></a><span class="lineno">  224</span>    }</div>
+<div class="line"><a id="l00225" name="l00225"></a><span class="lineno">  225</span>  }</div>
+<div class="line"><a id="l00226" name="l00226"></a><span class="lineno">  226</span> </div>
+<div class="line"><a id="l00227" name="l00227"></a><span class="lineno">  227</span>  <span class="keywordflow">if</span> (parameters.size())</div>
+<div class="line"><a id="l00228" name="l00228"></a><span class="lineno">  228</span>  {</div>
+<div class="line"><a id="l00229" name="l00229"></a><span class="lineno">  229</span>    std::stringstream ss;</div>
+<div class="line"><a id="l00230" name="l00230"></a><span class="lineno">  230</span>    ss &lt;&lt; <span class="stringliteral">&quot;Executing asynchronous request. Parameters to update: &quot;</span> &lt;&lt; std::endl;</div>
+<div class="line"><a id="l00231" name="l00231"></a><span class="lineno">  231</span>    <span class="keywordflow">for</span> (<span class="keyword">auto</span> &amp; p : parameters)</div>
+<div class="line"><a id="l00232" name="l00232"></a><span class="lineno">  232</span>    {</div>
+<div class="line"><a id="l00233" name="l00233"></a><span class="lineno">  233</span>      ss &lt;&lt; p.get_name() &lt;&lt; <span class="stringliteral">&quot; - &quot;</span> &lt;&lt; p.value_to_string() &lt;&lt; std::endl;</div>
+<div class="line"><a id="l00234" name="l00234"></a><span class="lineno">  234</span>    }</div>
 <div class="line"><a id="l00235" name="l00235"></a><span class="lineno">  235</span> </div>
-<div class="line"><a id="l00236" name="l00236"></a><span class="lineno">  236</span>    <span class="keywordtype">int</span> i = 0;</div>
-<div class="line"><a id="l00237" name="l00237"></a><span class="lineno">  237</span>    <span class="keywordflow">for</span> (<span class="keyword">auto</span> &amp; res : futureResults.get())</div>
-<div class="line"><a id="l00238" name="l00238"></a><span class="lineno">  238</span>    {</div>
-<div class="line"><a id="l00239" name="l00239"></a><span class="lineno">  239</span>      RCLCPP_INFO_STREAM(</div>
-<div class="line"><a id="l00240" name="l00240"></a><span class="lineno">  240</span>        <a class="code hl_function" href="classsmacc2_1_1ISmaccClientBehavior.html#a9c3d82542c800e2ba5207c5cff0e63e8">getLogger</a>(), <span class="stringliteral">&quot;[&quot;</span> &lt;&lt; <a class="code hl_function" href="classsmacc2_1_1ISmaccClientBehavior.html#a3feaa9c382a7d376b7ba0017a63e294e">getName</a>() &lt;&lt; <span class="stringliteral">&quot;] parameter result: &quot;</span> &lt;&lt; parameters[i].get_name() &lt;&lt; <span class="stringliteral">&quot;=&quot;</span></div>
-<div class="line"><a id="l00241" name="l00241"></a><span class="lineno">  241</span>                         &lt;&lt; parameters[i].as_string() &lt;&lt; <span class="stringliteral">&quot;. Result: &quot;</span> &lt;&lt; res.successful);</div>
-<div class="line"><a id="l00242" name="l00242"></a><span class="lineno">  242</span>      i++;</div>
-<div class="line"><a id="l00243" name="l00243"></a><span class="lineno">  243</span>    }</div>
-<div class="line"><a id="l00244" name="l00244"></a><span class="lineno">  244</span> </div>
-<div class="line"><a id="l00245" name="l00245"></a><span class="lineno">  245</span>    RCLCPP_INFO_STREAM(log, <span class="stringliteral">&quot;[&quot;</span> &lt;&lt; <a class="code hl_function" href="classsmacc2_1_1ISmaccClientBehavior.html#a3feaa9c382a7d376b7ba0017a63e294e">getName</a>() &lt;&lt; <span class="stringliteral">&quot;] parameters updated&quot;</span>);</div>
-<div class="line"><a id="l00246" name="l00246"></a><span class="lineno">  246</span>  }</div>
-<div class="line"><a id="l00247" name="l00247"></a><span class="lineno">  247</span>  <span class="keywordflow">else</span></div>
-<div class="line"><a id="l00248" name="l00248"></a><span class="lineno">  248</span>  {</div>
-<div class="line"><a id="l00249" name="l00249"></a><span class="lineno">  249</span>    RCLCPP_INFO_STREAM(log, <span class="stringliteral">&quot;[&quot;</span> &lt;&lt; <a class="code hl_function" href="classsmacc2_1_1ISmaccClientBehavior.html#a3feaa9c382a7d376b7ba0017a63e294e">getName</a>() &lt;&lt; <span class="stringliteral">&quot;] skipping parameters update&quot;</span>);</div>
+<div class="line"><a id="l00236" name="l00236"></a><span class="lineno">  236</span>    RCLCPP_INFO_STREAM(<a class="code hl_function" href="classsmacc2_1_1ISmaccClientBehavior.html#a9c3d82542c800e2ba5207c5cff0e63e8">getLogger</a>(), <span class="stringliteral">&quot;[CbAbsoluteRotate] &quot;</span> &lt;&lt; ss.str());</div>
+<div class="line"><a id="l00237" name="l00237"></a><span class="lineno">  237</span> </div>
+<div class="line"><a id="l00238" name="l00238"></a><span class="lineno">  238</span>    <span class="keyword">auto</span> futureResults = parameters_client-&gt;set_parameters(parameters);</div>
+<div class="line"><a id="l00239" name="l00239"></a><span class="lineno">  239</span> </div>
+<div class="line"><a id="l00240" name="l00240"></a><span class="lineno">  240</span>    <span class="keywordtype">int</span> i = 0;</div>
+<div class="line"><a id="l00241" name="l00241"></a><span class="lineno">  241</span>    <span class="keywordflow">for</span> (<span class="keyword">auto</span> &amp; res : futureResults.get())</div>
+<div class="line"><a id="l00242" name="l00242"></a><span class="lineno">  242</span>    {</div>
+<div class="line"><a id="l00243" name="l00243"></a><span class="lineno">  243</span>      RCLCPP_INFO_STREAM(</div>
+<div class="line"><a id="l00244" name="l00244"></a><span class="lineno">  244</span>        <a class="code hl_function" href="classsmacc2_1_1ISmaccClientBehavior.html#a9c3d82542c800e2ba5207c5cff0e63e8">getLogger</a>(), <span class="stringliteral">&quot;[&quot;</span> &lt;&lt; <a class="code hl_function" href="classsmacc2_1_1ISmaccClientBehavior.html#a3feaa9c382a7d376b7ba0017a63e294e">getName</a>() &lt;&lt; <span class="stringliteral">&quot;] parameter result: &quot;</span> &lt;&lt; parameters[i].get_name() &lt;&lt; <span class="stringliteral">&quot;=&quot;</span></div>
+<div class="line"><a id="l00245" name="l00245"></a><span class="lineno">  245</span>                         &lt;&lt; parameters[i].as_string() &lt;&lt; <span class="stringliteral">&quot;. Result: &quot;</span> &lt;&lt; res.successful);</div>
+<div class="line"><a id="l00246" name="l00246"></a><span class="lineno">  246</span>      i++;</div>
+<div class="line"><a id="l00247" name="l00247"></a><span class="lineno">  247</span>    }</div>
+<div class="line"><a id="l00248" name="l00248"></a><span class="lineno">  248</span> </div>
+<div class="line"><a id="l00249" name="l00249"></a><span class="lineno">  249</span>    RCLCPP_INFO_STREAM(log, <span class="stringliteral">&quot;[&quot;</span> &lt;&lt; <a class="code hl_function" href="classsmacc2_1_1ISmaccClientBehavior.html#a3feaa9c382a7d376b7ba0017a63e294e">getName</a>() &lt;&lt; <span class="stringliteral">&quot;] parameters updated&quot;</span>);</div>
 <div class="line"><a id="l00250" name="l00250"></a><span class="lineno">  250</span>  }</div>
-<div class="line"><a id="l00251" name="l00251"></a><span class="lineno">  251</span>}</div>
-<div class="line"><a id="l00252" name="l00252"></a><span class="lineno">  252</span> </div>
-<div class="line"><a id="l00253" name="l00253"></a><span class="lineno"><a class="line" href="classcl__nav2z_1_1CbAbsoluteRotate.html#a928d128f34561942f64e951a7d8d4b1f">  253</a></span><span class="keywordtype">void</span> <a class="code hl_function" href="classcl__nav2z_1_1CbAbsoluteRotate.html#a928d128f34561942f64e951a7d8d4b1f">CbAbsoluteRotate::onExit</a>()</div>
-<div class="line"><a id="l00254" name="l00254"></a><span class="lineno">  254</span>{</div>
-<div class="line"><a id="l00255" name="l00255"></a><span class="lineno">  255</span>  <span class="keywordflow">if</span> (<a class="code hl_variable" href="classcl__nav2z_1_1CbAbsoluteRotate.html#a7892bb82790b85281f8bf784c3b95d3e">spinningPlanner</a> &amp;&amp; *<a class="code hl_variable" href="classcl__nav2z_1_1CbAbsoluteRotate.html#a7892bb82790b85281f8bf784c3b95d3e">spinningPlanner</a> == <a class="code hl_enumvalue" href="namespacecl__nav2z.html#a1cfbf070e982b7fb3867797b78227628aada5274435681a4ce04175bebfa6652f">SpinningPlanner::PureSpinning</a>)</div>
-<div class="line"><a id="l00256" name="l00256"></a><span class="lineno">  256</span>  {</div>
-<div class="line"><a id="l00257" name="l00257"></a><span class="lineno">  257</span>  }</div>
-<div class="line"><a id="l00258" name="l00258"></a><span class="lineno">  258</span>  <span class="keywordflow">else</span></div>
-<div class="line"><a id="l00259" name="l00259"></a><span class="lineno">  259</span>  {</div>
-<div class="line"><a id="l00260" name="l00260"></a><span class="lineno">  260</span>  }</div>
-<div class="line"><a id="l00261" name="l00261"></a><span class="lineno">  261</span> </div>
-<div class="line"><a id="l00262" name="l00262"></a><span class="lineno">  262</span>  this-&gt;<a class="code hl_function" href="classcl__nav2z_1_1CbAbsoluteRotate.html#a9410b279fa1b5d2dc02a413166e8fe72">updateTemporalBehaviorParameters</a>(<span class="keyword">true</span>);</div>
-<div class="line"><a id="l00263" name="l00263"></a><span class="lineno">  263</span>}</div>
-<div class="line"><a id="l00264" name="l00264"></a><span class="lineno">  264</span> </div>
-<div class="line"><a id="l00265" name="l00265"></a><span class="lineno">  265</span>}  <span class="comment">// namespace cl_nav2z</span></div>
+<div class="line"><a id="l00251" name="l00251"></a><span class="lineno">  251</span>  <span class="keywordflow">else</span></div>
+<div class="line"><a id="l00252" name="l00252"></a><span class="lineno">  252</span>  {</div>
+<div class="line"><a id="l00253" name="l00253"></a><span class="lineno">  253</span>    RCLCPP_INFO_STREAM(log, <span class="stringliteral">&quot;[&quot;</span> &lt;&lt; <a class="code hl_function" href="classsmacc2_1_1ISmaccClientBehavior.html#a3feaa9c382a7d376b7ba0017a63e294e">getName</a>() &lt;&lt; <span class="stringliteral">&quot;] skipping parameters update&quot;</span>);</div>
+<div class="line"><a id="l00254" name="l00254"></a><span class="lineno">  254</span>  }</div>
+<div class="line"><a id="l00255" name="l00255"></a><span class="lineno">  255</span>}</div>
+<div class="line"><a id="l00256" name="l00256"></a><span class="lineno">  256</span> </div>
+<div class="line"><a id="l00257" name="l00257"></a><span class="lineno"><a class="line" href="classcl__nav2z_1_1CbAbsoluteRotate.html#a928d128f34561942f64e951a7d8d4b1f">  257</a></span><span class="keywordtype">void</span> <a class="code hl_function" href="classcl__nav2z_1_1CbAbsoluteRotate.html#a928d128f34561942f64e951a7d8d4b1f">CbAbsoluteRotate::onExit</a>()</div>
+<div class="line"><a id="l00258" name="l00258"></a><span class="lineno">  258</span>{</div>
+<div class="line"><a id="l00259" name="l00259"></a><span class="lineno">  259</span>  <span class="keywordflow">if</span> (<a class="code hl_variable" href="classcl__nav2z_1_1CbAbsoluteRotate.html#a7892bb82790b85281f8bf784c3b95d3e">spinningPlanner</a> &amp;&amp; *<a class="code hl_variable" href="classcl__nav2z_1_1CbAbsoluteRotate.html#a7892bb82790b85281f8bf784c3b95d3e">spinningPlanner</a> == <a class="code hl_enumvalue" href="namespacecl__nav2z.html#a1cfbf070e982b7fb3867797b78227628aada5274435681a4ce04175bebfa6652f">SpinningPlanner::PureSpinning</a>)</div>
+<div class="line"><a id="l00260" name="l00260"></a><span class="lineno">  260</span>  {</div>
+<div class="line"><a id="l00261" name="l00261"></a><span class="lineno">  261</span>  }</div>
+<div class="line"><a id="l00262" name="l00262"></a><span class="lineno">  262</span>  <span class="keywordflow">else</span></div>
+<div class="line"><a id="l00263" name="l00263"></a><span class="lineno">  263</span>  {</div>
+<div class="line"><a id="l00264" name="l00264"></a><span class="lineno">  264</span>  }</div>
+<div class="line"><a id="l00265" name="l00265"></a><span class="lineno">  265</span> </div>
+<div class="line"><a id="l00266" name="l00266"></a><span class="lineno">  266</span>  this-&gt;<a class="code hl_function" href="classcl__nav2z_1_1CbAbsoluteRotate.html#a9410b279fa1b5d2dc02a413166e8fe72">updateTemporalBehaviorParameters</a>(<span class="keyword">true</span>);</div>
+<div class="line"><a id="l00267" name="l00267"></a><span class="lineno">  267</span>}</div>
+<div class="line"><a id="l00268" name="l00268"></a><span class="lineno">  268</span> </div>
+<div class="line"><a id="l00269" name="l00269"></a><span class="lineno">  269</span>}  <span class="comment">// namespace cl_nav2z</span></div>
 <div class="ttc" id="acb__absolute__rotate_8hpp_html"><div class="ttname"><a href="cb__absolute__rotate_8hpp.html">cb_absolute_rotate.hpp</a></div></div>
 <div class="ttc" id="aclasscl__nav2z_1_1CbAbsoluteRotate_html_a3011402959a6eaba38433e109d0f9bf6"><div class="ttname"><a href="classcl__nav2z_1_1CbAbsoluteRotate.html#a3011402959a6eaba38433e109d0f9bf6">cl_nav2z::CbAbsoluteRotate::oldMaxVelTheta</a></div><div class="ttdeci">float oldMaxVelTheta</div><div class="ttdef"><b>Definition:</b> <a href="cb__absolute__rotate_8hpp_source.html#l00048">cb_absolute_rotate.hpp:48</a></div></div>
 <div class="ttc" id="aclasscl__nav2z_1_1CbAbsoluteRotate_html_a3556cba281b2b3962b66fbff0a271138"><div class="ttname"><a href="classcl__nav2z_1_1CbAbsoluteRotate.html#a3556cba281b2b3962b66fbff0a271138">cl_nav2z::CbAbsoluteRotate::CbAbsoluteRotate</a></div><div class="ttdeci">CbAbsoluteRotate()</div><div class="ttdef"><b>Definition:</b> <a href="cb__absolute__rotate_8cpp_source.html#l00032">cb_absolute_rotate.cpp:32</a></div></div>
@@ -348,7 +352,7 @@ $(function() {
 <div class="ttc" id="aclasscl__nav2z_1_1CbAbsoluteRotate_html_a6584cd5def35dc00feeba250d642db3f"><div class="ttname"><a href="classcl__nav2z_1_1CbAbsoluteRotate.html#a6584cd5def35dc00feeba250d642db3f">cl_nav2z::CbAbsoluteRotate::oldMinVelTheta</a></div><div class="ttdeci">float oldMinVelTheta</div><div class="ttdef"><b>Definition:</b> <a href="cb__absolute__rotate_8hpp_source.html#l00049">cb_absolute_rotate.hpp:49</a></div></div>
 <div class="ttc" id="aclasscl__nav2z_1_1CbAbsoluteRotate_html_a7892bb82790b85281f8bf784c3b95d3e"><div class="ttname"><a href="classcl__nav2z_1_1CbAbsoluteRotate.html#a7892bb82790b85281f8bf784c3b95d3e">cl_nav2z::CbAbsoluteRotate::spinningPlanner</a></div><div class="ttdeci">std::optional&lt; SpinningPlanner &gt; spinningPlanner</div><div class="ttdef"><b>Definition:</b> <a href="cb__absolute__rotate_8hpp_source.html#l00037">cb_absolute_rotate.hpp:37</a></div></div>
 <div class="ttc" id="aclasscl__nav2z_1_1CbAbsoluteRotate_html_a7a0d844c774290aa785c14a3e7d87f05"><div class="ttname"><a href="classcl__nav2z_1_1CbAbsoluteRotate.html#a7a0d844c774290aa785c14a3e7d87f05">cl_nav2z::CbAbsoluteRotate::onEntry</a></div><div class="ttdeci">void onEntry() override</div><div class="ttdef"><b>Definition:</b> <a href="cb__absolute__rotate_8cpp_source.html#l00043">cb_absolute_rotate.cpp:43</a></div></div>
-<div class="ttc" id="aclasscl__nav2z_1_1CbAbsoluteRotate_html_a928d128f34561942f64e951a7d8d4b1f"><div class="ttname"><a href="classcl__nav2z_1_1CbAbsoluteRotate.html#a928d128f34561942f64e951a7d8d4b1f">cl_nav2z::CbAbsoluteRotate::onExit</a></div><div class="ttdeci">void onExit() override</div><div class="ttdef"><b>Definition:</b> <a href="cb__absolute__rotate_8cpp_source.html#l00253">cb_absolute_rotate.cpp:253</a></div></div>
+<div class="ttc" id="aclasscl__nav2z_1_1CbAbsoluteRotate_html_a928d128f34561942f64e951a7d8d4b1f"><div class="ttname"><a href="classcl__nav2z_1_1CbAbsoluteRotate.html#a928d128f34561942f64e951a7d8d4b1f">cl_nav2z::CbAbsoluteRotate::onExit</a></div><div class="ttdeci">void onExit() override</div><div class="ttdef"><b>Definition:</b> <a href="cb__absolute__rotate_8cpp_source.html#l00257">cb_absolute_rotate.cpp:257</a></div></div>
 <div class="ttc" id="aclasscl__nav2z_1_1CbAbsoluteRotate_html_a9410b279fa1b5d2dc02a413166e8fe72"><div class="ttname"><a href="classcl__nav2z_1_1CbAbsoluteRotate.html#a9410b279fa1b5d2dc02a413166e8fe72">cl_nav2z::CbAbsoluteRotate::updateTemporalBehaviorParameters</a></div><div class="ttdeci">void updateTemporalBehaviorParameters(bool undo)</div><div class="ttdef"><b>Definition:</b> <a href="cb__absolute__rotate_8cpp_source.html#l00100">cb_absolute_rotate.cpp:100</a></div></div>
 <div class="ttc" id="aclasscl__nav2z_1_1CbAbsoluteRotate_html_aadd82e7bc5fdf1a44a0b3da847a44f0e"><div class="ttname"><a href="classcl__nav2z_1_1CbAbsoluteRotate.html#aadd82e7bc5fdf1a44a0b3da847a44f0e">cl_nav2z::CbAbsoluteRotate::absoluteGoalAngleDegree</a></div><div class="ttdeci">float absoluteGoalAngleDegree</div><div class="ttdef"><b>Definition:</b> <a href="cb__absolute__rotate_8hpp_source.html#l00034">cb_absolute_rotate.hpp:34</a></div></div>
 <div class="ttc" id="aclasscl__nav2z_1_1CbAbsoluteRotate_html_abb6c58929e4888126fca964fb9cd0671"><div class="ttname"><a href="classcl__nav2z_1_1CbAbsoluteRotate.html#abb6c58929e4888126fca964fb9cd0671">cl_nav2z::CbAbsoluteRotate::listener</a></div><div class="ttdeci">std::shared_ptr&lt; tf2_ros::Buffer &gt; listener</div><div class="ttdef"><b>Definition:</b> <a href="cb__absolute__rotate_8hpp_source.html#l00032">cb_absolute_rotate.hpp:32</a></div></div>
