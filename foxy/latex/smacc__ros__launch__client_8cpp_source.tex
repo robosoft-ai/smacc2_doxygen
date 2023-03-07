@@ -46,37 +46,40 @@
 \DoxyCodeLine{\Hypertarget{smacc__ros__launch__client_8cpp_source_l00042}\mbox{\hyperlink{classsmacc2_1_1client__bases_1_1ClRosLaunch_aa2dc8dc6f859088aad1a129eea9cee8e}{00042}} std::future<std::string> \mbox{\hyperlink{classsmacc2_1_1client__bases_1_1ClRosLaunch_aa2dc8dc6f859088aad1a129eea9cee8e}{ClRosLaunch::executeRosLaunch}}(}
 \DoxyCodeLine{\Hypertarget{smacc__ros__launch__client_8cpp_source_l00043}00043   std::string packageName, std::string launchFileName, std::function<\textcolor{keywordtype}{bool}()> cancelCondition)}
 \DoxyCodeLine{\Hypertarget{smacc__ros__launch__client_8cpp_source_l00044}00044 \{}
-\DoxyCodeLine{\Hypertarget{smacc__ros__launch__client_8cpp_source_l00045}00045   \textcolor{keywordflow}{return} std::async(std::launch::async, [=]() \{}
-\DoxyCodeLine{\Hypertarget{smacc__ros__launch__client_8cpp_source_l00046}00046     RCLCPP\_WARN\_STREAM(}
-\DoxyCodeLine{\Hypertarget{smacc__ros__launch__client_8cpp_source_l00047}00047       rclcpp::get\_logger(\textcolor{stringliteral}{"{}smacc2"{}}), \textcolor{stringliteral}{"{}[ClRosLaunch static] starting ros launch thread "{}});}
-\DoxyCodeLine{\Hypertarget{smacc__ros__launch__client_8cpp_source_l00048}00048 }
-\DoxyCodeLine{\Hypertarget{smacc__ros__launch__client_8cpp_source_l00049}00049     std::stringstream cmd;}
-\DoxyCodeLine{\Hypertarget{smacc__ros__launch__client_8cpp_source_l00050}00050     cmd << \textcolor{stringliteral}{"{}ros2 launch "{}} << packageName << \textcolor{stringliteral}{"{} "{}} << launchFileName;}
+\DoxyCodeLine{\Hypertarget{smacc__ros__launch__client_8cpp_source_l00045}00045   \textcolor{keywordflow}{return} std::async(}
+\DoxyCodeLine{\Hypertarget{smacc__ros__launch__client_8cpp_source_l00046}00046     std::launch::async,}
+\DoxyCodeLine{\Hypertarget{smacc__ros__launch__client_8cpp_source_l00047}00047     [=]()}
+\DoxyCodeLine{\Hypertarget{smacc__ros__launch__client_8cpp_source_l00048}00048     \{}
+\DoxyCodeLine{\Hypertarget{smacc__ros__launch__client_8cpp_source_l00049}00049       RCLCPP\_WARN\_STREAM(}
+\DoxyCodeLine{\Hypertarget{smacc__ros__launch__client_8cpp_source_l00050}00050         rclcpp::get\_logger(\textcolor{stringliteral}{"{}smacc2"{}}), \textcolor{stringliteral}{"{}[ClRosLaunch static] starting ros launch thread "{}});}
 \DoxyCodeLine{\Hypertarget{smacc__ros__launch__client_8cpp_source_l00051}00051 }
-\DoxyCodeLine{\Hypertarget{smacc__ros__launch__client_8cpp_source_l00052}00052     std::array<char, 128> buffer;}
-\DoxyCodeLine{\Hypertarget{smacc__ros__launch__client_8cpp_source_l00053}00053     std::string result;}
-\DoxyCodeLine{\Hypertarget{smacc__ros__launch__client_8cpp_source_l00054}00054     std::unique\_ptr<FILE, \textcolor{keyword}{decltype}(\&pclose)> pipe(popen(cmd.str().c\_str(), \textcolor{stringliteral}{"{}r"{}}), pclose);}
-\DoxyCodeLine{\Hypertarget{smacc__ros__launch__client_8cpp_source_l00055}00055     \textcolor{keywordflow}{if} (!pipe)}
-\DoxyCodeLine{\Hypertarget{smacc__ros__launch__client_8cpp_source_l00056}00056     \{}
-\DoxyCodeLine{\Hypertarget{smacc__ros__launch__client_8cpp_source_l00057}00057       \textcolor{keywordflow}{throw} std::runtime\_error(\textcolor{stringliteral}{"{}popen() failed!"{}});}
-\DoxyCodeLine{\Hypertarget{smacc__ros__launch__client_8cpp_source_l00058}00058     \}}
-\DoxyCodeLine{\Hypertarget{smacc__ros__launch__client_8cpp_source_l00059}00059 }
-\DoxyCodeLine{\Hypertarget{smacc__ros__launch__client_8cpp_source_l00060}00060     std::stringstream ss;}
-\DoxyCodeLine{\Hypertarget{smacc__ros__launch__client_8cpp_source_l00061}00061     \textcolor{keywordtype}{bool} cancelled = \textcolor{keyword}{false};}
-\DoxyCodeLine{\Hypertarget{smacc__ros__launch__client_8cpp_source_l00062}00062     \textcolor{keywordflow}{while} (fgets(buffer.data(), buffer.size(), pipe.get()) != \textcolor{keyword}{nullptr} \&\&}
-\DoxyCodeLine{\Hypertarget{smacc__ros__launch__client_8cpp_source_l00063}00063            !(cancelled = cancelCondition()))}
-\DoxyCodeLine{\Hypertarget{smacc__ros__launch__client_8cpp_source_l00064}00064     \{}
-\DoxyCodeLine{\Hypertarget{smacc__ros__launch__client_8cpp_source_l00065}00065       ss << buffer.data();}
-\DoxyCodeLine{\Hypertarget{smacc__ros__launch__client_8cpp_source_l00066}00066     \}}
-\DoxyCodeLine{\Hypertarget{smacc__ros__launch__client_8cpp_source_l00067}00067 }
-\DoxyCodeLine{\Hypertarget{smacc__ros__launch__client_8cpp_source_l00068}00068     result = ss.str();}
-\DoxyCodeLine{\Hypertarget{smacc__ros__launch__client_8cpp_source_l00069}00069     RCLCPP\_WARN\_STREAM(}
-\DoxyCodeLine{\Hypertarget{smacc__ros__launch__client_8cpp_source_l00070}00070       rclcpp::get\_logger(\textcolor{stringliteral}{"{}smacc2"{}}), \textcolor{stringliteral}{"{}[ClRosLaunch static]] RESULT = \(\backslash\)n "{}} << ss.str());}
-\DoxyCodeLine{\Hypertarget{smacc__ros__launch__client_8cpp_source_l00071}00071     \textcolor{keywordflow}{return} result;}
-\DoxyCodeLine{\Hypertarget{smacc__ros__launch__client_8cpp_source_l00072}00072   \});}
-\DoxyCodeLine{\Hypertarget{smacc__ros__launch__client_8cpp_source_l00073}00073 \}}
-\DoxyCodeLine{\Hypertarget{smacc__ros__launch__client_8cpp_source_l00074}00074 }
-\DoxyCodeLine{\Hypertarget{smacc__ros__launch__client_8cpp_source_l00075}00075 \}  \textcolor{comment}{// namespace client\_bases}}
-\DoxyCodeLine{\Hypertarget{smacc__ros__launch__client_8cpp_source_l00076}00076 \}  \textcolor{comment}{// namespace smacc2}}
+\DoxyCodeLine{\Hypertarget{smacc__ros__launch__client_8cpp_source_l00052}00052       std::stringstream cmd;}
+\DoxyCodeLine{\Hypertarget{smacc__ros__launch__client_8cpp_source_l00053}00053       cmd << \textcolor{stringliteral}{"{}ros2 launch "{}} << packageName << \textcolor{stringliteral}{"{} "{}} << launchFileName;}
+\DoxyCodeLine{\Hypertarget{smacc__ros__launch__client_8cpp_source_l00054}00054 }
+\DoxyCodeLine{\Hypertarget{smacc__ros__launch__client_8cpp_source_l00055}00055       std::array<char, 128> buffer;}
+\DoxyCodeLine{\Hypertarget{smacc__ros__launch__client_8cpp_source_l00056}00056       std::string result;}
+\DoxyCodeLine{\Hypertarget{smacc__ros__launch__client_8cpp_source_l00057}00057       std::unique\_ptr<FILE, \textcolor{keyword}{decltype}(\&pclose)> pipe(popen(cmd.str().c\_str(), \textcolor{stringliteral}{"{}r"{}}), pclose);}
+\DoxyCodeLine{\Hypertarget{smacc__ros__launch__client_8cpp_source_l00058}00058       \textcolor{keywordflow}{if} (!pipe)}
+\DoxyCodeLine{\Hypertarget{smacc__ros__launch__client_8cpp_source_l00059}00059       \{}
+\DoxyCodeLine{\Hypertarget{smacc__ros__launch__client_8cpp_source_l00060}00060         \textcolor{keywordflow}{throw} std::runtime\_error(\textcolor{stringliteral}{"{}popen() failed!"{}});}
+\DoxyCodeLine{\Hypertarget{smacc__ros__launch__client_8cpp_source_l00061}00061       \}}
+\DoxyCodeLine{\Hypertarget{smacc__ros__launch__client_8cpp_source_l00062}00062 }
+\DoxyCodeLine{\Hypertarget{smacc__ros__launch__client_8cpp_source_l00063}00063       std::stringstream ss;}
+\DoxyCodeLine{\Hypertarget{smacc__ros__launch__client_8cpp_source_l00064}00064       \textcolor{keywordtype}{bool} cancelled = \textcolor{keyword}{false};}
+\DoxyCodeLine{\Hypertarget{smacc__ros__launch__client_8cpp_source_l00065}00065       \textcolor{keywordflow}{while} (fgets(buffer.data(), buffer.size(), pipe.get()) != \textcolor{keyword}{nullptr} \&\&}
+\DoxyCodeLine{\Hypertarget{smacc__ros__launch__client_8cpp_source_l00066}00066              !(cancelled = cancelCondition()))}
+\DoxyCodeLine{\Hypertarget{smacc__ros__launch__client_8cpp_source_l00067}00067       \{}
+\DoxyCodeLine{\Hypertarget{smacc__ros__launch__client_8cpp_source_l00068}00068         ss << buffer.data();}
+\DoxyCodeLine{\Hypertarget{smacc__ros__launch__client_8cpp_source_l00069}00069       \}}
+\DoxyCodeLine{\Hypertarget{smacc__ros__launch__client_8cpp_source_l00070}00070 }
+\DoxyCodeLine{\Hypertarget{smacc__ros__launch__client_8cpp_source_l00071}00071       result = ss.str();}
+\DoxyCodeLine{\Hypertarget{smacc__ros__launch__client_8cpp_source_l00072}00072       RCLCPP\_WARN\_STREAM(}
+\DoxyCodeLine{\Hypertarget{smacc__ros__launch__client_8cpp_source_l00073}00073         rclcpp::get\_logger(\textcolor{stringliteral}{"{}smacc2"{}}), \textcolor{stringliteral}{"{}[ClRosLaunch static]] RESULT = \(\backslash\)n "{}} << ss.str());}
+\DoxyCodeLine{\Hypertarget{smacc__ros__launch__client_8cpp_source_l00074}00074       \textcolor{keywordflow}{return} result;}
+\DoxyCodeLine{\Hypertarget{smacc__ros__launch__client_8cpp_source_l00075}00075     \});}
+\DoxyCodeLine{\Hypertarget{smacc__ros__launch__client_8cpp_source_l00076}00076 \}}
+\DoxyCodeLine{\Hypertarget{smacc__ros__launch__client_8cpp_source_l00077}00077 }
+\DoxyCodeLine{\Hypertarget{smacc__ros__launch__client_8cpp_source_l00078}00078 \}  \textcolor{comment}{// namespace client\_bases}}
+\DoxyCodeLine{\Hypertarget{smacc__ros__launch__client_8cpp_source_l00079}00079 \}  \textcolor{comment}{// namespace smacc2}}
 
 \end{DoxyCode}

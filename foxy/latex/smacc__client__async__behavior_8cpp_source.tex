@@ -31,94 +31,100 @@
 \DoxyCodeLine{\Hypertarget{smacc__client__async__behavior_8cpp_source_l00027}\mbox{\hyperlink{classsmacc2_1_1SmaccAsyncClientBehavior_a2b6eb9adadced6735dc75e532a294376}{00027}} \textcolor{keywordtype}{void} \mbox{\hyperlink{classsmacc2_1_1SmaccAsyncClientBehavior_a2b6eb9adadced6735dc75e532a294376}{SmaccAsyncClientBehavior::executeOnEntry}}()}
 \DoxyCodeLine{\Hypertarget{smacc__client__async__behavior_8cpp_source_l00028}00028 \{}
 \DoxyCodeLine{\Hypertarget{smacc__client__async__behavior_8cpp_source_l00029}00029   RCLCPP\_INFO\_STREAM(\mbox{\hyperlink{classsmacc2_1_1ISmaccClientBehavior_a5474074c4b45e900499e30126fb8415c}{getLogger}}(), \textcolor{stringliteral}{"{}["{}} << \mbox{\hyperlink{classsmacc2_1_1ISmaccClientBehavior_a3feaa9c382a7d376b7ba0017a63e294e}{getName}}() << \textcolor{stringliteral}{"{}] Creating asynchronous onEntry thread"{}});}
-\DoxyCodeLine{\Hypertarget{smacc__client__async__behavior_8cpp_source_l00030}00030   this-\/>\mbox{\hyperlink{classsmacc2_1_1SmaccAsyncClientBehavior_ad957061daa17125808b95e028ef369c7}{onEntryThread\_}} = std::async(std::launch::async, [=] \{}
-\DoxyCodeLine{\Hypertarget{smacc__client__async__behavior_8cpp_source_l00031}00031     this-\/>\mbox{\hyperlink{classsmacc2_1_1ISmaccClientBehavior_aca7382c4d17b5f4a7b98f7e399203017}{onEntry}}();}
-\DoxyCodeLine{\Hypertarget{smacc__client__async__behavior_8cpp_source_l00032}00032     this-\/>\mbox{\hyperlink{classsmacc2_1_1SmaccAsyncClientBehavior_a17eded920b99c5fe9de47563d027b06a}{postFinishEventFn\_}}();}
-\DoxyCodeLine{\Hypertarget{smacc__client__async__behavior_8cpp_source_l00033}00033     RCLCPP\_INFO\_STREAM(}
-\DoxyCodeLine{\Hypertarget{smacc__client__async__behavior_8cpp_source_l00034}00034       \mbox{\hyperlink{classsmacc2_1_1ISmaccClientBehavior_a5474074c4b45e900499e30126fb8415c}{getLogger}}(), \textcolor{stringliteral}{"{}["{}} << \mbox{\hyperlink{classsmacc2_1_1ISmaccClientBehavior_a3feaa9c382a7d376b7ba0017a63e294e}{getName}}() << \textcolor{stringliteral}{"{}] onEntry asynchronous thread was finished."{}});}
-\DoxyCodeLine{\Hypertarget{smacc__client__async__behavior_8cpp_source_l00035}00035     \textcolor{keywordflow}{return} 0;}
-\DoxyCodeLine{\Hypertarget{smacc__client__async__behavior_8cpp_source_l00036}00036   \});}
-\DoxyCodeLine{\Hypertarget{smacc__client__async__behavior_8cpp_source_l00037}00037 \}}
-\DoxyCodeLine{\Hypertarget{smacc__client__async__behavior_8cpp_source_l00038}00038 }
-\DoxyCodeLine{\Hypertarget{smacc__client__async__behavior_8cpp_source_l00039}\mbox{\hyperlink{classsmacc2_1_1SmaccAsyncClientBehavior_a2b4f16692681251ae6cc7bf33538d9c9}{00039}} \textcolor{keywordtype}{void} \mbox{\hyperlink{classsmacc2_1_1SmaccAsyncClientBehavior_a2b4f16692681251ae6cc7bf33538d9c9}{SmaccAsyncClientBehavior::waitFutureIfNotFinished}}(std::future<int> \& threadfut)}
-\DoxyCodeLine{\Hypertarget{smacc__client__async__behavior_8cpp_source_l00040}00040 \{}
-\DoxyCodeLine{\Hypertarget{smacc__client__async__behavior_8cpp_source_l00041}00041   \textcolor{keywordflow}{try}}
-\DoxyCodeLine{\Hypertarget{smacc__client__async__behavior_8cpp_source_l00042}00042   \{}
-\DoxyCodeLine{\Hypertarget{smacc__client__async__behavior_8cpp_source_l00043}00043     rclcpp::Rate r(100);}
-\DoxyCodeLine{\Hypertarget{smacc__client__async__behavior_8cpp_source_l00044}00044     \textcolor{keywordflow}{while} (rclcpp::ok())}
-\DoxyCodeLine{\Hypertarget{smacc__client__async__behavior_8cpp_source_l00045}00045     \{}
-\DoxyCodeLine{\Hypertarget{smacc__client__async__behavior_8cpp_source_l00046}00046       \textcolor{keywordtype}{bool} valid = threadfut.valid();}
-\DoxyCodeLine{\Hypertarget{smacc__client__async__behavior_8cpp_source_l00047}00047       \textcolor{keywordflow}{if} (valid)}
-\DoxyCodeLine{\Hypertarget{smacc__client__async__behavior_8cpp_source_l00048}00048       \{}
-\DoxyCodeLine{\Hypertarget{smacc__client__async__behavior_8cpp_source_l00049}00049         \textcolor{keyword}{auto} status = threadfut.wait\_for(std::chrono::milliseconds(20));}
-\DoxyCodeLine{\Hypertarget{smacc__client__async__behavior_8cpp_source_l00050}00050         \textcolor{keywordflow}{if} (status == std::future\_status::ready)}
-\DoxyCodeLine{\Hypertarget{smacc__client__async__behavior_8cpp_source_l00051}00051         \{}
-\DoxyCodeLine{\Hypertarget{smacc__client__async__behavior_8cpp_source_l00052}00052           threadfut.get();}
-\DoxyCodeLine{\Hypertarget{smacc__client__async__behavior_8cpp_source_l00053}00053           \textcolor{keywordflow}{break};}
-\DoxyCodeLine{\Hypertarget{smacc__client__async__behavior_8cpp_source_l00054}00054         \}}
-\DoxyCodeLine{\Hypertarget{smacc__client__async__behavior_8cpp_source_l00055}00055       \}}
-\DoxyCodeLine{\Hypertarget{smacc__client__async__behavior_8cpp_source_l00056}00056 }
-\DoxyCodeLine{\Hypertarget{smacc__client__async__behavior_8cpp_source_l00057}00057       \textcolor{comment}{//r.sleep();}}
-\DoxyCodeLine{\Hypertarget{smacc__client__async__behavior_8cpp_source_l00058}00058       rclcpp::sleep\_for(100ms);}
-\DoxyCodeLine{\Hypertarget{smacc__client__async__behavior_8cpp_source_l00059}00059       \textcolor{comment}{// rclcpp::spin\_some(getNode());}}
-\DoxyCodeLine{\Hypertarget{smacc__client__async__behavior_8cpp_source_l00060}00060       RCLCPP\_WARN\_THROTTLE(}
-\DoxyCodeLine{\Hypertarget{smacc__client__async__behavior_8cpp_source_l00061}00061         \mbox{\hyperlink{classsmacc2_1_1ISmaccClientBehavior_a5474074c4b45e900499e30126fb8415c}{getLogger}}(), *(\mbox{\hyperlink{classsmacc2_1_1ISmaccClientBehavior_a95c9749af2004528fbda63ca6fde8eae}{getNode}}()-\/>get\_clock()), 1000,}
-\DoxyCodeLine{\Hypertarget{smacc__client__async__behavior_8cpp_source_l00062}00062         \textcolor{stringliteral}{"{}[\%s] waiting for finishing client behavior, before leaving the state. Is the client "{}}}
-\DoxyCodeLine{\Hypertarget{smacc__client__async__behavior_8cpp_source_l00063}00063         \textcolor{stringliteral}{"{}behavior stuck?"{}},}
-\DoxyCodeLine{\Hypertarget{smacc__client__async__behavior_8cpp_source_l00064}00064         \mbox{\hyperlink{namespacesmacc2_1_1introspection_af0776d8076fe19b4f806405e9ab08cfe}{demangleType}}(\textcolor{keyword}{typeid}(*\textcolor{keyword}{this})).c\_str());}
-\DoxyCodeLine{\Hypertarget{smacc__client__async__behavior_8cpp_source_l00065}00065     \}}
-\DoxyCodeLine{\Hypertarget{smacc__client__async__behavior_8cpp_source_l00066}00066   \}}
-\DoxyCodeLine{\Hypertarget{smacc__client__async__behavior_8cpp_source_l00067}00067   \textcolor{keywordflow}{catch} (\textcolor{keyword}{const} std::exception \& e)}
-\DoxyCodeLine{\Hypertarget{smacc__client__async__behavior_8cpp_source_l00068}00068   \{}
-\DoxyCodeLine{\Hypertarget{smacc__client__async__behavior_8cpp_source_l00069}00069     RCLCPP\_DEBUG(}
-\DoxyCodeLine{\Hypertarget{smacc__client__async__behavior_8cpp_source_l00070}00070       \mbox{\hyperlink{classsmacc2_1_1ISmaccClientBehavior_a5474074c4b45e900499e30126fb8415c}{getLogger}}(),}
-\DoxyCodeLine{\Hypertarget{smacc__client__async__behavior_8cpp_source_l00071}00071       \textcolor{stringliteral}{"{}[SmaccAsyncClientBehavior] trying to join function, but it was already finished."{}});}
-\DoxyCodeLine{\Hypertarget{smacc__client__async__behavior_8cpp_source_l00072}00072   \}}
-\DoxyCodeLine{\Hypertarget{smacc__client__async__behavior_8cpp_source_l00073}00073 \}}
-\DoxyCodeLine{\Hypertarget{smacc__client__async__behavior_8cpp_source_l00074}00074 }
-\DoxyCodeLine{\Hypertarget{smacc__client__async__behavior_8cpp_source_l00075}\mbox{\hyperlink{classsmacc2_1_1SmaccAsyncClientBehavior_ac6b465d4b59eb2bbb00d83a4bbd98881}{00075}} \textcolor{keywordtype}{void} \mbox{\hyperlink{classsmacc2_1_1SmaccAsyncClientBehavior_ac6b465d4b59eb2bbb00d83a4bbd98881}{SmaccAsyncClientBehavior::executeOnExit}}()}
-\DoxyCodeLine{\Hypertarget{smacc__client__async__behavior_8cpp_source_l00076}00076 \{}
-\DoxyCodeLine{\Hypertarget{smacc__client__async__behavior_8cpp_source_l00077}00077   RCLCPP\_INFO\_STREAM(\mbox{\hyperlink{classsmacc2_1_1ISmaccClientBehavior_a5474074c4b45e900499e30126fb8415c}{getLogger}}(), \textcolor{stringliteral}{"{}["{}} << \mbox{\hyperlink{classsmacc2_1_1ISmaccClientBehavior_a3feaa9c382a7d376b7ba0017a63e294e}{getName}}() << \textcolor{stringliteral}{"{}] onExit -\/ join async onEntry thread"{}});}
-\DoxyCodeLine{\Hypertarget{smacc__client__async__behavior_8cpp_source_l00078}00078 }
-\DoxyCodeLine{\Hypertarget{smacc__client__async__behavior_8cpp_source_l00079}00079   \mbox{\hyperlink{classsmacc2_1_1SmaccAsyncClientBehavior_a2b4f16692681251ae6cc7bf33538d9c9}{waitFutureIfNotFinished}}(this-\/>\mbox{\hyperlink{classsmacc2_1_1SmaccAsyncClientBehavior_ad957061daa17125808b95e028ef369c7}{onEntryThread\_}});}
-\DoxyCodeLine{\Hypertarget{smacc__client__async__behavior_8cpp_source_l00080}00080 }
-\DoxyCodeLine{\Hypertarget{smacc__client__async__behavior_8cpp_source_l00081}00081   RCLCPP\_INFO\_STREAM(}
-\DoxyCodeLine{\Hypertarget{smacc__client__async__behavior_8cpp_source_l00082}00082     \mbox{\hyperlink{classsmacc2_1_1ISmaccClientBehavior_a5474074c4b45e900499e30126fb8415c}{getLogger}}(), \textcolor{stringliteral}{"{}["{}} << \mbox{\hyperlink{classsmacc2_1_1ISmaccClientBehavior_a3feaa9c382a7d376b7ba0017a63e294e}{getName}}() << \textcolor{stringliteral}{"{}] onExit -\/ Creating asynchronous onExit thread"{}});}
-\DoxyCodeLine{\Hypertarget{smacc__client__async__behavior_8cpp_source_l00083}00083   this-\/>\mbox{\hyperlink{classsmacc2_1_1SmaccAsyncClientBehavior_a4584b4ec8207f491ddc5f6a37246f2fb}{onExitThread\_}} = std::async(std::launch::async, [=] \{}
-\DoxyCodeLine{\Hypertarget{smacc__client__async__behavior_8cpp_source_l00084}00084     this-\/>\mbox{\hyperlink{classsmacc2_1_1ISmaccClientBehavior_a52b767b7cbb438aa23ea0f6cfda2a3db}{onExit}}();}
-\DoxyCodeLine{\Hypertarget{smacc__client__async__behavior_8cpp_source_l00085}00085     \textcolor{keywordflow}{return} 0;}
-\DoxyCodeLine{\Hypertarget{smacc__client__async__behavior_8cpp_source_l00086}00086   \});}
-\DoxyCodeLine{\Hypertarget{smacc__client__async__behavior_8cpp_source_l00087}00087 \}}
-\DoxyCodeLine{\Hypertarget{smacc__client__async__behavior_8cpp_source_l00088}00088 }
-\DoxyCodeLine{\Hypertarget{smacc__client__async__behavior_8cpp_source_l00089}\mbox{\hyperlink{classsmacc2_1_1SmaccAsyncClientBehavior_a47bfbd4f801b61e43cd16d42eace3461}{00089}} \textcolor{keywordtype}{void} \mbox{\hyperlink{classsmacc2_1_1SmaccAsyncClientBehavior_a47bfbd4f801b61e43cd16d42eace3461}{SmaccAsyncClientBehavior::dispose}}()}
-\DoxyCodeLine{\Hypertarget{smacc__client__async__behavior_8cpp_source_l00090}00090 \{}
-\DoxyCodeLine{\Hypertarget{smacc__client__async__behavior_8cpp_source_l00091}00091   RCLCPP\_DEBUG\_STREAM(}
-\DoxyCodeLine{\Hypertarget{smacc__client__async__behavior_8cpp_source_l00092}00092     \mbox{\hyperlink{classsmacc2_1_1ISmaccClientBehavior_a5474074c4b45e900499e30126fb8415c}{getLogger}}(),}
-\DoxyCodeLine{\Hypertarget{smacc__client__async__behavior_8cpp_source_l00093}00093     \textcolor{stringliteral}{"{}["{}} << \mbox{\hyperlink{classsmacc2_1_1ISmaccClientBehavior_a3feaa9c382a7d376b7ba0017a63e294e}{getName}}()}
-\DoxyCodeLine{\Hypertarget{smacc__client__async__behavior_8cpp_source_l00094}00094         << \textcolor{stringliteral}{"{}] Destroying client behavior-\/ Waiting finishing of asynchronous onExit thread"{}});}
-\DoxyCodeLine{\Hypertarget{smacc__client__async__behavior_8cpp_source_l00095}00095   \textcolor{keywordflow}{try}}
-\DoxyCodeLine{\Hypertarget{smacc__client__async__behavior_8cpp_source_l00096}00096   \{}
-\DoxyCodeLine{\Hypertarget{smacc__client__async__behavior_8cpp_source_l00097}00097     this-\/>\mbox{\hyperlink{classsmacc2_1_1SmaccAsyncClientBehavior_a4584b4ec8207f491ddc5f6a37246f2fb}{onExitThread\_}}.get();}
-\DoxyCodeLine{\Hypertarget{smacc__client__async__behavior_8cpp_source_l00098}00098   \}}
-\DoxyCodeLine{\Hypertarget{smacc__client__async__behavior_8cpp_source_l00099}00099   \textcolor{keywordflow}{catch} (...)}
-\DoxyCodeLine{\Hypertarget{smacc__client__async__behavior_8cpp_source_l00100}00100   \{}
-\DoxyCodeLine{\Hypertarget{smacc__client__async__behavior_8cpp_source_l00101}00101     RCLCPP\_DEBUG(}
-\DoxyCodeLine{\Hypertarget{smacc__client__async__behavior_8cpp_source_l00102}00102       \mbox{\hyperlink{classsmacc2_1_1ISmaccClientBehavior_a5474074c4b45e900499e30126fb8415c}{getLogger}}(),}
-\DoxyCodeLine{\Hypertarget{smacc__client__async__behavior_8cpp_source_l00103}00103       \textcolor{stringliteral}{"{}[SmaccAsyncClientBehavior] trying to Join onExit function, but it was already finished."{}});}
+\DoxyCodeLine{\Hypertarget{smacc__client__async__behavior_8cpp_source_l00030}00030   this-\/>\mbox{\hyperlink{classsmacc2_1_1SmaccAsyncClientBehavior_ad957061daa17125808b95e028ef369c7}{onEntryThread\_}} = std::async(}
+\DoxyCodeLine{\Hypertarget{smacc__client__async__behavior_8cpp_source_l00031}00031     std::launch::async,}
+\DoxyCodeLine{\Hypertarget{smacc__client__async__behavior_8cpp_source_l00032}00032     [=]}
+\DoxyCodeLine{\Hypertarget{smacc__client__async__behavior_8cpp_source_l00033}00033     \{}
+\DoxyCodeLine{\Hypertarget{smacc__client__async__behavior_8cpp_source_l00034}00034       this-\/>\mbox{\hyperlink{classsmacc2_1_1ISmaccClientBehavior_aca7382c4d17b5f4a7b98f7e399203017}{onEntry}}();}
+\DoxyCodeLine{\Hypertarget{smacc__client__async__behavior_8cpp_source_l00035}00035       this-\/>\mbox{\hyperlink{classsmacc2_1_1SmaccAsyncClientBehavior_a17eded920b99c5fe9de47563d027b06a}{postFinishEventFn\_}}();}
+\DoxyCodeLine{\Hypertarget{smacc__client__async__behavior_8cpp_source_l00036}00036       RCLCPP\_INFO\_STREAM(}
+\DoxyCodeLine{\Hypertarget{smacc__client__async__behavior_8cpp_source_l00037}00037         \mbox{\hyperlink{classsmacc2_1_1ISmaccClientBehavior_a5474074c4b45e900499e30126fb8415c}{getLogger}}(), \textcolor{stringliteral}{"{}["{}} << \mbox{\hyperlink{classsmacc2_1_1ISmaccClientBehavior_a3feaa9c382a7d376b7ba0017a63e294e}{getName}}() << \textcolor{stringliteral}{"{}] onEntry asynchronous thread was finished."{}});}
+\DoxyCodeLine{\Hypertarget{smacc__client__async__behavior_8cpp_source_l00038}00038       \textcolor{keywordflow}{return} 0;}
+\DoxyCodeLine{\Hypertarget{smacc__client__async__behavior_8cpp_source_l00039}00039     \});}
+\DoxyCodeLine{\Hypertarget{smacc__client__async__behavior_8cpp_source_l00040}00040 \}}
+\DoxyCodeLine{\Hypertarget{smacc__client__async__behavior_8cpp_source_l00041}00041 }
+\DoxyCodeLine{\Hypertarget{smacc__client__async__behavior_8cpp_source_l00042}\mbox{\hyperlink{classsmacc2_1_1SmaccAsyncClientBehavior_a2b4f16692681251ae6cc7bf33538d9c9}{00042}} \textcolor{keywordtype}{void} \mbox{\hyperlink{classsmacc2_1_1SmaccAsyncClientBehavior_a2b4f16692681251ae6cc7bf33538d9c9}{SmaccAsyncClientBehavior::waitFutureIfNotFinished}}(std::future<int> \& threadfut)}
+\DoxyCodeLine{\Hypertarget{smacc__client__async__behavior_8cpp_source_l00043}00043 \{}
+\DoxyCodeLine{\Hypertarget{smacc__client__async__behavior_8cpp_source_l00044}00044   \textcolor{keywordflow}{try}}
+\DoxyCodeLine{\Hypertarget{smacc__client__async__behavior_8cpp_source_l00045}00045   \{}
+\DoxyCodeLine{\Hypertarget{smacc__client__async__behavior_8cpp_source_l00046}00046     rclcpp::Rate r(100);}
+\DoxyCodeLine{\Hypertarget{smacc__client__async__behavior_8cpp_source_l00047}00047     \textcolor{keywordflow}{while} (rclcpp::ok())}
+\DoxyCodeLine{\Hypertarget{smacc__client__async__behavior_8cpp_source_l00048}00048     \{}
+\DoxyCodeLine{\Hypertarget{smacc__client__async__behavior_8cpp_source_l00049}00049       \textcolor{keywordtype}{bool} valid = threadfut.valid();}
+\DoxyCodeLine{\Hypertarget{smacc__client__async__behavior_8cpp_source_l00050}00050       \textcolor{keywordflow}{if} (valid)}
+\DoxyCodeLine{\Hypertarget{smacc__client__async__behavior_8cpp_source_l00051}00051       \{}
+\DoxyCodeLine{\Hypertarget{smacc__client__async__behavior_8cpp_source_l00052}00052         \textcolor{keyword}{auto} status = threadfut.wait\_for(std::chrono::milliseconds(20));}
+\DoxyCodeLine{\Hypertarget{smacc__client__async__behavior_8cpp_source_l00053}00053         \textcolor{keywordflow}{if} (status == std::future\_status::ready)}
+\DoxyCodeLine{\Hypertarget{smacc__client__async__behavior_8cpp_source_l00054}00054         \{}
+\DoxyCodeLine{\Hypertarget{smacc__client__async__behavior_8cpp_source_l00055}00055           threadfut.get();}
+\DoxyCodeLine{\Hypertarget{smacc__client__async__behavior_8cpp_source_l00056}00056           \textcolor{keywordflow}{break};}
+\DoxyCodeLine{\Hypertarget{smacc__client__async__behavior_8cpp_source_l00057}00057         \}}
+\DoxyCodeLine{\Hypertarget{smacc__client__async__behavior_8cpp_source_l00058}00058       \}}
+\DoxyCodeLine{\Hypertarget{smacc__client__async__behavior_8cpp_source_l00059}00059 }
+\DoxyCodeLine{\Hypertarget{smacc__client__async__behavior_8cpp_source_l00060}00060       \textcolor{comment}{//r.sleep();}}
+\DoxyCodeLine{\Hypertarget{smacc__client__async__behavior_8cpp_source_l00061}00061       rclcpp::sleep\_for(100ms);}
+\DoxyCodeLine{\Hypertarget{smacc__client__async__behavior_8cpp_source_l00062}00062       \textcolor{comment}{// rclcpp::spin\_some(getNode());}}
+\DoxyCodeLine{\Hypertarget{smacc__client__async__behavior_8cpp_source_l00063}00063       RCLCPP\_WARN\_THROTTLE(}
+\DoxyCodeLine{\Hypertarget{smacc__client__async__behavior_8cpp_source_l00064}00064         \mbox{\hyperlink{classsmacc2_1_1ISmaccClientBehavior_a5474074c4b45e900499e30126fb8415c}{getLogger}}(), *(\mbox{\hyperlink{classsmacc2_1_1ISmaccClientBehavior_a95c9749af2004528fbda63ca6fde8eae}{getNode}}()-\/>get\_clock()), 1000,}
+\DoxyCodeLine{\Hypertarget{smacc__client__async__behavior_8cpp_source_l00065}00065         \textcolor{stringliteral}{"{}[\%s] waiting for finishing client behavior, before leaving the state. Is the client "{}}}
+\DoxyCodeLine{\Hypertarget{smacc__client__async__behavior_8cpp_source_l00066}00066         \textcolor{stringliteral}{"{}behavior stuck?"{}},}
+\DoxyCodeLine{\Hypertarget{smacc__client__async__behavior_8cpp_source_l00067}00067         \mbox{\hyperlink{namespacesmacc2_1_1introspection_af0776d8076fe19b4f806405e9ab08cfe}{demangleType}}(\textcolor{keyword}{typeid}(*\textcolor{keyword}{this})).c\_str());}
+\DoxyCodeLine{\Hypertarget{smacc__client__async__behavior_8cpp_source_l00068}00068     \}}
+\DoxyCodeLine{\Hypertarget{smacc__client__async__behavior_8cpp_source_l00069}00069   \}}
+\DoxyCodeLine{\Hypertarget{smacc__client__async__behavior_8cpp_source_l00070}00070   \textcolor{keywordflow}{catch} (\textcolor{keyword}{const} std::exception \& e)}
+\DoxyCodeLine{\Hypertarget{smacc__client__async__behavior_8cpp_source_l00071}00071   \{}
+\DoxyCodeLine{\Hypertarget{smacc__client__async__behavior_8cpp_source_l00072}00072     RCLCPP\_DEBUG(}
+\DoxyCodeLine{\Hypertarget{smacc__client__async__behavior_8cpp_source_l00073}00073       \mbox{\hyperlink{classsmacc2_1_1ISmaccClientBehavior_a5474074c4b45e900499e30126fb8415c}{getLogger}}(),}
+\DoxyCodeLine{\Hypertarget{smacc__client__async__behavior_8cpp_source_l00074}00074       \textcolor{stringliteral}{"{}[SmaccAsyncClientBehavior] trying to join function, but it was already finished."{}});}
+\DoxyCodeLine{\Hypertarget{smacc__client__async__behavior_8cpp_source_l00075}00075   \}}
+\DoxyCodeLine{\Hypertarget{smacc__client__async__behavior_8cpp_source_l00076}00076 \}}
+\DoxyCodeLine{\Hypertarget{smacc__client__async__behavior_8cpp_source_l00077}00077 }
+\DoxyCodeLine{\Hypertarget{smacc__client__async__behavior_8cpp_source_l00078}\mbox{\hyperlink{classsmacc2_1_1SmaccAsyncClientBehavior_ac6b465d4b59eb2bbb00d83a4bbd98881}{00078}} \textcolor{keywordtype}{void} \mbox{\hyperlink{classsmacc2_1_1SmaccAsyncClientBehavior_ac6b465d4b59eb2bbb00d83a4bbd98881}{SmaccAsyncClientBehavior::executeOnExit}}()}
+\DoxyCodeLine{\Hypertarget{smacc__client__async__behavior_8cpp_source_l00079}00079 \{}
+\DoxyCodeLine{\Hypertarget{smacc__client__async__behavior_8cpp_source_l00080}00080   RCLCPP\_INFO\_STREAM(\mbox{\hyperlink{classsmacc2_1_1ISmaccClientBehavior_a5474074c4b45e900499e30126fb8415c}{getLogger}}(), \textcolor{stringliteral}{"{}["{}} << \mbox{\hyperlink{classsmacc2_1_1ISmaccClientBehavior_a3feaa9c382a7d376b7ba0017a63e294e}{getName}}() << \textcolor{stringliteral}{"{}] onExit -\/ join async onEntry thread"{}});}
+\DoxyCodeLine{\Hypertarget{smacc__client__async__behavior_8cpp_source_l00081}00081 }
+\DoxyCodeLine{\Hypertarget{smacc__client__async__behavior_8cpp_source_l00082}00082   \mbox{\hyperlink{classsmacc2_1_1SmaccAsyncClientBehavior_a2b4f16692681251ae6cc7bf33538d9c9}{waitFutureIfNotFinished}}(this-\/>\mbox{\hyperlink{classsmacc2_1_1SmaccAsyncClientBehavior_ad957061daa17125808b95e028ef369c7}{onEntryThread\_}});}
+\DoxyCodeLine{\Hypertarget{smacc__client__async__behavior_8cpp_source_l00083}00083 }
+\DoxyCodeLine{\Hypertarget{smacc__client__async__behavior_8cpp_source_l00084}00084   RCLCPP\_INFO\_STREAM(}
+\DoxyCodeLine{\Hypertarget{smacc__client__async__behavior_8cpp_source_l00085}00085     \mbox{\hyperlink{classsmacc2_1_1ISmaccClientBehavior_a5474074c4b45e900499e30126fb8415c}{getLogger}}(), \textcolor{stringliteral}{"{}["{}} << \mbox{\hyperlink{classsmacc2_1_1ISmaccClientBehavior_a3feaa9c382a7d376b7ba0017a63e294e}{getName}}() << \textcolor{stringliteral}{"{}] onExit -\/ Creating asynchronous onExit thread"{}});}
+\DoxyCodeLine{\Hypertarget{smacc__client__async__behavior_8cpp_source_l00086}00086   this-\/>\mbox{\hyperlink{classsmacc2_1_1SmaccAsyncClientBehavior_a4584b4ec8207f491ddc5f6a37246f2fb}{onExitThread\_}} = std::async(}
+\DoxyCodeLine{\Hypertarget{smacc__client__async__behavior_8cpp_source_l00087}00087     std::launch::async,}
+\DoxyCodeLine{\Hypertarget{smacc__client__async__behavior_8cpp_source_l00088}00088     [=]}
+\DoxyCodeLine{\Hypertarget{smacc__client__async__behavior_8cpp_source_l00089}00089     \{}
+\DoxyCodeLine{\Hypertarget{smacc__client__async__behavior_8cpp_source_l00090}00090       this-\/>\mbox{\hyperlink{classsmacc2_1_1ISmaccClientBehavior_a52b767b7cbb438aa23ea0f6cfda2a3db}{onExit}}();}
+\DoxyCodeLine{\Hypertarget{smacc__client__async__behavior_8cpp_source_l00091}00091       \textcolor{keywordflow}{return} 0;}
+\DoxyCodeLine{\Hypertarget{smacc__client__async__behavior_8cpp_source_l00092}00092     \});}
+\DoxyCodeLine{\Hypertarget{smacc__client__async__behavior_8cpp_source_l00093}00093 \}}
+\DoxyCodeLine{\Hypertarget{smacc__client__async__behavior_8cpp_source_l00094}00094 }
+\DoxyCodeLine{\Hypertarget{smacc__client__async__behavior_8cpp_source_l00095}\mbox{\hyperlink{classsmacc2_1_1SmaccAsyncClientBehavior_a47bfbd4f801b61e43cd16d42eace3461}{00095}} \textcolor{keywordtype}{void} \mbox{\hyperlink{classsmacc2_1_1SmaccAsyncClientBehavior_a47bfbd4f801b61e43cd16d42eace3461}{SmaccAsyncClientBehavior::dispose}}()}
+\DoxyCodeLine{\Hypertarget{smacc__client__async__behavior_8cpp_source_l00096}00096 \{}
+\DoxyCodeLine{\Hypertarget{smacc__client__async__behavior_8cpp_source_l00097}00097   RCLCPP\_DEBUG\_STREAM(}
+\DoxyCodeLine{\Hypertarget{smacc__client__async__behavior_8cpp_source_l00098}00098     \mbox{\hyperlink{classsmacc2_1_1ISmaccClientBehavior_a5474074c4b45e900499e30126fb8415c}{getLogger}}(),}
+\DoxyCodeLine{\Hypertarget{smacc__client__async__behavior_8cpp_source_l00099}00099     \textcolor{stringliteral}{"{}["{}} << \mbox{\hyperlink{classsmacc2_1_1ISmaccClientBehavior_a3feaa9c382a7d376b7ba0017a63e294e}{getName}}()}
+\DoxyCodeLine{\Hypertarget{smacc__client__async__behavior_8cpp_source_l00100}00100         << \textcolor{stringliteral}{"{}] Destroying client behavior-\/ Waiting finishing of asynchronous onExit thread"{}});}
+\DoxyCodeLine{\Hypertarget{smacc__client__async__behavior_8cpp_source_l00101}00101   \textcolor{keywordflow}{try}}
+\DoxyCodeLine{\Hypertarget{smacc__client__async__behavior_8cpp_source_l00102}00102   \{}
+\DoxyCodeLine{\Hypertarget{smacc__client__async__behavior_8cpp_source_l00103}00103     this-\/>\mbox{\hyperlink{classsmacc2_1_1SmaccAsyncClientBehavior_a4584b4ec8207f491ddc5f6a37246f2fb}{onExitThread\_}}.get();}
 \DoxyCodeLine{\Hypertarget{smacc__client__async__behavior_8cpp_source_l00104}00104   \}}
-\DoxyCodeLine{\Hypertarget{smacc__client__async__behavior_8cpp_source_l00105}00105 }
-\DoxyCodeLine{\Hypertarget{smacc__client__async__behavior_8cpp_source_l00106}00106   RCLCPP\_DEBUG\_STREAM(}
-\DoxyCodeLine{\Hypertarget{smacc__client__async__behavior_8cpp_source_l00107}00107     \mbox{\hyperlink{classsmacc2_1_1ISmaccClientBehavior_a5474074c4b45e900499e30126fb8415c}{getLogger}}(),}
-\DoxyCodeLine{\Hypertarget{smacc__client__async__behavior_8cpp_source_l00108}00108     \textcolor{stringliteral}{"{}["{}} << \mbox{\hyperlink{classsmacc2_1_1ISmaccClientBehavior_a3feaa9c382a7d376b7ba0017a63e294e}{getName}}()}
-\DoxyCodeLine{\Hypertarget{smacc__client__async__behavior_8cpp_source_l00109}00109         << \textcolor{stringliteral}{"{}] Destroying client behavior-\/  onExit thread finished. Proccedding destruction."{}});}
-\DoxyCodeLine{\Hypertarget{smacc__client__async__behavior_8cpp_source_l00110}00110 \}}
+\DoxyCodeLine{\Hypertarget{smacc__client__async__behavior_8cpp_source_l00105}00105   \textcolor{keywordflow}{catch} (...)}
+\DoxyCodeLine{\Hypertarget{smacc__client__async__behavior_8cpp_source_l00106}00106   \{}
+\DoxyCodeLine{\Hypertarget{smacc__client__async__behavior_8cpp_source_l00107}00107     RCLCPP\_DEBUG(}
+\DoxyCodeLine{\Hypertarget{smacc__client__async__behavior_8cpp_source_l00108}00108       \mbox{\hyperlink{classsmacc2_1_1ISmaccClientBehavior_a5474074c4b45e900499e30126fb8415c}{getLogger}}(),}
+\DoxyCodeLine{\Hypertarget{smacc__client__async__behavior_8cpp_source_l00109}00109       \textcolor{stringliteral}{"{}[SmaccAsyncClientBehavior] trying to Join onExit function, but it was already finished."{}});}
+\DoxyCodeLine{\Hypertarget{smacc__client__async__behavior_8cpp_source_l00110}00110   \}}
 \DoxyCodeLine{\Hypertarget{smacc__client__async__behavior_8cpp_source_l00111}00111 }
-\DoxyCodeLine{\Hypertarget{smacc__client__async__behavior_8cpp_source_l00112}\mbox{\hyperlink{classsmacc2_1_1SmaccAsyncClientBehavior_a014ced8836f6616a9ecd259a6f918bc2}{00112}} \mbox{\hyperlink{classsmacc2_1_1SmaccAsyncClientBehavior_a014ced8836f6616a9ecd259a6f918bc2}{SmaccAsyncClientBehavior::\string~SmaccAsyncClientBehavior}}() \{\}}
-\DoxyCodeLine{\Hypertarget{smacc__client__async__behavior_8cpp_source_l00113}00113 }
-\DoxyCodeLine{\Hypertarget{smacc__client__async__behavior_8cpp_source_l00114}\mbox{\hyperlink{classsmacc2_1_1SmaccAsyncClientBehavior_a2fb4de26d011fbbb55bc1bbaed2e6f5b}{00114}} \textcolor{keywordtype}{void} \mbox{\hyperlink{classsmacc2_1_1SmaccAsyncClientBehavior_a2fb4de26d011fbbb55bc1bbaed2e6f5b}{SmaccAsyncClientBehavior::postSuccessEvent}}() \{ \mbox{\hyperlink{classsmacc2_1_1SmaccAsyncClientBehavior_a0aae30fa44cd3fca496d0357434ad89e}{postSuccessEventFn\_}}(); \}}
-\DoxyCodeLine{\Hypertarget{smacc__client__async__behavior_8cpp_source_l00115}00115 }
-\DoxyCodeLine{\Hypertarget{smacc__client__async__behavior_8cpp_source_l00116}\mbox{\hyperlink{classsmacc2_1_1SmaccAsyncClientBehavior_afcb5c1a0bf3b9bae6c54e8f5ef1bc04d}{00116}} \textcolor{keywordtype}{void} \mbox{\hyperlink{classsmacc2_1_1SmaccAsyncClientBehavior_afcb5c1a0bf3b9bae6c54e8f5ef1bc04d}{SmaccAsyncClientBehavior::postFailureEvent}}() \{ \mbox{\hyperlink{classsmacc2_1_1SmaccAsyncClientBehavior_ad28af32c61c5ccfeceb1baae85489889}{postFailureEventFn\_}}(); \}}
+\DoxyCodeLine{\Hypertarget{smacc__client__async__behavior_8cpp_source_l00112}00112   RCLCPP\_DEBUG\_STREAM(}
+\DoxyCodeLine{\Hypertarget{smacc__client__async__behavior_8cpp_source_l00113}00113     \mbox{\hyperlink{classsmacc2_1_1ISmaccClientBehavior_a5474074c4b45e900499e30126fb8415c}{getLogger}}(),}
+\DoxyCodeLine{\Hypertarget{smacc__client__async__behavior_8cpp_source_l00114}00114     \textcolor{stringliteral}{"{}["{}} << \mbox{\hyperlink{classsmacc2_1_1ISmaccClientBehavior_a3feaa9c382a7d376b7ba0017a63e294e}{getName}}()}
+\DoxyCodeLine{\Hypertarget{smacc__client__async__behavior_8cpp_source_l00115}00115         << \textcolor{stringliteral}{"{}] Destroying client behavior-\/  onExit thread finished. Proccedding destruction."{}});}
+\DoxyCodeLine{\Hypertarget{smacc__client__async__behavior_8cpp_source_l00116}00116 \}}
 \DoxyCodeLine{\Hypertarget{smacc__client__async__behavior_8cpp_source_l00117}00117 }
-\DoxyCodeLine{\Hypertarget{smacc__client__async__behavior_8cpp_source_l00118}00118 \}  \textcolor{comment}{// namespace smacc2}}
+\DoxyCodeLine{\Hypertarget{smacc__client__async__behavior_8cpp_source_l00118}\mbox{\hyperlink{classsmacc2_1_1SmaccAsyncClientBehavior_a014ced8836f6616a9ecd259a6f918bc2}{00118}} \mbox{\hyperlink{classsmacc2_1_1SmaccAsyncClientBehavior_a014ced8836f6616a9ecd259a6f918bc2}{SmaccAsyncClientBehavior::\string~SmaccAsyncClientBehavior}}() \{\}}
+\DoxyCodeLine{\Hypertarget{smacc__client__async__behavior_8cpp_source_l00119}00119 }
+\DoxyCodeLine{\Hypertarget{smacc__client__async__behavior_8cpp_source_l00120}\mbox{\hyperlink{classsmacc2_1_1SmaccAsyncClientBehavior_a2fb4de26d011fbbb55bc1bbaed2e6f5b}{00120}} \textcolor{keywordtype}{void} \mbox{\hyperlink{classsmacc2_1_1SmaccAsyncClientBehavior_a2fb4de26d011fbbb55bc1bbaed2e6f5b}{SmaccAsyncClientBehavior::postSuccessEvent}}() \{ \mbox{\hyperlink{classsmacc2_1_1SmaccAsyncClientBehavior_a0aae30fa44cd3fca496d0357434ad89e}{postSuccessEventFn\_}}(); \}}
+\DoxyCodeLine{\Hypertarget{smacc__client__async__behavior_8cpp_source_l00121}00121 }
+\DoxyCodeLine{\Hypertarget{smacc__client__async__behavior_8cpp_source_l00122}\mbox{\hyperlink{classsmacc2_1_1SmaccAsyncClientBehavior_afcb5c1a0bf3b9bae6c54e8f5ef1bc04d}{00122}} \textcolor{keywordtype}{void} \mbox{\hyperlink{classsmacc2_1_1SmaccAsyncClientBehavior_afcb5c1a0bf3b9bae6c54e8f5ef1bc04d}{SmaccAsyncClientBehavior::postFailureEvent}}() \{ \mbox{\hyperlink{classsmacc2_1_1SmaccAsyncClientBehavior_ad28af32c61c5ccfeceb1baae85489889}{postFailureEventFn\_}}(); \}}
+\DoxyCodeLine{\Hypertarget{smacc__client__async__behavior_8cpp_source_l00123}00123 }
+\DoxyCodeLine{\Hypertarget{smacc__client__async__behavior_8cpp_source_l00124}00124 \}  \textcolor{comment}{// namespace smacc2}}
 
 \end{DoxyCode}
