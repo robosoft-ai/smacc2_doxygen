@@ -1,11 +1,9 @@
 var searchData=
 [
-  ['ismaccactionclient_0',['ISmaccActionClient',['../classsmacc2_1_1client__bases_1_1ISmaccActionClient.html',1,'smacc2::client_bases']]],
-  ['ismaccclient_1',['ISmaccClient',['../classsmacc2_1_1ISmaccClient.html',1,'smacc2']]],
-  ['ismaccclientbehavior_2',['ISmaccClientBehavior',['../classsmacc2_1_1ISmaccClientBehavior.html',1,'smacc2']]],
-  ['ismacccomponent_3',['ISmaccComponent',['../classsmacc2_1_1ISmaccComponent.html',1,'smacc2']]],
-  ['ismaccorthogonal_4',['ISmaccOrthogonal',['../classsmacc2_1_1ISmaccOrthogonal.html',1,'smacc2']]],
-  ['ismaccstate_5',['ISmaccState',['../classsmacc2_1_1ISmaccState.html',1,'smacc2']]],
-  ['ismaccstatemachine_6',['ISmaccStateMachine',['../classsmacc2_1_1ISmaccStateMachine.html',1,'smacc2']]],
-  ['ismaccupdatable_7',['ISmaccUpdatable',['../classsmacc2_1_1ISmaccUpdatable.html',1,'smacc2']]]
+  ['hasautomatictransitiontag_0',['HasAutomaticTransitionTag',['../classsmacc2_1_1introspection_1_1HasAutomaticTransitionTag.html',1,'smacc2::introspection']]],
+  ['hasautomatictransitiontype_1',['HasAutomaticTransitionType',['../classsmacc2_1_1introspection_1_1HasAutomaticTransitionType.html',1,'smacc2::introspection']]],
+  ['haseventlabel_2',['HasEventLabel',['../classsmacc2_1_1introspection_1_1HasEventLabel.html',1,'smacc2::introspection']]],
+  ['hasondefinition_3',['HasOnDefinition',['../classsmacc2_1_1introspection_1_1HasOnDefinition.html',1,'smacc2::introspection']]],
+  ['hasspecificnamedonexit_4',['HasSpecificNamedOnExit',['../classsmacc2_1_1HasSpecificNamedOnExit.html',1,'smacc2']]],
+  ['hasstandardonexit_5',['HasStandardOnExit',['../classsmacc2_1_1HasStandardOnExit.html',1,'smacc2']]]
 ];
