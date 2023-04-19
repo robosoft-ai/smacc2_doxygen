@@ -9,7 +9,7 @@ var searchData=
   ['readme_2emd_6',['README.md',['../README_8md.html',1,'(Global Namespace)'],['../smacc2__ci_2docker_2ros__rollingAndGalactic__ubuntu__20_804_2README_8md.html',1,'(Global Namespace)']]],
   ['reflection_2ecpp_7',['reflection.cpp',['../reflection_8cpp.html',1,'']]],
   ['release_8',['RELEASE',['../namespacesmacc2.html#a7322c034df3cc8d5a5d8f0fc7737fc2ea7d649ef069df9885e382417c79f3d5cd',1,'smacc2']]],
-  ['reliability_9',['reliability',['../classsmacc2_1_1components_1_1CpTopicPublisher.html#a07ef4cfa6303eba6fcaea7ca22ad0091',1,'smacc2::components::CpTopicPublisher::reliability()'],['../classsmacc2_1_1client__bases_1_1SmaccPublisherClient.html#a427dfd730a168812197f7701176c6db9',1,'smacc2::client_bases::SmaccPublisherClient::reliability()']]],
+  ['reliability_9',['reliability',['../classsmacc2_1_1client__bases_1_1SmaccPublisherClient.html#a427dfd730a168812197f7701176c6db9',1,'smacc2::client_bases::SmaccPublisherClient::reliability()'],['../classsmacc2_1_1components_1_1CpTopicPublisher.html#a07ef4cfa6303eba6fcaea7ca22ad0091',1,'smacc2::components::CpTopicPublisher::reliability()']]],
   ['replace_10',['replace',['../namespacesmacc2_1_1introspection.html#a8e84e2d02c21826a4dfe6c4239f6c1be',1,'smacc2::introspection']]],
   ['replace_5fback_11',['replace_back',['../namespacesmacc2_1_1introspection.html#ad2f1043bfacc3386a4a5c0b79394c28d',1,'smacc2::introspection']]],
   ['request_5f_12',['request_',['../classsmacc2_1_1client__behaviors_1_1CbServiceCall.html#a3fbfa1c29304c3493343c4a87c46c5f0',1,'smacc2::client_behaviors::CbServiceCall']]],
