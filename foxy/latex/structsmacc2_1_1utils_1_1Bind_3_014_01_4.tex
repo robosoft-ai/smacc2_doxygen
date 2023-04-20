@@ -11,35 +11,46 @@ Collaboration diagram for smacc2\+::utils\+::Bind\texorpdfstring{$<$}{<} 4 \texo
 \doxysubsection*{Public Member Functions}
 \begin{DoxyCompactItemize}
 \item 
-{\footnotesize template$<$typename TSmacc\+Signal , typename TMember\+Function\+Prototype , typename TSmacc\+Object\+Type $>$ }\\boost\+::signals2\+::connection \mbox{\hyperlink{structsmacc2_1_1utils_1_1Bind_3_014_01_4_ae5766061fba08b5eff4a960df3460c8e}{bindaux}} (TSmacc\+Signal \&signal, TMember\+Function\+Prototype callback, TSmacc\+Object\+Type $\ast$object)
+{\footnotesize template$<$typename TSmacc\+Signal , typename TMember\+Function\+Prototype , typename TSmacc\+Object\+Type $>$ }\\boost\+::signals2\+::connection \mbox{\hyperlink{structsmacc2_1_1utils_1_1Bind_3_014_01_4_aca019efdfd92ab61e2b4b39f15e0fb7f}{bindaux}} (TSmacc\+Signal \&signal, TMember\+Function\+Prototype callback, TSmacc\+Object\+Type $\ast$object, std\+::shared\+\_\+ptr$<$ \mbox{\hyperlink{classsmacc2_1_1CallbackCounterSemaphore}{Callback\+Counter\+Semaphore}} $>$ callback\+Counter)
 \end{DoxyCompactItemize}
 
 
 \doxysubsection{Detailed Description}
 
 
-Definition at line \mbox{\hyperlink{smacc__state__machine__impl_8hpp_source_l00342}{342}} of file \mbox{\hyperlink{smacc__state__machine__impl_8hpp_source}{smacc\+\_\+state\+\_\+machine\+\_\+impl.\+hpp}}.
+Definition at line \mbox{\hyperlink{smacc__state__machine__impl_8hpp_source_l00385}{385}} of file \mbox{\hyperlink{smacc__state__machine__impl_8hpp_source}{smacc\+\_\+state\+\_\+machine\+\_\+impl.\+hpp}}.
 
 
 
 \doxysubsection{Member Function Documentation}
-\mbox{\Hypertarget{structsmacc2_1_1utils_1_1Bind_3_014_01_4_ae5766061fba08b5eff4a960df3460c8e}\label{structsmacc2_1_1utils_1_1Bind_3_014_01_4_ae5766061fba08b5eff4a960df3460c8e}} 
+\mbox{\Hypertarget{structsmacc2_1_1utils_1_1Bind_3_014_01_4_aca019efdfd92ab61e2b4b39f15e0fb7f}\label{structsmacc2_1_1utils_1_1Bind_3_014_01_4_aca019efdfd92ab61e2b4b39f15e0fb7f}} 
 \index{smacc2::utils::Bind$<$ 4 $>$@{smacc2::utils::Bind$<$ 4 $>$}!bindaux@{bindaux}}
 \index{bindaux@{bindaux}!smacc2::utils::Bind$<$ 4 $>$@{smacc2::utils::Bind$<$ 4 $>$}}
 \doxysubsubsection{\texorpdfstring{bindaux()}{bindaux()}}
 {\footnotesize\ttfamily template$<$typename TSmacc\+Signal , typename TMember\+Function\+Prototype , typename TSmacc\+Object\+Type $>$ \\
-boost\+::signals2\+::connection \mbox{\hyperlink{structsmacc2_1_1utils_1_1Bind}{smacc2\+::utils\+::\+Bind}}$<$ 4 $>$\+::bindaux (\begin{DoxyParamCaption}\item[{TSmacc\+Signal \&}]{signal,  }\item[{TMember\+Function\+Prototype}]{callback,  }\item[{TSmacc\+Object\+Type $\ast$}]{object }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+boost\+::signals2\+::connection \mbox{\hyperlink{structsmacc2_1_1utils_1_1Bind}{smacc2\+::utils\+::\+Bind}}$<$ 4 $>$\+::bindaux (\begin{DoxyParamCaption}\item[{TSmacc\+Signal \&}]{signal,  }\item[{TMember\+Function\+Prototype}]{callback,  }\item[{TSmacc\+Object\+Type $\ast$}]{object,  }\item[{std\+::shared\+\_\+ptr$<$ \mbox{\hyperlink{classsmacc2_1_1CallbackCounterSemaphore}{Callback\+Counter\+Semaphore}} $>$}]{callback\+Counter }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
 
 
 
-Definition at line \mbox{\hyperlink{smacc__state__machine__impl_8hpp_source_l00345}{345}} of file \mbox{\hyperlink{smacc__state__machine__impl_8hpp_source}{smacc\+\_\+state\+\_\+machine\+\_\+impl.\+hpp}}.
+Definition at line \mbox{\hyperlink{smacc__state__machine__impl_8hpp_source_l00388}{388}} of file \mbox{\hyperlink{smacc__state__machine__impl_8hpp_source}{smacc\+\_\+state\+\_\+machine\+\_\+impl.\+hpp}}.
 
 
 \begin{DoxyCode}{0}
-\DoxyCodeLine{00347   \{}
-\DoxyCodeLine{00348     \textcolor{keywordflow}{return} signal.connect([=](\textcolor{keyword}{auto} a1, \textcolor{keyword}{auto} a2, \textcolor{keyword}{auto} a3)}
-\DoxyCodeLine{00349                           \{ \textcolor{keywordflow}{return} (object-\/>*callback)(a1, a2, a3); \});}
-\DoxyCodeLine{00350   \}}
+\DoxyCodeLine{00391   \{}
+\DoxyCodeLine{00392     \textcolor{keywordflow}{return} signal.connect(}
+\DoxyCodeLine{00393       [=](\textcolor{keyword}{auto} a1, \textcolor{keyword}{auto} a2, \textcolor{keyword}{auto} a3)}
+\DoxyCodeLine{00394       \{}
+\DoxyCodeLine{00395         \textcolor{keywordflow}{if} (callbackCounter == \textcolor{keyword}{nullptr})}
+\DoxyCodeLine{00396         \{}
+\DoxyCodeLine{00397           \textcolor{keywordflow}{return} (object-\/>*callback)(a1, a2, a3);}
+\DoxyCodeLine{00398         \}}
+\DoxyCodeLine{00399         \textcolor{keywordflow}{else} \textcolor{keywordflow}{if} (callbackCounter-\/>acquire())}
+\DoxyCodeLine{00400         \{}
+\DoxyCodeLine{00401           (object-\/>*callback)(a1, a2, a3);}
+\DoxyCodeLine{00402           callbackCounter-\/>release();}
+\DoxyCodeLine{00403         \}}
+\DoxyCodeLine{00404       \});}
+\DoxyCodeLine{00405   \}}
 
 \end{DoxyCode}
 

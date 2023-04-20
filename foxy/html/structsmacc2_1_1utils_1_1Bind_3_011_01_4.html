@@ -92,16 +92,16 @@ Collaboration diagram for smacc2::utils::Bind&lt; 1 &gt;:</div>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pub-methods" name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
-<tr class="memitem:a03a36259b1b06a32511e687e4c52bda5"><td class="memTemplParams" colspan="2">template&lt;typename TSmaccSignal , typename TMemberFunctionPrototype , typename TSmaccObjectType &gt; </td></tr>
-<tr class="memitem:a03a36259b1b06a32511e687e4c52bda5"><td class="memTemplItemLeft" align="right" valign="top">boost::signals2::connection&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="structsmacc2_1_1utils_1_1Bind_3_011_01_4.html#a03a36259b1b06a32511e687e4c52bda5">bindaux</a> (TSmaccSignal &amp;signal, TMemberFunctionPrototype callback, TSmaccObjectType *object)</td></tr>
-<tr class="separator:a03a36259b1b06a32511e687e4c52bda5"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a78007df56fc76d5008871d62e94cf829"><td class="memTemplParams" colspan="2">template&lt;typename TSmaccSignal , typename TMemberFunctionPrototype , typename TSmaccObjectType &gt; </td></tr>
+<tr class="memitem:a78007df56fc76d5008871d62e94cf829"><td class="memTemplItemLeft" align="right" valign="top">boost::signals2::connection&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="structsmacc2_1_1utils_1_1Bind_3_011_01_4.html#a78007df56fc76d5008871d62e94cf829">bindaux</a> (TSmaccSignal &amp;signal, TMemberFunctionPrototype callback, TSmaccObjectType *object, std::shared_ptr&lt; <a class="el" href="classsmacc2_1_1CallbackCounterSemaphore.html">CallbackCounterSemaphore</a> &gt; callbackCounter)</td></tr>
+<tr class="separator:a78007df56fc76d5008871d62e94cf829"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock">
-<p class="definition">Definition at line <a class="el" href="smacc__state__machine__impl_8hpp_source.html#l00309">309</a> of file <a class="el" href="smacc__state__machine__impl_8hpp_source.html">smacc_state_machine_impl.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="smacc__state__machine__impl_8hpp_source.html#l00312">312</a> of file <a class="el" href="smacc__state__machine__impl_8hpp_source.html">smacc_state_machine_impl.hpp</a>.</p>
 </div><h2 class="groupheader">Member Function Documentation</h2>
-<a id="a03a36259b1b06a32511e687e4c52bda5" name="a03a36259b1b06a32511e687e4c52bda5"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a03a36259b1b06a32511e687e4c52bda5">&#9670;&#160;</a></span>bindaux()</h2>
+<a id="a78007df56fc76d5008871d62e94cf829" name="a78007df56fc76d5008871d62e94cf829"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a78007df56fc76d5008871d62e94cf829">&#9670;&#160;</a></span>bindaux()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -127,7 +127,13 @@ template&lt;typename TSmaccSignal , typename TMemberFunctionPrototype , typename
           <td class="paramkey"></td>
           <td></td>
           <td class="paramtype">TSmaccObjectType *&#160;</td>
-          <td class="paramname"><em>object</em>&#160;</td>
+          <td class="paramname"><em>object</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">std::shared_ptr&lt; <a class="el" href="classsmacc2_1_1CallbackCounterSemaphore.html">CallbackCounterSemaphore</a> &gt;&#160;</td>
+          <td class="paramname"><em>callbackCounter</em>&#160;</td>
         </tr>
         <tr>
           <td></td>
@@ -142,10 +148,23 @@ template&lt;typename TSmaccSignal , typename TMemberFunctionPrototype , typename
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="smacc__state__machine__impl_8hpp_source.html#l00312">312</a> of file <a class="el" href="smacc__state__machine__impl_8hpp_source.html">smacc_state_machine_impl.hpp</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">  314</span>  {</div>
-<div class="line"><span class="lineno">  315</span>    <span class="keywordflow">return</span> signal.connect([=]() { <span class="keywordflow">return</span> (object-&gt;*callback)(); });</div>
-<div class="line"><span class="lineno">  316</span>  }</div>
+<p class="definition">Definition at line <a class="el" href="smacc__state__machine__impl_8hpp_source.html#l00315">315</a> of file <a class="el" href="smacc__state__machine__impl_8hpp_source.html">smacc_state_machine_impl.hpp</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">  318</span>  {</div>
+<div class="line"><span class="lineno">  319</span>    <span class="keywordflow">return</span> signal.connect(</div>
+<div class="line"><span class="lineno">  320</span> </div>
+<div class="line"><span class="lineno">  321</span>      [=]()</div>
+<div class="line"><span class="lineno">  322</span>      {</div>
+<div class="line"><span class="lineno">  323</span>        <span class="keywordflow">if</span> (callbackCounter == <span class="keyword">nullptr</span>)</div>
+<div class="line"><span class="lineno">  324</span>        {</div>
+<div class="line"><span class="lineno">  325</span>          (<span class="keywordtype">object</span>-&gt;*callback)();</div>
+<div class="line"><span class="lineno">  326</span>        }</div>
+<div class="line"><span class="lineno">  327</span>        <span class="keywordflow">else</span> <span class="keywordflow">if</span> (callbackCounter-&gt;acquire())</div>
+<div class="line"><span class="lineno">  328</span>        {</div>
+<div class="line"><span class="lineno">  329</span>          (<span class="keywordtype">object</span>-&gt;*callback)();</div>
+<div class="line"><span class="lineno">  330</span>          callbackCounter-&gt;release();</div>
+<div class="line"><span class="lineno">  331</span>        }</div>
+<div class="line"><span class="lineno">  332</span>      });</div>
+<div class="line"><span class="lineno">  333</span>  }</div>
 </div><!-- fragment -->
 </div>
 </div>

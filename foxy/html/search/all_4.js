@@ -18,8 +18,8 @@ var searchData=
   ['depth_15',['depth',['../classsmacc2_1_1introspection_1_1SmaccStateInfo.html#ae20f8d03f12d9b8fd0d0c780a834f3d3',1,'smacc2::introspection::SmaccStateInfo']]],
   ['depth_5f_16',['depth_',['../classsmacc2_1_1introspection_1_1SmaccStateInfo.html#a1e0f28834bf4a19323b507cb5cd0ddcf',1,'smacc2::introspection::SmaccStateInfo']]],
   ['destinystate_17',['destinyState',['../structsmacc2_1_1introspection_1_1SmaccTransitionInfo.html#a6b4ace0944eb75812b46834a88620491',1,'smacc2::introspection::SmaccTransitionInfo']]],
-  ['dispose_18',['dispose',['../classsmacc2_1_1ISmaccClientBehavior.html#adb196968cb9f7487292ed97c743df13d',1,'smacc2::ISmaccClientBehavior::dispose()'],['../classsmacc2_1_1SmaccAsyncClientBehavior.html#a47bfbd4f801b61e43cd16d42eace3461',1,'smacc2::SmaccAsyncClientBehavior::dispose()']]],
-  ['disposestateanddisconnectsignals_19',['disposeStateAndDisconnectSignals',['../classsmacc2_1_1ISmaccStateMachine.html#a409f2e942a2e386a3fb7f3c09ae2eba7',1,'smacc2::ISmaccStateMachine']]],
+  ['disconnectsmaccsignalobject_18',['disconnectSmaccSignalObject',['../classsmacc2_1_1ISmaccStateMachine.html#a84e4944583da9a3189720bf2560603e0',1,'smacc2::ISmaccStateMachine']]],
+  ['dispose_19',['dispose',['../classsmacc2_1_1ISmaccClientBehavior.html#adb196968cb9f7487292ed97c743df13d',1,'smacc2::ISmaccClientBehavior::dispose()'],['../classsmacc2_1_1SmaccAsyncClientBehavior.html#a47bfbd4f801b61e43cd16d42eace3461',1,'smacc2::SmaccAsyncClientBehavior::dispose()']]],
   ['done_5fcb_20',['done_cb',['../classsmacc2_1_1client__bases_1_1SmaccActionClientBase.html#a991974e939d61cea11ea182136485cad',1,'smacc2::client_bases::SmaccActionClientBase']]],
   ['durability_21',['durability',['../classsmacc2_1_1client__bases_1_1SmaccPublisherClient.html#a7ccddec2d0b932ed7fd3a8370abfce02',1,'smacc2::client_bases::SmaccPublisherClient::durability()'],['../classsmacc2_1_1components_1_1CpTopicPublisher.html#aa86dda02f2b1524c660a58089fa07581',1,'smacc2::components::CpTopicPublisher::durability()']]],
   ['duration_5f_22',['duration_',['../classcl__ros__timer_1_1ClRosTimer.html#a226f0b972d502596d338f50ecce30d70',1,'cl_ros_timer::ClRosTimer']]]
