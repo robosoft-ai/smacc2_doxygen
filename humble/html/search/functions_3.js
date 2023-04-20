@@ -11,7 +11,7 @@ var searchData=
   ['depth_8',['depth',['../classsmacc2_1_1introspection_1_1SmaccStateInfo.html#ae20f8d03f12d9b8fd0d0c780a834f3d3',1,'smacc2::introspection::SmaccStateInfo']]],
   ['destroy_9',['destroy',['../classcl__lifecyclenode_1_1ClLifecycleNode.html#a48d39ec8be052b684132b5ffa70fa7b7',1,'cl_lifecyclenode::ClLifecycleNode']]],
   ['disable_10',['disable',['../classcl__nav2z_1_1CostmapSwitch.html#a497cbc363ea377636e10e1e968c74a65',1,'cl_nav2z::CostmapSwitch::disable(StandardLayers layerType)'],['../classcl__nav2z_1_1CostmapSwitch.html#a992a989e315c9f6f4ddf777e1ccceda7',1,'cl_nav2z::CostmapSwitch::disable(std::string layerName)']]],
-  ['dispose_11',['dispose',['../classsmacc2_1_1ISmaccClientBehavior.html#adb196968cb9f7487292ed97c743df13d',1,'smacc2::ISmaccClientBehavior::dispose()'],['../classsmacc2_1_1SmaccAsyncClientBehavior.html#a47bfbd4f801b61e43cd16d42eace3461',1,'smacc2::SmaccAsyncClientBehavior::dispose()']]],
-  ['disposestateanddisconnectsignals_12',['disposeStateAndDisconnectSignals',['../classsmacc2_1_1ISmaccStateMachine.html#a409f2e942a2e386a3fb7f3c09ae2eba7',1,'smacc2::ISmaccStateMachine']]],
+  ['disconnectsmaccsignalobject_11',['disconnectSmaccSignalObject',['../classsmacc2_1_1ISmaccStateMachine.html#a84e4944583da9a3189720bf2560603e0',1,'smacc2::ISmaccStateMachine']]],
+  ['dispose_12',['dispose',['../classsmacc2_1_1ISmaccClientBehavior.html#adb196968cb9f7487292ed97c743df13d',1,'smacc2::ISmaccClientBehavior::dispose()'],['../classsmacc2_1_1SmaccAsyncClientBehavior.html#a47bfbd4f801b61e43cd16d42eace3461',1,'smacc2::SmaccAsyncClientBehavior::dispose()']]],
   ['divergencedetectionupdate_13',['divergenceDetectionUpdate',['../classcl__nav2z_1_1backward__local__planner_1_1BackwardLocalPlanner.html#a7d84bf50ca0fce6c110ea142ea47592b',1,'cl_nav2z::backward_local_planner::BackwardLocalPlanner']]]
 ];
