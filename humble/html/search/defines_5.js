@@ -1,5 +1,4 @@
 var searchData=
 [
-  ['state_5fname_0',['STATE_NAME',['../smacc__state__base_8hpp.html#a0d7815723706a488b5bb65f7e3acf584',1,'smacc_state_base.hpp']]],
-  ['statename_1',['statename',['../orthogonal_8cpp.html#a3666429870447361bc8a781fcceddd37',1,'orthogonal.cpp']]]
+  ['orthogonalname_0',['orthogonalName',['../orthogonal_8cpp.html#a294d77d5e6b9796fe0c76cb99167652b',1,'orthogonal.cpp']]]
 ];

@@ -1,5 +1,4 @@
 var searchData=
 [
-  ['cbname_0',['cbName',['../orthogonal_8cpp.html#a9c88f727ce47bd5f902a421f7bfe16b0',1,'orthogonal.cpp']]],
-  ['conditional_5ftp_1',['CONDITIONAL_TP',['../smacc__tracing_8cpp.html#abeb450494688446bc0fe02a31864dc57',1,'smacc_tracing.cpp']]]
+  ['boost_5fbind_5fno_5fplaceholders_0',['BOOST_BIND_NO_PLACEHOLDERS',['../include_2smacc2_2common_8hpp.html#a588de13296d14a22e2bf719e1b0012ab',1,'common.hpp']]]
 ];
