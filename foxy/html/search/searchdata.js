@@ -11,7 +11,7 @@ var indexSectionsWithContent =
   8: "acdimorstv",
   9: "is",
   10: "_ceost",
-  11: "chs"
+  11: "cs"
 };
 
 var indexSectionNames =
