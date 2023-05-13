@@ -5,7 +5,7 @@ var searchData=
   ['cl_5fkeyboard_2',['cl_keyboard',['../namespacecl__keyboard.html',1,'']]],
   ['cl_5flifecyclenode_3',['cl_lifecyclenode',['../namespacecl__lifecyclenode.html',1,'']]],
   ['cl_5fmove_5fbase_5fz_4',['cl_move_base_z',['../namespacecl__move__base__z.html',1,'']]],
-  ['cl_5fmove_5fgroup_5finterface_5',['cl_move_group_interface',['../namespacecl__move__group__interface.html',1,'']]],
+  ['cl_5fmoveit2z_5',['cl_moveit2z',['../namespacecl__moveit2z.html',1,'']]],
   ['cl_5fmultirole_5fsensor_6',['cl_multirole_sensor',['../namespacecl__multirole__sensor.html',1,'']]],
   ['cl_5fnav2z_7',['cl_nav2z',['../namespacecl__nav2z.html',1,'']]],
   ['cl_5fros_5fpublisher_8',['cl_ros_publisher',['../namespacecl__ros__publisher.html',1,'']]],
