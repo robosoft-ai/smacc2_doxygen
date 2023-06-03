@@ -9,7 +9,7 @@ var searchData=
   ['eginfo_5f_6',['egInfo_',['../classsmacc2_1_1introspection_1_1EventGeneratorHandler.html#ae92612516d65e550289b0892ad7c37be',1,'smacc2::introspection::EventGeneratorHandler']]],
   ['egrandomgenerator_7',['EgRandomGenerator',['../classsmacc2_1_1state__reactors_1_1EgRandomGenerator.html#a7448425d308e21ea7699d52e6a4ff608',1,'smacc2::state_reactors::EgRandomGenerator::EgRandomGenerator()'],['../classsmacc2_1_1state__reactors_1_1EgRandomGenerator.html',1,'smacc2::state_reactors::EgRandomGenerator']]],
   ['emptyobjecttag_8',['EmptyObjectTag',['../structsmacc2_1_1state__reactors_1_1EmptyObjectTag.html',1,'smacc2::state_reactors']]],
-  ['enable_9',['enable',['../classcl__nav2z_1_1CostmapSwitch.html#acaa166474e2e176d01c86d51fb0bbb6c',1,'cl_nav2z::CostmapSwitch::enable(std::string layerName)'],['../classcl__nav2z_1_1CostmapSwitch.html#a24e76edbcc0bb423b172d517cbe7f7a3',1,'cl_nav2z::CostmapSwitch::enable(StandardLayers layerType)']]],
+  ['enable_9',['enable',['../classcl__nav2z_1_1CpCostmapSwitch.html#ae4f9d5ada76cee1c93a08d0a88e5c18c',1,'cl_nav2z::CpCostmapSwitch::enable(std::string layerName)'],['../classcl__nav2z_1_1CpCostmapSwitch.html#aa31900224727e756c34c739651da780d',1,'cl_nav2z::CpCostmapSwitch::enable(StandardLayers layerType)']]],
   ['enable_5fobstacle_5fchecking_5f_10',['enable_obstacle_checking_',['../classcl__nav2z_1_1backward__local__planner_1_1BackwardLocalPlanner.html#abcdb6844c16f7ab47e5ecea03dc398d5',1,'cl_nav2z::backward_local_planner::BackwardLocalPlanner']]],
   ['encodedkey_11',['encodedKey',['../structsmacc2_1_1ComponentKey.html#a9d2bfbd0ef618fd413fbf889e456fa8a',1,'smacc2::ComponentKey']]],
   ['end_5f_12',['end_',['../classsmacc2_1_1SignalDetector.html#ac8756409452924cdd2cc9a99ca2fdd30',1,'smacc2::SignalDetector']]],
@@ -129,6 +129,6 @@ var searchData=
   ['executeupdate_126',['executeUpdate',['../classsmacc2_1_1ISmaccUpdatable.html#aa92f0784735e3d817aa4d7b3b2f85112',1,'smacc2::ISmaccUpdatable']]],
   ['executionmodel_127',['ExecutionModel',['../namespacesmacc2.html#a1a2b312e55d319400e73bbf7ec27d6da',1,'smacc2']]],
   ['executionmodel_5f_128',['executionModel_',['../classsmacc2_1_1SignalDetector.html#a5f38c4c3bab961791a5b6268c1948619',1,'smacc2::SignalDetector']]],
-  ['exists_129',['exists',['../classcl__nav2z_1_1CostmapSwitch.html#a19428c7ea6975f7ef193f277b364386f',1,'cl_nav2z::CostmapSwitch']]],
+  ['exists_129',['exists',['../classcl__nav2z_1_1CpCostmapSwitch.html#aa98785b419e5eb5bb58b4878d58d6f82',1,'cl_nav2z::CpCostmapSwitch']]],
   ['exit_130',['exit',['../classsmacc2_1_1SmaccState.html#a0af186fa1ef8434232d4f4838c889aa9',1,'smacc2::SmaccState']]]
 ];

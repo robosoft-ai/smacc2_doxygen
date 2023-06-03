@@ -9,7 +9,7 @@ var searchData=
   ['sequencenodes_5f_6',['sequenceNodes_',['../classsmacc2_1_1client__behaviors_1_1CbSequence.html#a8e7beb5dcbb4e8aff74a6fb6ee14bca9',1,'smacc2::client_behaviors::CbSequence']]],
   ['server_5f_7',['server_',['../classsmacc2_1_1client__bases_1_1SmaccServiceServerClient.html#a759775a95c217134416021986d8bb323',1,'smacc2::client_bases::SmaccServiceServerClient']]],
   ['servicename_5f_8',['serviceName_',['../classsmacc2_1_1client__bases_1_1SmaccServiceClient.html#a9436462089b724a1a805a2ddcc55cd3a',1,'smacc2::client_bases::SmaccServiceClient::serviceName_()'],['../classsmacc2_1_1client__bases_1_1SmaccServiceServerClient.html#a3b81d6a0a26256fe5572ee999b0652c7',1,'smacc2::client_bases::SmaccServiceServerClient::serviceName_()'],['../classsmacc2_1_1client__behaviors_1_1CbServiceCall.html#aa3f659598da6c336157ab3ddfb0901d9',1,'smacc2::client_behaviors::CbServiceCall::serviceName_()']]],
-  ['set_5fplanners_5fmode_5fflag_5f_9',['set_planners_mode_flag_',['../classcl__nav2z_1_1PlannerSwitcher.html#a8b0be84142482cb77f95c00c625f3d40',1,'cl_nav2z::PlannerSwitcher']]],
+  ['set_5fplanners_5fmode_5fflag_5f_9',['set_planners_mode_flag_',['../classcl__nav2z_1_1CpPlannerSwitcher.html#aa92abe248a5ad56a0a2849941954ca18',1,'cl_nav2z::CpPlannerSwitcher']]],
   ['signaldetector_10',['signalDetector',['../structsmacc2_1_1SmExecution.html#af13d818e0041f33826df081387d75e10',1,'smacc2::SmExecution']]],
   ['signaldetector_5f_11',['signalDetector_',['../classsmacc2_1_1ISmaccStateMachine.html#ac14b83c6cb61b7fb5ed56ca2dbe5ff3e',1,'smacc2::ISmaccStateMachine']]],
   ['signaldetectorloop_12',['signalDetectorLoop',['../structsmacc2_1_1SmExecution.html#a578b0c89d0dd602e1a37589a12fe4fa6',1,'smacc2::SmExecution']]],
@@ -62,6 +62,6 @@ var searchData=
   ['sub_5f_59',['sub_',['../classcl__nav2z_1_1CbWaitNav2Nodes.html#ac304235b2ad62ed13ec5003be273bace',1,'cl_nav2z::CbWaitNav2Nodes::sub_()'],['../classsmacc2_1_1client__behaviors_1_1CbWaitTopicMessage.html#af77f242e3749de8fdd2f0def5e198c7c',1,'smacc2::client_behaviors::CbWaitTopicMessage::sub_()'],['../classsmacc2_1_1client__bases_1_1SmaccSubscriberClient.html#a141fb4e082de843be019600ebd818014',1,'smacc2::client_bases::SmaccSubscriberClient::sub_()'],['../classsmacc2_1_1components_1_1CpTopicSubscriber.html#a175eb21fb10b2b92cf840f763eced716',1,'smacc2::components::CpTopicSubscriber::sub_()']]],
   ['subscribetoodometrytopic_5f_60',['subscribeToOdometryTopic_',['../classcl__nav2z_1_1odom__tracker_1_1OdomTracker.html#a481de603a6b3a800d8584e0c7512d5dc',1,'cl_nav2z::odom_tracker::OdomTracker']]],
   ['subscription_5ftransition_5fevent_5f_61',['subscription_transition_event_',['../classcl__lifecyclenode_1_1ClLifecycleNode.html#a622d716fa43ddcb0356b2ba35f9da170',1,'cl_lifecyclenode::ClLifecycleNode']]],
-  ['succeddednav2zclientconnection_5f_62',['succeddedNav2ZClientConnection_',['../classcl__nav2z_1_1WaypointNavigator.html#a8a112eac787bf6a34f1c76e717557583',1,'cl_nav2z::WaypointNavigator']]],
+  ['succeddednav2zclientconnection_5f_62',['succeddedNav2ZClientConnection_',['../classcl__nav2z_1_1CpWaypointNavigator.html#a3c752cd543443273c6effc381dadb456',1,'cl_nav2z::CpWaypointNavigator']]],
   ['success_63',['success',['../classsmacc2_1_1client__behaviors_1_1CbWaitTopicMessage.html#a3507692d2bfb6d382ccb103774fe9e08',1,'smacc2::client_behaviors::CbWaitTopicMessage']]]
 ];

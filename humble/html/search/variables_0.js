@@ -1,6 +1,6 @@
 var searchData=
 [
-  ['abortednav2zclientconnection_5f_0',['abortedNav2ZClientConnection_',['../classcl__nav2z_1_1WaypointNavigator.html#a56985228f650fb7f565609d96b4a7661',1,'cl_nav2z::WaypointNavigator']]],
+  ['abortednav2zclientconnection_5f_0',['abortedNav2ZClientConnection_',['../classcl__nav2z_1_1CpWaypointNavigator.html#a5a6028838a8623abe8433bc0206b89d7',1,'cl_nav2z::CpWaypointNavigator']]],
   ['absolutegoalangledegree_1',['absoluteGoalAngleDegree',['../classcl__nav2z_1_1CbAbsoluteRotate.html#aadd82e7bc5fdf1a44a0b3da847a44f0e',1,'cl_nav2z::CbAbsoluteRotate']]],
   ['action_5fendpoint_5f_2',['action_endpoint_',['../classsmacc2_1_1client__bases_1_1SmaccActionClientBase.html#a2f7480cb7236ede7ce04d71752daf518',1,'smacc2::client_bases::SmaccActionClientBase']]],
   ['aggregatedstackpathmsg_5f_3',['aggregatedStackPathMsg_',['../classcl__nav2z_1_1odom__tracker_1_1OdomTracker.html#ab40b0eaca392e9208745e382a6ae6d92',1,'cl_nav2z::odom_tracker::OdomTracker']]],

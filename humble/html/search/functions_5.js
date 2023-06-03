@@ -4,7 +4,7 @@ var searchData=
   ['findinitialcarrotgoal_1',['findInitialCarrotGoal',['../classcl__nav2z_1_1backward__local__planner_1_1BackwardLocalPlanner.html#a7d4e77c0a8225c6bbd828a16a02cda56',1,'cl_nav2z::backward_local_planner::BackwardLocalPlanner']]],
   ['findupdatableclientsandcomponents_2',['findUpdatableClientsAndComponents',['../classsmacc2_1_1SignalDetector.html#af325def90b56dd82ab34d351f5a37a02',1,'smacc2::SignalDetector']]],
   ['findupdatablestateelements_3',['findUpdatableStateElements',['../classsmacc2_1_1SignalDetector.html#af12c85d2ec8747c891f7490086d2d6a2',1,'smacc2::SignalDetector']]],
-  ['forward_4',['forward',['../classcl__nav2z_1_1WaypointNavigator.html#a722fd0c4215450711076a7abd5eea438',1,'cl_nav2z::WaypointNavigator']]],
+  ['forward_4',['forward',['../classcl__nav2z_1_1CpWaypointNavigator.html#ae3f0096ca75aa307563396cb29b9c395',1,'cl_nav2z::CpWaypointNavigator']]],
   ['forwardglobalplanner_5',['ForwardGlobalPlanner',['../classcl__nav2z_1_1forward__global__planner_1_1ForwardGlobalPlanner.html#a54406a10f88f4caf73cdf876ef736490',1,'cl_nav2z::forward_global_planner::ForwardGlobalPlanner']]],
   ['forwardlocalplanner_6',['ForwardLocalPlanner',['../classcl__nav2z_1_1forward__local__planner_1_1ForwardLocalPlanner.html#ac364efa3538c4299e911e792311d4019',1,'cl_nav2z::forward_local_planner::ForwardLocalPlanner']]],
   ['fromstring_7',['fromString',['../namespacecl__nav2z.html#ace8a56abbf84535096ae305e9a4d77b1',1,'cl_nav2z']]],

@@ -16,7 +16,7 @@ var searchData=
   ['firstmessage_5f_13',['firstMessage_',['../classsmacc2_1_1components_1_1CpTopicSubscriber.html#a205746fb92c69aef23c4617faf8aa34b',1,'smacc2::components::CpTopicSubscriber::firstMessage_()'],['../classsmacc2_1_1client__bases_1_1SmaccSubscriberClient.html#a293bd0dcdd44135345d73300e4180ced',1,'smacc2::client_bases::SmaccSubscriberClient::firstMessage_()']]],
   ['fn_14',['fn',['../structsmacc2_1_1introspection_1_1StateReactorCallbackFunctor.html#a3b0514178755d1a64f9e01726b4b1f12',1,'smacc2::introspection::StateReactorCallbackFunctor::fn()'],['../structsmacc2_1_1introspection_1_1EventGeneratorCallbackFunctor.html#ae6fbb555e2110d6935f245fdef1b7476',1,'smacc2::introspection::EventGeneratorCallbackFunctor::fn()']]],
   ['forceinitialorientation_15',['forceInitialOrientation',['../structcl__nav2z_1_1CbNavigateForwardOptions.html#a1fc2c652116342fc655e7aba6e3948ac',1,'cl_nav2z::CbNavigateForwardOptions']]],
-  ['forward_16',['forward',['../classcl__nav2z_1_1WaypointNavigator.html#a722fd0c4215450711076a7abd5eea438',1,'cl_nav2z::WaypointNavigator']]],
+  ['forward_16',['forward',['../classcl__nav2z_1_1CpWaypointNavigator.html#ae3f0096ca75aa307563396cb29b9c395',1,'cl_nav2z::CpWaypointNavigator']]],
   ['forward_17',['Forward',['../namespacecl__nav2z.html#a1cfbf070e982b7fb3867797b78227628a67d2f6740a8eaebf4d5c6f79be8da481',1,'cl_nav2z']]],
   ['forward_5fglobal_5fplanner_2ecpp_18',['forward_global_planner.cpp',['../forward__global__planner_8cpp.html',1,'']]],
   ['forward_5fglobal_5fplanner_2ehpp_19',['forward_global_planner.hpp',['../forward__global__planner_8hpp.html',1,'']]],
