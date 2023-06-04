@@ -9,5 +9,5 @@ var searchData=
   ['waypointseventdispatcher_6',['waypointsEventDispatcher',['../classcl__nav2z_1_1CpWaypointNavigator.html#a6d989163773fe86402162bd9da98b10f',1,'cl_nav2z::CpWaypointNavigator']]],
   ['waypointsnames_5f_7',['waypointsNames_',['../classcl__nav2z_1_1CpWaypointNavigator.html#ad52d1fd97b163c6e707c7627fe4b60d3',1,'cl_nav2z::CpWaypointNavigator']]],
   ['waypointsnavigator_5f_8',['waypointsNavigator_',['../classcl__nav2z_1_1CbNavigateNamedWaypoint.html#ab91c6c6246ff5c27438b4a2be9fd5405',1,'cl_nav2z::CbNavigateNamedWaypoint::waypointsNavigator_()'],['../classcl__nav2z_1_1CbNavigateNextWaypoint.html#a8218115e9638c88e0881735ccff0c69f',1,'cl_nav2z::CbNavigateNextWaypoint::waypointsNavigator_()'],['../classcl__nav2z_1_1CbSeekWaypoint.html#acd65cdf55a1160c9aa6ac00cf094ffc1',1,'cl_nav2z::CbSeekWaypoint::waypointsNavigator_()'],['../classcl__nav2z_1_1CpWaypointsVisualizer.html#a1ae5f9c91de08911adabaed89da65fe2',1,'cl_nav2z::CpWaypointsVisualizer::waypointsNavigator_()']]],
-  ['workingmode_5f_9',['workingMode_',['../classcl__nav2z_1_1odom__tracker_1_1OdomTracker.html#a1b56717b2533e4cf8ebc9958be29c924',1,'cl_nav2z::odom_tracker::OdomTracker']]]
+  ['workingmode_5f_9',['workingMode_',['../classcl__nav2z_1_1odom__tracker_1_1CpOdomTracker.html#a3d33b05205f758843aa09108d4578440',1,'cl_nav2z::odom_tracker::CpOdomTracker']]]
 ];

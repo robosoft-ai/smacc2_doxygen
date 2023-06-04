@@ -2,8 +2,8 @@ var searchData=
 [
   ['rate_5f_0',['rate_',['../classsmacc2_1_1client__behaviors_1_1CbWaitNode.html#aceb164efcdc49ec653b88ea8c6359a8c',1,'smacc2::client_behaviors::CbWaitNode']]],
   ['receivedalivemsg_5f_1',['receivedAliveMsg_',['../classcl__nav2z_1_1CbWaitNav2Nodes.html#a2aa1770fced760925e8e09d449d54abb',1,'cl_nav2z::CbWaitNav2Nodes']]],
-  ['recordangulardistancethreshold_5f_2',['recordAngularDistanceThreshold_',['../classcl__nav2z_1_1odom__tracker_1_1OdomTracker.html#a5e7f2a6d3318a7225e6cbb2d3f69f363',1,'cl_nav2z::odom_tracker::OdomTracker']]],
-  ['recordpointdistancethreshold_5f_3',['recordPointDistanceThreshold_',['../classcl__nav2z_1_1odom__tracker_1_1OdomTracker.html#a4b329543b7f51cb857c5ea3738dacf80',1,'cl_nav2z::odom_tracker::OdomTracker']]],
+  ['recordangulardistancethreshold_5f_2',['recordAngularDistanceThreshold_',['../classcl__nav2z_1_1odom__tracker_1_1CpOdomTracker.html#a9749c9055836871bcc6f9e2c055fc203',1,'cl_nav2z::odom_tracker::CpOdomTracker']]],
+  ['recordpointdistancethreshold_5f_3',['recordPointDistanceThreshold_',['../classcl__nav2z_1_1odom__tracker_1_1CpOdomTracker.html#a7f87193df9a66e3e7286acf6184a49c5',1,'cl_nav2z::odom_tracker::CpOdomTracker']]],
   ['referencebaseframe_5f_4',['referenceBaseFrame_',['../structcl__moveit2z_1_1TfPoseTrack.html#ae08f05ad697cacaac777dba5bb55d72c',1,'cl_moveit2z::TfPoseTrack']]],
   ['referenceframe_5f_5',['referenceFrame_',['../classcl__nav2z_1_1CbWaitTransform.html#a73ef875c9f14258c331ff061846e44ce',1,'cl_nav2z::CbWaitTransform::referenceFrame_()'],['../classcl__nav2z_1_1Pose.html#ace5738132a09e16abd27a3e46fccb615',1,'cl_nav2z::Pose::referenceFrame_()']]],
   ['relativeinitialpose_5f_6',['relativeInitialPose_',['../classcl__moveit2z_1_1CbCircularPivotMotion.html#a365940009cfb0ea780ffd9dfdfe8fc39',1,'cl_moveit2z::CbCircularPivotMotion']]],
@@ -15,8 +15,8 @@ var searchData=
   ['resultfuture_5f_12',['resultFuture_',['../classsmacc2_1_1client__behaviors_1_1CbServiceCall.html#afb43f4c942c9cb52f16df51b4703458c',1,'smacc2::client_behaviors::CbServiceCall']]],
   ['resultmessage_13',['resultMessage',['../structsmacc2_1_1default__events_1_1EvActionResult.html#a560fedc797ba89c65ccf8b69fecad258',1,'smacc2::default_events::EvActionResult::resultMessage()'],['../structsmacc2_1_1default__events_1_1EvActionSucceeded.html#acc49800129cd48b960189bc3c2309d14',1,'smacc2::default_events::EvActionSucceeded::resultMessage()'],['../structsmacc2_1_1default__events_1_1EvActionAborted.html#a17ce6b33fb13df92f3ab602280b06c96',1,'smacc2::default_events::EvActionAborted::resultMessage()'],['../structsmacc2_1_1default__events_1_1EvActionCancelled.html#a9774ab6cacafb81bbe1984301f320466',1,'smacc2::default_events::EvActionCancelled::resultMessage()']]],
   ['reversed_14',['reversed',['../classcl__moveit2z_1_1CbUndoLastTrajectory.html#acd3eeea9b103b48caf54017c9cd622fc',1,'cl_moveit2z::CbUndoLastTrajectory']]],
-  ['robotbasepathpub_5f_15',['robotBasePathPub_',['../classcl__nav2z_1_1odom__tracker_1_1OdomTracker.html#a82ed2c215919130c43dfb0d898b28ece',1,'cl_nav2z::odom_tracker::OdomTracker']]],
-  ['robotbasepathstackedpub_5f_16',['robotBasePathStackedPub_',['../classcl__nav2z_1_1odom__tracker_1_1OdomTracker.html#ac1bf1f844dd7738f900873e814a75864',1,'cl_nav2z::odom_tracker::OdomTracker']]],
+  ['robotbasepathpub_5f_15',['robotBasePathPub_',['../classcl__nav2z_1_1odom__tracker_1_1CpOdomTracker.html#ab746f5cee4bad06268fd6ce0f35cb0a5',1,'cl_nav2z::odom_tracker::CpOdomTracker']]],
+  ['robotbasepathstackedpub_5f_16',['robotBasePathStackedPub_',['../classcl__nav2z_1_1odom__tracker_1_1CpOdomTracker.html#a9fbf1e769c3865b10eacee122f084d0b',1,'cl_nav2z::odom_tracker::CpOdomTracker']]],
   ['rotatedegree_17',['rotateDegree',['../classcl__nav2z_1_1CbRotate.html#a81a2bfa7474674b90b58563dfeebe808',1,'cl_nav2z::CbRotate']]],
   ['runmode_5f_18',['runMode_',['../classsmacc2_1_1ISmaccStateMachine.html#a0391578b8ec4dbbe1c4a93f2905d59f1',1,'smacc2::ISmaccStateMachine']]]
 ];

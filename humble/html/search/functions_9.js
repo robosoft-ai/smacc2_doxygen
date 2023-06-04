@@ -5,5 +5,5 @@ var searchData=
   ['loadwaypointsfromfile_2',['loadWayPointsFromFile',['../classcl__nav2z_1_1CpWaypointNavigator.html#a23832d2e23bc928a477fcba073b2babb',1,'cl_nav2z::CpWaypointNavigator']]],
   ['loadwaypointsfromfile2_3',['loadWayPointsFromFile2',['../classcl__nav2z_1_1CpWaypointNavigator.html#a99f1de3c859d29708e3c49f7a82f7b48',1,'cl_nav2z::CpWaypointNavigator']]],
   ['lockstatemachine_4',['lockStateMachine',['../classsmacc2_1_1ISmaccStateMachine.html#a79e82f5c2ff6e8110577b87142ce6989',1,'smacc2::ISmaccStateMachine']]],
-  ['logstatestring_5',['logStateString',['../classcl__nav2z_1_1odom__tracker_1_1OdomTracker.html#a57697a958bd3a83685994525235b5d2e',1,'cl_nav2z::odom_tracker::OdomTracker']]]
+  ['logstatestring_5',['logStateString',['../classcl__nav2z_1_1odom__tracker_1_1CpOdomTracker.html#afb5b67139e3f4299d4f002f07feb7d12',1,'cl_nav2z::odom_tracker::CpOdomTracker']]]
 ];

@@ -2,8 +2,8 @@ var searchData=
 [
   ['packagename_5f_0',['packageName_',['../classsmacc2_1_1client__behaviors_1_1CbRosLaunch.html#a62fadbf3bd21df0a7ca24544f0ae6d54',1,'smacc2::client_behaviors::CbRosLaunch::packageName_()'],['../classsmacc2_1_1client__bases_1_1ClRosLaunch.html#ac5dbe334def4eae376040abf2a072690',1,'smacc2::client_bases::ClRosLaunch::packageName_()']]],
   ['parentstate_5f_1',['parentState_',['../structsmacc2_1_1introspection_1_1AddSubState.html#a35f0aa69d7eb29347c308a3657f1d071',1,'smacc2::introspection::AddSubState::parentState_()'],['../classsmacc2_1_1introspection_1_1SmaccStateInfo.html#abe28c4a5685d70fd140f2e4c3e2059f5',1,'smacc2::introspection::SmaccStateInfo::parentState_()'],['../classsmacc2_1_1ISmaccState.html#a5c56710774f7717648534649fd8de3ce',1,'smacc2::ISmaccState::parentState_()']]],
-  ['pathinfos_5f_2',['pathInfos_',['../classcl__nav2z_1_1odom__tracker_1_1OdomTracker.html#aebba6f8cc22031cb1c72eee9eb46e54a',1,'cl_nav2z::odom_tracker::OdomTracker']]],
-  ['pathstack_5f_3',['pathStack_',['../classcl__nav2z_1_1odom__tracker_1_1OdomTracker.html#a90fe139da15fa8a8bef1da9061be31ba',1,'cl_nav2z::odom_tracker::OdomTracker']]],
+  ['pathinfos_5f_2',['pathInfos_',['../classcl__nav2z_1_1odom__tracker_1_1CpOdomTracker.html#a9550ac2607b731343864ec42aeffada4',1,'cl_nav2z::odom_tracker::CpOdomTracker']]],
+  ['pathstack_5f_3',['pathStack_',['../classcl__nav2z_1_1odom__tracker_1_1CpOdomTracker.html#aad82411a2bfa3012f333c0f4385911c1',1,'cl_nav2z::odom_tracker::CpOdomTracker']]],
   ['pcontext_5f_4',['pContext_',['../structsmacc2_1_1SmaccState_1_1my__context.html#a52c079137d251f37f6cc227e1e3783be',1,'smacc2::SmaccState::my_context']]],
   ['periodduration_5f_5',['periodDuration_',['../classsmacc2_1_1ISmaccUpdatable.html#a864e07bd5607c0d9a08beb84f6c1f19c',1,'smacc2::ISmaccUpdatable']]],
   ['pkg_5f_6',['pkg_',['../classcl__moveit2z_1_1CbMoveKnownState.html#ac1658f4d6165e1996cc3a08570101aa9',1,'cl_moveit2z::CbMoveKnownState']]],
@@ -73,7 +73,7 @@ var searchData=
   ['postwaypointfn_70',['postWaypointFn',['../classWaypointEventDispatcher.html#a2ae43715ebc09616319cc0e7f1d20531',1,'WaypointEventDispatcher']]],
   ['processorhandle_5f_71',['processorHandle_',['../classsmacc2_1_1SignalDetector.html#aa80e007075a6b03ddcf3e3dd066a220b',1,'smacc2::SignalDetector']]],
   ['pub_5f_72',['pub_',['../classsmacc2_1_1components_1_1CpTopicPublisher.html#a276632560f87bb9da8106a60dba5a140',1,'smacc2::components::CpTopicPublisher::pub_()'],['../classsmacc2_1_1client__bases_1_1SmaccPublisherClient.html#a9f3153db2fdf9f081f2c7aaa21382899',1,'smacc2::client_bases::SmaccPublisherClient::pub_()']]],
-  ['publishmessages_73',['publishMessages',['../classcl__nav2z_1_1odom__tracker_1_1OdomTracker.html#a09db9c14d05ba780f85a767483a4bc74',1,'cl_nav2z::odom_tracker::OdomTracker']]],
+  ['publishmessages_73',['publishMessages',['../classcl__nav2z_1_1odom__tracker_1_1CpOdomTracker.html#aa37d30849ccfcd154d16072e7ba06620',1,'cl_nav2z::odom_tracker::CpOdomTracker']]],
   ['pure_5fspinning_5fallowed_5fbetta_5ferror_5f_74',['pure_spinning_allowed_betta_error_',['../classcl__nav2z_1_1backward__local__planner_1_1BackwardLocalPlanner.html#a2065eea9c5900dddde843a3d782c4934',1,'cl_nav2z::backward_local_planner::BackwardLocalPlanner']]],
   ['puresspinningradstep_5f_75',['puresSpinningRadStep_',['../classcl__nav2z_1_1backward__global__planner_1_1BackwardGlobalPlanner.html#a1d3ce999fc4f14c87588109b9b6d5c4e',1,'cl_nav2z::backward_global_planner::BackwardGlobalPlanner::puresSpinningRadStep_()'],['../classcl__nav2z_1_1forward__global__planner_1_1ForwardGlobalPlanner.html#a212b989cd984ec1d2752c02f9cca9552',1,'cl_nav2z::forward_global_planner::ForwardGlobalPlanner::puresSpinningRadStep_()'],['../classcl__nav2z_1_1undo__path__global__planner_1_1UndoPathGlobalPlanner.html#a9682db5d56d7cfbb61aa17f97193583c',1,'cl_nav2z::undo_path_global_planner::UndoPathGlobalPlanner::puresSpinningRadStep_()']]]
 ];
