@@ -41,6 +41,6 @@ var searchData=
   ['currentstate_38',['currentState',['../classsmacc2_1_1ISmaccClientBehavior.html#aaed9d13c89ef6817faa0175dc9c8de17',1,'smacc2::ISmaccClientBehavior']]],
   ['currentstate_5f_39',['currentState_',['../structsmacc2_1_1introspection_1_1AddTransition.html#ac88d79cbd9af70c6d4cbac77b0750cc9',1,'smacc2::introspection::AddTransition::currentState_()'],['../classsmacc2_1_1ISmaccStateMachine.html#a081330f57041fc8d9043808d6128dd3f',1,'smacc2::ISmaccStateMachine::currentState_()']]],
   ['currentstateinfo_5f_40',['currentStateInfo_',['../classsmacc2_1_1ISmaccStateMachine.html#a2a3a7b822ebda2458d335bd7a8aa582b',1,'smacc2::ISmaccStateMachine']]],
-  ['currentwaypoint_5f_41',['currentWaypoint_',['../classcl__nav2z_1_1CpWaypointNavigator.html#a2ac0f37d48ef81dcb493b687df832d5c',1,'cl_nav2z::CpWaypointNavigator']]],
+  ['currentwaypoint_5f_41',['currentWaypoint_',['../classcl__nav2z_1_1CpWaypointNavigatorBase.html#ae90efea9e1f32201bf820a0b0baa4540',1,'cl_nav2z::CpWaypointNavigatorBase']]],
   ['cv_5f_42',['cv_',['../classsmacc2_1_1CallbackCounterSemaphore.html#a33f1e1b7e2331287dd7de2179f8ceaf7',1,'smacc2::CallbackCounterSemaphore']]]
 ];

@@ -465,83 +465,84 @@ Additional Inherited Members</h2></td></tr>
 <div class="line"><span class="lineno">   68</span>  <span class="keyword">auto</span> p = <a class="code hl_variable" href="classcl__nav2z_1_1CbNav2ZClientBehaviorBase.html#a78f16ca8a9c9314e98f95c9410466678">nav2zClient_</a>-&gt;<a class="code hl_function" href="classsmacc2_1_1ISmaccClient.html#afc6e0f5f82a4552134c9423b75e3ca1d">getComponent</a>&lt;Pose&gt;();</div>
 <div class="line"><span class="lineno">   69</span>  <span class="keyword">auto</span> referenceFrame = p-&gt;getReferenceFrame();</div>
 <div class="line"><span class="lineno">   70</span>  <span class="keyword">auto</span> currentPoseMsg = p-&gt;toPoseMsg();</div>
-<div class="line"><span class="lineno">   71</span>  tf2::Transform currentPose;</div>
-<div class="line"><span class="lineno">   72</span>  tf2::fromMsg(currentPoseMsg, currentPose);</div>
-<div class="line"><span class="lineno">   73</span> </div>
-<div class="line"><span class="lineno">   74</span>  RCLCPP_INFO_STREAM(</div>
-<div class="line"><span class="lineno">   75</span>    <a class="code hl_function" href="classsmacc2_1_1ISmaccClientBehavior.html#a9c3d82542c800e2ba5207c5cff0e63e8">getLogger</a>(), <span class="stringliteral">&quot;[&quot;</span> &lt;&lt; <a class="code hl_function" href="classsmacc2_1_1ISmaccClientBehavior.html#a3feaa9c382a7d376b7ba0017a63e294e">getName</a>() &lt;&lt; <span class="stringliteral">&quot;]&quot;</span></div>
-<div class="line"><span class="lineno">   76</span>                     &lt;&lt; <span class="stringliteral">&quot;current pose: &quot;</span> &lt;&lt; currentPoseMsg);</div>
-<div class="line"><span class="lineno">   77</span> </div>
-<div class="line"><span class="lineno">   78</span>  <span class="comment">// force global orientation if it is requested</span></div>
-<div class="line"><span class="lineno">   79</span>  <span class="keywordflow">if</span> (<a class="code hl_variable" href="classcl__nav2z_1_1CbNavigateForward.html#a6dac00482d12e561044e86bb723e4574">options</a>.<a class="code hl_variable" href="structcl__nav2z_1_1CbNavigateForwardOptions.html#a1a41725f57cb81f643a335fc0fe0fede">forwardSpeed</a>)</div>
-<div class="line"><span class="lineno">   80</span>  {</div>
-<div class="line"><span class="lineno">   81</span>    currentPoseMsg.orientation = *(<a class="code hl_variable" href="classcl__nav2z_1_1CbNavigateForward.html#a6dac00482d12e561044e86bb723e4574">options</a>.<a class="code hl_variable" href="structcl__nav2z_1_1CbNavigateForwardOptions.html#a1fc2c652116342fc655e7aba6e3948ac">forceInitialOrientation</a>);</div>
-<div class="line"><span class="lineno">   82</span>    RCLCPP_WARN_STREAM(</div>
-<div class="line"><span class="lineno">   83</span>      <a class="code hl_function" href="classsmacc2_1_1ISmaccClientBehavior.html#a9c3d82542c800e2ba5207c5cff0e63e8">getLogger</a>(),</div>
-<div class="line"><span class="lineno">   84</span>      <span class="stringliteral">&quot;[&quot;</span> &lt;&lt; <a class="code hl_function" href="classsmacc2_1_1ISmaccClientBehavior.html#a3feaa9c382a7d376b7ba0017a63e294e">getName</a>() &lt;&lt; <span class="stringliteral">&quot;]&quot;</span></div>
-<div class="line"><span class="lineno">   85</span>          &lt;&lt; <span class="stringliteral">&quot;Forcing initial straight motion orientation: &quot;</span> &lt;&lt; currentPoseMsg.orientation);</div>
-<div class="line"><span class="lineno">   86</span>  }</div>
-<div class="line"><span class="lineno">   87</span> </div>
-<div class="line"><span class="lineno">   88</span>  tf2::Transform targetPose;</div>
-<div class="line"><span class="lineno">   89</span>  <span class="keywordflow">if</span> (<a class="code hl_variable" href="classcl__nav2z_1_1CbNavigateForward.html#a41264cc3dc02cfc7c448545e7964738e">goalPose_</a>)</div>
-<div class="line"><span class="lineno">   90</span>  {</div>
-<div class="line"><span class="lineno">   91</span>    tf2::fromMsg(<a class="code hl_variable" href="classcl__nav2z_1_1CbNavigateForward.html#a41264cc3dc02cfc7c448545e7964738e">goalPose_</a>-&gt;pose, targetPose);</div>
-<div class="line"><span class="lineno">   92</span>  }</div>
-<div class="line"><span class="lineno">   93</span>  <span class="keywordflow">else</span> <span class="keywordflow">if</span> (<a class="code hl_variable" href="classcl__nav2z_1_1CbNavigateForward.html#a67b3061b30c8e1359950cc5f3bae2e70">forwardDistance_</a>)</div>
-<div class="line"><span class="lineno">   94</span>  {</div>
-<div class="line"><span class="lineno">   95</span>    <span class="comment">// compute forward goal pose</span></div>
-<div class="line"><span class="lineno">   96</span>    tf2::Transform forwardDeltaTransform;</div>
-<div class="line"><span class="lineno">   97</span>    forwardDeltaTransform.setIdentity();</div>
-<div class="line"><span class="lineno">   98</span>    forwardDeltaTransform.setOrigin(tf2::Vector3(*<a class="code hl_variable" href="classcl__nav2z_1_1CbNavigateForward.html#a67b3061b30c8e1359950cc5f3bae2e70">forwardDistance_</a>, 0, 0));</div>
-<div class="line"><span class="lineno">   99</span> </div>
-<div class="line"><span class="lineno">  100</span>    targetPose = currentPose * forwardDeltaTransform;</div>
-<div class="line"><span class="lineno">  101</span>  }</div>
-<div class="line"><span class="lineno">  102</span>  <span class="keywordflow">else</span></div>
-<div class="line"><span class="lineno">  103</span>  {</div>
-<div class="line"><span class="lineno">  104</span>    RCLCPP_WARN_STREAM(</div>
-<div class="line"><span class="lineno">  105</span>      <a class="code hl_function" href="classsmacc2_1_1ISmaccClientBehavior.html#a9c3d82542c800e2ba5207c5cff0e63e8">getLogger</a>(),</div>
-<div class="line"><span class="lineno">  106</span>      <span class="stringliteral">&quot;[&quot;</span> &lt;&lt; <a class="code hl_function" href="classsmacc2_1_1ISmaccClientBehavior.html#a3feaa9c382a7d376b7ba0017a63e294e">getName</a>() &lt;&lt; <span class="stringliteral">&quot;]&quot;</span></div>
-<div class="line"><span class="lineno">  107</span>          &lt;&lt; <span class="stringliteral">&quot;No goal Pose or Distance is specified. Aborting. No action request is sent.&quot;</span></div>
-<div class="line"><span class="lineno">  108</span>          &lt;&lt; currentPoseMsg.orientation);</div>
-<div class="line"><span class="lineno">  109</span> </div>
-<div class="line"><span class="lineno">  110</span>    <span class="keywordflow">return</span>;</div>
-<div class="line"><span class="lineno">  111</span>  }</div>
-<div class="line"><span class="lineno">  112</span> </div>
-<div class="line"><span class="lineno">  113</span>  <span class="comment">// action goal</span></div>
-<div class="line"><span class="lineno">  114</span>  <a class="code hl_typedef" href="classsmacc2_1_1client__bases_1_1SmaccActionClientBase.html#ab56ba47b81346277a471584dedf7d45c">ClNav2Z::Goal</a> goal;</div>
-<div class="line"><span class="lineno">  115</span>  goal.pose.header.frame_id = referenceFrame;</div>
-<div class="line"><span class="lineno">  116</span>  <span class="comment">//goal.pose.header.stamp = getNode()-&gt;now();</span></div>
-<div class="line"><span class="lineno">  117</span>  tf2::toMsg(targetPose, goal.pose.pose);</div>
-<div class="line"><span class="lineno">  118</span>  RCLCPP_INFO_STREAM(</div>
-<div class="line"><span class="lineno">  119</span>    <a class="code hl_function" href="classsmacc2_1_1ISmaccClientBehavior.html#a9c3d82542c800e2ba5207c5cff0e63e8">getLogger</a>(), <span class="stringliteral">&quot;[&quot;</span> &lt;&lt; <a class="code hl_function" href="classsmacc2_1_1ISmaccClientBehavior.html#a3feaa9c382a7d376b7ba0017a63e294e">getName</a>() &lt;&lt; <span class="stringliteral">&quot;]&quot;</span></div>
-<div class="line"><span class="lineno">  120</span>                     &lt;&lt; <span class="stringliteral">&quot; TARGET POSE FORWARD: &quot;</span> &lt;&lt; goal.pose.pose);</div>
-<div class="line"><span class="lineno">  121</span> </div>
-<div class="line"><span class="lineno">  122</span>  <span class="comment">// current pose</span></div>
-<div class="line"><span class="lineno">  123</span>  geometry_msgs::msg::PoseStamped currentStampedPoseMsg;</div>
-<div class="line"><span class="lineno">  124</span>  currentStampedPoseMsg.header.frame_id = referenceFrame;</div>
-<div class="line"><span class="lineno">  125</span>  currentStampedPoseMsg.header.stamp =</div>
-<div class="line"><span class="lineno">  126</span>    <a class="code hl_function" href="classsmacc2_1_1ISmaccClientBehavior.html#aa1b28d5e8a5208fff8160f9df9a89dc6">getNode</a>()-&gt;now();  <span class="comment">// probably it is better avoid setting that goal timestamp</span></div>
-<div class="line"><span class="lineno">  127</span> </div>
-<div class="line"><span class="lineno">  128</span>  tf2::toMsg(currentPose, currentStampedPoseMsg.pose);</div>
-<div class="line"><span class="lineno">  129</span> </div>
-<div class="line"><span class="lineno">  130</span>  <a class="code hl_variable" href="classcl__nav2z_1_1CbNavigateForward.html#ae065bc25bea05268280b0199f36a783f">odomTracker_</a> = <a class="code hl_variable" href="classcl__nav2z_1_1CbNav2ZClientBehaviorBase.html#a78f16ca8a9c9314e98f95c9410466678">nav2zClient_</a>-&gt;<a class="code hl_function" href="classsmacc2_1_1ISmaccClient.html#afc6e0f5f82a4552134c9423b75e3ca1d">getComponent</a>&lt;CpOdomTracker&gt;();</div>
-<div class="line"><span class="lineno">  131</span>  <span class="keywordflow">if</span> (<a class="code hl_variable" href="classcl__nav2z_1_1CbNavigateForward.html#ae065bc25bea05268280b0199f36a783f">odomTracker_</a> != <span class="keyword">nullptr</span>)</div>
-<div class="line"><span class="lineno">  132</span>  {</div>
-<div class="line"><span class="lineno">  133</span>    <span class="keyword">auto</span> pathname = this-&gt;<a class="code hl_function" href="classsmacc2_1_1ISmaccClientBehavior.html#a1a667b94eddb33662912587e87289cc1">getCurrentState</a>()-&gt;<a class="code hl_function" href="classsmacc2_1_1ISmaccState.html#a69ec6fafcc7f109198412433cf06cbcc">getName</a>() + <span class="stringliteral">&quot; - &quot;</span> + <a class="code hl_function" href="classsmacc2_1_1ISmaccClientBehavior.html#a3feaa9c382a7d376b7ba0017a63e294e">getName</a>();</div>
-<div class="line"><span class="lineno">  134</span>    <a class="code hl_variable" href="classcl__nav2z_1_1CbNavigateForward.html#ae065bc25bea05268280b0199f36a783f">odomTracker_</a>-&gt;<a class="code hl_function" href="classcl__nav2z_1_1odom__tracker_1_1CpOdomTracker.html#a5731914838169f20d2f34c919ef4dac1">pushPath</a>(pathname);</div>
-<div class="line"><span class="lineno">  135</span>    <a class="code hl_variable" href="classcl__nav2z_1_1CbNavigateForward.html#ae065bc25bea05268280b0199f36a783f">odomTracker_</a>-&gt;<a class="code hl_function" href="classcl__nav2z_1_1odom__tracker_1_1CpOdomTracker.html#ae1e77eed3471181b2a6a8c5822b13e5b">setStartPoint</a>(currentStampedPoseMsg);</div>
-<div class="line"><span class="lineno">  136</span>    <a class="code hl_variable" href="classcl__nav2z_1_1CbNavigateForward.html#ae065bc25bea05268280b0199f36a783f">odomTracker_</a>-&gt;<a class="code hl_function" href="classcl__nav2z_1_1odom__tracker_1_1CpOdomTracker.html#aa1165015dae99f7df4a66c93c62df75f">setCurrentMotionGoal</a>(goal.pose);</div>
-<div class="line"><span class="lineno">  137</span>    <a class="code hl_variable" href="classcl__nav2z_1_1CbNavigateForward.html#ae065bc25bea05268280b0199f36a783f">odomTracker_</a>-&gt;<a class="code hl_function" href="classcl__nav2z_1_1odom__tracker_1_1CpOdomTracker.html#ab459705febf58fd0b961d455f2b2dcbe">setWorkingMode</a>(WorkingMode::RECORD_PATH);</div>
-<div class="line"><span class="lineno">  138</span>  }</div>
-<div class="line"><span class="lineno">  139</span> </div>
-<div class="line"><span class="lineno">  140</span>  <span class="keyword">auto</span> plannerSwitcher = <a class="code hl_variable" href="classcl__nav2z_1_1CbNav2ZClientBehaviorBase.html#a78f16ca8a9c9314e98f95c9410466678">nav2zClient_</a>-&gt;<a class="code hl_function" href="classsmacc2_1_1ISmaccClient.html#afc6e0f5f82a4552134c9423b75e3ca1d">getComponent</a>&lt;CpPlannerSwitcher&gt;();</div>
-<div class="line"><span class="lineno">  141</span>  plannerSwitcher-&gt;setForwardPlanner();</div>
-<div class="line"><span class="lineno">  142</span> </div>
-<div class="line"><span class="lineno">  143</span>  <span class="keyword">auto</span> goalCheckerSwitcher = <a class="code hl_variable" href="classcl__nav2z_1_1CbNav2ZClientBehaviorBase.html#a78f16ca8a9c9314e98f95c9410466678">nav2zClient_</a>-&gt;<a class="code hl_function" href="classsmacc2_1_1ISmaccClient.html#afc6e0f5f82a4552134c9423b75e3ca1d">getComponent</a>&lt;CpGoalCheckerSwitcher&gt;();</div>
-<div class="line"><span class="lineno">  144</span>  goalCheckerSwitcher-&gt;setGoalCheckerId(<span class="stringliteral">&quot;forward_goal_checker&quot;</span>);</div>
-<div class="line"><span class="lineno">  145</span> </div>
-<div class="line"><span class="lineno">  146</span>  this-&gt;<a class="code hl_function" href="classcl__nav2z_1_1CbNav2ZClientBehaviorBase.html#a1b4b0601a185ffc77453c1a5b35d21e0">sendGoal</a>(goal);</div>
-<div class="line"><span class="lineno">  147</span>}</div>
+<div class="line"><span class="lineno">   71</span> </div>
+<div class="line"><span class="lineno">   72</span>  RCLCPP_INFO_STREAM(</div>
+<div class="line"><span class="lineno">   73</span>    <a class="code hl_function" href="classsmacc2_1_1ISmaccClientBehavior.html#a9c3d82542c800e2ba5207c5cff0e63e8">getLogger</a>(), <span class="stringliteral">&quot;[&quot;</span> &lt;&lt; <a class="code hl_function" href="classsmacc2_1_1ISmaccClientBehavior.html#a3feaa9c382a7d376b7ba0017a63e294e">getName</a>() &lt;&lt; <span class="stringliteral">&quot;]&quot;</span></div>
+<div class="line"><span class="lineno">   74</span>                     &lt;&lt; <span class="stringliteral">&quot;current pose: &quot;</span> &lt;&lt; currentPoseMsg);</div>
+<div class="line"><span class="lineno">   75</span> </div>
+<div class="line"><span class="lineno">   76</span>  <span class="comment">// force global orientation if it is requested</span></div>
+<div class="line"><span class="lineno">   77</span>  <span class="keywordflow">if</span> (<a class="code hl_variable" href="classcl__nav2z_1_1CbNavigateForward.html#a6dac00482d12e561044e86bb723e4574">options</a>.<a class="code hl_variable" href="structcl__nav2z_1_1CbNavigateForwardOptions.html#a1fc2c652116342fc655e7aba6e3948ac">forceInitialOrientation</a>)</div>
+<div class="line"><span class="lineno">   78</span>  {</div>
+<div class="line"><span class="lineno">   79</span>    currentPoseMsg.orientation = *(<a class="code hl_variable" href="classcl__nav2z_1_1CbNavigateForward.html#a6dac00482d12e561044e86bb723e4574">options</a>.<a class="code hl_variable" href="structcl__nav2z_1_1CbNavigateForwardOptions.html#a1fc2c652116342fc655e7aba6e3948ac">forceInitialOrientation</a>);</div>
+<div class="line"><span class="lineno">   80</span>    RCLCPP_WARN_STREAM(</div>
+<div class="line"><span class="lineno">   81</span>      <a class="code hl_function" href="classsmacc2_1_1ISmaccClientBehavior.html#a9c3d82542c800e2ba5207c5cff0e63e8">getLogger</a>(),</div>
+<div class="line"><span class="lineno">   82</span>      <span class="stringliteral">&quot;[&quot;</span> &lt;&lt; <a class="code hl_function" href="classsmacc2_1_1ISmaccClientBehavior.html#a3feaa9c382a7d376b7ba0017a63e294e">getName</a>() &lt;&lt; <span class="stringliteral">&quot;]&quot;</span></div>
+<div class="line"><span class="lineno">   83</span>          &lt;&lt; <span class="stringliteral">&quot;Forcing initial straight motion orientation: &quot;</span> &lt;&lt; currentPoseMsg.orientation);</div>
+<div class="line"><span class="lineno">   84</span>  }</div>
+<div class="line"><span class="lineno">   85</span> </div>
+<div class="line"><span class="lineno">   86</span>  tf2::Transform currentPose;</div>
+<div class="line"><span class="lineno">   87</span>  tf2::fromMsg(currentPoseMsg, currentPose);</div>
+<div class="line"><span class="lineno">   88</span> </div>
+<div class="line"><span class="lineno">   89</span>  tf2::Transform targetPose;</div>
+<div class="line"><span class="lineno">   90</span>  <span class="keywordflow">if</span> (<a class="code hl_variable" href="classcl__nav2z_1_1CbNavigateForward.html#a41264cc3dc02cfc7c448545e7964738e">goalPose_</a>)</div>
+<div class="line"><span class="lineno">   91</span>  {</div>
+<div class="line"><span class="lineno">   92</span>    tf2::fromMsg(<a class="code hl_variable" href="classcl__nav2z_1_1CbNavigateForward.html#a41264cc3dc02cfc7c448545e7964738e">goalPose_</a>-&gt;pose, targetPose);</div>
+<div class="line"><span class="lineno">   93</span>  }</div>
+<div class="line"><span class="lineno">   94</span>  <span class="keywordflow">else</span> <span class="keywordflow">if</span> (<a class="code hl_variable" href="classcl__nav2z_1_1CbNavigateForward.html#a67b3061b30c8e1359950cc5f3bae2e70">forwardDistance_</a>)</div>
+<div class="line"><span class="lineno">   95</span>  {</div>
+<div class="line"><span class="lineno">   96</span>    <span class="comment">// compute forward goal pose</span></div>
+<div class="line"><span class="lineno">   97</span>    tf2::Transform forwardDeltaTransform;</div>
+<div class="line"><span class="lineno">   98</span>    forwardDeltaTransform.setIdentity();</div>
+<div class="line"><span class="lineno">   99</span>    forwardDeltaTransform.setOrigin(tf2::Vector3(*<a class="code hl_variable" href="classcl__nav2z_1_1CbNavigateForward.html#a67b3061b30c8e1359950cc5f3bae2e70">forwardDistance_</a>, 0, 0));</div>
+<div class="line"><span class="lineno">  100</span> </div>
+<div class="line"><span class="lineno">  101</span>    targetPose = currentPose * forwardDeltaTransform;</div>
+<div class="line"><span class="lineno">  102</span>  }</div>
+<div class="line"><span class="lineno">  103</span>  <span class="keywordflow">else</span></div>
+<div class="line"><span class="lineno">  104</span>  {</div>
+<div class="line"><span class="lineno">  105</span>    RCLCPP_WARN_STREAM(</div>
+<div class="line"><span class="lineno">  106</span>      <a class="code hl_function" href="classsmacc2_1_1ISmaccClientBehavior.html#a9c3d82542c800e2ba5207c5cff0e63e8">getLogger</a>(),</div>
+<div class="line"><span class="lineno">  107</span>      <span class="stringliteral">&quot;[&quot;</span> &lt;&lt; <a class="code hl_function" href="classsmacc2_1_1ISmaccClientBehavior.html#a3feaa9c382a7d376b7ba0017a63e294e">getName</a>() &lt;&lt; <span class="stringliteral">&quot;]&quot;</span></div>
+<div class="line"><span class="lineno">  108</span>          &lt;&lt; <span class="stringliteral">&quot;No goal Pose or Distance is specified. Aborting. No action request is sent.&quot;</span></div>
+<div class="line"><span class="lineno">  109</span>          &lt;&lt; currentPoseMsg.orientation);</div>
+<div class="line"><span class="lineno">  110</span> </div>
+<div class="line"><span class="lineno">  111</span>    <span class="keywordflow">return</span>;</div>
+<div class="line"><span class="lineno">  112</span>  }</div>
+<div class="line"><span class="lineno">  113</span> </div>
+<div class="line"><span class="lineno">  114</span>  <span class="comment">// action goal</span></div>
+<div class="line"><span class="lineno">  115</span>  <a class="code hl_typedef" href="classsmacc2_1_1client__bases_1_1SmaccActionClientBase.html#ab56ba47b81346277a471584dedf7d45c">ClNav2Z::Goal</a> goal;</div>
+<div class="line"><span class="lineno">  116</span>  goal.pose.header.frame_id = referenceFrame;</div>
+<div class="line"><span class="lineno">  117</span>  <span class="comment">//goal.pose.header.stamp = getNode()-&gt;now();</span></div>
+<div class="line"><span class="lineno">  118</span>  tf2::toMsg(targetPose, goal.pose.pose);</div>
+<div class="line"><span class="lineno">  119</span>  RCLCPP_INFO_STREAM(</div>
+<div class="line"><span class="lineno">  120</span>    <a class="code hl_function" href="classsmacc2_1_1ISmaccClientBehavior.html#a9c3d82542c800e2ba5207c5cff0e63e8">getLogger</a>(), <span class="stringliteral">&quot;[&quot;</span> &lt;&lt; <a class="code hl_function" href="classsmacc2_1_1ISmaccClientBehavior.html#a3feaa9c382a7d376b7ba0017a63e294e">getName</a>() &lt;&lt; <span class="stringliteral">&quot;]&quot;</span></div>
+<div class="line"><span class="lineno">  121</span>                     &lt;&lt; <span class="stringliteral">&quot; TARGET POSE FORWARD: &quot;</span> &lt;&lt; goal.pose.pose);</div>
+<div class="line"><span class="lineno">  122</span> </div>
+<div class="line"><span class="lineno">  123</span>  <span class="comment">// current pose</span></div>
+<div class="line"><span class="lineno">  124</span>  geometry_msgs::msg::PoseStamped currentStampedPoseMsg;</div>
+<div class="line"><span class="lineno">  125</span>  currentStampedPoseMsg.header.frame_id = referenceFrame;</div>
+<div class="line"><span class="lineno">  126</span>  currentStampedPoseMsg.header.stamp =</div>
+<div class="line"><span class="lineno">  127</span>    <a class="code hl_function" href="classsmacc2_1_1ISmaccClientBehavior.html#aa1b28d5e8a5208fff8160f9df9a89dc6">getNode</a>()-&gt;now();  <span class="comment">// probably it is better avoid setting that goal timestamp</span></div>
+<div class="line"><span class="lineno">  128</span> </div>
+<div class="line"><span class="lineno">  129</span>  tf2::toMsg(currentPose, currentStampedPoseMsg.pose);</div>
+<div class="line"><span class="lineno">  130</span> </div>
+<div class="line"><span class="lineno">  131</span>  <a class="code hl_variable" href="classcl__nav2z_1_1CbNavigateForward.html#ae065bc25bea05268280b0199f36a783f">odomTracker_</a> = <a class="code hl_variable" href="classcl__nav2z_1_1CbNav2ZClientBehaviorBase.html#a78f16ca8a9c9314e98f95c9410466678">nav2zClient_</a>-&gt;<a class="code hl_function" href="classsmacc2_1_1ISmaccClient.html#afc6e0f5f82a4552134c9423b75e3ca1d">getComponent</a>&lt;CpOdomTracker&gt;();</div>
+<div class="line"><span class="lineno">  132</span>  <span class="keywordflow">if</span> (<a class="code hl_variable" href="classcl__nav2z_1_1CbNavigateForward.html#ae065bc25bea05268280b0199f36a783f">odomTracker_</a> != <span class="keyword">nullptr</span>)</div>
+<div class="line"><span class="lineno">  133</span>  {</div>
+<div class="line"><span class="lineno">  134</span>    <span class="keyword">auto</span> pathname = this-&gt;<a class="code hl_function" href="classsmacc2_1_1ISmaccClientBehavior.html#a1a667b94eddb33662912587e87289cc1">getCurrentState</a>()-&gt;<a class="code hl_function" href="classsmacc2_1_1ISmaccState.html#a69ec6fafcc7f109198412433cf06cbcc">getName</a>() + <span class="stringliteral">&quot; - &quot;</span> + <a class="code hl_function" href="classsmacc2_1_1ISmaccClientBehavior.html#a3feaa9c382a7d376b7ba0017a63e294e">getName</a>();</div>
+<div class="line"><span class="lineno">  135</span>    <a class="code hl_variable" href="classcl__nav2z_1_1CbNavigateForward.html#ae065bc25bea05268280b0199f36a783f">odomTracker_</a>-&gt;<a class="code hl_function" href="classcl__nav2z_1_1odom__tracker_1_1CpOdomTracker.html#a5731914838169f20d2f34c919ef4dac1">pushPath</a>(pathname);</div>
+<div class="line"><span class="lineno">  136</span>    <a class="code hl_variable" href="classcl__nav2z_1_1CbNavigateForward.html#ae065bc25bea05268280b0199f36a783f">odomTracker_</a>-&gt;<a class="code hl_function" href="classcl__nav2z_1_1odom__tracker_1_1CpOdomTracker.html#ae1e77eed3471181b2a6a8c5822b13e5b">setStartPoint</a>(currentStampedPoseMsg);</div>
+<div class="line"><span class="lineno">  137</span>    <a class="code hl_variable" href="classcl__nav2z_1_1CbNavigateForward.html#ae065bc25bea05268280b0199f36a783f">odomTracker_</a>-&gt;<a class="code hl_function" href="classcl__nav2z_1_1odom__tracker_1_1CpOdomTracker.html#aa1165015dae99f7df4a66c93c62df75f">setCurrentMotionGoal</a>(goal.pose);</div>
+<div class="line"><span class="lineno">  138</span>    <a class="code hl_variable" href="classcl__nav2z_1_1CbNavigateForward.html#ae065bc25bea05268280b0199f36a783f">odomTracker_</a>-&gt;<a class="code hl_function" href="classcl__nav2z_1_1odom__tracker_1_1CpOdomTracker.html#ab459705febf58fd0b961d455f2b2dcbe">setWorkingMode</a>(WorkingMode::RECORD_PATH);</div>
+<div class="line"><span class="lineno">  139</span>  }</div>
+<div class="line"><span class="lineno">  140</span> </div>
+<div class="line"><span class="lineno">  141</span>  <span class="keyword">auto</span> plannerSwitcher = <a class="code hl_variable" href="classcl__nav2z_1_1CbNav2ZClientBehaviorBase.html#a78f16ca8a9c9314e98f95c9410466678">nav2zClient_</a>-&gt;<a class="code hl_function" href="classsmacc2_1_1ISmaccClient.html#afc6e0f5f82a4552134c9423b75e3ca1d">getComponent</a>&lt;CpPlannerSwitcher&gt;();</div>
+<div class="line"><span class="lineno">  142</span>  plannerSwitcher-&gt;setForwardPlanner();</div>
+<div class="line"><span class="lineno">  143</span> </div>
+<div class="line"><span class="lineno">  144</span>  <span class="keyword">auto</span> goalCheckerSwitcher = <a class="code hl_variable" href="classcl__nav2z_1_1CbNav2ZClientBehaviorBase.html#a78f16ca8a9c9314e98f95c9410466678">nav2zClient_</a>-&gt;<a class="code hl_function" href="classsmacc2_1_1ISmaccClient.html#afc6e0f5f82a4552134c9423b75e3ca1d">getComponent</a>&lt;CpGoalCheckerSwitcher&gt;();</div>
+<div class="line"><span class="lineno">  145</span>  goalCheckerSwitcher-&gt;setGoalCheckerId(<span class="stringliteral">&quot;forward_goal_checker&quot;</span>);</div>
+<div class="line"><span class="lineno">  146</span> </div>
+<div class="line"><span class="lineno">  147</span>  this-&gt;<a class="code hl_function" href="classcl__nav2z_1_1CbNav2ZClientBehaviorBase.html#a1b4b0601a185ffc77453c1a5b35d21e0">sendGoal</a>(goal);</div>
+<div class="line"><span class="lineno">  148</span>}</div>
 <div class="ttc" id="aclasscl__nav2z_1_1CbNav2ZClientBehaviorBase_html_a1b4b0601a185ffc77453c1a5b35d21e0"><div class="ttname"><a href="classcl__nav2z_1_1CbNav2ZClientBehaviorBase.html#a1b4b0601a185ffc77453c1a5b35d21e0">cl_nav2z::CbNav2ZClientBehaviorBase::sendGoal</a></div><div class="ttdeci">void sendGoal(ClNav2Z::Goal &amp;goal)</div><div class="ttdef"><b>Definition:</b> <a href="cb__nav2z__client__behavior__base_8cpp_source.html#l00026">cb_nav2z_client_behavior_base.cpp:26</a></div></div>
 <div class="ttc" id="aclasscl__nav2z_1_1CbNav2ZClientBehaviorBase_html_a78f16ca8a9c9314e98f95c9410466678"><div class="ttname"><a href="classcl__nav2z_1_1CbNav2ZClientBehaviorBase.html#a78f16ca8a9c9314e98f95c9410466678">cl_nav2z::CbNav2ZClientBehaviorBase::nav2zClient_</a></div><div class="ttdeci">cl_nav2z::ClNav2Z * nav2zClient_</div><div class="ttdef"><b>Definition:</b> <a href="cb__nav2z__client__behavior__base_8hpp_source.html#l00051">cb_nav2z_client_behavior_base.hpp:51</a></div></div>
 <div class="ttc" id="aclasscl__nav2z_1_1CbNavigateForward_html_a6dac00482d12e561044e86bb723e4574"><div class="ttname"><a href="classcl__nav2z_1_1CbNavigateForward.html#a6dac00482d12e561044e86bb723e4574">cl_nav2z::CbNavigateForward::options</a></div><div class="ttdeci">CbNavigateForwardOptions options</div><div class="ttdef"><b>Definition:</b> <a href="cb__navigate__forward_8hpp_source.html#l00051">cb_navigate_forward.hpp:51</a></div></div>
@@ -558,50 +559,49 @@ Additional Inherited Members</h2></td></tr>
 <div class="ttc" id="aclasssmacc2_1_1ISmaccClient_html_afc6e0f5f82a4552134c9423b75e3ca1d"><div class="ttname"><a href="classsmacc2_1_1ISmaccClient.html#afc6e0f5f82a4552134c9423b75e3ca1d">smacc2::ISmaccClient::getComponent</a></div><div class="ttdeci">TComponent * getComponent()</div><div class="ttdef"><b>Definition:</b> <a href="smacc__client__impl_8hpp_source.html#l00041">smacc_client_impl.hpp:41</a></div></div>
 <div class="ttc" id="aclasssmacc2_1_1ISmaccState_html_a69ec6fafcc7f109198412433cf06cbcc"><div class="ttname"><a href="classsmacc2_1_1ISmaccState.html#a69ec6fafcc7f109198412433cf06cbcc">smacc2::ISmaccState::getName</a></div><div class="ttdeci">virtual std::string getName()=0</div></div>
 <div class="ttc" id="aclasssmacc2_1_1client__bases_1_1SmaccActionClientBase_html_ab56ba47b81346277a471584dedf7d45c"><div class="ttname"><a href="classsmacc2_1_1client__bases_1_1SmaccActionClientBase.html#ab56ba47b81346277a471584dedf7d45c">smacc2::client_bases::SmaccActionClientBase&lt; nav2_msgs::action::NavigateToPose &gt;::Goal</a></div><div class="ttdeci">typename ActionClient::Goal Goal</div><div class="ttdef"><b>Definition:</b> <a href="smacc__action__client__base_8hpp_source.html#l00049">smacc_action_client_base.hpp:49</a></div></div>
-<div class="ttc" id="astructcl__nav2z_1_1CbNavigateForwardOptions_html_a1a41725f57cb81f643a335fc0fe0fede"><div class="ttname"><a href="structcl__nav2z_1_1CbNavigateForwardOptions.html#a1a41725f57cb81f643a335fc0fe0fede">cl_nav2z::CbNavigateForwardOptions::forwardSpeed</a></div><div class="ttdeci">std::optional&lt; float &gt; forwardSpeed</div><div class="ttdef"><b>Definition:</b> <a href="cb__navigate__forward_8hpp_source.html#l00036">cb_navigate_forward.hpp:36</a></div></div>
 <div class="ttc" id="astructcl__nav2z_1_1CbNavigateForwardOptions_html_a1fc2c652116342fc655e7aba6e3948ac"><div class="ttname"><a href="structcl__nav2z_1_1CbNavigateForwardOptions.html#a1fc2c652116342fc655e7aba6e3948ac">cl_nav2z::CbNavigateForwardOptions::forceInitialOrientation</a></div><div class="ttdeci">std::optional&lt; geometry_msgs::msg::Quaternion &gt; forceInitialOrientation</div><div class="ttdef"><b>Definition:</b> <a href="cb__navigate__forward_8hpp_source.html#l00041">cb_navigate_forward.hpp:41</a></div></div>
 </div><!-- fragment -->
-<p class="reference">References <a class="el" href="cb__navigate__forward_8hpp_source.html#l00041">cl_nav2z::CbNavigateForwardOptions::forceInitialOrientation</a>, <a class="el" href="cb__navigate__forward_8hpp_source.html#l00077">forwardDistance_</a>, <a class="el" href="cb__navigate__forward_8hpp_source.html#l00036">cl_nav2z::CbNavigateForwardOptions::forwardSpeed</a>, <a class="el" href="smacc__client__impl_8hpp_source.html#l00041">smacc2::ISmaccClient::getComponent()</a>, <a class="el" href="smacc__client__behavior__impl_8hpp_source.html#l00064">smacc2::ISmaccClientBehavior::getCurrentState()</a>, <a class="el" href="smacc__client__behavior__base_8cpp_source.html#l00043">smacc2::ISmaccClientBehavior::getLogger()</a>, <a class="el" href="smacc__client__behavior__base_8cpp_source.html#l00036">smacc2::ISmaccClientBehavior::getName()</a>, <a class="el" href="classsmacc2_1_1ISmaccState.html#a69ec6fafcc7f109198412433cf06cbcc">smacc2::ISmaccState::getName()</a>, <a class="el" href="smacc__client__behavior__base_8cpp_source.html#l00038">smacc2::ISmaccClientBehavior::getNode()</a>, <a class="el" href="cp__pose_8hpp_source.html#l00076">cl_nav2z::Pose::getReferenceFrame()</a>, <a class="el" href="cb__navigate__forward_8hpp_source.html#l00075">goalPose_</a>, <a class="el" href="cb__nav2z__client__behavior__base_8hpp_source.html#l00051">cl_nav2z::CbNav2ZClientBehaviorBase::nav2zClient_</a>, <a class="el" href="cb__navigate__forward_8hpp_source.html#l00073">odomTracker_</a>, <a class="el" href="cb__navigate__forward_8hpp_source.html#l00051">options</a>, <a class="el" href="cp__odom__tracker_8cpp_source.html#l00147">cl_nav2z::odom_tracker::CpOdomTracker::pushPath()</a>, <a class="el" href="cb__nav2z__client__behavior__base_8cpp_source.html#l00026">cl_nav2z::CbNav2ZClientBehaviorBase::sendGoal()</a>, <a class="el" href="cp__odom__tracker_8cpp_source.html#l00300">cl_nav2z::odom_tracker::CpOdomTracker::setCurrentMotionGoal()</a>, <a class="el" href="cb__navigate__forward_8cpp_source.html#l00042">setForwardDistance()</a>, <a class="el" href="cp__planner__switcher_8cpp_source.html#l00070">cl_nav2z::CpPlannerSwitcher::setForwardPlanner()</a>, <a class="el" href="cp__goal__checker__switcher_8cpp_source.html#l00047">cl_nav2z::CpGoalCheckerSwitcher::setGoalCheckerId()</a>, <a class="el" href="cp__odom__tracker_8cpp_source.html#l00265">cl_nav2z::odom_tracker::CpOdomTracker::setStartPoint()</a>, and <a class="el" href="cp__odom__tracker_8cpp_source.html#l00100">cl_nav2z::odom_tracker::CpOdomTracker::setWorkingMode()</a>.</p>
+<p class="reference">References <a class="el" href="cb__navigate__forward_8hpp_source.html#l00041">cl_nav2z::CbNavigateForwardOptions::forceInitialOrientation</a>, <a class="el" href="cb__navigate__forward_8hpp_source.html#l00077">forwardDistance_</a>, <a class="el" href="smacc__client__impl_8hpp_source.html#l00041">smacc2::ISmaccClient::getComponent()</a>, <a class="el" href="smacc__client__behavior__impl_8hpp_source.html#l00064">smacc2::ISmaccClientBehavior::getCurrentState()</a>, <a class="el" href="smacc__client__behavior__base_8cpp_source.html#l00043">smacc2::ISmaccClientBehavior::getLogger()</a>, <a class="el" href="smacc__client__behavior__base_8cpp_source.html#l00036">smacc2::ISmaccClientBehavior::getName()</a>, <a class="el" href="classsmacc2_1_1ISmaccState.html#a69ec6fafcc7f109198412433cf06cbcc">smacc2::ISmaccState::getName()</a>, <a class="el" href="smacc__client__behavior__base_8cpp_source.html#l00038">smacc2::ISmaccClientBehavior::getNode()</a>, <a class="el" href="cp__pose_8hpp_source.html#l00076">cl_nav2z::Pose::getReferenceFrame()</a>, <a class="el" href="cb__navigate__forward_8hpp_source.html#l00075">goalPose_</a>, <a class="el" href="cb__nav2z__client__behavior__base_8hpp_source.html#l00051">cl_nav2z::CbNav2ZClientBehaviorBase::nav2zClient_</a>, <a class="el" href="cb__navigate__forward_8hpp_source.html#l00073">odomTracker_</a>, <a class="el" href="cb__navigate__forward_8hpp_source.html#l00051">options</a>, <a class="el" href="cp__odom__tracker_8cpp_source.html#l00147">cl_nav2z::odom_tracker::CpOdomTracker::pushPath()</a>, <a class="el" href="cb__nav2z__client__behavior__base_8cpp_source.html#l00026">cl_nav2z::CbNav2ZClientBehaviorBase::sendGoal()</a>, <a class="el" href="cp__odom__tracker_8cpp_source.html#l00300">cl_nav2z::odom_tracker::CpOdomTracker::setCurrentMotionGoal()</a>, <a class="el" href="cb__navigate__forward_8cpp_source.html#l00042">setForwardDistance()</a>, <a class="el" href="cp__planner__switcher_8cpp_source.html#l00070">cl_nav2z::CpPlannerSwitcher::setForwardPlanner()</a>, <a class="el" href="cp__goal__checker__switcher_8cpp_source.html#l00047">cl_nav2z::CpGoalCheckerSwitcher::setGoalCheckerId()</a>, <a class="el" href="cp__odom__tracker_8cpp_source.html#l00265">cl_nav2z::odom_tracker::CpOdomTracker::setStartPoint()</a>, and <a class="el" href="cp__odom__tracker_8cpp_source.html#l00100">cl_nav2z::odom_tracker::CpOdomTracker::setWorkingMode()</a>.</p>
 <div class="dynheader">
 Here is the call graph for this function:</div>
 <div class="dyncontent">
 <div class="center"><img src="classcl__nav2z_1_1CbNavigateForward_ae56089851b4128ca0adeeb3c885770cf_cgraph.png" border="0" usemap="#aclasscl__nav2z_1_1CbNavigateForward_ae56089851b4128ca0adeeb3c885770cf_cgraph" alt=""/></div>
 <map name="aclasscl__nav2z_1_1CbNavigateForward_ae56089851b4128ca0adeeb3c885770cf_cgraph" id="aclasscl__nav2z_1_1CbNavigateForward_ae56089851b4128ca0adeeb3c885770cf_cgraph">
-<area shape="rect" title=" " alt="" coords="5,556,200,596"/>
+<area shape="rect" title=" " alt="" coords="5,464,200,504"/>
 <area shape="rect" href="classsmacc2_1_1ISmaccClient.html#afc6e0f5f82a4552134c9423b75e3ca1d" title=" " alt="" coords="299,5,451,45"/>
 <area shape="rect" href="classsmacc2_1_1ISmaccClientBehavior.html#a1a667b94eddb33662912587e87289cc1" title=" " alt="" coords="274,69,477,109"/>
-<area shape="rect" href="classsmacc2_1_1ISmaccClientBehavior.html#a9c3d82542c800e2ba5207c5cff0e63e8" title=" " alt="" coords="1104,285,1307,325"/>
-<area shape="rect" href="classsmacc2_1_1ISmaccClientBehavior.html#aa1b28d5e8a5208fff8160f9df9a89dc6" title=" " alt="" coords="1355,285,1557,325"/>
-<area shape="rect" href="classsmacc2_1_1ISmaccClientBehavior.html#a3feaa9c382a7d376b7ba0017a63e294e" title=" " alt="" coords="1104,413,1307,453"/>
-<area shape="rect" href="classsmacc2_1_1ISmaccState.html#a69ec6fafcc7f109198412433cf06cbcc" title=" " alt="" coords="300,812,451,852"/>
-<area shape="rect" href="classcl__nav2z_1_1Pose.html#aa2694e3003979889f098a247c989b685" title=" " alt="" coords="279,876,471,916"/>
-<area shape="rect" href="classcl__nav2z_1_1odom__tracker_1_1CpOdomTracker.html#a5731914838169f20d2f34c919ef4dac1" title=" " alt="" coords="283,964,467,1004"/>
-<area shape="rect" href="classcl__nav2z_1_1CbNav2ZClientBehaviorBase.html#a1b4b0601a185ffc77453c1a5b35d21e0" title=" " alt="" coords="266,492,485,532"/>
-<area shape="rect" href="classcl__nav2z_1_1odom__tracker_1_1CpOdomTracker.html#aa1165015dae99f7df4a66c93c62df75f" title=" " alt="" coords="248,1028,503,1068"/>
-<area shape="rect" href="classcl__nav2z_1_1CbNavigateForward.html#a7f563b8647170bff6d9542ad90b3a954" title=" " alt="" coords="847,235,1042,275"/>
-<area shape="rect" href="classcl__nav2z_1_1CpPlannerSwitcher.html#a2daeb69bbc6ca52a35baa50c489d13a0" title=" " alt="" coords="280,556,471,596"/>
-<area shape="rect" href="classcl__nav2z_1_1CpGoalCheckerSwitcher.html#a7813346ece7ea7e843d23db9a8712562" title=" " alt="" coords="265,684,486,724"/>
-<area shape="rect" href="classcl__nav2z_1_1odom__tracker_1_1CpOdomTracker.html#ae1e77eed3471181b2a6a8c5822b13e5b" title=" " alt="" coords="273,620,478,660"/>
-<area shape="rect" href="classcl__nav2z_1_1odom__tracker_1_1CpOdomTracker.html#ab459705febf58fd0b961d455f2b2dcbe" title=" " alt="" coords="262,748,489,788"/>
-<area shape="rect" href="classsmacc2_1_1ISmaccStateMachine.html#a2cf8b817f7e137fc648e373ae4614a2f" title=" " alt="" coords="1605,480,1804,520"/>
-<area shape="rect" href="namespacesmacc2_1_1introspection.html#aba19132e50f25adee919c2504ae6a3a2" title=" " alt="" coords="1382,572,1530,612"/>
-<area shape="rect" href="classsmacc2_1_1ISmaccStateMachine.html#a25f13e947197c61b66c12cf58ee351d5" title=" " alt="" coords="569,659,767,699"/>
-<area shape="rect" href="classsmacc2_1_1ISmaccClientBehavior.html#aef894ccf74067413e7cf501dbf022cd2" title=" " alt="" coords="567,400,769,440"/>
-<area shape="rect" href="classcl__nav2z_1_1CbNav2ZClientBehaviorBase.html#a27843e175cfac316a613a0a342c7e450" title=" " alt="" coords="559,464,777,504"/>
-<area shape="rect" href="classsmacc2_1_1client__bases_1_1SmaccActionClientBase.html#ad6d79ea8762410e81df2a18e4f8eaf1a" title=" " alt="" coords="583,579,753,634"/>
-<area shape="rect" href="classsmacc2_1_1ISmaccStateMachine.html#acc4b310700e4256383d28f56217c3ce1" title=" " alt="" coords="845,861,1044,901"/>
-<area shape="rect" href="classcl__nav2z_1_1CbNav2ZClientBehaviorBase.html#ac1509a1f84bdf6f4a0d62dbde6a8c12f" title=" " alt="" coords="835,464,1054,504"/>
-<area shape="rect" href="classcl__nav2z_1_1CbNav2ZClientBehaviorBase.html#ab56a07ee9a373cb628f02bc90a658260" title=" " alt="" coords="833,349,1056,389"/>
-<area shape="rect" href="classsmacc2_1_1SmaccAsyncClientBehavior.html#afcb5c1a0bf3b9bae6c54e8f5ef1bc04d" title=" " alt="" coords="1113,477,1297,517"/>
-<area shape="rect" href="classsmacc2_1_1SmaccAsyncClientBehavior.html#a2fb4de26d011fbbb55bc1bbaed2e6f5b" title=" " alt="" coords="1111,349,1299,389"/>
-<area shape="rect" href="classsmacc2_1_1ISmaccClient.html#aaa82b9e079d2faf7bf4ba3a4dfecbf89" title=" " alt="" coords="1129,737,1281,777"/>
-<area shape="rect" href="classsmacc2_1_1client__bases_1_1ISmaccActionClient.html#a9d0cb5696387ed37ff2ae505108c3517" title=" " alt="" coords="1132,639,1279,694"/>
-<area shape="rect" href="classsmacc2_1_1client__bases_1_1SmaccActionClientBase.html#ab318d0712e1ddbac47f5b14e8fa71534" title=" " alt="" coords="860,681,1029,735"/>
-<area shape="rect" href="classsmacc2_1_1ISmaccClient.html#a0d0d53879b63fd45c78aac1c711f8708" title=" " alt="" coords="1380,687,1532,727"/>
-<area shape="rect" href="classsmacc2_1_1ISmaccClient.html#a0e489e232e516e1fea5f026531e10973" title=" " alt="" coords="1629,687,1781,727"/>
-<area shape="rect" href="classcl__nav2z_1_1CpPlannerSwitcher.html#a0dd5c2627825cd213000a9e765fc9c56" title=" " alt="" coords="573,723,763,763"/>
-<area shape="rect" href="classsmacc2_1_1ISmaccComponent.html#a77ee85823bab8d84edcdf5d28782b728" title=" " alt="" coords="575,867,761,907"/>
-<area shape="rect" href="classcl__nav2z_1_1odom__tracker_1_1CpOdomTracker.html#ac22217306524efa3c2a7c8b269287212" title=" " alt="" coords="551,787,785,842"/>
+<area shape="rect" href="classsmacc2_1_1ISmaccClientBehavior.html#a9c3d82542c800e2ba5207c5cff0e63e8" title=" " alt="" coords="1104,936,1307,976"/>
+<area shape="rect" href="classsmacc2_1_1ISmaccClientBehavior.html#aa1b28d5e8a5208fff8160f9df9a89dc6" title=" " alt="" coords="1355,545,1557,585"/>
+<area shape="rect" href="classsmacc2_1_1ISmaccClientBehavior.html#a3feaa9c382a7d376b7ba0017a63e294e" title=" " alt="" coords="1104,1172,1307,1212"/>
+<area shape="rect" href="classsmacc2_1_1ISmaccState.html#a69ec6fafcc7f109198412433cf06cbcc" title=" " alt="" coords="300,312,451,352"/>
+<area shape="rect" href="classcl__nav2z_1_1Pose.html#aa2694e3003979889f098a247c989b685" title=" " alt="" coords="279,376,471,416"/>
+<area shape="rect" href="classcl__nav2z_1_1odom__tracker_1_1CpOdomTracker.html#a5731914838169f20d2f34c919ef4dac1" title=" " alt="" coords="283,464,467,504"/>
+<area shape="rect" href="classcl__nav2z_1_1CbNav2ZClientBehaviorBase.html#a1b4b0601a185ffc77453c1a5b35d21e0" title=" " alt="" coords="266,821,485,861"/>
+<area shape="rect" href="classcl__nav2z_1_1odom__tracker_1_1CpOdomTracker.html#aa1165015dae99f7df4a66c93c62df75f" title=" " alt="" coords="248,592,503,632"/>
+<area shape="rect" href="classcl__nav2z_1_1CbNavigateForward.html#a7f563b8647170bff6d9542ad90b3a954" title=" " alt="" coords="847,987,1042,1027"/>
+<area shape="rect" href="classcl__nav2z_1_1CpPlannerSwitcher.html#a2daeb69bbc6ca52a35baa50c489d13a0" title=" " alt="" coords="280,528,471,568"/>
+<area shape="rect" href="classcl__nav2z_1_1CpGoalCheckerSwitcher.html#a7813346ece7ea7e843d23db9a8712562" title=" " alt="" coords="265,248,486,288"/>
+<area shape="rect" href="classcl__nav2z_1_1odom__tracker_1_1CpOdomTracker.html#ae1e77eed3471181b2a6a8c5822b13e5b" title=" " alt="" coords="273,656,478,696"/>
+<area shape="rect" href="classcl__nav2z_1_1odom__tracker_1_1CpOdomTracker.html#ab459705febf58fd0b961d455f2b2dcbe" title=" " alt="" coords="262,184,489,224"/>
+<area shape="rect" href="classsmacc2_1_1ISmaccStateMachine.html#a2cf8b817f7e137fc648e373ae4614a2f" title=" " alt="" coords="1605,545,1804,585"/>
+<area shape="rect" href="namespacesmacc2_1_1introspection.html#aba19132e50f25adee919c2504ae6a3a2" title=" " alt="" coords="1382,879,1530,919"/>
+<area shape="rect" href="classsmacc2_1_1ISmaccStateMachine.html#a25f13e947197c61b66c12cf58ee351d5" title=" " alt="" coords="569,821,767,861"/>
+<area shape="rect" href="classsmacc2_1_1ISmaccClientBehavior.html#aef894ccf74067413e7cf501dbf022cd2" title=" " alt="" coords="567,885,769,925"/>
+<area shape="rect" href="classcl__nav2z_1_1CbNav2ZClientBehaviorBase.html#a27843e175cfac316a613a0a342c7e450" title=" " alt="" coords="559,1051,777,1091"/>
+<area shape="rect" href="classsmacc2_1_1client__bases_1_1SmaccActionClientBase.html#ad6d79ea8762410e81df2a18e4f8eaf1a" title=" " alt="" coords="583,641,753,695"/>
+<area shape="rect" href="classsmacc2_1_1ISmaccStateMachine.html#acc4b310700e4256383d28f56217c3ce1" title=" " alt="" coords="845,821,1044,861"/>
+<area shape="rect" href="classcl__nav2z_1_1CbNav2ZClientBehaviorBase.html#ac1509a1f84bdf6f4a0d62dbde6a8c12f" title=" " alt="" coords="835,1115,1054,1155"/>
+<area shape="rect" href="classcl__nav2z_1_1CbNav2ZClientBehaviorBase.html#ab56a07ee9a373cb628f02bc90a658260" title=" " alt="" coords="833,1051,1056,1091"/>
+<area shape="rect" href="classsmacc2_1_1SmaccAsyncClientBehavior.html#afcb5c1a0bf3b9bae6c54e8f5ef1bc04d" title=" " alt="" coords="1113,1108,1297,1148"/>
+<area shape="rect" href="classsmacc2_1_1SmaccAsyncClientBehavior.html#a2fb4de26d011fbbb55bc1bbaed2e6f5b" title=" " alt="" coords="1111,1044,1299,1084"/>
+<area shape="rect" href="classsmacc2_1_1ISmaccClient.html#aaa82b9e079d2faf7bf4ba3a4dfecbf89" title=" " alt="" coords="1129,481,1281,521"/>
+<area shape="rect" href="classsmacc2_1_1client__bases_1_1ISmaccActionClient.html#a9d0cb5696387ed37ff2ae505108c3517" title=" " alt="" coords="1132,567,1279,622"/>
+<area shape="rect" href="classsmacc2_1_1client__bases_1_1SmaccActionClientBase.html#ab318d0712e1ddbac47f5b14e8fa71534" title=" " alt="" coords="860,539,1029,594"/>
+<area shape="rect" href="classsmacc2_1_1ISmaccClient.html#a0d0d53879b63fd45c78aac1c711f8708" title=" " alt="" coords="1380,481,1532,521"/>
+<area shape="rect" href="classsmacc2_1_1ISmaccClient.html#a0e489e232e516e1fea5f026531e10973" title=" " alt="" coords="1629,481,1781,521"/>
+<area shape="rect" href="classcl__nav2z_1_1CpPlannerSwitcher.html#a0dd5c2627825cd213000a9e765fc9c56" title=" " alt="" coords="573,497,763,537"/>
+<area shape="rect" href="classsmacc2_1_1ISmaccComponent.html#a77ee85823bab8d84edcdf5d28782b728" title=" " alt="" coords="575,431,761,471"/>
+<area shape="rect" href="classcl__nav2z_1_1odom__tracker_1_1CpOdomTracker.html#ac22217306524efa3c2a7c8b269287212" title=" " alt="" coords="551,562,785,617"/>
 </map>
 </div>
 
@@ -632,13 +632,13 @@ Here is the call graph for this function:</div>
 
 <p>Reimplemented from <a class="el" href="classsmacc2_1_1ISmaccClientBehavior.html#a52b767b7cbb438aa23ea0f6cfda2a3db">smacc2::ISmaccClientBehavior</a>.</p>
 
-<p class="definition">Definition at line <a class="el" href="cb__navigate__forward_8cpp_source.html#l00149">149</a> of file <a class="el" href="cb__navigate__forward_8cpp_source.html">cb_navigate_forward.cpp</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">  150</span>{</div>
-<div class="line"><span class="lineno">  151</span>  <span class="keywordflow">if</span> (<a class="code hl_variable" href="classcl__nav2z_1_1CbNavigateForward.html#ae065bc25bea05268280b0199f36a783f">odomTracker_</a>)</div>
-<div class="line"><span class="lineno">  152</span>  {</div>
-<div class="line"><span class="lineno">  153</span>    this-&gt;<a class="code hl_variable" href="classcl__nav2z_1_1CbNavigateForward.html#ae065bc25bea05268280b0199f36a783f">odomTracker_</a>-&gt;<a class="code hl_function" href="classcl__nav2z_1_1odom__tracker_1_1CpOdomTracker.html#ab459705febf58fd0b961d455f2b2dcbe">setWorkingMode</a>(WorkingMode::IDLE);</div>
-<div class="line"><span class="lineno">  154</span>  }</div>
-<div class="line"><span class="lineno">  155</span>}</div>
+<p class="definition">Definition at line <a class="el" href="cb__navigate__forward_8cpp_source.html#l00150">150</a> of file <a class="el" href="cb__navigate__forward_8cpp_source.html">cb_navigate_forward.cpp</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">  151</span>{</div>
+<div class="line"><span class="lineno">  152</span>  <span class="keywordflow">if</span> (<a class="code hl_variable" href="classcl__nav2z_1_1CbNavigateForward.html#ae065bc25bea05268280b0199f36a783f">odomTracker_</a>)</div>
+<div class="line"><span class="lineno">  153</span>  {</div>
+<div class="line"><span class="lineno">  154</span>    this-&gt;<a class="code hl_variable" href="classcl__nav2z_1_1CbNavigateForward.html#ae065bc25bea05268280b0199f36a783f">odomTracker_</a>-&gt;<a class="code hl_function" href="classcl__nav2z_1_1odom__tracker_1_1CpOdomTracker.html#ab459705febf58fd0b961d455f2b2dcbe">setWorkingMode</a>(WorkingMode::IDLE);</div>
+<div class="line"><span class="lineno">  155</span>  }</div>
+<div class="line"><span class="lineno">  156</span>}</div>
 </div><!-- fragment -->
 <p class="reference">References <a class="el" href="cb__navigate__forward_8hpp_source.html#l00073">odomTracker_</a>, and <a class="el" href="cp__odom__tracker_8cpp_source.html#l00100">cl_nav2z::odom_tracker::CpOdomTracker::setWorkingMode()</a>.</p>
 <div class="dynheader">
@@ -792,7 +792,7 @@ Here is the caller graph for this function:</div>
 
 <p class="definition">Definition at line <a class="el" href="cb__navigate__forward_8hpp_source.html#l00073">73</a> of file <a class="el" href="cb__navigate__forward_8hpp_source.html">cb_navigate_forward.hpp</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="cb__navigate__forward_8cpp_source.html#l00057">onEntry()</a>, and <a class="el" href="cb__navigate__forward_8cpp_source.html#l00149">onExit()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="cb__navigate__forward_8cpp_source.html#l00057">onEntry()</a>, and <a class="el" href="cb__navigate__forward_8cpp_source.html#l00150">onExit()</a>.</p>
 
 </div>
 </div>

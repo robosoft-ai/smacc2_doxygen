@@ -89,5 +89,6 @@ var searchData=
   ['evtransitiononshutdownfailure_86',['EvTransitionOnShutdownFailure',['../structcl__lifecyclenode_1_1EvTransitionOnShutdownFailure.html',1,'cl_lifecyclenode']]],
   ['evtransitiononshutdownsuccess_87',['EvTransitionOnShutdownSuccess',['../structcl__lifecyclenode_1_1EvTransitionOnShutdownSuccess.html',1,'cl_lifecyclenode']]],
   ['evtransitionunconfiguredshutdown_88',['EvTransitionUnconfiguredShutdown',['../structcl__lifecyclenode_1_1EvTransitionUnconfiguredShutdown.html',1,'cl_lifecyclenode']]],
-  ['evtrue_89',['EvTrue',['../structsmacc2_1_1event__generators_1_1EvTrue.html',1,'smacc2::event_generators']]]
+  ['evtrue_89',['EvTrue',['../structsmacc2_1_1event__generators_1_1EvTrue.html',1,'smacc2::event_generators']]],
+  ['evwaypointfinal_90',['EvWaypointFinal',['../structcl__nav2z_1_1EvWaypointFinal.html',1,'cl_nav2z']]]
 ];

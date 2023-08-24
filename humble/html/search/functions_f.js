@@ -1,6 +1,6 @@
 var searchData=
 [
-  ['seekname_0',['seekName',['../classcl__nav2z_1_1CpWaypointNavigator.html#ab5c4de0fb5a5575526502e6d6184bef0',1,'cl_nav2z::CpWaypointNavigator']]],
+  ['seekname_0',['seekName',['../classcl__nav2z_1_1CpWaypointNavigatorBase.html#a3f7018f9fa8f6feadccd5f3c7b717811',1,'cl_nav2z::CpWaypointNavigatorBase']]],
   ['sendgoal_1',['sendGoal',['../classsmacc2_1_1client__bases_1_1SmaccActionClientBase.html#ad6d79ea8762410e81df2a18e4f8eaf1a',1,'smacc2::client_bases::SmaccActionClientBase::sendGoal()'],['../classcl__nav2z_1_1CbNav2ZClientBehaviorBase.html#a1b4b0601a185ffc77453c1a5b35d21e0',1,'cl_nav2z::CbNav2ZClientBehaviorBase::sendGoal()']]],
   ['sendnextgoal_2',['sendNextGoal',['../classcl__nav2z_1_1CpWaypointNavigator.html#a49a0d507b675a2c551a0095401ee24e5',1,'cl_nav2z::CpWaypointNavigator']]],
   ['servicecallback_3',['serviceCallback',['../classsmacc2_1_1client__bases_1_1SmaccServiceServerClient.html#a5ca9bc4370827605f4e5846793dd9a89',1,'smacc2::client_bases::SmaccServiceServerClient']]],
@@ -31,7 +31,7 @@ var searchData=
   ['setstatemachine_28',['setStateMachine',['../classsmacc2_1_1ISmaccComponent.html#af44f6afab2a672500bb39f73562b50c0',1,'smacc2::ISmaccComponent::setStateMachine()'],['../classsmacc2_1_1ISmaccClient.html#a5f655aac48eda9d87af8ea1fc1297dba',1,'smacc2::ISmaccClient::setStateMachine()'],['../classsmacc2_1_1ISmaccOrthogonal.html#a73ca3ed7f97813da7d0f29f76f96c123',1,'smacc2::ISmaccOrthogonal::setStateMachine()']]],
   ['setundopathbackwardplanner_29',['setUndoPathBackwardPlanner',['../classcl__nav2z_1_1CpPlannerSwitcher.html#a1448d8561b5b3c0d39f657054ee8de70',1,'cl_nav2z::CpPlannerSwitcher']]],
   ['setupdateperiod_30',['setUpdatePeriod',['../classsmacc2_1_1ISmaccUpdatable.html#aba34d2c265dc3a911d4efaabc7341dc0',1,'smacc2::ISmaccUpdatable']]],
-  ['setwaypoints_31',['setWaypoints',['../classcl__nav2z_1_1CpWaypointNavigator.html#a3118254efb1d57227f691ecea8ffef01',1,'cl_nav2z::CpWaypointNavigator::setWaypoints(const std::vector&lt; Pose2D &gt; &amp;waypoints)'],['../classcl__nav2z_1_1CpWaypointNavigator.html#a0ec11ed16eeb815b659c950c550d1ac1',1,'cl_nav2z::CpWaypointNavigator::setWaypoints(const std::vector&lt; geometry_msgs::msg::Pose &gt; &amp;waypoints)']]],
+  ['setwaypoints_31',['setWaypoints',['../classcl__nav2z_1_1CpWaypointNavigatorBase.html#aab8bb8faff35dfeea4471444ac38ef8f',1,'cl_nav2z::CpWaypointNavigatorBase::setWaypoints(const std::vector&lt; Pose2D &gt; &amp;waypoints)'],['../classcl__nav2z_1_1CpWaypointNavigatorBase.html#a07bd9a78f5e638a70e9e1fee7d24c41c',1,'cl_nav2z::CpWaypointNavigatorBase::setWaypoints(const std::vector&lt; geometry_msgs::msg::Pose &gt; &amp;waypoints)']]],
   ['setworkingmode_32',['setWorkingMode',['../classcl__nav2z_1_1odom__tracker_1_1CpOdomTracker.html#ab459705febf58fd0b961d455f2b2dcbe',1,'cl_nav2z::odom_tracker::CpOdomTracker']]],
   ['shallow_5fconstruct_33',['shallow_construct',['../classsmacc2_1_1SmaccState.html#a0570a2880e2e11fce6a1ff11b067cdc2',1,'smacc2::SmaccState']]],
   ['shutdown_34',['shutdown',['../classcl__lifecyclenode_1_1ClLifecycleNode.html#adb7600c461564780095bb731927b6192',1,'cl_lifecyclenode::ClLifecycleNode']]],

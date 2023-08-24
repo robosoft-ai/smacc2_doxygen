@@ -94,5 +94,6 @@ var searchData=
   ['cptopicsubscriber_91',['CpTopicSubscriber',['../classsmacc2_1_1components_1_1CpTopicSubscriber.html',1,'smacc2::components']]],
   ['cptrajectoryhistory_92',['CpTrajectoryHistory',['../classcl__moveit2z_1_1CpTrajectoryHistory.html',1,'cl_moveit2z']]],
   ['cpwaypointnavigator_93',['CpWaypointNavigator',['../classcl__nav2z_1_1CpWaypointNavigator.html',1,'cl_nav2z']]],
-  ['cpwaypointsvisualizer_94',['CpWaypointsVisualizer',['../classcl__nav2z_1_1CpWaypointsVisualizer.html',1,'cl_nav2z']]]
+  ['cpwaypointnavigatorbase_94',['CpWaypointNavigatorBase',['../classcl__nav2z_1_1CpWaypointNavigatorBase.html',1,'cl_nav2z']]],
+  ['cpwaypointsvisualizer_95',['CpWaypointsVisualizer',['../classcl__nav2z_1_1CpWaypointsVisualizer.html',1,'cl_nav2z']]]
 ];
