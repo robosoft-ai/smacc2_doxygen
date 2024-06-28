@@ -20,7 +20,8 @@ var searchData=
   ['waypointsnames_5f_17',['waypointsNames_',['../classcl__nav2z_1_1CpWaypointNavigatorBase.html#a7e251e4c8ec2c4d68b4ad743dfacc5bc',1,'cl_nav2z::CpWaypointNavigatorBase']]],
   ['waypointsnavigator_5f_18',['waypointsnavigator_',['../classcl__nav2z_1_1CbNavigateNamedWaypoint.html#ab91c6c6246ff5c27438b4a2be9fd5405',1,'cl_nav2z::CbNavigateNamedWaypoint::waypointsNavigator_'],['../classcl__nav2z_1_1CbNavigateNextWaypoint.html#a8218115e9638c88e0881735ccff0c69f',1,'cl_nav2z::CbNavigateNextWaypoint::waypointsNavigator_'],['../classcl__nav2z_1_1CbSeekWaypoint.html#acd65cdf55a1160c9aa6ac00cf094ffc1',1,'cl_nav2z::CbSeekWaypoint::waypointsNavigator_'],['../classcl__nav2z_1_1CpWaypointsVisualizer.html#a1ae5f9c91de08911adabaed89da65fe2',1,'cl_nav2z::CpWaypointsVisualizer::waypointsNavigator_']]],
   ['weakptr_19',['WeakPtr',['../classsmacc2_1_1SmaccSignal.html#a07191b06833f3a0df5cb65d168219bd2',1,'smacc2::SmaccSignal']]],
-  ['workingmode_20',['WorkingMode',['../namespacecl__nav2z_1_1odom__tracker.html#a0e181f0496e693e9fbd35874963c7211',1,'cl_nav2z::odom_tracker']]],
-  ['workingmode_5f_21',['workingMode_',['../classcl__nav2z_1_1odom__tracker_1_1CpOdomTracker.html#a3d33b05205f758843aa09108d4578440',1,'cl_nav2z::odom_tracker::CpOdomTracker']]],
-  ['wrappedresult_22',['wrappedresult',['../classsmacc2_1_1client__bases_1_1SmaccActionClientBase.html#acc16d5dee886ab59c574c828156f6cf0',1,'smacc2::client_bases::SmaccActionClientBase::WrappedResult'],['../namespacecl__nav2z.html#a8bcf9346d291af23abb03d73335a5bb7',1,'cl_nav2z::WrappedResult']]]
+  ['worker_5fguard_5f_20',['worker_guard_',['../classcl__http_1_1ClHttp.html#a6e08df95678fe2c82a1cfad36cb57f40',1,'cl_http::ClHttp']]],
+  ['workingmode_21',['WorkingMode',['../namespacecl__nav2z_1_1odom__tracker.html#a0e181f0496e693e9fbd35874963c7211',1,'cl_nav2z::odom_tracker']]],
+  ['workingmode_5f_22',['workingMode_',['../classcl__nav2z_1_1odom__tracker_1_1CpOdomTracker.html#a3d33b05205f758843aa09108d4578440',1,'cl_nav2z::odom_tracker::CpOdomTracker']]],
+  ['wrappedresult_23',['wrappedresult',['../classsmacc2_1_1client__bases_1_1SmaccActionClientBase.html#acc16d5dee886ab59c574c828156f6cf0',1,'smacc2::client_bases::SmaccActionClientBase::WrappedResult'],['../namespacecl__nav2z.html#a8bcf9346d291af23abb03d73335a5bb7',1,'cl_nav2z::WrappedResult']]]
 ];

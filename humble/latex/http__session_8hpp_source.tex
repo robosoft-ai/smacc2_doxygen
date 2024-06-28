@@ -1,0 +1,78 @@
+\doxysection{http\+\_\+session.\+hpp}
+\hypertarget{http__session_8hpp_source}{}\label{http__session_8hpp_source}\index{smacc2\_client\_library/http\_client/include/http\_client/http\_session.hpp@{smacc2\_client\_library/http\_client/include/http\_client/http\_session.hpp}}
+\mbox{\hyperlink{http__session_8hpp}{Go to the documentation of this file.}}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\Hypertarget{http__session_8hpp_source_l00001}00001\ \textcolor{comment}{//\ Copyright\ 2021\ RobosoftAI\ Inc.}}
+\DoxyCodeLine{\Hypertarget{http__session_8hpp_source_l00002}00002\ \textcolor{comment}{//}}
+\DoxyCodeLine{\Hypertarget{http__session_8hpp_source_l00003}00003\ \textcolor{comment}{//\ Licensed\ under\ the\ Apache\ License,\ Version\ 2.0\ (the\ "{}License"{});}}
+\DoxyCodeLine{\Hypertarget{http__session_8hpp_source_l00004}00004\ \textcolor{comment}{//\ you\ may\ not\ use\ this\ file\ except\ in\ compliance\ with\ the\ License.}}
+\DoxyCodeLine{\Hypertarget{http__session_8hpp_source_l00005}00005\ \textcolor{comment}{//\ You\ may\ obtain\ a\ copy\ of\ the\ License\ at}}
+\DoxyCodeLine{\Hypertarget{http__session_8hpp_source_l00006}00006\ \textcolor{comment}{//}}
+\DoxyCodeLine{\Hypertarget{http__session_8hpp_source_l00007}00007\ \textcolor{comment}{//\ http://www.apache.org/licenses/LICENSE-\/2.0}}
+\DoxyCodeLine{\Hypertarget{http__session_8hpp_source_l00008}00008\ \textcolor{comment}{//}}
+\DoxyCodeLine{\Hypertarget{http__session_8hpp_source_l00009}00009\ \textcolor{comment}{//\ Unless\ required\ by\ applicable\ law\ or\ agreed\ to\ in\ writing,\ software}}
+\DoxyCodeLine{\Hypertarget{http__session_8hpp_source_l00010}00010\ \textcolor{comment}{//\ distributed\ under\ the\ License\ is\ distributed\ on\ an\ "{}AS\ IS"{}\ BASIS,}}
+\DoxyCodeLine{\Hypertarget{http__session_8hpp_source_l00011}00011\ \textcolor{comment}{//\ WITHOUT\ WARRANTIES\ OR\ CONDITIONS\ OF\ ANY\ KIND,\ either\ express\ or\ implied.}}
+\DoxyCodeLine{\Hypertarget{http__session_8hpp_source_l00012}00012\ \textcolor{comment}{//\ See\ the\ License\ for\ the\ specific\ language\ governing\ permissions\ and}}
+\DoxyCodeLine{\Hypertarget{http__session_8hpp_source_l00013}00013\ \textcolor{comment}{//\ limitations\ under\ the\ License.}}
+\DoxyCodeLine{\Hypertarget{http__session_8hpp_source_l00014}00014\ }
+\DoxyCodeLine{\Hypertarget{http__session_8hpp_source_l00015}00015\ \textcolor{comment}{/*****************************************************************************************************************}}
+\DoxyCodeLine{\Hypertarget{http__session_8hpp_source_l00016}00016\ \textcolor{comment}{*}}
+\DoxyCodeLine{\Hypertarget{http__session_8hpp_source_l00017}00017\ \textcolor{comment}{}}
+\DoxyCodeLine{\Hypertarget{http__session_8hpp_source_l00018}00018\ \textcolor{comment}{Author:\ Jacobus\ Lock}}
+\DoxyCodeLine{\Hypertarget{http__session_8hpp_source_l00019}00019\ \textcolor{comment}{}}
+\DoxyCodeLine{\Hypertarget{http__session_8hpp_source_l00020}00020\ \textcolor{comment}{******************************************************************************************************************/}}
+\DoxyCodeLine{\Hypertarget{http__session_8hpp_source_l00021}00021\ }
+\DoxyCodeLine{\Hypertarget{http__session_8hpp_source_l00022}00022\ \textcolor{preprocessor}{\#pragma\ once}}
+\DoxyCodeLine{\Hypertarget{http__session_8hpp_source_l00023}00023\ }
+\DoxyCodeLine{\Hypertarget{http__session_8hpp_source_l00024}00024\ \textcolor{preprocessor}{\#include\ <boost/asio/executor\_work\_guard.hpp>}}
+\DoxyCodeLine{\Hypertarget{http__session_8hpp_source_l00025}00025\ \textcolor{preprocessor}{\#include\ <boost/asio/strand.hpp>}}
+\DoxyCodeLine{\Hypertarget{http__session_8hpp_source_l00026}00026\ \textcolor{preprocessor}{\#include\ <boost/beast/core.hpp>}}
+\DoxyCodeLine{\Hypertarget{http__session_8hpp_source_l00027}00027\ \textcolor{preprocessor}{\#include\ <boost/beast/http.hpp>}}
+\DoxyCodeLine{\Hypertarget{http__session_8hpp_source_l00028}00028\ \textcolor{preprocessor}{\#include\ <boost/beast/version.hpp>}}
+\DoxyCodeLine{\Hypertarget{http__session_8hpp_source_l00029}00029\ \textcolor{preprocessor}{\#include\ <\mbox{\hyperlink{http__session__base_8hpp}{http\_client/http\_session\_base.hpp}}>}}
+\DoxyCodeLine{\Hypertarget{http__session_8hpp_source_l00030}00030\ \textcolor{preprocessor}{\#include\ <iostream>}}
+\DoxyCodeLine{\Hypertarget{http__session_8hpp_source_l00031}00031\ \textcolor{preprocessor}{\#include\ <string>}}
+\DoxyCodeLine{\Hypertarget{http__session_8hpp_source_l00032}00032\ }
+\DoxyCodeLine{\Hypertarget{http__session_8hpp_source_l00033}00033\ \textcolor{keyword}{namespace\ }\mbox{\hyperlink{namespacecl__http}{cl\_http}}}
+\DoxyCodeLine{\Hypertarget{http__session_8hpp_source_l00034}00034\ \{}
+\DoxyCodeLine{\Hypertarget{http__session_8hpp_source_l00035}\mbox{\hyperlink{classcl__http_1_1http__session}{00035}}\ \textcolor{keyword}{class\ }\mbox{\hyperlink{classcl__http_1_1http__session}{http\_session}}\ :\ \textcolor{keyword}{public}\ std::enable\_shared\_from\_this<http\_session>,\ \textcolor{keyword}{public}\ \mbox{\hyperlink{classcl__http_1_1http__session__base}{http\_session\_base}}}
+\DoxyCodeLine{\Hypertarget{http__session_8hpp_source_l00036}00036\ \{}
+\DoxyCodeLine{\Hypertarget{http__session_8hpp_source_l00037}00037\ \textcolor{keyword}{public}:}
+\DoxyCodeLine{\Hypertarget{http__session_8hpp_source_l00038}00038\ \ \ \textcolor{comment}{//\ Objects\ are\ constructed\ with\ a\ strand\ to}}
+\DoxyCodeLine{\Hypertarget{http__session_8hpp_source_l00039}00039\ \ \ \textcolor{comment}{//\ ensure\ that\ handlers\ do\ not\ execute\ concurrently.}}
+\DoxyCodeLine{\Hypertarget{http__session_8hpp_source_l00040}00040\ \ \ \mbox{\hyperlink{classcl__http_1_1http__session}{http\_session}}(}
+\DoxyCodeLine{\Hypertarget{http__session_8hpp_source_l00041}00041\ \ \ \ \ boost::asio::any\_io\_executor\ ioc,\ \textcolor{keyword}{const}\ std::function<\textcolor{keywordtype}{void}(\textcolor{keyword}{const}\ \mbox{\hyperlink{classcl__http_1_1http__session__base_aea2d08afac60fd6a5797d6affdeeef0b}{TResponse}}\ \&)>\ response);}
+\DoxyCodeLine{\Hypertarget{http__session_8hpp_source_l00042}00042\ }
+\DoxyCodeLine{\Hypertarget{http__session_8hpp_source_l00043}\mbox{\hyperlink{classcl__http_1_1http__session_a762d41044a534134cd2a8d0aff1ea6a7}{00043}}\ \ \ \textcolor{keyword}{virtual}\ \mbox{\hyperlink{classcl__http_1_1http__session_a762d41044a534134cd2a8d0aff1ea6a7}{\string~http\_session}}()\ \{\}}
+\DoxyCodeLine{\Hypertarget{http__session_8hpp_source_l00044}00044\ }
+\DoxyCodeLine{\Hypertarget{http__session_8hpp_source_l00045}00045\ \ \ \textcolor{comment}{//\ Start\ the\ asynchronous\ operation}}
+\DoxyCodeLine{\Hypertarget{http__session_8hpp_source_l00046}00046\ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{classcl__http_1_1http__session_a21e347fa663815a13787b76ca358f7d7}{run}}(}
+\DoxyCodeLine{\Hypertarget{http__session_8hpp_source_l00047}00047\ \ \ \ \ \textcolor{keyword}{const}\ std::string\ \&\ host,\ \textcolor{keyword}{const}\ std::string\ \&\ target,}
+\DoxyCodeLine{\Hypertarget{http__session_8hpp_source_l00048}00048\ \ \ \ \ \textcolor{keyword}{const}\ boost::beast::http::verb\ http\_method,\ \textcolor{keyword}{const}\ \textcolor{keywordtype}{int}\ \&\ version)\ \textcolor{keyword}{override};}
+\DoxyCodeLine{\Hypertarget{http__session_8hpp_source_l00049}00049\ }
+\DoxyCodeLine{\Hypertarget{http__session_8hpp_source_l00050}\mbox{\hyperlink{classcl__http_1_1http__session_a50a4143ef88af8eea644d2f70c5f0476}{00050}}\ \ \ std::string\ \mbox{\hyperlink{classcl__http_1_1http__session_a50a4143ef88af8eea644d2f70c5f0476}{getPort}}()\textcolor{keyword}{\ override\ }\{\ \textcolor{keywordflow}{return}\ \mbox{\hyperlink{classcl__http_1_1http__session_a1e4e46833143a7588aa09a3a11cbb6a2}{kPort}};\ \}}
+\DoxyCodeLine{\Hypertarget{http__session_8hpp_source_l00051}00051\ }
+\DoxyCodeLine{\Hypertarget{http__session_8hpp_source_l00052}00052\ \textcolor{keyword}{private}:}
+\DoxyCodeLine{\Hypertarget{http__session_8hpp_source_l00053}\mbox{\hyperlink{classcl__http_1_1http__session_a1e4e46833143a7588aa09a3a11cbb6a2}{00053}}\ \ \ \textcolor{keyword}{const}\ std::string\ \mbox{\hyperlink{classcl__http_1_1http__session_a1e4e46833143a7588aa09a3a11cbb6a2}{kPort}}\ =\ \textcolor{stringliteral}{"{}80"{}};}
+\DoxyCodeLine{\Hypertarget{http__session_8hpp_source_l00054}00054\ }
+\DoxyCodeLine{\Hypertarget{http__session_8hpp_source_l00055}00055\ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{classcl__http_1_1http__session_a0cd341815a1b6ad6360865bbc7f62a80}{on\_resolve}}(}
+\DoxyCodeLine{\Hypertarget{http__session_8hpp_source_l00056}00056\ \ \ \ \ boost::beast::error\_code\ ec,\ boost::asio::ip::tcp::resolver::results\_type\ results)\ \textcolor{keyword}{override};}
+\DoxyCodeLine{\Hypertarget{http__session_8hpp_source_l00057}00057\ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{classcl__http_1_1http__session_a954e89b874ee90cb1ae575ef54720fd4}{fail}}(boost::beast::error\_code\ ec,\ \textcolor{keyword}{const}\ \textcolor{keywordtype}{char}\ *\ what)\ \textcolor{keyword}{override};}
+\DoxyCodeLine{\Hypertarget{http__session_8hpp_source_l00058}00058\ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{classcl__http_1_1http__session_a70e753424263bbac3ea55c75497736f3}{on\_connect}}(}
+\DoxyCodeLine{\Hypertarget{http__session_8hpp_source_l00059}00059\ \ \ \ \ boost::beast::error\_code\ ec,}
+\DoxyCodeLine{\Hypertarget{http__session_8hpp_source_l00060}00060\ \ \ \ \ boost::asio::ip::tcp::resolver::results\_type::endpoint\_type)\ \textcolor{keyword}{override};}
+\DoxyCodeLine{\Hypertarget{http__session_8hpp_source_l00061}00061\ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{classcl__http_1_1http__session_aa71e7107fb3e13020fc3aaab4e0853d8}{on\_write}}(boost::beast::error\_code\ ec,\ std::size\_t\ bytes\_transferred)\ \textcolor{keyword}{override};}
+\DoxyCodeLine{\Hypertarget{http__session_8hpp_source_l00062}00062\ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{classcl__http_1_1http__session_a0d198a18f1a9e4ea125351f6e3377785}{on\_read}}(boost::beast::error\_code\ ec,\ std::size\_t\ bytes\_transferred)\ \textcolor{keyword}{override};}
+\DoxyCodeLine{\Hypertarget{http__session_8hpp_source_l00063}00063\ }
+\DoxyCodeLine{\Hypertarget{http__session_8hpp_source_l00064}\mbox{\hyperlink{classcl__http_1_1http__session_a7ecb962d1678a0877b8dd2224cb4ca13}{00064}}\ \ \ std::function<void(\textcolor{keyword}{const}\ \mbox{\hyperlink{classcl__http_1_1http__session__base_aea2d08afac60fd6a5797d6affdeeef0b}{TResponse}}\ \&)>\ \mbox{\hyperlink{classcl__http_1_1http__session_a7ecb962d1678a0877b8dd2224cb4ca13}{onResponse}};}
+\DoxyCodeLine{\Hypertarget{http__session_8hpp_source_l00065}00065\ }
+\DoxyCodeLine{\Hypertarget{http__session_8hpp_source_l00066}\mbox{\hyperlink{classcl__http_1_1http__session_a689ee53fafd3f68ad082337d5b59db17}{00066}}\ \ \ boost::asio::ip::tcp::resolver\ \mbox{\hyperlink{classcl__http_1_1http__session_a689ee53fafd3f68ad082337d5b59db17}{resolver\_}};}
+\DoxyCodeLine{\Hypertarget{http__session_8hpp_source_l00067}\mbox{\hyperlink{classcl__http_1_1http__session_a752d924c51490fe249b70ac412f6a9b4}{00067}}\ \ \ boost::beast::tcp\_stream\ \mbox{\hyperlink{classcl__http_1_1http__session_a752d924c51490fe249b70ac412f6a9b4}{stream\_}};}
+\DoxyCodeLine{\Hypertarget{http__session_8hpp_source_l00068}\mbox{\hyperlink{classcl__http_1_1http__session_a0fdddd1d6b47c6768b1bca80a8c549d2}{00068}}\ \ \ boost::beast::flat\_buffer\ \mbox{\hyperlink{classcl__http_1_1http__session_a0fdddd1d6b47c6768b1bca80a8c549d2}{buffer\_}};\ \ \textcolor{comment}{//\ (Must\ persist\ between\ reads)}}
+\DoxyCodeLine{\Hypertarget{http__session_8hpp_source_l00069}\mbox{\hyperlink{classcl__http_1_1http__session_a5579dcf950fe220aa24ea2299f6d1421}{00069}}\ \ \ boost::beast::http::request<boost::beast::http::empty\_body>\ \mbox{\hyperlink{classcl__http_1_1http__session_a5579dcf950fe220aa24ea2299f6d1421}{req\_}};}
+\DoxyCodeLine{\Hypertarget{http__session_8hpp_source_l00070}\mbox{\hyperlink{classcl__http_1_1http__session_a898f3706eb4ec20e01d91a6ba228750e}{00070}}\ \ \ boost::beast::http::response<boost::beast::http::string\_body>\ \mbox{\hyperlink{classcl__http_1_1http__session_a898f3706eb4ec20e01d91a6ba228750e}{res\_}};}
+\DoxyCodeLine{\Hypertarget{http__session_8hpp_source_l00071}00071\ \};}
+\DoxyCodeLine{\Hypertarget{http__session_8hpp_source_l00072}00072\ \}\ \ \textcolor{comment}{//\ namespace\ cl\_http}}
+
+\end{DoxyCode}
