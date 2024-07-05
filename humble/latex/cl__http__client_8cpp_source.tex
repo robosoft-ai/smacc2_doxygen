@@ -1,0 +1,88 @@
+\doxysection{cl\+\_\+http\+\_\+client.\+cpp}
+\hypertarget{cl__http__client_8cpp_source}{}\label{cl__http__client_8cpp_source}\index{smacc2\_client\_library/http\_client/src/http\_client/cl\_http\_client.cpp@{smacc2\_client\_library/http\_client/src/http\_client/cl\_http\_client.cpp}}
+\mbox{\hyperlink{cl__http__client_8cpp}{Go to the documentation of this file.}}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\Hypertarget{cl__http__client_8cpp_source_l00001}00001\ \textcolor{comment}{//\ Copyright\ 2023\ RobosoftAI\ Inc.}}
+\DoxyCodeLine{\Hypertarget{cl__http__client_8cpp_source_l00002}00002\ \textcolor{comment}{//}}
+\DoxyCodeLine{\Hypertarget{cl__http__client_8cpp_source_l00003}00003\ \textcolor{comment}{//\ Licensed\ under\ the\ Apache\ License,\ Version\ 2.0\ (the\ "{}License"{});}}
+\DoxyCodeLine{\Hypertarget{cl__http__client_8cpp_source_l00004}00004\ \textcolor{comment}{//\ you\ may\ not\ use\ this\ file\ except\ in\ compliance\ with\ the\ License.}}
+\DoxyCodeLine{\Hypertarget{cl__http__client_8cpp_source_l00005}00005\ \textcolor{comment}{//\ You\ may\ obtain\ a\ copy\ of\ the\ License\ at}}
+\DoxyCodeLine{\Hypertarget{cl__http__client_8cpp_source_l00006}00006\ \textcolor{comment}{//}}
+\DoxyCodeLine{\Hypertarget{cl__http__client_8cpp_source_l00007}00007\ \textcolor{comment}{//\ \ \ \ \ http://www.apache.org/licenses/LICENSE-\/2.0}}
+\DoxyCodeLine{\Hypertarget{cl__http__client_8cpp_source_l00008}00008\ \textcolor{comment}{//}}
+\DoxyCodeLine{\Hypertarget{cl__http__client_8cpp_source_l00009}00009\ \textcolor{comment}{//\ Unless\ required\ by\ applicable\ law\ or\ agreed\ to\ in\ writing,\ software}}
+\DoxyCodeLine{\Hypertarget{cl__http__client_8cpp_source_l00010}00010\ \textcolor{comment}{//\ distributed\ under\ the\ License\ is\ distributed\ on\ an\ "{}AS\ IS"{}\ BASIS,}}
+\DoxyCodeLine{\Hypertarget{cl__http__client_8cpp_source_l00011}00011\ \textcolor{comment}{//\ WITHOUT\ WARRANTIES\ OR\ CONDITIONS\ OF\ ANY\ KIND,\ either\ express\ or\ implied.}}
+\DoxyCodeLine{\Hypertarget{cl__http__client_8cpp_source_l00012}00012\ \textcolor{comment}{//\ See\ the\ License\ for\ the\ specific\ language\ governing\ permissions\ and}}
+\DoxyCodeLine{\Hypertarget{cl__http__client_8cpp_source_l00013}00013\ \textcolor{comment}{//\ limitations\ under\ the\ License.}}
+\DoxyCodeLine{\Hypertarget{cl__http__client_8cpp_source_l00014}00014\ }
+\DoxyCodeLine{\Hypertarget{cl__http__client_8cpp_source_l00015}00015\ \textcolor{comment}{/*****************************************************************************************************************}}
+\DoxyCodeLine{\Hypertarget{cl__http__client_8cpp_source_l00016}00016\ \textcolor{comment}{\ *}}
+\DoxyCodeLine{\Hypertarget{cl__http__client_8cpp_source_l00017}00017\ \textcolor{comment}{\ *\ \ \ Authors:\ Jaycee\ Lock}}
+\DoxyCodeLine{\Hypertarget{cl__http__client_8cpp_source_l00018}00018\ \textcolor{comment}{\ *}}
+\DoxyCodeLine{\Hypertarget{cl__http__client_8cpp_source_l00019}00019\ \textcolor{comment}{\ ******************************************************************************************************************/}}
+\DoxyCodeLine{\Hypertarget{cl__http__client_8cpp_source_l00020}00020\ }
+\DoxyCodeLine{\Hypertarget{cl__http__client_8cpp_source_l00021}00021\ \textcolor{preprocessor}{\#include\ <\mbox{\hyperlink{cl__http__client_8hpp}{http\_client/cl\_http\_client.hpp}}>}}
+\DoxyCodeLine{\Hypertarget{cl__http__client_8cpp_source_l00022}00022\ }
+\DoxyCodeLine{\Hypertarget{cl__http__client_8cpp_source_l00023}00023\ \textcolor{keyword}{namespace\ }\mbox{\hyperlink{namespacecl__http}{cl\_http}}}
+\DoxyCodeLine{\Hypertarget{cl__http__client_8cpp_source_l00024}00024\ \{}
+\DoxyCodeLine{\Hypertarget{cl__http__client_8cpp_source_l00025}\mbox{\hyperlink{classcl__http_1_1ClHttp_a215f5cae974e2a765744d0b248b54198}{00025}}\ \mbox{\hyperlink{classcl__http_1_1ClHttp_a215f5cae974e2a765744d0b248b54198}{ClHttp::ClHttp}}(\textcolor{keyword}{const}\ std::string\ \&\ server\_name,\ \textcolor{keyword}{const}\ \textcolor{keywordtype}{int}\ \&\ timeout)}
+\DoxyCodeLine{\Hypertarget{cl__http__client_8cpp_source_l00026}00026\ :\ initialized\_\{false\},}
+\DoxyCodeLine{\Hypertarget{cl__http__client_8cpp_source_l00027}00027\ \ \ timeout\_\{timeout\},}
+\DoxyCodeLine{\Hypertarget{cl__http__client_8cpp_source_l00028}00028\ \ \ server\_\{server\_name\},}
+\DoxyCodeLine{\Hypertarget{cl__http__client_8cpp_source_l00029}00029\ \ \ worker\_guard\_\{boost::asio::make\_work\_guard(io\_context\_.get\_executor())\},}
+\DoxyCodeLine{\Hypertarget{cl__http__client_8cpp_source_l00030}00030\ \ \ ssl\_context\_\{boost::asio::ssl::context::tlsv12\_client\}}
+\DoxyCodeLine{\Hypertarget{cl__http__client_8cpp_source_l00031}00031\ \{}
+\DoxyCodeLine{\Hypertarget{cl__http__client_8cpp_source_l00032}00032\ \ \ \mbox{\hyperlink{classcl__http_1_1ClHttp_ac4da7b53efc577bba5c6ecd0c1ae7506}{ssl\_context\_}}.set\_default\_verify\_paths();}
+\DoxyCodeLine{\Hypertarget{cl__http__client_8cpp_source_l00033}00033\ \ \ \mbox{\hyperlink{classcl__http_1_1ClHttp_ac4da7b53efc577bba5c6ecd0c1ae7506}{ssl\_context\_}}.set\_verify\_mode(boost::asio::ssl::verify\_peer);}
+\DoxyCodeLine{\Hypertarget{cl__http__client_8cpp_source_l00034}00034\ \}}
+\DoxyCodeLine{\Hypertarget{cl__http__client_8cpp_source_l00035}00035\ }
+\DoxyCodeLine{\Hypertarget{cl__http__client_8cpp_source_l00036}\mbox{\hyperlink{classcl__http_1_1ClHttp_ad5fa071d41f69575e512b0f7d9fb0af1}{00036}}\ \mbox{\hyperlink{classcl__http_1_1ClHttp_ad5fa071d41f69575e512b0f7d9fb0af1}{ClHttp::\string~ClHttp}}()}
+\DoxyCodeLine{\Hypertarget{cl__http__client_8cpp_source_l00037}00037\ \{}
+\DoxyCodeLine{\Hypertarget{cl__http__client_8cpp_source_l00038}00038\ \ \ \mbox{\hyperlink{classcl__http_1_1ClHttp_a6e08df95678fe2c82a1cfad36cb57f40}{worker\_guard\_}}.reset();}
+\DoxyCodeLine{\Hypertarget{cl__http__client_8cpp_source_l00039}00039\ \ \ \mbox{\hyperlink{classcl__http_1_1ClHttp_a038c387888a134ef67e03e4e18ea07b4}{tcp\_connection\_runner\_}}.join();}
+\DoxyCodeLine{\Hypertarget{cl__http__client_8cpp_source_l00040}00040\ \}}
+\DoxyCodeLine{\Hypertarget{cl__http__client_8cpp_source_l00041}00041\ }
+\DoxyCodeLine{\Hypertarget{cl__http__client_8cpp_source_l00042}\mbox{\hyperlink{classcl__http_1_1ClHttp_a8adb22419c985c263c62939e0e60aa76}{00042}}\ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{classcl__http_1_1ClHttp_a8adb22419c985c263c62939e0e60aa76}{ClHttp::onInitialize}}()}
+\DoxyCodeLine{\Hypertarget{cl__http__client_8cpp_source_l00043}00043\ \{}
+\DoxyCodeLine{\Hypertarget{cl__http__client_8cpp_source_l00044}00044\ \ \ \textcolor{keywordflow}{if}\ (!\mbox{\hyperlink{classcl__http_1_1ClHttp_ae20ec8704661abc0643eeae185af649e}{initialized\_}})}
+\DoxyCodeLine{\Hypertarget{cl__http__client_8cpp_source_l00045}00045\ \ \ \{}
+\DoxyCodeLine{\Hypertarget{cl__http__client_8cpp_source_l00046}00046\ \ \ \ \ \mbox{\hyperlink{classcl__http_1_1ClHttp_a038c387888a134ef67e03e4e18ea07b4}{tcp\_connection\_runner\_}}\ =\ std::thread\{[\&]()\ \{\ \mbox{\hyperlink{classcl__http_1_1ClHttp_a145a3c54f9942b892094b4db07ca4dec}{io\_context\_}}.run();\ \}\};}
+\DoxyCodeLine{\Hypertarget{cl__http__client_8cpp_source_l00047}00047\ \ \ \ \ this-\/>\mbox{\hyperlink{classcl__http_1_1ClHttp_ae20ec8704661abc0643eeae185af649e}{initialized\_}}\ =\ \textcolor{keyword}{true};}
+\DoxyCodeLine{\Hypertarget{cl__http__client_8cpp_source_l00048}00048\ \ \ \}}
+\DoxyCodeLine{\Hypertarget{cl__http__client_8cpp_source_l00049}00049\ \}}
+\DoxyCodeLine{\Hypertarget{cl__http__client_8cpp_source_l00050}00050\ }
+\DoxyCodeLine{\Hypertarget{cl__http__client_8cpp_source_l00051}\mbox{\hyperlink{classcl__http_1_1ClHttp_aa3a11e70f2e337a71ebdb78fca4764b9}{00051}}\ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{classcl__http_1_1ClHttp_aa3a11e70f2e337a71ebdb78fca4764b9}{ClHttp::makeRequest}}(\textcolor{keyword}{const}\ \mbox{\hyperlink{classcl__http_1_1ClHttp_a7cd89fd11758a541dad4094fdc59d6ef}{kHttpRequestMethod}}\ http\_method,\ \textcolor{keyword}{const}\ std::string\ \&\ path)}
+\DoxyCodeLine{\Hypertarget{cl__http__client_8cpp_source_l00052}00052\ \{}
+\DoxyCodeLine{\Hypertarget{cl__http__client_8cpp_source_l00053}00053\ \ \ \textcolor{keyword}{auto}\ path\_used\ =\ path;}
+\DoxyCodeLine{\Hypertarget{cl__http__client_8cpp_source_l00054}00054\ \ \ \textcolor{keywordflow}{if}\ (path[0]\ !=\ \textcolor{charliteral}{'/'})}
+\DoxyCodeLine{\Hypertarget{cl__http__client_8cpp_source_l00055}00055\ \ \ \{}
+\DoxyCodeLine{\Hypertarget{cl__http__client_8cpp_source_l00056}00056\ \ \ \ \ std::reverse(path\_used.begin(),\ path\_used.end());}
+\DoxyCodeLine{\Hypertarget{cl__http__client_8cpp_source_l00057}00057\ \ \ \ \ path\_used\ +=\ \textcolor{charliteral}{'/'};}
+\DoxyCodeLine{\Hypertarget{cl__http__client_8cpp_source_l00058}00058\ \ \ \ \ std::reverse(path\_used.begin(),\ path\_used.end());}
+\DoxyCodeLine{\Hypertarget{cl__http__client_8cpp_source_l00059}00059\ \ \ \}}
+\DoxyCodeLine{\Hypertarget{cl__http__client_8cpp_source_l00060}00060\ }
+\DoxyCodeLine{\Hypertarget{cl__http__client_8cpp_source_l00061}00061\ \ \ RCLCPP\_INFO(this-\/>\mbox{\hyperlink{classsmacc2_1_1ISmaccClient_aaa82b9e079d2faf7bf4ba3a4dfecbf89}{getLogger}}(),\ \textcolor{stringliteral}{"{}SSL?\ \%d"{}},\ \mbox{\hyperlink{classcl__http_1_1ClHttp_ac4aafb34edfb55f7b5f4bd673487383f}{server\_}}.\mbox{\hyperlink{classcl__http_1_1ClHttp_1_1Server_a39fbd523c8a4c523e5b1ebf4b24902fa}{isSSL}}());}
+\DoxyCodeLine{\Hypertarget{cl__http__client_8cpp_source_l00062}00062\ \ \ RCLCPP\_INFO(this-\/>\mbox{\hyperlink{classsmacc2_1_1ISmaccClient_aaa82b9e079d2faf7bf4ba3a4dfecbf89}{getLogger}}(),\ \textcolor{stringliteral}{"{}Server\ \%s"{}},\ \mbox{\hyperlink{classcl__http_1_1ClHttp_ac4aafb34edfb55f7b5f4bd673487383f}{server\_}}.\mbox{\hyperlink{classcl__http_1_1ClHttp_1_1Server_a116e50501adffc1c8b05772b4394bc9f}{getServerName}}().c\_str());}
+\DoxyCodeLine{\Hypertarget{cl__http__client_8cpp_source_l00063}00063\ \ \ RCLCPP\_INFO(this-\/>\mbox{\hyperlink{classsmacc2_1_1ISmaccClient_aaa82b9e079d2faf7bf4ba3a4dfecbf89}{getLogger}}(),\ \textcolor{stringliteral}{"{}Path\ \%s"{}},\ path\_used.c\_str());}
+\DoxyCodeLine{\Hypertarget{cl__http__client_8cpp_source_l00064}00064\ \ \ RCLCPP\_INFO(this-\/>\mbox{\hyperlink{classsmacc2_1_1ISmaccClient_aaa82b9e079d2faf7bf4ba3a4dfecbf89}{getLogger}}(),\ \textcolor{stringliteral}{"{}Port\ \%s"{}},\ \mbox{\hyperlink{classcl__http_1_1ClHttp_ac4aafb34edfb55f7b5f4bd673487383f}{server\_}}.\mbox{\hyperlink{classcl__http_1_1ClHttp_1_1Server_a45857fa145d53e89a3a88bb7842deb57}{getPort}}().c\_str());}
+\DoxyCodeLine{\Hypertarget{cl__http__client_8cpp_source_l00065}00065\ }
+\DoxyCodeLine{\Hypertarget{cl__http__client_8cpp_source_l00066}00066\ \ \ \textcolor{keywordflow}{if}\ (\mbox{\hyperlink{classcl__http_1_1ClHttp_ac4aafb34edfb55f7b5f4bd673487383f}{server\_}}.\mbox{\hyperlink{classcl__http_1_1ClHttp_1_1Server_a39fbd523c8a4c523e5b1ebf4b24902fa}{isSSL}}())}
+\DoxyCodeLine{\Hypertarget{cl__http__client_8cpp_source_l00067}00067\ \ \ \{}
+\DoxyCodeLine{\Hypertarget{cl__http__client_8cpp_source_l00068}00068\ \ \ \ \ std::make\_shared<ssl\_http\_session>(}
+\DoxyCodeLine{\Hypertarget{cl__http__client_8cpp_source_l00069}00069\ \ \ \ \ \ \ boost::asio::make\_strand(\mbox{\hyperlink{classcl__http_1_1ClHttp_a145a3c54f9942b892094b4db07ca4dec}{io\_context\_}}),\ \mbox{\hyperlink{classcl__http_1_1ClHttp_ac4da7b53efc577bba5c6ecd0c1ae7506}{ssl\_context\_}},\ \mbox{\hyperlink{classcl__http_1_1ClHttp_a7279c2681c242fa465f23cfe4e2b834a}{callbackHandler}})}
+\DoxyCodeLine{\Hypertarget{cl__http__client_8cpp_source_l00070}00070\ \ \ \ \ \ \ -\/>run(}
+\DoxyCodeLine{\Hypertarget{cl__http__client_8cpp_source_l00071}00071\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{classcl__http_1_1ClHttp_ac4aafb34edfb55f7b5f4bd673487383f}{server\_}}.\mbox{\hyperlink{classcl__http_1_1ClHttp_1_1Server_a116e50501adffc1c8b05772b4394bc9f}{getServerName}}(),\ path\_used,\ \textcolor{keyword}{static\_cast<}boost::beast::http::verb\textcolor{keyword}{>}(http\_method),}
+\DoxyCodeLine{\Hypertarget{cl__http__client_8cpp_source_l00072}00072\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{classcl__http_1_1ClHttp_aabb28ef5886dc64343fde985c071ec1f}{HTTP\_VERSION}});}
+\DoxyCodeLine{\Hypertarget{cl__http__client_8cpp_source_l00073}00073\ \ \ \}}
+\DoxyCodeLine{\Hypertarget{cl__http__client_8cpp_source_l00074}00074\ \ \ \textcolor{keywordflow}{else}}
+\DoxyCodeLine{\Hypertarget{cl__http__client_8cpp_source_l00075}00075\ \ \ \{}
+\DoxyCodeLine{\Hypertarget{cl__http__client_8cpp_source_l00076}00076\ \ \ \ \ std::make\_shared<http\_session>(boost::asio::make\_strand(\mbox{\hyperlink{classcl__http_1_1ClHttp_a145a3c54f9942b892094b4db07ca4dec}{io\_context\_}}),\ \mbox{\hyperlink{classcl__http_1_1ClHttp_a7279c2681c242fa465f23cfe4e2b834a}{callbackHandler}})}
+\DoxyCodeLine{\Hypertarget{cl__http__client_8cpp_source_l00077}00077\ \ \ \ \ \ \ -\/>run(}
+\DoxyCodeLine{\Hypertarget{cl__http__client_8cpp_source_l00078}00078\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{classcl__http_1_1ClHttp_ac4aafb34edfb55f7b5f4bd673487383f}{server\_}}.\mbox{\hyperlink{classcl__http_1_1ClHttp_1_1Server_a116e50501adffc1c8b05772b4394bc9f}{getServerName}}(),\ path\_used,\ \textcolor{keyword}{static\_cast<}boost::beast::http::verb\textcolor{keyword}{>}(http\_method),}
+\DoxyCodeLine{\Hypertarget{cl__http__client_8cpp_source_l00079}00079\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{classcl__http_1_1ClHttp_aabb28ef5886dc64343fde985c071ec1f}{HTTP\_VERSION}});}
+\DoxyCodeLine{\Hypertarget{cl__http__client_8cpp_source_l00080}00080\ \ \ \}}
+\DoxyCodeLine{\Hypertarget{cl__http__client_8cpp_source_l00081}00081\ \}}
+\DoxyCodeLine{\Hypertarget{cl__http__client_8cpp_source_l00082}00082\ \}\ \ \textcolor{comment}{//\ namespace\ cl\_http}}
+
+\end{DoxyCode}
