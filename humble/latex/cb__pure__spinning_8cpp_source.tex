@@ -1,0 +1,108 @@
+\doxysection{cb\+\_\+pure\+\_\+spinning.\+cpp}
+\hypertarget{cb__pure__spinning_8cpp_source}{}\label{cb__pure__spinning_8cpp_source}\index{smacc2\_client\_library/nav2z\_client/nav2z\_client/src/nav2z\_client/client\_behaviors/cb\_pure\_spinning.cpp@{smacc2\_client\_library/nav2z\_client/nav2z\_client/src/nav2z\_client/client\_behaviors/cb\_pure\_spinning.cpp}}
+\mbox{\hyperlink{cb__pure__spinning_8cpp}{Go to the documentation of this file.}}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\Hypertarget{cb__pure__spinning_8cpp_source_l00001}00001\ \textcolor{comment}{//\ Copyright\ 2021\ RobosoftAI\ Inc.}}
+\DoxyCodeLine{\Hypertarget{cb__pure__spinning_8cpp_source_l00002}00002\ \textcolor{comment}{//}}
+\DoxyCodeLine{\Hypertarget{cb__pure__spinning_8cpp_source_l00003}00003\ \textcolor{comment}{//\ Licensed\ under\ the\ Apache\ License,\ Version\ 2.0\ (the\ "{}License"{});}}
+\DoxyCodeLine{\Hypertarget{cb__pure__spinning_8cpp_source_l00004}00004\ \textcolor{comment}{//\ you\ may\ not\ use\ this\ file\ except\ in\ compliance\ with\ the\ License.}}
+\DoxyCodeLine{\Hypertarget{cb__pure__spinning_8cpp_source_l00005}00005\ \textcolor{comment}{//\ You\ may\ obtain\ a\ copy\ of\ the\ License\ at}}
+\DoxyCodeLine{\Hypertarget{cb__pure__spinning_8cpp_source_l00006}00006\ \textcolor{comment}{//}}
+\DoxyCodeLine{\Hypertarget{cb__pure__spinning_8cpp_source_l00007}00007\ \textcolor{comment}{//\ \ \ \ \ http://www.apache.org/licenses/LICENSE-\/2.0}}
+\DoxyCodeLine{\Hypertarget{cb__pure__spinning_8cpp_source_l00008}00008\ \textcolor{comment}{//}}
+\DoxyCodeLine{\Hypertarget{cb__pure__spinning_8cpp_source_l00009}00009\ \textcolor{comment}{//\ Unless\ required\ by\ applicable\ law\ or\ agreed\ to\ in\ writing,\ software}}
+\DoxyCodeLine{\Hypertarget{cb__pure__spinning_8cpp_source_l00010}00010\ \textcolor{comment}{//\ distributed\ under\ the\ License\ is\ distributed\ on\ an\ "{}AS\ IS"{}\ BASIS,}}
+\DoxyCodeLine{\Hypertarget{cb__pure__spinning_8cpp_source_l00011}00011\ \textcolor{comment}{//\ WITHOUT\ WARRANTIES\ OR\ CONDITIONS\ OF\ ANY\ KIND,\ either\ express\ or\ implied.}}
+\DoxyCodeLine{\Hypertarget{cb__pure__spinning_8cpp_source_l00012}00012\ \textcolor{comment}{//\ See\ the\ License\ for\ the\ specific\ language\ governing\ permissions\ and}}
+\DoxyCodeLine{\Hypertarget{cb__pure__spinning_8cpp_source_l00013}00013\ \textcolor{comment}{//\ limitations\ under\ the\ License.}}
+\DoxyCodeLine{\Hypertarget{cb__pure__spinning_8cpp_source_l00014}00014\ }
+\DoxyCodeLine{\Hypertarget{cb__pure__spinning_8cpp_source_l00015}00015\ \textcolor{comment}{/*****************************************************************************************************************}}
+\DoxyCodeLine{\Hypertarget{cb__pure__spinning_8cpp_source_l00016}00016\ \textcolor{comment}{\ *}}
+\DoxyCodeLine{\Hypertarget{cb__pure__spinning_8cpp_source_l00017}00017\ \textcolor{comment}{\ *\ \ \ Authors:\ Pablo\ Inigo\ Blasco,\ Brett\ Aldrich}}
+\DoxyCodeLine{\Hypertarget{cb__pure__spinning_8cpp_source_l00018}00018\ \textcolor{comment}{\ *}}
+\DoxyCodeLine{\Hypertarget{cb__pure__spinning_8cpp_source_l00019}00019\ \textcolor{comment}{\ ******************************************************************************************************************/}}
+\DoxyCodeLine{\Hypertarget{cb__pure__spinning_8cpp_source_l00020}00020\ }
+\DoxyCodeLine{\Hypertarget{cb__pure__spinning_8cpp_source_l00021}00021\ \textcolor{preprocessor}{\#include\ <angles/angles.h>}}
+\DoxyCodeLine{\Hypertarget{cb__pure__spinning_8cpp_source_l00022}00022\ \textcolor{preprocessor}{\#include\ <geometry\_msgs/msg/twist.hpp>}}
+\DoxyCodeLine{\Hypertarget{cb__pure__spinning_8cpp_source_l00023}00023\ \textcolor{preprocessor}{\#include\ <\mbox{\hyperlink{cb__pure__spinning_8hpp}{nav2z\_client/client\_behaviors/cb\_pure\_spinning.hpp}}>}}
+\DoxyCodeLine{\Hypertarget{cb__pure__spinning_8cpp_source_l00024}00024\ \textcolor{preprocessor}{\#include\ <\mbox{\hyperlink{cp__pose_8hpp}{nav2z\_client/components/pose/cp\_pose.hpp}}>}}
+\DoxyCodeLine{\Hypertarget{cb__pure__spinning_8cpp_source_l00025}00025\ \textcolor{preprocessor}{\#include\ <sensor\_msgs/msg/laser\_scan.hpp>}}
+\DoxyCodeLine{\Hypertarget{cb__pure__spinning_8cpp_source_l00026}00026\ \textcolor{keyword}{namespace\ }\mbox{\hyperlink{namespacecl__nav2z}{cl\_nav2z}}}
+\DoxyCodeLine{\Hypertarget{cb__pure__spinning_8cpp_source_l00027}00027\ \{}
+\DoxyCodeLine{\Hypertarget{cb__pure__spinning_8cpp_source_l00028}00028\ }
+\DoxyCodeLine{\Hypertarget{cb__pure__spinning_8cpp_source_l00029}\mbox{\hyperlink{structcl__nav2z_1_1CbPureSpinning_ae4300eb432e2de92db74f4117caddf24}{00029}}\ \mbox{\hyperlink{structcl__nav2z_1_1CbPureSpinning_ae4300eb432e2de92db74f4117caddf24}{CbPureSpinning::CbPureSpinning}}(\textcolor{keywordtype}{double}\ targetYaw\_rads,\ \textcolor{keywordtype}{double}\ max\_angular\_yaw\_speed)}
+\DoxyCodeLine{\Hypertarget{cb__pure__spinning_8cpp_source_l00030}00030\ :\ targetYaw\_\_rads(targetYaw\_rads),}
+\DoxyCodeLine{\Hypertarget{cb__pure__spinning_8cpp_source_l00031}00031\ \ \ k\_betta\_(1.0),}
+\DoxyCodeLine{\Hypertarget{cb__pure__spinning_8cpp_source_l00032}00032\ \ \ max\_angular\_yaw\_speed\_(max\_angular\_yaw\_speed),}
+\DoxyCodeLine{\Hypertarget{cb__pure__spinning_8cpp_source_l00033}00033\ \ \ yaw\_goal\_tolerance\_rads\_(0.1)}
+\DoxyCodeLine{\Hypertarget{cb__pure__spinning_8cpp_source_l00034}00034\ \{}
+\DoxyCodeLine{\Hypertarget{cb__pure__spinning_8cpp_source_l00035}00035\ \}}
+\DoxyCodeLine{\Hypertarget{cb__pure__spinning_8cpp_source_l00036}00036\ }
+\DoxyCodeLine{\Hypertarget{cb__pure__spinning_8cpp_source_l00037}\mbox{\hyperlink{structcl__nav2z_1_1CbPureSpinning_a389406c68f1d0d3530fc7b64a99d7e4b}{00037}}\ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{structcl__nav2z_1_1CbPureSpinning_a389406c68f1d0d3530fc7b64a99d7e4b}{CbPureSpinning::updateParameters}}()\ \{\}}
+\DoxyCodeLine{\Hypertarget{cb__pure__spinning_8cpp_source_l00038}00038\ }
+\DoxyCodeLine{\Hypertarget{cb__pure__spinning_8cpp_source_l00039}\mbox{\hyperlink{structcl__nav2z_1_1CbPureSpinning_a6a606ea062bb0040f54f91b9a4a4aed8}{00039}}\ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{structcl__nav2z_1_1CbPureSpinning_a6a606ea062bb0040f54f91b9a4a4aed8}{CbPureSpinning::onEntry}}()}
+\DoxyCodeLine{\Hypertarget{cb__pure__spinning_8cpp_source_l00040}00040\ \{}
+\DoxyCodeLine{\Hypertarget{cb__pure__spinning_8cpp_source_l00041}00041\ \ \ \textcolor{keyword}{auto}\ nh\ =\ this-\/>\mbox{\hyperlink{classsmacc2_1_1ISmaccClientBehavior_aa1b28d5e8a5208fff8160f9df9a89dc6}{getNode}}();}
+\DoxyCodeLine{\Hypertarget{cb__pure__spinning_8cpp_source_l00042}00042\ \ \ \mbox{\hyperlink{structcl__nav2z_1_1CbPureSpinning_aebb320a87e6df6e120f586863dc58ce3}{cmd\_vel\_pub\_}}\ =\ nh-\/>create\_publisher<geometry\_msgs::msg::Twist>(\textcolor{stringliteral}{"{}/cmd\_vel"{}},\ rclcpp::QoS(1));}
+\DoxyCodeLine{\Hypertarget{cb__pure__spinning_8cpp_source_l00043}00043\ }
+\DoxyCodeLine{\Hypertarget{cb__pure__spinning_8cpp_source_l00044}00044\ \ \ \mbox{\hyperlink{classcl__nav2z_1_1Pose}{cl\_nav2z::Pose}}\ *\ pose;}
+\DoxyCodeLine{\Hypertarget{cb__pure__spinning_8cpp_source_l00045}00045\ \ \ this-\/>\mbox{\hyperlink{classsmacc2_1_1ISmaccClientBehavior_ae07cf749254cca233e15dc6f991aec12}{requiresComponent}}(pose);}
+\DoxyCodeLine{\Hypertarget{cb__pure__spinning_8cpp_source_l00046}00046\ }
+\DoxyCodeLine{\Hypertarget{cb__pure__spinning_8cpp_source_l00047}00047\ \ \ geometry\_msgs::msg::Twist\ cmd\_vel;}
+\DoxyCodeLine{\Hypertarget{cb__pure__spinning_8cpp_source_l00048}00048\ \ \ \mbox{\hyperlink{structcl__nav2z_1_1CbPureSpinning_ae0f7d43fffa102b47c79256a4b1aea7a}{goalReached\_}}\ =\ \textcolor{keyword}{false};}
+\DoxyCodeLine{\Hypertarget{cb__pure__spinning_8cpp_source_l00049}00049\ }
+\DoxyCodeLine{\Hypertarget{cb__pure__spinning_8cpp_source_l00050}00050\ \ \ geometry\_msgs::msg::Pose\ currentPose\ =\ pose-\/>toPoseMsg();}
+\DoxyCodeLine{\Hypertarget{cb__pure__spinning_8cpp_source_l00051}00051\ }
+\DoxyCodeLine{\Hypertarget{cb__pure__spinning_8cpp_source_l00052}00052\ \ \ rclcpp::Rate\ loop\_rate(10);}
+\DoxyCodeLine{\Hypertarget{cb__pure__spinning_8cpp_source_l00053}00053\ \ \ \textcolor{keywordtype}{double}\ countAngle\ =\ 0;}
+\DoxyCodeLine{\Hypertarget{cb__pure__spinning_8cpp_source_l00054}00054\ \ \ \textcolor{keyword}{auto}\ prevyaw\ =\ tf2::getYaw(currentPose.orientation);}
+\DoxyCodeLine{\Hypertarget{cb__pure__spinning_8cpp_source_l00055}00055\ \ \ \textcolor{keywordflow}{while}\ (rclcpp::ok()\ \&\&\ !\mbox{\hyperlink{structcl__nav2z_1_1CbPureSpinning_ae0f7d43fffa102b47c79256a4b1aea7a}{goalReached\_}})}
+\DoxyCodeLine{\Hypertarget{cb__pure__spinning_8cpp_source_l00056}00056\ \ \ \{}
+\DoxyCodeLine{\Hypertarget{cb__pure__spinning_8cpp_source_l00057}00057\ \ \ \ \ tf2::Quaternion\ q;}
+\DoxyCodeLine{\Hypertarget{cb__pure__spinning_8cpp_source_l00058}00058\ \ \ \ \ currentPose\ =\ pose-\/>toPoseMsg();}
+\DoxyCodeLine{\Hypertarget{cb__pure__spinning_8cpp_source_l00059}00059\ \ \ \ \ tf2::fromMsg(currentPose.orientation,\ q);}
+\DoxyCodeLine{\Hypertarget{cb__pure__spinning_8cpp_source_l00060}00060\ \ \ \ \ \textcolor{keyword}{auto}\ currentYaw\ =\ tf2::getYaw(currentPose.orientation);}
+\DoxyCodeLine{\Hypertarget{cb__pure__spinning_8cpp_source_l00061}00061\ \ \ \ \ \textcolor{keyword}{auto}\ deltaAngle\ =\ angles::shortest\_angular\_distance(prevyaw,\ currentYaw);}
+\DoxyCodeLine{\Hypertarget{cb__pure__spinning_8cpp_source_l00062}00062\ \ \ \ \ countAngle\ +=\ deltaAngle;}
+\DoxyCodeLine{\Hypertarget{cb__pure__spinning_8cpp_source_l00063}00063\ }
+\DoxyCodeLine{\Hypertarget{cb__pure__spinning_8cpp_source_l00064}00064\ \ \ \ \ prevyaw\ =\ currentYaw;}
+\DoxyCodeLine{\Hypertarget{cb__pure__spinning_8cpp_source_l00065}00065\ \ \ \ \ \textcolor{keywordtype}{double}\ angular\_error\ =\ \mbox{\hyperlink{structcl__nav2z_1_1CbPureSpinning_a038a664466817cef682ceec212d40e8d}{targetYaw\_\_rads}}\ -\/\ countAngle;}
+\DoxyCodeLine{\Hypertarget{cb__pure__spinning_8cpp_source_l00066}00066\ }
+\DoxyCodeLine{\Hypertarget{cb__pure__spinning_8cpp_source_l00067}00067\ \ \ \ \ \textcolor{keyword}{auto}\ omega\ =\ angular\_error\ *\ \mbox{\hyperlink{structcl__nav2z_1_1CbPureSpinning_a2055b9f2248f61d78833a3c8158fc935}{k\_betta\_}};}
+\DoxyCodeLine{\Hypertarget{cb__pure__spinning_8cpp_source_l00068}00068\ \ \ \ \ cmd\_vel.linear.x\ =\ 0;}
+\DoxyCodeLine{\Hypertarget{cb__pure__spinning_8cpp_source_l00069}00069\ \ \ \ \ cmd\_vel.linear.y\ =\ 0;}
+\DoxyCodeLine{\Hypertarget{cb__pure__spinning_8cpp_source_l00070}00070\ \ \ \ \ cmd\_vel.linear.z\ =\ 0;}
+\DoxyCodeLine{\Hypertarget{cb__pure__spinning_8cpp_source_l00071}00071\ \ \ \ \ cmd\_vel.angular.z\ =}
+\DoxyCodeLine{\Hypertarget{cb__pure__spinning_8cpp_source_l00072}00072\ \ \ \ \ \ \ std::min(std::max(omega,\ -\/fabs(\mbox{\hyperlink{structcl__nav2z_1_1CbPureSpinning_ae39be1595eacc29ab1a994b8ce50a4ad}{max\_angular\_yaw\_speed\_}})),\ fabs(\mbox{\hyperlink{structcl__nav2z_1_1CbPureSpinning_ae39be1595eacc29ab1a994b8ce50a4ad}{max\_angular\_yaw\_speed\_}}));}
+\DoxyCodeLine{\Hypertarget{cb__pure__spinning_8cpp_source_l00073}00073\ }
+\DoxyCodeLine{\Hypertarget{cb__pure__spinning_8cpp_source_l00074}00074\ \ \ \ \ RCLCPP\_INFO\_STREAM(\mbox{\hyperlink{classsmacc2_1_1ISmaccClientBehavior_a9c3d82542c800e2ba5207c5cff0e63e8}{getLogger}}(),\ \textcolor{stringliteral}{"{}["{}}\ <<\ \mbox{\hyperlink{classsmacc2_1_1ISmaccClientBehavior_a3feaa9c382a7d376b7ba0017a63e294e}{getName}}()\ <<\ \textcolor{stringliteral}{"{}]\ delta\ angle:\ "{}}\ <<\ deltaAngle);}
+\DoxyCodeLine{\Hypertarget{cb__pure__spinning_8cpp_source_l00075}00075\ \ \ \ \ RCLCPP\_INFO\_STREAM(\mbox{\hyperlink{classsmacc2_1_1ISmaccClientBehavior_a9c3d82542c800e2ba5207c5cff0e63e8}{getLogger}}(),\ \textcolor{stringliteral}{"{}["{}}\ <<\ \mbox{\hyperlink{classsmacc2_1_1ISmaccClientBehavior_a3feaa9c382a7d376b7ba0017a63e294e}{getName}}()\ <<\ \textcolor{stringliteral}{"{}]\ cummulated\ angle:\ "{}}\ <<\ countAngle);}
+\DoxyCodeLine{\Hypertarget{cb__pure__spinning_8cpp_source_l00076}00076\ \ \ \ \ RCLCPP\_INFO\_STREAM(\mbox{\hyperlink{classsmacc2_1_1ISmaccClientBehavior_a9c3d82542c800e2ba5207c5cff0e63e8}{getLogger}}(),\ \textcolor{stringliteral}{"{}["{}}\ <<\ \mbox{\hyperlink{classsmacc2_1_1ISmaccClientBehavior_a3feaa9c382a7d376b7ba0017a63e294e}{getName}}()\ <<\ \textcolor{stringliteral}{"{}]\ k\_betta\_:\ "{}}\ <<\ \mbox{\hyperlink{structcl__nav2z_1_1CbPureSpinning_a2055b9f2248f61d78833a3c8158fc935}{k\_betta\_}});}
+\DoxyCodeLine{\Hypertarget{cb__pure__spinning_8cpp_source_l00077}00077\ }
+\DoxyCodeLine{\Hypertarget{cb__pure__spinning_8cpp_source_l00078}00078\ \ \ \ \ RCLCPP\_INFO\_STREAM(}
+\DoxyCodeLine{\Hypertarget{cb__pure__spinning_8cpp_source_l00079}00079\ \ \ \ \ \ \ \mbox{\hyperlink{classsmacc2_1_1ISmaccClientBehavior_a9c3d82542c800e2ba5207c5cff0e63e8}{getLogger}}(),\ \textcolor{stringliteral}{"{}["{}}\ <<\ \mbox{\hyperlink{classsmacc2_1_1ISmaccClientBehavior_a3feaa9c382a7d376b7ba0017a63e294e}{getName}}()\ <<\ \textcolor{stringliteral}{"{}]\ angular\ error:\ "{}}\ <<\ angular\_error\ <<\ \textcolor{stringliteral}{"{}("{}}}
+\DoxyCodeLine{\Hypertarget{cb__pure__spinning_8cpp_source_l00080}00080\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ <<\ \mbox{\hyperlink{structcl__nav2z_1_1CbPureSpinning_a5d5b339231d1e0cb60a676acc7a87500}{yaw\_goal\_tolerance\_rads\_}}\ <<\ \textcolor{stringliteral}{"{})"{}});}
+\DoxyCodeLine{\Hypertarget{cb__pure__spinning_8cpp_source_l00081}00081\ \ \ \ \ RCLCPP\_INFO\_STREAM(}
+\DoxyCodeLine{\Hypertarget{cb__pure__spinning_8cpp_source_l00082}00082\ \ \ \ \ \ \ \mbox{\hyperlink{classsmacc2_1_1ISmaccClientBehavior_a9c3d82542c800e2ba5207c5cff0e63e8}{getLogger}}(),\ \textcolor{stringliteral}{"{}["{}}\ <<\ \mbox{\hyperlink{classsmacc2_1_1ISmaccClientBehavior_a3feaa9c382a7d376b7ba0017a63e294e}{getName}}()\ <<\ \textcolor{stringliteral}{"{}]\ command\ angular\ speed:\ "{}}\ <<\ cmd\_vel.angular.z);}
+\DoxyCodeLine{\Hypertarget{cb__pure__spinning_8cpp_source_l00083}00083\ }
+\DoxyCodeLine{\Hypertarget{cb__pure__spinning_8cpp_source_l00084}00084\ \ \ \ \ \textcolor{keywordflow}{if}\ (fabs(angular\_error)\ <\ \mbox{\hyperlink{structcl__nav2z_1_1CbPureSpinning_a5d5b339231d1e0cb60a676acc7a87500}{yaw\_goal\_tolerance\_rads\_}})}
+\DoxyCodeLine{\Hypertarget{cb__pure__spinning_8cpp_source_l00085}00085\ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{cb__pure__spinning_8cpp_source_l00086}00086\ \ \ \ \ \ \ RCLCPP\_INFO\_STREAM(\mbox{\hyperlink{classsmacc2_1_1ISmaccClientBehavior_a9c3d82542c800e2ba5207c5cff0e63e8}{getLogger}}(),\ \textcolor{stringliteral}{"{}["{}}\ <<\ \mbox{\hyperlink{classsmacc2_1_1ISmaccClientBehavior_a3feaa9c382a7d376b7ba0017a63e294e}{getName}}()\ <<\ \textcolor{stringliteral}{"{}]\ GOAL\ REACHED.\ Sending\ stop\ command."{}});}
+\DoxyCodeLine{\Hypertarget{cb__pure__spinning_8cpp_source_l00087}00087\ \ \ \ \ \ \ \mbox{\hyperlink{structcl__nav2z_1_1CbPureSpinning_ae0f7d43fffa102b47c79256a4b1aea7a}{goalReached\_}}\ =\ \textcolor{keyword}{true};}
+\DoxyCodeLine{\Hypertarget{cb__pure__spinning_8cpp_source_l00088}00088\ \ \ \ \ \ \ cmd\_vel.linear.x\ =\ 0;}
+\DoxyCodeLine{\Hypertarget{cb__pure__spinning_8cpp_source_l00089}00089\ \ \ \ \ \ \ cmd\_vel.angular.z\ =\ 0;}
+\DoxyCodeLine{\Hypertarget{cb__pure__spinning_8cpp_source_l00090}00090\ \ \ \ \ \ \ \textcolor{keywordflow}{break};}
+\DoxyCodeLine{\Hypertarget{cb__pure__spinning_8cpp_source_l00091}00091\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{cb__pure__spinning_8cpp_source_l00092}00092\ }
+\DoxyCodeLine{\Hypertarget{cb__pure__spinning_8cpp_source_l00093}00093\ \ \ \ \ this-\/>\mbox{\hyperlink{structcl__nav2z_1_1CbPureSpinning_aebb320a87e6df6e120f586863dc58ce3}{cmd\_vel\_pub\_}}-\/>publish(cmd\_vel);}
+\DoxyCodeLine{\Hypertarget{cb__pure__spinning_8cpp_source_l00094}00094\ }
+\DoxyCodeLine{\Hypertarget{cb__pure__spinning_8cpp_source_l00095}00095\ \ \ \ \ loop\_rate.sleep();}
+\DoxyCodeLine{\Hypertarget{cb__pure__spinning_8cpp_source_l00096}00096\ \ \ \}}
+\DoxyCodeLine{\Hypertarget{cb__pure__spinning_8cpp_source_l00097}00097\ }
+\DoxyCodeLine{\Hypertarget{cb__pure__spinning_8cpp_source_l00098}00098\ \ \ this-\/>\mbox{\hyperlink{classsmacc2_1_1SmaccAsyncClientBehavior_a2fb4de26d011fbbb55bc1bbaed2e6f5b}{postSuccessEvent}}();}
+\DoxyCodeLine{\Hypertarget{cb__pure__spinning_8cpp_source_l00099}00099\ \}}
+\DoxyCodeLine{\Hypertarget{cb__pure__spinning_8cpp_source_l00100}00100\ }
+\DoxyCodeLine{\Hypertarget{cb__pure__spinning_8cpp_source_l00101}\mbox{\hyperlink{structcl__nav2z_1_1CbPureSpinning_aef1428a20f80afbf0660db3514895670}{00101}}\ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{structcl__nav2z_1_1CbPureSpinning_aef1428a20f80afbf0660db3514895670}{CbPureSpinning::onExit}}()\ \{\}}
+\DoxyCodeLine{\Hypertarget{cb__pure__spinning_8cpp_source_l00102}00102\ \}\ \ \textcolor{comment}{//\ namespace\ cl\_nav2z}}
+
+\end{DoxyCode}

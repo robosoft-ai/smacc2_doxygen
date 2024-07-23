@@ -1,0 +1,205 @@
+\doxysection{cb\+\_\+position\+\_\+control\+\_\+free\+\_\+space.\+cpp}
+\hypertarget{cb__position__control__free__space_8cpp_source}{}\label{cb__position__control__free__space_8cpp_source}\index{smacc2\_client\_library/nav2z\_client/nav2z\_client/src/nav2z\_client/client\_behaviors/cb\_position\_control\_free\_space.cpp@{smacc2\_client\_library/nav2z\_client/nav2z\_client/src/nav2z\_client/client\_behaviors/cb\_position\_control\_free\_space.cpp}}
+\mbox{\hyperlink{cb__position__control__free__space_8cpp}{Go to the documentation of this file.}}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\Hypertarget{cb__position__control__free__space_8cpp_source_l00001}00001\ \textcolor{comment}{//\ Copyright\ 2021\ RobosoftAI\ Inc.}}
+\DoxyCodeLine{\Hypertarget{cb__position__control__free__space_8cpp_source_l00002}00002\ \textcolor{comment}{//}}
+\DoxyCodeLine{\Hypertarget{cb__position__control__free__space_8cpp_source_l00003}00003\ \textcolor{comment}{//\ Licensed\ under\ the\ Apache\ License,\ Version\ 2.0\ (the\ "{}License"{});}}
+\DoxyCodeLine{\Hypertarget{cb__position__control__free__space_8cpp_source_l00004}00004\ \textcolor{comment}{//\ you\ may\ not\ use\ this\ file\ except\ in\ compliance\ with\ the\ License.}}
+\DoxyCodeLine{\Hypertarget{cb__position__control__free__space_8cpp_source_l00005}00005\ \textcolor{comment}{//\ You\ may\ obtain\ a\ copy\ of\ the\ License\ at}}
+\DoxyCodeLine{\Hypertarget{cb__position__control__free__space_8cpp_source_l00006}00006\ \textcolor{comment}{//}}
+\DoxyCodeLine{\Hypertarget{cb__position__control__free__space_8cpp_source_l00007}00007\ \textcolor{comment}{//\ \ \ \ \ http://www.apache.org/licenses/LICENSE-\/2.0}}
+\DoxyCodeLine{\Hypertarget{cb__position__control__free__space_8cpp_source_l00008}00008\ \textcolor{comment}{//}}
+\DoxyCodeLine{\Hypertarget{cb__position__control__free__space_8cpp_source_l00009}00009\ \textcolor{comment}{//\ Unless\ required\ by\ applicable\ law\ or\ agreed\ to\ in\ writing,\ software}}
+\DoxyCodeLine{\Hypertarget{cb__position__control__free__space_8cpp_source_l00010}00010\ \textcolor{comment}{//\ distributed\ under\ the\ License\ is\ distributed\ on\ an\ "{}AS\ IS"{}\ BASIS,}}
+\DoxyCodeLine{\Hypertarget{cb__position__control__free__space_8cpp_source_l00011}00011\ \textcolor{comment}{//\ WITHOUT\ WARRANTIES\ OR\ CONDITIONS\ OF\ ANY\ KIND,\ either\ express\ or\ implied.}}
+\DoxyCodeLine{\Hypertarget{cb__position__control__free__space_8cpp_source_l00012}00012\ \textcolor{comment}{//\ See\ the\ License\ for\ the\ specific\ language\ governing\ permissions\ and}}
+\DoxyCodeLine{\Hypertarget{cb__position__control__free__space_8cpp_source_l00013}00013\ \textcolor{comment}{//\ limitations\ under\ the\ License.}}
+\DoxyCodeLine{\Hypertarget{cb__position__control__free__space_8cpp_source_l00014}00014\ }
+\DoxyCodeLine{\Hypertarget{cb__position__control__free__space_8cpp_source_l00015}00015\ \textcolor{comment}{/*****************************************************************************************************************}}
+\DoxyCodeLine{\Hypertarget{cb__position__control__free__space_8cpp_source_l00016}00016\ \textcolor{comment}{\ *}}
+\DoxyCodeLine{\Hypertarget{cb__position__control__free__space_8cpp_source_l00017}00017\ \textcolor{comment}{\ *\ \ \ Authors:\ Pablo\ Inigo\ Blasco,\ Brett\ Aldrich}}
+\DoxyCodeLine{\Hypertarget{cb__position__control__free__space_8cpp_source_l00018}00018\ \textcolor{comment}{\ *}}
+\DoxyCodeLine{\Hypertarget{cb__position__control__free__space_8cpp_source_l00019}00019\ \textcolor{comment}{\ ******************************************************************************************************************/}}
+\DoxyCodeLine{\Hypertarget{cb__position__control__free__space_8cpp_source_l00020}00020\ }
+\DoxyCodeLine{\Hypertarget{cb__position__control__free__space_8cpp_source_l00021}00021\ \textcolor{preprocessor}{\#include\ <angles/angles.h>}}
+\DoxyCodeLine{\Hypertarget{cb__position__control__free__space_8cpp_source_l00022}00022\ \textcolor{preprocessor}{\#include\ <geometry\_msgs/msg/twist.hpp>}}
+\DoxyCodeLine{\Hypertarget{cb__position__control__free__space_8cpp_source_l00023}00023\ \textcolor{preprocessor}{\#include\ <\mbox{\hyperlink{smacc__asynchronous__client__behavior_8hpp}{smacc2/smacc\_asynchronous\_client\_behavior.hpp}}>}}
+\DoxyCodeLine{\Hypertarget{cb__position__control__free__space_8cpp_source_l00024}00024\ }
+\DoxyCodeLine{\Hypertarget{cb__position__control__free__space_8cpp_source_l00025}00025\ \textcolor{preprocessor}{\#include\ <\mbox{\hyperlink{cb__position__control__free__space_8hpp}{nav2z\_client/client\_behaviors/cb\_position\_control\_free\_space.hpp}}>}}
+\DoxyCodeLine{\Hypertarget{cb__position__control__free__space_8cpp_source_l00026}00026\ \textcolor{preprocessor}{\#include\ <\mbox{\hyperlink{cp__pose_8hpp}{nav2z\_client/components/pose/cp\_pose.hpp}}>}}
+\DoxyCodeLine{\Hypertarget{cb__position__control__free__space_8cpp_source_l00027}00027\ }
+\DoxyCodeLine{\Hypertarget{cb__position__control__free__space_8cpp_source_l00028}00028\ \textcolor{keyword}{namespace\ }\mbox{\hyperlink{namespacecl__nav2z}{cl\_nav2z}}}
+\DoxyCodeLine{\Hypertarget{cb__position__control__free__space_8cpp_source_l00029}00029\ \{}
+\DoxyCodeLine{\Hypertarget{cb__position__control__free__space_8cpp_source_l00030}\mbox{\hyperlink{structcl__nav2z_1_1CbPositionControlFreeSpace_aebb93dd0a0a54fcf9eaa1f50e4320c1c}{00030}}\ \mbox{\hyperlink{structcl__nav2z_1_1CbPositionControlFreeSpace_aebb93dd0a0a54fcf9eaa1f50e4320c1c}{CbPositionControlFreeSpace::CbPositionControlFreeSpace}}()}
+\DoxyCodeLine{\Hypertarget{cb__position__control__free__space_8cpp_source_l00031}00031\ :\ targetYaw\_(0),\ k\_betta\_(1.0),\ max\_angular\_yaw\_speed\_(1.0)}
+\DoxyCodeLine{\Hypertarget{cb__position__control__free__space_8cpp_source_l00032}00032\ \{}
+\DoxyCodeLine{\Hypertarget{cb__position__control__free__space_8cpp_source_l00033}00033\ \}}
+\DoxyCodeLine{\Hypertarget{cb__position__control__free__space_8cpp_source_l00034}00034\ }
+\DoxyCodeLine{\Hypertarget{cb__position__control__free__space_8cpp_source_l00035}\mbox{\hyperlink{structcl__nav2z_1_1CbPositionControlFreeSpace_a872fe76f1d07c88629e99676d7d7bbd2}{00035}}\ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{structcl__nav2z_1_1CbPositionControlFreeSpace_a872fe76f1d07c88629e99676d7d7bbd2}{CbPositionControlFreeSpace::updateParameters}}()\ \{\}}
+\DoxyCodeLine{\Hypertarget{cb__position__control__free__space_8cpp_source_l00036}00036\ }
+\DoxyCodeLine{\Hypertarget{cb__position__control__free__space_8cpp_source_l00037}\mbox{\hyperlink{structcl__nav2z_1_1CbPositionControlFreeSpace_a95e8817f408ce52c5b353251c228448f}{00037}}\ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{structcl__nav2z_1_1CbPositionControlFreeSpace_a95e8817f408ce52c5b353251c228448f}{CbPositionControlFreeSpace::onEntry}}()}
+\DoxyCodeLine{\Hypertarget{cb__position__control__free__space_8cpp_source_l00038}00038\ \{}
+\DoxyCodeLine{\Hypertarget{cb__position__control__free__space_8cpp_source_l00039}00039\ \ \ \textcolor{keyword}{auto}\ nh\ =\ this-\/>\mbox{\hyperlink{classsmacc2_1_1ISmaccClientBehavior_aa1b28d5e8a5208fff8160f9df9a89dc6}{getNode}}();}
+\DoxyCodeLine{\Hypertarget{cb__position__control__free__space_8cpp_source_l00040}00040\ \ \ \mbox{\hyperlink{structcl__nav2z_1_1CbPositionControlFreeSpace_ab75251f26749e775580970008fa1f113}{cmd\_vel\_pub\_}}\ =\ nh-\/>create\_publisher<geometry\_msgs::msg::Twist>(\textcolor{stringliteral}{"{}/cmd\_vel"{}},\ rclcpp::QoS(1));}
+\DoxyCodeLine{\Hypertarget{cb__position__control__free__space_8cpp_source_l00041}00041\ }
+\DoxyCodeLine{\Hypertarget{cb__position__control__free__space_8cpp_source_l00042}00042\ \ \ \mbox{\hyperlink{classcl__nav2z_1_1Pose}{cl\_nav2z::Pose}}\ *\ pose;}
+\DoxyCodeLine{\Hypertarget{cb__position__control__free__space_8cpp_source_l00043}00043\ }
+\DoxyCodeLine{\Hypertarget{cb__position__control__free__space_8cpp_source_l00044}00044\ \ \ this-\/>\mbox{\hyperlink{classsmacc2_1_1ISmaccClientBehavior_ae07cf749254cca233e15dc6f991aec12}{requiresComponent}}(pose);}
+\DoxyCodeLine{\Hypertarget{cb__position__control__free__space_8cpp_source_l00045}00045\ }
+\DoxyCodeLine{\Hypertarget{cb__position__control__free__space_8cpp_source_l00046}00046\ \ \ geometry\_msgs::msg::Twist\ cmd\_vel;}
+\DoxyCodeLine{\Hypertarget{cb__position__control__free__space_8cpp_source_l00047}00047\ \ \ \mbox{\hyperlink{structcl__nav2z_1_1CbPositionControlFreeSpace_a7dc345f6d2299eb50f656c8e03653958}{goalReached\_}}\ =\ \textcolor{keyword}{false};}
+\DoxyCodeLine{\Hypertarget{cb__position__control__free__space_8cpp_source_l00048}00048\ }
+\DoxyCodeLine{\Hypertarget{cb__position__control__free__space_8cpp_source_l00049}00049\ \ \ geometry\_msgs::msg::Pose\ currentPose\ =\ pose-\/>toPoseMsg();}
+\DoxyCodeLine{\Hypertarget{cb__position__control__free__space_8cpp_source_l00050}00050\ }
+\DoxyCodeLine{\Hypertarget{cb__position__control__free__space_8cpp_source_l00051}00051\ \ \ rclcpp::Rate\ loop\_rate(10);}
+\DoxyCodeLine{\Hypertarget{cb__position__control__free__space_8cpp_source_l00052}00052\ \ \ \textcolor{keywordtype}{double}\ countAngle\ =\ 0;}
+\DoxyCodeLine{\Hypertarget{cb__position__control__free__space_8cpp_source_l00053}00053\ \ \ \textcolor{keyword}{auto}\ prevyaw\ =\ tf2::getYaw(currentPose.orientation);}
+\DoxyCodeLine{\Hypertarget{cb__position__control__free__space_8cpp_source_l00054}00054\ }
+\DoxyCodeLine{\Hypertarget{cb__position__control__free__space_8cpp_source_l00055}00055\ \ \ \textcolor{comment}{//\ PID\ controller\ gains\ (proportional,\ integral,\ and\ derivative)}}
+\DoxyCodeLine{\Hypertarget{cb__position__control__free__space_8cpp_source_l00056}00056\ \ \ \textcolor{keywordtype}{double}\ kp\_linear\ =\ 0.5;}
+\DoxyCodeLine{\Hypertarget{cb__position__control__free__space_8cpp_source_l00057}00057\ \ \ \textcolor{keywordtype}{double}\ ki\_linear\ =\ 0.0;}
+\DoxyCodeLine{\Hypertarget{cb__position__control__free__space_8cpp_source_l00058}00058\ \ \ \textcolor{keywordtype}{double}\ kd\_linear\ =\ 0.1;}
+\DoxyCodeLine{\Hypertarget{cb__position__control__free__space_8cpp_source_l00059}00059\ }
+\DoxyCodeLine{\Hypertarget{cb__position__control__free__space_8cpp_source_l00060}00060\ \ \ \textcolor{keywordtype}{double}\ kp\_angular\ =\ 0.5;}
+\DoxyCodeLine{\Hypertarget{cb__position__control__free__space_8cpp_source_l00061}00061\ \ \ \textcolor{keywordtype}{double}\ ki\_angular\ =\ 0.0;}
+\DoxyCodeLine{\Hypertarget{cb__position__control__free__space_8cpp_source_l00062}00062\ \ \ \textcolor{keywordtype}{double}\ kd\_angular\ =\ 0.1;}
+\DoxyCodeLine{\Hypertarget{cb__position__control__free__space_8cpp_source_l00063}00063\ }
+\DoxyCodeLine{\Hypertarget{cb__position__control__free__space_8cpp_source_l00064}00064\ \ \ \textcolor{keywordflow}{while}\ (rclcpp::ok()\ \&\&\ !\mbox{\hyperlink{structcl__nav2z_1_1CbPositionControlFreeSpace_a7dc345f6d2299eb50f656c8e03653958}{goalReached\_}})}
+\DoxyCodeLine{\Hypertarget{cb__position__control__free__space_8cpp_source_l00065}00065\ \ \ \{}
+\DoxyCodeLine{\Hypertarget{cb__position__control__free__space_8cpp_source_l00066}00066\ \ \ \ \ RCLCPP\_INFO\_STREAM\_THROTTLE(}
+\DoxyCodeLine{\Hypertarget{cb__position__control__free__space_8cpp_source_l00067}00067\ \ \ \ \ \ \ \mbox{\hyperlink{classsmacc2_1_1ISmaccClientBehavior_a9c3d82542c800e2ba5207c5cff0e63e8}{getLogger}}(),\ *\mbox{\hyperlink{classsmacc2_1_1ISmaccClientBehavior_aa1b28d5e8a5208fff8160f9df9a89dc6}{getNode}}()-\/>get\_clock(),\ 200,}
+\DoxyCodeLine{\Hypertarget{cb__position__control__free__space_8cpp_source_l00068}00068\ \ \ \ \ \ \ \textcolor{stringliteral}{"{}CbPositionControlFreeSpace,\ current\ pose:\ "{}}\ <<\ currentPose.position.x\ <<\ \textcolor{stringliteral}{"{},\ "{}}}
+\DoxyCodeLine{\Hypertarget{cb__position__control__free__space_8cpp_source_l00069}00069\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ <<\ currentPose.position.y\ <<\ \textcolor{stringliteral}{"{},\ "{}}}
+\DoxyCodeLine{\Hypertarget{cb__position__control__free__space_8cpp_source_l00070}00070\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ <<\ tf2::getYaw(currentPose.orientation));}
+\DoxyCodeLine{\Hypertarget{cb__position__control__free__space_8cpp_source_l00071}00071\ }
+\DoxyCodeLine{\Hypertarget{cb__position__control__free__space_8cpp_source_l00072}00072\ \ \ \ \ RCLCPP\_INFO\_STREAM\_THROTTLE(}
+\DoxyCodeLine{\Hypertarget{cb__position__control__free__space_8cpp_source_l00073}00073\ \ \ \ \ \ \ \mbox{\hyperlink{classsmacc2_1_1ISmaccClientBehavior_a9c3d82542c800e2ba5207c5cff0e63e8}{getLogger}}(),\ *\mbox{\hyperlink{classsmacc2_1_1ISmaccClientBehavior_aa1b28d5e8a5208fff8160f9df9a89dc6}{getNode}}()-\/>get\_clock(),\ 200,}
+\DoxyCodeLine{\Hypertarget{cb__position__control__free__space_8cpp_source_l00074}00074\ \ \ \ \ \ \ \textcolor{stringliteral}{"{}CbPositionControlFreeSpace,\ target\ pose:\ "{}}\ <<\ \mbox{\hyperlink{structcl__nav2z_1_1CbPositionControlFreeSpace_acfd6926ba77b3c5f96265182a33f066f}{target\_pose\_}}.position.x\ <<\ \textcolor{stringliteral}{"{},\ "{}}}
+\DoxyCodeLine{\Hypertarget{cb__position__control__free__space_8cpp_source_l00075}00075\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ <<\ \mbox{\hyperlink{structcl__nav2z_1_1CbPositionControlFreeSpace_acfd6926ba77b3c5f96265182a33f066f}{target\_pose\_}}.position.y\ <<\ \textcolor{stringliteral}{"{},\ "{}}}
+\DoxyCodeLine{\Hypertarget{cb__position__control__free__space_8cpp_source_l00076}00076\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ <<\ tf2::getYaw(\mbox{\hyperlink{structcl__nav2z_1_1CbPositionControlFreeSpace_acfd6926ba77b3c5f96265182a33f066f}{target\_pose\_}}.orientation));}
+\DoxyCodeLine{\Hypertarget{cb__position__control__free__space_8cpp_source_l00077}00077\ }
+\DoxyCodeLine{\Hypertarget{cb__position__control__free__space_8cpp_source_l00078}00078\ \ \ \ \ tf2::Quaternion\ q;}
+\DoxyCodeLine{\Hypertarget{cb__position__control__free__space_8cpp_source_l00079}00079\ \ \ \ \ currentPose\ =\ pose-\/>toPoseMsg();}
+\DoxyCodeLine{\Hypertarget{cb__position__control__free__space_8cpp_source_l00080}00080\ }
+\DoxyCodeLine{\Hypertarget{cb__position__control__free__space_8cpp_source_l00081}00081\ \ \ \ \ \textcolor{comment}{//\ Here\ we\ implement\ the\ control\ logic\ to\ calculate\ the\ velocity\ command}}
+\DoxyCodeLine{\Hypertarget{cb__position__control__free__space_8cpp_source_l00082}00082\ \ \ \ \ \textcolor{comment}{//\ based\ on\ the\ received\ position\ of\ the\ vehicle\ and\ the\ target\ pose.}}
+\DoxyCodeLine{\Hypertarget{cb__position__control__free__space_8cpp_source_l00083}00083\ }
+\DoxyCodeLine{\Hypertarget{cb__position__control__free__space_8cpp_source_l00084}00084\ \ \ \ \ \textcolor{comment}{//\ Calculate\ the\ errors\ in\ x\ and\ y}}
+\DoxyCodeLine{\Hypertarget{cb__position__control__free__space_8cpp_source_l00085}00085\ \ \ \ \ \textcolor{keywordtype}{double}\ error\_x\ =\ \mbox{\hyperlink{structcl__nav2z_1_1CbPositionControlFreeSpace_acfd6926ba77b3c5f96265182a33f066f}{target\_pose\_}}.position.x\ -\/\ currentPose.position.x;}
+\DoxyCodeLine{\Hypertarget{cb__position__control__free__space_8cpp_source_l00086}00086\ \ \ \ \ \textcolor{keywordtype}{double}\ error\_y\ =\ \mbox{\hyperlink{structcl__nav2z_1_1CbPositionControlFreeSpace_acfd6926ba77b3c5f96265182a33f066f}{target\_pose\_}}.position.y\ -\/\ currentPose.position.y;}
+\DoxyCodeLine{\Hypertarget{cb__position__control__free__space_8cpp_source_l00087}00087\ }
+\DoxyCodeLine{\Hypertarget{cb__position__control__free__space_8cpp_source_l00088}00088\ \ \ \ \ \textcolor{comment}{//\ Calculate\ the\ distance\ to\ the\ target\ pose}}
+\DoxyCodeLine{\Hypertarget{cb__position__control__free__space_8cpp_source_l00089}00089\ \ \ \ \ \textcolor{keywordtype}{double}\ distance\_to\_target\ =\ std::sqrt(error\_x\ *\ error\_x\ +\ error\_y\ *\ error\_y);}
+\DoxyCodeLine{\Hypertarget{cb__position__control__free__space_8cpp_source_l00090}00090\ }
+\DoxyCodeLine{\Hypertarget{cb__position__control__free__space_8cpp_source_l00091}00091\ \ \ \ \ RCLCPP\_INFO\_STREAM(}
+\DoxyCodeLine{\Hypertarget{cb__position__control__free__space_8cpp_source_l00092}00092\ \ \ \ \ \ \ \mbox{\hyperlink{classsmacc2_1_1ISmaccClientBehavior_a9c3d82542c800e2ba5207c5cff0e63e8}{getLogger}}(),\ \textcolor{stringliteral}{"{}["{}}\ <<\ \mbox{\hyperlink{classsmacc2_1_1ISmaccClientBehavior_a3feaa9c382a7d376b7ba0017a63e294e}{getName}}()\ <<\ \textcolor{stringliteral}{"{}]\ distance\ to\ target:\ "{}}\ <<\ distance\_to\_target}
+\DoxyCodeLine{\Hypertarget{cb__position__control__free__space_8cpp_source_l00093}00093\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ <<\ \textcolor{stringliteral}{"{}\ (\ th:\ "{}}\ <<\ \mbox{\hyperlink{structcl__nav2z_1_1CbPositionControlFreeSpace_a4adcb7de008328296d9c3878e1908cd0}{threshold\_distance\_}}\ <<\ \textcolor{stringliteral}{"{})"{}});}
+\DoxyCodeLine{\Hypertarget{cb__position__control__free__space_8cpp_source_l00094}00094\ }
+\DoxyCodeLine{\Hypertarget{cb__position__control__free__space_8cpp_source_l00095}00095\ \ \ \ \ \textcolor{comment}{//\ Check\ if\ the\ robot\ has\ reached\ the\ target\ pose}}
+\DoxyCodeLine{\Hypertarget{cb__position__control__free__space_8cpp_source_l00096}00096\ \ \ \ \ \textcolor{keywordflow}{if}\ (distance\_to\_target\ <\ \mbox{\hyperlink{structcl__nav2z_1_1CbPositionControlFreeSpace_a4adcb7de008328296d9c3878e1908cd0}{threshold\_distance\_}})}
+\DoxyCodeLine{\Hypertarget{cb__position__control__free__space_8cpp_source_l00097}00097\ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{cb__position__control__free__space_8cpp_source_l00098}00098\ \ \ \ \ \ \ RCLCPP\_INFO(\mbox{\hyperlink{classsmacc2_1_1ISmaccClientBehavior_a9c3d82542c800e2ba5207c5cff0e63e8}{getLogger}}(),\ \textcolor{stringliteral}{"{}Goal\ reached!"{}});}
+\DoxyCodeLine{\Hypertarget{cb__position__control__free__space_8cpp_source_l00099}00099\ \ \ \ \ \ \ \textcolor{comment}{//\ Stop\ the\ robot\ by\ setting\ the\ velocity\ commands\ to\ zero}}
+\DoxyCodeLine{\Hypertarget{cb__position__control__free__space_8cpp_source_l00100}00100\ \ \ \ \ \ \ geometry\_msgs::msg::Twist\ cmd\_vel\_msg;}
+\DoxyCodeLine{\Hypertarget{cb__position__control__free__space_8cpp_source_l00101}00101\ \ \ \ \ \ \ cmd\_vel\_msg.linear.x\ =\ 0.0;}
+\DoxyCodeLine{\Hypertarget{cb__position__control__free__space_8cpp_source_l00102}00102\ \ \ \ \ \ \ cmd\_vel\_msg.angular.z\ =\ 0.0;}
+\DoxyCodeLine{\Hypertarget{cb__position__control__free__space_8cpp_source_l00103}00103\ \ \ \ \ \ \ \mbox{\hyperlink{structcl__nav2z_1_1CbPositionControlFreeSpace_ab75251f26749e775580970008fa1f113}{cmd\_vel\_pub\_}}-\/>publish(cmd\_vel\_msg);}
+\DoxyCodeLine{\Hypertarget{cb__position__control__free__space_8cpp_source_l00104}00104\ \ \ \ \ \ \ \textcolor{keywordflow}{break};}
+\DoxyCodeLine{\Hypertarget{cb__position__control__free__space_8cpp_source_l00105}00105\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{cb__position__control__free__space_8cpp_source_l00106}00106\ \ \ \ \ \textcolor{keywordflow}{else}}
+\DoxyCodeLine{\Hypertarget{cb__position__control__free__space_8cpp_source_l00107}00107\ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{cb__position__control__free__space_8cpp_source_l00108}00108\ \ \ \ \ \ \ \textcolor{comment}{//\ Calculate\ the\ desired\ orientation\ angle}}
+\DoxyCodeLine{\Hypertarget{cb__position__control__free__space_8cpp_source_l00109}00109\ \ \ \ \ \ \ \textcolor{keywordtype}{double}\ desired\_yaw\ =\ std::atan2(error\_y,\ error\_x);}
+\DoxyCodeLine{\Hypertarget{cb__position__control__free__space_8cpp_source_l00110}00110\ }
+\DoxyCodeLine{\Hypertarget{cb__position__control__free__space_8cpp_source_l00111}00111\ \ \ \ \ \ \ \textcolor{comment}{//\ Calculate\ the\ difference\ between\ the\ desired\ orientation\ and\ the}}
+\DoxyCodeLine{\Hypertarget{cb__position__control__free__space_8cpp_source_l00112}00112\ \ \ \ \ \ \ \textcolor{comment}{//\ current\ orientation}}
+\DoxyCodeLine{\Hypertarget{cb__position__control__free__space_8cpp_source_l00113}00113\ \ \ \ \ \ \ \textcolor{keywordtype}{double}\ yaw\_error\ =\ desired\_yaw\ -\/\ (tf2::getYaw(currentPose.orientation)\ +\ M\_PI);}
+\DoxyCodeLine{\Hypertarget{cb__position__control__free__space_8cpp_source_l00114}00114\ }
+\DoxyCodeLine{\Hypertarget{cb__position__control__free__space_8cpp_source_l00115}00115\ \ \ \ \ \ \ \textcolor{comment}{//\ Ensure\ the\ yaw\ error\ is\ within\ the\ range\ [-\/pi,\ pi]}}
+\DoxyCodeLine{\Hypertarget{cb__position__control__free__space_8cpp_source_l00116}00116\ \ \ \ \ \ \ \textcolor{keywordflow}{while}\ (yaw\_error\ >\ M\_PI)\ yaw\_error\ -\/=\ 2\ *\ M\_PI;}
+\DoxyCodeLine{\Hypertarget{cb__position__control__free__space_8cpp_source_l00117}00117\ \ \ \ \ \ \ \textcolor{keywordflow}{while}\ (yaw\_error\ <\ -\/M\_PI)\ yaw\_error\ +=\ 2\ *\ M\_PI;}
+\DoxyCodeLine{\Hypertarget{cb__position__control__free__space_8cpp_source_l00118}00118\ }
+\DoxyCodeLine{\Hypertarget{cb__position__control__free__space_8cpp_source_l00119}00119\ \ \ \ \ \ \ \textcolor{comment}{//\ Calculate\ the\ control\ signals\ (velocity\ commands)\ using\ PID\ controllers}}
+\DoxyCodeLine{\Hypertarget{cb__position__control__free__space_8cpp_source_l00120}00120\ \ \ \ \ \ \ \textcolor{keywordtype}{double}\ cmd\_linear\_x\ =\ kp\_linear\ *\ distance\_to\_target\ +\ ki\_linear\ *\ \mbox{\hyperlink{structcl__nav2z_1_1CbPositionControlFreeSpace_af305965c3f837378872c1893d1524731}{integral\_linear\_}}\ +}
+\DoxyCodeLine{\Hypertarget{cb__position__control__free__space_8cpp_source_l00121}00121\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ kd\_linear\ *\ (distance\_to\_target\ -\/\ \mbox{\hyperlink{structcl__nav2z_1_1CbPositionControlFreeSpace_ae180a86ae4408cfa896a8ffd6a8e35fc}{prev\_error\_linear\_}});}
+\DoxyCodeLine{\Hypertarget{cb__position__control__free__space_8cpp_source_l00122}00122\ \ \ \ \ \ \ \textcolor{keywordtype}{double}\ cmd\_angular\_z\ =\ kp\_angular\ *\ yaw\_error\ +\ ki\_angular\ *\ \mbox{\hyperlink{structcl__nav2z_1_1CbPositionControlFreeSpace_ae0b73ae875a8dab72203ab2e769108f8}{integral\_angular\_}}\ +}
+\DoxyCodeLine{\Hypertarget{cb__position__control__free__space_8cpp_source_l00123}00123\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ kd\_angular\ *\ (yaw\_error\ -\/\ \mbox{\hyperlink{structcl__nav2z_1_1CbPositionControlFreeSpace_a467b43e3cf492f214066454f9be46b97}{prev\_error\_angular\_}});}
+\DoxyCodeLine{\Hypertarget{cb__position__control__free__space_8cpp_source_l00124}00124\ }
+\DoxyCodeLine{\Hypertarget{cb__position__control__free__space_8cpp_source_l00125}00125\ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (cmd\_linear\_x\ >\ \mbox{\hyperlink{structcl__nav2z_1_1CbPositionControlFreeSpace_adf6cc61c4f052e604c829c30fc7b5d0d}{max\_linear\_velocity}})}
+\DoxyCodeLine{\Hypertarget{cb__position__control__free__space_8cpp_source_l00126}00126\ \ \ \ \ \ \ \ \ cmd\_linear\_x\ =\ \mbox{\hyperlink{structcl__nav2z_1_1CbPositionControlFreeSpace_adf6cc61c4f052e604c829c30fc7b5d0d}{max\_linear\_velocity}};}
+\DoxyCodeLine{\Hypertarget{cb__position__control__free__space_8cpp_source_l00127}00127\ \ \ \ \ \ \ \textcolor{keywordflow}{else}\ \textcolor{keywordflow}{if}\ (cmd\_linear\_x\ <\ -\/\mbox{\hyperlink{structcl__nav2z_1_1CbPositionControlFreeSpace_adf6cc61c4f052e604c829c30fc7b5d0d}{max\_linear\_velocity}})}
+\DoxyCodeLine{\Hypertarget{cb__position__control__free__space_8cpp_source_l00128}00128\ \ \ \ \ \ \ \ \ cmd\_linear\_x\ =\ -\/\mbox{\hyperlink{structcl__nav2z_1_1CbPositionControlFreeSpace_adf6cc61c4f052e604c829c30fc7b5d0d}{max\_linear\_velocity}};}
+\DoxyCodeLine{\Hypertarget{cb__position__control__free__space_8cpp_source_l00129}00129\ }
+\DoxyCodeLine{\Hypertarget{cb__position__control__free__space_8cpp_source_l00130}00130\ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (cmd\_angular\_z\ >\ \mbox{\hyperlink{structcl__nav2z_1_1CbPositionControlFreeSpace_ac7e5ede7d01f208e45aa95491e4388da}{max\_angular\_velocity}})}
+\DoxyCodeLine{\Hypertarget{cb__position__control__free__space_8cpp_source_l00131}00131\ \ \ \ \ \ \ \ \ cmd\_angular\_z\ =\ \mbox{\hyperlink{structcl__nav2z_1_1CbPositionControlFreeSpace_ac7e5ede7d01f208e45aa95491e4388da}{max\_angular\_velocity}};}
+\DoxyCodeLine{\Hypertarget{cb__position__control__free__space_8cpp_source_l00132}00132\ \ \ \ \ \ \ \textcolor{keywordflow}{else}\ \textcolor{keywordflow}{if}\ (cmd\_angular\_z\ <\ -\/\mbox{\hyperlink{structcl__nav2z_1_1CbPositionControlFreeSpace_ac7e5ede7d01f208e45aa95491e4388da}{max\_angular\_velocity}})}
+\DoxyCodeLine{\Hypertarget{cb__position__control__free__space_8cpp_source_l00133}00133\ \ \ \ \ \ \ \ \ cmd\_angular\_z\ =\ -\/\mbox{\hyperlink{structcl__nav2z_1_1CbPositionControlFreeSpace_ac7e5ede7d01f208e45aa95491e4388da}{max\_angular\_velocity}};}
+\DoxyCodeLine{\Hypertarget{cb__position__control__free__space_8cpp_source_l00134}00134\ }
+\DoxyCodeLine{\Hypertarget{cb__position__control__free__space_8cpp_source_l00135}00135\ \ \ \ \ \ \ \textcolor{comment}{//\ Construct\ and\ publish\ the\ velocity\ command\ message}}
+\DoxyCodeLine{\Hypertarget{cb__position__control__free__space_8cpp_source_l00136}00136\ \ \ \ \ \ \ geometry\_msgs::msg::Twist\ cmd\_vel\_msg;}
+\DoxyCodeLine{\Hypertarget{cb__position__control__free__space_8cpp_source_l00137}00137\ }
+\DoxyCodeLine{\Hypertarget{cb__position__control__free__space_8cpp_source_l00138}00138\ \ \ \ \ \ \ cmd\_vel\_msg.linear.x\ =\ cmd\_linear\_x;}
+\DoxyCodeLine{\Hypertarget{cb__position__control__free__space_8cpp_source_l00139}00139\ \ \ \ \ \ \ cmd\_vel\_msg.angular.z\ =\ cmd\_angular\_z;}
+\DoxyCodeLine{\Hypertarget{cb__position__control__free__space_8cpp_source_l00140}00140\ }
+\DoxyCodeLine{\Hypertarget{cb__position__control__free__space_8cpp_source_l00141}00141\ \ \ \ \ \ \ \mbox{\hyperlink{structcl__nav2z_1_1CbPositionControlFreeSpace_ab75251f26749e775580970008fa1f113}{cmd\_vel\_pub\_}}-\/>publish(cmd\_vel\_msg);}
+\DoxyCodeLine{\Hypertarget{cb__position__control__free__space_8cpp_source_l00142}00142\ }
+\DoxyCodeLine{\Hypertarget{cb__position__control__free__space_8cpp_source_l00143}00143\ \ \ \ \ \ \ \textcolor{comment}{//\ Update\ errors\ and\ integrals\ for\ the\ next\ control\ cycle}}
+\DoxyCodeLine{\Hypertarget{cb__position__control__free__space_8cpp_source_l00144}00144\ \ \ \ \ \ \ \mbox{\hyperlink{structcl__nav2z_1_1CbPositionControlFreeSpace_ae180a86ae4408cfa896a8ffd6a8e35fc}{prev\_error\_linear\_}}\ =\ distance\_to\_target;}
+\DoxyCodeLine{\Hypertarget{cb__position__control__free__space_8cpp_source_l00145}00145\ \ \ \ \ \ \ \mbox{\hyperlink{structcl__nav2z_1_1CbPositionControlFreeSpace_a467b43e3cf492f214066454f9be46b97}{prev\_error\_angular\_}}\ =\ yaw\_error;}
+\DoxyCodeLine{\Hypertarget{cb__position__control__free__space_8cpp_source_l00146}00146\ \ \ \ \ \ \ \mbox{\hyperlink{structcl__nav2z_1_1CbPositionControlFreeSpace_af305965c3f837378872c1893d1524731}{integral\_linear\_}}\ +=\ distance\_to\_target;}
+\DoxyCodeLine{\Hypertarget{cb__position__control__free__space_8cpp_source_l00147}00147\ \ \ \ \ \ \ \mbox{\hyperlink{structcl__nav2z_1_1CbPositionControlFreeSpace_ae0b73ae875a8dab72203ab2e769108f8}{integral\_angular\_}}\ +=\ yaw\_error;}
+\DoxyCodeLine{\Hypertarget{cb__position__control__free__space_8cpp_source_l00148}00148\ }
+\DoxyCodeLine{\Hypertarget{cb__position__control__free__space_8cpp_source_l00149}00149\ \ \ \ \ \ \ \textcolor{comment}{//\ tf2::fromMsg(currentPose.orientation,\ q);}}
+\DoxyCodeLine{\Hypertarget{cb__position__control__free__space_8cpp_source_l00150}00150\ \ \ \ \ \ \ \textcolor{comment}{//\ auto\ currentYaw\ =\ tf2::getYaw(currentPose.orientation);}}
+\DoxyCodeLine{\Hypertarget{cb__position__control__free__space_8cpp_source_l00151}00151\ \ \ \ \ \ \ \textcolor{comment}{//\ auto\ deltaAngle\ =\ angles::shortest\_angular\_distance(prevyaw,}}
+\DoxyCodeLine{\Hypertarget{cb__position__control__free__space_8cpp_source_l00152}00152\ \ \ \ \ \ \ \textcolor{comment}{//\ currentYaw);\ countAngle\ +=\ deltaAngle;}}
+\DoxyCodeLine{\Hypertarget{cb__position__control__free__space_8cpp_source_l00153}00153\ }
+\DoxyCodeLine{\Hypertarget{cb__position__control__free__space_8cpp_source_l00154}00154\ \ \ \ \ \ \ \textcolor{comment}{//\ prevyaw\ =\ currentYaw;}}
+\DoxyCodeLine{\Hypertarget{cb__position__control__free__space_8cpp_source_l00155}00155\ \ \ \ \ \ \ \textcolor{comment}{//\ double\ angular\_error\ =\ targetYaw\_\ -\/\ countAngle;}}
+\DoxyCodeLine{\Hypertarget{cb__position__control__free__space_8cpp_source_l00156}00156\ }
+\DoxyCodeLine{\Hypertarget{cb__position__control__free__space_8cpp_source_l00157}00157\ \ \ \ \ \ \ \textcolor{comment}{//\ auto\ omega\ =\ angular\_error\ *\ k\_betta\_;}}
+\DoxyCodeLine{\Hypertarget{cb__position__control__free__space_8cpp_source_l00158}00158\ \ \ \ \ \ \ \textcolor{comment}{//\ cmd\_vel.linear.x\ =\ 0;}}
+\DoxyCodeLine{\Hypertarget{cb__position__control__free__space_8cpp_source_l00159}00159\ \ \ \ \ \ \ \textcolor{comment}{//\ cmd\_vel.linear.y\ =\ 0;}}
+\DoxyCodeLine{\Hypertarget{cb__position__control__free__space_8cpp_source_l00160}00160\ \ \ \ \ \ \ \textcolor{comment}{//\ cmd\_vel.linear.z\ =\ 0;}}
+\DoxyCodeLine{\Hypertarget{cb__position__control__free__space_8cpp_source_l00161}00161\ \ \ \ \ \ \ \textcolor{comment}{//\ cmd\_vel.angular.z\ =}}
+\DoxyCodeLine{\Hypertarget{cb__position__control__free__space_8cpp_source_l00162}00162\ \ \ \ \ \ \ \textcolor{comment}{//\ \ \ std::min(std::max(omega,\ -\/fabs(max\_angular\_yaw\_speed\_)),}}
+\DoxyCodeLine{\Hypertarget{cb__position__control__free__space_8cpp_source_l00163}00163\ \ \ \ \ \ \ \textcolor{comment}{//\ \ \ fabs(max\_angular\_yaw\_speed\_));}}
+\DoxyCodeLine{\Hypertarget{cb__position__control__free__space_8cpp_source_l00164}00164\ }
+\DoxyCodeLine{\Hypertarget{cb__position__control__free__space_8cpp_source_l00165}00165\ \ \ \ \ \ \ \textcolor{comment}{//\ RCLCPP\_INFO\_STREAM(getLogger(),\ "{}["{}\ <<\ getName()\ <<\ "{}]\ delta\ angle:\ "{}}}
+\DoxyCodeLine{\Hypertarget{cb__position__control__free__space_8cpp_source_l00166}00166\ \ \ \ \ \ \ \textcolor{comment}{//\ <<\ deltaAngle);\ RCLCPP\_INFO\_STREAM(getLogger(),\ "{}["{}\ <<\ getName()\ <<\ "{}]}}
+\DoxyCodeLine{\Hypertarget{cb__position__control__free__space_8cpp_source_l00167}00167\ \ \ \ \ \ \ \textcolor{comment}{//\ cummulated\ angle:\ "{}\ <<\ countAngle);\ RCLCPP\_INFO\_STREAM(getLogger(),\ "{}["{}}}
+\DoxyCodeLine{\Hypertarget{cb__position__control__free__space_8cpp_source_l00168}00168\ \ \ \ \ \ \ \textcolor{comment}{//\ <<\ getName()\ <<\ "{}]\ k\_betta\_:\ "{}\ <<\ k\_betta\_);}}
+\DoxyCodeLine{\Hypertarget{cb__position__control__free__space_8cpp_source_l00169}00169\ }
+\DoxyCodeLine{\Hypertarget{cb__position__control__free__space_8cpp_source_l00170}00170\ \ \ \ \ \ \ \textcolor{comment}{//\ RCLCPP\_INFO\_STREAM(}}
+\DoxyCodeLine{\Hypertarget{cb__position__control__free__space_8cpp_source_l00171}00171\ \ \ \ \ \ \ \textcolor{comment}{//\ \ \ getLogger(),\ "{}["{}\ <<\ getName()\ <<\ "{}]\ angular\ error:\ "{}\ <<\ angular\_error}}
+\DoxyCodeLine{\Hypertarget{cb__position__control__free__space_8cpp_source_l00172}00172\ \ \ \ \ \ \ \textcolor{comment}{//\ \ \ <<\ "{}("{}}}
+\DoxyCodeLine{\Hypertarget{cb__position__control__free__space_8cpp_source_l00173}00173\ \ \ \ \ \ \ \textcolor{comment}{//\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ <<\ yaw\_goal\_tolerance\_rads\_\ <<\ "{})"{});}}
+\DoxyCodeLine{\Hypertarget{cb__position__control__free__space_8cpp_source_l00174}00174\ \ \ \ \ \ \ \textcolor{comment}{//\ RCLCPP\_INFO\_STREAM(}}
+\DoxyCodeLine{\Hypertarget{cb__position__control__free__space_8cpp_source_l00175}00175\ \ \ \ \ \ \ \textcolor{comment}{//\ \ \ getLogger(),\ "{}["{}\ <<\ getName()\ <<\ "{}]\ command\ angular\ speed:\ "{}\ <<}}
+\DoxyCodeLine{\Hypertarget{cb__position__control__free__space_8cpp_source_l00176}00176\ \ \ \ \ \ \ \textcolor{comment}{//\ \ \ cmd\_vel.angular.z);}}
+\DoxyCodeLine{\Hypertarget{cb__position__control__free__space_8cpp_source_l00177}00177\ }
+\DoxyCodeLine{\Hypertarget{cb__position__control__free__space_8cpp_source_l00178}00178\ \ \ \ \ \ \ \textcolor{comment}{//\ if\ (fabs(angular\_error)\ <\ yaw\_goal\_tolerance\_rads\_)}}
+\DoxyCodeLine{\Hypertarget{cb__position__control__free__space_8cpp_source_l00179}00179\ \ \ \ \ \ \ \textcolor{comment}{//\ \{}}
+\DoxyCodeLine{\Hypertarget{cb__position__control__free__space_8cpp_source_l00180}00180\ \ \ \ \ \ \ \textcolor{comment}{//\ \ \ RCLCPP\_INFO\_STREAM(getLogger(),\ "{}["{}\ <<\ getName()\ <<\ "{}]\ GOAL\ REACHED.}}
+\DoxyCodeLine{\Hypertarget{cb__position__control__free__space_8cpp_source_l00181}00181\ \ \ \ \ \ \ \textcolor{comment}{//\ \ \ Sending\ stop\ command."{});\ goalReached\_\ =\ true;\ cmd\_vel.linear.x\ =\ 0;}}
+\DoxyCodeLine{\Hypertarget{cb__position__control__free__space_8cpp_source_l00182}00182\ \ \ \ \ \ \ \textcolor{comment}{//\ \ \ cmd\_vel.angular.z\ =\ 0;}}
+\DoxyCodeLine{\Hypertarget{cb__position__control__free__space_8cpp_source_l00183}00183\ \ \ \ \ \ \ \textcolor{comment}{//\ \ \ break;}}
+\DoxyCodeLine{\Hypertarget{cb__position__control__free__space_8cpp_source_l00184}00184\ \ \ \ \ \ \ \textcolor{comment}{//\ \}}}
+\DoxyCodeLine{\Hypertarget{cb__position__control__free__space_8cpp_source_l00185}00185\ }
+\DoxyCodeLine{\Hypertarget{cb__position__control__free__space_8cpp_source_l00186}00186\ \ \ \ \ \ \ \textcolor{comment}{//\ this-\/>cmd\_vel\_pub\_-\/>publish(cmd\_vel);}}
+\DoxyCodeLine{\Hypertarget{cb__position__control__free__space_8cpp_source_l00187}00187\ }
+\DoxyCodeLine{\Hypertarget{cb__position__control__free__space_8cpp_source_l00188}00188\ \ \ \ \ \ \ loop\_rate.sleep();}
+\DoxyCodeLine{\Hypertarget{cb__position__control__free__space_8cpp_source_l00189}00189\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{cb__position__control__free__space_8cpp_source_l00190}00190\ \ \ \}}
+\DoxyCodeLine{\Hypertarget{cb__position__control__free__space_8cpp_source_l00191}00191\ }
+\DoxyCodeLine{\Hypertarget{cb__position__control__free__space_8cpp_source_l00192}00192\ \ \ RCLCPP\_INFO\_STREAM(\mbox{\hyperlink{classsmacc2_1_1ISmaccClientBehavior_a9c3d82542c800e2ba5207c5cff0e63e8}{getLogger}}(),\ \textcolor{stringliteral}{"{}["{}}\ <<\ \mbox{\hyperlink{classsmacc2_1_1ISmaccClientBehavior_a3feaa9c382a7d376b7ba0017a63e294e}{getName}}()\ <<\ \textcolor{stringliteral}{"{}]\ Finished\ behavior\ execution"{}});}
+\DoxyCodeLine{\Hypertarget{cb__position__control__free__space_8cpp_source_l00193}00193\ }
+\DoxyCodeLine{\Hypertarget{cb__position__control__free__space_8cpp_source_l00194}00194\ \ \ this-\/>\mbox{\hyperlink{classsmacc2_1_1SmaccAsyncClientBehavior_a2fb4de26d011fbbb55bc1bbaed2e6f5b}{postSuccessEvent}}();}
+\DoxyCodeLine{\Hypertarget{cb__position__control__free__space_8cpp_source_l00195}00195\ \}}
+\DoxyCodeLine{\Hypertarget{cb__position__control__free__space_8cpp_source_l00196}00196\ }
+\DoxyCodeLine{\Hypertarget{cb__position__control__free__space_8cpp_source_l00197}\mbox{\hyperlink{structcl__nav2z_1_1CbPositionControlFreeSpace_ae41649fe03d93f8c07092b2c61293c96}{00197}}\ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{structcl__nav2z_1_1CbPositionControlFreeSpace_ae41649fe03d93f8c07092b2c61293c96}{CbPositionControlFreeSpace::onExit}}()\ \{\}}
+\DoxyCodeLine{\Hypertarget{cb__position__control__free__space_8cpp_source_l00198}00198\ }
+\DoxyCodeLine{\Hypertarget{cb__position__control__free__space_8cpp_source_l00199}00199\ \}\ \ \textcolor{comment}{//\ namespace\ cl\_nav2z}}
+
+\end{DoxyCode}
