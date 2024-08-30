@@ -34,85 +34,87 @@
 \DoxyCodeLine{\Hypertarget{http__session_8cpp_source_l00030}00030\ \{}
 \DoxyCodeLine{\Hypertarget{http__session_8cpp_source_l00031}00031\ \}}
 \DoxyCodeLine{\Hypertarget{http__session_8cpp_source_l00032}00032\ }
-\DoxyCodeLine{\Hypertarget{http__session_8cpp_source_l00033}\mbox{\hyperlink{classcl__http_1_1http__session_a21e347fa663815a13787b76ca358f7d7}{00033}}\ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{classcl__http_1_1http__session_a21e347fa663815a13787b76ca358f7d7}{http\_session::run}}(}
-\DoxyCodeLine{\Hypertarget{http__session_8cpp_source_l00034}00034\ \ \ \textcolor{keyword}{const}\ std::string\ \&\ host,\ \textcolor{keyword}{const}\ std::string\ \&\ target,\ \textcolor{keyword}{const}\ boost::beast::http::verb\ http\_method,}
-\DoxyCodeLine{\Hypertarget{http__session_8cpp_source_l00035}00035\ \ \ \textcolor{keyword}{const}\ \textcolor{keywordtype}{int}\ \&\ version)}
-\DoxyCodeLine{\Hypertarget{http__session_8cpp_source_l00036}00036\ \{}
-\DoxyCodeLine{\Hypertarget{http__session_8cpp_source_l00037}00037\ \ \ \textcolor{comment}{//\ Set\ up\ an\ HTTP\ request}}
-\DoxyCodeLine{\Hypertarget{http__session_8cpp_source_l00038}00038\ \ \ \mbox{\hyperlink{classcl__http_1_1http__session_a5579dcf950fe220aa24ea2299f6d1421}{req\_}}.version(version);}
-\DoxyCodeLine{\Hypertarget{http__session_8cpp_source_l00039}00039\ \ \ \mbox{\hyperlink{classcl__http_1_1http__session_a5579dcf950fe220aa24ea2299f6d1421}{req\_}}.method(http\_method);}
-\DoxyCodeLine{\Hypertarget{http__session_8cpp_source_l00040}00040\ \ \ \mbox{\hyperlink{classcl__http_1_1http__session_a5579dcf950fe220aa24ea2299f6d1421}{req\_}}.target(target);}
-\DoxyCodeLine{\Hypertarget{http__session_8cpp_source_l00041}00041\ \ \ \mbox{\hyperlink{classcl__http_1_1http__session_a5579dcf950fe220aa24ea2299f6d1421}{req\_}}.set(boost::beast::http::field::host,\ host);}
-\DoxyCodeLine{\Hypertarget{http__session_8cpp_source_l00042}00042\ \ \ \mbox{\hyperlink{classcl__http_1_1http__session_a5579dcf950fe220aa24ea2299f6d1421}{req\_}}.set(boost::beast::http::field::user\_agent,\ BOOST\_BEAST\_VERSION\_STRING);}
-\DoxyCodeLine{\Hypertarget{http__session_8cpp_source_l00043}00043\ }
-\DoxyCodeLine{\Hypertarget{http__session_8cpp_source_l00044}00044\ \ \ \textcolor{comment}{//\ Look\ up\ the\ domain\ name}}
-\DoxyCodeLine{\Hypertarget{http__session_8cpp_source_l00045}00045\ \ \ \mbox{\hyperlink{classcl__http_1_1http__session_a689ee53fafd3f68ad082337d5b59db17}{resolver\_}}.async\_resolve(}
-\DoxyCodeLine{\Hypertarget{http__session_8cpp_source_l00046}00046\ \ \ \ \ host.c\_str(),\ \mbox{\hyperlink{classcl__http_1_1http__session_a1e4e46833143a7588aa09a3a11cbb6a2}{kPort}}.c\_str(),}
-\DoxyCodeLine{\Hypertarget{http__session_8cpp_source_l00047}00047\ \ \ \ \ boost::beast::bind\_front\_handler(\&\mbox{\hyperlink{classcl__http_1_1http__session_a0cd341815a1b6ad6360865bbc7f62a80}{http\_session::on\_resolve}},\ shared\_from\_this()));}
-\DoxyCodeLine{\Hypertarget{http__session_8cpp_source_l00048}00048\ \}}
-\DoxyCodeLine{\Hypertarget{http__session_8cpp_source_l00049}00049\ }
-\DoxyCodeLine{\Hypertarget{http__session_8cpp_source_l00050}\mbox{\hyperlink{classcl__http_1_1http__session_a0cd341815a1b6ad6360865bbc7f62a80}{00050}}\ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{classcl__http_1_1http__session_a0cd341815a1b6ad6360865bbc7f62a80}{http\_session::on\_resolve}}(}
-\DoxyCodeLine{\Hypertarget{http__session_8cpp_source_l00051}00051\ \ \ boost::beast::error\_code\ ec,\ boost::asio::ip::tcp::resolver::results\_type\ results)}
-\DoxyCodeLine{\Hypertarget{http__session_8cpp_source_l00052}00052\ \{}
-\DoxyCodeLine{\Hypertarget{http__session_8cpp_source_l00053}00053\ \ \ \textcolor{keywordflow}{if}\ (ec)\ \textcolor{keywordflow}{return}\ \mbox{\hyperlink{classcl__http_1_1http__session_a954e89b874ee90cb1ae575ef54720fd4}{fail}}(ec,\ \textcolor{stringliteral}{"{}resolve"{}});}
-\DoxyCodeLine{\Hypertarget{http__session_8cpp_source_l00054}00054\ }
-\DoxyCodeLine{\Hypertarget{http__session_8cpp_source_l00055}00055\ \ \ \textcolor{comment}{//\ Set\ a\ timeout\ on\ the\ operation}}
-\DoxyCodeLine{\Hypertarget{http__session_8cpp_source_l00056}00056\ \ \ \mbox{\hyperlink{classcl__http_1_1http__session_a752d924c51490fe249b70ac412f6a9b4}{stream\_}}.expires\_after(std::chrono::seconds(1));}
-\DoxyCodeLine{\Hypertarget{http__session_8cpp_source_l00057}00057\ }
-\DoxyCodeLine{\Hypertarget{http__session_8cpp_source_l00058}00058\ \ \ \textcolor{comment}{//\ Make\ the\ connection\ on\ the\ IP\ address\ we\ get\ from\ a\ lookup}}
-\DoxyCodeLine{\Hypertarget{http__session_8cpp_source_l00059}00059\ \ \ \mbox{\hyperlink{classcl__http_1_1http__session_a752d924c51490fe249b70ac412f6a9b4}{stream\_}}.async\_connect(}
-\DoxyCodeLine{\Hypertarget{http__session_8cpp_source_l00060}00060\ \ \ \ \ results,\ boost::beast::bind\_front\_handler(\&\mbox{\hyperlink{classcl__http_1_1http__session_a70e753424263bbac3ea55c75497736f3}{http\_session::on\_connect}},\ shared\_from\_this()));}
-\DoxyCodeLine{\Hypertarget{http__session_8cpp_source_l00061}00061\ \}}
-\DoxyCodeLine{\Hypertarget{http__session_8cpp_source_l00062}00062\ }
-\DoxyCodeLine{\Hypertarget{http__session_8cpp_source_l00063}\mbox{\hyperlink{classcl__http_1_1http__session_a954e89b874ee90cb1ae575ef54720fd4}{00063}}\ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{classcl__http_1_1http__session_a954e89b874ee90cb1ae575ef54720fd4}{http\_session::fail}}(boost::beast::error\_code\ ec,\ \textcolor{keywordtype}{char}\ \textcolor{keyword}{const}\ *\ what)}
-\DoxyCodeLine{\Hypertarget{http__session_8cpp_source_l00064}00064\ \{}
-\DoxyCodeLine{\Hypertarget{http__session_8cpp_source_l00065}00065\ \ \ std::cout\ <<\ \textcolor{stringliteral}{"{}Failure!..."{}}\ <<\ std::endl;}
-\DoxyCodeLine{\Hypertarget{http__session_8cpp_source_l00066}00066\ \ \ std::cerr\ <<\ what\ <<\ \textcolor{stringliteral}{"{}:\ "{}}\ <<\ ec.message()\ <<\ \textcolor{stringliteral}{"{}\(\backslash\)n"{}};}
-\DoxyCodeLine{\Hypertarget{http__session_8cpp_source_l00067}00067\ \ \ \mbox{\hyperlink{classcl__http_1_1http__session_a898f3706eb4ec20e01d91a6ba228750e}{res\_}}.result(boost::beast::http::status::bad\_request);}
-\DoxyCodeLine{\Hypertarget{http__session_8cpp_source_l00068}00068\ \ \ \mbox{\hyperlink{classcl__http_1_1http__session_a898f3706eb4ec20e01d91a6ba228750e}{res\_}}.reason()\ =\ ec.message();}
-\DoxyCodeLine{\Hypertarget{http__session_8cpp_source_l00069}00069\ \ \ \mbox{\hyperlink{classcl__http_1_1http__session_a7ecb962d1678a0877b8dd2224cb4ca13}{onResponse}}(\mbox{\hyperlink{classcl__http_1_1http__session_a898f3706eb4ec20e01d91a6ba228750e}{res\_}});}
-\DoxyCodeLine{\Hypertarget{http__session_8cpp_source_l00070}00070\ \}}
-\DoxyCodeLine{\Hypertarget{http__session_8cpp_source_l00071}00071\ }
-\DoxyCodeLine{\Hypertarget{http__session_8cpp_source_l00072}\mbox{\hyperlink{classcl__http_1_1http__session_a70e753424263bbac3ea55c75497736f3}{00072}}\ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{classcl__http_1_1http__session_a70e753424263bbac3ea55c75497736f3}{http\_session::on\_connect}}(}
-\DoxyCodeLine{\Hypertarget{http__session_8cpp_source_l00073}00073\ \ \ boost::beast::error\_code\ ec,\ boost::asio::ip::tcp::resolver::results\_type::endpoint\_type)}
-\DoxyCodeLine{\Hypertarget{http__session_8cpp_source_l00074}00074\ \{}
-\DoxyCodeLine{\Hypertarget{http__session_8cpp_source_l00075}00075\ \ \ \textcolor{keywordflow}{if}\ (ec)\ \textcolor{keywordflow}{return}\ \mbox{\hyperlink{classcl__http_1_1http__session_a954e89b874ee90cb1ae575ef54720fd4}{fail}}(ec,\ \textcolor{stringliteral}{"{}connect"{}});}
-\DoxyCodeLine{\Hypertarget{http__session_8cpp_source_l00076}00076\ }
-\DoxyCodeLine{\Hypertarget{http__session_8cpp_source_l00077}00077\ \ \ \textcolor{comment}{//\ Set\ a\ timeout\ on\ the\ operation}}
-\DoxyCodeLine{\Hypertarget{http__session_8cpp_source_l00078}00078\ \ \ \mbox{\hyperlink{classcl__http_1_1http__session_a752d924c51490fe249b70ac412f6a9b4}{stream\_}}.expires\_after(std::chrono::seconds(1));}
-\DoxyCodeLine{\Hypertarget{http__session_8cpp_source_l00079}00079\ }
-\DoxyCodeLine{\Hypertarget{http__session_8cpp_source_l00080}00080\ \ \ \textcolor{comment}{//\ Send\ the\ HTTP\ request\ to\ the\ remote\ host}}
-\DoxyCodeLine{\Hypertarget{http__session_8cpp_source_l00081}00081\ \ \ boost::beast::http::async\_write(}
-\DoxyCodeLine{\Hypertarget{http__session_8cpp_source_l00082}00082\ \ \ \ \ \mbox{\hyperlink{classcl__http_1_1http__session_a752d924c51490fe249b70ac412f6a9b4}{stream\_}},\ \mbox{\hyperlink{classcl__http_1_1http__session_a5579dcf950fe220aa24ea2299f6d1421}{req\_}},\ boost::beast::bind\_front\_handler(\&\mbox{\hyperlink{classcl__http_1_1http__session_aa71e7107fb3e13020fc3aaab4e0853d8}{http\_session::on\_write}},\ shared\_from\_this()));}
-\DoxyCodeLine{\Hypertarget{http__session_8cpp_source_l00083}00083\ \}}
-\DoxyCodeLine{\Hypertarget{http__session_8cpp_source_l00084}00084\ }
-\DoxyCodeLine{\Hypertarget{http__session_8cpp_source_l00085}\mbox{\hyperlink{classcl__http_1_1http__session_aa71e7107fb3e13020fc3aaab4e0853d8}{00085}}\ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{classcl__http_1_1http__session_aa71e7107fb3e13020fc3aaab4e0853d8}{http\_session::on\_write}}(boost::beast::error\_code\ ec,\ std::size\_t\ bytes\_transferred)}
-\DoxyCodeLine{\Hypertarget{http__session_8cpp_source_l00086}00086\ \{}
-\DoxyCodeLine{\Hypertarget{http__session_8cpp_source_l00087}00087\ \ \ boost::ignore\_unused(bytes\_transferred);}
-\DoxyCodeLine{\Hypertarget{http__session_8cpp_source_l00088}00088\ }
-\DoxyCodeLine{\Hypertarget{http__session_8cpp_source_l00089}00089\ \ \ \textcolor{keywordflow}{if}\ (ec)\ \textcolor{keywordflow}{return}\ \mbox{\hyperlink{classcl__http_1_1http__session_a954e89b874ee90cb1ae575ef54720fd4}{fail}}(ec,\ \textcolor{stringliteral}{"{}write"{}});}
+\DoxyCodeLine{\Hypertarget{http__session_8cpp_source_l00033}\mbox{\hyperlink{classcl__http_1_1http__session_a20796fc9d0a3a62d2c48e936965875bd}{00033}}\ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{classcl__http_1_1http__session_a20796fc9d0a3a62d2c48e936965875bd}{http\_session::setBody}}(\textcolor{keyword}{const}\ std::string\ \&\ body)\ \{\ \mbox{\hyperlink{classcl__http_1_1http__session_a219d11703d4bd9f938febd24b8ea0619}{req\_}}.body()\ =\ body;\ \}}
+\DoxyCodeLine{\Hypertarget{http__session_8cpp_source_l00034}00034\ }
+\DoxyCodeLine{\Hypertarget{http__session_8cpp_source_l00035}\mbox{\hyperlink{classcl__http_1_1http__session_a21e347fa663815a13787b76ca358f7d7}{00035}}\ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{classcl__http_1_1http__session_a21e347fa663815a13787b76ca358f7d7}{http\_session::run}}(}
+\DoxyCodeLine{\Hypertarget{http__session_8cpp_source_l00036}00036\ \ \ \textcolor{keyword}{const}\ std::string\ \&\ host,\ \textcolor{keyword}{const}\ std::string\ \&\ target,\ \textcolor{keyword}{const}\ boost::beast::http::verb\ http\_method,}
+\DoxyCodeLine{\Hypertarget{http__session_8cpp_source_l00037}00037\ \ \ \textcolor{keyword}{const}\ \textcolor{keywordtype}{int}\ \&\ version)}
+\DoxyCodeLine{\Hypertarget{http__session_8cpp_source_l00038}00038\ \{}
+\DoxyCodeLine{\Hypertarget{http__session_8cpp_source_l00039}00039\ \ \ \textcolor{comment}{//\ Set\ up\ an\ HTTP\ request}}
+\DoxyCodeLine{\Hypertarget{http__session_8cpp_source_l00040}00040\ \ \ \mbox{\hyperlink{classcl__http_1_1http__session_a219d11703d4bd9f938febd24b8ea0619}{req\_}}.version(version);}
+\DoxyCodeLine{\Hypertarget{http__session_8cpp_source_l00041}00041\ \ \ \mbox{\hyperlink{classcl__http_1_1http__session_a219d11703d4bd9f938febd24b8ea0619}{req\_}}.method(http\_method);}
+\DoxyCodeLine{\Hypertarget{http__session_8cpp_source_l00042}00042\ \ \ \mbox{\hyperlink{classcl__http_1_1http__session_a219d11703d4bd9f938febd24b8ea0619}{req\_}}.target(target);}
+\DoxyCodeLine{\Hypertarget{http__session_8cpp_source_l00043}00043\ \ \ \mbox{\hyperlink{classcl__http_1_1http__session_a219d11703d4bd9f938febd24b8ea0619}{req\_}}.set(boost::beast::http::field::host,\ host);}
+\DoxyCodeLine{\Hypertarget{http__session_8cpp_source_l00044}00044\ \ \ \mbox{\hyperlink{classcl__http_1_1http__session_a219d11703d4bd9f938febd24b8ea0619}{req\_}}.set(boost::beast::http::field::user\_agent,\ BOOST\_BEAST\_VERSION\_STRING);}
+\DoxyCodeLine{\Hypertarget{http__session_8cpp_source_l00045}00045\ }
+\DoxyCodeLine{\Hypertarget{http__session_8cpp_source_l00046}00046\ \ \ \textcolor{comment}{//\ Look\ up\ the\ domain\ name}}
+\DoxyCodeLine{\Hypertarget{http__session_8cpp_source_l00047}00047\ \ \ \mbox{\hyperlink{classcl__http_1_1http__session_a689ee53fafd3f68ad082337d5b59db17}{resolver\_}}.async\_resolve(}
+\DoxyCodeLine{\Hypertarget{http__session_8cpp_source_l00048}00048\ \ \ \ \ host.c\_str(),\ \mbox{\hyperlink{classcl__http_1_1http__session_a1e4e46833143a7588aa09a3a11cbb6a2}{kPort}}.c\_str(),}
+\DoxyCodeLine{\Hypertarget{http__session_8cpp_source_l00049}00049\ \ \ \ \ boost::beast::bind\_front\_handler(\&\mbox{\hyperlink{classcl__http_1_1http__session_a0cd341815a1b6ad6360865bbc7f62a80}{http\_session::on\_resolve}},\ shared\_from\_this()));}
+\DoxyCodeLine{\Hypertarget{http__session_8cpp_source_l00050}00050\ \}}
+\DoxyCodeLine{\Hypertarget{http__session_8cpp_source_l00051}00051\ }
+\DoxyCodeLine{\Hypertarget{http__session_8cpp_source_l00052}\mbox{\hyperlink{classcl__http_1_1http__session_a0cd341815a1b6ad6360865bbc7f62a80}{00052}}\ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{classcl__http_1_1http__session_a0cd341815a1b6ad6360865bbc7f62a80}{http\_session::on\_resolve}}(}
+\DoxyCodeLine{\Hypertarget{http__session_8cpp_source_l00053}00053\ \ \ boost::beast::error\_code\ ec,\ boost::asio::ip::tcp::resolver::results\_type\ results)}
+\DoxyCodeLine{\Hypertarget{http__session_8cpp_source_l00054}00054\ \{}
+\DoxyCodeLine{\Hypertarget{http__session_8cpp_source_l00055}00055\ \ \ \textcolor{keywordflow}{if}\ (ec)\ \textcolor{keywordflow}{return}\ \mbox{\hyperlink{classcl__http_1_1http__session_a954e89b874ee90cb1ae575ef54720fd4}{fail}}(ec,\ \textcolor{stringliteral}{"{}resolve"{}});}
+\DoxyCodeLine{\Hypertarget{http__session_8cpp_source_l00056}00056\ }
+\DoxyCodeLine{\Hypertarget{http__session_8cpp_source_l00057}00057\ \ \ \textcolor{comment}{//\ Set\ a\ timeout\ on\ the\ operation}}
+\DoxyCodeLine{\Hypertarget{http__session_8cpp_source_l00058}00058\ \ \ \mbox{\hyperlink{classcl__http_1_1http__session_a752d924c51490fe249b70ac412f6a9b4}{stream\_}}.expires\_after(std::chrono::seconds(1));}
+\DoxyCodeLine{\Hypertarget{http__session_8cpp_source_l00059}00059\ }
+\DoxyCodeLine{\Hypertarget{http__session_8cpp_source_l00060}00060\ \ \ \textcolor{comment}{//\ Make\ the\ connection\ on\ the\ IP\ address\ we\ get\ from\ a\ lookup}}
+\DoxyCodeLine{\Hypertarget{http__session_8cpp_source_l00061}00061\ \ \ \mbox{\hyperlink{classcl__http_1_1http__session_a752d924c51490fe249b70ac412f6a9b4}{stream\_}}.async\_connect(}
+\DoxyCodeLine{\Hypertarget{http__session_8cpp_source_l00062}00062\ \ \ \ \ results,\ boost::beast::bind\_front\_handler(\&\mbox{\hyperlink{classcl__http_1_1http__session_a70e753424263bbac3ea55c75497736f3}{http\_session::on\_connect}},\ shared\_from\_this()));}
+\DoxyCodeLine{\Hypertarget{http__session_8cpp_source_l00063}00063\ \}}
+\DoxyCodeLine{\Hypertarget{http__session_8cpp_source_l00064}00064\ }
+\DoxyCodeLine{\Hypertarget{http__session_8cpp_source_l00065}\mbox{\hyperlink{classcl__http_1_1http__session_a954e89b874ee90cb1ae575ef54720fd4}{00065}}\ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{classcl__http_1_1http__session_a954e89b874ee90cb1ae575ef54720fd4}{http\_session::fail}}(boost::beast::error\_code\ ec,\ \textcolor{keywordtype}{char}\ \textcolor{keyword}{const}\ *\ what)}
+\DoxyCodeLine{\Hypertarget{http__session_8cpp_source_l00066}00066\ \{}
+\DoxyCodeLine{\Hypertarget{http__session_8cpp_source_l00067}00067\ \ \ std::cout\ <<\ \textcolor{stringliteral}{"{}Failure!..."{}}\ <<\ std::endl;}
+\DoxyCodeLine{\Hypertarget{http__session_8cpp_source_l00068}00068\ \ \ std::cerr\ <<\ what\ <<\ \textcolor{stringliteral}{"{}:\ "{}}\ <<\ ec.message()\ <<\ \textcolor{stringliteral}{"{}\(\backslash\)n"{}};}
+\DoxyCodeLine{\Hypertarget{http__session_8cpp_source_l00069}00069\ \ \ \mbox{\hyperlink{classcl__http_1_1http__session_a241bb9bbc717593ba5227163bf46d1f0}{res\_}}.result(boost::beast::http::status::bad\_request);}
+\DoxyCodeLine{\Hypertarget{http__session_8cpp_source_l00070}00070\ \ \ \mbox{\hyperlink{classcl__http_1_1http__session_a241bb9bbc717593ba5227163bf46d1f0}{res\_}}.reason()\ =\ ec.message();}
+\DoxyCodeLine{\Hypertarget{http__session_8cpp_source_l00071}00071\ \ \ \mbox{\hyperlink{classcl__http_1_1http__session_a7ecb962d1678a0877b8dd2224cb4ca13}{onResponse}}(\mbox{\hyperlink{classcl__http_1_1http__session_a241bb9bbc717593ba5227163bf46d1f0}{res\_}});}
+\DoxyCodeLine{\Hypertarget{http__session_8cpp_source_l00072}00072\ \}}
+\DoxyCodeLine{\Hypertarget{http__session_8cpp_source_l00073}00073\ }
+\DoxyCodeLine{\Hypertarget{http__session_8cpp_source_l00074}\mbox{\hyperlink{classcl__http_1_1http__session_a70e753424263bbac3ea55c75497736f3}{00074}}\ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{classcl__http_1_1http__session_a70e753424263bbac3ea55c75497736f3}{http\_session::on\_connect}}(}
+\DoxyCodeLine{\Hypertarget{http__session_8cpp_source_l00075}00075\ \ \ boost::beast::error\_code\ ec,\ boost::asio::ip::tcp::resolver::results\_type::endpoint\_type)}
+\DoxyCodeLine{\Hypertarget{http__session_8cpp_source_l00076}00076\ \{}
+\DoxyCodeLine{\Hypertarget{http__session_8cpp_source_l00077}00077\ \ \ \textcolor{keywordflow}{if}\ (ec)\ \textcolor{keywordflow}{return}\ \mbox{\hyperlink{classcl__http_1_1http__session_a954e89b874ee90cb1ae575ef54720fd4}{fail}}(ec,\ \textcolor{stringliteral}{"{}connect"{}});}
+\DoxyCodeLine{\Hypertarget{http__session_8cpp_source_l00078}00078\ }
+\DoxyCodeLine{\Hypertarget{http__session_8cpp_source_l00079}00079\ \ \ \textcolor{comment}{//\ Set\ a\ timeout\ on\ the\ operation}}
+\DoxyCodeLine{\Hypertarget{http__session_8cpp_source_l00080}00080\ \ \ \mbox{\hyperlink{classcl__http_1_1http__session_a752d924c51490fe249b70ac412f6a9b4}{stream\_}}.expires\_after(std::chrono::seconds(1));}
+\DoxyCodeLine{\Hypertarget{http__session_8cpp_source_l00081}00081\ }
+\DoxyCodeLine{\Hypertarget{http__session_8cpp_source_l00082}00082\ \ \ \textcolor{comment}{//\ Send\ the\ HTTP\ request\ to\ the\ remote\ host}}
+\DoxyCodeLine{\Hypertarget{http__session_8cpp_source_l00083}00083\ \ \ boost::beast::http::async\_write(}
+\DoxyCodeLine{\Hypertarget{http__session_8cpp_source_l00084}00084\ \ \ \ \ \mbox{\hyperlink{classcl__http_1_1http__session_a752d924c51490fe249b70ac412f6a9b4}{stream\_}},\ \mbox{\hyperlink{classcl__http_1_1http__session_a219d11703d4bd9f938febd24b8ea0619}{req\_}},\ boost::beast::bind\_front\_handler(\&\mbox{\hyperlink{classcl__http_1_1http__session_aa71e7107fb3e13020fc3aaab4e0853d8}{http\_session::on\_write}},\ shared\_from\_this()));}
+\DoxyCodeLine{\Hypertarget{http__session_8cpp_source_l00085}00085\ \}}
+\DoxyCodeLine{\Hypertarget{http__session_8cpp_source_l00086}00086\ }
+\DoxyCodeLine{\Hypertarget{http__session_8cpp_source_l00087}\mbox{\hyperlink{classcl__http_1_1http__session_aa71e7107fb3e13020fc3aaab4e0853d8}{00087}}\ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{classcl__http_1_1http__session_aa71e7107fb3e13020fc3aaab4e0853d8}{http\_session::on\_write}}(boost::beast::error\_code\ ec,\ std::size\_t\ bytes\_transferred)}
+\DoxyCodeLine{\Hypertarget{http__session_8cpp_source_l00088}00088\ \{}
+\DoxyCodeLine{\Hypertarget{http__session_8cpp_source_l00089}00089\ \ \ boost::ignore\_unused(bytes\_transferred);}
 \DoxyCodeLine{\Hypertarget{http__session_8cpp_source_l00090}00090\ }
-\DoxyCodeLine{\Hypertarget{http__session_8cpp_source_l00091}00091\ \ \ \textcolor{comment}{//\ Receive\ the\ HTTP\ response}}
-\DoxyCodeLine{\Hypertarget{http__session_8cpp_source_l00092}00092\ \ \ boost::beast::http::async\_read(}
-\DoxyCodeLine{\Hypertarget{http__session_8cpp_source_l00093}00093\ \ \ \ \ \mbox{\hyperlink{classcl__http_1_1http__session_a752d924c51490fe249b70ac412f6a9b4}{stream\_}},\ \mbox{\hyperlink{classcl__http_1_1http__session_a0fdddd1d6b47c6768b1bca80a8c549d2}{buffer\_}},\ \mbox{\hyperlink{classcl__http_1_1http__session_a898f3706eb4ec20e01d91a6ba228750e}{res\_}},}
-\DoxyCodeLine{\Hypertarget{http__session_8cpp_source_l00094}00094\ \ \ \ \ boost::beast::bind\_front\_handler(\&\mbox{\hyperlink{classcl__http_1_1http__session_a0d198a18f1a9e4ea125351f6e3377785}{http\_session::on\_read}},\ shared\_from\_this()));}
-\DoxyCodeLine{\Hypertarget{http__session_8cpp_source_l00095}00095\ \}}
-\DoxyCodeLine{\Hypertarget{http__session_8cpp_source_l00096}00096\ }
-\DoxyCodeLine{\Hypertarget{http__session_8cpp_source_l00097}\mbox{\hyperlink{classcl__http_1_1http__session_a0d198a18f1a9e4ea125351f6e3377785}{00097}}\ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{classcl__http_1_1http__session_a0d198a18f1a9e4ea125351f6e3377785}{http\_session::on\_read}}(boost::beast::error\_code\ ec,\ std::size\_t\ bytes\_transferred)}
-\DoxyCodeLine{\Hypertarget{http__session_8cpp_source_l00098}00098\ \{}
-\DoxyCodeLine{\Hypertarget{http__session_8cpp_source_l00099}00099\ \ \ boost::ignore\_unused(bytes\_transferred);}
-\DoxyCodeLine{\Hypertarget{http__session_8cpp_source_l00100}00100\ }
-\DoxyCodeLine{\Hypertarget{http__session_8cpp_source_l00101}00101\ \ \ \textcolor{keywordflow}{if}\ (ec)\ \textcolor{keywordflow}{return}\ \mbox{\hyperlink{classcl__http_1_1http__session_a954e89b874ee90cb1ae575ef54720fd4}{fail}}(ec,\ \textcolor{stringliteral}{"{}read"{}});}
+\DoxyCodeLine{\Hypertarget{http__session_8cpp_source_l00091}00091\ \ \ \textcolor{keywordflow}{if}\ (ec)\ \textcolor{keywordflow}{return}\ \mbox{\hyperlink{classcl__http_1_1http__session_a954e89b874ee90cb1ae575ef54720fd4}{fail}}(ec,\ \textcolor{stringliteral}{"{}write"{}});}
+\DoxyCodeLine{\Hypertarget{http__session_8cpp_source_l00092}00092\ }
+\DoxyCodeLine{\Hypertarget{http__session_8cpp_source_l00093}00093\ \ \ \textcolor{comment}{//\ Receive\ the\ HTTP\ response}}
+\DoxyCodeLine{\Hypertarget{http__session_8cpp_source_l00094}00094\ \ \ boost::beast::http::async\_read(}
+\DoxyCodeLine{\Hypertarget{http__session_8cpp_source_l00095}00095\ \ \ \ \ \mbox{\hyperlink{classcl__http_1_1http__session_a752d924c51490fe249b70ac412f6a9b4}{stream\_}},\ \mbox{\hyperlink{classcl__http_1_1http__session_a0fdddd1d6b47c6768b1bca80a8c549d2}{buffer\_}},\ \mbox{\hyperlink{classcl__http_1_1http__session_a241bb9bbc717593ba5227163bf46d1f0}{res\_}},}
+\DoxyCodeLine{\Hypertarget{http__session_8cpp_source_l00096}00096\ \ \ \ \ boost::beast::bind\_front\_handler(\&\mbox{\hyperlink{classcl__http_1_1http__session_a0d198a18f1a9e4ea125351f6e3377785}{http\_session::on\_read}},\ shared\_from\_this()));}
+\DoxyCodeLine{\Hypertarget{http__session_8cpp_source_l00097}00097\ \}}
+\DoxyCodeLine{\Hypertarget{http__session_8cpp_source_l00098}00098\ }
+\DoxyCodeLine{\Hypertarget{http__session_8cpp_source_l00099}\mbox{\hyperlink{classcl__http_1_1http__session_a0d198a18f1a9e4ea125351f6e3377785}{00099}}\ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{classcl__http_1_1http__session_a0d198a18f1a9e4ea125351f6e3377785}{http\_session::on\_read}}(boost::beast::error\_code\ ec,\ std::size\_t\ bytes\_transferred)}
+\DoxyCodeLine{\Hypertarget{http__session_8cpp_source_l00100}00100\ \{}
+\DoxyCodeLine{\Hypertarget{http__session_8cpp_source_l00101}00101\ \ \ boost::ignore\_unused(bytes\_transferred);}
 \DoxyCodeLine{\Hypertarget{http__session_8cpp_source_l00102}00102\ }
-\DoxyCodeLine{\Hypertarget{http__session_8cpp_source_l00103}00103\ \ \ \textcolor{comment}{//\ Gracefully\ close\ the\ socket}}
-\DoxyCodeLine{\Hypertarget{http__session_8cpp_source_l00104}00104\ \ \ \mbox{\hyperlink{classcl__http_1_1http__session_a752d924c51490fe249b70ac412f6a9b4}{stream\_}}.socket().shutdown(boost::asio::ip::tcp::socket::shutdown\_both,\ ec);}
-\DoxyCodeLine{\Hypertarget{http__session_8cpp_source_l00105}00105\ }
-\DoxyCodeLine{\Hypertarget{http__session_8cpp_source_l00106}00106\ \ \ \textcolor{comment}{//\ not\_connected\ happens\ sometimes\ so\ don't\ bother\ reporting\ it.}}
-\DoxyCodeLine{\Hypertarget{http__session_8cpp_source_l00107}00107\ \ \ \textcolor{keywordflow}{if}\ (ec\ \&\&\ ec\ !=\ boost::beast::errc::not\_connected)\ \textcolor{keywordflow}{return}\ \mbox{\hyperlink{classcl__http_1_1http__session_a954e89b874ee90cb1ae575ef54720fd4}{fail}}(ec,\ \textcolor{stringliteral}{"{}shutdown"{}});}
-\DoxyCodeLine{\Hypertarget{http__session_8cpp_source_l00108}00108\ }
-\DoxyCodeLine{\Hypertarget{http__session_8cpp_source_l00109}00109\ \ \ \textcolor{comment}{//\ If\ we\ get\ here\ then\ the\ connection\ is\ closed\ gracefully}}
-\DoxyCodeLine{\Hypertarget{http__session_8cpp_source_l00110}00110\ \ \ \mbox{\hyperlink{classcl__http_1_1http__session_a7ecb962d1678a0877b8dd2224cb4ca13}{onResponse}}(\mbox{\hyperlink{classcl__http_1_1http__session_a898f3706eb4ec20e01d91a6ba228750e}{res\_}});}
-\DoxyCodeLine{\Hypertarget{http__session_8cpp_source_l00111}00111\ \}}
-\DoxyCodeLine{\Hypertarget{http__session_8cpp_source_l00112}00112\ \}\ \ \textcolor{comment}{//\ namespace\ cl\_http}}
+\DoxyCodeLine{\Hypertarget{http__session_8cpp_source_l00103}00103\ \ \ \textcolor{keywordflow}{if}\ (ec)\ \textcolor{keywordflow}{return}\ \mbox{\hyperlink{classcl__http_1_1http__session_a954e89b874ee90cb1ae575ef54720fd4}{fail}}(ec,\ \textcolor{stringliteral}{"{}read"{}});}
+\DoxyCodeLine{\Hypertarget{http__session_8cpp_source_l00104}00104\ }
+\DoxyCodeLine{\Hypertarget{http__session_8cpp_source_l00105}00105\ \ \ \textcolor{comment}{//\ Gracefully\ close\ the\ socket}}
+\DoxyCodeLine{\Hypertarget{http__session_8cpp_source_l00106}00106\ \ \ \mbox{\hyperlink{classcl__http_1_1http__session_a752d924c51490fe249b70ac412f6a9b4}{stream\_}}.socket().shutdown(boost::asio::ip::tcp::socket::shutdown\_both,\ ec);}
+\DoxyCodeLine{\Hypertarget{http__session_8cpp_source_l00107}00107\ }
+\DoxyCodeLine{\Hypertarget{http__session_8cpp_source_l00108}00108\ \ \ \textcolor{comment}{//\ not\_connected\ happens\ sometimes\ so\ don't\ bother\ reporting\ it.}}
+\DoxyCodeLine{\Hypertarget{http__session_8cpp_source_l00109}00109\ \ \ \textcolor{keywordflow}{if}\ (ec\ \&\&\ ec\ !=\ boost::beast::errc::not\_connected)\ \textcolor{keywordflow}{return}\ \mbox{\hyperlink{classcl__http_1_1http__session_a954e89b874ee90cb1ae575ef54720fd4}{fail}}(ec,\ \textcolor{stringliteral}{"{}shutdown"{}});}
+\DoxyCodeLine{\Hypertarget{http__session_8cpp_source_l00110}00110\ }
+\DoxyCodeLine{\Hypertarget{http__session_8cpp_source_l00111}00111\ \ \ \textcolor{comment}{//\ If\ we\ get\ here\ then\ the\ connection\ is\ closed\ gracefully}}
+\DoxyCodeLine{\Hypertarget{http__session_8cpp_source_l00112}00112\ \ \ \mbox{\hyperlink{classcl__http_1_1http__session_a7ecb962d1678a0877b8dd2224cb4ca13}{onResponse}}(\mbox{\hyperlink{classcl__http_1_1http__session_a241bb9bbc717593ba5227163bf46d1f0}{res\_}});}
+\DoxyCodeLine{\Hypertarget{http__session_8cpp_source_l00113}00113\ \}}
+\DoxyCodeLine{\Hypertarget{http__session_8cpp_source_l00114}00114\ \}\ \ \textcolor{comment}{//\ namespace\ cl\_http}}
 
 \end{DoxyCode}
