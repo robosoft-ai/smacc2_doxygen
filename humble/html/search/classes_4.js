@@ -22,7 +22,7 @@ var searchData=
   ['eventgeneratorcallbackfunctor_19',['EventGeneratorCallbackFunctor',['../structsmacc2_1_1introspection_1_1EventGeneratorCallbackFunctor.html',1,'smacc2::introspection']]],
   ['eventgeneratorhandler_20',['EventGeneratorHandler',['../classsmacc2_1_1introspection_1_1EventGeneratorHandler.html',1,'smacc2::introspection']]],
   ['evfalse_21',['EvFalse',['../structsmacc2_1_1event__generators_1_1EvFalse.html',1,'smacc2::event_generators']]],
-  ['evgoalwaypointreached_22',['evgoalwaypointreached',['../structcl__nav2z_1_1EvGoalWaypointReached.html',1,'cl_nav2z::EvGoalWaypointReached&lt; AsyncCB, Orthogonal &gt;'],['../structcl__nitrosz_1_1EvGoalWaypointReached.html',1,'cl_nitrosz::EvGoalWaypointReached&lt; AsyncCB, Orthogonal &gt;']]],
+  ['evgoalwaypointreached_22',['EvGoalWaypointReached',['../structcl__nav2z_1_1EvGoalWaypointReached.html',1,'cl_nav2z']]],
   ['evincorrectinitialposition_23',['EvIncorrectInitialPosition',['../structcl__moveit2z_1_1EvIncorrectInitialPosition.html',1,'cl_moveit2z']]],
   ['evjointdiscontinuity_24',['EvJointDiscontinuity',['../structcl__moveit2z_1_1EvJointDiscontinuity.html',1,'cl_moveit2z']]],
   ['evkeypressa_25',['EvKeyPressA',['../structcl__keyboard_1_1EvKeyPressA.html',1,'cl_keyboard']]],
@@ -90,5 +90,5 @@ var searchData=
   ['evtransitiononshutdownsuccess_87',['EvTransitionOnShutdownSuccess',['../structcl__lifecyclenode_1_1EvTransitionOnShutdownSuccess.html',1,'cl_lifecyclenode']]],
   ['evtransitionunconfiguredshutdown_88',['EvTransitionUnconfiguredShutdown',['../structcl__lifecyclenode_1_1EvTransitionUnconfiguredShutdown.html',1,'cl_lifecyclenode']]],
   ['evtrue_89',['EvTrue',['../structsmacc2_1_1event__generators_1_1EvTrue.html',1,'smacc2::event_generators']]],
-  ['evwaypointfinal_90',['evwaypointfinal',['../structcl__nav2z_1_1EvWaypointFinal.html',1,'cl_nav2z::EvWaypointFinal'],['../structcl__nitrosz_1_1EvWaypointFinal.html',1,'cl_nitrosz::EvWaypointFinal']]]
+  ['evwaypointfinal_90',['EvWaypointFinal',['../structcl__nav2z_1_1EvWaypointFinal.html',1,'cl_nav2z']]]
 ];
