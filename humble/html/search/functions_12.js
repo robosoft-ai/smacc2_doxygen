@@ -5,7 +5,7 @@ var searchData=
   ['throwsequencefinishedevent_2',['throwSequenceFinishedEvent',['../classsmacc2_1_1SmaccState.html#acecda8c2c57b6040834d47de9845fe08',1,'smacc2::SmaccState']]],
   ['timeoutcallback_3',['timeoutCallback',['../classcl__multirole__sensor_1_1ClMultiroleSensor.html#a3f973d5b02a6c8aedd726af26c71c455',1,'cl_multirole_sensor::ClMultiroleSensor']]],
   ['timercallback_4',['timerCallback',['../classcl__ros__timer_1_1ClRosTimer.html#adb34069dc41270020dc52831c0cdb364',1,'cl_ros_timer::ClRosTimer::timerCallback()'],['../classcl__ros__timer_1_1ClRosTimer.html#adb34069dc41270020dc52831c0cdb364',1,'cl_ros_timer::ClRosTimer::timerCallback()']]],
-  ['tooglestate_5',['toogleState',['../classcl__nav2z_1_1CpSlamToolbox.html#a355902dc8b5f4f14f9a7b4ab22e83f0b',1,'cl_nav2z::CpSlamToolbox']]],
+  ['togglestate_5',['toggleState',['../classcl__nav2z_1_1CpSlamToolbox.html#a1e4b6a20241d44ae3b1db8bf98285f97',1,'cl_nav2z::CpSlamToolbox']]],
   ['toposemsg_6',['toPoseMsg',['../classcl__nav2z_1_1Pose.html#adcf225884841f43c599864a1927cdd6b',1,'cl_nav2z::Pose']]],
   ['toposestampedmsg_7',['toPoseStampedMsg',['../classcl__nav2z_1_1Pose.html#aa0bc526dd4ce398441a02b4b7e7c6daa',1,'cl_nav2z::Pose']]],
   ['toshortname_8',['toShortName',['../classsmacc2_1_1introspection_1_1SmaccStateInfo.html#a89b25c18c63fce175ba1c6426f16638a',1,'smacc2::introspection::SmaccStateInfo']]],
