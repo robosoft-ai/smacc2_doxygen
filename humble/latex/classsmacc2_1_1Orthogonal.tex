@@ -52,7 +52,7 @@ virtual std\+::string \mbox{\hyperlink{classsmacc2_1_1ISmaccOrthogonal_aec68cffc
 \item 
 {\footnotesize template$<$typename Smacc\+Component\+Type $>$ }\\void \mbox{\hyperlink{classsmacc2_1_1ISmaccOrthogonal_ab311d0a98b4f77a42b6eb691e98d496a}{requires\+Component}} (Smacc\+Component\+Type \texorpdfstring{$\ast$}{*}\&storage)
 \item 
-{\footnotesize template$<$typename Smacc\+Client\+Type $>$ }\\\mbox{\hyperlink{classbool}{bool}} \mbox{\hyperlink{classsmacc2_1_1ISmaccOrthogonal_ae3588b55b138744169785152d0f7bb65}{requires\+Client}} (Smacc\+Client\+Type \texorpdfstring{$\ast$}{*}\&storage)
+{\footnotesize template$<$typename Smacc\+Client\+Type $>$ }\\bool \mbox{\hyperlink{classsmacc2_1_1ISmaccOrthogonal_ae3588b55b138744169785152d0f7bb65}{requires\+Client}} (Smacc\+Client\+Type \texorpdfstring{$\ast$}{*}\&storage)
 \item 
 const std\+::vector$<$ std\+::shared\+\_\+ptr$<$ \mbox{\hyperlink{classsmacc2_1_1ISmaccClient}{smacc2\+::\+ISmacc\+Client}} $>$ $>$ \& \mbox{\hyperlink{classsmacc2_1_1ISmaccOrthogonal_affd2cb7d10c14883f9b6a7b66e94a8a7}{get\+Clients}} ()
 \item 
@@ -60,7 +60,7 @@ const std\+::vector$<$ std\+::vector$<$ std\+::shared\+\_\+ptr$<$ \mbox{\hyperli
 \item 
 {\footnotesize template$<$typename T $>$ }\\void \mbox{\hyperlink{classsmacc2_1_1ISmaccOrthogonal_a7c32153797028a84f0fd4dea0e8c862f}{set\+Global\+SMData}} (std\+::string name, T value)
 \item 
-{\footnotesize template$<$typename T $>$ }\\\mbox{\hyperlink{classbool}{bool}} \mbox{\hyperlink{classsmacc2_1_1ISmaccOrthogonal_a8375c7479e15feb2d233e45bb0d9787d}{get\+Global\+SMData}} (std\+::string name, T \&ret)
+{\footnotesize template$<$typename T $>$ }\\bool \mbox{\hyperlink{classsmacc2_1_1ISmaccOrthogonal_a8375c7479e15feb2d233e45bb0d9787d}{get\+Global\+SMData}} (std\+::string name, T \&ret)
 \item 
 {\footnotesize template$<$typename TClient\+Behavior $>$ }\\TClient\+Behavior \texorpdfstring{$\ast$}{*} \mbox{\hyperlink{classsmacc2_1_1ISmaccOrthogonal_afd29b3f8643ffd510064a69b13010dda}{get\+Client\+Behavior}} (int index=0)
 \item 
@@ -125,11 +125,15 @@ Definition at line \mbox{\hyperlink{smacc__orthogonal__impl_8hpp_source_l00170}{
 \DoxyCodeLine{00184\ \ \ \ \ \textcolor{keyword}{auto}\ client\ =\ std::make\_shared<ClientHandler<TOrthogonal,\ TClient>>(args...);}
 \DoxyCodeLine{00185\ \ \ \ \ this-\/>\textcolor{keyword}{template}\ \mbox{\hyperlink{classsmacc2_1_1ISmaccOrthogonal_ae58f05ba54120366f940d3d5b927b5fb}{assignClientToOrthogonal<TOrthogonal,\ TClient>}}(client.get());}
 \DoxyCodeLine{00186\ }
-\DoxyCodeLine{00187\ \ \ \ \ \textcolor{comment}{//\ it\ is\ stored\ the\ client\ (not\ the\ client\ handler)}}
-\DoxyCodeLine{00188\ \ \ \ \ \mbox{\hyperlink{classsmacc2_1_1ISmaccOrthogonal_ad03b3f59cfbc5eaac529910ed965bd1f}{clients\_}}.push\_back(client);}
-\DoxyCodeLine{00189\ }
-\DoxyCodeLine{00190\ \ \ \ \ \textcolor{keywordflow}{return}\ client;}
-\DoxyCodeLine{00191\ \ \ \}}
+\DoxyCodeLine{00187\ \ \ \ \ \textcolor{comment}{//\ Call\ the\ component\ initialization\ hook}}
+\DoxyCodeLine{00188\ \ \ \ \ \mbox{\hyperlink{classTClient}{TClient}}\ *\ clientPtr\ =\ \textcolor{keyword}{static\_cast<}\mbox{\hyperlink{classTClient}{TClient}}\ *\textcolor{keyword}{>}(client.get());}
+\DoxyCodeLine{00189\ \ \ \ \ clientPtr-\/>template\ onComponentInitialization<TOrthogonal>();}
+\DoxyCodeLine{00190\ }
+\DoxyCodeLine{00191\ \ \ \ \ \textcolor{comment}{//\ it\ is\ stored\ the\ client\ (not\ the\ client\ handler)}}
+\DoxyCodeLine{00192\ \ \ \ \ this-\/>\mbox{\hyperlink{classsmacc2_1_1ISmaccOrthogonal_ad03b3f59cfbc5eaac529910ed965bd1f}{clients\_}}.push\_back(client);}
+\DoxyCodeLine{00193\ }
+\DoxyCodeLine{00194\ \ \ \ \ \textcolor{keywordflow}{return}\ client;}
+\DoxyCodeLine{00195\ \ \ \}}
 
 \end{DoxyCode}
 
