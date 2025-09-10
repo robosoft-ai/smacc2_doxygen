@@ -24,7 +24,7 @@ var searchData=
   ['relativepivotpoint_5f_21',['relativePivotPoint_',['../classcl__moveit2z_1_1CbCircularPouringMotion.html#afe9f6674ea6ad39740ba1818eec88f3d',1,'cl_moveit2z::CbCircularPouringMotion']]],
   ['release_22',['RELEASE',['../namespacesmacc2.html#a7322c034df3cc8d5a5d8f0fc7737fc2ea7d649ef069df9885e382417c79f3d5cd',1,'smacc2']]],
   ['release_23',['release',['../classsmacc2_1_1CallbackCounterSemaphore.html#a466135cba679296d1f6fc43decdad5d2',1,'smacc2::CallbackCounterSemaphore']]],
-  ['reliability_24',['reliability',['../classsmacc2_1_1components_1_1CpTopicPublisher.html#a07ef4cfa6303eba6fcaea7ca22ad0091',1,'smacc2::components::CpTopicPublisher::reliability'],['../classsmacc2_1_1client__bases_1_1SmaccPublisherClient.html#a427dfd730a168812197f7701176c6db9',1,'smacc2::client_bases::SmaccPublisherClient::reliability']]],
+  ['reliability_24',['reliability',['../classsmacc2_1_1client__bases_1_1SmaccPublisherClient.html#a427dfd730a168812197f7701176c6db9',1,'smacc2::client_bases::SmaccPublisherClient::reliability'],['../classsmacc2_1_1client__core__components_1_1CpTopicPublisher.html#a4627a03d8e9b16dc1fd5d4119f5b2b17',1,'smacc2::client_core_components::CpTopicPublisher::reliability']]],
   ['removewaypoint_25',['removeWaypoint',['../classcl__nav2z_1_1CpWaypointNavigatorBase.html#adc7fca2922d0f1cce411b496c07d348f',1,'cl_nav2z::CpWaypointNavigatorBase']]],
   ['replace_26',['replace',['../namespacesmacc2_1_1introspection.html#a8e84e2d02c21826a4dfe6c4239f6c1be',1,'smacc2::introspection']]],
   ['replace_5fback_27',['replace_back',['../namespacesmacc2_1_1introspection.html#ad2f1043bfacc3386a4a5c0b79394c28d',1,'smacc2::introspection']]],
