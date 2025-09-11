@@ -1,0 +1,67 @@
+\doxysection{cb\+\_\+spiral\+\_\+motion.\+hpp}
+\hypertarget{cb__spiral__motion_8hpp_source}{}\label{cb__spiral__motion_8hpp_source}\index{smacc2\_client\_library/nav2z\_client/nav2z\_client/include/nav2z\_client/client\_behaviors/cb\_spiral\_motion.hpp@{smacc2\_client\_library/nav2z\_client/nav2z\_client/include/nav2z\_client/client\_behaviors/cb\_spiral\_motion.hpp}}
+\mbox{\hyperlink{cb__spiral__motion_8hpp}{Go to the documentation of this file.}}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\Hypertarget{cb__spiral__motion_8hpp_source_l00001}00001\ \textcolor{comment}{//\ Copyright\ 2021\ RobosoftAI\ Inc.}}
+\DoxyCodeLine{\Hypertarget{cb__spiral__motion_8hpp_source_l00002}00002\ \textcolor{comment}{//}}
+\DoxyCodeLine{\Hypertarget{cb__spiral__motion_8hpp_source_l00003}00003\ \textcolor{comment}{//\ Licensed\ under\ the\ Apache\ License,\ Version\ 2.0\ (the\ "{}License"{});}}
+\DoxyCodeLine{\Hypertarget{cb__spiral__motion_8hpp_source_l00004}00004\ \textcolor{comment}{//\ you\ may\ not\ use\ this\ file\ except\ in\ compliance\ with\ the\ License.}}
+\DoxyCodeLine{\Hypertarget{cb__spiral__motion_8hpp_source_l00005}00005\ \textcolor{comment}{//\ You\ may\ obtain\ a\ copy\ of\ the\ License\ at}}
+\DoxyCodeLine{\Hypertarget{cb__spiral__motion_8hpp_source_l00006}00006\ \textcolor{comment}{//}}
+\DoxyCodeLine{\Hypertarget{cb__spiral__motion_8hpp_source_l00007}00007\ \textcolor{comment}{//\ \ \ \ \ http://www.apache.org/licenses/LICENSE-\/2.0}}
+\DoxyCodeLine{\Hypertarget{cb__spiral__motion_8hpp_source_l00008}00008\ \textcolor{comment}{//}}
+\DoxyCodeLine{\Hypertarget{cb__spiral__motion_8hpp_source_l00009}00009\ \textcolor{comment}{//\ Unless\ required\ by\ applicable\ law\ or\ agreed\ to\ in\ writing,\ software}}
+\DoxyCodeLine{\Hypertarget{cb__spiral__motion_8hpp_source_l00010}00010\ \textcolor{comment}{//\ distributed\ under\ the\ License\ is\ distributed\ on\ an\ "{}AS\ IS"{}\ BASIS,}}
+\DoxyCodeLine{\Hypertarget{cb__spiral__motion_8hpp_source_l00011}00011\ \textcolor{comment}{//\ WITHOUT\ WARRANTIES\ OR\ CONDITIONS\ OF\ ANY\ KIND,\ either\ express\ or\ implied.}}
+\DoxyCodeLine{\Hypertarget{cb__spiral__motion_8hpp_source_l00012}00012\ \textcolor{comment}{//\ See\ the\ License\ for\ the\ specific\ language\ governing\ permissions\ and}}
+\DoxyCodeLine{\Hypertarget{cb__spiral__motion_8hpp_source_l00013}00013\ \textcolor{comment}{//\ limitations\ under\ the\ License.}}
+\DoxyCodeLine{\Hypertarget{cb__spiral__motion_8hpp_source_l00014}00014\ }
+\DoxyCodeLine{\Hypertarget{cb__spiral__motion_8hpp_source_l00015}00015\ \textcolor{comment}{/*****************************************************************************************************************}}
+\DoxyCodeLine{\Hypertarget{cb__spiral__motion_8hpp_source_l00016}00016\ \textcolor{comment}{\ *}}
+\DoxyCodeLine{\Hypertarget{cb__spiral__motion_8hpp_source_l00017}00017\ \textcolor{comment}{\ *\ \ \ Authors:\ Pablo\ Inigo\ Blasco,\ Brett\ Aldrich}}
+\DoxyCodeLine{\Hypertarget{cb__spiral__motion_8hpp_source_l00018}00018\ \textcolor{comment}{\ *}}
+\DoxyCodeLine{\Hypertarget{cb__spiral__motion_8hpp_source_l00019}00019\ \textcolor{comment}{\ ******************************************************************************************************************/}}
+\DoxyCodeLine{\Hypertarget{cb__spiral__motion_8hpp_source_l00020}00020\ }
+\DoxyCodeLine{\Hypertarget{cb__spiral__motion_8hpp_source_l00021}00021\ \textcolor{preprocessor}{\#pragma\ once}}
+\DoxyCodeLine{\Hypertarget{cb__spiral__motion_8hpp_source_l00022}00022\ }
+\DoxyCodeLine{\Hypertarget{cb__spiral__motion_8hpp_source_l00023}00023\ \textcolor{preprocessor}{\#include\ <\mbox{\hyperlink{cp__pose_8hpp}{nav2z\_client/components/pose/cp\_pose.hpp}}>}}
+\DoxyCodeLine{\Hypertarget{cb__spiral__motion_8hpp_source_l00024}00024\ \textcolor{preprocessor}{\#include\ <\mbox{\hyperlink{smacc__asynchronous__client__behavior_8hpp}{smacc2/smacc\_asynchronous\_client\_behavior.hpp}}>}}
+\DoxyCodeLine{\Hypertarget{cb__spiral__motion_8hpp_source_l00025}00025\ }
+\DoxyCodeLine{\Hypertarget{cb__spiral__motion_8hpp_source_l00026}00026\ \textcolor{keyword}{namespace\ }\mbox{\hyperlink{namespacecl__nav2z}{cl\_nav2z}}}
+\DoxyCodeLine{\Hypertarget{cb__spiral__motion_8hpp_source_l00027}00027\ \{}
+\DoxyCodeLine{\Hypertarget{cb__spiral__motion_8hpp_source_l00028}00028\ }
+\DoxyCodeLine{\Hypertarget{cb__spiral__motion_8hpp_source_l00029}00029\ \textcolor{comment}{//\ client\ behaviors\ typically\ accept\ parameters\ to\ be\ customized\ in\ the\ state\ it\ is\ being\ used}}
+\DoxyCodeLine{\Hypertarget{cb__spiral__motion_8hpp_source_l00030}00030\ \textcolor{comment}{//\ we\ follow\ this\ pattern,\ with\ a\ basic\ structure\ with\ optional\ fields,\ that\ make\ thee\ initialization\ of\ the\ behavior\ more\ readable\ in\ the}}
+\DoxyCodeLine{\Hypertarget{cb__spiral__motion_8hpp_source_l00031}00031\ \textcolor{comment}{//\ state\ initialization.\ It\ also\ avoid\ an\ explosion\ of\ constructors\ for\ each\ variation\ of\ the\ parameters.}}
+\DoxyCodeLine{\Hypertarget{cb__spiral__motion_8hpp_source_l00032}\mbox{\hyperlink{structcl__nav2z_1_1CbSpiralMotionOptions}{00032}}\ \textcolor{keyword}{struct\ }\mbox{\hyperlink{structcl__nav2z_1_1CbSpiralMotionOptions}{CbSpiralMotionOptions}}}
+\DoxyCodeLine{\Hypertarget{cb__spiral__motion_8hpp_source_l00033}00033\ \{}
+\DoxyCodeLine{\Hypertarget{cb__spiral__motion_8hpp_source_l00034}\mbox{\hyperlink{structcl__nav2z_1_1CbSpiralMotionOptions_a3656e314a95cfdf0b54326203645cca3}{00034}}\ \ \ std::optional<float>\ \mbox{\hyperlink{structcl__nav2z_1_1CbSpiralMotionOptions_a3656e314a95cfdf0b54326203645cca3}{linearVelocity}}\ =\ 0.0f;}
+\DoxyCodeLine{\Hypertarget{cb__spiral__motion_8hpp_source_l00035}\mbox{\hyperlink{structcl__nav2z_1_1CbSpiralMotionOptions_a6187ce93b59e3e879e002c69e272e8df}{00035}}\ \ \ std::optional<float>\ \mbox{\hyperlink{structcl__nav2z_1_1CbSpiralMotionOptions_a6187ce93b59e3e879e002c69e272e8df}{maxLinearVelocity}}\ =\ 0.5f;}
+\DoxyCodeLine{\Hypertarget{cb__spiral__motion_8hpp_source_l00036}\mbox{\hyperlink{structcl__nav2z_1_1CbSpiralMotionOptions_a28e87f028a2c4135a7f0054a90dfb5c6}{00036}}\ \ \ std::optional<float>\ \mbox{\hyperlink{structcl__nav2z_1_1CbSpiralMotionOptions_a28e87f028a2c4135a7f0054a90dfb5c6}{initialAngularVelocity}}\ =\ 1.5f;}
+\DoxyCodeLine{\Hypertarget{cb__spiral__motion_8hpp_source_l00037}\mbox{\hyperlink{structcl__nav2z_1_1CbSpiralMotionOptions_a4bd855235bc576d5d95b070a61197255}{00037}}\ \ \ std::optional<rclcpp::Duration>\ \mbox{\hyperlink{structcl__nav2z_1_1CbSpiralMotionOptions_a4bd855235bc576d5d95b070a61197255}{spiralMotionDuration}}\ =\ rclcpp::Duration::from\_seconds(40);}
+\DoxyCodeLine{\Hypertarget{cb__spiral__motion_8hpp_source_l00038}\mbox{\hyperlink{structcl__nav2z_1_1CbSpiralMotionOptions_a7aa6860e5dfe86c0c5d6a35e99fd1675}{00038}}\ \ \ std::optional<float>\ \mbox{\hyperlink{structcl__nav2z_1_1CbSpiralMotionOptions_a7aa6860e5dfe86c0c5d6a35e99fd1675}{finalRadius}}\ =\ 20.0f;\ \ \textcolor{comment}{//meters}}
+\DoxyCodeLine{\Hypertarget{cb__spiral__motion_8hpp_source_l00039}00039\ \};}
+\DoxyCodeLine{\Hypertarget{cb__spiral__motion_8hpp_source_l00040}00040\ }
+\DoxyCodeLine{\Hypertarget{cb__spiral__motion_8hpp_source_l00041}00041\ \textcolor{comment}{/*\ a\ basic\ client\ behavior\ has\ a\ simple\ onEntry\ and\ onExit\ functions.\ When\ we\ enter\ into\ a\ stae\ we\ call\ onEntry.}}
+\DoxyCodeLine{\Hypertarget{cb__spiral__motion_8hpp_source_l00042}00042\ \textcolor{comment}{This\ client\ behavior\ is\ asynchronous\ so\ that\ onEntry\ returns\ immediately,\ it\ opens\ a\ thread\ to\ run\ the\ behavior*/}}
+\DoxyCodeLine{\Hypertarget{cb__spiral__motion_8hpp_source_l00043}\mbox{\hyperlink{structcl__nav2z_1_1CbSpiralMotion}{00043}}\ \textcolor{keyword}{struct\ }\mbox{\hyperlink{structcl__nav2z_1_1CbSpiralMotion}{CbSpiralMotion}}\ :\ \textcolor{keyword}{public}\ \mbox{\hyperlink{classsmacc2_1_1SmaccAsyncClientBehavior}{smacc2::SmaccAsyncClientBehavior}}}
+\DoxyCodeLine{\Hypertarget{cb__spiral__motion_8hpp_source_l00044}00044\ \{}
+\DoxyCodeLine{\Hypertarget{cb__spiral__motion_8hpp_source_l00045}00045\ \textcolor{keyword}{public}:}
+\DoxyCodeLine{\Hypertarget{cb__spiral__motion_8hpp_source_l00046}00046\ \ \ \textcolor{comment}{//}}
+\DoxyCodeLine{\Hypertarget{cb__spiral__motion_8hpp_source_l00047}00047\ \ \ \textcolor{comment}{//\ constructor,\ we\ accept\ an\ empty\ usag\ of\ the\ behavior,\ but\ also\ any\ other\ combination\ of\ parameters}}
+\DoxyCodeLine{\Hypertarget{cb__spiral__motion_8hpp_source_l00048}00048\ \ \ \mbox{\hyperlink{structcl__nav2z_1_1CbSpiralMotion_aeb468230c4db38eb6864aaed668d92ea}{CbSpiralMotion}}(std::optional<CbSpiralMotionOptions>\ options\ =\ std::nullopt);}
+\DoxyCodeLine{\Hypertarget{cb__spiral__motion_8hpp_source_l00049}00049\ }
+\DoxyCodeLine{\Hypertarget{cb__spiral__motion_8hpp_source_l00050}00050\ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{structcl__nav2z_1_1CbSpiralMotion_a98c9742c4d6722412f7d849c1c45a3e9}{onEntry}}()\ \textcolor{keyword}{override};}
+\DoxyCodeLine{\Hypertarget{cb__spiral__motion_8hpp_source_l00051}00051\ }
+\DoxyCodeLine{\Hypertarget{cb__spiral__motion_8hpp_source_l00052}00052\ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{structcl__nav2z_1_1CbSpiralMotion_a5b9ed75148194bb96057ce0d5a4d8cb4}{onExit}}()\ \textcolor{keyword}{override};}
+\DoxyCodeLine{\Hypertarget{cb__spiral__motion_8hpp_source_l00053}00053\ }
+\DoxyCodeLine{\Hypertarget{cb__spiral__motion_8hpp_source_l00054}00054\ \textcolor{keyword}{private}:}
+\DoxyCodeLine{\Hypertarget{cb__spiral__motion_8hpp_source_l00055}00055\ \ \ \textcolor{comment}{//\ this\ client\ behavior\ has\ its\ own\ temporal\ publisher\ to\ control\ the\ robot}}
+\DoxyCodeLine{\Hypertarget{cb__spiral__motion_8hpp_source_l00056}\mbox{\hyperlink{structcl__nav2z_1_1CbSpiralMotion_aba0aef68031450b456d7b1f28d6960ed}{00056}}\ \ \ rclcpp::Publisher<geometry\_msgs::msg::Twist>::SharedPtr\ \mbox{\hyperlink{structcl__nav2z_1_1CbSpiralMotion_aba0aef68031450b456d7b1f28d6960ed}{cmdVelPub\_}};}
+\DoxyCodeLine{\Hypertarget{cb__spiral__motion_8hpp_source_l00057}00057\ }
+\DoxyCodeLine{\Hypertarget{cb__spiral__motion_8hpp_source_l00058}00058\ \ \ \textcolor{comment}{//\ we\ store\ the\ options\ that\ customize\ the\ behavior}}
+\DoxyCodeLine{\Hypertarget{cb__spiral__motion_8hpp_source_l00059}\mbox{\hyperlink{structcl__nav2z_1_1CbSpiralMotion_a3865932e8a96e312296e85306bbd956e}{00059}}\ \ \ \mbox{\hyperlink{structcl__nav2z_1_1CbSpiralMotionOptions}{CbSpiralMotionOptions}}\ \mbox{\hyperlink{structcl__nav2z_1_1CbSpiralMotion_a3865932e8a96e312296e85306bbd956e}{options\_}};}
+\DoxyCodeLine{\Hypertarget{cb__spiral__motion_8hpp_source_l00060}00060\ \};}
+\DoxyCodeLine{\Hypertarget{cb__spiral__motion_8hpp_source_l00061}00061\ \}\ \ \textcolor{comment}{//\ namespace\ cl\_nav2z}}
+
+\end{DoxyCode}
