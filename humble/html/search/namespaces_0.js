@@ -14,5 +14,6 @@ var searchData=
   ['cl_5fnav2z_3a_3aodom_5ftracker_11',['odom_tracker',['../namespacecl__nav2z_1_1odom__tracker.html',1,'cl_nav2z']]],
   ['cl_5fnav2z_3a_3apure_5fspinning_5flocal_5fplanner_12',['pure_spinning_local_planner',['../namespacecl__nav2z_1_1pure__spinning__local__planner.html',1,'cl_nav2z']]],
   ['cl_5fnav2z_3a_3aundo_5fpath_5fglobal_5fplanner_13',['undo_path_global_planner',['../namespacecl__nav2z_1_1undo__path__global__planner.html',1,'cl_nav2z']]],
-  ['cl_5fros_5ftimer_14',['cl_ros_timer',['../namespacecl__ros__timer.html',1,'']]]
+  ['cl_5fros2_5ftimer_14',['cl_ros2_timer',['../namespacecl__ros2__timer.html',1,'']]],
+  ['cl_5fros_5ftimer_15',['cl_ros_timer',['../namespacecl__ros__timer.html',1,'']]]
 ];

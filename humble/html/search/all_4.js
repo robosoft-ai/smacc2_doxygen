@@ -33,5 +33,5 @@ var searchData=
   ['divergencedetectionlastcarrotlineardistance_5f_30',['divergenceDetectionLastCarrotLinearDistance_',['../classcl__nav2z_1_1backward__local__planner_1_1BackwardLocalPlanner.html#a173474714240068e283c6d4533fd5826',1,'cl_nav2z::backward_local_planner::BackwardLocalPlanner']]],
   ['divergencedetectionupdate_31',['divergenceDetectionUpdate',['../classcl__nav2z_1_1backward__local__planner_1_1BackwardLocalPlanner.html#a7d84bf50ca0fce6c110ea142ea47592b',1,'cl_nav2z::backward_local_planner::BackwardLocalPlanner']]],
   ['durability_32',['durability',['../classsmacc2_1_1client__bases_1_1SmaccPublisherClient.html#a7ccddec2d0b932ed7fd3a8370abfce02',1,'smacc2::client_bases::SmaccPublisherClient::durability'],['../classsmacc2_1_1client__core__components_1_1CpTopicPublisher.html#a01d9ec2bd5e0d074809937f8ac4e78a7',1,'smacc2::client_core_components::CpTopicPublisher::durability']]],
-  ['duration_5f_33',['duration_',['../classcl__ros__timer_1_1ClRosTimer.html#a226f0b972d502596d338f50ecce30d70',1,'cl_ros_timer::ClRosTimer']]]
+  ['duration_5f_33',['duration_',['../classcl__ros2__timer_1_1ClRos2Timer.html#a62f485632c4161b84fff16791a3772f5',1,'cl_ros2_timer::ClRos2Timer::duration_'],['../classcl__ros__timer_1_1ClRosTimer.html#a226f0b972d502596d338f50ecce30d70',1,'cl_ros_timer::ClRosTimer::duration_']]]
 ];
