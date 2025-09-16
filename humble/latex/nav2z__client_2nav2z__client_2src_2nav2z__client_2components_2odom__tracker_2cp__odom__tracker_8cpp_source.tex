@@ -1,0 +1,611 @@
+\doxysection{cp\+\_\+odom\+\_\+tracker.\+cpp}
+\hypertarget{nav2z__client_2nav2z__client_2src_2nav2z__client_2components_2odom__tracker_2cp__odom__tracker_8cpp_source}{}\label{nav2z__client_2nav2z__client_2src_2nav2z__client_2components_2odom__tracker_2cp__odom__tracker_8cpp_source}\index{smacc2\_client\_library/nav2z\_client/nav2z\_client/src/nav2z\_client/components/odom\_tracker/cp\_odom\_tracker.cpp@{smacc2\_client\_library/nav2z\_client/nav2z\_client/src/nav2z\_client/components/odom\_tracker/cp\_odom\_tracker.cpp}}
+\mbox{\hyperlink{nav2z__client_2nav2z__client_2src_2nav2z__client_2components_2odom__tracker_2cp__odom__tracker_8cpp}{Go to the documentation of this file.}}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\Hypertarget{nav2z__client_2nav2z__client_2src_2nav2z__client_2components_2odom__tracker_2cp__odom__tracker_8cpp_source_l00001}00001\ \textcolor{comment}{//\ Copyright\ 2021\ RobosoftAI\ Inc.}}
+\DoxyCodeLine{\Hypertarget{nav2z__client_2nav2z__client_2src_2nav2z__client_2components_2odom__tracker_2cp__odom__tracker_8cpp_source_l00002}00002\ \textcolor{comment}{//}}
+\DoxyCodeLine{\Hypertarget{nav2z__client_2nav2z__client_2src_2nav2z__client_2components_2odom__tracker_2cp__odom__tracker_8cpp_source_l00003}00003\ \textcolor{comment}{//\ Licensed\ under\ the\ Apache\ License,\ Version\ 2.0\ (the\ "{}License"{});}}
+\DoxyCodeLine{\Hypertarget{nav2z__client_2nav2z__client_2src_2nav2z__client_2components_2odom__tracker_2cp__odom__tracker_8cpp_source_l00004}00004\ \textcolor{comment}{//\ you\ may\ not\ use\ this\ file\ except\ in\ compliance\ with\ the\ License.}}
+\DoxyCodeLine{\Hypertarget{nav2z__client_2nav2z__client_2src_2nav2z__client_2components_2odom__tracker_2cp__odom__tracker_8cpp_source_l00005}00005\ \textcolor{comment}{//\ You\ may\ obtain\ a\ copy\ of\ the\ License\ at}}
+\DoxyCodeLine{\Hypertarget{nav2z__client_2nav2z__client_2src_2nav2z__client_2components_2odom__tracker_2cp__odom__tracker_8cpp_source_l00006}00006\ \textcolor{comment}{//}}
+\DoxyCodeLine{\Hypertarget{nav2z__client_2nav2z__client_2src_2nav2z__client_2components_2odom__tracker_2cp__odom__tracker_8cpp_source_l00007}00007\ \textcolor{comment}{//\ \ \ \ \ http://www.apache.org/licenses/LICENSE-\/2.0}}
+\DoxyCodeLine{\Hypertarget{nav2z__client_2nav2z__client_2src_2nav2z__client_2components_2odom__tracker_2cp__odom__tracker_8cpp_source_l00008}00008\ \textcolor{comment}{//}}
+\DoxyCodeLine{\Hypertarget{nav2z__client_2nav2z__client_2src_2nav2z__client_2components_2odom__tracker_2cp__odom__tracker_8cpp_source_l00009}00009\ \textcolor{comment}{//\ Unless\ required\ by\ applicable\ law\ or\ agreed\ to\ in\ writing,\ software}}
+\DoxyCodeLine{\Hypertarget{nav2z__client_2nav2z__client_2src_2nav2z__client_2components_2odom__tracker_2cp__odom__tracker_8cpp_source_l00010}00010\ \textcolor{comment}{//\ distributed\ under\ the\ License\ is\ distributed\ on\ an\ "{}AS\ IS"{}\ BASIS,}}
+\DoxyCodeLine{\Hypertarget{nav2z__client_2nav2z__client_2src_2nav2z__client_2components_2odom__tracker_2cp__odom__tracker_8cpp_source_l00011}00011\ \textcolor{comment}{//\ WITHOUT\ WARRANTIES\ OR\ CONDITIONS\ OF\ ANY\ KIND,\ either\ express\ or\ implied.}}
+\DoxyCodeLine{\Hypertarget{nav2z__client_2nav2z__client_2src_2nav2z__client_2components_2odom__tracker_2cp__odom__tracker_8cpp_source_l00012}00012\ \textcolor{comment}{//\ See\ the\ License\ for\ the\ specific\ language\ governing\ permissions\ and}}
+\DoxyCodeLine{\Hypertarget{nav2z__client_2nav2z__client_2src_2nav2z__client_2components_2odom__tracker_2cp__odom__tracker_8cpp_source_l00013}00013\ \textcolor{comment}{//\ limitations\ under\ the\ License.}}
+\DoxyCodeLine{\Hypertarget{nav2z__client_2nav2z__client_2src_2nav2z__client_2components_2odom__tracker_2cp__odom__tracker_8cpp_source_l00014}00014\ }
+\DoxyCodeLine{\Hypertarget{nav2z__client_2nav2z__client_2src_2nav2z__client_2components_2odom__tracker_2cp__odom__tracker_8cpp_source_l00015}00015\ \textcolor{comment}{/*****************************************************************************************************************}}
+\DoxyCodeLine{\Hypertarget{nav2z__client_2nav2z__client_2src_2nav2z__client_2components_2odom__tracker_2cp__odom__tracker_8cpp_source_l00016}00016\ \textcolor{comment}{\ *}}
+\DoxyCodeLine{\Hypertarget{nav2z__client_2nav2z__client_2src_2nav2z__client_2components_2odom__tracker_2cp__odom__tracker_8cpp_source_l00017}00017\ \textcolor{comment}{\ *\ \ \ Authors:\ Pablo\ Inigo\ Blasco,\ Brett\ Aldrich}}
+\DoxyCodeLine{\Hypertarget{nav2z__client_2nav2z__client_2src_2nav2z__client_2components_2odom__tracker_2cp__odom__tracker_8cpp_source_l00018}00018\ \textcolor{comment}{\ *}}
+\DoxyCodeLine{\Hypertarget{nav2z__client_2nav2z__client_2src_2nav2z__client_2components_2odom__tracker_2cp__odom__tracker_8cpp_source_l00019}00019\ \textcolor{comment}{\ ******************************************************************************************************************/}}
+\DoxyCodeLine{\Hypertarget{nav2z__client_2nav2z__client_2src_2nav2z__client_2components_2odom__tracker_2cp__odom__tracker_8cpp_source_l00020}00020\ \textcolor{preprocessor}{\#include\ <\mbox{\hyperlink{client__library_2nav2z__client_2nav2z__client_2include_2nav2z__client_2common_8hpp}{nav2z\_client/common.hpp}}>}}
+\DoxyCodeLine{\Hypertarget{nav2z__client_2nav2z__client_2src_2nav2z__client_2components_2odom__tracker_2cp__odom__tracker_8cpp_source_l00021}00021\ }
+\DoxyCodeLine{\Hypertarget{nav2z__client_2nav2z__client_2src_2nav2z__client_2components_2odom__tracker_2cp__odom__tracker_8cpp_source_l00022}00022\ \textcolor{preprocessor}{\#include\ <angles/angles.h>}}
+\DoxyCodeLine{\Hypertarget{nav2z__client_2nav2z__client_2src_2nav2z__client_2components_2odom__tracker_2cp__odom__tracker_8cpp_source_l00023}00023\ \textcolor{preprocessor}{\#include\ <tf2/utils.h>}}
+\DoxyCodeLine{\Hypertarget{nav2z__client_2nav2z__client_2src_2nav2z__client_2components_2odom__tracker_2cp__odom__tracker_8cpp_source_l00024}00024\ \textcolor{preprocessor}{\#include\ <\mbox{\hyperlink{nav2z__client_2nav2z__client_2include_2nav2z__client_2components_2odom__tracker_2cp__odom__tracker_8hpp}{nav2z\_client/components/odom\_tracker/cp\_odom\_tracker.hpp}}>}}
+\DoxyCodeLine{\Hypertarget{nav2z__client_2nav2z__client_2src_2nav2z__client_2components_2odom__tracker_2cp__odom__tracker_8cpp_source_l00025}00025\ \textcolor{preprocessor}{\#include\ <\mbox{\hyperlink{component_8hpp}{smacc2/component.hpp}}>}}
+\DoxyCodeLine{\Hypertarget{nav2z__client_2nav2z__client_2src_2nav2z__client_2components_2odom__tracker_2cp__odom__tracker_8cpp_source_l00026}00026\ \textcolor{preprocessor}{\#include\ <\mbox{\hyperlink{smacc__component__impl_8hpp}{smacc2/impl/smacc\_component\_impl.hpp}}>}}
+\DoxyCodeLine{\Hypertarget{nav2z__client_2nav2z__client_2src_2nav2z__client_2components_2odom__tracker_2cp__odom__tracker_8cpp_source_l00027}00027\ }
+\DoxyCodeLine{\Hypertarget{nav2z__client_2nav2z__client_2src_2nav2z__client_2components_2odom__tracker_2cp__odom__tracker_8cpp_source_l00028}00028\ \textcolor{preprocessor}{\#include\ <boost/range/adaptor/reversed.hpp>}}
+\DoxyCodeLine{\Hypertarget{nav2z__client_2nav2z__client_2src_2nav2z__client_2components_2odom__tracker_2cp__odom__tracker_8cpp_source_l00029}00029\ }
+\DoxyCodeLine{\Hypertarget{nav2z__client_2nav2z__client_2src_2nav2z__client_2components_2odom__tracker_2cp__odom__tracker_8cpp_source_l00030}00030\ \textcolor{keyword}{namespace\ }\mbox{\hyperlink{namespacecl__nav2z}{cl\_nav2z}}}
+\DoxyCodeLine{\Hypertarget{nav2z__client_2nav2z__client_2src_2nav2z__client_2components_2odom__tracker_2cp__odom__tracker_8cpp_source_l00031}00031\ \{}
+\DoxyCodeLine{\Hypertarget{nav2z__client_2nav2z__client_2src_2nav2z__client_2components_2odom__tracker_2cp__odom__tracker_8cpp_source_l00032}00032\ \textcolor{keyword}{namespace\ }odom\_tracker}
+\DoxyCodeLine{\Hypertarget{nav2z__client_2nav2z__client_2src_2nav2z__client_2components_2odom__tracker_2cp__odom__tracker_8cpp_source_l00033}00033\ \{}
+\DoxyCodeLine{\Hypertarget{nav2z__client_2nav2z__client_2src_2nav2z__client_2components_2odom__tracker_2cp__odom__tracker_8cpp_source_l00034}00034\ \mbox{\hyperlink{classcl__nav2z_1_1odom__tracker_1_1CpOdomTracker_afac22e2db409e381a8083ee9f692ebc8}{CpOdomTracker::CpOdomTracker}}(}
+\DoxyCodeLine{\Hypertarget{nav2z__client_2nav2z__client_2src_2nav2z__client_2components_2odom__tracker_2cp__odom__tracker_8cpp_source_l00035}00035\ \ \ std::string\ odomTopicName,\ std::string\ odomFrame,\ OdomTrackerStrategy\ strategy)}
+\DoxyCodeLine{\Hypertarget{nav2z__client_2nav2z__client_2src_2nav2z__client_2components_2odom__tracker_2cp__odom__tracker_8cpp_source_l00036}00036\ :\ strategy\_(strategy)}
+\DoxyCodeLine{\Hypertarget{nav2z__client_2nav2z__client_2src_2nav2z__client_2components_2odom__tracker_2cp__odom__tracker_8cpp_source_l00037}00037\ \{}
+\DoxyCodeLine{\Hypertarget{nav2z__client_2nav2z__client_2src_2nav2z__client_2components_2odom__tracker_2cp__odom__tracker_8cpp_source_l00038}00038\ \ \ workingMode\_\ =\ WorkingMode::RECORD\_PATH;}
+\DoxyCodeLine{\Hypertarget{nav2z__client_2nav2z__client_2src_2nav2z__client_2components_2odom__tracker_2cp__odom__tracker_8cpp_source_l00039}00039\ \ \ publishMessages\ =\ \textcolor{keyword}{true};}
+\DoxyCodeLine{\Hypertarget{nav2z__client_2nav2z__client_2src_2nav2z__client_2components_2odom__tracker_2cp__odom__tracker_8cpp_source_l00040}00040\ \ \ odomFrame\_\ =\ odomFrame;}
+\DoxyCodeLine{\Hypertarget{nav2z__client_2nav2z__client_2src_2nav2z__client_2components_2odom__tracker_2cp__odom__tracker_8cpp_source_l00041}00041\ \ \ odomTopicName\_\ =\ odomTopicName;}
+\DoxyCodeLine{\Hypertarget{nav2z__client_2nav2z__client_2src_2nav2z__client_2components_2odom__tracker_2cp__odom__tracker_8cpp_source_l00042}00042\ \}}
+\DoxyCodeLine{\Hypertarget{nav2z__client_2nav2z__client_2src_2nav2z__client_2components_2odom__tracker_2cp__odom__tracker_8cpp_source_l00043}00043\ }
+\DoxyCodeLine{\Hypertarget{nav2z__client_2nav2z__client_2src_2nav2z__client_2components_2odom__tracker_2cp__odom__tracker_8cpp_source_l00044}00044\ \textcolor{keyword}{template}\ <\textcolor{keyword}{typename}\ T>}
+\DoxyCodeLine{\Hypertarget{nav2z__client_2nav2z__client_2src_2nav2z__client_2components_2odom__tracker_2cp__odom__tracker_8cpp_source_l00045}00045\ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{namespacecl__nav2z_1_1odom__tracker_aa19d9b6bdac3ebaa06c2a6ea2fb64ae3}{parameterDeclareAndtryGetOrSet}}(}
+\DoxyCodeLine{\Hypertarget{nav2z__client_2nav2z__client_2src_2nav2z__client_2components_2odom__tracker_2cp__odom__tracker_8cpp_source_l00046}00046\ \ \ rclcpp::Node::SharedPtr\ \&\ node,\ std::string\ param\_name,\ T\ \&\ value)}
+\DoxyCodeLine{\Hypertarget{nav2z__client_2nav2z__client_2src_2nav2z__client_2components_2odom__tracker_2cp__odom__tracker_8cpp_source_l00047}00047\ \{}
+\DoxyCodeLine{\Hypertarget{nav2z__client_2nav2z__client_2src_2nav2z__client_2components_2odom__tracker_2cp__odom__tracker_8cpp_source_l00048}00048\ \ \ \textcolor{keywordflow}{if}\ (!node-\/>get\_parameter(param\_name,\ value))}
+\DoxyCodeLine{\Hypertarget{nav2z__client_2nav2z__client_2src_2nav2z__client_2components_2odom__tracker_2cp__odom__tracker_8cpp_source_l00049}00049\ \ \ \{}
+\DoxyCodeLine{\Hypertarget{nav2z__client_2nav2z__client_2src_2nav2z__client_2components_2odom__tracker_2cp__odom__tracker_8cpp_source_l00050}00050\ \ \ \ \ RCLCPP\_INFO\_STREAM(}
+\DoxyCodeLine{\Hypertarget{nav2z__client_2nav2z__client_2src_2nav2z__client_2components_2odom__tracker_2cp__odom__tracker_8cpp_source_l00051}00051\ \ \ \ \ \ \ node-\/>get\_logger(),\ \textcolor{stringliteral}{"{}[CpOdomTracker]\ autoset\ "{}}\ <<\ param\_name\ <<\ \textcolor{stringliteral}{"{}:\ "{}}\ <<\ value);}
+\DoxyCodeLine{\Hypertarget{nav2z__client_2nav2z__client_2src_2nav2z__client_2components_2odom__tracker_2cp__odom__tracker_8cpp_source_l00052}00052\ \ \ \ \ node-\/>declare\_parameter(param\_name,\ value);}
+\DoxyCodeLine{\Hypertarget{nav2z__client_2nav2z__client_2src_2nav2z__client_2components_2odom__tracker_2cp__odom__tracker_8cpp_source_l00053}00053\ \ \ \}}
+\DoxyCodeLine{\Hypertarget{nav2z__client_2nav2z__client_2src_2nav2z__client_2components_2odom__tracker_2cp__odom__tracker_8cpp_source_l00054}00054\ \ \ \textcolor{keywordflow}{else}}
+\DoxyCodeLine{\Hypertarget{nav2z__client_2nav2z__client_2src_2nav2z__client_2components_2odom__tracker_2cp__odom__tracker_8cpp_source_l00055}00055\ \ \ \{}
+\DoxyCodeLine{\Hypertarget{nav2z__client_2nav2z__client_2src_2nav2z__client_2components_2odom__tracker_2cp__odom__tracker_8cpp_source_l00056}00056\ \ \ \ \ RCLCPP\_INFO\_STREAM(node-\/>get\_logger(),\ \textcolor{stringliteral}{"{}[CpOdomTracker]\ "{}}\ <<\ param\_name\ <<\ \textcolor{stringliteral}{"{}:\ "{}}\ <<\ value);}
+\DoxyCodeLine{\Hypertarget{nav2z__client_2nav2z__client_2src_2nav2z__client_2components_2odom__tracker_2cp__odom__tracker_8cpp_source_l00057}00057\ \ \ \}}
+\DoxyCodeLine{\Hypertarget{nav2z__client_2nav2z__client_2src_2nav2z__client_2components_2odom__tracker_2cp__odom__tracker_8cpp_source_l00058}00058\ \}}
+\DoxyCodeLine{\Hypertarget{nav2z__client_2nav2z__client_2src_2nav2z__client_2components_2odom__tracker_2cp__odom__tracker_8cpp_source_l00059}00059\ }
+\DoxyCodeLine{\Hypertarget{nav2z__client_2nav2z__client_2src_2nav2z__client_2components_2odom__tracker_2cp__odom__tracker_8cpp_source_l00060}00060\ \textcolor{keywordtype}{void}\ CpOdomTracker::onInitialize()}
+\DoxyCodeLine{\Hypertarget{nav2z__client_2nav2z__client_2src_2nav2z__client_2components_2odom__tracker_2cp__odom__tracker_8cpp_source_l00061}00061\ \{}
+\DoxyCodeLine{\Hypertarget{nav2z__client_2nav2z__client_2src_2nav2z__client_2components_2odom__tracker_2cp__odom__tracker_8cpp_source_l00062}00062\ \ \ \textcolor{comment}{//\ default\ values}}
+\DoxyCodeLine{\Hypertarget{nav2z__client_2nav2z__client_2src_2nav2z__client_2components_2odom__tracker_2cp__odom__tracker_8cpp_source_l00063}00063\ \ \ recordPointDistanceThreshold\_\ =\ 0.005;\ \ \textcolor{comment}{//\ 5\ mm}}
+\DoxyCodeLine{\Hypertarget{nav2z__client_2nav2z__client_2src_2nav2z__client_2components_2odom__tracker_2cp__odom__tracker_8cpp_source_l00064}00064\ \ \ recordAngularDistanceThreshold\_\ =\ 0.1;\ \ \textcolor{comment}{//\ radians}}
+\DoxyCodeLine{\Hypertarget{nav2z__client_2nav2z__client_2src_2nav2z__client_2components_2odom__tracker_2cp__odom__tracker_8cpp_source_l00065}00065\ \ \ clearPointDistanceThreshold\_\ =\ 0.05;\ \ \ \ \textcolor{comment}{//\ 5\ cm}}
+\DoxyCodeLine{\Hypertarget{nav2z__client_2nav2z__client_2src_2nav2z__client_2components_2odom__tracker_2cp__odom__tracker_8cpp_source_l00066}00066\ \ \ clearAngularDistanceThreshold\_\ =\ 0.1;\ \ \ \textcolor{comment}{//\ radi}}
+\DoxyCodeLine{\Hypertarget{nav2z__client_2nav2z__client_2src_2nav2z__client_2components_2odom__tracker_2cp__odom__tracker_8cpp_source_l00067}00067\ }
+\DoxyCodeLine{\Hypertarget{nav2z__client_2nav2z__client_2src_2nav2z__client_2components_2odom__tracker_2cp__odom__tracker_8cpp_source_l00068}00068\ \ \ \textcolor{keyword}{auto}\ nh\ =\ getNode();}
+\DoxyCodeLine{\Hypertarget{nav2z__client_2nav2z__client_2src_2nav2z__client_2components_2odom__tracker_2cp__odom__tracker_8cpp_source_l00069}00069\ \ \ RCLCPP\_WARN(getLogger(),\ \textcolor{stringliteral}{"{}[CpOdomTracker]\ Initializing\ Odometry\ Tracker"{}});}
+\DoxyCodeLine{\Hypertarget{nav2z__client_2nav2z__client_2src_2nav2z__client_2components_2odom__tracker_2cp__odom__tracker_8cpp_source_l00070}00070\ }
+\DoxyCodeLine{\Hypertarget{nav2z__client_2nav2z__client_2src_2nav2z__client_2components_2odom__tracker_2cp__odom__tracker_8cpp_source_l00071}00071\ \ \ \mbox{\hyperlink{namespacecl__nav2z_1_1odom__tracker_aa19d9b6bdac3ebaa06c2a6ea2fb64ae3}{parameterDeclareAndtryGetOrSet}}(nh,\ \textcolor{stringliteral}{"{}odom\_frame"{}},\ this-\/>odomFrame\_);}
+\DoxyCodeLine{\Hypertarget{nav2z__client_2nav2z__client_2src_2nav2z__client_2components_2odom__tracker_2cp__odom__tracker_8cpp_source_l00072}00072\ \ \ \mbox{\hyperlink{namespacecl__nav2z_1_1odom__tracker_aa19d9b6bdac3ebaa06c2a6ea2fb64ae3}{parameterDeclareAndtryGetOrSet}}(}
+\DoxyCodeLine{\Hypertarget{nav2z__client_2nav2z__client_2src_2nav2z__client_2components_2odom__tracker_2cp__odom__tracker_8cpp_source_l00073}00073\ \ \ \ \ nh,\ \textcolor{stringliteral}{"{}record\_point\_distance\_threshold"{}},\ recordPointDistanceThreshold\_);}
+\DoxyCodeLine{\Hypertarget{nav2z__client_2nav2z__client_2src_2nav2z__client_2components_2odom__tracker_2cp__odom__tracker_8cpp_source_l00074}00074\ \ \ \mbox{\hyperlink{namespacecl__nav2z_1_1odom__tracker_aa19d9b6bdac3ebaa06c2a6ea2fb64ae3}{parameterDeclareAndtryGetOrSet}}(}
+\DoxyCodeLine{\Hypertarget{nav2z__client_2nav2z__client_2src_2nav2z__client_2components_2odom__tracker_2cp__odom__tracker_8cpp_source_l00075}00075\ \ \ \ \ nh,\ \textcolor{stringliteral}{"{}record\_angular\_distance\_threshold"{}},\ recordAngularDistanceThreshold\_);}
+\DoxyCodeLine{\Hypertarget{nav2z__client_2nav2z__client_2src_2nav2z__client_2components_2odom__tracker_2cp__odom__tracker_8cpp_source_l00076}00076\ \ \ \mbox{\hyperlink{namespacecl__nav2z_1_1odom__tracker_aa19d9b6bdac3ebaa06c2a6ea2fb64ae3}{parameterDeclareAndtryGetOrSet}}(}
+\DoxyCodeLine{\Hypertarget{nav2z__client_2nav2z__client_2src_2nav2z__client_2components_2odom__tracker_2cp__odom__tracker_8cpp_source_l00077}00077\ \ \ \ \ nh,\ \textcolor{stringliteral}{"{}clear\_point\_distance\_threshold"{}},\ clearPointDistanceThreshold\_);}
+\DoxyCodeLine{\Hypertarget{nav2z__client_2nav2z__client_2src_2nav2z__client_2components_2odom__tracker_2cp__odom__tracker_8cpp_source_l00078}00078\ \ \ \mbox{\hyperlink{namespacecl__nav2z_1_1odom__tracker_aa19d9b6bdac3ebaa06c2a6ea2fb64ae3}{parameterDeclareAndtryGetOrSet}}(}
+\DoxyCodeLine{\Hypertarget{nav2z__client_2nav2z__client_2src_2nav2z__client_2components_2odom__tracker_2cp__odom__tracker_8cpp_source_l00079}00079\ \ \ \ \ nh,\ \textcolor{stringliteral}{"{}clear\_angular\_distance\_threshold"{}},\ clearAngularDistanceThreshold\_);}
+\DoxyCodeLine{\Hypertarget{nav2z__client_2nav2z__client_2src_2nav2z__client_2components_2odom__tracker_2cp__odom__tracker_8cpp_source_l00080}00080\ }
+\DoxyCodeLine{\Hypertarget{nav2z__client_2nav2z__client_2src_2nav2z__client_2components_2odom__tracker_2cp__odom__tracker_8cpp_source_l00081}00081\ \ \ param\_callback\_handle\_\ =\ getNode()-\/>add\_on\_set\_parameters\_callback(}
+\DoxyCodeLine{\Hypertarget{nav2z__client_2nav2z__client_2src_2nav2z__client_2components_2odom__tracker_2cp__odom__tracker_8cpp_source_l00082}00082\ \ \ \ \ std::bind(\&CpOdomTracker::parametersCallback,\ \textcolor{keyword}{this},\ std::placeholders::\_1));}
+\DoxyCodeLine{\Hypertarget{nav2z__client_2nav2z__client_2src_2nav2z__client_2components_2odom__tracker_2cp__odom__tracker_8cpp_source_l00083}00083\ }
+\DoxyCodeLine{\Hypertarget{nav2z__client_2nav2z__client_2src_2nav2z__client_2components_2odom__tracker_2cp__odom__tracker_8cpp_source_l00084}00084\ \ \ robotBasePathPub\_\ =}
+\DoxyCodeLine{\Hypertarget{nav2z__client_2nav2z__client_2src_2nav2z__client_2components_2odom__tracker_2cp__odom__tracker_8cpp_source_l00085}00085\ \ \ \ \ nh-\/>create\_publisher<nav\_msgs::msg::Path>(\textcolor{stringliteral}{"{}odom\_tracker\_path"{}},\ rclcpp::QoS(1));}
+\DoxyCodeLine{\Hypertarget{nav2z__client_2nav2z__client_2src_2nav2z__client_2components_2odom__tracker_2cp__odom__tracker_8cpp_source_l00086}00086\ }
+\DoxyCodeLine{\Hypertarget{nav2z__client_2nav2z__client_2src_2nav2z__client_2components_2odom__tracker_2cp__odom__tracker_8cpp_source_l00087}00087\ \ \ robotBasePathStackedPub\_\ =}
+\DoxyCodeLine{\Hypertarget{nav2z__client_2nav2z__client_2src_2nav2z__client_2components_2odom__tracker_2cp__odom__tracker_8cpp_source_l00088}00088\ \ \ \ \ nh-\/>create\_publisher<nav\_msgs::msg::Path>(\textcolor{stringliteral}{"{}odom\_tracker\_stacked\_path"{}},\ rclcpp::QoS(1));}
+\DoxyCodeLine{\Hypertarget{nav2z__client_2nav2z__client_2src_2nav2z__client_2components_2odom__tracker_2cp__odom__tracker_8cpp_source_l00089}00089\ }
+\DoxyCodeLine{\Hypertarget{nav2z__client_2nav2z__client_2src_2nav2z__client_2components_2odom__tracker_2cp__odom__tracker_8cpp_source_l00090}00090\ \ \ \textcolor{keywordflow}{if}\ (this-\/>strategy\_\ ==\ OdomTrackerStrategy::ODOMETRY\_SUBSCRIBER)}
+\DoxyCodeLine{\Hypertarget{nav2z__client_2nav2z__client_2src_2nav2z__client_2components_2odom__tracker_2cp__odom__tracker_8cpp_source_l00091}00091\ \ \ \{}
+\DoxyCodeLine{\Hypertarget{nav2z__client_2nav2z__client_2src_2nav2z__client_2components_2odom__tracker_2cp__odom__tracker_8cpp_source_l00092}00092\ \ \ \ \ RCLCPP\_INFO\_STREAM(}
+\DoxyCodeLine{\Hypertarget{nav2z__client_2nav2z__client_2src_2nav2z__client_2components_2odom__tracker_2cp__odom__tracker_8cpp_source_l00093}00093\ \ \ \ \ \ \ nh-\/>get\_logger(),\ \textcolor{stringliteral}{"{}[CpOdomTracker]\ subscribing\ to\ odom\ topic:\ "{}}\ <<\ odomTopicName\_);}
+\DoxyCodeLine{\Hypertarget{nav2z__client_2nav2z__client_2src_2nav2z__client_2components_2odom__tracker_2cp__odom__tracker_8cpp_source_l00094}00094\ }
+\DoxyCodeLine{\Hypertarget{nav2z__client_2nav2z__client_2src_2nav2z__client_2components_2odom__tracker_2cp__odom__tracker_8cpp_source_l00095}00095\ \ \ \ \ rclcpp::SensorDataQoS\ qos;}
+\DoxyCodeLine{\Hypertarget{nav2z__client_2nav2z__client_2src_2nav2z__client_2components_2odom__tracker_2cp__odom__tracker_8cpp_source_l00096}00096\ \ \ \ \ odomSub\_\ =\ nh-\/>create\_subscription<nav\_msgs::msg::Odometry>(}
+\DoxyCodeLine{\Hypertarget{nav2z__client_2nav2z__client_2src_2nav2z__client_2components_2odom__tracker_2cp__odom__tracker_8cpp_source_l00097}00097\ \ \ \ \ \ \ odomTopicName\_,\ qos,}
+\DoxyCodeLine{\Hypertarget{nav2z__client_2nav2z__client_2src_2nav2z__client_2components_2odom__tracker_2cp__odom__tracker_8cpp_source_l00098}00098\ \ \ \ \ \ \ std::bind(\&CpOdomTracker::odomMessageCallback,\ \textcolor{keyword}{this},\ std::placeholders::\_1));}
+\DoxyCodeLine{\Hypertarget{nav2z__client_2nav2z__client_2src_2nav2z__client_2components_2odom__tracker_2cp__odom__tracker_8cpp_source_l00099}00099\ \ \ \}}
+\DoxyCodeLine{\Hypertarget{nav2z__client_2nav2z__client_2src_2nav2z__client_2components_2odom__tracker_2cp__odom__tracker_8cpp_source_l00100}00100\ \ \ \textcolor{keywordflow}{else}\ \textcolor{keywordflow}{if}\ (this-\/>strategy\_\ ==\ OdomTrackerStrategy::POSE\_COMPONENT)}
+\DoxyCodeLine{\Hypertarget{nav2z__client_2nav2z__client_2src_2nav2z__client_2components_2odom__tracker_2cp__odom__tracker_8cpp_source_l00101}00101\ \ \ \{}
+\DoxyCodeLine{\Hypertarget{nav2z__client_2nav2z__client_2src_2nav2z__client_2components_2odom__tracker_2cp__odom__tracker_8cpp_source_l00102}00102\ \ \ \ \ this-\/>requiresComponent(robotPose\_);}
+\DoxyCodeLine{\Hypertarget{nav2z__client_2nav2z__client_2src_2nav2z__client_2components_2odom__tracker_2cp__odom__tracker_8cpp_source_l00103}00103\ \ \ \ \ robotPoseTimer\_\ =\ nh-\/>create\_wall\_timer(}
+\DoxyCodeLine{\Hypertarget{nav2z__client_2nav2z__client_2src_2nav2z__client_2components_2odom__tracker_2cp__odom__tracker_8cpp_source_l00104}00104\ \ \ \ \ \ \ std::chrono::milliseconds(100),\ std::bind(\&CpOdomTracker::update,\ \textcolor{keyword}{this}));}
+\DoxyCodeLine{\Hypertarget{nav2z__client_2nav2z__client_2src_2nav2z__client_2components_2odom__tracker_2cp__odom__tracker_8cpp_source_l00105}00105\ \ \ \}}
+\DoxyCodeLine{\Hypertarget{nav2z__client_2nav2z__client_2src_2nav2z__client_2components_2odom__tracker_2cp__odom__tracker_8cpp_source_l00106}00106\ \ \ \textcolor{keywordflow}{else}}
+\DoxyCodeLine{\Hypertarget{nav2z__client_2nav2z__client_2src_2nav2z__client_2components_2odom__tracker_2cp__odom__tracker_8cpp_source_l00107}00107\ \ \ \{}
+\DoxyCodeLine{\Hypertarget{nav2z__client_2nav2z__client_2src_2nav2z__client_2components_2odom__tracker_2cp__odom__tracker_8cpp_source_l00108}00108\ \ \ \ \ RCLCPP\_ERROR\_STREAM(}
+\DoxyCodeLine{\Hypertarget{nav2z__client_2nav2z__client_2src_2nav2z__client_2components_2odom__tracker_2cp__odom__tracker_8cpp_source_l00109}00109\ \ \ \ \ \ \ nh-\/>get\_logger(),\ \textcolor{stringliteral}{"{}[CpOdomTracker]\ unknown\ strategy:\ "{}}\ <<\ (\textcolor{keywordtype}{int})this-\/>strategy\_);}
+\DoxyCodeLine{\Hypertarget{nav2z__client_2nav2z__client_2src_2nav2z__client_2components_2odom__tracker_2cp__odom__tracker_8cpp_source_l00110}00110\ \ \ \}}
+\DoxyCodeLine{\Hypertarget{nav2z__client_2nav2z__client_2src_2nav2z__client_2components_2odom__tracker_2cp__odom__tracker_8cpp_source_l00111}00111\ \}}
+\DoxyCodeLine{\Hypertarget{nav2z__client_2nav2z__client_2src_2nav2z__client_2components_2odom__tracker_2cp__odom__tracker_8cpp_source_l00112}00112\ }
+\DoxyCodeLine{\Hypertarget{nav2z__client_2nav2z__client_2src_2nav2z__client_2components_2odom__tracker_2cp__odom__tracker_8cpp_source_l00118}00118\ rcl\_interfaces::msg::SetParametersResult\ CpOdomTracker::parametersCallback(}
+\DoxyCodeLine{\Hypertarget{nav2z__client_2nav2z__client_2src_2nav2z__client_2components_2odom__tracker_2cp__odom__tracker_8cpp_source_l00119}00119\ \ \ \textcolor{keyword}{const}\ std::vector<rclcpp::Parameter>\ \&\ parameters)}
+\DoxyCodeLine{\Hypertarget{nav2z__client_2nav2z__client_2src_2nav2z__client_2components_2odom__tracker_2cp__odom__tracker_8cpp_source_l00120}00120\ \{}
+\DoxyCodeLine{\Hypertarget{nav2z__client_2nav2z__client_2src_2nav2z__client_2components_2odom__tracker_2cp__odom__tracker_8cpp_source_l00121}00121\ \ \ std::lock\_guard<std::mutex>\ lock(m\_mutex\_);}
+\DoxyCodeLine{\Hypertarget{nav2z__client_2nav2z__client_2src_2nav2z__client_2components_2odom__tracker_2cp__odom__tracker_8cpp_source_l00122}00122\ \ \ RCLCPP\_INFO(getLogger(),\ \textcolor{stringliteral}{"{}odom\_tracker\ m\_mutex\ acquire"{}});}
+\DoxyCodeLine{\Hypertarget{nav2z__client_2nav2z__client_2src_2nav2z__client_2components_2odom__tracker_2cp__odom__tracker_8cpp_source_l00123}00123\ }
+\DoxyCodeLine{\Hypertarget{nav2z__client_2nav2z__client_2src_2nav2z__client_2components_2odom__tracker_2cp__odom__tracker_8cpp_source_l00124}00124\ \ \ \textcolor{keywordflow}{for}\ (\textcolor{keyword}{const}\ \textcolor{keyword}{auto}\ \&\ param\ :\ parameters)}
+\DoxyCodeLine{\Hypertarget{nav2z__client_2nav2z__client_2src_2nav2z__client_2components_2odom__tracker_2cp__odom__tracker_8cpp_source_l00125}00125\ \ \ \{}
+\DoxyCodeLine{\Hypertarget{nav2z__client_2nav2z__client_2src_2nav2z__client_2components_2odom__tracker_2cp__odom__tracker_8cpp_source_l00126}00126\ \ \ \ \ \textcolor{keywordflow}{if}\ (param.get\_name()\ ==\ \textcolor{stringliteral}{"{}record\_point\_distance\_threshold"{}})}
+\DoxyCodeLine{\Hypertarget{nav2z__client_2nav2z__client_2src_2nav2z__client_2components_2odom__tracker_2cp__odom__tracker_8cpp_source_l00127}00127\ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{nav2z__client_2nav2z__client_2src_2nav2z__client_2components_2odom__tracker_2cp__odom__tracker_8cpp_source_l00128}00128\ \ \ \ \ \ \ recordPointDistanceThreshold\_\ =\ param.as\_double();}
+\DoxyCodeLine{\Hypertarget{nav2z__client_2nav2z__client_2src_2nav2z__client_2components_2odom__tracker_2cp__odom__tracker_8cpp_source_l00129}00129\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{nav2z__client_2nav2z__client_2src_2nav2z__client_2components_2odom__tracker_2cp__odom__tracker_8cpp_source_l00130}00130\ \ \ \ \ \textcolor{keywordflow}{else}\ \textcolor{keywordflow}{if}\ (param.get\_name()\ ==\ \textcolor{stringliteral}{"{}record\_angular\_distance\_threshold"{}})}
+\DoxyCodeLine{\Hypertarget{nav2z__client_2nav2z__client_2src_2nav2z__client_2components_2odom__tracker_2cp__odom__tracker_8cpp_source_l00131}00131\ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{nav2z__client_2nav2z__client_2src_2nav2z__client_2components_2odom__tracker_2cp__odom__tracker_8cpp_source_l00132}00132\ \ \ \ \ \ \ recordAngularDistanceThreshold\_\ =\ param.as\_double();}
+\DoxyCodeLine{\Hypertarget{nav2z__client_2nav2z__client_2src_2nav2z__client_2components_2odom__tracker_2cp__odom__tracker_8cpp_source_l00133}00133\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{nav2z__client_2nav2z__client_2src_2nav2z__client_2components_2odom__tracker_2cp__odom__tracker_8cpp_source_l00134}00134\ \ \ \ \ \textcolor{keywordflow}{else}\ \textcolor{keywordflow}{if}\ (param.get\_name()\ ==\ \textcolor{stringliteral}{"{}clear\_point\_distance\_threshold"{}})}
+\DoxyCodeLine{\Hypertarget{nav2z__client_2nav2z__client_2src_2nav2z__client_2components_2odom__tracker_2cp__odom__tracker_8cpp_source_l00135}00135\ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{nav2z__client_2nav2z__client_2src_2nav2z__client_2components_2odom__tracker_2cp__odom__tracker_8cpp_source_l00136}00136\ \ \ \ \ \ \ clearPointDistanceThreshold\_\ =\ param.as\_double();}
+\DoxyCodeLine{\Hypertarget{nav2z__client_2nav2z__client_2src_2nav2z__client_2components_2odom__tracker_2cp__odom__tracker_8cpp_source_l00137}00137\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{nav2z__client_2nav2z__client_2src_2nav2z__client_2components_2odom__tracker_2cp__odom__tracker_8cpp_source_l00138}00138\ \ \ \ \ \textcolor{keywordflow}{else}\ \textcolor{keywordflow}{if}\ (param.get\_name()\ ==\ \textcolor{stringliteral}{"{}clear\_angular\_distance\_threshold"{}})}
+\DoxyCodeLine{\Hypertarget{nav2z__client_2nav2z__client_2src_2nav2z__client_2components_2odom__tracker_2cp__odom__tracker_8cpp_source_l00139}00139\ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{nav2z__client_2nav2z__client_2src_2nav2z__client_2components_2odom__tracker_2cp__odom__tracker_8cpp_source_l00140}00140\ \ \ \ \ \ \ clearAngularDistanceThreshold\_\ =\ param.as\_double();}
+\DoxyCodeLine{\Hypertarget{nav2z__client_2nav2z__client_2src_2nav2z__client_2components_2odom__tracker_2cp__odom__tracker_8cpp_source_l00141}00141\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{nav2z__client_2nav2z__client_2src_2nav2z__client_2components_2odom__tracker_2cp__odom__tracker_8cpp_source_l00142}00142\ \ \ \ \ \textcolor{keywordflow}{else}\ \textcolor{keywordflow}{if}\ (param.get\_name()\ ==\ \textcolor{stringliteral}{"{}odom\_frame"{}})}
+\DoxyCodeLine{\Hypertarget{nav2z__client_2nav2z__client_2src_2nav2z__client_2components_2odom__tracker_2cp__odom__tracker_8cpp_source_l00143}00143\ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{nav2z__client_2nav2z__client_2src_2nav2z__client_2components_2odom__tracker_2cp__odom__tracker_8cpp_source_l00144}00144\ \ \ \ \ \ \ odomFrame\_\ =\ param.as\_string();}
+\DoxyCodeLine{\Hypertarget{nav2z__client_2nav2z__client_2src_2nav2z__client_2components_2odom__tracker_2cp__odom__tracker_8cpp_source_l00145}00145\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{nav2z__client_2nav2z__client_2src_2nav2z__client_2components_2odom__tracker_2cp__odom__tracker_8cpp_source_l00146}00146\ \ \ \}}
+\DoxyCodeLine{\Hypertarget{nav2z__client_2nav2z__client_2src_2nav2z__client_2components_2odom__tracker_2cp__odom__tracker_8cpp_source_l00147}00147\ }
+\DoxyCodeLine{\Hypertarget{nav2z__client_2nav2z__client_2src_2nav2z__client_2components_2odom__tracker_2cp__odom__tracker_8cpp_source_l00148}00148\ \ \ rcl\_interfaces::msg::SetParametersResult\ result;}
+\DoxyCodeLine{\Hypertarget{nav2z__client_2nav2z__client_2src_2nav2z__client_2components_2odom__tracker_2cp__odom__tracker_8cpp_source_l00149}00149\ \ \ result.successful\ =\ \textcolor{keyword}{true};}
+\DoxyCodeLine{\Hypertarget{nav2z__client_2nav2z__client_2src_2nav2z__client_2components_2odom__tracker_2cp__odom__tracker_8cpp_source_l00150}00150\ \ \ result.reason\ =\ \textcolor{stringliteral}{"{}success"{}};}
+\DoxyCodeLine{\Hypertarget{nav2z__client_2nav2z__client_2src_2nav2z__client_2components_2odom__tracker_2cp__odom__tracker_8cpp_source_l00151}00151\ \ \ \textcolor{keywordflow}{return}\ result;}
+\DoxyCodeLine{\Hypertarget{nav2z__client_2nav2z__client_2src_2nav2z__client_2components_2odom__tracker_2cp__odom__tracker_8cpp_source_l00152}00152\ \}}
+\DoxyCodeLine{\Hypertarget{nav2z__client_2nav2z__client_2src_2nav2z__client_2components_2odom__tracker_2cp__odom__tracker_8cpp_source_l00153}00153\ }
+\DoxyCodeLine{\Hypertarget{nav2z__client_2nav2z__client_2src_2nav2z__client_2components_2odom__tracker_2cp__odom__tracker_8cpp_source_l00159}00159\ \textcolor{keywordtype}{void}\ CpOdomTracker::setWorkingMode(WorkingMode\ workingMode)}
+\DoxyCodeLine{\Hypertarget{nav2z__client_2nav2z__client_2src_2nav2z__client_2components_2odom__tracker_2cp__odom__tracker_8cpp_source_l00160}00160\ \{}
+\DoxyCodeLine{\Hypertarget{nav2z__client_2nav2z__client_2src_2nav2z__client_2components_2odom__tracker_2cp__odom__tracker_8cpp_source_l00161}00161\ \ \ std::lock\_guard<std::mutex>\ lock(m\_mutex\_);}
+\DoxyCodeLine{\Hypertarget{nav2z__client_2nav2z__client_2src_2nav2z__client_2components_2odom__tracker_2cp__odom__tracker_8cpp_source_l00162}00162\ }
+\DoxyCodeLine{\Hypertarget{nav2z__client_2nav2z__client_2src_2nav2z__client_2components_2odom__tracker_2cp__odom__tracker_8cpp_source_l00163}00163\ \ \ \textcolor{keywordflow}{switch}\ (workingMode)}
+\DoxyCodeLine{\Hypertarget{nav2z__client_2nav2z__client_2src_2nav2z__client_2components_2odom__tracker_2cp__odom__tracker_8cpp_source_l00164}00164\ \ \ \{}
+\DoxyCodeLine{\Hypertarget{nav2z__client_2nav2z__client_2src_2nav2z__client_2components_2odom__tracker_2cp__odom__tracker_8cpp_source_l00165}00165\ \ \ \ \ \textcolor{keywordflow}{case}\ WorkingMode::RECORD\_PATH:}
+\DoxyCodeLine{\Hypertarget{nav2z__client_2nav2z__client_2src_2nav2z__client_2components_2odom__tracker_2cp__odom__tracker_8cpp_source_l00166}00166\ \ \ \ \ \ \ RCLCPP\_INFO\_STREAM(}
+\DoxyCodeLine{\Hypertarget{nav2z__client_2nav2z__client_2src_2nav2z__client_2components_2odom__tracker_2cp__odom__tracker_8cpp_source_l00167}00167\ \ \ \ \ \ \ \ \ getLogger(),}
+\DoxyCodeLine{\Hypertarget{nav2z__client_2nav2z__client_2src_2nav2z__client_2components_2odom__tracker_2cp__odom__tracker_8cpp_source_l00168}00168\ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}[CpOdomTracker]\ setting\ working\ mode\ to\ RECORD\ -\/\ record\_point\_distance\_threshold:\ "{}}}
+\DoxyCodeLine{\Hypertarget{nav2z__client_2nav2z__client_2src_2nav2z__client_2components_2odom__tracker_2cp__odom__tracker_8cpp_source_l00169}00169\ \ \ \ \ \ \ \ \ \ \ <<\ recordPointDistanceThreshold\_}
+\DoxyCodeLine{\Hypertarget{nav2z__client_2nav2z__client_2src_2nav2z__client_2components_2odom__tracker_2cp__odom__tracker_8cpp_source_l00170}00170\ \ \ \ \ \ \ \ \ \ \ <<\ \textcolor{stringliteral}{"{},\ record\_angular\_distance\_threshold:\ "{}}\ <<\ recordAngularDistanceThreshold\_);}
+\DoxyCodeLine{\Hypertarget{nav2z__client_2nav2z__client_2src_2nav2z__client_2components_2odom__tracker_2cp__odom__tracker_8cpp_source_l00171}00171\ \ \ \ \ \ \ \textcolor{keywordflow}{break};}
+\DoxyCodeLine{\Hypertarget{nav2z__client_2nav2z__client_2src_2nav2z__client_2components_2odom__tracker_2cp__odom__tracker_8cpp_source_l00172}00172\ \ \ \ \ \textcolor{keywordflow}{case}\ WorkingMode::CLEAR\_PATH:}
+\DoxyCodeLine{\Hypertarget{nav2z__client_2nav2z__client_2src_2nav2z__client_2components_2odom__tracker_2cp__odom__tracker_8cpp_source_l00173}00173\ \ \ \ \ \ \ RCLCPP\_INFO\_STREAM(}
+\DoxyCodeLine{\Hypertarget{nav2z__client_2nav2z__client_2src_2nav2z__client_2components_2odom__tracker_2cp__odom__tracker_8cpp_source_l00174}00174\ \ \ \ \ \ \ \ \ getLogger(),}
+\DoxyCodeLine{\Hypertarget{nav2z__client_2nav2z__client_2src_2nav2z__client_2components_2odom__tracker_2cp__odom__tracker_8cpp_source_l00175}00175\ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}[CpOdomTracker]\ setting\ working\ mode\ to\ CLEAR\ -\/\ clear\_point\_distance\_threshold:\ "{}}}
+\DoxyCodeLine{\Hypertarget{nav2z__client_2nav2z__client_2src_2nav2z__client_2components_2odom__tracker_2cp__odom__tracker_8cpp_source_l00176}00176\ \ \ \ \ \ \ \ \ \ \ <<\ clearPointDistanceThreshold\_}
+\DoxyCodeLine{\Hypertarget{nav2z__client_2nav2z__client_2src_2nav2z__client_2components_2odom__tracker_2cp__odom__tracker_8cpp_source_l00177}00177\ \ \ \ \ \ \ \ \ \ \ <<\ \textcolor{stringliteral}{"{},\ clear\_angular\_distance\_threshold:\ "{}}\ <<\ clearAngularDistanceThreshold\_);}
+\DoxyCodeLine{\Hypertarget{nav2z__client_2nav2z__client_2src_2nav2z__client_2components_2odom__tracker_2cp__odom__tracker_8cpp_source_l00178}00178\ \ \ \ \ \ \ \textcolor{keywordflow}{break};}
+\DoxyCodeLine{\Hypertarget{nav2z__client_2nav2z__client_2src_2nav2z__client_2components_2odom__tracker_2cp__odom__tracker_8cpp_source_l00179}00179\ \ \ \ \ \textcolor{keywordflow}{case}\ WorkingMode::IDLE:}
+\DoxyCodeLine{\Hypertarget{nav2z__client_2nav2z__client_2src_2nav2z__client_2components_2odom__tracker_2cp__odom__tracker_8cpp_source_l00180}00180\ \ \ \ \ \ \ RCLCPP\_INFO\_STREAM(getLogger(),\ \textcolor{stringliteral}{"{}[CpOdomTracker]\ setting\ working\ mode\ to\ IDLE"{}});}
+\DoxyCodeLine{\Hypertarget{nav2z__client_2nav2z__client_2src_2nav2z__client_2components_2odom__tracker_2cp__odom__tracker_8cpp_source_l00181}00181\ \ \ \ \ \ \ \textcolor{keywordflow}{break};}
+\DoxyCodeLine{\Hypertarget{nav2z__client_2nav2z__client_2src_2nav2z__client_2components_2odom__tracker_2cp__odom__tracker_8cpp_source_l00182}00182\ \ \ \ \ \textcolor{keywordflow}{default}:}
+\DoxyCodeLine{\Hypertarget{nav2z__client_2nav2z__client_2src_2nav2z__client_2components_2odom__tracker_2cp__odom__tracker_8cpp_source_l00183}00183\ }
+\DoxyCodeLine{\Hypertarget{nav2z__client_2nav2z__client_2src_2nav2z__client_2components_2odom__tracker_2cp__odom__tracker_8cpp_source_l00184}00184\ \ \ \ \ \ \ RCLCPP\_INFO\_STREAM(getLogger(),\ \textcolor{stringliteral}{"{}[CpOdomTracker]\ setting\ working\ mode\ to\ <UNKNOWN>"{}});}
+\DoxyCodeLine{\Hypertarget{nav2z__client_2nav2z__client_2src_2nav2z__client_2components_2odom__tracker_2cp__odom__tracker_8cpp_source_l00185}00185\ \ \ \}}
+\DoxyCodeLine{\Hypertarget{nav2z__client_2nav2z__client_2src_2nav2z__client_2components_2odom__tracker_2cp__odom__tracker_8cpp_source_l00186}00186\ }
+\DoxyCodeLine{\Hypertarget{nav2z__client_2nav2z__client_2src_2nav2z__client_2components_2odom__tracker_2cp__odom__tracker_8cpp_source_l00187}00187\ \ \ \textcolor{keywordflow}{if}\ (this-\/>odomSub\_\ !=\ \textcolor{keyword}{nullptr}\ \&\&\ this-\/>odomSub\_-\/>get\_publisher\_count()\ ==\ 0)}
+\DoxyCodeLine{\Hypertarget{nav2z__client_2nav2z__client_2src_2nav2z__client_2components_2odom__tracker_2cp__odom__tracker_8cpp_source_l00188}00188\ \ \ \{}
+\DoxyCodeLine{\Hypertarget{nav2z__client_2nav2z__client_2src_2nav2z__client_2components_2odom__tracker_2cp__odom__tracker_8cpp_source_l00189}00189\ \ \ \ \ RCLCPP\_ERROR\_STREAM(}
+\DoxyCodeLine{\Hypertarget{nav2z__client_2nav2z__client_2src_2nav2z__client_2components_2odom__tracker_2cp__odom__tracker_8cpp_source_l00190}00190\ \ \ \ \ \ \ getLogger(),}
+\DoxyCodeLine{\Hypertarget{nav2z__client_2nav2z__client_2src_2nav2z__client_2components_2odom__tracker_2cp__odom__tracker_8cpp_source_l00191}00191\ \ \ \ \ \ \ \textcolor{stringliteral}{"{}[CpOdomTracker]\ Odom\ tracker\ cannot\ record\ the\ path\ because\ there\ is\ no\ publisher\ to\ the\ "{}}}
+\DoxyCodeLine{\Hypertarget{nav2z__client_2nav2z__client_2src_2nav2z__client_2components_2odom__tracker_2cp__odom__tracker_8cpp_source_l00192}00192\ \ \ \ \ \ \ \textcolor{stringliteral}{"{}odometry\ topic"{}});}
+\DoxyCodeLine{\Hypertarget{nav2z__client_2nav2z__client_2src_2nav2z__client_2components_2odom__tracker_2cp__odom__tracker_8cpp_source_l00193}00193\ \ \ \}}
+\DoxyCodeLine{\Hypertarget{nav2z__client_2nav2z__client_2src_2nav2z__client_2components_2odom__tracker_2cp__odom__tracker_8cpp_source_l00194}00194\ }
+\DoxyCodeLine{\Hypertarget{nav2z__client_2nav2z__client_2src_2nav2z__client_2components_2odom__tracker_2cp__odom__tracker_8cpp_source_l00195}00195\ \ \ workingMode\_\ =\ workingMode;}
+\DoxyCodeLine{\Hypertarget{nav2z__client_2nav2z__client_2src_2nav2z__client_2components_2odom__tracker_2cp__odom__tracker_8cpp_source_l00196}00196\ \ \ \textcolor{comment}{//\ RCLCPP\_INFO(getLogger(),"{}odom\_tracker\ m\_mutex\ release"{});}}
+\DoxyCodeLine{\Hypertarget{nav2z__client_2nav2z__client_2src_2nav2z__client_2components_2odom__tracker_2cp__odom__tracker_8cpp_source_l00197}00197\ \}}
+\DoxyCodeLine{\Hypertarget{nav2z__client_2nav2z__client_2src_2nav2z__client_2components_2odom__tracker_2cp__odom__tracker_8cpp_source_l00198}00198\ }
+\DoxyCodeLine{\Hypertarget{nav2z__client_2nav2z__client_2src_2nav2z__client_2components_2odom__tracker_2cp__odom__tracker_8cpp_source_l00204}00204\ \textcolor{keywordtype}{void}\ CpOdomTracker::setPublishMessages(\textcolor{keywordtype}{bool}\ value)}
+\DoxyCodeLine{\Hypertarget{nav2z__client_2nav2z__client_2src_2nav2z__client_2components_2odom__tracker_2cp__odom__tracker_8cpp_source_l00205}00205\ \{}
+\DoxyCodeLine{\Hypertarget{nav2z__client_2nav2z__client_2src_2nav2z__client_2components_2odom__tracker_2cp__odom__tracker_8cpp_source_l00206}00206\ \ \ \textcolor{comment}{//\ RCLCPP\_INFO(getLogger(),"{}odom\_tracker\ m\_mutex\ acquire"{});}}
+\DoxyCodeLine{\Hypertarget{nav2z__client_2nav2z__client_2src_2nav2z__client_2components_2odom__tracker_2cp__odom__tracker_8cpp_source_l00207}00207\ \ \ std::lock\_guard<std::mutex>\ lock(m\_mutex\_);}
+\DoxyCodeLine{\Hypertarget{nav2z__client_2nav2z__client_2src_2nav2z__client_2components_2odom__tracker_2cp__odom__tracker_8cpp_source_l00208}00208\ \ \ publishMessages\ =\ value;}
+\DoxyCodeLine{\Hypertarget{nav2z__client_2nav2z__client_2src_2nav2z__client_2components_2odom__tracker_2cp__odom__tracker_8cpp_source_l00209}00209\ \ \ \textcolor{comment}{//\ RCLCPP\_INFO(getLogger(),"{}odom\_tracker\ m\_mutex\ release"{});}}
+\DoxyCodeLine{\Hypertarget{nav2z__client_2nav2z__client_2src_2nav2z__client_2components_2odom__tracker_2cp__odom__tracker_8cpp_source_l00210}00210\ \ \ this-\/>updateAggregatedStackPath();}
+\DoxyCodeLine{\Hypertarget{nav2z__client_2nav2z__client_2src_2nav2z__client_2components_2odom__tracker_2cp__odom__tracker_8cpp_source_l00211}00211\ \}}
+\DoxyCodeLine{\Hypertarget{nav2z__client_2nav2z__client_2src_2nav2z__client_2components_2odom__tracker_2cp__odom__tracker_8cpp_source_l00212}00212\ }
+\DoxyCodeLine{\Hypertarget{nav2z__client_2nav2z__client_2src_2nav2z__client_2components_2odom__tracker_2cp__odom__tracker_8cpp_source_l00213}00213\ \textcolor{keywordtype}{void}\ CpOdomTracker::pushPath()\ \{\ this-\/>pushPath(std::string());\ \}}
+\DoxyCodeLine{\Hypertarget{nav2z__client_2nav2z__client_2src_2nav2z__client_2components_2odom__tracker_2cp__odom__tracker_8cpp_source_l00214}00214\ }
+\DoxyCodeLine{\Hypertarget{nav2z__client_2nav2z__client_2src_2nav2z__client_2components_2odom__tracker_2cp__odom__tracker_8cpp_source_l00215}00215\ \textcolor{keywordtype}{void}\ CpOdomTracker::pushPath(std::string\ pathname)}
+\DoxyCodeLine{\Hypertarget{nav2z__client_2nav2z__client_2src_2nav2z__client_2components_2odom__tracker_2cp__odom__tracker_8cpp_source_l00216}00216\ \{}
+\DoxyCodeLine{\Hypertarget{nav2z__client_2nav2z__client_2src_2nav2z__client_2components_2odom__tracker_2cp__odom__tracker_8cpp_source_l00217}00217\ \ \ RCLCPP\_INFO(getLogger(),\ \textcolor{stringliteral}{"{}odom\_tracker\ m\_mutex\ acquire,\ to\ push\ path"{}});}
+\DoxyCodeLine{\Hypertarget{nav2z__client_2nav2z__client_2src_2nav2z__client_2components_2odom__tracker_2cp__odom__tracker_8cpp_source_l00218}00218\ \ \ std::lock\_guard<std::mutex>\ lock(m\_mutex\_);}
+\DoxyCodeLine{\Hypertarget{nav2z__client_2nav2z__client_2src_2nav2z__client_2components_2odom__tracker_2cp__odom__tracker_8cpp_source_l00219}00219\ }
+\DoxyCodeLine{\Hypertarget{nav2z__client_2nav2z__client_2src_2nav2z__client_2components_2odom__tracker_2cp__odom__tracker_8cpp_source_l00220}00220\ \ \ this-\/>logStateString(\textcolor{keyword}{false});}
+\DoxyCodeLine{\Hypertarget{nav2z__client_2nav2z__client_2src_2nav2z__client_2components_2odom__tracker_2cp__odom__tracker_8cpp_source_l00221}00221\ \ \ \textcolor{keywordflow}{if}\ (this-\/>odomSub\_\ !=\ \textcolor{keyword}{nullptr}\ \&\&\ this-\/>odomSub\_-\/>get\_publisher\_count()\ ==\ 0)}
+\DoxyCodeLine{\Hypertarget{nav2z__client_2nav2z__client_2src_2nav2z__client_2components_2odom__tracker_2cp__odom__tracker_8cpp_source_l00222}00222\ \ \ \{}
+\DoxyCodeLine{\Hypertarget{nav2z__client_2nav2z__client_2src_2nav2z__client_2components_2odom__tracker_2cp__odom__tracker_8cpp_source_l00223}00223\ \ \ \ \ RCLCPP\_ERROR\_STREAM(}
+\DoxyCodeLine{\Hypertarget{nav2z__client_2nav2z__client_2src_2nav2z__client_2components_2odom__tracker_2cp__odom__tracker_8cpp_source_l00224}00224\ \ \ \ \ \ \ getLogger(),}
+\DoxyCodeLine{\Hypertarget{nav2z__client_2nav2z__client_2src_2nav2z__client_2components_2odom__tracker_2cp__odom__tracker_8cpp_source_l00225}00225\ \ \ \ \ \ \ \textcolor{stringliteral}{"{}[CpOdomTracker]\ Odom\ tracker\ cannot\ record\ the\ path\ because\ there\ is\ no\ publisher\ to\ the\ "{}}}
+\DoxyCodeLine{\Hypertarget{nav2z__client_2nav2z__client_2src_2nav2z__client_2components_2odom__tracker_2cp__odom__tracker_8cpp_source_l00226}00226\ \ \ \ \ \ \ \textcolor{stringliteral}{"{}odometry\ topic"{}});}
+\DoxyCodeLine{\Hypertarget{nav2z__client_2nav2z__client_2src_2nav2z__client_2components_2odom__tracker_2cp__odom__tracker_8cpp_source_l00227}00227\ \ \ \}}
+\DoxyCodeLine{\Hypertarget{nav2z__client_2nav2z__client_2src_2nav2z__client_2components_2odom__tracker_2cp__odom__tracker_8cpp_source_l00228}00228\ }
+\DoxyCodeLine{\Hypertarget{nav2z__client_2nav2z__client_2src_2nav2z__client_2components_2odom__tracker_2cp__odom__tracker_8cpp_source_l00229}00229\ \ \ pathInfos\_.push\_back(\{currentPathName\_,\ this-\/>currentMotionGoal\_\});}
+\DoxyCodeLine{\Hypertarget{nav2z__client_2nav2z__client_2src_2nav2z__client_2components_2odom__tracker_2cp__odom__tracker_8cpp_source_l00230}00230\ \ \ pathStack\_.push\_back(baseTrajectory\_);}
+\DoxyCodeLine{\Hypertarget{nav2z__client_2nav2z__client_2src_2nav2z__client_2components_2odom__tracker_2cp__odom__tracker_8cpp_source_l00231}00231\ }
+\DoxyCodeLine{\Hypertarget{nav2z__client_2nav2z__client_2src_2nav2z__client_2components_2odom__tracker_2cp__odom__tracker_8cpp_source_l00232}00232\ \ \ geometry\_msgs::msg::PoseStamped\ goalPose;}
+\DoxyCodeLine{\Hypertarget{nav2z__client_2nav2z__client_2src_2nav2z__client_2components_2odom__tracker_2cp__odom__tracker_8cpp_source_l00233}00233\ \ \ \textcolor{keywordflow}{if}\ (this-\/>currentMotionGoal\_)\ goalPose\ =\ *this-\/>currentMotionGoal\_;}
+\DoxyCodeLine{\Hypertarget{nav2z__client_2nav2z__client_2src_2nav2z__client_2components_2odom__tracker_2cp__odom__tracker_8cpp_source_l00234}00234\ }
+\DoxyCodeLine{\Hypertarget{nav2z__client_2nav2z__client_2src_2nav2z__client_2components_2odom__tracker_2cp__odom__tracker_8cpp_source_l00235}00235\ \ \ RCLCPP\_INFO\_STREAM(}
+\DoxyCodeLine{\Hypertarget{nav2z__client_2nav2z__client_2src_2nav2z__client_2components_2odom__tracker_2cp__odom__tracker_8cpp_source_l00236}00236\ \ \ \ \ getLogger(),\ \textcolor{stringliteral}{"{}[CpOdomTracker]\ currentPathName:\ "{}}\ <<\ pathname}
+\DoxyCodeLine{\Hypertarget{nav2z__client_2nav2z__client_2src_2nav2z__client_2components_2odom__tracker_2cp__odom__tracker_8cpp_source_l00237}00237\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ <<\ \textcolor{stringliteral}{"{}\ \ size:\ "{}}\ <<\ baseTrajectory\_.poses.size()}
+\DoxyCodeLine{\Hypertarget{nav2z__client_2nav2z__client_2src_2nav2z__client_2components_2odom__tracker_2cp__odom__tracker_8cpp_source_l00238}00238\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ <<\ \textcolor{stringliteral}{"{}\ \ current\ motion\ goal:\ "{}}\ <<\ goalPose);}
+\DoxyCodeLine{\Hypertarget{nav2z__client_2nav2z__client_2src_2nav2z__client_2components_2odom__tracker_2cp__odom__tracker_8cpp_source_l00239}00239\ }
+\DoxyCodeLine{\Hypertarget{nav2z__client_2nav2z__client_2src_2nav2z__client_2components_2odom__tracker_2cp__odom__tracker_8cpp_source_l00240}00240\ \ \ currentPathName\_\ =\ pathname;}
+\DoxyCodeLine{\Hypertarget{nav2z__client_2nav2z__client_2src_2nav2z__client_2components_2odom__tracker_2cp__odom__tracker_8cpp_source_l00241}00241\ }
+\DoxyCodeLine{\Hypertarget{nav2z__client_2nav2z__client_2src_2nav2z__client_2components_2odom__tracker_2cp__odom__tracker_8cpp_source_l00242}00242\ \ \ \textcolor{comment}{//\ clean\ the\ current\ trajectory\ to\ start\ a\ new\ one}}
+\DoxyCodeLine{\Hypertarget{nav2z__client_2nav2z__client_2src_2nav2z__client_2components_2odom__tracker_2cp__odom__tracker_8cpp_source_l00243}00243\ \ \ baseTrajectory\_.poses.clear();}
+\DoxyCodeLine{\Hypertarget{nav2z__client_2nav2z__client_2src_2nav2z__client_2components_2odom__tracker_2cp__odom__tracker_8cpp_source_l00244}00244\ }
+\DoxyCodeLine{\Hypertarget{nav2z__client_2nav2z__client_2src_2nav2z__client_2components_2odom__tracker_2cp__odom__tracker_8cpp_source_l00245}00245\ \ \ this-\/>logStateString(\textcolor{keyword}{false});}
+\DoxyCodeLine{\Hypertarget{nav2z__client_2nav2z__client_2src_2nav2z__client_2components_2odom__tracker_2cp__odom__tracker_8cpp_source_l00246}00246\ \ \ this-\/>updateAggregatedStackPath();}
+\DoxyCodeLine{\Hypertarget{nav2z__client_2nav2z__client_2src_2nav2z__client_2components_2odom__tracker_2cp__odom__tracker_8cpp_source_l00247}00247\ }
+\DoxyCodeLine{\Hypertarget{nav2z__client_2nav2z__client_2src_2nav2z__client_2components_2odom__tracker_2cp__odom__tracker_8cpp_source_l00248}00248\ \ \ this-\/>currentMotionGoal\_.reset();}
+\DoxyCodeLine{\Hypertarget{nav2z__client_2nav2z__client_2src_2nav2z__client_2components_2odom__tracker_2cp__odom__tracker_8cpp_source_l00249}00249\ \}}
+\DoxyCodeLine{\Hypertarget{nav2z__client_2nav2z__client_2src_2nav2z__client_2components_2odom__tracker_2cp__odom__tracker_8cpp_source_l00250}00250\ }
+\DoxyCodeLine{\Hypertarget{nav2z__client_2nav2z__client_2src_2nav2z__client_2components_2odom__tracker_2cp__odom__tracker_8cpp_source_l00251}00251\ \textcolor{keywordtype}{void}\ CpOdomTracker::popPath(\textcolor{keywordtype}{int}\ popCount,\ \textcolor{keywordtype}{bool}\ keepPreviousPath)}
+\DoxyCodeLine{\Hypertarget{nav2z__client_2nav2z__client_2src_2nav2z__client_2components_2odom__tracker_2cp__odom__tracker_8cpp_source_l00252}00252\ \{}
+\DoxyCodeLine{\Hypertarget{nav2z__client_2nav2z__client_2src_2nav2z__client_2components_2odom__tracker_2cp__odom__tracker_8cpp_source_l00253}00253\ \ \ RCLCPP\_INFO(getLogger(),\ \textcolor{stringliteral}{"{}odom\_tracker\ m\_mutex\ acquire\ to\ pop\ path"{}});}
+\DoxyCodeLine{\Hypertarget{nav2z__client_2nav2z__client_2src_2nav2z__client_2components_2odom__tracker_2cp__odom__tracker_8cpp_source_l00254}00254\ \ \ std::lock\_guard<std::mutex>\ lock(m\_mutex\_);}
+\DoxyCodeLine{\Hypertarget{nav2z__client_2nav2z__client_2src_2nav2z__client_2components_2odom__tracker_2cp__odom__tracker_8cpp_source_l00255}00255\ }
+\DoxyCodeLine{\Hypertarget{nav2z__client_2nav2z__client_2src_2nav2z__client_2components_2odom__tracker_2cp__odom__tracker_8cpp_source_l00256}00256\ \ \ RCLCPP\_INFO(getLogger(),\ \textcolor{stringliteral}{"{}POP\ PATH\ ENTRY"{}});}
+\DoxyCodeLine{\Hypertarget{nav2z__client_2nav2z__client_2src_2nav2z__client_2components_2odom__tracker_2cp__odom__tracker_8cpp_source_l00257}00257\ \ \ this-\/>logStateString();}
+\DoxyCodeLine{\Hypertarget{nav2z__client_2nav2z__client_2src_2nav2z__client_2components_2odom__tracker_2cp__odom__tracker_8cpp_source_l00258}00258\ }
+\DoxyCodeLine{\Hypertarget{nav2z__client_2nav2z__client_2src_2nav2z__client_2components_2odom__tracker_2cp__odom__tracker_8cpp_source_l00259}00259\ \ \ \textcolor{keywordflow}{if}\ (this-\/>odomSub\_\ !=\ \textcolor{keyword}{nullptr}\ \&\&\ this-\/>odomSub\_-\/>get\_publisher\_count()\ ==\ 0)}
+\DoxyCodeLine{\Hypertarget{nav2z__client_2nav2z__client_2src_2nav2z__client_2components_2odom__tracker_2cp__odom__tracker_8cpp_source_l00260}00260\ \ \ \{}
+\DoxyCodeLine{\Hypertarget{nav2z__client_2nav2z__client_2src_2nav2z__client_2components_2odom__tracker_2cp__odom__tracker_8cpp_source_l00261}00261\ \ \ \ \ RCLCPP\_ERROR\_STREAM(}
+\DoxyCodeLine{\Hypertarget{nav2z__client_2nav2z__client_2src_2nav2z__client_2components_2odom__tracker_2cp__odom__tracker_8cpp_source_l00262}00262\ \ \ \ \ \ \ getLogger(),}
+\DoxyCodeLine{\Hypertarget{nav2z__client_2nav2z__client_2src_2nav2z__client_2components_2odom__tracker_2cp__odom__tracker_8cpp_source_l00263}00263\ \ \ \ \ \ \ \textcolor{stringliteral}{"{}[CpOdomTracker]\ Odom\ tracker\ cannot\ record\ the\ path\ because\ there\ is\ no\ publisher\ to\ the\ "{}}}
+\DoxyCodeLine{\Hypertarget{nav2z__client_2nav2z__client_2src_2nav2z__client_2components_2odom__tracker_2cp__odom__tracker_8cpp_source_l00264}00264\ \ \ \ \ \ \ \textcolor{stringliteral}{"{}odometry\ topic"{}});}
+\DoxyCodeLine{\Hypertarget{nav2z__client_2nav2z__client_2src_2nav2z__client_2components_2odom__tracker_2cp__odom__tracker_8cpp_source_l00265}00265\ \ \ \}}
+\DoxyCodeLine{\Hypertarget{nav2z__client_2nav2z__client_2src_2nav2z__client_2components_2odom__tracker_2cp__odom__tracker_8cpp_source_l00266}00266\ }
+\DoxyCodeLine{\Hypertarget{nav2z__client_2nav2z__client_2src_2nav2z__client_2components_2odom__tracker_2cp__odom__tracker_8cpp_source_l00267}00267\ \ \ \textcolor{keywordflow}{if}\ (!keepPreviousPath)}
+\DoxyCodeLine{\Hypertarget{nav2z__client_2nav2z__client_2src_2nav2z__client_2components_2odom__tracker_2cp__odom__tracker_8cpp_source_l00268}00268\ \ \ \{}
+\DoxyCodeLine{\Hypertarget{nav2z__client_2nav2z__client_2src_2nav2z__client_2components_2odom__tracker_2cp__odom__tracker_8cpp_source_l00269}00269\ \ \ \ \ baseTrajectory\_.poses.clear();}
+\DoxyCodeLine{\Hypertarget{nav2z__client_2nav2z__client_2src_2nav2z__client_2components_2odom__tracker_2cp__odom__tracker_8cpp_source_l00270}00270\ \ \ \}}
+\DoxyCodeLine{\Hypertarget{nav2z__client_2nav2z__client_2src_2nav2z__client_2components_2odom__tracker_2cp__odom__tracker_8cpp_source_l00271}00271\ }
+\DoxyCodeLine{\Hypertarget{nav2z__client_2nav2z__client_2src_2nav2z__client_2components_2odom__tracker_2cp__odom__tracker_8cpp_source_l00272}00272\ \ \ \textcolor{keywordflow}{while}\ (popCount\ >\ 0\ \&\&\ !pathStack\_.empty())}
+\DoxyCodeLine{\Hypertarget{nav2z__client_2nav2z__client_2src_2nav2z__client_2components_2odom__tracker_2cp__odom__tracker_8cpp_source_l00273}00273\ \ \ \{}
+\DoxyCodeLine{\Hypertarget{nav2z__client_2nav2z__client_2src_2nav2z__client_2components_2odom__tracker_2cp__odom__tracker_8cpp_source_l00274}00274\ \ \ \ \ \textcolor{keyword}{auto}\ \&\ stackedPath\ =\ pathStack\_.back().poses;}
+\DoxyCodeLine{\Hypertarget{nav2z__client_2nav2z__client_2src_2nav2z__client_2components_2odom__tracker_2cp__odom__tracker_8cpp_source_l00275}00275\ \ \ \ \ \textcolor{keyword}{auto}\ \&\ stackedPathInfo\ =\ pathInfos\_.back();}
+\DoxyCodeLine{\Hypertarget{nav2z__client_2nav2z__client_2src_2nav2z__client_2components_2odom__tracker_2cp__odom__tracker_8cpp_source_l00276}00276\ }
+\DoxyCodeLine{\Hypertarget{nav2z__client_2nav2z__client_2src_2nav2z__client_2components_2odom__tracker_2cp__odom__tracker_8cpp_source_l00277}00277\ \ \ \ \ baseTrajectory\_.poses.insert(}
+\DoxyCodeLine{\Hypertarget{nav2z__client_2nav2z__client_2src_2nav2z__client_2components_2odom__tracker_2cp__odom__tracker_8cpp_source_l00278}00278\ \ \ \ \ \ \ baseTrajectory\_.poses.begin(),\ stackedPath.begin(),\ stackedPath.end());}
+\DoxyCodeLine{\Hypertarget{nav2z__client_2nav2z__client_2src_2nav2z__client_2components_2odom__tracker_2cp__odom__tracker_8cpp_source_l00279}00279\ \ \ \ \ this-\/>currentMotionGoal\_\ =\ stackedPathInfo.goalPose;}
+\DoxyCodeLine{\Hypertarget{nav2z__client_2nav2z__client_2src_2nav2z__client_2components_2odom__tracker_2cp__odom__tracker_8cpp_source_l00280}00280\ \ \ \ \ pathStack\_.pop\_back();}
+\DoxyCodeLine{\Hypertarget{nav2z__client_2nav2z__client_2src_2nav2z__client_2components_2odom__tracker_2cp__odom__tracker_8cpp_source_l00281}00281\ \ \ \ \ pathInfos\_.pop\_back();}
+\DoxyCodeLine{\Hypertarget{nav2z__client_2nav2z__client_2src_2nav2z__client_2components_2odom__tracker_2cp__odom__tracker_8cpp_source_l00282}00282\ \ \ \ \ popCount-\/-\/;}
+\DoxyCodeLine{\Hypertarget{nav2z__client_2nav2z__client_2src_2nav2z__client_2components_2odom__tracker_2cp__odom__tracker_8cpp_source_l00283}00283\ }
+\DoxyCodeLine{\Hypertarget{nav2z__client_2nav2z__client_2src_2nav2z__client_2components_2odom__tracker_2cp__odom__tracker_8cpp_source_l00284}00284\ \ \ \ \ RCLCPP\_INFO(getLogger(),\ \textcolor{stringliteral}{"{}POP\ PATH\ Iteration\ "{}});}
+\DoxyCodeLine{\Hypertarget{nav2z__client_2nav2z__client_2src_2nav2z__client_2components_2odom__tracker_2cp__odom__tracker_8cpp_source_l00285}00285\ \ \ \ \ this-\/>logStateString();}
+\DoxyCodeLine{\Hypertarget{nav2z__client_2nav2z__client_2src_2nav2z__client_2components_2odom__tracker_2cp__odom__tracker_8cpp_source_l00286}00286\ \ \ \}}
+\DoxyCodeLine{\Hypertarget{nav2z__client_2nav2z__client_2src_2nav2z__client_2components_2odom__tracker_2cp__odom__tracker_8cpp_source_l00287}00287\ }
+\DoxyCodeLine{\Hypertarget{nav2z__client_2nav2z__client_2src_2nav2z__client_2components_2odom__tracker_2cp__odom__tracker_8cpp_source_l00288}00288\ \ \ RCLCPP\_INFO(getLogger(),\ \textcolor{stringliteral}{"{}POP\ PATH\ EXITING"{}});}
+\DoxyCodeLine{\Hypertarget{nav2z__client_2nav2z__client_2src_2nav2z__client_2components_2odom__tracker_2cp__odom__tracker_8cpp_source_l00289}00289\ \ \ this-\/>logStateString();}
+\DoxyCodeLine{\Hypertarget{nav2z__client_2nav2z__client_2src_2nav2z__client_2components_2odom__tracker_2cp__odom__tracker_8cpp_source_l00290}00290\ \ \ RCLCPP\_INFO(getLogger(),\ \textcolor{stringliteral}{"{}odom\_tracker\ m\_mutex\ release"{}});}
+\DoxyCodeLine{\Hypertarget{nav2z__client_2nav2z__client_2src_2nav2z__client_2components_2odom__tracker_2cp__odom__tracker_8cpp_source_l00291}00291\ \ \ this-\/>updateAggregatedStackPath();}
+\DoxyCodeLine{\Hypertarget{nav2z__client_2nav2z__client_2src_2nav2z__client_2components_2odom__tracker_2cp__odom__tracker_8cpp_source_l00292}00292\ }
+\DoxyCodeLine{\Hypertarget{nav2z__client_2nav2z__client_2src_2nav2z__client_2components_2odom__tracker_2cp__odom__tracker_8cpp_source_l00293}00293\ \ \ this-\/>currentMotionGoal\_.reset();}
+\DoxyCodeLine{\Hypertarget{nav2z__client_2nav2z__client_2src_2nav2z__client_2components_2odom__tracker_2cp__odom__tracker_8cpp_source_l00294}00294\ \}}
+\DoxyCodeLine{\Hypertarget{nav2z__client_2nav2z__client_2src_2nav2z__client_2components_2odom__tracker_2cp__odom__tracker_8cpp_source_l00295}00295\ }
+\DoxyCodeLine{\Hypertarget{nav2z__client_2nav2z__client_2src_2nav2z__client_2components_2odom__tracker_2cp__odom__tracker_8cpp_source_l00296}00296\ \textcolor{keywordtype}{void}\ CpOdomTracker::logStateString(\textcolor{keywordtype}{bool}\ debug)}
+\DoxyCodeLine{\Hypertarget{nav2z__client_2nav2z__client_2src_2nav2z__client_2components_2odom__tracker_2cp__odom__tracker_8cpp_source_l00297}00297\ \{}
+\DoxyCodeLine{\Hypertarget{nav2z__client_2nav2z__client_2src_2nav2z__client_2components_2odom__tracker_2cp__odom__tracker_8cpp_source_l00298}00298\ \ \ std::stringstream\ ss;}
+\DoxyCodeLine{\Hypertarget{nav2z__client_2nav2z__client_2src_2nav2z__client_2components_2odom__tracker_2cp__odom__tracker_8cpp_source_l00299}00299\ \ \ ss\ <<\ \textcolor{stringliteral}{"{}-\/-\/-\/\ odom\ tracker\ state\ -\/-\/-\/"{}}\ <<\ std::endl;}
+\DoxyCodeLine{\Hypertarget{nav2z__client_2nav2z__client_2src_2nav2z__client_2components_2odom__tracker_2cp__odom__tracker_8cpp_source_l00300}00300\ \ \ ss}
+\DoxyCodeLine{\Hypertarget{nav2z__client_2nav2z__client_2src_2nav2z__client_2components_2odom__tracker_2cp__odom__tracker_8cpp_source_l00301}00301\ \ \ \ \ <<\ \textcolor{stringliteral}{"{}\ -\/\ path\ stack\ -\/"{}}\ <<\ currentPathName\_\ <<\ \textcolor{stringliteral}{"{}\ -\/\ \ size:"{}}}
+\DoxyCodeLine{\Hypertarget{nav2z__client_2nav2z__client_2src_2nav2z__client_2components_2odom__tracker_2cp__odom__tracker_8cpp_source_l00302}00302\ \ \ \ \ <<\ pathStack\_.size()}
+\DoxyCodeLine{\Hypertarget{nav2z__client_2nav2z__client_2src_2nav2z__client_2components_2odom__tracker_2cp__odom__tracker_8cpp_source_l00303}00303\ \ \ \ \ \textcolor{comment}{//<<\ "{}\ goal:\ "{}\ <<\ (getCurrentMotionGoal()?\ getCurrentMotionGoal()-\/>pose:\ geometry\_msgs::msg::Pose())}}
+\DoxyCodeLine{\Hypertarget{nav2z__client_2nav2z__client_2src_2nav2z__client_2components_2odom__tracker_2cp__odom__tracker_8cpp_source_l00304}00304\ \ \ \ \ <<\ std::endl;}
+\DoxyCodeLine{\Hypertarget{nav2z__client_2nav2z__client_2src_2nav2z__client_2components_2odom__tracker_2cp__odom__tracker_8cpp_source_l00305}00305\ \ \ ss\ <<\ \textcolor{stringliteral}{"{}\ -\/\ [STACK-\/HEAD\ active\ path\ size:\ "{}}\ <<\ baseTrajectory\_.poses.size()\ <<\ \textcolor{stringliteral}{"{}]"{}}\ <<\ std::endl;}
+\DoxyCodeLine{\Hypertarget{nav2z__client_2nav2z__client_2src_2nav2z__client_2components_2odom__tracker_2cp__odom__tracker_8cpp_source_l00306}00306\ \ \ \textcolor{keywordtype}{int}\ i\ =\ 0;}
+\DoxyCodeLine{\Hypertarget{nav2z__client_2nav2z__client_2src_2nav2z__client_2components_2odom__tracker_2cp__odom__tracker_8cpp_source_l00307}00307\ \ \ \textcolor{keywordflow}{for}\ (\textcolor{keyword}{auto}\ \&\ p\ :\ pathStack\_\ |\ boost::adaptors::reversed)}
+\DoxyCodeLine{\Hypertarget{nav2z__client_2nav2z__client_2src_2nav2z__client_2components_2odom__tracker_2cp__odom__tracker_8cpp_source_l00308}00308\ \ \ \{}
+\DoxyCodeLine{\Hypertarget{nav2z__client_2nav2z__client_2src_2nav2z__client_2components_2odom__tracker_2cp__odom__tracker_8cpp_source_l00309}00309\ \ \ \ \ \textcolor{keyword}{auto}\ \&\ pathinfo\ =\ pathInfos\_[pathInfos\_.size()\ -\/\ i\ -\/\ 1];}
+\DoxyCodeLine{\Hypertarget{nav2z__client_2nav2z__client_2src_2nav2z__client_2components_2odom__tracker_2cp__odom__tracker_8cpp_source_l00310}00310\ \ \ \ \ std::string\ goalstr\ =\ \textcolor{stringliteral}{"{}[]"{}};}
+\DoxyCodeLine{\Hypertarget{nav2z__client_2nav2z__client_2src_2nav2z__client_2components_2odom__tracker_2cp__odom__tracker_8cpp_source_l00311}00311\ \ \ \ \ \textcolor{keywordflow}{if}\ (pathinfo.goalPose)}
+\DoxyCodeLine{\Hypertarget{nav2z__client_2nav2z__client_2src_2nav2z__client_2components_2odom__tracker_2cp__odom__tracker_8cpp_source_l00312}00312\ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{nav2z__client_2nav2z__client_2src_2nav2z__client_2components_2odom__tracker_2cp__odom__tracker_8cpp_source_l00313}00313\ \ \ \ \ \ \ std::stringstream\ ss;}
+\DoxyCodeLine{\Hypertarget{nav2z__client_2nav2z__client_2src_2nav2z__client_2components_2odom__tracker_2cp__odom__tracker_8cpp_source_l00314}00314\ \ \ \ \ \ \ ss\ <<\ *(pathinfo.goalPose);}
+\DoxyCodeLine{\Hypertarget{nav2z__client_2nav2z__client_2src_2nav2z__client_2components_2odom__tracker_2cp__odom__tracker_8cpp_source_l00315}00315\ \ \ \ \ \ \ goalstr\ =\ ss.str();}
+\DoxyCodeLine{\Hypertarget{nav2z__client_2nav2z__client_2src_2nav2z__client_2components_2odom__tracker_2cp__odom__tracker_8cpp_source_l00316}00316\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{nav2z__client_2nav2z__client_2src_2nav2z__client_2components_2odom__tracker_2cp__odom__tracker_8cpp_source_l00317}00317\ }
+\DoxyCodeLine{\Hypertarget{nav2z__client_2nav2z__client_2src_2nav2z__client_2components_2odom__tracker_2cp__odom__tracker_8cpp_source_l00318}00318\ \ \ \ \ ss\ <<\ \textcolor{stringliteral}{"{}\ -\/\ p\ "{}}\ <<\ i\ <<\ \textcolor{stringliteral}{"{}["{}}\ <<\ p.header.stamp\ <<\ \textcolor{stringliteral}{"{}],\ size:\ "{}}\ <<\ p.poses.size()\ <<\ \textcolor{stringliteral}{"{}\ -\/\ "{}}}
+\DoxyCodeLine{\Hypertarget{nav2z__client_2nav2z__client_2src_2nav2z__client_2components_2odom__tracker_2cp__odom__tracker_8cpp_source_l00319}00319\ \ \ \ \ \ \ \ <<\ pathinfo.name\ <<\ \textcolor{stringliteral}{"{}\ -\/\ goal:\ "{}}\ <<\ goalstr\ <<\ std::endl;}
+\DoxyCodeLine{\Hypertarget{nav2z__client_2nav2z__client_2src_2nav2z__client_2components_2odom__tracker_2cp__odom__tracker_8cpp_source_l00320}00320\ \ \ \ \ i++;}
+\DoxyCodeLine{\Hypertarget{nav2z__client_2nav2z__client_2src_2nav2z__client_2components_2odom__tracker_2cp__odom__tracker_8cpp_source_l00321}00321\ \ \ \}}
+\DoxyCodeLine{\Hypertarget{nav2z__client_2nav2z__client_2src_2nav2z__client_2components_2odom__tracker_2cp__odom__tracker_8cpp_source_l00322}00322\ \ \ ss\ <<\ \textcolor{stringliteral}{"{}-\/-\/-\/"{}};}
+\DoxyCodeLine{\Hypertarget{nav2z__client_2nav2z__client_2src_2nav2z__client_2components_2odom__tracker_2cp__odom__tracker_8cpp_source_l00323}00323\ }
+\DoxyCodeLine{\Hypertarget{nav2z__client_2nav2z__client_2src_2nav2z__client_2components_2odom__tracker_2cp__odom__tracker_8cpp_source_l00324}00324\ \ \ \textcolor{keywordflow}{if}\ (this-\/>odomSub\_\ !=\ \textcolor{keyword}{nullptr}\ \&\&\ this-\/>odomSub\_-\/>get\_publisher\_count()\ ==\ 0)}
+\DoxyCodeLine{\Hypertarget{nav2z__client_2nav2z__client_2src_2nav2z__client_2components_2odom__tracker_2cp__odom__tracker_8cpp_source_l00325}00325\ \ \ \{}
+\DoxyCodeLine{\Hypertarget{nav2z__client_2nav2z__client_2src_2nav2z__client_2components_2odom__tracker_2cp__odom__tracker_8cpp_source_l00326}00326\ \ \ \ \ ss\ <<\ std::endl}
+\DoxyCodeLine{\Hypertarget{nav2z__client_2nav2z__client_2src_2nav2z__client_2components_2odom__tracker_2cp__odom__tracker_8cpp_source_l00327}00327\ \ \ \ \ \ \ \ <<\ \textcolor{stringliteral}{"{}[CpOdomTracker]\ Odom\ tracker\ cannot\ record\ the\ path\ because\ there\ is\ no\ publisher\ to\ "{}}}
+\DoxyCodeLine{\Hypertarget{nav2z__client_2nav2z__client_2src_2nav2z__client_2components_2odom__tracker_2cp__odom__tracker_8cpp_source_l00328}00328\ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}the\ odometry\ topic"{}}}
+\DoxyCodeLine{\Hypertarget{nav2z__client_2nav2z__client_2src_2nav2z__client_2components_2odom__tracker_2cp__odom__tracker_8cpp_source_l00329}00329\ \ \ \ \ \ \ \ <<\ std::endl;}
+\DoxyCodeLine{\Hypertarget{nav2z__client_2nav2z__client_2src_2nav2z__client_2components_2odom__tracker_2cp__odom__tracker_8cpp_source_l00330}00330\ \ \ \}}
+\DoxyCodeLine{\Hypertarget{nav2z__client_2nav2z__client_2src_2nav2z__client_2components_2odom__tracker_2cp__odom__tracker_8cpp_source_l00331}00331\ }
+\DoxyCodeLine{\Hypertarget{nav2z__client_2nav2z__client_2src_2nav2z__client_2components_2odom__tracker_2cp__odom__tracker_8cpp_source_l00332}00332\ \ \ \textcolor{keywordflow}{if}\ (debug)}
+\DoxyCodeLine{\Hypertarget{nav2z__client_2nav2z__client_2src_2nav2z__client_2components_2odom__tracker_2cp__odom__tracker_8cpp_source_l00333}00333\ \ \ \ \ RCLCPP\_DEBUG(getLogger(),\ ss.str().c\_str());}
+\DoxyCodeLine{\Hypertarget{nav2z__client_2nav2z__client_2src_2nav2z__client_2components_2odom__tracker_2cp__odom__tracker_8cpp_source_l00334}00334\ \ \ \textcolor{keywordflow}{else}}
+\DoxyCodeLine{\Hypertarget{nav2z__client_2nav2z__client_2src_2nav2z__client_2components_2odom__tracker_2cp__odom__tracker_8cpp_source_l00335}00335\ \ \ \ \ RCLCPP\_INFO(getLogger(),\ ss.str().c\_str());}
+\DoxyCodeLine{\Hypertarget{nav2z__client_2nav2z__client_2src_2nav2z__client_2components_2odom__tracker_2cp__odom__tracker_8cpp_source_l00336}00336\ \}}
+\DoxyCodeLine{\Hypertarget{nav2z__client_2nav2z__client_2src_2nav2z__client_2components_2odom__tracker_2cp__odom__tracker_8cpp_source_l00337}00337\ }
+\DoxyCodeLine{\Hypertarget{nav2z__client_2nav2z__client_2src_2nav2z__client_2components_2odom__tracker_2cp__odom__tracker_8cpp_source_l00338}00338\ \textcolor{keywordtype}{void}\ CpOdomTracker::clearPath()}
+\DoxyCodeLine{\Hypertarget{nav2z__client_2nav2z__client_2src_2nav2z__client_2components_2odom__tracker_2cp__odom__tracker_8cpp_source_l00339}00339\ \{}
+\DoxyCodeLine{\Hypertarget{nav2z__client_2nav2z__client_2src_2nav2z__client_2components_2odom__tracker_2cp__odom__tracker_8cpp_source_l00340}00340\ \ \ RCLCPP\_INFO(getLogger(),\ \textcolor{stringliteral}{"{}odom\_tracker\ m\_mutex\ acquire\ to\ clear\ path"{}});}
+\DoxyCodeLine{\Hypertarget{nav2z__client_2nav2z__client_2src_2nav2z__client_2components_2odom__tracker_2cp__odom__tracker_8cpp_source_l00341}00341\ \ \ std::lock\_guard<std::mutex>\ lock(m\_mutex\_);}
+\DoxyCodeLine{\Hypertarget{nav2z__client_2nav2z__client_2src_2nav2z__client_2components_2odom__tracker_2cp__odom__tracker_8cpp_source_l00342}00342\ \ \ baseTrajectory\_.poses.clear();}
+\DoxyCodeLine{\Hypertarget{nav2z__client_2nav2z__client_2src_2nav2z__client_2components_2odom__tracker_2cp__odom__tracker_8cpp_source_l00343}00343\ }
+\DoxyCodeLine{\Hypertarget{nav2z__client_2nav2z__client_2src_2nav2z__client_2components_2odom__tracker_2cp__odom__tracker_8cpp_source_l00344}00344\ \ \ rtPublishPaths(getNode()-\/>now());}
+\DoxyCodeLine{\Hypertarget{nav2z__client_2nav2z__client_2src_2nav2z__client_2components_2odom__tracker_2cp__odom__tracker_8cpp_source_l00345}00345\ \ \ this-\/>logStateString();}
+\DoxyCodeLine{\Hypertarget{nav2z__client_2nav2z__client_2src_2nav2z__client_2components_2odom__tracker_2cp__odom__tracker_8cpp_source_l00346}00346\ \ \ this-\/>updateAggregatedStackPath();}
+\DoxyCodeLine{\Hypertarget{nav2z__client_2nav2z__client_2src_2nav2z__client_2components_2odom__tracker_2cp__odom__tracker_8cpp_source_l00347}00347\ }
+\DoxyCodeLine{\Hypertarget{nav2z__client_2nav2z__client_2src_2nav2z__client_2components_2odom__tracker_2cp__odom__tracker_8cpp_source_l00348}00348\ \ \ this-\/>currentMotionGoal\_.reset();}
+\DoxyCodeLine{\Hypertarget{nav2z__client_2nav2z__client_2src_2nav2z__client_2components_2odom__tracker_2cp__odom__tracker_8cpp_source_l00349}00349\ \}}
+\DoxyCodeLine{\Hypertarget{nav2z__client_2nav2z__client_2src_2nav2z__client_2components_2odom__tracker_2cp__odom__tracker_8cpp_source_l00350}00350\ }
+\DoxyCodeLine{\Hypertarget{nav2z__client_2nav2z__client_2src_2nav2z__client_2components_2odom__tracker_2cp__odom__tracker_8cpp_source_l00351}00351\ \textcolor{keywordtype}{void}\ CpOdomTracker::setCurrentPathName(\textcolor{keyword}{const}\ std::string\ \&\ currentPathName)}
+\DoxyCodeLine{\Hypertarget{nav2z__client_2nav2z__client_2src_2nav2z__client_2components_2odom__tracker_2cp__odom__tracker_8cpp_source_l00352}00352\ \{}
+\DoxyCodeLine{\Hypertarget{nav2z__client_2nav2z__client_2src_2nav2z__client_2components_2odom__tracker_2cp__odom__tracker_8cpp_source_l00353}00353\ \ \ RCLCPP\_INFO\_STREAM(getLogger(),\ \textcolor{stringliteral}{"{}[CpOdomTracker]\ set\ current\ path\ name:\ "{}}\ <<\ currentPathName);}
+\DoxyCodeLine{\Hypertarget{nav2z__client_2nav2z__client_2src_2nav2z__client_2components_2odom__tracker_2cp__odom__tracker_8cpp_source_l00354}00354\ \ \ currentPathName\_\ =\ currentPathName;}
+\DoxyCodeLine{\Hypertarget{nav2z__client_2nav2z__client_2src_2nav2z__client_2components_2odom__tracker_2cp__odom__tracker_8cpp_source_l00355}00355\ \}}
+\DoxyCodeLine{\Hypertarget{nav2z__client_2nav2z__client_2src_2nav2z__client_2components_2odom__tracker_2cp__odom__tracker_8cpp_source_l00356}00356\ }
+\DoxyCodeLine{\Hypertarget{nav2z__client_2nav2z__client_2src_2nav2z__client_2components_2odom__tracker_2cp__odom__tracker_8cpp_source_l00357}00357\ \textcolor{keywordtype}{void}\ CpOdomTracker::setStartPoint(\textcolor{keyword}{const}\ geometry\_msgs::msg::PoseStamped\ \&\ pose)}
+\DoxyCodeLine{\Hypertarget{nav2z__client_2nav2z__client_2src_2nav2z__client_2components_2odom__tracker_2cp__odom__tracker_8cpp_source_l00358}00358\ \{}
+\DoxyCodeLine{\Hypertarget{nav2z__client_2nav2z__client_2src_2nav2z__client_2components_2odom__tracker_2cp__odom__tracker_8cpp_source_l00359}00359\ \ \ std::lock\_guard<std::mutex>\ lock(m\_mutex\_);}
+\DoxyCodeLine{\Hypertarget{nav2z__client_2nav2z__client_2src_2nav2z__client_2components_2odom__tracker_2cp__odom__tracker_8cpp_source_l00360}00360\ \ \ RCLCPP\_INFO\_STREAM(getLogger(),\ \textcolor{stringliteral}{"{}[CpOdomTracker]\ set\ current\ path\ starting\ point:\ "{}}\ <<\ pose);}
+\DoxyCodeLine{\Hypertarget{nav2z__client_2nav2z__client_2src_2nav2z__client_2components_2odom__tracker_2cp__odom__tracker_8cpp_source_l00361}00361\ \ \ \textcolor{keywordflow}{if}\ (baseTrajectory\_.poses.size()\ >\ 0)}
+\DoxyCodeLine{\Hypertarget{nav2z__client_2nav2z__client_2src_2nav2z__client_2components_2odom__tracker_2cp__odom__tracker_8cpp_source_l00362}00362\ \ \ \{}
+\DoxyCodeLine{\Hypertarget{nav2z__client_2nav2z__client_2src_2nav2z__client_2components_2odom__tracker_2cp__odom__tracker_8cpp_source_l00363}00363\ \ \ \ \ baseTrajectory\_.poses[0]\ =\ pose;}
+\DoxyCodeLine{\Hypertarget{nav2z__client_2nav2z__client_2src_2nav2z__client_2components_2odom__tracker_2cp__odom__tracker_8cpp_source_l00364}00364\ \ \ \}}
+\DoxyCodeLine{\Hypertarget{nav2z__client_2nav2z__client_2src_2nav2z__client_2components_2odom__tracker_2cp__odom__tracker_8cpp_source_l00365}00365\ \ \ \textcolor{keywordflow}{else}}
+\DoxyCodeLine{\Hypertarget{nav2z__client_2nav2z__client_2src_2nav2z__client_2components_2odom__tracker_2cp__odom__tracker_8cpp_source_l00366}00366\ \ \ \{}
+\DoxyCodeLine{\Hypertarget{nav2z__client_2nav2z__client_2src_2nav2z__client_2components_2odom__tracker_2cp__odom__tracker_8cpp_source_l00367}00367\ \ \ \ \ baseTrajectory\_.poses.push\_back(pose);}
+\DoxyCodeLine{\Hypertarget{nav2z__client_2nav2z__client_2src_2nav2z__client_2components_2odom__tracker_2cp__odom__tracker_8cpp_source_l00368}00368\ \ \ \}}
+\DoxyCodeLine{\Hypertarget{nav2z__client_2nav2z__client_2src_2nav2z__client_2components_2odom__tracker_2cp__odom__tracker_8cpp_source_l00369}00369\ \ \ this-\/>updateAggregatedStackPath();}
+\DoxyCodeLine{\Hypertarget{nav2z__client_2nav2z__client_2src_2nav2z__client_2components_2odom__tracker_2cp__odom__tracker_8cpp_source_l00370}00370\ \}}
+\DoxyCodeLine{\Hypertarget{nav2z__client_2nav2z__client_2src_2nav2z__client_2components_2odom__tracker_2cp__odom__tracker_8cpp_source_l00371}00371\ }
+\DoxyCodeLine{\Hypertarget{nav2z__client_2nav2z__client_2src_2nav2z__client_2components_2odom__tracker_2cp__odom__tracker_8cpp_source_l00372}00372\ \textcolor{keywordtype}{void}\ CpOdomTracker::setStartPoint(\textcolor{keyword}{const}\ geometry\_msgs::msg::Pose\ \&\ pose)}
+\DoxyCodeLine{\Hypertarget{nav2z__client_2nav2z__client_2src_2nav2z__client_2components_2odom__tracker_2cp__odom__tracker_8cpp_source_l00373}00373\ \{}
+\DoxyCodeLine{\Hypertarget{nav2z__client_2nav2z__client_2src_2nav2z__client_2components_2odom__tracker_2cp__odom__tracker_8cpp_source_l00374}00374\ \ \ std::lock\_guard<std::mutex>\ lock(m\_mutex\_);}
+\DoxyCodeLine{\Hypertarget{nav2z__client_2nav2z__client_2src_2nav2z__client_2components_2odom__tracker_2cp__odom__tracker_8cpp_source_l00375}00375\ \ \ RCLCPP\_INFO\_STREAM(getLogger(),\ \textcolor{stringliteral}{"{}[CpOdomTracker]\ set\ current\ path\ starting\ point:\ "{}}\ <<\ pose);}
+\DoxyCodeLine{\Hypertarget{nav2z__client_2nav2z__client_2src_2nav2z__client_2components_2odom__tracker_2cp__odom__tracker_8cpp_source_l00376}00376\ \ \ geometry\_msgs::msg::PoseStamped\ posestamped;}
+\DoxyCodeLine{\Hypertarget{nav2z__client_2nav2z__client_2src_2nav2z__client_2components_2odom__tracker_2cp__odom__tracker_8cpp_source_l00377}00377\ \ \ posestamped.header.frame\_id\ =\ this-\/>odomFrame\_;}
+\DoxyCodeLine{\Hypertarget{nav2z__client_2nav2z__client_2src_2nav2z__client_2components_2odom__tracker_2cp__odom__tracker_8cpp_source_l00378}00378\ \ \ posestamped.header.stamp\ =\ getNode()-\/>now();}
+\DoxyCodeLine{\Hypertarget{nav2z__client_2nav2z__client_2src_2nav2z__client_2components_2odom__tracker_2cp__odom__tracker_8cpp_source_l00379}00379\ \ \ posestamped.pose\ =\ pose;}
+\DoxyCodeLine{\Hypertarget{nav2z__client_2nav2z__client_2src_2nav2z__client_2components_2odom__tracker_2cp__odom__tracker_8cpp_source_l00380}00380\ }
+\DoxyCodeLine{\Hypertarget{nav2z__client_2nav2z__client_2src_2nav2z__client_2components_2odom__tracker_2cp__odom__tracker_8cpp_source_l00381}00381\ \ \ \textcolor{keywordflow}{if}\ (baseTrajectory\_.poses.size()\ >\ 0)}
+\DoxyCodeLine{\Hypertarget{nav2z__client_2nav2z__client_2src_2nav2z__client_2components_2odom__tracker_2cp__odom__tracker_8cpp_source_l00382}00382\ \ \ \{}
+\DoxyCodeLine{\Hypertarget{nav2z__client_2nav2z__client_2src_2nav2z__client_2components_2odom__tracker_2cp__odom__tracker_8cpp_source_l00383}00383\ \ \ \ \ baseTrajectory\_.poses[0]\ =\ posestamped;}
+\DoxyCodeLine{\Hypertarget{nav2z__client_2nav2z__client_2src_2nav2z__client_2components_2odom__tracker_2cp__odom__tracker_8cpp_source_l00384}00384\ \ \ \}}
+\DoxyCodeLine{\Hypertarget{nav2z__client_2nav2z__client_2src_2nav2z__client_2components_2odom__tracker_2cp__odom__tracker_8cpp_source_l00385}00385\ \ \ \textcolor{keywordflow}{else}}
+\DoxyCodeLine{\Hypertarget{nav2z__client_2nav2z__client_2src_2nav2z__client_2components_2odom__tracker_2cp__odom__tracker_8cpp_source_l00386}00386\ \ \ \{}
+\DoxyCodeLine{\Hypertarget{nav2z__client_2nav2z__client_2src_2nav2z__client_2components_2odom__tracker_2cp__odom__tracker_8cpp_source_l00387}00387\ \ \ \ \ baseTrajectory\_.poses.push\_back(posestamped);}
+\DoxyCodeLine{\Hypertarget{nav2z__client_2nav2z__client_2src_2nav2z__client_2components_2odom__tracker_2cp__odom__tracker_8cpp_source_l00388}00388\ \ \ \}}
+\DoxyCodeLine{\Hypertarget{nav2z__client_2nav2z__client_2src_2nav2z__client_2components_2odom__tracker_2cp__odom__tracker_8cpp_source_l00389}00389\ \ \ this-\/>updateAggregatedStackPath();}
+\DoxyCodeLine{\Hypertarget{nav2z__client_2nav2z__client_2src_2nav2z__client_2components_2odom__tracker_2cp__odom__tracker_8cpp_source_l00390}00390\ \}}
+\DoxyCodeLine{\Hypertarget{nav2z__client_2nav2z__client_2src_2nav2z__client_2components_2odom__tracker_2cp__odom__tracker_8cpp_source_l00391}00391\ }
+\DoxyCodeLine{\Hypertarget{nav2z__client_2nav2z__client_2src_2nav2z__client_2components_2odom__tracker_2cp__odom__tracker_8cpp_source_l00392}00392\ \textcolor{keywordtype}{void}\ CpOdomTracker::setCurrentMotionGoal(\textcolor{keyword}{const}\ geometry\_msgs::msg::PoseStamped\ \&\ pose)}
+\DoxyCodeLine{\Hypertarget{nav2z__client_2nav2z__client_2src_2nav2z__client_2components_2odom__tracker_2cp__odom__tracker_8cpp_source_l00393}00393\ \{}
+\DoxyCodeLine{\Hypertarget{nav2z__client_2nav2z__client_2src_2nav2z__client_2components_2odom__tracker_2cp__odom__tracker_8cpp_source_l00394}00394\ \ \ std::lock\_guard<std::mutex>\ lock(m\_mutex\_);}
+\DoxyCodeLine{\Hypertarget{nav2z__client_2nav2z__client_2src_2nav2z__client_2components_2odom__tracker_2cp__odom__tracker_8cpp_source_l00395}00395\ \ \ this-\/>currentMotionGoal\_\ =\ pose;}
+\DoxyCodeLine{\Hypertarget{nav2z__client_2nav2z__client_2src_2nav2z__client_2components_2odom__tracker_2cp__odom__tracker_8cpp_source_l00396}00396\ \}}
+\DoxyCodeLine{\Hypertarget{nav2z__client_2nav2z__client_2src_2nav2z__client_2components_2odom__tracker_2cp__odom__tracker_8cpp_source_l00397}00397\ }
+\DoxyCodeLine{\Hypertarget{nav2z__client_2nav2z__client_2src_2nav2z__client_2components_2odom__tracker_2cp__odom__tracker_8cpp_source_l00398}00398\ std::optional<geometry\_msgs::msg::PoseStamped>\ CpOdomTracker::getCurrentMotionGoal()}
+\DoxyCodeLine{\Hypertarget{nav2z__client_2nav2z__client_2src_2nav2z__client_2components_2odom__tracker_2cp__odom__tracker_8cpp_source_l00399}00399\ \{}
+\DoxyCodeLine{\Hypertarget{nav2z__client_2nav2z__client_2src_2nav2z__client_2components_2odom__tracker_2cp__odom__tracker_8cpp_source_l00400}00400\ \ \ std::lock\_guard<std::mutex>\ lock(m\_mutex\_);}
+\DoxyCodeLine{\Hypertarget{nav2z__client_2nav2z__client_2src_2nav2z__client_2components_2odom__tracker_2cp__odom__tracker_8cpp_source_l00401}00401\ \ \ \textcolor{keywordflow}{return}\ this-\/>currentMotionGoal\_;}
+\DoxyCodeLine{\Hypertarget{nav2z__client_2nav2z__client_2src_2nav2z__client_2components_2odom__tracker_2cp__odom__tracker_8cpp_source_l00402}00402\ \}}
+\DoxyCodeLine{\Hypertarget{nav2z__client_2nav2z__client_2src_2nav2z__client_2components_2odom__tracker_2cp__odom__tracker_8cpp_source_l00403}00403\ }
+\DoxyCodeLine{\Hypertarget{nav2z__client_2nav2z__client_2src_2nav2z__client_2components_2odom__tracker_2cp__odom__tracker_8cpp_source_l00404}00404\ nav\_msgs::msg::Path\ CpOdomTracker::getPath()}
+\DoxyCodeLine{\Hypertarget{nav2z__client_2nav2z__client_2src_2nav2z__client_2components_2odom__tracker_2cp__odom__tracker_8cpp_source_l00405}00405\ \{}
+\DoxyCodeLine{\Hypertarget{nav2z__client_2nav2z__client_2src_2nav2z__client_2components_2odom__tracker_2cp__odom__tracker_8cpp_source_l00406}00406\ \ \ std::lock\_guard<std::mutex>\ lock(m\_mutex\_);}
+\DoxyCodeLine{\Hypertarget{nav2z__client_2nav2z__client_2src_2nav2z__client_2components_2odom__tracker_2cp__odom__tracker_8cpp_source_l00407}00407\ \ \ \textcolor{keywordflow}{return}\ this-\/>baseTrajectory\_;}
+\DoxyCodeLine{\Hypertarget{nav2z__client_2nav2z__client_2src_2nav2z__client_2components_2odom__tracker_2cp__odom__tracker_8cpp_source_l00408}00408\ \}}
+\DoxyCodeLine{\Hypertarget{nav2z__client_2nav2z__client_2src_2nav2z__client_2components_2odom__tracker_2cp__odom__tracker_8cpp_source_l00409}00409\ }
+\DoxyCodeLine{\Hypertarget{nav2z__client_2nav2z__client_2src_2nav2z__client_2components_2odom__tracker_2cp__odom__tracker_8cpp_source_l00415}00415\ \textcolor{keywordtype}{void}\ CpOdomTracker::rtPublishPaths(rclcpp::Time\ timestamp)}
+\DoxyCodeLine{\Hypertarget{nav2z__client_2nav2z__client_2src_2nav2z__client_2components_2odom__tracker_2cp__odom__tracker_8cpp_source_l00416}00416\ \{}
+\DoxyCodeLine{\Hypertarget{nav2z__client_2nav2z__client_2src_2nav2z__client_2components_2odom__tracker_2cp__odom__tracker_8cpp_source_l00417}00417\ \ \ baseTrajectory\_.header.stamp\ =\ timestamp;}
+\DoxyCodeLine{\Hypertarget{nav2z__client_2nav2z__client_2src_2nav2z__client_2components_2odom__tracker_2cp__odom__tracker_8cpp_source_l00418}00418\ \ \ robotBasePathPub\_-\/>publish(baseTrajectory\_);}
+\DoxyCodeLine{\Hypertarget{nav2z__client_2nav2z__client_2src_2nav2z__client_2components_2odom__tracker_2cp__odom__tracker_8cpp_source_l00419}00419\ }
+\DoxyCodeLine{\Hypertarget{nav2z__client_2nav2z__client_2src_2nav2z__client_2components_2odom__tracker_2cp__odom__tracker_8cpp_source_l00420}00420\ \ \ aggregatedStackPathMsg\_.header.stamp\ =\ timestamp;}
+\DoxyCodeLine{\Hypertarget{nav2z__client_2nav2z__client_2src_2nav2z__client_2components_2odom__tracker_2cp__odom__tracker_8cpp_source_l00421}00421\ \ \ robotBasePathStackedPub\_-\/>publish(aggregatedStackPathMsg\_);}
+\DoxyCodeLine{\Hypertarget{nav2z__client_2nav2z__client_2src_2nav2z__client_2components_2odom__tracker_2cp__odom__tracker_8cpp_source_l00422}00422\ \}}
+\DoxyCodeLine{\Hypertarget{nav2z__client_2nav2z__client_2src_2nav2z__client_2components_2odom__tracker_2cp__odom__tracker_8cpp_source_l00423}00423\ }
+\DoxyCodeLine{\Hypertarget{nav2z__client_2nav2z__client_2src_2nav2z__client_2components_2odom__tracker_2cp__odom__tracker_8cpp_source_l00424}00424\ \textcolor{keywordtype}{void}\ CpOdomTracker::updateAggregatedStackPath()}
+\DoxyCodeLine{\Hypertarget{nav2z__client_2nav2z__client_2src_2nav2z__client_2components_2odom__tracker_2cp__odom__tracker_8cpp_source_l00425}00425\ \{}
+\DoxyCodeLine{\Hypertarget{nav2z__client_2nav2z__client_2src_2nav2z__client_2components_2odom__tracker_2cp__odom__tracker_8cpp_source_l00426}00426\ \ \ aggregatedStackPathMsg\_.poses.clear();}
+\DoxyCodeLine{\Hypertarget{nav2z__client_2nav2z__client_2src_2nav2z__client_2components_2odom__tracker_2cp__odom__tracker_8cpp_source_l00427}00427\ \ \ \textcolor{keywordflow}{for}\ (\textcolor{keyword}{auto}\ \&\ p\ :\ pathStack\_)}
+\DoxyCodeLine{\Hypertarget{nav2z__client_2nav2z__client_2src_2nav2z__client_2components_2odom__tracker_2cp__odom__tracker_8cpp_source_l00428}00428\ \ \ \{}
+\DoxyCodeLine{\Hypertarget{nav2z__client_2nav2z__client_2src_2nav2z__client_2components_2odom__tracker_2cp__odom__tracker_8cpp_source_l00429}00429\ \ \ \ \ aggregatedStackPathMsg\_.poses.insert(}
+\DoxyCodeLine{\Hypertarget{nav2z__client_2nav2z__client_2src_2nav2z__client_2components_2odom__tracker_2cp__odom__tracker_8cpp_source_l00430}00430\ \ \ \ \ \ \ aggregatedStackPathMsg\_.poses.end(),\ p.poses.begin(),\ p.poses.end());}
+\DoxyCodeLine{\Hypertarget{nav2z__client_2nav2z__client_2src_2nav2z__client_2components_2odom__tracker_2cp__odom__tracker_8cpp_source_l00431}00431\ \ \ \}}
+\DoxyCodeLine{\Hypertarget{nav2z__client_2nav2z__client_2src_2nav2z__client_2components_2odom__tracker_2cp__odom__tracker_8cpp_source_l00432}00432\ }
+\DoxyCodeLine{\Hypertarget{nav2z__client_2nav2z__client_2src_2nav2z__client_2components_2odom__tracker_2cp__odom__tracker_8cpp_source_l00433}00433\ \ \ aggregatedStackPathMsg\_.header.frame\_id\ =\ this-\/>odomFrame\_;}
+\DoxyCodeLine{\Hypertarget{nav2z__client_2nav2z__client_2src_2nav2z__client_2components_2odom__tracker_2cp__odom__tracker_8cpp_source_l00434}00434\ \}}
+\DoxyCodeLine{\Hypertarget{nav2z__client_2nav2z__client_2src_2nav2z__client_2components_2odom__tracker_2cp__odom__tracker_8cpp_source_l00435}00435\ }
+\DoxyCodeLine{\Hypertarget{nav2z__client_2nav2z__client_2src_2nav2z__client_2components_2odom__tracker_2cp__odom__tracker_8cpp_source_l00441}00441\ \textcolor{keywordtype}{bool}\ CpOdomTracker::updateClearPath(\textcolor{keyword}{const}\ geometry\_msgs::msg::PoseStamped\ \&\ base\_pose)}
+\DoxyCodeLine{\Hypertarget{nav2z__client_2nav2z__client_2src_2nav2z__client_2components_2odom__tracker_2cp__odom__tracker_8cpp_source_l00442}00442\ \{}
+\DoxyCodeLine{\Hypertarget{nav2z__client_2nav2z__client_2src_2nav2z__client_2components_2odom__tracker_2cp__odom__tracker_8cpp_source_l00443}00443\ \ \ \textcolor{comment}{//\ we\ initially\ accept\ any\ message\ if\ the\ queue\ is\ empty}}
+\DoxyCodeLine{\Hypertarget{nav2z__client_2nav2z__client_2src_2nav2z__client_2components_2odom__tracker_2cp__odom__tracker_8cpp_source_l00445}00445\ \ \ baseTrajectory\_.header\ =\ base\_pose.header;}
+\DoxyCodeLine{\Hypertarget{nav2z__client_2nav2z__client_2src_2nav2z__client_2components_2odom__tracker_2cp__odom__tracker_8cpp_source_l00446}00446\ }
+\DoxyCodeLine{\Hypertarget{nav2z__client_2nav2z__client_2src_2nav2z__client_2components_2odom__tracker_2cp__odom__tracker_8cpp_source_l00447}00447\ \ \ \textcolor{keywordtype}{bool}\ acceptBackward\ =\ \textcolor{keyword}{false};}
+\DoxyCodeLine{\Hypertarget{nav2z__client_2nav2z__client_2src_2nav2z__client_2components_2odom__tracker_2cp__odom__tracker_8cpp_source_l00448}00448\ \ \ \textcolor{keywordtype}{bool}\ clearingError\ =\ \textcolor{keyword}{false};}
+\DoxyCodeLine{\Hypertarget{nav2z__client_2nav2z__client_2src_2nav2z__client_2components_2odom__tracker_2cp__odom__tracker_8cpp_source_l00449}00449\ \ \ \textcolor{keywordtype}{bool}\ finished\ =\ \textcolor{keyword}{false};}
+\DoxyCodeLine{\Hypertarget{nav2z__client_2nav2z__client_2src_2nav2z__client_2components_2odom__tracker_2cp__odom__tracker_8cpp_source_l00450}00450\ }
+\DoxyCodeLine{\Hypertarget{nav2z__client_2nav2z__client_2src_2nav2z__client_2components_2odom__tracker_2cp__odom__tracker_8cpp_source_l00451}00451\ \ \ \textcolor{keywordflow}{while}\ (!finished)}
+\DoxyCodeLine{\Hypertarget{nav2z__client_2nav2z__client_2src_2nav2z__client_2components_2odom__tracker_2cp__odom__tracker_8cpp_source_l00452}00452\ \ \ \{}
+\DoxyCodeLine{\Hypertarget{nav2z__client_2nav2z__client_2src_2nav2z__client_2components_2odom__tracker_2cp__odom__tracker_8cpp_source_l00453}00453\ \ \ \ \ \textcolor{keywordflow}{if}\ (}
+\DoxyCodeLine{\Hypertarget{nav2z__client_2nav2z__client_2src_2nav2z__client_2components_2odom__tracker_2cp__odom__tracker_8cpp_source_l00454}00454\ \ \ \ \ \ \ baseTrajectory\_.poses.size()\ <=}
+\DoxyCodeLine{\Hypertarget{nav2z__client_2nav2z__client_2src_2nav2z__client_2components_2odom__tracker_2cp__odom__tracker_8cpp_source_l00455}00455\ \ \ \ \ \ \ 1)\ \ \textcolor{comment}{//\ we\ at\ least\ keep\ always\ the\ first\ point\ of\ the\ forward\ path\ when\ clearing}}
+\DoxyCodeLine{\Hypertarget{nav2z__client_2nav2z__client_2src_2nav2z__client_2components_2odom__tracker_2cp__odom__tracker_8cpp_source_l00456}00456\ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ (this\ is\ important\ for\ backwards\ planner\ replanning\ and\ not\ losing\ the}}
+\DoxyCodeLine{\Hypertarget{nav2z__client_2nav2z__client_2src_2nav2z__client_2components_2odom__tracker_2cp__odom__tracker_8cpp_source_l00457}00457\ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ last\ goal)}}
+\DoxyCodeLine{\Hypertarget{nav2z__client_2nav2z__client_2src_2nav2z__client_2components_2odom__tracker_2cp__odom__tracker_8cpp_source_l00458}00458\ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{nav2z__client_2nav2z__client_2src_2nav2z__client_2components_2odom__tracker_2cp__odom__tracker_8cpp_source_l00459}00459\ \ \ \ \ \ \ acceptBackward\ =\ \textcolor{keyword}{false};}
+\DoxyCodeLine{\Hypertarget{nav2z__client_2nav2z__client_2src_2nav2z__client_2components_2odom__tracker_2cp__odom__tracker_8cpp_source_l00460}00460\ \ \ \ \ \ \ finished\ =\ \textcolor{keyword}{true};}
+\DoxyCodeLine{\Hypertarget{nav2z__client_2nav2z__client_2src_2nav2z__client_2components_2odom__tracker_2cp__odom__tracker_8cpp_source_l00461}00461\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{nav2z__client_2nav2z__client_2src_2nav2z__client_2components_2odom__tracker_2cp__odom__tracker_8cpp_source_l00462}00462\ \ \ \ \ \textcolor{keywordflow}{else}}
+\DoxyCodeLine{\Hypertarget{nav2z__client_2nav2z__client_2src_2nav2z__client_2components_2odom__tracker_2cp__odom__tracker_8cpp_source_l00463}00463\ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{nav2z__client_2nav2z__client_2src_2nav2z__client_2components_2odom__tracker_2cp__odom__tracker_8cpp_source_l00464}00464\ \ \ \ \ \ \ \textcolor{keyword}{auto}\ \&\ carrotPose\ =\ baseTrajectory\_.poses.back().pose;}
+\DoxyCodeLine{\Hypertarget{nav2z__client_2nav2z__client_2src_2nav2z__client_2components_2odom__tracker_2cp__odom__tracker_8cpp_source_l00465}00465\ \ \ \ \ \ \ \textcolor{keyword}{auto}\ \&\ carrotPoint\ =\ carrotPose.position;}
+\DoxyCodeLine{\Hypertarget{nav2z__client_2nav2z__client_2src_2nav2z__client_2components_2odom__tracker_2cp__odom__tracker_8cpp_source_l00466}00466\ }
+\DoxyCodeLine{\Hypertarget{nav2z__client_2nav2z__client_2src_2nav2z__client_2components_2odom__tracker_2cp__odom__tracker_8cpp_source_l00467}00467\ \ \ \ \ \ \ \textcolor{keywordtype}{double}\ carrotAngle\ =\ tf2::getYaw(carrotPose.orientation);}
+\DoxyCodeLine{\Hypertarget{nav2z__client_2nav2z__client_2src_2nav2z__client_2components_2odom__tracker_2cp__odom__tracker_8cpp_source_l00468}00468\ }
+\DoxyCodeLine{\Hypertarget{nav2z__client_2nav2z__client_2src_2nav2z__client_2components_2odom__tracker_2cp__odom__tracker_8cpp_source_l00469}00469\ \ \ \ \ \ \ \textcolor{keyword}{auto}\ \&\ currePose\ =\ base\_pose.pose;}
+\DoxyCodeLine{\Hypertarget{nav2z__client_2nav2z__client_2src_2nav2z__client_2components_2odom__tracker_2cp__odom__tracker_8cpp_source_l00470}00470\ \ \ \ \ \ \ \textcolor{keyword}{auto}\ \&\ currePoint\ =\ currePose.position;}
+\DoxyCodeLine{\Hypertarget{nav2z__client_2nav2z__client_2src_2nav2z__client_2components_2odom__tracker_2cp__odom__tracker_8cpp_source_l00471}00471\ \ \ \ \ \ \ \textcolor{keywordtype}{double}\ currentAngle\ =\ tf2::getYaw(currePose.orientation);}
+\DoxyCodeLine{\Hypertarget{nav2z__client_2nav2z__client_2src_2nav2z__client_2components_2odom__tracker_2cp__odom__tracker_8cpp_source_l00472}00472\ }
+\DoxyCodeLine{\Hypertarget{nav2z__client_2nav2z__client_2src_2nav2z__client_2components_2odom__tracker_2cp__odom__tracker_8cpp_source_l00473}00473\ \ \ \ \ \ \ \textcolor{keywordtype}{double}\ lastpointdist\ =\ \mbox{\hyperlink{namespacecl__nav2z_1_1odom__tracker_a8bdc84699df1a8bf314d2667fe8dcfe7}{p2pDistance}}(carrotPoint,\ currePoint);}
+\DoxyCodeLine{\Hypertarget{nav2z__client_2nav2z__client_2src_2nav2z__client_2components_2odom__tracker_2cp__odom__tracker_8cpp_source_l00474}00474\ \ \ \ \ \ \ \textcolor{keywordtype}{double}\ goalAngleOffset\ =\ fabs(angles::shortest\_angular\_distance(carrotAngle,\ currentAngle));}
+\DoxyCodeLine{\Hypertarget{nav2z__client_2nav2z__client_2src_2nav2z__client_2components_2odom__tracker_2cp__odom__tracker_8cpp_source_l00475}00475\ }
+\DoxyCodeLine{\Hypertarget{nav2z__client_2nav2z__client_2src_2nav2z__client_2components_2odom__tracker_2cp__odom__tracker_8cpp_source_l00476}00476\ \ \ \ \ \ \ acceptBackward\ =\ !baseTrajectory\_.poses.empty()\ \&\&}
+\DoxyCodeLine{\Hypertarget{nav2z__client_2nav2z__client_2src_2nav2z__client_2components_2odom__tracker_2cp__odom__tracker_8cpp_source_l00477}00477\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ lastpointdist\ <\ clearPointDistanceThreshold\_\ \&\&}
+\DoxyCodeLine{\Hypertarget{nav2z__client_2nav2z__client_2src_2nav2z__client_2components_2odom__tracker_2cp__odom__tracker_8cpp_source_l00478}00478\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ goalAngleOffset\ <\ clearAngularDistanceThreshold\_;}
+\DoxyCodeLine{\Hypertarget{nav2z__client_2nav2z__client_2src_2nav2z__client_2components_2odom__tracker_2cp__odom__tracker_8cpp_source_l00479}00479\ }
+\DoxyCodeLine{\Hypertarget{nav2z__client_2nav2z__client_2src_2nav2z__client_2components_2odom__tracker_2cp__odom__tracker_8cpp_source_l00480}00480\ \ \ \ \ \ \ clearingError\ =\ lastpointdist\ >\ 2\ *\ clearPointDistanceThreshold\_;}
+\DoxyCodeLine{\Hypertarget{nav2z__client_2nav2z__client_2src_2nav2z__client_2components_2odom__tracker_2cp__odom__tracker_8cpp_source_l00481}00481\ \ \ \ \ \ \ RCLCPP\_DEBUG\_STREAM(}
+\DoxyCodeLine{\Hypertarget{nav2z__client_2nav2z__client_2src_2nav2z__client_2components_2odom__tracker_2cp__odom__tracker_8cpp_source_l00482}00482\ \ \ \ \ \ \ \ \ getLogger(),\ \textcolor{stringliteral}{"{}[CpOdomTracker]\ clearing\ (accepted:\ "{}}\ <<\ acceptBackward}
+\DoxyCodeLine{\Hypertarget{nav2z__client_2nav2z__client_2src_2nav2z__client_2components_2odom__tracker_2cp__odom__tracker_8cpp_source_l00483}00483\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ <<\ \textcolor{stringliteral}{"{})\ linerr:\ "{}}\ <<\ lastpointdist}
+\DoxyCodeLine{\Hypertarget{nav2z__client_2nav2z__client_2src_2nav2z__client_2components_2odom__tracker_2cp__odom__tracker_8cpp_source_l00484}00484\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ <<\ \textcolor{stringliteral}{"{},\ anglerr:\ "{}}\ <<\ goalAngleOffset);}
+\DoxyCodeLine{\Hypertarget{nav2z__client_2nav2z__client_2src_2nav2z__client_2components_2odom__tracker_2cp__odom__tracker_8cpp_source_l00485}00485\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{nav2z__client_2nav2z__client_2src_2nav2z__client_2components_2odom__tracker_2cp__odom__tracker_8cpp_source_l00486}00486\ }
+\DoxyCodeLine{\Hypertarget{nav2z__client_2nav2z__client_2src_2nav2z__client_2components_2odom__tracker_2cp__odom__tracker_8cpp_source_l00487}00487\ \ \ \ \ \textcolor{comment}{//\ RCLCPP\_INFO(getLogger(),"{}Backwards,\ last\ distance:\ \%lf\ <\ \%lf\ accept:\ \%d"{},\ dist,}}
+\DoxyCodeLine{\Hypertarget{nav2z__client_2nav2z__client_2src_2nav2z__client_2components_2odom__tracker_2cp__odom__tracker_8cpp_source_l00488}00488\ \ \ \ \ \textcolor{comment}{//\ minPointDistanceBackwardThresh\_,\ acceptBackward);}}
+\DoxyCodeLine{\Hypertarget{nav2z__client_2nav2z__client_2src_2nav2z__client_2components_2odom__tracker_2cp__odom__tracker_8cpp_source_l00489}00489\ \ \ \ \ \textcolor{keywordflow}{if}\ (}
+\DoxyCodeLine{\Hypertarget{nav2z__client_2nav2z__client_2src_2nav2z__client_2components_2odom__tracker_2cp__odom__tracker_8cpp_source_l00490}00490\ \ \ \ \ \ \ acceptBackward\ \&\&}
+\DoxyCodeLine{\Hypertarget{nav2z__client_2nav2z__client_2src_2nav2z__client_2components_2odom__tracker_2cp__odom__tracker_8cpp_source_l00491}00491\ \ \ \ \ \ \ baseTrajectory\_.poses.size()\ >\ 1)\ \textcolor{comment}{/*\ we\ always\ leave\ at\ least\ one\ item,\ specially\ interesting}}
+\DoxyCodeLine{\Hypertarget{nav2z__client_2nav2z__client_2src_2nav2z__client_2components_2odom__tracker_2cp__odom__tracker_8cpp_source_l00492}00492\ \textcolor{comment}{\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ for\ the\ backward\ local\ planner\ reach}}
+\DoxyCodeLine{\Hypertarget{nav2z__client_2nav2z__client_2src_2nav2z__client_2components_2odom__tracker_2cp__odom__tracker_8cpp_source_l00493}00493\ \textcolor{comment}{\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ the\ backwards\ goal\ with\ enough\ precision*/}}
+\DoxyCodeLine{\Hypertarget{nav2z__client_2nav2z__client_2src_2nav2z__client_2components_2odom__tracker_2cp__odom__tracker_8cpp_source_l00494}00494\ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{nav2z__client_2nav2z__client_2src_2nav2z__client_2components_2odom__tracker_2cp__odom__tracker_8cpp_source_l00495}00495\ \ \ \ \ \ \ baseTrajectory\_.poses.pop\_back();}
+\DoxyCodeLine{\Hypertarget{nav2z__client_2nav2z__client_2src_2nav2z__client_2components_2odom__tracker_2cp__odom__tracker_8cpp_source_l00496}00496\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{nav2z__client_2nav2z__client_2src_2nav2z__client_2components_2odom__tracker_2cp__odom__tracker_8cpp_source_l00497}00497\ \ \ \ \ \textcolor{keywordflow}{else}\ \textcolor{keywordflow}{if}\ (clearingError)}
+\DoxyCodeLine{\Hypertarget{nav2z__client_2nav2z__client_2src_2nav2z__client_2components_2odom__tracker_2cp__odom__tracker_8cpp_source_l00498}00498\ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{nav2z__client_2nav2z__client_2src_2nav2z__client_2components_2odom__tracker_2cp__odom__tracker_8cpp_source_l00499}00499\ \ \ \ \ \ \ finished\ =\ \textcolor{keyword}{true};}
+\DoxyCodeLine{\Hypertarget{nav2z__client_2nav2z__client_2src_2nav2z__client_2components_2odom__tracker_2cp__odom__tracker_8cpp_source_l00500}00500\ \ \ \ \ \ \ RCLCPP\_WARN(getLogger(),\ \textcolor{stringliteral}{"{}[CpOdomTracker]\ Incorrect\ odom\ clearing\ motion."{}});}
+\DoxyCodeLine{\Hypertarget{nav2z__client_2nav2z__client_2src_2nav2z__client_2components_2odom__tracker_2cp__odom__tracker_8cpp_source_l00501}00501\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{nav2z__client_2nav2z__client_2src_2nav2z__client_2components_2odom__tracker_2cp__odom__tracker_8cpp_source_l00502}00502\ \ \ \ \ \textcolor{keywordflow}{else}}
+\DoxyCodeLine{\Hypertarget{nav2z__client_2nav2z__client_2src_2nav2z__client_2components_2odom__tracker_2cp__odom__tracker_8cpp_source_l00503}00503\ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{nav2z__client_2nav2z__client_2src_2nav2z__client_2components_2odom__tracker_2cp__odom__tracker_8cpp_source_l00504}00504\ \ \ \ \ \ \ finished\ =\ \textcolor{keyword}{true};}
+\DoxyCodeLine{\Hypertarget{nav2z__client_2nav2z__client_2src_2nav2z__client_2components_2odom__tracker_2cp__odom__tracker_8cpp_source_l00506}00506\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{nav2z__client_2nav2z__client_2src_2nav2z__client_2components_2odom__tracker_2cp__odom__tracker_8cpp_source_l00507}00507\ \ \ \}}
+\DoxyCodeLine{\Hypertarget{nav2z__client_2nav2z__client_2src_2nav2z__client_2components_2odom__tracker_2cp__odom__tracker_8cpp_source_l00508}00508\ }
+\DoxyCodeLine{\Hypertarget{nav2z__client_2nav2z__client_2src_2nav2z__client_2components_2odom__tracker_2cp__odom__tracker_8cpp_source_l00509}00509\ \ \ \textcolor{keywordflow}{return}\ acceptBackward;}
+\DoxyCodeLine{\Hypertarget{nav2z__client_2nav2z__client_2src_2nav2z__client_2components_2odom__tracker_2cp__odom__tracker_8cpp_source_l00510}00510\ \}}
+\DoxyCodeLine{\Hypertarget{nav2z__client_2nav2z__client_2src_2nav2z__client_2components_2odom__tracker_2cp__odom__tracker_8cpp_source_l00511}00511\ }
+\DoxyCodeLine{\Hypertarget{nav2z__client_2nav2z__client_2src_2nav2z__client_2components_2odom__tracker_2cp__odom__tracker_8cpp_source_l00517}00517\ \textcolor{keywordtype}{bool}\ CpOdomTracker::updateRecordPath(\textcolor{keyword}{const}\ geometry\_msgs::msg::PoseStamped\ \&\ base\_pose)}
+\DoxyCodeLine{\Hypertarget{nav2z__client_2nav2z__client_2src_2nav2z__client_2components_2odom__tracker_2cp__odom__tracker_8cpp_source_l00518}00518\ \{}
+\DoxyCodeLine{\Hypertarget{nav2z__client_2nav2z__client_2src_2nav2z__client_2components_2odom__tracker_2cp__odom__tracker_8cpp_source_l00520}00520\ \ \ baseTrajectory\_.header\ =\ base\_pose.header;}
+\DoxyCodeLine{\Hypertarget{nav2z__client_2nav2z__client_2src_2nav2z__client_2components_2odom__tracker_2cp__odom__tracker_8cpp_source_l00521}00521\ }
+\DoxyCodeLine{\Hypertarget{nav2z__client_2nav2z__client_2src_2nav2z__client_2components_2odom__tracker_2cp__odom__tracker_8cpp_source_l00522}00522\ \ \ \textcolor{keywordtype}{bool}\ enqueueOdomMessage\ =\ \textcolor{keyword}{false};}
+\DoxyCodeLine{\Hypertarget{nav2z__client_2nav2z__client_2src_2nav2z__client_2components_2odom__tracker_2cp__odom__tracker_8cpp_source_l00523}00523\ }
+\DoxyCodeLine{\Hypertarget{nav2z__client_2nav2z__client_2src_2nav2z__client_2components_2odom__tracker_2cp__odom__tracker_8cpp_source_l00524}00524\ \ \ \textcolor{keywordtype}{double}\ dist\ =\ -\/1;}
+\DoxyCodeLine{\Hypertarget{nav2z__client_2nav2z__client_2src_2nav2z__client_2components_2odom__tracker_2cp__odom__tracker_8cpp_source_l00525}00525\ \ \ \textcolor{keywordflow}{if}\ (baseTrajectory\_.poses.empty())}
+\DoxyCodeLine{\Hypertarget{nav2z__client_2nav2z__client_2src_2nav2z__client_2components_2odom__tracker_2cp__odom__tracker_8cpp_source_l00526}00526\ \ \ \{}
+\DoxyCodeLine{\Hypertarget{nav2z__client_2nav2z__client_2src_2nav2z__client_2components_2odom__tracker_2cp__odom__tracker_8cpp_source_l00527}00527\ \ \ \ \ enqueueOdomMessage\ =\ \textcolor{keyword}{true};}
+\DoxyCodeLine{\Hypertarget{nav2z__client_2nav2z__client_2src_2nav2z__client_2components_2odom__tracker_2cp__odom__tracker_8cpp_source_l00528}00528\ \ \ \}}
+\DoxyCodeLine{\Hypertarget{nav2z__client_2nav2z__client_2src_2nav2z__client_2components_2odom__tracker_2cp__odom__tracker_8cpp_source_l00529}00529\ \ \ \textcolor{keywordflow}{else}}
+\DoxyCodeLine{\Hypertarget{nav2z__client_2nav2z__client_2src_2nav2z__client_2components_2odom__tracker_2cp__odom__tracker_8cpp_source_l00530}00530\ \ \ \{}
+\DoxyCodeLine{\Hypertarget{nav2z__client_2nav2z__client_2src_2nav2z__client_2components_2odom__tracker_2cp__odom__tracker_8cpp_source_l00531}00531\ \ \ \ \ \textcolor{keyword}{const}\ \textcolor{keyword}{auto}\ \&\ prevPose\ =\ baseTrajectory\_.poses.back().pose;}
+\DoxyCodeLine{\Hypertarget{nav2z__client_2nav2z__client_2src_2nav2z__client_2components_2odom__tracker_2cp__odom__tracker_8cpp_source_l00532}00532\ \ \ \ \ \textcolor{keyword}{const}\ geometry\_msgs::msg::Point\ \&\ prevPoint\ =\ prevPose.position;}
+\DoxyCodeLine{\Hypertarget{nav2z__client_2nav2z__client_2src_2nav2z__client_2components_2odom__tracker_2cp__odom__tracker_8cpp_source_l00533}00533\ \ \ \ \ \textcolor{keywordtype}{double}\ prevAngle\ =\ tf2::getYaw(prevPose.orientation);}
+\DoxyCodeLine{\Hypertarget{nav2z__client_2nav2z__client_2src_2nav2z__client_2components_2odom__tracker_2cp__odom__tracker_8cpp_source_l00534}00534\ }
+\DoxyCodeLine{\Hypertarget{nav2z__client_2nav2z__client_2src_2nav2z__client_2components_2odom__tracker_2cp__odom__tracker_8cpp_source_l00535}00535\ \ \ \ \ \textcolor{keyword}{const}\ geometry\_msgs::msg::Point\ \&\ currePoint\ =\ base\_pose.pose.position;}
+\DoxyCodeLine{\Hypertarget{nav2z__client_2nav2z__client_2src_2nav2z__client_2components_2odom__tracker_2cp__odom__tracker_8cpp_source_l00536}00536\ \ \ \ \ \textcolor{keywordtype}{double}\ currentAngle\ =\ tf2::getYaw(base\_pose.pose.orientation);}
+\DoxyCodeLine{\Hypertarget{nav2z__client_2nav2z__client_2src_2nav2z__client_2components_2odom__tracker_2cp__odom__tracker_8cpp_source_l00537}00537\ }
+\DoxyCodeLine{\Hypertarget{nav2z__client_2nav2z__client_2src_2nav2z__client_2components_2odom__tracker_2cp__odom__tracker_8cpp_source_l00538}00538\ \ \ \ \ dist\ =\ \mbox{\hyperlink{namespacecl__nav2z_1_1odom__tracker_a8bdc84699df1a8bf314d2667fe8dcfe7}{p2pDistance}}(prevPoint,\ currePoint);}
+\DoxyCodeLine{\Hypertarget{nav2z__client_2nav2z__client_2src_2nav2z__client_2components_2odom__tracker_2cp__odom__tracker_8cpp_source_l00539}00539\ \ \ \ \ \textcolor{keywordtype}{double}\ goalAngleOffset\ =\ fabs(angles::shortest\_angular\_distance(prevAngle,\ currentAngle));}
+\DoxyCodeLine{\Hypertarget{nav2z__client_2nav2z__client_2src_2nav2z__client_2components_2odom__tracker_2cp__odom__tracker_8cpp_source_l00540}00540\ }
+\DoxyCodeLine{\Hypertarget{nav2z__client_2nav2z__client_2src_2nav2z__client_2components_2odom__tracker_2cp__odom__tracker_8cpp_source_l00541}00541\ \ \ \ \ \textcolor{comment}{//\ RCLCPP\_WARN(getLogger(),"{}dist\ \%lf\ vs\ min\ \%lf"{},\ dist,\ recordPointDistanceThreshold\_);}}
+\DoxyCodeLine{\Hypertarget{nav2z__client_2nav2z__client_2src_2nav2z__client_2components_2odom__tracker_2cp__odom__tracker_8cpp_source_l00542}00542\ }
+\DoxyCodeLine{\Hypertarget{nav2z__client_2nav2z__client_2src_2nav2z__client_2components_2odom__tracker_2cp__odom__tracker_8cpp_source_l00543}00543\ \ \ \ \ RCLCPP\_WARN\_THROTTLE(getLogger(),\ *getNode()-\/>get\_clock(),\ 2000,\ \textcolor{stringliteral}{"{}odom\ received"{}});}
+\DoxyCodeLine{\Hypertarget{nav2z__client_2nav2z__client_2src_2nav2z__client_2components_2odom__tracker_2cp__odom__tracker_8cpp_source_l00544}00544\ }
+\DoxyCodeLine{\Hypertarget{nav2z__client_2nav2z__client_2src_2nav2z__client_2components_2odom__tracker_2cp__odom__tracker_8cpp_source_l00545}00545\ \ \ \ \ \textcolor{keywordflow}{if}\ (dist\ >\ recordPointDistanceThreshold\_\ ||\ goalAngleOffset\ >\ recordAngularDistanceThreshold\_)}
+\DoxyCodeLine{\Hypertarget{nav2z__client_2nav2z__client_2src_2nav2z__client_2components_2odom__tracker_2cp__odom__tracker_8cpp_source_l00546}00546\ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{nav2z__client_2nav2z__client_2src_2nav2z__client_2components_2odom__tracker_2cp__odom__tracker_8cpp_source_l00547}00547\ \ \ \ \ \ \ enqueueOdomMessage\ =\ \textcolor{keyword}{true};}
+\DoxyCodeLine{\Hypertarget{nav2z__client_2nav2z__client_2src_2nav2z__client_2components_2odom__tracker_2cp__odom__tracker_8cpp_source_l00548}00548\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{nav2z__client_2nav2z__client_2src_2nav2z__client_2components_2odom__tracker_2cp__odom__tracker_8cpp_source_l00549}00549\ \ \ \ \ \textcolor{keywordflow}{else}}
+\DoxyCodeLine{\Hypertarget{nav2z__client_2nav2z__client_2src_2nav2z__client_2components_2odom__tracker_2cp__odom__tracker_8cpp_source_l00550}00550\ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{nav2z__client_2nav2z__client_2src_2nav2z__client_2components_2odom__tracker_2cp__odom__tracker_8cpp_source_l00551}00551\ \ \ \ \ \ \ \textcolor{comment}{//\ RCLCPP\_WARN(getLogger(),"{}skip\ odom,\ dist:\ \%lf"{},\ dist);}}
+\DoxyCodeLine{\Hypertarget{nav2z__client_2nav2z__client_2src_2nav2z__client_2components_2odom__tracker_2cp__odom__tracker_8cpp_source_l00552}00552\ \ \ \ \ \ \ enqueueOdomMessage\ =\ \textcolor{keyword}{false};}
+\DoxyCodeLine{\Hypertarget{nav2z__client_2nav2z__client_2src_2nav2z__client_2components_2odom__tracker_2cp__odom__tracker_8cpp_source_l00553}00553\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{nav2z__client_2nav2z__client_2src_2nav2z__client_2components_2odom__tracker_2cp__odom__tracker_8cpp_source_l00554}00554\ \ \ \}}
+\DoxyCodeLine{\Hypertarget{nav2z__client_2nav2z__client_2src_2nav2z__client_2components_2odom__tracker_2cp__odom__tracker_8cpp_source_l00555}00555\ }
+\DoxyCodeLine{\Hypertarget{nav2z__client_2nav2z__client_2src_2nav2z__client_2components_2odom__tracker_2cp__odom__tracker_8cpp_source_l00556}00556\ \ \ \textcolor{keywordflow}{if}\ (enqueueOdomMessage)}
+\DoxyCodeLine{\Hypertarget{nav2z__client_2nav2z__client_2src_2nav2z__client_2components_2odom__tracker_2cp__odom__tracker_8cpp_source_l00557}00557\ \ \ \{}
+\DoxyCodeLine{\Hypertarget{nav2z__client_2nav2z__client_2src_2nav2z__client_2components_2odom__tracker_2cp__odom__tracker_8cpp_source_l00558}00558\ \ \ \ \ RCLCPP\_WARN\_THROTTLE(}
+\DoxyCodeLine{\Hypertarget{nav2z__client_2nav2z__client_2src_2nav2z__client_2components_2odom__tracker_2cp__odom__tracker_8cpp_source_l00559}00559\ \ \ \ \ \ \ getLogger(),\ *getNode()-\/>get\_clock(),\ 2000,\ \textcolor{stringliteral}{"{}enqueue\ odom\ tracker\ pose.\ dist\ \%lf\ vs\ min\ \%lf"{}},}
+\DoxyCodeLine{\Hypertarget{nav2z__client_2nav2z__client_2src_2nav2z__client_2components_2odom__tracker_2cp__odom__tracker_8cpp_source_l00560}00560\ \ \ \ \ \ \ dist,\ recordPointDistanceThreshold\_);}
+\DoxyCodeLine{\Hypertarget{nav2z__client_2nav2z__client_2src_2nav2z__client_2components_2odom__tracker_2cp__odom__tracker_8cpp_source_l00561}00561\ \ \ \ \ baseTrajectory\_.poses.push\_back(base\_pose);}
+\DoxyCodeLine{\Hypertarget{nav2z__client_2nav2z__client_2src_2nav2z__client_2components_2odom__tracker_2cp__odom__tracker_8cpp_source_l00562}00562\ \ \ \}}
+\DoxyCodeLine{\Hypertarget{nav2z__client_2nav2z__client_2src_2nav2z__client_2components_2odom__tracker_2cp__odom__tracker_8cpp_source_l00563}00563\ }
+\DoxyCodeLine{\Hypertarget{nav2z__client_2nav2z__client_2src_2nav2z__client_2components_2odom__tracker_2cp__odom__tracker_8cpp_source_l00564}00564\ \ \ \textcolor{keywordflow}{return}\ enqueueOdomMessage;}
+\DoxyCodeLine{\Hypertarget{nav2z__client_2nav2z__client_2src_2nav2z__client_2components_2odom__tracker_2cp__odom__tracker_8cpp_source_l00565}00565\ \}}
+\DoxyCodeLine{\Hypertarget{nav2z__client_2nav2z__client_2src_2nav2z__client_2components_2odom__tracker_2cp__odom__tracker_8cpp_source_l00566}00566\ }
+\DoxyCodeLine{\Hypertarget{nav2z__client_2nav2z__client_2src_2nav2z__client_2components_2odom__tracker_2cp__odom__tracker_8cpp_source_l00572}00572\ \textcolor{keywordtype}{void}\ CpOdomTracker::updateConfiguration()}
+\DoxyCodeLine{\Hypertarget{nav2z__client_2nav2z__client_2src_2nav2z__client_2components_2odom__tracker_2cp__odom__tracker_8cpp_source_l00573}00573\ \{}
+\DoxyCodeLine{\Hypertarget{nav2z__client_2nav2z__client_2src_2nav2z__client_2components_2odom__tracker_2cp__odom__tracker_8cpp_source_l00574}00574\ \ \ \textcolor{keywordflow}{return};}
+\DoxyCodeLine{\Hypertarget{nav2z__client_2nav2z__client_2src_2nav2z__client_2components_2odom__tracker_2cp__odom__tracker_8cpp_source_l00575}00575\ }
+\DoxyCodeLine{\Hypertarget{nav2z__client_2nav2z__client_2src_2nav2z__client_2components_2odom__tracker_2cp__odom__tracker_8cpp_source_l00576}00576\ \ \ \textcolor{keywordflow}{if}\ (!getNode()-\/>get\_parameter(\textcolor{stringliteral}{"{}odom\_frame"{}},\ this-\/>odomFrame\_))}
+\DoxyCodeLine{\Hypertarget{nav2z__client_2nav2z__client_2src_2nav2z__client_2components_2odom__tracker_2cp__odom__tracker_8cpp_source_l00577}00577\ \ \ \{}
+\DoxyCodeLine{\Hypertarget{nav2z__client_2nav2z__client_2src_2nav2z__client_2components_2odom__tracker_2cp__odom__tracker_8cpp_source_l00578}00578\ \ \ \}}
+\DoxyCodeLine{\Hypertarget{nav2z__client_2nav2z__client_2src_2nav2z__client_2components_2odom__tracker_2cp__odom__tracker_8cpp_source_l00579}00579\ }
+\DoxyCodeLine{\Hypertarget{nav2z__client_2nav2z__client_2src_2nav2z__client_2components_2odom__tracker_2cp__odom__tracker_8cpp_source_l00580}00580\ \ \ \textcolor{keywordflow}{if}\ (!getNode()-\/>get\_parameter(\textcolor{stringliteral}{"{}record\_point\_distance\_threshold"{}},\ recordPointDistanceThreshold\_))}
+\DoxyCodeLine{\Hypertarget{nav2z__client_2nav2z__client_2src_2nav2z__client_2components_2odom__tracker_2cp__odom__tracker_8cpp_source_l00581}00581\ \ \ \{}
+\DoxyCodeLine{\Hypertarget{nav2z__client_2nav2z__client_2src_2nav2z__client_2components_2odom__tracker_2cp__odom__tracker_8cpp_source_l00582}00582\ \ \ \}}
+\DoxyCodeLine{\Hypertarget{nav2z__client_2nav2z__client_2src_2nav2z__client_2components_2odom__tracker_2cp__odom__tracker_8cpp_source_l00583}00583\ }
+\DoxyCodeLine{\Hypertarget{nav2z__client_2nav2z__client_2src_2nav2z__client_2components_2odom__tracker_2cp__odom__tracker_8cpp_source_l00584}00584\ \ \ \textcolor{keywordflow}{if}\ (!getNode()-\/>get\_parameter(}
+\DoxyCodeLine{\Hypertarget{nav2z__client_2nav2z__client_2src_2nav2z__client_2components_2odom__tracker_2cp__odom__tracker_8cpp_source_l00585}00585\ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}record\_angular\_distance\_threshold"{}},\ recordAngularDistanceThreshold\_))}
+\DoxyCodeLine{\Hypertarget{nav2z__client_2nav2z__client_2src_2nav2z__client_2components_2odom__tracker_2cp__odom__tracker_8cpp_source_l00586}00586\ \ \ \{}
+\DoxyCodeLine{\Hypertarget{nav2z__client_2nav2z__client_2src_2nav2z__client_2components_2odom__tracker_2cp__odom__tracker_8cpp_source_l00587}00587\ \ \ \}}
+\DoxyCodeLine{\Hypertarget{nav2z__client_2nav2z__client_2src_2nav2z__client_2components_2odom__tracker_2cp__odom__tracker_8cpp_source_l00588}00588\ }
+\DoxyCodeLine{\Hypertarget{nav2z__client_2nav2z__client_2src_2nav2z__client_2components_2odom__tracker_2cp__odom__tracker_8cpp_source_l00589}00589\ \ \ \textcolor{keywordflow}{if}\ (!getNode()-\/>get\_parameter(\textcolor{stringliteral}{"{}clear\_point\_distance\_threshold"{}},\ clearPointDistanceThreshold\_))}
+\DoxyCodeLine{\Hypertarget{nav2z__client_2nav2z__client_2src_2nav2z__client_2components_2odom__tracker_2cp__odom__tracker_8cpp_source_l00590}00590\ \ \ \{}
+\DoxyCodeLine{\Hypertarget{nav2z__client_2nav2z__client_2src_2nav2z__client_2components_2odom__tracker_2cp__odom__tracker_8cpp_source_l00591}00591\ \ \ \}}
+\DoxyCodeLine{\Hypertarget{nav2z__client_2nav2z__client_2src_2nav2z__client_2components_2odom__tracker_2cp__odom__tracker_8cpp_source_l00592}00592\ }
+\DoxyCodeLine{\Hypertarget{nav2z__client_2nav2z__client_2src_2nav2z__client_2components_2odom__tracker_2cp__odom__tracker_8cpp_source_l00593}00593\ \ \ \textcolor{keywordflow}{if}\ (!getNode()-\/>get\_parameter(\textcolor{stringliteral}{"{}clear\_angular\_distance\_threshold"{}},\ clearAngularDistanceThreshold\_))}
+\DoxyCodeLine{\Hypertarget{nav2z__client_2nav2z__client_2src_2nav2z__client_2components_2odom__tracker_2cp__odom__tracker_8cpp_source_l00594}00594\ \ \ \{}
+\DoxyCodeLine{\Hypertarget{nav2z__client_2nav2z__client_2src_2nav2z__client_2components_2odom__tracker_2cp__odom__tracker_8cpp_source_l00595}00595\ \ \ \}}
+\DoxyCodeLine{\Hypertarget{nav2z__client_2nav2z__client_2src_2nav2z__client_2components_2odom__tracker_2cp__odom__tracker_8cpp_source_l00596}00596\ \}}
+\DoxyCodeLine{\Hypertarget{nav2z__client_2nav2z__client_2src_2nav2z__client_2components_2odom__tracker_2cp__odom__tracker_8cpp_source_l00597}00597\ }
+\DoxyCodeLine{\Hypertarget{nav2z__client_2nav2z__client_2src_2nav2z__client_2components_2odom__tracker_2cp__odom__tracker_8cpp_source_l00603}00603\ \textcolor{keywordtype}{void}\ CpOdomTracker::update()}
+\DoxyCodeLine{\Hypertarget{nav2z__client_2nav2z__client_2src_2nav2z__client_2components_2odom__tracker_2cp__odom__tracker_8cpp_source_l00604}00604\ \{}
+\DoxyCodeLine{\Hypertarget{nav2z__client_2nav2z__client_2src_2nav2z__client_2components_2odom__tracker_2cp__odom__tracker_8cpp_source_l00605}00605\ \ \ RCLCPP\_INFO(getLogger(),\ \textcolor{stringliteral}{"{}odom\_tracker\ update"{}});}
+\DoxyCodeLine{\Hypertarget{nav2z__client_2nav2z__client_2src_2nav2z__client_2components_2odom__tracker_2cp__odom__tracker_8cpp_source_l00606}00606\ \ \ \textcolor{keyword}{auto}\ pose\ =\ robotPose\_-\/>toPoseStampedMsg();}
+\DoxyCodeLine{\Hypertarget{nav2z__client_2nav2z__client_2src_2nav2z__client_2components_2odom__tracker_2cp__odom__tracker_8cpp_source_l00607}00607\ \ \ RCLCPP\_INFO(getLogger(),\ \textcolor{stringliteral}{"{}odom\ tracker\ updatd\ pose,\ frame:\ \%s"{}},\ pose.header.frame\_id.c\_str());}
+\DoxyCodeLine{\Hypertarget{nav2z__client_2nav2z__client_2src_2nav2z__client_2components_2odom__tracker_2cp__odom__tracker_8cpp_source_l00608}00608\ \ \ processNewPose(pose);}
+\DoxyCodeLine{\Hypertarget{nav2z__client_2nav2z__client_2src_2nav2z__client_2components_2odom__tracker_2cp__odom__tracker_8cpp_source_l00609}00609\ \ \ RCLCPP\_INFO(getLogger(),\ \textcolor{stringliteral}{"{}odom\_tracker\ update\ end"{}});}
+\DoxyCodeLine{\Hypertarget{nav2z__client_2nav2z__client_2src_2nav2z__client_2components_2odom__tracker_2cp__odom__tracker_8cpp_source_l00610}00610\ \}}
+\DoxyCodeLine{\Hypertarget{nav2z__client_2nav2z__client_2src_2nav2z__client_2components_2odom__tracker_2cp__odom__tracker_8cpp_source_l00611}00611\ }
+\DoxyCodeLine{\Hypertarget{nav2z__client_2nav2z__client_2src_2nav2z__client_2components_2odom__tracker_2cp__odom__tracker_8cpp_source_l00617}00617\ \textcolor{keywordtype}{void}\ CpOdomTracker::odomMessageCallback(\textcolor{keyword}{const}\ nav\_msgs::msg::Odometry::SharedPtr\ odom)}
+\DoxyCodeLine{\Hypertarget{nav2z__client_2nav2z__client_2src_2nav2z__client_2components_2odom__tracker_2cp__odom__tracker_8cpp_source_l00618}00618\ \{}
+\DoxyCodeLine{\Hypertarget{nav2z__client_2nav2z__client_2src_2nav2z__client_2components_2odom__tracker_2cp__odom__tracker_8cpp_source_l00619}00619\ \ \ geometry\_msgs::msg::PoseStamped\ base\_pose;}
+\DoxyCodeLine{\Hypertarget{nav2z__client_2nav2z__client_2src_2nav2z__client_2components_2odom__tracker_2cp__odom__tracker_8cpp_source_l00620}00620\ \ \ base\_pose.pose\ =\ odom-\/>pose.pose;}
+\DoxyCodeLine{\Hypertarget{nav2z__client_2nav2z__client_2src_2nav2z__client_2components_2odom__tracker_2cp__odom__tracker_8cpp_source_l00621}00621\ \ \ base\_pose.header\ =\ odom-\/>header;}
+\DoxyCodeLine{\Hypertarget{nav2z__client_2nav2z__client_2src_2nav2z__client_2components_2odom__tracker_2cp__odom__tracker_8cpp_source_l00622}00622\ }
+\DoxyCodeLine{\Hypertarget{nav2z__client_2nav2z__client_2src_2nav2z__client_2components_2odom__tracker_2cp__odom__tracker_8cpp_source_l00623}00623\ \ \ processNewPose(base\_pose);}
+\DoxyCodeLine{\Hypertarget{nav2z__client_2nav2z__client_2src_2nav2z__client_2components_2odom__tracker_2cp__odom__tracker_8cpp_source_l00624}00624\ \}}
+\DoxyCodeLine{\Hypertarget{nav2z__client_2nav2z__client_2src_2nav2z__client_2components_2odom__tracker_2cp__odom__tracker_8cpp_source_l00625}00625\ }
+\DoxyCodeLine{\Hypertarget{nav2z__client_2nav2z__client_2src_2nav2z__client_2components_2odom__tracker_2cp__odom__tracker_8cpp_source_l00631}00631\ \textcolor{keywordtype}{void}\ CpOdomTracker::processNewPose(\textcolor{keyword}{const}\ geometry\_msgs::msg::PoseStamped\ \&\ odom)}
+\DoxyCodeLine{\Hypertarget{nav2z__client_2nav2z__client_2src_2nav2z__client_2components_2odom__tracker_2cp__odom__tracker_8cpp_source_l00632}00632\ \{}
+\DoxyCodeLine{\Hypertarget{nav2z__client_2nav2z__client_2src_2nav2z__client_2components_2odom__tracker_2cp__odom__tracker_8cpp_source_l00633}00633\ \ \ RCLCPP\_INFO\_THROTTLE(}
+\DoxyCodeLine{\Hypertarget{nav2z__client_2nav2z__client_2src_2nav2z__client_2components_2odom__tracker_2cp__odom__tracker_8cpp_source_l00634}00634\ \ \ \ \ getLogger(),\ *getNode()-\/>get\_clock(),\ 5000,}
+\DoxyCodeLine{\Hypertarget{nav2z__client_2nav2z__client_2src_2nav2z__client_2components_2odom__tracker_2cp__odom__tracker_8cpp_source_l00635}00635\ \ \ \ \ \textcolor{stringliteral}{"{}[odom\_tracker]\ processing\ odom\ msg\ update\ heartbeat"{}});}
+\DoxyCodeLine{\Hypertarget{nav2z__client_2nav2z__client_2src_2nav2z__client_2components_2odom__tracker_2cp__odom__tracker_8cpp_source_l00636}00636\ \ \ std::lock\_guard<std::mutex>\ lock(m\_mutex\_);}
+\DoxyCodeLine{\Hypertarget{nav2z__client_2nav2z__client_2src_2nav2z__client_2components_2odom__tracker_2cp__odom__tracker_8cpp_source_l00637}00637\ }
+\DoxyCodeLine{\Hypertarget{nav2z__client_2nav2z__client_2src_2nav2z__client_2components_2odom__tracker_2cp__odom__tracker_8cpp_source_l00638}00638\ \ \ updateConfiguration();}
+\DoxyCodeLine{\Hypertarget{nav2z__client_2nav2z__client_2src_2nav2z__client_2components_2odom__tracker_2cp__odom__tracker_8cpp_source_l00639}00639\ }
+\DoxyCodeLine{\Hypertarget{nav2z__client_2nav2z__client_2src_2nav2z__client_2components_2odom__tracker_2cp__odom__tracker_8cpp_source_l00640}00640\ \ \ \textcolor{keywordflow}{if}\ (workingMode\_\ ==\ WorkingMode::RECORD\_PATH)}
+\DoxyCodeLine{\Hypertarget{nav2z__client_2nav2z__client_2src_2nav2z__client_2components_2odom__tracker_2cp__odom__tracker_8cpp_source_l00641}00641\ \ \ \{}
+\DoxyCodeLine{\Hypertarget{nav2z__client_2nav2z__client_2src_2nav2z__client_2components_2odom__tracker_2cp__odom__tracker_8cpp_source_l00642}00642\ \ \ \ \ updateRecordPath(odom);}
+\DoxyCodeLine{\Hypertarget{nav2z__client_2nav2z__client_2src_2nav2z__client_2components_2odom__tracker_2cp__odom__tracker_8cpp_source_l00643}00643\ \ \ \}}
+\DoxyCodeLine{\Hypertarget{nav2z__client_2nav2z__client_2src_2nav2z__client_2components_2odom__tracker_2cp__odom__tracker_8cpp_source_l00644}00644\ \ \ \textcolor{keywordflow}{else}\ \textcolor{keywordflow}{if}\ (workingMode\_\ ==\ WorkingMode::CLEAR\_PATH)}
+\DoxyCodeLine{\Hypertarget{nav2z__client_2nav2z__client_2src_2nav2z__client_2components_2odom__tracker_2cp__odom__tracker_8cpp_source_l00645}00645\ \ \ \{}
+\DoxyCodeLine{\Hypertarget{nav2z__client_2nav2z__client_2src_2nav2z__client_2components_2odom__tracker_2cp__odom__tracker_8cpp_source_l00646}00646\ \ \ \ \ updateClearPath(odom);}
+\DoxyCodeLine{\Hypertarget{nav2z__client_2nav2z__client_2src_2nav2z__client_2components_2odom__tracker_2cp__odom__tracker_8cpp_source_l00647}00647\ \ \ \}}
+\DoxyCodeLine{\Hypertarget{nav2z__client_2nav2z__client_2src_2nav2z__client_2components_2odom__tracker_2cp__odom__tracker_8cpp_source_l00648}00648\ }
+\DoxyCodeLine{\Hypertarget{nav2z__client_2nav2z__client_2src_2nav2z__client_2components_2odom__tracker_2cp__odom__tracker_8cpp_source_l00649}00649\ \ \ \textcolor{comment}{//\ RCLCPP\_WARN(getLogger(),"{}odomTracker\ odometry\ callback"{});}}
+\DoxyCodeLine{\Hypertarget{nav2z__client_2nav2z__client_2src_2nav2z__client_2components_2odom__tracker_2cp__odom__tracker_8cpp_source_l00650}00650\ \ \ \textcolor{keywordflow}{if}\ (publishMessages)}
+\DoxyCodeLine{\Hypertarget{nav2z__client_2nav2z__client_2src_2nav2z__client_2components_2odom__tracker_2cp__odom__tracker_8cpp_source_l00651}00651\ \ \ \{}
+\DoxyCodeLine{\Hypertarget{nav2z__client_2nav2z__client_2src_2nav2z__client_2components_2odom__tracker_2cp__odom__tracker_8cpp_source_l00652}00652\ \ \ \ \ rtPublishPaths(odom.header.stamp);}
+\DoxyCodeLine{\Hypertarget{nav2z__client_2nav2z__client_2src_2nav2z__client_2components_2odom__tracker_2cp__odom__tracker_8cpp_source_l00653}00653\ \ \ \}}
+\DoxyCodeLine{\Hypertarget{nav2z__client_2nav2z__client_2src_2nav2z__client_2components_2odom__tracker_2cp__odom__tracker_8cpp_source_l00654}00654\ }
+\DoxyCodeLine{\Hypertarget{nav2z__client_2nav2z__client_2src_2nav2z__client_2components_2odom__tracker_2cp__odom__tracker_8cpp_source_l00655}00655\ \ \ \textcolor{comment}{//\ RCLCPP\_INFO(getLogger(),"{}odom\_tracker\ m\_mutex\ release"{});}}
+\DoxyCodeLine{\Hypertarget{nav2z__client_2nav2z__client_2src_2nav2z__client_2components_2odom__tracker_2cp__odom__tracker_8cpp_source_l00656}00656\ \}}
+\DoxyCodeLine{\Hypertarget{nav2z__client_2nav2z__client_2src_2nav2z__client_2components_2odom__tracker_2cp__odom__tracker_8cpp_source_l00657}00657\ \}\ \ \textcolor{comment}{//\ namespace\ odom\_tracker}}
+\DoxyCodeLine{\Hypertarget{nav2z__client_2nav2z__client_2src_2nav2z__client_2components_2odom__tracker_2cp__odom__tracker_8cpp_source_l00658}00658\ \}\ \ \textcolor{comment}{//\ namespace\ cl\_nav2z}}
+
+\end{DoxyCode}
