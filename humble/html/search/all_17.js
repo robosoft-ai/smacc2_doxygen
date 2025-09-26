@@ -10,7 +10,7 @@ var searchData=
   ['waitnodes_5f_7',['waitNodes_',['../classcl__nav2z_1_1CbWaitNav2Nodes.html#a0cb2b8cebdd57df28e4edc4ec01da038',1,'cl_nav2z::CbWaitNav2Nodes']]],
   ['waitonentrythread_8',['waitOnEntryThread',['../classsmacc2_1_1SmaccAsyncClientBehavior.html#af104edcfa226d8aa2294bb9c82768b78',1,'smacc2::SmaccAsyncClientBehavior']]],
   ['waitposestandardreferenceframe_9',['WaitPoseStandardReferenceFrame',['../namespacecl__nav2z.html#ac4b509ba01b0720925a65787a0db9578',1,'cl_nav2z::WaitPoseStandardReferenceFrame'],['../namespacecl__nav2z.html#ac4b509ba01b0720925a65787a0db9578',1,'cl_nav2z::WaitPoseStandardReferenceFrame']]],
-  ['waittransformupdate_10',['waitTransformUpdate',['../classcl__nav2z_1_1Pose.html#ae5ecf4abdce8c4c7983ff92619aab348',1,'cl_nav2z::Pose::waitTransformUpdate(rclcpp::Rate r=rclcpp::Rate(20))'],['../classcl__nav2z_1_1Pose.html#ae5ecf4abdce8c4c7983ff92619aab348',1,'cl_nav2z::Pose::waitTransformUpdate(rclcpp::Rate r=rclcpp::Rate(20))']]],
+  ['waittransformupdate_10',['waitTransformUpdate',['../classcl__nav2z_1_1CpPose.html#a67a3702ee46f0e966ed8cdd902d49f4f',1,'cl_nav2z::CpPose::waitTransformUpdate()'],['../classcl__nav2z_1_1Pose.html#ae5ecf4abdce8c4c7983ff92619aab348',1,'cl_nav2z::Pose::waitTransformUpdate()']]],
   ['walkstates_11',['walkStates',['../structsmacc2_1_1introspection_1_1WalkStatesExecutor.html#ac7e6530a993477a9defb4cb9af789747',1,'smacc2::introspection::WalkStatesExecutor']]],
   ['walkstatesexecutor_12',['WalkStatesExecutor',['../structsmacc2_1_1introspection_1_1WalkStatesExecutor.html',1,'smacc2::introspection']]],
   ['waypointeventdispatcher_13',['WaypointEventDispatcher',['../classWaypointEventDispatcher.html',1,'']]],
