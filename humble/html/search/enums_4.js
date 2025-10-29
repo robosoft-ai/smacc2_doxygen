@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['odomtrackerstrategy_0',['OdomTrackerStrategy',['../namespacecl__nav2z_1_1odom__tracker.html#a7419da2e0ef05bb2dab633c96e3e4ef8',1,'cl_nav2z::odom_tracker::OdomTrackerStrategy'],['../namespacecl__nav2z_1_1odom__tracker.html#a7419da2e0ef05bb2dab633c96e3e4ef8',1,'cl_nav2z::odom_tracker::OdomTrackerStrategy']]]
+  ['nav2nodes_0',['Nav2Nodes',['../namespacecl__nav2z.html#aa12208395907fb9a49f6a8fa0c4462c4',1,'cl_nav2z::Nav2Nodes'],['../namespacecl__nav2z.html#aa12208395907fb9a49f6a8fa0c4462c4',1,'cl_nav2z::Nav2Nodes']]]
 ];

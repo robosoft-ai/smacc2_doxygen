@@ -1,0 +1,322 @@
+\doxysection{cp\+\_\+joint\+\_\+space\+\_\+trajectory\+\_\+planner.\+hpp}
+\hypertarget{cp__joint__space__trajectory__planner_8hpp_source}{}\label{cp__joint__space__trajectory__planner_8hpp_source}\index{smacc2\_client\_library/cl\_moveit2z/include/cl\_moveit2z/components/cp\_joint\_space\_trajectory\_planner.hpp@{smacc2\_client\_library/cl\_moveit2z/include/cl\_moveit2z/components/cp\_joint\_space\_trajectory\_planner.hpp}}
+\mbox{\hyperlink{cp__joint__space__trajectory__planner_8hpp}{Go to the documentation of this file.}}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\Hypertarget{cp__joint__space__trajectory__planner_8hpp_source_l00001}00001\ \textcolor{comment}{//\ Copyright\ 2021\ RobosoftAI\ Inc.}}
+\DoxyCodeLine{\Hypertarget{cp__joint__space__trajectory__planner_8hpp_source_l00002}00002\ \textcolor{comment}{//}}
+\DoxyCodeLine{\Hypertarget{cp__joint__space__trajectory__planner_8hpp_source_l00003}00003\ \textcolor{comment}{//\ Licensed\ under\ the\ Apache\ License,\ Version\ 2.0\ (the\ "{}License"{});}}
+\DoxyCodeLine{\Hypertarget{cp__joint__space__trajectory__planner_8hpp_source_l00004}00004\ \textcolor{comment}{//\ you\ may\ not\ use\ this\ file\ except\ in\ compliance\ with\ the\ License.}}
+\DoxyCodeLine{\Hypertarget{cp__joint__space__trajectory__planner_8hpp_source_l00005}00005\ \textcolor{comment}{//\ You\ may\ obtain\ a\ copy\ of\ the\ License\ at}}
+\DoxyCodeLine{\Hypertarget{cp__joint__space__trajectory__planner_8hpp_source_l00006}00006\ \textcolor{comment}{//}}
+\DoxyCodeLine{\Hypertarget{cp__joint__space__trajectory__planner_8hpp_source_l00007}00007\ \textcolor{comment}{//\ \ \ \ \ http://www.apache.org/licenses/LICENSE-\/2.0}}
+\DoxyCodeLine{\Hypertarget{cp__joint__space__trajectory__planner_8hpp_source_l00008}00008\ \textcolor{comment}{//}}
+\DoxyCodeLine{\Hypertarget{cp__joint__space__trajectory__planner_8hpp_source_l00009}00009\ \textcolor{comment}{//\ Unless\ required\ by\ applicable\ law\ or\ agreed\ to\ in\ writing,\ software}}
+\DoxyCodeLine{\Hypertarget{cp__joint__space__trajectory__planner_8hpp_source_l00010}00010\ \textcolor{comment}{//\ distributed\ under\ the\ License\ is\ distributed\ on\ an\ "{}AS\ IS"{}\ BASIS,}}
+\DoxyCodeLine{\Hypertarget{cp__joint__space__trajectory__planner_8hpp_source_l00011}00011\ \textcolor{comment}{//\ WITHOUT\ WARRANTIES\ OR\ CONDITIONS\ OF\ ANY\ KIND,\ either\ express\ or\ implied.}}
+\DoxyCodeLine{\Hypertarget{cp__joint__space__trajectory__planner_8hpp_source_l00012}00012\ \textcolor{comment}{//\ See\ the\ License\ for\ the\ specific\ language\ governing\ permissions\ and}}
+\DoxyCodeLine{\Hypertarget{cp__joint__space__trajectory__planner_8hpp_source_l00013}00013\ \textcolor{comment}{//\ limitations\ under\ the\ License.}}
+\DoxyCodeLine{\Hypertarget{cp__joint__space__trajectory__planner_8hpp_source_l00014}00014\ }
+\DoxyCodeLine{\Hypertarget{cp__joint__space__trajectory__planner_8hpp_source_l00015}00015\ \textcolor{comment}{/*****************************************************************************************************************}}
+\DoxyCodeLine{\Hypertarget{cp__joint__space__trajectory__planner_8hpp_source_l00016}00016\ \textcolor{comment}{\ *}}
+\DoxyCodeLine{\Hypertarget{cp__joint__space__trajectory__planner_8hpp_source_l00017}00017\ \textcolor{comment}{\ *\ \ \ Authors:\ Pablo\ Inigo\ Blasco,\ Brett\ Aldrich}}
+\DoxyCodeLine{\Hypertarget{cp__joint__space__trajectory__planner_8hpp_source_l00018}00018\ \textcolor{comment}{\ *}}
+\DoxyCodeLine{\Hypertarget{cp__joint__space__trajectory__planner_8hpp_source_l00019}00019\ \textcolor{comment}{\ *****************************************************************************************************************/}}
+\DoxyCodeLine{\Hypertarget{cp__joint__space__trajectory__planner_8hpp_source_l00020}00020\ }
+\DoxyCodeLine{\Hypertarget{cp__joint__space__trajectory__planner_8hpp_source_l00021}00021\ \textcolor{preprocessor}{\#pragma\ once}}
+\DoxyCodeLine{\Hypertarget{cp__joint__space__trajectory__planner_8hpp_source_l00022}00022\ }
+\DoxyCodeLine{\Hypertarget{cp__joint__space__trajectory__planner_8hpp_source_l00023}00023\ \textcolor{preprocessor}{\#include\ <\mbox{\hyperlink{component_8hpp}{smacc2/component.hpp}}>}}
+\DoxyCodeLine{\Hypertarget{cp__joint__space__trajectory__planner_8hpp_source_l00024}00024\ }
+\DoxyCodeLine{\Hypertarget{cp__joint__space__trajectory__planner_8hpp_source_l00025}00025\ \textcolor{preprocessor}{\#include\ <\mbox{\hyperlink{cl__moveit2z_2include_2cl__moveit2z_2cl__moveit2z_8hpp}{cl\_moveit2z/cl\_moveit2z.hpp}}>}}
+\DoxyCodeLine{\Hypertarget{cp__joint__space__trajectory__planner_8hpp_source_l00026}00026\ }
+\DoxyCodeLine{\Hypertarget{cp__joint__space__trajectory__planner_8hpp_source_l00027}00027\ \textcolor{preprocessor}{\#include\ <geometry\_msgs/msg/pose\_stamped.hpp>}}
+\DoxyCodeLine{\Hypertarget{cp__joint__space__trajectory__planner_8hpp_source_l00028}00028\ \textcolor{preprocessor}{\#include\ <moveit\_msgs/msg/robot\_trajectory.hpp>}}
+\DoxyCodeLine{\Hypertarget{cp__joint__space__trajectory__planner_8hpp_source_l00029}00029\ \textcolor{preprocessor}{\#include\ <moveit\_msgs/srv/get\_position\_ik.hpp>}}
+\DoxyCodeLine{\Hypertarget{cp__joint__space__trajectory__planner_8hpp_source_l00030}00030\ }
+\DoxyCodeLine{\Hypertarget{cp__joint__space__trajectory__planner_8hpp_source_l00031}00031\ \textcolor{preprocessor}{\#include\ <chrono>}}
+\DoxyCodeLine{\Hypertarget{cp__joint__space__trajectory__planner_8hpp_source_l00032}00032\ \textcolor{preprocessor}{\#include\ <optional>}}
+\DoxyCodeLine{\Hypertarget{cp__joint__space__trajectory__planner_8hpp_source_l00033}00033\ \textcolor{preprocessor}{\#include\ <string>}}
+\DoxyCodeLine{\Hypertarget{cp__joint__space__trajectory__planner_8hpp_source_l00034}00034\ \textcolor{preprocessor}{\#include\ <vector>}}
+\DoxyCodeLine{\Hypertarget{cp__joint__space__trajectory__planner_8hpp_source_l00035}00035\ }
+\DoxyCodeLine{\Hypertarget{cp__joint__space__trajectory__planner_8hpp_source_l00036}00036\ \textcolor{keyword}{using\ namespace\ }std::chrono\_literals;}
+\DoxyCodeLine{\Hypertarget{cp__joint__space__trajectory__planner_8hpp_source_l00037}00037\ }
+\DoxyCodeLine{\Hypertarget{cp__joint__space__trajectory__planner_8hpp_source_l00038}00038\ \textcolor{keyword}{namespace\ }\mbox{\hyperlink{namespacecl__moveit2z}{cl\_moveit2z}}}
+\DoxyCodeLine{\Hypertarget{cp__joint__space__trajectory__planner_8hpp_source_l00039}00039\ \{}
+\DoxyCodeLine{\Hypertarget{cp__joint__space__trajectory__planner_8hpp_source_l00043}\mbox{\hyperlink{namespacecl__moveit2z_a953bbc2f9f52eb0c1865716d8ea45c7a}{00043}}\ \textcolor{keyword}{enum\ class}\ \mbox{\hyperlink{namespacecl__moveit2z_a953bbc2f9f52eb0c1865716d8ea45c7a}{JointTrajectoryErrorCode}}}
+\DoxyCodeLine{\Hypertarget{cp__joint__space__trajectory__planner_8hpp_source_l00044}00044\ \{}
+\DoxyCodeLine{\Hypertarget{cp__joint__space__trajectory__planner_8hpp_source_l00045}00045\ \ \ \mbox{\hyperlink{namespacecl__moveit2z_af5bc4960eb481e11e105390fb319f767ad0749aaba8b833466dfcbb0428e4f89c}{SUCCESS}},}
+\DoxyCodeLine{\Hypertarget{cp__joint__space__trajectory__planner_8hpp_source_l00046}00046\ \ \ \mbox{\hyperlink{namespacecl__moveit2z_af5bc4960eb481e11e105390fb319f767a1b748367c8d468cb9b65ecd6b2eab32c}{INCORRECT\_INITIAL\_STATE}},}
+\DoxyCodeLine{\Hypertarget{cp__joint__space__trajectory__planner_8hpp_source_l00047}00047\ \ \ \mbox{\hyperlink{namespacecl__moveit2z_af5bc4960eb481e11e105390fb319f767a3e86842785cd7c42003e516418347c8e}{JOINT\_TRAJECTORY\_DISCONTINUITY}},}
+\DoxyCodeLine{\Hypertarget{cp__joint__space__trajectory__planner_8hpp_source_l00048}00048\ \ \ \mbox{\hyperlink{namespacecl__moveit2z_a953bbc2f9f52eb0c1865716d8ea45c7aa46c5518f8f15e61febe11da94de83d55}{IK\_SOLUTION\_FAILED}},}
+\DoxyCodeLine{\Hypertarget{cp__joint__space__trajectory__planner_8hpp_source_l00049}00049\ \ \ \mbox{\hyperlink{namespacecl__moveit2z_a953bbc2f9f52eb0c1865716d8ea45c7aa897ba6dca4e1e6e136cd29a04bda572c}{EMPTY\_WAYPOINT\_LIST}}}
+\DoxyCodeLine{\Hypertarget{cp__joint__space__trajectory__planner_8hpp_source_l00050}00050\ \};}
+\DoxyCodeLine{\Hypertarget{cp__joint__space__trajectory__planner_8hpp_source_l00051}00051\ }
+\DoxyCodeLine{\Hypertarget{cp__joint__space__trajectory__planner_8hpp_source_l00055}\mbox{\hyperlink{structcl__moveit2z_1_1JointTrajectoryOptions}{00055}}\ \textcolor{keyword}{struct\ }\mbox{\hyperlink{structcl__moveit2z_1_1JointTrajectoryOptions}{JointTrajectoryOptions}}}
+\DoxyCodeLine{\Hypertarget{cp__joint__space__trajectory__planner_8hpp_source_l00056}00056\ \{}
+\DoxyCodeLine{\Hypertarget{cp__joint__space__trajectory__planner_8hpp_source_l00057}\mbox{\hyperlink{structcl__moveit2z_1_1JointTrajectoryOptions_ae407eb00b2419f2bc2318f60d321d3c6}{00057}}\ \ \ std::optional<std::string>\ \mbox{\hyperlink{structcl__moveit2z_1_1JointTrajectoryOptions_ae407eb00b2419f2bc2318f60d321d3c6}{tipLink}};}
+\DoxyCodeLine{\Hypertarget{cp__joint__space__trajectory__planner_8hpp_source_l00058}\mbox{\hyperlink{structcl__moveit2z_1_1JointTrajectoryOptions_a3f1c7910b6d05d9962d192445e89dcab}{00058}}\ \ \ std::optional<std::string>\ \mbox{\hyperlink{structcl__moveit2z_1_1JointTrajectoryOptions_a3f1c7910b6d05d9962d192445e89dcab}{groupName}};}
+\DoxyCodeLine{\Hypertarget{cp__joint__space__trajectory__planner_8hpp_source_l00059}\mbox{\hyperlink{structcl__moveit2z_1_1JointTrajectoryOptions_afda559e4d19a9b86c26d92ae33f714cc}{00059}}\ \ \ \textcolor{keywordtype}{bool}\ \mbox{\hyperlink{structcl__moveit2z_1_1JointTrajectoryOptions_afda559e4d19a9b86c26d92ae33f714cc}{allowInitialDiscontinuity}}\ =\ \textcolor{keyword}{false};}
+\DoxyCodeLine{\Hypertarget{cp__joint__space__trajectory__planner_8hpp_source_l00060}\mbox{\hyperlink{structcl__moveit2z_1_1JointTrajectoryOptions_a97f4154e4604808caac7e0344b2de7ac}{00060}}\ \ \ \textcolor{keywordtype}{double}\ \mbox{\hyperlink{structcl__moveit2z_1_1JointTrajectoryOptions_a97f4154e4604808caac7e0344b2de7ac}{maxJointDiscontinuity}}\ =\ 0.3;\ \ \textcolor{comment}{//\ radians\ (\string~17\ degrees)}}
+\DoxyCodeLine{\Hypertarget{cp__joint__space__trajectory__planner_8hpp_source_l00061}\mbox{\hyperlink{structcl__moveit2z_1_1JointTrajectoryOptions_abb2348a727528e2a2b0d9b4fa4db40ad}{00061}}\ \ \ \textcolor{keywordtype}{int}\ \mbox{\hyperlink{structcl__moveit2z_1_1JointTrajectoryOptions_abb2348a727528e2a2b0d9b4fa4db40ad}{ikAttempts}}\ =\ 4;}
+\DoxyCodeLine{\Hypertarget{cp__joint__space__trajectory__planner_8hpp_source_l00062}\mbox{\hyperlink{structcl__moveit2z_1_1JointTrajectoryOptions_a53c003302ef586b763bd42cc76147de8}{00062}}\ \ \ \textcolor{keywordtype}{bool}\ \mbox{\hyperlink{structcl__moveit2z_1_1JointTrajectoryOptions_a53c003302ef586b763bd42cc76147de8}{avoidCollisions}}\ =\ \textcolor{keyword}{true};}
+\DoxyCodeLine{\Hypertarget{cp__joint__space__trajectory__planner_8hpp_source_l00063}\mbox{\hyperlink{structcl__moveit2z_1_1JointTrajectoryOptions_acda3f1daf47a8b769e8b1102c7655177}{00063}}\ \ \ std::chrono::seconds\ \mbox{\hyperlink{structcl__moveit2z_1_1JointTrajectoryOptions_acda3f1daf47a8b769e8b1102c7655177}{ikTimeout}}\ =\ 3s;}
+\DoxyCodeLine{\Hypertarget{cp__joint__space__trajectory__planner_8hpp_source_l00064}00064\ \};}
+\DoxyCodeLine{\Hypertarget{cp__joint__space__trajectory__planner_8hpp_source_l00065}00065\ }
+\DoxyCodeLine{\Hypertarget{cp__joint__space__trajectory__planner_8hpp_source_l00069}\mbox{\hyperlink{structcl__moveit2z_1_1JointTrajectoryResult}{00069}}\ \textcolor{keyword}{struct\ }\mbox{\hyperlink{structcl__moveit2z_1_1JointTrajectoryResult}{JointTrajectoryResult}}}
+\DoxyCodeLine{\Hypertarget{cp__joint__space__trajectory__planner_8hpp_source_l00070}00070\ \{}
+\DoxyCodeLine{\Hypertarget{cp__joint__space__trajectory__planner_8hpp_source_l00071}\mbox{\hyperlink{structcl__moveit2z_1_1JointTrajectoryResult_ac463aeab86083b60fd7a532a993e3445}{00071}}\ \ \ \textcolor{keywordtype}{bool}\ \mbox{\hyperlink{structcl__moveit2z_1_1JointTrajectoryResult_ac463aeab86083b60fd7a532a993e3445}{success}};}
+\DoxyCodeLine{\Hypertarget{cp__joint__space__trajectory__planner_8hpp_source_l00072}\mbox{\hyperlink{structcl__moveit2z_1_1JointTrajectoryResult_a1b3324d71ce454a3be93b523ecdd1d02}{00072}}\ \ \ \mbox{\hyperlink{namespacecl__moveit2z_a953bbc2f9f52eb0c1865716d8ea45c7a}{JointTrajectoryErrorCode}}\ \mbox{\hyperlink{structcl__moveit2z_1_1JointTrajectoryResult_a1b3324d71ce454a3be93b523ecdd1d02}{errorCode}};}
+\DoxyCodeLine{\Hypertarget{cp__joint__space__trajectory__planner_8hpp_source_l00073}\mbox{\hyperlink{structcl__moveit2z_1_1JointTrajectoryResult_a3226314086739cfb7f7d6cd6c598da29}{00073}}\ \ \ moveit\_msgs::msg::RobotTrajectory\ \mbox{\hyperlink{structcl__moveit2z_1_1JointTrajectoryResult_a3226314086739cfb7f7d6cd6c598da29}{trajectory}};}
+\DoxyCodeLine{\Hypertarget{cp__joint__space__trajectory__planner_8hpp_source_l00074}\mbox{\hyperlink{structcl__moveit2z_1_1JointTrajectoryResult_a4187b868e19bf95a6ff25c6ae082744d}{00074}}\ \ \ std::string\ \mbox{\hyperlink{structcl__moveit2z_1_1JointTrajectoryResult_a4187b868e19bf95a6ff25c6ae082744d}{errorMessage}};}
+\DoxyCodeLine{\Hypertarget{cp__joint__space__trajectory__planner_8hpp_source_l00075}\mbox{\hyperlink{structcl__moveit2z_1_1JointTrajectoryResult_a19ffd47c73d41ef9a92cdf9574f6aeca}{00075}}\ \ \ std::vector<int>\ \mbox{\hyperlink{structcl__moveit2z_1_1JointTrajectoryResult_a19ffd47c73d41ef9a92cdf9574f6aeca}{discontinuityIndexes}};}
+\DoxyCodeLine{\Hypertarget{cp__joint__space__trajectory__planner_8hpp_source_l00076}00076\ }
+\DoxyCodeLine{\Hypertarget{cp__joint__space__trajectory__planner_8hpp_source_l00077}\mbox{\hyperlink{structcl__moveit2z_1_1JointTrajectoryResult_a3d139ffefde6892c4e7e4a88d6da160c}{00077}}\ \ \ \mbox{\hyperlink{structcl__moveit2z_1_1JointTrajectoryResult_a3d139ffefde6892c4e7e4a88d6da160c}{JointTrajectoryResult}}()}
+\DoxyCodeLine{\Hypertarget{cp__joint__space__trajectory__planner_8hpp_source_l00078}00078\ \ \ :\ \mbox{\hyperlink{structcl__moveit2z_1_1JointTrajectoryResult_ac463aeab86083b60fd7a532a993e3445}{success}}(false),\ \mbox{\hyperlink{structcl__moveit2z_1_1JointTrajectoryResult_a1b3324d71ce454a3be93b523ecdd1d02}{errorCode}}(\mbox{\hyperlink{namespacecl__moveit2z_a953bbc2f9f52eb0c1865716d8ea45c7a}{JointTrajectoryErrorCode}}::\mbox{\hyperlink{namespacecl__moveit2z_a953bbc2f9f52eb0c1865716d8ea45c7aa46c5518f8f15e61febe11da94de83d55}{IK\_SOLUTION\_FAILED}}),\ \mbox{\hyperlink{structcl__moveit2z_1_1JointTrajectoryResult_a4187b868e19bf95a6ff25c6ae082744d}{errorMessage}}(\textcolor{stringliteral}{"{}"{}})}
+\DoxyCodeLine{\Hypertarget{cp__joint__space__trajectory__planner_8hpp_source_l00079}00079\ \ \ \{}
+\DoxyCodeLine{\Hypertarget{cp__joint__space__trajectory__planner_8hpp_source_l00080}00080\ \ \ \}}
+\DoxyCodeLine{\Hypertarget{cp__joint__space__trajectory__planner_8hpp_source_l00081}00081\ \};}
+\DoxyCodeLine{\Hypertarget{cp__joint__space__trajectory__planner_8hpp_source_l00082}00082\ }
+\DoxyCodeLine{\Hypertarget{cp__joint__space__trajectory__planner_8hpp_source_l00094}\mbox{\hyperlink{classcl__moveit2z_1_1CpJointSpaceTrajectoryPlanner}{00094}}\ \textcolor{keyword}{class\ }\mbox{\hyperlink{classcl__moveit2z_1_1CpJointSpaceTrajectoryPlanner}{CpJointSpaceTrajectoryPlanner}}\ :\ \textcolor{keyword}{public}\ \mbox{\hyperlink{classsmacc2_1_1ISmaccComponent}{smacc2::ISmaccComponent}}}
+\DoxyCodeLine{\Hypertarget{cp__joint__space__trajectory__planner_8hpp_source_l00095}00095\ \{}
+\DoxyCodeLine{\Hypertarget{cp__joint__space__trajectory__planner_8hpp_source_l00096}00096\ \textcolor{keyword}{public}:}
+\DoxyCodeLine{\Hypertarget{cp__joint__space__trajectory__planner_8hpp_source_l00097}\mbox{\hyperlink{classcl__moveit2z_1_1CpJointSpaceTrajectoryPlanner_a21e20d7b356083911014ad3330cc08f5}{00097}}\ \ \ \mbox{\hyperlink{classcl__moveit2z_1_1CpJointSpaceTrajectoryPlanner_a21e20d7b356083911014ad3330cc08f5}{CpJointSpaceTrajectoryPlanner}}()\ =\ \textcolor{keywordflow}{default};}
+\DoxyCodeLine{\Hypertarget{cp__joint__space__trajectory__planner_8hpp_source_l00098}\mbox{\hyperlink{classcl__moveit2z_1_1CpJointSpaceTrajectoryPlanner_aa5bd58c8ba1aac10720488a667508189}{00098}}\ \ \ \textcolor{keyword}{virtual}\ \mbox{\hyperlink{classcl__moveit2z_1_1CpJointSpaceTrajectoryPlanner_aa5bd58c8ba1aac10720488a667508189}{\string~CpJointSpaceTrajectoryPlanner}}()\ =\ \textcolor{keywordflow}{default};}
+\DoxyCodeLine{\Hypertarget{cp__joint__space__trajectory__planner_8hpp_source_l00099}00099\ }
+\DoxyCodeLine{\Hypertarget{cp__joint__space__trajectory__planner_8hpp_source_l00103}\mbox{\hyperlink{classcl__moveit2z_1_1CpJointSpaceTrajectoryPlanner_a0a1274638b3dcb7853ab94b920560abb}{00103}}\ \ \ \textcolor{keyword}{inline}\ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{classcl__moveit2z_1_1CpJointSpaceTrajectoryPlanner_a0a1274638b3dcb7853ab94b920560abb}{onInitialize}}()\textcolor{keyword}{\ override}}
+\DoxyCodeLine{\Hypertarget{cp__joint__space__trajectory__planner_8hpp_source_l00104}00104\ \textcolor{keyword}{\ \ }\{}
+\DoxyCodeLine{\Hypertarget{cp__joint__space__trajectory__planner_8hpp_source_l00105}00105\ \ \ \ \ this-\/>\mbox{\hyperlink{classsmacc2_1_1ISmaccComponent_a5269f43605f1aa022d34bfeb220bc72c}{requiresClient}}(\mbox{\hyperlink{classcl__moveit2z_1_1CpJointSpaceTrajectoryPlanner_a3fe5da92e4f8353d3ea4d65822598de3}{moveit2zClient\_}});}
+\DoxyCodeLine{\Hypertarget{cp__joint__space__trajectory__planner_8hpp_source_l00106}00106\ }
+\DoxyCodeLine{\Hypertarget{cp__joint__space__trajectory__planner_8hpp_source_l00107}00107\ \ \ \ \ \textcolor{comment}{//\ Create\ IK\ service\ client}}
+\DoxyCodeLine{\Hypertarget{cp__joint__space__trajectory__planner_8hpp_source_l00108}00108\ \ \ \ \ \mbox{\hyperlink{classcl__moveit2z_1_1CpJointSpaceTrajectoryPlanner_a92073269e2790003ec76541bce686d6f}{ikClient\_}}\ =\ \mbox{\hyperlink{classsmacc2_1_1ISmaccComponent_aaac68614687bed658c59f8f15746ab91}{getNode}}()-\/>create\_client<moveit\_msgs::srv::GetPositionIK>(\textcolor{stringliteral}{"{}/compute\_ik"{}});}
+\DoxyCodeLine{\Hypertarget{cp__joint__space__trajectory__planner_8hpp_source_l00109}00109\ }
+\DoxyCodeLine{\Hypertarget{cp__joint__space__trajectory__planner_8hpp_source_l00110}00110\ \ \ \ \ RCLCPP\_INFO(\mbox{\hyperlink{classsmacc2_1_1ISmaccComponent_a77ee85823bab8d84edcdf5d28782b728}{getLogger}}(),\ \textcolor{stringliteral}{"{}[CpJointSpaceTrajectoryPlanner]\ Component\ initialized"{}});}
+\DoxyCodeLine{\Hypertarget{cp__joint__space__trajectory__planner_8hpp_source_l00111}00111\ \ \ \}}
+\DoxyCodeLine{\Hypertarget{cp__joint__space__trajectory__planner_8hpp_source_l00112}00112\ }
+\DoxyCodeLine{\Hypertarget{cp__joint__space__trajectory__planner_8hpp_source_l00120}\mbox{\hyperlink{classcl__moveit2z_1_1CpJointSpaceTrajectoryPlanner_ae4494cfc587483864d5b67bed54f86f3}{00120}}\ \ \ \textcolor{keyword}{inline}\ \mbox{\hyperlink{structcl__moveit2z_1_1JointTrajectoryResult}{JointTrajectoryResult}}\ \mbox{\hyperlink{classcl__moveit2z_1_1CpJointSpaceTrajectoryPlanner_ae4494cfc587483864d5b67bed54f86f3}{planFromWaypoints}}(}
+\DoxyCodeLine{\Hypertarget{cp__joint__space__trajectory__planner_8hpp_source_l00121}00121\ \ \ \ \ \textcolor{keyword}{const}\ std::vector<geometry\_msgs::msg::PoseStamped>\ \&\ waypoints,}
+\DoxyCodeLine{\Hypertarget{cp__joint__space__trajectory__planner_8hpp_source_l00122}00122\ \ \ \ \ \textcolor{keyword}{const}\ \mbox{\hyperlink{structcl__moveit2z_1_1JointTrajectoryOptions}{JointTrajectoryOptions}}\ \&\ options\ =\ \{\})}
+\DoxyCodeLine{\Hypertarget{cp__joint__space__trajectory__planner_8hpp_source_l00123}00123\ \ \ \{}
+\DoxyCodeLine{\Hypertarget{cp__joint__space__trajectory__planner_8hpp_source_l00124}00124\ \ \ \ \ \mbox{\hyperlink{structcl__moveit2z_1_1JointTrajectoryResult}{JointTrajectoryResult}}\ result;}
+\DoxyCodeLine{\Hypertarget{cp__joint__space__trajectory__planner_8hpp_source_l00125}00125\ }
+\DoxyCodeLine{\Hypertarget{cp__joint__space__trajectory__planner_8hpp_source_l00126}00126\ \ \ \ \ \textcolor{keywordflow}{if}\ (waypoints.empty())}
+\DoxyCodeLine{\Hypertarget{cp__joint__space__trajectory__planner_8hpp_source_l00127}00127\ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{cp__joint__space__trajectory__planner_8hpp_source_l00128}00128\ \ \ \ \ \ \ result.\mbox{\hyperlink{structcl__moveit2z_1_1JointTrajectoryResult_a1b3324d71ce454a3be93b523ecdd1d02}{errorCode}}\ =\ \mbox{\hyperlink{namespacecl__moveit2z_a953bbc2f9f52eb0c1865716d8ea45c7aa897ba6dca4e1e6e136cd29a04bda572c}{JointTrajectoryErrorCode::EMPTY\_WAYPOINT\_LIST}};}
+\DoxyCodeLine{\Hypertarget{cp__joint__space__trajectory__planner_8hpp_source_l00129}00129\ \ \ \ \ \ \ result.\mbox{\hyperlink{structcl__moveit2z_1_1JointTrajectoryResult_a4187b868e19bf95a6ff25c6ae082744d}{errorMessage}}\ =\ \textcolor{stringliteral}{"{}No\ waypoints\ provided"{}};}
+\DoxyCodeLine{\Hypertarget{cp__joint__space__trajectory__planner_8hpp_source_l00130}00130\ \ \ \ \ \ \ RCLCPP\_WARN(\mbox{\hyperlink{classsmacc2_1_1ISmaccComponent_a77ee85823bab8d84edcdf5d28782b728}{getLogger}}(),\ \textcolor{stringliteral}{"{}[CpJointSpaceTrajectoryPlanner]\ \%s"{}},\ result.\mbox{\hyperlink{structcl__moveit2z_1_1JointTrajectoryResult_a4187b868e19bf95a6ff25c6ae082744d}{errorMessage}}.c\_str());}
+\DoxyCodeLine{\Hypertarget{cp__joint__space__trajectory__planner_8hpp_source_l00131}00131\ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ result;}
+\DoxyCodeLine{\Hypertarget{cp__joint__space__trajectory__planner_8hpp_source_l00132}00132\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{cp__joint__space__trajectory__planner_8hpp_source_l00133}00133\ }
+\DoxyCodeLine{\Hypertarget{cp__joint__space__trajectory__planner_8hpp_source_l00134}00134\ \ \ \ \ \textcolor{keywordflow}{if}\ (!\mbox{\hyperlink{classcl__moveit2z_1_1CpJointSpaceTrajectoryPlanner_a3fe5da92e4f8353d3ea4d65822598de3}{moveit2zClient\_}})}
+\DoxyCodeLine{\Hypertarget{cp__joint__space__trajectory__planner_8hpp_source_l00135}00135\ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{cp__joint__space__trajectory__planner_8hpp_source_l00136}00136\ \ \ \ \ \ \ result.\mbox{\hyperlink{structcl__moveit2z_1_1JointTrajectoryResult_a4187b868e19bf95a6ff25c6ae082744d}{errorMessage}}\ =\ \textcolor{stringliteral}{"{}ClMoveit2z\ client\ not\ available"{}};}
+\DoxyCodeLine{\Hypertarget{cp__joint__space__trajectory__planner_8hpp_source_l00137}00137\ \ \ \ \ \ \ RCLCPP\_ERROR(\mbox{\hyperlink{classsmacc2_1_1ISmaccComponent_a77ee85823bab8d84edcdf5d28782b728}{getLogger}}(),\ \textcolor{stringliteral}{"{}[CpJointSpaceTrajectoryPlanner]\ \%s"{}},\ result.\mbox{\hyperlink{structcl__moveit2z_1_1JointTrajectoryResult_a4187b868e19bf95a6ff25c6ae082744d}{errorMessage}}.c\_str());}
+\DoxyCodeLine{\Hypertarget{cp__joint__space__trajectory__planner_8hpp_source_l00138}00138\ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ result;}
+\DoxyCodeLine{\Hypertarget{cp__joint__space__trajectory__planner_8hpp_source_l00139}00139\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{cp__joint__space__trajectory__planner_8hpp_source_l00140}00140\ }
+\DoxyCodeLine{\Hypertarget{cp__joint__space__trajectory__planner_8hpp_source_l00141}00141\ \ \ \ \ \textcolor{keywordflow}{try}}
+\DoxyCodeLine{\Hypertarget{cp__joint__space__trajectory__planner_8hpp_source_l00142}00142\ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{cp__joint__space__trajectory__planner_8hpp_source_l00143}00143\ \ \ \ \ \ \ \textcolor{keyword}{auto}\ \&\ moveGroup\ =\ \mbox{\hyperlink{classcl__moveit2z_1_1CpJointSpaceTrajectoryPlanner_a3fe5da92e4f8353d3ea4d65822598de3}{moveit2zClient\_}}-\/>\mbox{\hyperlink{classcl__moveit2z_1_1ClMoveit2z_a2abc4bb79a3afb388e236d1d1bc01f84}{moveGroupClientInterface}};}
+\DoxyCodeLine{\Hypertarget{cp__joint__space__trajectory__planner_8hpp_source_l00144}00144\ }
+\DoxyCodeLine{\Hypertarget{cp__joint__space__trajectory__planner_8hpp_source_l00145}00145\ \ \ \ \ \ \ \textcolor{comment}{//\ Get\ current\ robot\ state}}
+\DoxyCodeLine{\Hypertarget{cp__joint__space__trajectory__planner_8hpp_source_l00146}00146\ \ \ \ \ \ \ RCLCPP\_INFO(}
+\DoxyCodeLine{\Hypertarget{cp__joint__space__trajectory__planner_8hpp_source_l00147}00147\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{classsmacc2_1_1ISmaccComponent_a77ee85823bab8d84edcdf5d28782b728}{getLogger}}(),}
+\DoxyCodeLine{\Hypertarget{cp__joint__space__trajectory__planner_8hpp_source_l00148}00148\ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}[CpJointSpaceTrajectoryPlanner]\ Getting\ current\ state\ for\ trajectory\ planning"{}});}
+\DoxyCodeLine{\Hypertarget{cp__joint__space__trajectory__planner_8hpp_source_l00149}00149\ \ \ \ \ \ \ \textcolor{keyword}{auto}\ currentState\ =\ moveGroup-\/>getCurrentState(100);}
+\DoxyCodeLine{\Hypertarget{cp__joint__space__trajectory__planner_8hpp_source_l00150}00150\ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (!currentState)}
+\DoxyCodeLine{\Hypertarget{cp__joint__space__trajectory__planner_8hpp_source_l00151}00151\ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{cp__joint__space__trajectory__planner_8hpp_source_l00152}00152\ \ \ \ \ \ \ \ \ result.\mbox{\hyperlink{structcl__moveit2z_1_1JointTrajectoryResult_a4187b868e19bf95a6ff25c6ae082744d}{errorMessage}}\ =\ \textcolor{stringliteral}{"{}Failed\ to\ get\ current\ robot\ state"{}};}
+\DoxyCodeLine{\Hypertarget{cp__joint__space__trajectory__planner_8hpp_source_l00153}00153\ \ \ \ \ \ \ \ \ RCLCPP\_ERROR(}
+\DoxyCodeLine{\Hypertarget{cp__joint__space__trajectory__planner_8hpp_source_l00154}00154\ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{classsmacc2_1_1ISmaccComponent_a77ee85823bab8d84edcdf5d28782b728}{getLogger}}(),\ \textcolor{stringliteral}{"{}[CpJointSpaceTrajectoryPlanner]\ \%s"{}},\ result.\mbox{\hyperlink{structcl__moveit2z_1_1JointTrajectoryResult_a4187b868e19bf95a6ff25c6ae082744d}{errorMessage}}.c\_str());}
+\DoxyCodeLine{\Hypertarget{cp__joint__space__trajectory__planner_8hpp_source_l00155}00155\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ result;}
+\DoxyCodeLine{\Hypertarget{cp__joint__space__trajectory__planner_8hpp_source_l00156}00156\ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{cp__joint__space__trajectory__planner_8hpp_source_l00157}00157\ }
+\DoxyCodeLine{\Hypertarget{cp__joint__space__trajectory__planner_8hpp_source_l00158}00158\ \ \ \ \ \ \ \textcolor{comment}{//\ Determine\ group\ name\ and\ tip\ link}}
+\DoxyCodeLine{\Hypertarget{cp__joint__space__trajectory__planner_8hpp_source_l00159}00159\ \ \ \ \ \ \ std::string\ groupName\ =\ options.groupName.value\_or(moveGroup-\/>getName());}
+\DoxyCodeLine{\Hypertarget{cp__joint__space__trajectory__planner_8hpp_source_l00160}00160\ \ \ \ \ \ \ std::string\ tipLink\ =\ options.tipLink.value\_or(moveGroup-\/>getEndEffectorLink());}
+\DoxyCodeLine{\Hypertarget{cp__joint__space__trajectory__planner_8hpp_source_l00161}00161\ }
+\DoxyCodeLine{\Hypertarget{cp__joint__space__trajectory__planner_8hpp_source_l00162}00162\ \ \ \ \ \ \ RCLCPP\_INFO(}
+\DoxyCodeLine{\Hypertarget{cp__joint__space__trajectory__planner_8hpp_source_l00163}00163\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{classsmacc2_1_1ISmaccComponent_a77ee85823bab8d84edcdf5d28782b728}{getLogger}}(),\ \textcolor{stringliteral}{"{}[CpJointSpaceTrajectoryPlanner]\ Planning\ for\ group\ '\%s'\ with\ tip\ link\ '\%s'"{}},}
+\DoxyCodeLine{\Hypertarget{cp__joint__space__trajectory__planner_8hpp_source_l00164}00164\ \ \ \ \ \ \ \ \ groupName.c\_str(),\ tipLink.c\_str());}
+\DoxyCodeLine{\Hypertarget{cp__joint__space__trajectory__planner_8hpp_source_l00165}00165\ }
+\DoxyCodeLine{\Hypertarget{cp__joint__space__trajectory__planner_8hpp_source_l00166}00166\ \ \ \ \ \ \ \textcolor{comment}{//\ Get\ joint\ names}}
+\DoxyCodeLine{\Hypertarget{cp__joint__space__trajectory__planner_8hpp_source_l00167}00167\ \ \ \ \ \ \ \textcolor{keyword}{auto}\ jointNames\ =\ currentState-\/>getJointModelGroup(groupName)-\/>getActiveJointModelNames();}
+\DoxyCodeLine{\Hypertarget{cp__joint__space__trajectory__planner_8hpp_source_l00168}00168\ }
+\DoxyCodeLine{\Hypertarget{cp__joint__space__trajectory__planner_8hpp_source_l00169}00169\ \ \ \ \ \ \ \textcolor{comment}{//\ Initialize\ trajectory\ with\ current\ state}}
+\DoxyCodeLine{\Hypertarget{cp__joint__space__trajectory__planner_8hpp_source_l00170}00170\ \ \ \ \ \ \ std::vector<double>\ jointPositions;}
+\DoxyCodeLine{\Hypertarget{cp__joint__space__trajectory__planner_8hpp_source_l00171}00171\ \ \ \ \ \ \ currentState-\/>copyJointGroupPositions(groupName,\ jointPositions);}
+\DoxyCodeLine{\Hypertarget{cp__joint__space__trajectory__planner_8hpp_source_l00172}00172\ }
+\DoxyCodeLine{\Hypertarget{cp__joint__space__trajectory__planner_8hpp_source_l00173}00173\ \ \ \ \ \ \ std::vector<std::vector<double>>\ trajectory;}
+\DoxyCodeLine{\Hypertarget{cp__joint__space__trajectory__planner_8hpp_source_l00174}00174\ \ \ \ \ \ \ std::vector<rclcpp::Duration>\ trajectoryTimeStamps;}
+\DoxyCodeLine{\Hypertarget{cp__joint__space__trajectory__planner_8hpp_source_l00175}00175\ }
+\DoxyCodeLine{\Hypertarget{cp__joint__space__trajectory__planner_8hpp_source_l00176}00176\ \ \ \ \ \ \ trajectory.push\_back(jointPositions);}
+\DoxyCodeLine{\Hypertarget{cp__joint__space__trajectory__planner_8hpp_source_l00177}00177\ \ \ \ \ \ \ trajectoryTimeStamps.push\_back(rclcpp::Duration(0s));}
+\DoxyCodeLine{\Hypertarget{cp__joint__space__trajectory__planner_8hpp_source_l00178}00178\ }
+\DoxyCodeLine{\Hypertarget{cp__joint__space__trajectory__planner_8hpp_source_l00179}00179\ \ \ \ \ \ \ \textcolor{comment}{//\ Reference\ time\ for\ trajectory\ timestamps}}
+\DoxyCodeLine{\Hypertarget{cp__joint__space__trajectory__planner_8hpp_source_l00180}00180\ \ \ \ \ \ \ \textcolor{keyword}{auto}\ \&\ first\ =\ waypoints.front();}
+\DoxyCodeLine{\Hypertarget{cp__joint__space__trajectory__planner_8hpp_source_l00181}00181\ \ \ \ \ \ \ rclcpp::Time\ referenceTime(first.header.stamp);}
+\DoxyCodeLine{\Hypertarget{cp__joint__space__trajectory__planner_8hpp_source_l00182}00182\ }
+\DoxyCodeLine{\Hypertarget{cp__joint__space__trajectory__planner_8hpp_source_l00183}00183\ \ \ \ \ \ \ \textcolor{comment}{//\ Compute\ IK\ for\ each\ waypoint}}
+\DoxyCodeLine{\Hypertarget{cp__joint__space__trajectory__planner_8hpp_source_l00184}00184\ \ \ \ \ \ \ \textcolor{keywordtype}{int}\ ikAttemptsRemaining\ =\ options.ikAttempts;}
+\DoxyCodeLine{\Hypertarget{cp__joint__space__trajectory__planner_8hpp_source_l00185}00185\ \ \ \ \ \ \ \textcolor{keywordflow}{for}\ (\textcolor{keywordtype}{size\_t}\ k\ =\ 0;\ k\ <\ waypoints.size();\ k++)}
+\DoxyCodeLine{\Hypertarget{cp__joint__space__trajectory__planner_8hpp_source_l00186}00186\ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{cp__joint__space__trajectory__planner_8hpp_source_l00187}00187\ \ \ \ \ \ \ \ \ \textcolor{keyword}{auto}\ \&\ pose\ =\ waypoints[k];}
+\DoxyCodeLine{\Hypertarget{cp__joint__space__trajectory__planner_8hpp_source_l00188}00188\ }
+\DoxyCodeLine{\Hypertarget{cp__joint__space__trajectory__planner_8hpp_source_l00189}00189\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Create\ IK\ request}}
+\DoxyCodeLine{\Hypertarget{cp__joint__space__trajectory__planner_8hpp_source_l00190}00190\ \ \ \ \ \ \ \ \ \textcolor{keyword}{auto}\ req\ =\ std::make\_shared<moveit\_msgs::srv::GetPositionIK::Request>();}
+\DoxyCodeLine{\Hypertarget{cp__joint__space__trajectory__planner_8hpp_source_l00191}00191\ \ \ \ \ \ \ \ \ req-\/>ik\_request.ik\_link\_name\ =\ tipLink;}
+\DoxyCodeLine{\Hypertarget{cp__joint__space__trajectory__planner_8hpp_source_l00192}00192\ \ \ \ \ \ \ \ \ req-\/>ik\_request.robot\_state.joint\_state.name\ =\ jointNames;}
+\DoxyCodeLine{\Hypertarget{cp__joint__space__trajectory__planner_8hpp_source_l00193}00193\ \ \ \ \ \ \ \ \ req-\/>ik\_request.robot\_state.joint\_state.position\ =\ jointPositions;}
+\DoxyCodeLine{\Hypertarget{cp__joint__space__trajectory__planner_8hpp_source_l00194}00194\ \ \ \ \ \ \ \ \ req-\/>ik\_request.group\_name\ =\ groupName;}
+\DoxyCodeLine{\Hypertarget{cp__joint__space__trajectory__planner_8hpp_source_l00195}00195\ \ \ \ \ \ \ \ \ req-\/>ik\_request.avoid\_collisions\ =\ options.avoidCollisions;}
+\DoxyCodeLine{\Hypertarget{cp__joint__space__trajectory__planner_8hpp_source_l00196}00196\ \ \ \ \ \ \ \ \ req-\/>ik\_request.pose\_stamped\ =\ pose;}
+\DoxyCodeLine{\Hypertarget{cp__joint__space__trajectory__planner_8hpp_source_l00197}00197\ }
+\DoxyCodeLine{\Hypertarget{cp__joint__space__trajectory__planner_8hpp_source_l00198}00198\ \ \ \ \ \ \ \ \ RCLCPP\_DEBUG(}
+\DoxyCodeLine{\Hypertarget{cp__joint__space__trajectory__planner_8hpp_source_l00199}00199\ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{classsmacc2_1_1ISmaccComponent_a77ee85823bab8d84edcdf5d28782b728}{getLogger}}(),\ \textcolor{stringliteral}{"{}[CpJointSpaceTrajectoryPlanner]\ Computing\ IK\ for\ waypoint\ \%lu/\%lu"{}},\ k\ +\ 1,}
+\DoxyCodeLine{\Hypertarget{cp__joint__space__trajectory__planner_8hpp_source_l00200}00200\ \ \ \ \ \ \ \ \ \ \ waypoints.size());}
+\DoxyCodeLine{\Hypertarget{cp__joint__space__trajectory__planner_8hpp_source_l00201}00201\ }
+\DoxyCodeLine{\Hypertarget{cp__joint__space__trajectory__planner_8hpp_source_l00202}00202\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Call\ IK\ service}}
+\DoxyCodeLine{\Hypertarget{cp__joint__space__trajectory__planner_8hpp_source_l00203}00203\ \ \ \ \ \ \ \ \ \textcolor{keyword}{auto}\ resFuture\ =\ \mbox{\hyperlink{classcl__moveit2z_1_1CpJointSpaceTrajectoryPlanner_a92073269e2790003ec76541bce686d6f}{ikClient\_}}-\/>async\_send\_request(req);}
+\DoxyCodeLine{\Hypertarget{cp__joint__space__trajectory__planner_8hpp_source_l00204}00204\ \ \ \ \ \ \ \ \ \textcolor{keyword}{auto}\ status\ =\ resFuture.wait\_for(options.ikTimeout);}
+\DoxyCodeLine{\Hypertarget{cp__joint__space__trajectory__planner_8hpp_source_l00205}00205\ }
+\DoxyCodeLine{\Hypertarget{cp__joint__space__trajectory__planner_8hpp_source_l00206}00206\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (status\ !=\ std::future\_status::ready)}
+\DoxyCodeLine{\Hypertarget{cp__joint__space__trajectory__planner_8hpp_source_l00207}00207\ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{cp__joint__space__trajectory__planner_8hpp_source_l00208}00208\ \ \ \ \ \ \ \ \ \ \ result.\mbox{\hyperlink{structcl__moveit2z_1_1JointTrajectoryResult_a4187b868e19bf95a6ff25c6ae082744d}{errorMessage}}\ =\ \textcolor{stringliteral}{"{}IK\ service\ timeout\ at\ waypoint\ "{}}\ +\ std::to\_string(k);}
+\DoxyCodeLine{\Hypertarget{cp__joint__space__trajectory__planner_8hpp_source_l00209}00209\ \ \ \ \ \ \ \ \ \ \ RCLCPP\_ERROR(}
+\DoxyCodeLine{\Hypertarget{cp__joint__space__trajectory__planner_8hpp_source_l00210}00210\ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{classsmacc2_1_1ISmaccComponent_a77ee85823bab8d84edcdf5d28782b728}{getLogger}}(),\ \textcolor{stringliteral}{"{}[CpJointSpaceTrajectoryPlanner]\ \%s"{}},\ result.\mbox{\hyperlink{structcl__moveit2z_1_1JointTrajectoryResult_a4187b868e19bf95a6ff25c6ae082744d}{errorMessage}}.c\_str());}
+\DoxyCodeLine{\Hypertarget{cp__joint__space__trajectory__planner_8hpp_source_l00211}00211\ \ \ \ \ \ \ \ \ \ \ result.\mbox{\hyperlink{structcl__moveit2z_1_1JointTrajectoryResult_a1b3324d71ce454a3be93b523ecdd1d02}{errorCode}}\ =\ \mbox{\hyperlink{namespacecl__moveit2z_a953bbc2f9f52eb0c1865716d8ea45c7aa46c5518f8f15e61febe11da94de83d55}{JointTrajectoryErrorCode::IK\_SOLUTION\_FAILED}};}
+\DoxyCodeLine{\Hypertarget{cp__joint__space__trajectory__planner_8hpp_source_l00212}00212\ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ result;}
+\DoxyCodeLine{\Hypertarget{cp__joint__space__trajectory__planner_8hpp_source_l00213}00213\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{cp__joint__space__trajectory__planner_8hpp_source_l00214}00214\ }
+\DoxyCodeLine{\Hypertarget{cp__joint__space__trajectory__planner_8hpp_source_l00215}00215\ \ \ \ \ \ \ \ \ \textcolor{keyword}{auto}\ res\ =\ resFuture.get();}
+\DoxyCodeLine{\Hypertarget{cp__joint__space__trajectory__planner_8hpp_source_l00216}00216\ \ \ \ \ \ \ \ \ \textcolor{keyword}{auto}\ \&\ prevTrajPoint\ =\ trajectory.back();}
+\DoxyCodeLine{\Hypertarget{cp__joint__space__trajectory__planner_8hpp_source_l00217}00217\ }
+\DoxyCodeLine{\Hypertarget{cp__joint__space__trajectory__planner_8hpp_source_l00218}00218\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Extract\ joint\ positions\ from\ IK\ solution}}
+\DoxyCodeLine{\Hypertarget{cp__joint__space__trajectory__planner_8hpp_source_l00219}00219\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{for}\ (\textcolor{keywordtype}{size\_t}\ j\ =\ 0;\ j\ <\ res-\/>solution.joint\_state.position.size();\ j++)}
+\DoxyCodeLine{\Hypertarget{cp__joint__space__trajectory__planner_8hpp_source_l00220}00220\ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{cp__joint__space__trajectory__planner_8hpp_source_l00221}00221\ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{auto}\ \&\ jointName\ =\ res-\/>solution.joint\_state.name[j];}
+\DoxyCodeLine{\Hypertarget{cp__joint__space__trajectory__planner_8hpp_source_l00222}00222\ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{auto}\ it\ =\ std::find(jointNames.begin(),\ jointNames.end(),\ jointName);}
+\DoxyCodeLine{\Hypertarget{cp__joint__space__trajectory__planner_8hpp_source_l00223}00223\ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (it\ !=\ jointNames.end())}
+\DoxyCodeLine{\Hypertarget{cp__joint__space__trajectory__planner_8hpp_source_l00224}00224\ \ \ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{cp__joint__space__trajectory__planner_8hpp_source_l00225}00225\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{int}\ index\ =\ std::distance(jointNames.begin(),\ it);}
+\DoxyCodeLine{\Hypertarget{cp__joint__space__trajectory__planner_8hpp_source_l00226}00226\ \ \ \ \ \ \ \ \ \ \ \ \ jointPositions[index]\ =\ res-\/>solution.joint\_state.position[j];}
+\DoxyCodeLine{\Hypertarget{cp__joint__space__trajectory__planner_8hpp_source_l00227}00227\ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{cp__joint__space__trajectory__planner_8hpp_source_l00228}00228\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{cp__joint__space__trajectory__planner_8hpp_source_l00229}00229\ }
+\DoxyCodeLine{\Hypertarget{cp__joint__space__trajectory__planner_8hpp_source_l00230}00230\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Continuity\ check}}
+\DoxyCodeLine{\Hypertarget{cp__joint__space__trajectory__planner_8hpp_source_l00231}00231\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{bool}\ shouldCheck\ =\ k\ >\ 0\ ||\ !options.allowInitialDiscontinuity;}
+\DoxyCodeLine{\Hypertarget{cp__joint__space__trajectory__planner_8hpp_source_l00232}00232\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{int}\ discontinuityJointIndex\ =\ -\/1;}
+\DoxyCodeLine{\Hypertarget{cp__joint__space__trajectory__planner_8hpp_source_l00233}00233\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{double}\ discontinuityDelta\ =\ -\/1;}
+\DoxyCodeLine{\Hypertarget{cp__joint__space__trajectory__planner_8hpp_source_l00234}00234\ }
+\DoxyCodeLine{\Hypertarget{cp__joint__space__trajectory__planner_8hpp_source_l00235}00235\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (shouldCheck)}
+\DoxyCodeLine{\Hypertarget{cp__joint__space__trajectory__planner_8hpp_source_l00236}00236\ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{cp__joint__space__trajectory__planner_8hpp_source_l00237}00237\ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{for}\ (\textcolor{keywordtype}{size\_t}\ jointIndex\ =\ 0;\ jointIndex\ <\ jointPositions.size();\ jointIndex++)}
+\DoxyCodeLine{\Hypertarget{cp__joint__space__trajectory__planner_8hpp_source_l00238}00238\ \ \ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{cp__joint__space__trajectory__planner_8hpp_source_l00239}00239\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{double}\ deltaJoint\ =\ jointPositions[jointIndex]\ -\/\ prevTrajPoint[jointIndex];}
+\DoxyCodeLine{\Hypertarget{cp__joint__space__trajectory__planner_8hpp_source_l00240}00240\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (fabs(deltaJoint)\ >\ options.maxJointDiscontinuity)}
+\DoxyCodeLine{\Hypertarget{cp__joint__space__trajectory__planner_8hpp_source_l00241}00241\ \ \ \ \ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{cp__joint__space__trajectory__planner_8hpp_source_l00242}00242\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ discontinuityDelta\ =\ deltaJoint;}
+\DoxyCodeLine{\Hypertarget{cp__joint__space__trajectory__planner_8hpp_source_l00243}00243\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ discontinuityJointIndex\ =\ jointIndex;}
+\DoxyCodeLine{\Hypertarget{cp__joint__space__trajectory__planner_8hpp_source_l00244}00244\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{break};}
+\DoxyCodeLine{\Hypertarget{cp__joint__space__trajectory__planner_8hpp_source_l00245}00245\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{cp__joint__space__trajectory__planner_8hpp_source_l00246}00246\ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{cp__joint__space__trajectory__planner_8hpp_source_l00247}00247\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{cp__joint__space__trajectory__planner_8hpp_source_l00248}00248\ }
+\DoxyCodeLine{\Hypertarget{cp__joint__space__trajectory__planner_8hpp_source_l00249}00249\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Handle\ discontinuity}}
+\DoxyCodeLine{\Hypertarget{cp__joint__space__trajectory__planner_8hpp_source_l00250}00250\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (ikAttemptsRemaining\ >\ 0\ \&\&\ discontinuityJointIndex\ !=\ -\/1)}
+\DoxyCodeLine{\Hypertarget{cp__joint__space__trajectory__planner_8hpp_source_l00251}00251\ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{cp__joint__space__trajectory__planner_8hpp_source_l00252}00252\ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Retry\ IK}}
+\DoxyCodeLine{\Hypertarget{cp__joint__space__trajectory__planner_8hpp_source_l00253}00253\ \ \ \ \ \ \ \ \ \ \ k-\/-\/;}
+\DoxyCodeLine{\Hypertarget{cp__joint__space__trajectory__planner_8hpp_source_l00254}00254\ \ \ \ \ \ \ \ \ \ \ ikAttemptsRemaining-\/-\/;}
+\DoxyCodeLine{\Hypertarget{cp__joint__space__trajectory__planner_8hpp_source_l00255}00255\ \ \ \ \ \ \ \ \ \ \ RCLCPP\_WARN(}
+\DoxyCodeLine{\Hypertarget{cp__joint__space__trajectory__planner_8hpp_source_l00256}00256\ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{classsmacc2_1_1ISmaccComponent_a77ee85823bab8d84edcdf5d28782b728}{getLogger}}(),}
+\DoxyCodeLine{\Hypertarget{cp__joint__space__trajectory__planner_8hpp_source_l00257}00257\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}[CpJointSpaceTrajectoryPlanner]\ IK\ discontinuity\ detected,\ retrying\ (\%d\ attempts\ "{}}}
+\DoxyCodeLine{\Hypertarget{cp__joint__space__trajectory__planner_8hpp_source_l00258}00258\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}remaining)"{}},}
+\DoxyCodeLine{\Hypertarget{cp__joint__space__trajectory__planner_8hpp_source_l00259}00259\ \ \ \ \ \ \ \ \ \ \ \ \ ikAttemptsRemaining);}
+\DoxyCodeLine{\Hypertarget{cp__joint__space__trajectory__planner_8hpp_source_l00260}00260\ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{continue};}
+\DoxyCodeLine{\Hypertarget{cp__joint__space__trajectory__planner_8hpp_source_l00261}00261\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{cp__joint__space__trajectory__planner_8hpp_source_l00262}00262\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{else}}
+\DoxyCodeLine{\Hypertarget{cp__joint__space__trajectory__planner_8hpp_source_l00263}00263\ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{cp__joint__space__trajectory__planner_8hpp_source_l00264}00264\ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Record\ discontinuity\ or\ accept\ trajectory\ point}}
+\DoxyCodeLine{\Hypertarget{cp__joint__space__trajectory__planner_8hpp_source_l00265}00265\ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (ikAttemptsRemaining\ ==\ 0\ \&\&\ discontinuityJointIndex\ !=\ -\/1)}
+\DoxyCodeLine{\Hypertarget{cp__joint__space__trajectory__planner_8hpp_source_l00266}00266\ \ \ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{cp__joint__space__trajectory__planner_8hpp_source_l00267}00267\ \ \ \ \ \ \ \ \ \ \ \ \ result.\mbox{\hyperlink{structcl__moveit2z_1_1JointTrajectoryResult_a19ffd47c73d41ef9a92cdf9574f6aeca}{discontinuityIndexes}}.push\_back(k);}
+\DoxyCodeLine{\Hypertarget{cp__joint__space__trajectory__planner_8hpp_source_l00268}00268\ }
+\DoxyCodeLine{\Hypertarget{cp__joint__space__trajectory__planner_8hpp_source_l00269}00269\ \ \ \ \ \ \ \ \ \ \ \ \ RCLCPP\_ERROR(}
+\DoxyCodeLine{\Hypertarget{cp__joint__space__trajectory__planner_8hpp_source_l00270}00270\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{classsmacc2_1_1ISmaccComponent_a77ee85823bab8d84edcdf5d28782b728}{getLogger}}(),}
+\DoxyCodeLine{\Hypertarget{cp__joint__space__trajectory__planner_8hpp_source_l00271}00271\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}[CpJointSpaceTrajectoryPlanner]\ Joint\ discontinuity\ at\ waypoint\ \%lu:\ joint\ '\%s'\ "{}}}
+\DoxyCodeLine{\Hypertarget{cp__joint__space__trajectory__planner_8hpp_source_l00272}00272\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}delta=\%.3f\ rad"{}},}
+\DoxyCodeLine{\Hypertarget{cp__joint__space__trajectory__planner_8hpp_source_l00273}00273\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ k,\ jointNames[discontinuityJointIndex].c\_str(),\ discontinuityDelta);}
+\DoxyCodeLine{\Hypertarget{cp__joint__space__trajectory__planner_8hpp_source_l00274}00274\ }
+\DoxyCodeLine{\Hypertarget{cp__joint__space__trajectory__planner_8hpp_source_l00275}00275\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (k\ ==\ 0)}
+\DoxyCodeLine{\Hypertarget{cp__joint__space__trajectory__planner_8hpp_source_l00276}00276\ \ \ \ \ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{cp__joint__space__trajectory__planner_8hpp_source_l00277}00277\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ RCLCPP\_ERROR(}
+\DoxyCodeLine{\Hypertarget{cp__joint__space__trajectory__planner_8hpp_source_l00278}00278\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{classsmacc2_1_1ISmaccComponent_a77ee85823bab8d84edcdf5d28782b728}{getLogger}}(),}
+\DoxyCodeLine{\Hypertarget{cp__joint__space__trajectory__planner_8hpp_source_l00279}00279\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}[CpJointSpaceTrajectoryPlanner]\ Initial\ posture\ discontinuity\ detected"{}});}
+\DoxyCodeLine{\Hypertarget{cp__joint__space__trajectory__planner_8hpp_source_l00280}00280\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{cp__joint__space__trajectory__planner_8hpp_source_l00281}00281\ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{cp__joint__space__trajectory__planner_8hpp_source_l00282}00282\ }
+\DoxyCodeLine{\Hypertarget{cp__joint__space__trajectory__planner_8hpp_source_l00283}00283\ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Reset\ retry\ counter}}
+\DoxyCodeLine{\Hypertarget{cp__joint__space__trajectory__planner_8hpp_source_l00284}00284\ \ \ \ \ \ \ \ \ \ \ ikAttemptsRemaining\ =\ options.ikAttempts;}
+\DoxyCodeLine{\Hypertarget{cp__joint__space__trajectory__planner_8hpp_source_l00285}00285\ }
+\DoxyCodeLine{\Hypertarget{cp__joint__space__trajectory__planner_8hpp_source_l00286}00286\ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Add\ point\ to\ trajectory}}
+\DoxyCodeLine{\Hypertarget{cp__joint__space__trajectory__planner_8hpp_source_l00287}00287\ \ \ \ \ \ \ \ \ \ \ trajectory.push\_back(jointPositions);}
+\DoxyCodeLine{\Hypertarget{cp__joint__space__trajectory__planner_8hpp_source_l00288}00288\ \ \ \ \ \ \ \ \ \ \ rclcpp::Duration\ durationFromStart\ =\ rclcpp::Time(pose.header.stamp)\ -\/\ referenceTime;}
+\DoxyCodeLine{\Hypertarget{cp__joint__space__trajectory__planner_8hpp_source_l00289}00289\ \ \ \ \ \ \ \ \ \ \ trajectoryTimeStamps.push\_back(durationFromStart);}
+\DoxyCodeLine{\Hypertarget{cp__joint__space__trajectory__planner_8hpp_source_l00290}00290\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{cp__joint__space__trajectory__planner_8hpp_source_l00291}00291\ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{cp__joint__space__trajectory__planner_8hpp_source_l00292}00292\ }
+\DoxyCodeLine{\Hypertarget{cp__joint__space__trajectory__planner_8hpp_source_l00293}00293\ \ \ \ \ \ \ \textcolor{comment}{//\ Build\ RobotTrajectory\ message}}
+\DoxyCodeLine{\Hypertarget{cp__joint__space__trajectory__planner_8hpp_source_l00294}00294\ \ \ \ \ \ \ result.\mbox{\hyperlink{structcl__moveit2z_1_1JointTrajectoryResult_a3226314086739cfb7f7d6cd6c598da29}{trajectory}}.joint\_trajectory.joint\_names\ =\ jointNames;}
+\DoxyCodeLine{\Hypertarget{cp__joint__space__trajectory__planner_8hpp_source_l00295}00295\ }
+\DoxyCodeLine{\Hypertarget{cp__joint__space__trajectory__planner_8hpp_source_l00296}00296\ \ \ \ \ \ \ \textcolor{comment}{//\ Skip\ first\ point\ (current\ state)\ to\ avoid\ discontinuity\ in\ some\ behaviors}}
+\DoxyCodeLine{\Hypertarget{cp__joint__space__trajectory__planner_8hpp_source_l00297}00297\ \ \ \ \ \ \ \textcolor{keywordflow}{for}\ (\textcolor{keywordtype}{size\_t}\ i\ =\ 1;\ i\ <\ trajectory.size();\ i++)}
+\DoxyCodeLine{\Hypertarget{cp__joint__space__trajectory__planner_8hpp_source_l00298}00298\ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{cp__joint__space__trajectory__planner_8hpp_source_l00299}00299\ \ \ \ \ \ \ \ \ trajectory\_msgs::msg::JointTrajectoryPoint\ jp;}
+\DoxyCodeLine{\Hypertarget{cp__joint__space__trajectory__planner_8hpp_source_l00300}00300\ \ \ \ \ \ \ \ \ jp.positions\ =\ trajectory[i];}
+\DoxyCodeLine{\Hypertarget{cp__joint__space__trajectory__planner_8hpp_source_l00301}00301\ \ \ \ \ \ \ \ \ jp.time\_from\_start\ =\ trajectoryTimeStamps[i];}
+\DoxyCodeLine{\Hypertarget{cp__joint__space__trajectory__planner_8hpp_source_l00302}00302\ \ \ \ \ \ \ \ \ result.\mbox{\hyperlink{structcl__moveit2z_1_1JointTrajectoryResult_a3226314086739cfb7f7d6cd6c598da29}{trajectory}}.joint\_trajectory.points.push\_back(jp);}
+\DoxyCodeLine{\Hypertarget{cp__joint__space__trajectory__planner_8hpp_source_l00303}00303\ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{cp__joint__space__trajectory__planner_8hpp_source_l00304}00304\ }
+\DoxyCodeLine{\Hypertarget{cp__joint__space__trajectory__planner_8hpp_source_l00305}00305\ \ \ \ \ \ \ \textcolor{comment}{//\ Determine\ success}}
+\DoxyCodeLine{\Hypertarget{cp__joint__space__trajectory__planner_8hpp_source_l00306}00306\ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (!result.\mbox{\hyperlink{structcl__moveit2z_1_1JointTrajectoryResult_a19ffd47c73d41ef9a92cdf9574f6aeca}{discontinuityIndexes}}.empty())}
+\DoxyCodeLine{\Hypertarget{cp__joint__space__trajectory__planner_8hpp_source_l00307}00307\ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{cp__joint__space__trajectory__planner_8hpp_source_l00308}00308\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (result.\mbox{\hyperlink{structcl__moveit2z_1_1JointTrajectoryResult_a19ffd47c73d41ef9a92cdf9574f6aeca}{discontinuityIndexes}}[0]\ ==\ 0)}
+\DoxyCodeLine{\Hypertarget{cp__joint__space__trajectory__planner_8hpp_source_l00309}00309\ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{cp__joint__space__trajectory__planner_8hpp_source_l00310}00310\ \ \ \ \ \ \ \ \ \ \ result.\mbox{\hyperlink{structcl__moveit2z_1_1JointTrajectoryResult_a1b3324d71ce454a3be93b523ecdd1d02}{errorCode}}\ =\ \mbox{\hyperlink{namespacecl__moveit2z_a953bbc2f9f52eb0c1865716d8ea45c7aa1b748367c8d468cb9b65ecd6b2eab32c}{JointTrajectoryErrorCode::INCORRECT\_INITIAL\_STATE}};}
+\DoxyCodeLine{\Hypertarget{cp__joint__space__trajectory__planner_8hpp_source_l00311}00311\ \ \ \ \ \ \ \ \ \ \ result.\mbox{\hyperlink{structcl__moveit2z_1_1JointTrajectoryResult_a4187b868e19bf95a6ff25c6ae082744d}{errorMessage}}\ =\ \textcolor{stringliteral}{"{}Incorrect\ initial\ state"{}};}
+\DoxyCodeLine{\Hypertarget{cp__joint__space__trajectory__planner_8hpp_source_l00312}00312\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{cp__joint__space__trajectory__planner_8hpp_source_l00313}00313\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{else}}
+\DoxyCodeLine{\Hypertarget{cp__joint__space__trajectory__planner_8hpp_source_l00314}00314\ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{cp__joint__space__trajectory__planner_8hpp_source_l00315}00315\ \ \ \ \ \ \ \ \ \ \ result.\mbox{\hyperlink{structcl__moveit2z_1_1JointTrajectoryResult_a1b3324d71ce454a3be93b523ecdd1d02}{errorCode}}\ =\ \mbox{\hyperlink{namespacecl__moveit2z_a953bbc2f9f52eb0c1865716d8ea45c7aa3e86842785cd7c42003e516418347c8e}{JointTrajectoryErrorCode::JOINT\_TRAJECTORY\_DISCONTINUITY}};}
+\DoxyCodeLine{\Hypertarget{cp__joint__space__trajectory__planner_8hpp_source_l00316}00316\ \ \ \ \ \ \ \ \ \ \ result.\mbox{\hyperlink{structcl__moveit2z_1_1JointTrajectoryResult_a4187b868e19bf95a6ff25c6ae082744d}{errorMessage}}\ =\ \textcolor{stringliteral}{"{}Joint\ trajectory\ discontinuity\ detected"{}};}
+\DoxyCodeLine{\Hypertarget{cp__joint__space__trajectory__planner_8hpp_source_l00317}00317\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{cp__joint__space__trajectory__planner_8hpp_source_l00318}00318\ \ \ \ \ \ \ \ \ result.\mbox{\hyperlink{structcl__moveit2z_1_1JointTrajectoryResult_ac463aeab86083b60fd7a532a993e3445}{success}}\ =\ \textcolor{keyword}{false};}
+\DoxyCodeLine{\Hypertarget{cp__joint__space__trajectory__planner_8hpp_source_l00319}00319\ \ \ \ \ \ \ \ \ RCLCPP\_WARN(\mbox{\hyperlink{classsmacc2_1_1ISmaccComponent_a77ee85823bab8d84edcdf5d28782b728}{getLogger}}(),\ \textcolor{stringliteral}{"{}[CpJointSpaceTrajectoryPlanner]\ \%s"{}},\ result.\mbox{\hyperlink{structcl__moveit2z_1_1JointTrajectoryResult_a4187b868e19bf95a6ff25c6ae082744d}{errorMessage}}.c\_str());}
+\DoxyCodeLine{\Hypertarget{cp__joint__space__trajectory__planner_8hpp_source_l00320}00320\ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{cp__joint__space__trajectory__planner_8hpp_source_l00321}00321\ \ \ \ \ \ \ \textcolor{keywordflow}{else}}
+\DoxyCodeLine{\Hypertarget{cp__joint__space__trajectory__planner_8hpp_source_l00322}00322\ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{cp__joint__space__trajectory__planner_8hpp_source_l00323}00323\ \ \ \ \ \ \ \ \ result.\mbox{\hyperlink{structcl__moveit2z_1_1JointTrajectoryResult_ac463aeab86083b60fd7a532a993e3445}{success}}\ =\ \textcolor{keyword}{true};}
+\DoxyCodeLine{\Hypertarget{cp__joint__space__trajectory__planner_8hpp_source_l00324}00324\ \ \ \ \ \ \ \ \ result.\mbox{\hyperlink{structcl__moveit2z_1_1JointTrajectoryResult_a1b3324d71ce454a3be93b523ecdd1d02}{errorCode}}\ =\ \mbox{\hyperlink{namespacecl__moveit2z_a953bbc2f9f52eb0c1865716d8ea45c7aad0749aaba8b833466dfcbb0428e4f89c}{JointTrajectoryErrorCode::SUCCESS}};}
+\DoxyCodeLine{\Hypertarget{cp__joint__space__trajectory__planner_8hpp_source_l00325}00325\ \ \ \ \ \ \ \ \ RCLCPP\_INFO(}
+\DoxyCodeLine{\Hypertarget{cp__joint__space__trajectory__planner_8hpp_source_l00326}00326\ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{classsmacc2_1_1ISmaccComponent_a77ee85823bab8d84edcdf5d28782b728}{getLogger}}(),}
+\DoxyCodeLine{\Hypertarget{cp__joint__space__trajectory__planner_8hpp_source_l00327}00327\ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}[CpJointSpaceTrajectoryPlanner]\ Successfully\ computed\ trajectory\ with\ \%lu\ points"{}},}
+\DoxyCodeLine{\Hypertarget{cp__joint__space__trajectory__planner_8hpp_source_l00328}00328\ \ \ \ \ \ \ \ \ \ \ result.\mbox{\hyperlink{structcl__moveit2z_1_1JointTrajectoryResult_a3226314086739cfb7f7d6cd6c598da29}{trajectory}}.joint\_trajectory.points.size());}
+\DoxyCodeLine{\Hypertarget{cp__joint__space__trajectory__planner_8hpp_source_l00329}00329\ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{cp__joint__space__trajectory__planner_8hpp_source_l00330}00330\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{cp__joint__space__trajectory__planner_8hpp_source_l00331}00331\ \ \ \ \ \textcolor{keywordflow}{catch}\ (\textcolor{keyword}{const}\ std::exception\ \&\ e)}
+\DoxyCodeLine{\Hypertarget{cp__joint__space__trajectory__planner_8hpp_source_l00332}00332\ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{cp__joint__space__trajectory__planner_8hpp_source_l00333}00333\ \ \ \ \ \ \ result.\mbox{\hyperlink{structcl__moveit2z_1_1JointTrajectoryResult_ac463aeab86083b60fd7a532a993e3445}{success}}\ =\ \textcolor{keyword}{false};}
+\DoxyCodeLine{\Hypertarget{cp__joint__space__trajectory__planner_8hpp_source_l00334}00334\ \ \ \ \ \ \ result.\mbox{\hyperlink{structcl__moveit2z_1_1JointTrajectoryResult_a4187b868e19bf95a6ff25c6ae082744d}{errorMessage}}\ =\ std::string(\textcolor{stringliteral}{"{}Exception\ during\ trajectory\ planning:\ "{}})\ +\ e.what();}
+\DoxyCodeLine{\Hypertarget{cp__joint__space__trajectory__planner_8hpp_source_l00335}00335\ \ \ \ \ \ \ RCLCPP\_ERROR(\mbox{\hyperlink{classsmacc2_1_1ISmaccComponent_a77ee85823bab8d84edcdf5d28782b728}{getLogger}}(),\ \textcolor{stringliteral}{"{}[CpJointSpaceTrajectoryPlanner]\ \%s"{}},\ result.\mbox{\hyperlink{structcl__moveit2z_1_1JointTrajectoryResult_a4187b868e19bf95a6ff25c6ae082744d}{errorMessage}}.c\_str());}
+\DoxyCodeLine{\Hypertarget{cp__joint__space__trajectory__planner_8hpp_source_l00336}00336\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{cp__joint__space__trajectory__planner_8hpp_source_l00337}00337\ }
+\DoxyCodeLine{\Hypertarget{cp__joint__space__trajectory__planner_8hpp_source_l00338}00338\ \ \ \ \ \textcolor{keywordflow}{return}\ result;}
+\DoxyCodeLine{\Hypertarget{cp__joint__space__trajectory__planner_8hpp_source_l00339}00339\ \ \ \}}
+\DoxyCodeLine{\Hypertarget{cp__joint__space__trajectory__planner_8hpp_source_l00340}00340\ }
+\DoxyCodeLine{\Hypertarget{cp__joint__space__trajectory__planner_8hpp_source_l00341}00341\ \textcolor{keyword}{private}:}
+\DoxyCodeLine{\Hypertarget{cp__joint__space__trajectory__planner_8hpp_source_l00342}\mbox{\hyperlink{classcl__moveit2z_1_1CpJointSpaceTrajectoryPlanner_a3fe5da92e4f8353d3ea4d65822598de3}{00342}}\ \ \ \mbox{\hyperlink{classcl__moveit2z_1_1ClMoveit2z}{ClMoveit2z}}\ *\ \mbox{\hyperlink{classcl__moveit2z_1_1CpJointSpaceTrajectoryPlanner_a3fe5da92e4f8353d3ea4d65822598de3}{moveit2zClient\_}}\ =\ \textcolor{keyword}{nullptr};}
+\DoxyCodeLine{\Hypertarget{cp__joint__space__trajectory__planner_8hpp_source_l00343}\mbox{\hyperlink{classcl__moveit2z_1_1CpJointSpaceTrajectoryPlanner_a92073269e2790003ec76541bce686d6f}{00343}}\ \ \ rclcpp::Client<moveit\_msgs::srv::GetPositionIK>::SharedPtr\ \mbox{\hyperlink{classcl__moveit2z_1_1CpJointSpaceTrajectoryPlanner_a92073269e2790003ec76541bce686d6f}{ikClient\_}};}
+\DoxyCodeLine{\Hypertarget{cp__joint__space__trajectory__planner_8hpp_source_l00344}00344\ \};}
+\DoxyCodeLine{\Hypertarget{cp__joint__space__trajectory__planner_8hpp_source_l00345}00345\ }
+\DoxyCodeLine{\Hypertarget{cp__joint__space__trajectory__planner_8hpp_source_l00346}00346\ \}\ \ \textcolor{comment}{//\ namespace\ cl\_moveit2z}}
+
+\end{DoxyCode}

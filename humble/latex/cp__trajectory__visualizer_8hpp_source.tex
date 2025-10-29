@@ -1,0 +1,211 @@
+\doxysection{cp\+\_\+trajectory\+\_\+visualizer.\+hpp}
+\hypertarget{cp__trajectory__visualizer_8hpp_source}{}\label{cp__trajectory__visualizer_8hpp_source}\index{smacc2\_client\_library/cl\_moveit2z/include/cl\_moveit2z/components/cp\_trajectory\_visualizer.hpp@{smacc2\_client\_library/cl\_moveit2z/include/cl\_moveit2z/components/cp\_trajectory\_visualizer.hpp}}
+\mbox{\hyperlink{cp__trajectory__visualizer_8hpp}{Go to the documentation of this file.}}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\Hypertarget{cp__trajectory__visualizer_8hpp_source_l00001}00001\ \textcolor{comment}{//\ Copyright\ 2021\ RobosoftAI\ Inc.}}
+\DoxyCodeLine{\Hypertarget{cp__trajectory__visualizer_8hpp_source_l00002}00002\ \textcolor{comment}{//}}
+\DoxyCodeLine{\Hypertarget{cp__trajectory__visualizer_8hpp_source_l00003}00003\ \textcolor{comment}{//\ Licensed\ under\ the\ Apache\ License,\ Version\ 2.0\ (the\ "{}License"{});}}
+\DoxyCodeLine{\Hypertarget{cp__trajectory__visualizer_8hpp_source_l00004}00004\ \textcolor{comment}{//\ you\ may\ not\ use\ this\ file\ except\ in\ compliance\ with\ the\ License.}}
+\DoxyCodeLine{\Hypertarget{cp__trajectory__visualizer_8hpp_source_l00005}00005\ \textcolor{comment}{//\ You\ may\ obtain\ a\ copy\ of\ the\ License\ at}}
+\DoxyCodeLine{\Hypertarget{cp__trajectory__visualizer_8hpp_source_l00006}00006\ \textcolor{comment}{//}}
+\DoxyCodeLine{\Hypertarget{cp__trajectory__visualizer_8hpp_source_l00007}00007\ \textcolor{comment}{//\ \ \ \ \ http://www.apache.org/licenses/LICENSE-\/2.0}}
+\DoxyCodeLine{\Hypertarget{cp__trajectory__visualizer_8hpp_source_l00008}00008\ \textcolor{comment}{//}}
+\DoxyCodeLine{\Hypertarget{cp__trajectory__visualizer_8hpp_source_l00009}00009\ \textcolor{comment}{//\ Unless\ required\ by\ applicable\ law\ or\ agreed\ to\ in\ writing,\ software}}
+\DoxyCodeLine{\Hypertarget{cp__trajectory__visualizer_8hpp_source_l00010}00010\ \textcolor{comment}{//\ distributed\ under\ the\ License\ is\ distributed\ on\ an\ "{}AS\ IS"{}\ BASIS,}}
+\DoxyCodeLine{\Hypertarget{cp__trajectory__visualizer_8hpp_source_l00011}00011\ \textcolor{comment}{//\ WITHOUT\ WARRANTIES\ OR\ CONDITIONS\ OF\ ANY\ KIND,\ either\ express\ or\ implied.}}
+\DoxyCodeLine{\Hypertarget{cp__trajectory__visualizer_8hpp_source_l00012}00012\ \textcolor{comment}{//\ See\ the\ License\ for\ the\ specific\ language\ governing\ permissions\ and}}
+\DoxyCodeLine{\Hypertarget{cp__trajectory__visualizer_8hpp_source_l00013}00013\ \textcolor{comment}{//\ limitations\ under\ the\ License.}}
+\DoxyCodeLine{\Hypertarget{cp__trajectory__visualizer_8hpp_source_l00014}00014\ }
+\DoxyCodeLine{\Hypertarget{cp__trajectory__visualizer_8hpp_source_l00015}00015\ \textcolor{comment}{/*****************************************************************************************************************}}
+\DoxyCodeLine{\Hypertarget{cp__trajectory__visualizer_8hpp_source_l00016}00016\ \textcolor{comment}{\ *}}
+\DoxyCodeLine{\Hypertarget{cp__trajectory__visualizer_8hpp_source_l00017}00017\ \textcolor{comment}{\ *\ \ \ Authors:\ Pablo\ Inigo\ Blasco,\ Brett\ Aldrich}}
+\DoxyCodeLine{\Hypertarget{cp__trajectory__visualizer_8hpp_source_l00018}00018\ \textcolor{comment}{\ *}}
+\DoxyCodeLine{\Hypertarget{cp__trajectory__visualizer_8hpp_source_l00019}00019\ \textcolor{comment}{\ *****************************************************************************************************************/}}
+\DoxyCodeLine{\Hypertarget{cp__trajectory__visualizer_8hpp_source_l00020}00020\ }
+\DoxyCodeLine{\Hypertarget{cp__trajectory__visualizer_8hpp_source_l00021}00021\ \textcolor{preprocessor}{\#pragma\ once}}
+\DoxyCodeLine{\Hypertarget{cp__trajectory__visualizer_8hpp_source_l00022}00022\ }
+\DoxyCodeLine{\Hypertarget{cp__trajectory__visualizer_8hpp_source_l00023}00023\ \textcolor{preprocessor}{\#include\ <\mbox{\hyperlink{component_8hpp}{smacc2/component.hpp}}>}}
+\DoxyCodeLine{\Hypertarget{cp__trajectory__visualizer_8hpp_source_l00024}00024\ \textcolor{preprocessor}{\#include\ <\mbox{\hyperlink{smacc__updatable_8hpp}{smacc2/smacc\_updatable.hpp}}>}}
+\DoxyCodeLine{\Hypertarget{cp__trajectory__visualizer_8hpp_source_l00025}00025\ }
+\DoxyCodeLine{\Hypertarget{cp__trajectory__visualizer_8hpp_source_l00026}00026\ \textcolor{preprocessor}{\#include\ <geometry\_msgs/msg/pose\_stamped.hpp>}}
+\DoxyCodeLine{\Hypertarget{cp__trajectory__visualizer_8hpp_source_l00027}00027\ \textcolor{preprocessor}{\#include\ <visualization\_msgs/msg/marker.hpp>}}
+\DoxyCodeLine{\Hypertarget{cp__trajectory__visualizer_8hpp_source_l00028}00028\ \textcolor{preprocessor}{\#include\ <visualization\_msgs/msg/marker\_array.hpp>}}
+\DoxyCodeLine{\Hypertarget{cp__trajectory__visualizer_8hpp_source_l00029}00029\ }
+\DoxyCodeLine{\Hypertarget{cp__trajectory__visualizer_8hpp_source_l00030}00030\ \textcolor{preprocessor}{\#include\ <mutex>}}
+\DoxyCodeLine{\Hypertarget{cp__trajectory__visualizer_8hpp_source_l00031}00031\ \textcolor{preprocessor}{\#include\ <string>}}
+\DoxyCodeLine{\Hypertarget{cp__trajectory__visualizer_8hpp_source_l00032}00032\ \textcolor{preprocessor}{\#include\ <vector>}}
+\DoxyCodeLine{\Hypertarget{cp__trajectory__visualizer_8hpp_source_l00033}00033\ }
+\DoxyCodeLine{\Hypertarget{cp__trajectory__visualizer_8hpp_source_l00034}00034\ \textcolor{keyword}{namespace\ }\mbox{\hyperlink{namespacecl__moveit2z}{cl\_moveit2z}}}
+\DoxyCodeLine{\Hypertarget{cp__trajectory__visualizer_8hpp_source_l00035}00035\ \{}
+\DoxyCodeLine{\Hypertarget{cp__trajectory__visualizer_8hpp_source_l00044}\mbox{\hyperlink{classcl__moveit2z_1_1CpTrajectoryVisualizer}{00044}}\ \textcolor{keyword}{class\ }\mbox{\hyperlink{classcl__moveit2z_1_1CpTrajectoryVisualizer}{CpTrajectoryVisualizer}}\ :\ \textcolor{keyword}{public}\ \mbox{\hyperlink{classsmacc2_1_1ISmaccComponent}{smacc2::ISmaccComponent}},\ \textcolor{keyword}{public}\ \mbox{\hyperlink{classsmacc2_1_1ISmaccUpdatable}{smacc2::ISmaccUpdatable}}}
+\DoxyCodeLine{\Hypertarget{cp__trajectory__visualizer_8hpp_source_l00045}00045\ \{}
+\DoxyCodeLine{\Hypertarget{cp__trajectory__visualizer_8hpp_source_l00046}00046\ \textcolor{keyword}{public}:}
+\DoxyCodeLine{\Hypertarget{cp__trajectory__visualizer_8hpp_source_l00052}\mbox{\hyperlink{classcl__moveit2z_1_1CpTrajectoryVisualizer_a08a9d3bf962e971cb660315ac3a25d0f}{00052}}\ \ \ \mbox{\hyperlink{classcl__moveit2z_1_1CpTrajectoryVisualizer_a08a9d3bf962e971cb660315ac3a25d0f}{CpTrajectoryVisualizer}}(\textcolor{keywordtype}{double}\ publishRate\ =\ 10.0)\ :\ \mbox{\hyperlink{classcl__moveit2z_1_1CpTrajectoryVisualizer_a31dfac86629800c37a6563a508a3afcb}{publishRate\_}}(publishRate),\ \mbox{\hyperlink{classcl__moveit2z_1_1CpTrajectoryVisualizer_a2bbd25d63b74327cc04afe451435bf98}{enabled\_}}(false)\ \{\}}
+\DoxyCodeLine{\Hypertarget{cp__trajectory__visualizer_8hpp_source_l00053}00053\ }
+\DoxyCodeLine{\Hypertarget{cp__trajectory__visualizer_8hpp_source_l00054}\mbox{\hyperlink{classcl__moveit2z_1_1CpTrajectoryVisualizer_a93d4560211071326f5c91cf4e1fac7f3}{00054}}\ \ \ \textcolor{keyword}{virtual}\ \mbox{\hyperlink{classcl__moveit2z_1_1CpTrajectoryVisualizer_a93d4560211071326f5c91cf4e1fac7f3}{\string~CpTrajectoryVisualizer}}()\ =\ \textcolor{keywordflow}{default};}
+\DoxyCodeLine{\Hypertarget{cp__trajectory__visualizer_8hpp_source_l00055}00055\ }
+\DoxyCodeLine{\Hypertarget{cp__trajectory__visualizer_8hpp_source_l00059}\mbox{\hyperlink{classcl__moveit2z_1_1CpTrajectoryVisualizer_a54955468ebd636316068237d7d12c0a7}{00059}}\ \ \ \textcolor{keyword}{inline}\ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{classcl__moveit2z_1_1CpTrajectoryVisualizer_a54955468ebd636316068237d7d12c0a7}{onInitialize}}()\textcolor{keyword}{\ override}}
+\DoxyCodeLine{\Hypertarget{cp__trajectory__visualizer_8hpp_source_l00060}00060\ \textcolor{keyword}{\ \ }\{}
+\DoxyCodeLine{\Hypertarget{cp__trajectory__visualizer_8hpp_source_l00061}00061\ \ \ \ \ \mbox{\hyperlink{classcl__moveit2z_1_1CpTrajectoryVisualizer_a49e645bd7a18979e8f8d4e5cf6018dc3}{markersPub\_}}\ =}
+\DoxyCodeLine{\Hypertarget{cp__trajectory__visualizer_8hpp_source_l00062}00062\ \ \ \ \ \ \ \mbox{\hyperlink{classsmacc2_1_1ISmaccComponent_aaac68614687bed658c59f8f15746ab91}{getNode}}()-\/>create\_publisher<visualization\_msgs::msg::MarkerArray>(\textcolor{stringliteral}{"{}trajectory\_markers"{}},\ 1);}
+\DoxyCodeLine{\Hypertarget{cp__trajectory__visualizer_8hpp_source_l00063}00063\ \ \ \ \ RCLCPP\_INFO(\mbox{\hyperlink{classsmacc2_1_1ISmaccComponent_a77ee85823bab8d84edcdf5d28782b728}{getLogger}}(),\ \textcolor{stringliteral}{"{}[CpTrajectoryVisualizer]\ Initialized"{}});}
+\DoxyCodeLine{\Hypertarget{cp__trajectory__visualizer_8hpp_source_l00064}00064\ }
+\DoxyCodeLine{\Hypertarget{cp__trajectory__visualizer_8hpp_source_l00065}00065\ \ \ \ \ \textcolor{comment}{//\ Initialize\ timing\ for\ publish\ rate\ control}}
+\DoxyCodeLine{\Hypertarget{cp__trajectory__visualizer_8hpp_source_l00066}00066\ \ \ \ \ \mbox{\hyperlink{classcl__moveit2z_1_1CpTrajectoryVisualizer_a01b664f4256f4e9757de068b59b5eee2}{lastPublishTime\_}}\ =\ \mbox{\hyperlink{classsmacc2_1_1ISmaccComponent_aaac68614687bed658c59f8f15746ab91}{getNode}}()-\/>now();}
+\DoxyCodeLine{\Hypertarget{cp__trajectory__visualizer_8hpp_source_l00067}00067\ \ \ \}}
+\DoxyCodeLine{\Hypertarget{cp__trajectory__visualizer_8hpp_source_l00068}00068\ }
+\DoxyCodeLine{\Hypertarget{cp__trajectory__visualizer_8hpp_source_l00072}\mbox{\hyperlink{classcl__moveit2z_1_1CpTrajectoryVisualizer_aca327b9fdf49e2c11a7e0e9c3d195c1a}{00072}}\ \ \ \textcolor{keyword}{inline}\ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{classcl__moveit2z_1_1CpTrajectoryVisualizer_aca327b9fdf49e2c11a7e0e9c3d195c1a}{update}}()\textcolor{keyword}{\ override}}
+\DoxyCodeLine{\Hypertarget{cp__trajectory__visualizer_8hpp_source_l00073}00073\ \textcolor{keyword}{\ \ }\{}
+\DoxyCodeLine{\Hypertarget{cp__trajectory__visualizer_8hpp_source_l00074}00074\ \ \ \ \ std::lock\_guard<std::mutex>\ guard(\mbox{\hyperlink{classcl__moveit2z_1_1CpTrajectoryVisualizer_a2077070f3a590af4ee8cbbcbcd31f56c}{markersMutex\_}});}
+\DoxyCodeLine{\Hypertarget{cp__trajectory__visualizer_8hpp_source_l00075}00075\ }
+\DoxyCodeLine{\Hypertarget{cp__trajectory__visualizer_8hpp_source_l00076}00076\ \ \ \ \ \textcolor{keywordflow}{if}\ (!\mbox{\hyperlink{classcl__moveit2z_1_1CpTrajectoryVisualizer_a2bbd25d63b74327cc04afe451435bf98}{enabled\_}}\ ||\ !\mbox{\hyperlink{classcl__moveit2z_1_1CpTrajectoryVisualizer_ac7475042fd9ae009f3ab6fc561452b03}{markersReady\_}})}
+\DoxyCodeLine{\Hypertarget{cp__trajectory__visualizer_8hpp_source_l00077}00077\ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{cp__trajectory__visualizer_8hpp_source_l00078}00078\ \ \ \ \ \ \ \textcolor{keywordflow}{return};}
+\DoxyCodeLine{\Hypertarget{cp__trajectory__visualizer_8hpp_source_l00079}00079\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{cp__trajectory__visualizer_8hpp_source_l00080}00080\ }
+\DoxyCodeLine{\Hypertarget{cp__trajectory__visualizer_8hpp_source_l00081}00081\ \ \ \ \ \textcolor{comment}{//\ Rate\ limiting}}
+\DoxyCodeLine{\Hypertarget{cp__trajectory__visualizer_8hpp_source_l00082}00082\ \ \ \ \ \textcolor{keyword}{auto}\ now\ =\ \mbox{\hyperlink{classsmacc2_1_1ISmaccComponent_aaac68614687bed658c59f8f15746ab91}{getNode}}()-\/>now();}
+\DoxyCodeLine{\Hypertarget{cp__trajectory__visualizer_8hpp_source_l00083}00083\ \ \ \ \ \textcolor{keyword}{auto}\ elapsed\ =\ (now\ -\/\ \mbox{\hyperlink{classcl__moveit2z_1_1CpTrajectoryVisualizer_a01b664f4256f4e9757de068b59b5eee2}{lastPublishTime\_}}).seconds();}
+\DoxyCodeLine{\Hypertarget{cp__trajectory__visualizer_8hpp_source_l00084}00084\ \ \ \ \ \textcolor{keywordflow}{if}\ (elapsed\ <\ (1.0\ /\ \mbox{\hyperlink{classcl__moveit2z_1_1CpTrajectoryVisualizer_a31dfac86629800c37a6563a508a3afcb}{publishRate\_}}))}
+\DoxyCodeLine{\Hypertarget{cp__trajectory__visualizer_8hpp_source_l00085}00085\ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{cp__trajectory__visualizer_8hpp_source_l00086}00086\ \ \ \ \ \ \ \textcolor{keywordflow}{return};}
+\DoxyCodeLine{\Hypertarget{cp__trajectory__visualizer_8hpp_source_l00087}00087\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{cp__trajectory__visualizer_8hpp_source_l00088}00088\ }
+\DoxyCodeLine{\Hypertarget{cp__trajectory__visualizer_8hpp_source_l00089}00089\ \ \ \ \ \mbox{\hyperlink{classcl__moveit2z_1_1CpTrajectoryVisualizer_a49e645bd7a18979e8f8d4e5cf6018dc3}{markersPub\_}}-\/>publish(\mbox{\hyperlink{classcl__moveit2z_1_1CpTrajectoryVisualizer_a3d00327d89ed3d93fc72ca0683f46787}{markers\_}});}
+\DoxyCodeLine{\Hypertarget{cp__trajectory__visualizer_8hpp_source_l00090}00090\ \ \ \ \ \mbox{\hyperlink{classcl__moveit2z_1_1CpTrajectoryVisualizer_a01b664f4256f4e9757de068b59b5eee2}{lastPublishTime\_}}\ =\ now;}
+\DoxyCodeLine{\Hypertarget{cp__trajectory__visualizer_8hpp_source_l00091}00091\ \ \ \}}
+\DoxyCodeLine{\Hypertarget{cp__trajectory__visualizer_8hpp_source_l00092}00092\ }
+\DoxyCodeLine{\Hypertarget{cp__trajectory__visualizer_8hpp_source_l00099}\mbox{\hyperlink{classcl__moveit2z_1_1CpTrajectoryVisualizer_a6fb3f0af0fc10db483bdf04218200d28}{00099}}\ \ \ \textcolor{keyword}{inline}\ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{classcl__moveit2z_1_1CpTrajectoryVisualizer_a6fb3f0af0fc10db483bdf04218200d28}{setTrajectory}}(}
+\DoxyCodeLine{\Hypertarget{cp__trajectory__visualizer_8hpp_source_l00100}00100\ \ \ \ \ \textcolor{keyword}{const}\ std::vector<geometry\_msgs::msg::PoseStamped>\ \&\ poses,}
+\DoxyCodeLine{\Hypertarget{cp__trajectory__visualizer_8hpp_source_l00101}00101\ \ \ \ \ \textcolor{keyword}{const}\ std::string\ \&\ ns\ =\ \textcolor{stringliteral}{"{}trajectory"{}})}
+\DoxyCodeLine{\Hypertarget{cp__trajectory__visualizer_8hpp_source_l00102}00102\ \ \ \{}
+\DoxyCodeLine{\Hypertarget{cp__trajectory__visualizer_8hpp_source_l00103}00103\ \ \ \ \ std::lock\_guard<std::mutex>\ guard(\mbox{\hyperlink{classcl__moveit2z_1_1CpTrajectoryVisualizer_a2077070f3a590af4ee8cbbcbcd31f56c}{markersMutex\_}});}
+\DoxyCodeLine{\Hypertarget{cp__trajectory__visualizer_8hpp_source_l00104}00104\ }
+\DoxyCodeLine{\Hypertarget{cp__trajectory__visualizer_8hpp_source_l00105}00105\ \ \ \ \ RCLCPP\_INFO(}
+\DoxyCodeLine{\Hypertarget{cp__trajectory__visualizer_8hpp_source_l00106}00106\ \ \ \ \ \ \ \mbox{\hyperlink{classsmacc2_1_1ISmaccComponent_a77ee85823bab8d84edcdf5d28782b728}{getLogger}}(),\ \textcolor{stringliteral}{"{}[CpTrajectoryVisualizer]\ Setting\ trajectory\ with\ \%lu\ poses"{}},\ poses.size());}
+\DoxyCodeLine{\Hypertarget{cp__trajectory__visualizer_8hpp_source_l00107}00107\ }
+\DoxyCodeLine{\Hypertarget{cp__trajectory__visualizer_8hpp_source_l00108}00108\ \ \ \ \ \mbox{\hyperlink{classcl__moveit2z_1_1CpTrajectoryVisualizer_a3d00327d89ed3d93fc72ca0683f46787}{markers\_}}.markers.clear();}
+\DoxyCodeLine{\Hypertarget{cp__trajectory__visualizer_8hpp_source_l00109}00109\ }
+\DoxyCodeLine{\Hypertarget{cp__trajectory__visualizer_8hpp_source_l00110}00110\ \ \ \ \ \textcolor{keywordflow}{if}\ (poses.empty())}
+\DoxyCodeLine{\Hypertarget{cp__trajectory__visualizer_8hpp_source_l00111}00111\ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{cp__trajectory__visualizer_8hpp_source_l00112}00112\ \ \ \ \ \ \ RCLCPP\_WARN(\mbox{\hyperlink{classsmacc2_1_1ISmaccComponent_a77ee85823bab8d84edcdf5d28782b728}{getLogger}}(),\ \textcolor{stringliteral}{"{}[CpTrajectoryVisualizer]\ Empty\ trajectory\ provided"{}});}
+\DoxyCodeLine{\Hypertarget{cp__trajectory__visualizer_8hpp_source_l00113}00113\ \ \ \ \ \ \ \mbox{\hyperlink{classcl__moveit2z_1_1CpTrajectoryVisualizer_ac7475042fd9ae009f3ab6fc561452b03}{markersReady\_}}\ =\ \textcolor{keyword}{false};}
+\DoxyCodeLine{\Hypertarget{cp__trajectory__visualizer_8hpp_source_l00114}00114\ \ \ \ \ \ \ \textcolor{keywordflow}{return};}
+\DoxyCodeLine{\Hypertarget{cp__trajectory__visualizer_8hpp_source_l00115}00115\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{cp__trajectory__visualizer_8hpp_source_l00116}00116\ }
+\DoxyCodeLine{\Hypertarget{cp__trajectory__visualizer_8hpp_source_l00117}00117\ \ \ \ \ \textcolor{comment}{//\ Create\ spheres\ for\ each\ pose}}
+\DoxyCodeLine{\Hypertarget{cp__trajectory__visualizer_8hpp_source_l00118}00118\ \ \ \ \ \textcolor{keywordflow}{for}\ (\textcolor{keywordtype}{size\_t}\ i\ =\ 0;\ i\ <\ poses.size();\ ++i)}
+\DoxyCodeLine{\Hypertarget{cp__trajectory__visualizer_8hpp_source_l00119}00119\ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{cp__trajectory__visualizer_8hpp_source_l00120}00120\ \ \ \ \ \ \ visualization\_msgs::msg::Marker\ marker;}
+\DoxyCodeLine{\Hypertarget{cp__trajectory__visualizer_8hpp_source_l00121}00121\ \ \ \ \ \ \ marker.header\ =\ poses[i].header;}
+\DoxyCodeLine{\Hypertarget{cp__trajectory__visualizer_8hpp_source_l00122}00122\ \ \ \ \ \ \ marker.ns\ =\ ns;}
+\DoxyCodeLine{\Hypertarget{cp__trajectory__visualizer_8hpp_source_l00123}00123\ \ \ \ \ \ \ marker.id\ =\ \textcolor{keyword}{static\_cast<}\textcolor{keywordtype}{int}\textcolor{keyword}{>}(i);}
+\DoxyCodeLine{\Hypertarget{cp__trajectory__visualizer_8hpp_source_l00124}00124\ \ \ \ \ \ \ marker.type\ =\ visualization\_msgs::msg::Marker::SPHERE;}
+\DoxyCodeLine{\Hypertarget{cp__trajectory__visualizer_8hpp_source_l00125}00125\ \ \ \ \ \ \ marker.action\ =\ visualization\_msgs::msg::Marker::ADD;}
+\DoxyCodeLine{\Hypertarget{cp__trajectory__visualizer_8hpp_source_l00126}00126\ }
+\DoxyCodeLine{\Hypertarget{cp__trajectory__visualizer_8hpp_source_l00127}00127\ \ \ \ \ \ \ marker.pose\ =\ poses[i].pose;}
+\DoxyCodeLine{\Hypertarget{cp__trajectory__visualizer_8hpp_source_l00128}00128\ }
+\DoxyCodeLine{\Hypertarget{cp__trajectory__visualizer_8hpp_source_l00129}00129\ \ \ \ \ \ \ marker.scale.x\ =\ \mbox{\hyperlink{classcl__moveit2z_1_1CpTrajectoryVisualizer_adcf61a04aedbe9ca3218723b37da12fa}{markerScale\_}};}
+\DoxyCodeLine{\Hypertarget{cp__trajectory__visualizer_8hpp_source_l00130}00130\ \ \ \ \ \ \ marker.scale.y\ =\ \mbox{\hyperlink{classcl__moveit2z_1_1CpTrajectoryVisualizer_adcf61a04aedbe9ca3218723b37da12fa}{markerScale\_}};}
+\DoxyCodeLine{\Hypertarget{cp__trajectory__visualizer_8hpp_source_l00131}00131\ \ \ \ \ \ \ marker.scale.z\ =\ \mbox{\hyperlink{classcl__moveit2z_1_1CpTrajectoryVisualizer_adcf61a04aedbe9ca3218723b37da12fa}{markerScale\_}};}
+\DoxyCodeLine{\Hypertarget{cp__trajectory__visualizer_8hpp_source_l00132}00132\ }
+\DoxyCodeLine{\Hypertarget{cp__trajectory__visualizer_8hpp_source_l00133}00133\ \ \ \ \ \ \ marker.color.r\ =\ \mbox{\hyperlink{classcl__moveit2z_1_1CpTrajectoryVisualizer_a8e8f205815f085846dc8eef21b2eea52}{markerColor\_}}[0];}
+\DoxyCodeLine{\Hypertarget{cp__trajectory__visualizer_8hpp_source_l00134}00134\ \ \ \ \ \ \ marker.color.g\ =\ \mbox{\hyperlink{classcl__moveit2z_1_1CpTrajectoryVisualizer_a8e8f205815f085846dc8eef21b2eea52}{markerColor\_}}[1];}
+\DoxyCodeLine{\Hypertarget{cp__trajectory__visualizer_8hpp_source_l00135}00135\ \ \ \ \ \ \ marker.color.b\ =\ \mbox{\hyperlink{classcl__moveit2z_1_1CpTrajectoryVisualizer_a8e8f205815f085846dc8eef21b2eea52}{markerColor\_}}[2];}
+\DoxyCodeLine{\Hypertarget{cp__trajectory__visualizer_8hpp_source_l00136}00136\ \ \ \ \ \ \ marker.color.a\ =\ \mbox{\hyperlink{classcl__moveit2z_1_1CpTrajectoryVisualizer_a8e8f205815f085846dc8eef21b2eea52}{markerColor\_}}[3];}
+\DoxyCodeLine{\Hypertarget{cp__trajectory__visualizer_8hpp_source_l00137}00137\ }
+\DoxyCodeLine{\Hypertarget{cp__trajectory__visualizer_8hpp_source_l00138}00138\ \ \ \ \ \ \ \mbox{\hyperlink{classcl__moveit2z_1_1CpTrajectoryVisualizer_a3d00327d89ed3d93fc72ca0683f46787}{markers\_}}.markers.push\_back(marker);}
+\DoxyCodeLine{\Hypertarget{cp__trajectory__visualizer_8hpp_source_l00139}00139\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{cp__trajectory__visualizer_8hpp_source_l00140}00140\ }
+\DoxyCodeLine{\Hypertarget{cp__trajectory__visualizer_8hpp_source_l00141}00141\ \ \ \ \ \textcolor{comment}{//\ Create\ line\ strip\ connecting\ all\ poses}}
+\DoxyCodeLine{\Hypertarget{cp__trajectory__visualizer_8hpp_source_l00142}00142\ \ \ \ \ \textcolor{keywordflow}{if}\ (poses.size()\ >\ 1)}
+\DoxyCodeLine{\Hypertarget{cp__trajectory__visualizer_8hpp_source_l00143}00143\ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{cp__trajectory__visualizer_8hpp_source_l00144}00144\ \ \ \ \ \ \ visualization\_msgs::msg::Marker\ lineMarker;}
+\DoxyCodeLine{\Hypertarget{cp__trajectory__visualizer_8hpp_source_l00145}00145\ \ \ \ \ \ \ lineMarker.header\ =\ poses[0].header;}
+\DoxyCodeLine{\Hypertarget{cp__trajectory__visualizer_8hpp_source_l00146}00146\ \ \ \ \ \ \ lineMarker.ns\ =\ ns\ +\ \textcolor{stringliteral}{"{}\_path"{}};}
+\DoxyCodeLine{\Hypertarget{cp__trajectory__visualizer_8hpp_source_l00147}00147\ \ \ \ \ \ \ lineMarker.id\ =\ \textcolor{keyword}{static\_cast<}\textcolor{keywordtype}{int}\textcolor{keyword}{>}(poses.size());}
+\DoxyCodeLine{\Hypertarget{cp__trajectory__visualizer_8hpp_source_l00148}00148\ \ \ \ \ \ \ lineMarker.type\ =\ visualization\_msgs::msg::Marker::LINE\_STRIP;}
+\DoxyCodeLine{\Hypertarget{cp__trajectory__visualizer_8hpp_source_l00149}00149\ \ \ \ \ \ \ lineMarker.action\ =\ visualization\_msgs::msg::Marker::ADD;}
+\DoxyCodeLine{\Hypertarget{cp__trajectory__visualizer_8hpp_source_l00150}00150\ }
+\DoxyCodeLine{\Hypertarget{cp__trajectory__visualizer_8hpp_source_l00151}00151\ \ \ \ \ \ \ lineMarker.scale.x\ =\ \mbox{\hyperlink{classcl__moveit2z_1_1CpTrajectoryVisualizer_adcf61a04aedbe9ca3218723b37da12fa}{markerScale\_}}\ *\ 0.3;\ \ \textcolor{comment}{//\ Line\ width}}
+\DoxyCodeLine{\Hypertarget{cp__trajectory__visualizer_8hpp_source_l00152}00152\ }
+\DoxyCodeLine{\Hypertarget{cp__trajectory__visualizer_8hpp_source_l00153}00153\ \ \ \ \ \ \ lineMarker.color.r\ =\ \mbox{\hyperlink{classcl__moveit2z_1_1CpTrajectoryVisualizer_a8e8f205815f085846dc8eef21b2eea52}{markerColor\_}}[0];}
+\DoxyCodeLine{\Hypertarget{cp__trajectory__visualizer_8hpp_source_l00154}00154\ \ \ \ \ \ \ lineMarker.color.g\ =\ \mbox{\hyperlink{classcl__moveit2z_1_1CpTrajectoryVisualizer_a8e8f205815f085846dc8eef21b2eea52}{markerColor\_}}[1];}
+\DoxyCodeLine{\Hypertarget{cp__trajectory__visualizer_8hpp_source_l00155}00155\ \ \ \ \ \ \ lineMarker.color.b\ =\ \mbox{\hyperlink{classcl__moveit2z_1_1CpTrajectoryVisualizer_a8e8f205815f085846dc8eef21b2eea52}{markerColor\_}}[2];}
+\DoxyCodeLine{\Hypertarget{cp__trajectory__visualizer_8hpp_source_l00156}00156\ \ \ \ \ \ \ lineMarker.color.a\ =\ \mbox{\hyperlink{classcl__moveit2z_1_1CpTrajectoryVisualizer_a8e8f205815f085846dc8eef21b2eea52}{markerColor\_}}[3]\ *\ 0.7;\ \ \textcolor{comment}{//\ Slightly\ transparent}}
+\DoxyCodeLine{\Hypertarget{cp__trajectory__visualizer_8hpp_source_l00157}00157\ }
+\DoxyCodeLine{\Hypertarget{cp__trajectory__visualizer_8hpp_source_l00158}00158\ \ \ \ \ \ \ \textcolor{keywordflow}{for}\ (\textcolor{keyword}{const}\ \textcolor{keyword}{auto}\ \&\ pose\ :\ poses)}
+\DoxyCodeLine{\Hypertarget{cp__trajectory__visualizer_8hpp_source_l00159}00159\ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{cp__trajectory__visualizer_8hpp_source_l00160}00160\ \ \ \ \ \ \ \ \ lineMarker.points.push\_back(pose.pose.position);}
+\DoxyCodeLine{\Hypertarget{cp__trajectory__visualizer_8hpp_source_l00161}00161\ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{cp__trajectory__visualizer_8hpp_source_l00162}00162\ }
+\DoxyCodeLine{\Hypertarget{cp__trajectory__visualizer_8hpp_source_l00163}00163\ \ \ \ \ \ \ \mbox{\hyperlink{classcl__moveit2z_1_1CpTrajectoryVisualizer_a3d00327d89ed3d93fc72ca0683f46787}{markers\_}}.markers.push\_back(lineMarker);}
+\DoxyCodeLine{\Hypertarget{cp__trajectory__visualizer_8hpp_source_l00164}00164\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{cp__trajectory__visualizer_8hpp_source_l00165}00165\ }
+\DoxyCodeLine{\Hypertarget{cp__trajectory__visualizer_8hpp_source_l00166}00166\ \ \ \ \ \mbox{\hyperlink{classcl__moveit2z_1_1CpTrajectoryVisualizer_ac7475042fd9ae009f3ab6fc561452b03}{markersReady\_}}\ =\ \textcolor{keyword}{true};}
+\DoxyCodeLine{\Hypertarget{cp__trajectory__visualizer_8hpp_source_l00167}00167\ \ \ \ \ \mbox{\hyperlink{classcl__moveit2z_1_1CpTrajectoryVisualizer_a2bbd25d63b74327cc04afe451435bf98}{enabled\_}}\ =\ \textcolor{keyword}{true};}
+\DoxyCodeLine{\Hypertarget{cp__trajectory__visualizer_8hpp_source_l00168}00168\ }
+\DoxyCodeLine{\Hypertarget{cp__trajectory__visualizer_8hpp_source_l00169}00169\ \ \ \ \ RCLCPP\_INFO(}
+\DoxyCodeLine{\Hypertarget{cp__trajectory__visualizer_8hpp_source_l00170}00170\ \ \ \ \ \ \ \mbox{\hyperlink{classsmacc2_1_1ISmaccComponent_a77ee85823bab8d84edcdf5d28782b728}{getLogger}}(),\ \textcolor{stringliteral}{"{}[CpTrajectoryVisualizer]\ Created\ \%lu\ markers"{}},\ \mbox{\hyperlink{classcl__moveit2z_1_1CpTrajectoryVisualizer_a3d00327d89ed3d93fc72ca0683f46787}{markers\_}}.markers.size());}
+\DoxyCodeLine{\Hypertarget{cp__trajectory__visualizer_8hpp_source_l00171}00171\ \ \ \}}
+\DoxyCodeLine{\Hypertarget{cp__trajectory__visualizer_8hpp_source_l00172}00172\ }
+\DoxyCodeLine{\Hypertarget{cp__trajectory__visualizer_8hpp_source_l00176}\mbox{\hyperlink{classcl__moveit2z_1_1CpTrajectoryVisualizer_a440cc7935df87eebf5d89ab9c1cf325b}{00176}}\ \ \ \textcolor{keyword}{inline}\ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{classcl__moveit2z_1_1CpTrajectoryVisualizer_a440cc7935df87eebf5d89ab9c1cf325b}{clearMarkers}}()}
+\DoxyCodeLine{\Hypertarget{cp__trajectory__visualizer_8hpp_source_l00177}00177\ \ \ \{}
+\DoxyCodeLine{\Hypertarget{cp__trajectory__visualizer_8hpp_source_l00178}00178\ \ \ \ \ std::lock\_guard<std::mutex>\ guard(\mbox{\hyperlink{classcl__moveit2z_1_1CpTrajectoryVisualizer_a2077070f3a590af4ee8cbbcbcd31f56c}{markersMutex\_}});}
+\DoxyCodeLine{\Hypertarget{cp__trajectory__visualizer_8hpp_source_l00179}00179\ }
+\DoxyCodeLine{\Hypertarget{cp__trajectory__visualizer_8hpp_source_l00180}00180\ \ \ \ \ RCLCPP\_INFO(\mbox{\hyperlink{classsmacc2_1_1ISmaccComponent_a77ee85823bab8d84edcdf5d28782b728}{getLogger}}(),\ \textcolor{stringliteral}{"{}[CpTrajectoryVisualizer]\ Clearing\ markers"{}});}
+\DoxyCodeLine{\Hypertarget{cp__trajectory__visualizer_8hpp_source_l00181}00181\ }
+\DoxyCodeLine{\Hypertarget{cp__trajectory__visualizer_8hpp_source_l00182}00182\ \ \ \ \ \textcolor{comment}{//\ Send\ delete\ action\ for\ all\ markers}}
+\DoxyCodeLine{\Hypertarget{cp__trajectory__visualizer_8hpp_source_l00183}00183\ \ \ \ \ \textcolor{keywordflow}{for}\ (\textcolor{keyword}{auto}\ \&\ marker\ :\ \mbox{\hyperlink{classcl__moveit2z_1_1CpTrajectoryVisualizer_a3d00327d89ed3d93fc72ca0683f46787}{markers\_}}.markers)}
+\DoxyCodeLine{\Hypertarget{cp__trajectory__visualizer_8hpp_source_l00184}00184\ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{cp__trajectory__visualizer_8hpp_source_l00185}00185\ \ \ \ \ \ \ marker.action\ =\ visualization\_msgs::msg::Marker::DELETE;}
+\DoxyCodeLine{\Hypertarget{cp__trajectory__visualizer_8hpp_source_l00186}00186\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{cp__trajectory__visualizer_8hpp_source_l00187}00187\ }
+\DoxyCodeLine{\Hypertarget{cp__trajectory__visualizer_8hpp_source_l00188}00188\ \ \ \ \ \textcolor{keywordflow}{if}\ (!\mbox{\hyperlink{classcl__moveit2z_1_1CpTrajectoryVisualizer_a3d00327d89ed3d93fc72ca0683f46787}{markers\_}}.markers.empty())}
+\DoxyCodeLine{\Hypertarget{cp__trajectory__visualizer_8hpp_source_l00189}00189\ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{cp__trajectory__visualizer_8hpp_source_l00190}00190\ \ \ \ \ \ \ \mbox{\hyperlink{classcl__moveit2z_1_1CpTrajectoryVisualizer_a49e645bd7a18979e8f8d4e5cf6018dc3}{markersPub\_}}-\/>publish(\mbox{\hyperlink{classcl__moveit2z_1_1CpTrajectoryVisualizer_a3d00327d89ed3d93fc72ca0683f46787}{markers\_}});}
+\DoxyCodeLine{\Hypertarget{cp__trajectory__visualizer_8hpp_source_l00191}00191\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{cp__trajectory__visualizer_8hpp_source_l00192}00192\ }
+\DoxyCodeLine{\Hypertarget{cp__trajectory__visualizer_8hpp_source_l00193}00193\ \ \ \ \ \mbox{\hyperlink{classcl__moveit2z_1_1CpTrajectoryVisualizer_a3d00327d89ed3d93fc72ca0683f46787}{markers\_}}.markers.clear();}
+\DoxyCodeLine{\Hypertarget{cp__trajectory__visualizer_8hpp_source_l00194}00194\ \ \ \ \ \mbox{\hyperlink{classcl__moveit2z_1_1CpTrajectoryVisualizer_ac7475042fd9ae009f3ab6fc561452b03}{markersReady\_}}\ =\ \textcolor{keyword}{false};}
+\DoxyCodeLine{\Hypertarget{cp__trajectory__visualizer_8hpp_source_l00195}00195\ \ \ \ \ \mbox{\hyperlink{classcl__moveit2z_1_1CpTrajectoryVisualizer_a2bbd25d63b74327cc04afe451435bf98}{enabled\_}}\ =\ \textcolor{keyword}{false};}
+\DoxyCodeLine{\Hypertarget{cp__trajectory__visualizer_8hpp_source_l00196}00196\ \ \ \}}
+\DoxyCodeLine{\Hypertarget{cp__trajectory__visualizer_8hpp_source_l00197}00197\ }
+\DoxyCodeLine{\Hypertarget{cp__trajectory__visualizer_8hpp_source_l00201}\mbox{\hyperlink{classcl__moveit2z_1_1CpTrajectoryVisualizer_a1998f3360463cdd3872779b5b34841ea}{00201}}\ \ \ \textcolor{keyword}{inline}\ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{classcl__moveit2z_1_1CpTrajectoryVisualizer_a1998f3360463cdd3872779b5b34841ea}{setColor}}(\textcolor{keywordtype}{float}\ r,\ \textcolor{keywordtype}{float}\ g,\ \textcolor{keywordtype}{float}\ b,\ \textcolor{keywordtype}{float}\ a\ =\ 1.0)}
+\DoxyCodeLine{\Hypertarget{cp__trajectory__visualizer_8hpp_source_l00202}00202\ \ \ \{}
+\DoxyCodeLine{\Hypertarget{cp__trajectory__visualizer_8hpp_source_l00203}00203\ \ \ \ \ \mbox{\hyperlink{classcl__moveit2z_1_1CpTrajectoryVisualizer_a8e8f205815f085846dc8eef21b2eea52}{markerColor\_}}[0]\ =\ r;}
+\DoxyCodeLine{\Hypertarget{cp__trajectory__visualizer_8hpp_source_l00204}00204\ \ \ \ \ \mbox{\hyperlink{classcl__moveit2z_1_1CpTrajectoryVisualizer_a8e8f205815f085846dc8eef21b2eea52}{markerColor\_}}[1]\ =\ g;}
+\DoxyCodeLine{\Hypertarget{cp__trajectory__visualizer_8hpp_source_l00205}00205\ \ \ \ \ \mbox{\hyperlink{classcl__moveit2z_1_1CpTrajectoryVisualizer_a8e8f205815f085846dc8eef21b2eea52}{markerColor\_}}[2]\ =\ b;}
+\DoxyCodeLine{\Hypertarget{cp__trajectory__visualizer_8hpp_source_l00206}00206\ \ \ \ \ \mbox{\hyperlink{classcl__moveit2z_1_1CpTrajectoryVisualizer_a8e8f205815f085846dc8eef21b2eea52}{markerColor\_}}[3]\ =\ a;}
+\DoxyCodeLine{\Hypertarget{cp__trajectory__visualizer_8hpp_source_l00207}00207\ \ \ \}}
+\DoxyCodeLine{\Hypertarget{cp__trajectory__visualizer_8hpp_source_l00208}00208\ }
+\DoxyCodeLine{\Hypertarget{cp__trajectory__visualizer_8hpp_source_l00212}\mbox{\hyperlink{classcl__moveit2z_1_1CpTrajectoryVisualizer_af9303951928378b5ae3608d16afeaacd}{00212}}\ \ \ \textcolor{keyword}{inline}\ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{classcl__moveit2z_1_1CpTrajectoryVisualizer_af9303951928378b5ae3608d16afeaacd}{setScale}}(\textcolor{keywordtype}{double}\ scale)\ \{\ \mbox{\hyperlink{classcl__moveit2z_1_1CpTrajectoryVisualizer_adcf61a04aedbe9ca3218723b37da12fa}{markerScale\_}}\ =\ scale;\ \}}
+\DoxyCodeLine{\Hypertarget{cp__trajectory__visualizer_8hpp_source_l00213}00213\ }
+\DoxyCodeLine{\Hypertarget{cp__trajectory__visualizer_8hpp_source_l00217}\mbox{\hyperlink{classcl__moveit2z_1_1CpTrajectoryVisualizer_a0a4c80e092e55d982d6da9ba59db1a07}{00217}}\ \ \ \textcolor{keyword}{inline}\ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{classcl__moveit2z_1_1CpTrajectoryVisualizer_a0a4c80e092e55d982d6da9ba59db1a07}{setEnabled}}(\textcolor{keywordtype}{bool}\ enabled)}
+\DoxyCodeLine{\Hypertarget{cp__trajectory__visualizer_8hpp_source_l00218}00218\ \ \ \{}
+\DoxyCodeLine{\Hypertarget{cp__trajectory__visualizer_8hpp_source_l00219}00219\ \ \ \ \ std::lock\_guard<std::mutex>\ guard(\mbox{\hyperlink{classcl__moveit2z_1_1CpTrajectoryVisualizer_a2077070f3a590af4ee8cbbcbcd31f56c}{markersMutex\_}});}
+\DoxyCodeLine{\Hypertarget{cp__trajectory__visualizer_8hpp_source_l00220}00220\ \ \ \ \ \mbox{\hyperlink{classcl__moveit2z_1_1CpTrajectoryVisualizer_a2bbd25d63b74327cc04afe451435bf98}{enabled\_}}\ =\ enabled;}
+\DoxyCodeLine{\Hypertarget{cp__trajectory__visualizer_8hpp_source_l00221}00221\ \ \ \}}
+\DoxyCodeLine{\Hypertarget{cp__trajectory__visualizer_8hpp_source_l00222}00222\ }
+\DoxyCodeLine{\Hypertarget{cp__trajectory__visualizer_8hpp_source_l00226}\mbox{\hyperlink{classcl__moveit2z_1_1CpTrajectoryVisualizer_ab5b5cc80a1d01fa87d761a0c6f6284fb}{00226}}\ \ \ \textcolor{keyword}{inline}\ \textcolor{keywordtype}{bool}\ \mbox{\hyperlink{classcl__moveit2z_1_1CpTrajectoryVisualizer_ab5b5cc80a1d01fa87d761a0c6f6284fb}{isEnabled}}()\textcolor{keyword}{\ const\ }\{\ \textcolor{keywordflow}{return}\ \mbox{\hyperlink{classcl__moveit2z_1_1CpTrajectoryVisualizer_a2bbd25d63b74327cc04afe451435bf98}{enabled\_}};\ \}}
+\DoxyCodeLine{\Hypertarget{cp__trajectory__visualizer_8hpp_source_l00227}00227\ }
+\DoxyCodeLine{\Hypertarget{cp__trajectory__visualizer_8hpp_source_l00228}00228\ \textcolor{keyword}{private}:}
+\DoxyCodeLine{\Hypertarget{cp__trajectory__visualizer_8hpp_source_l00229}\mbox{\hyperlink{classcl__moveit2z_1_1CpTrajectoryVisualizer_a49e645bd7a18979e8f8d4e5cf6018dc3}{00229}}\ \ \ rclcpp::Publisher<visualization\_msgs::msg::MarkerArray>::SharedPtr\ \mbox{\hyperlink{classcl__moveit2z_1_1CpTrajectoryVisualizer_a49e645bd7a18979e8f8d4e5cf6018dc3}{markersPub\_}};}
+\DoxyCodeLine{\Hypertarget{cp__trajectory__visualizer_8hpp_source_l00230}\mbox{\hyperlink{classcl__moveit2z_1_1CpTrajectoryVisualizer_a3d00327d89ed3d93fc72ca0683f46787}{00230}}\ \ \ visualization\_msgs::msg::MarkerArray\ \mbox{\hyperlink{classcl__moveit2z_1_1CpTrajectoryVisualizer_a3d00327d89ed3d93fc72ca0683f46787}{markers\_}};}
+\DoxyCodeLine{\Hypertarget{cp__trajectory__visualizer_8hpp_source_l00231}\mbox{\hyperlink{classcl__moveit2z_1_1CpTrajectoryVisualizer_a2077070f3a590af4ee8cbbcbcd31f56c}{00231}}\ \ \ std::mutex\ \mbox{\hyperlink{classcl__moveit2z_1_1CpTrajectoryVisualizer_a2077070f3a590af4ee8cbbcbcd31f56c}{markersMutex\_}};}
+\DoxyCodeLine{\Hypertarget{cp__trajectory__visualizer_8hpp_source_l00232}00232\ }
+\DoxyCodeLine{\Hypertarget{cp__trajectory__visualizer_8hpp_source_l00233}\mbox{\hyperlink{classcl__moveit2z_1_1CpTrajectoryVisualizer_ac7475042fd9ae009f3ab6fc561452b03}{00233}}\ \ \ \textcolor{keywordtype}{bool}\ \mbox{\hyperlink{classcl__moveit2z_1_1CpTrajectoryVisualizer_ac7475042fd9ae009f3ab6fc561452b03}{markersReady\_}}\ =\ \textcolor{keyword}{false};}
+\DoxyCodeLine{\Hypertarget{cp__trajectory__visualizer_8hpp_source_l00234}\mbox{\hyperlink{classcl__moveit2z_1_1CpTrajectoryVisualizer_a2bbd25d63b74327cc04afe451435bf98}{00234}}\ \ \ \textcolor{keywordtype}{bool}\ \mbox{\hyperlink{classcl__moveit2z_1_1CpTrajectoryVisualizer_a2bbd25d63b74327cc04afe451435bf98}{enabled\_}}\ =\ \textcolor{keyword}{false};}
+\DoxyCodeLine{\Hypertarget{cp__trajectory__visualizer_8hpp_source_l00235}00235\ }
+\DoxyCodeLine{\Hypertarget{cp__trajectory__visualizer_8hpp_source_l00236}00236\ \ \ \textcolor{comment}{//\ Marker\ appearance}}
+\DoxyCodeLine{\Hypertarget{cp__trajectory__visualizer_8hpp_source_l00237}\mbox{\hyperlink{classcl__moveit2z_1_1CpTrajectoryVisualizer_adcf61a04aedbe9ca3218723b37da12fa}{00237}}\ \ \ \textcolor{keywordtype}{double}\ \mbox{\hyperlink{classcl__moveit2z_1_1CpTrajectoryVisualizer_adcf61a04aedbe9ca3218723b37da12fa}{markerScale\_}}\ =\ 0.02;\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ 2cm\ spheres}}
+\DoxyCodeLine{\Hypertarget{cp__trajectory__visualizer_8hpp_source_l00238}\mbox{\hyperlink{classcl__moveit2z_1_1CpTrajectoryVisualizer_a8e8f205815f085846dc8eef21b2eea52}{00238}}\ \ \ \textcolor{keywordtype}{float}\ \mbox{\hyperlink{classcl__moveit2z_1_1CpTrajectoryVisualizer_a8e8f205815f085846dc8eef21b2eea52}{markerColor\_}}[4]\ =\ \{0.0f,\ 1.0f,\ 0.0f,\ 0.8f\};\ \ \textcolor{comment}{//\ Green,\ slightly\ transparent}}
+\DoxyCodeLine{\Hypertarget{cp__trajectory__visualizer_8hpp_source_l00239}00239\ }
+\DoxyCodeLine{\Hypertarget{cp__trajectory__visualizer_8hpp_source_l00240}00240\ \ \ \textcolor{comment}{//\ Publishing\ rate\ control}}
+\DoxyCodeLine{\Hypertarget{cp__trajectory__visualizer_8hpp_source_l00241}\mbox{\hyperlink{classcl__moveit2z_1_1CpTrajectoryVisualizer_a31dfac86629800c37a6563a508a3afcb}{00241}}\ \ \ \textcolor{keywordtype}{double}\ \mbox{\hyperlink{classcl__moveit2z_1_1CpTrajectoryVisualizer_a31dfac86629800c37a6563a508a3afcb}{publishRate\_}};}
+\DoxyCodeLine{\Hypertarget{cp__trajectory__visualizer_8hpp_source_l00242}\mbox{\hyperlink{classcl__moveit2z_1_1CpTrajectoryVisualizer_a01b664f4256f4e9757de068b59b5eee2}{00242}}\ \ \ rclcpp::Time\ \mbox{\hyperlink{classcl__moveit2z_1_1CpTrajectoryVisualizer_a01b664f4256f4e9757de068b59b5eee2}{lastPublishTime\_}};}
+\DoxyCodeLine{\Hypertarget{cp__trajectory__visualizer_8hpp_source_l00243}00243\ \};}
+\DoxyCodeLine{\Hypertarget{cp__trajectory__visualizer_8hpp_source_l00244}00244\ }
+\DoxyCodeLine{\Hypertarget{cp__trajectory__visualizer_8hpp_source_l00245}00245\ \}\ \ \textcolor{comment}{//\ namespace\ cl\_moveit2z}}
+
+\end{DoxyCode}
