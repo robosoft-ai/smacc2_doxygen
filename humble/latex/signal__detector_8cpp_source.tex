@@ -41,327 +41,335 @@
 \DoxyCodeLine{\Hypertarget{signal__detector_8cpp_source_l00037}00037\ \{}
 \DoxyCodeLine{\Hypertarget{signal__detector_8cpp_source_l00038}00038\ \textcolor{keyword}{using\ namespace\ }std::chrono\_literals;}
 \DoxyCodeLine{\Hypertarget{signal__detector_8cpp_source_l00039}00039\ }
-\DoxyCodeLine{\Hypertarget{signal__detector_8cpp_source_l00040}00040\ \textcolor{comment}{//\ Define\ global\ variables\ for\ graceful\ shutdown\ handling}}
-\DoxyCodeLine{\Hypertarget{signal__detector_8cpp_source_l00041}\mbox{\hyperlink{namespacesmacc2_abc56caf5feda13e03ba95341d436d221}{00041}}\ std::atomic<bool>\ \mbox{\hyperlink{namespacesmacc2_abc56caf5feda13e03ba95341d436d221}{g\_shutdown\_requested}}\{\textcolor{keyword}{false}\};}
-\DoxyCodeLine{\Hypertarget{signal__detector_8cpp_source_l00042}\mbox{\hyperlink{namespacesmacc2_a48db490d0965c854f6bf50be1cde63e9}{00042}}\ \mbox{\hyperlink{classsmacc2_1_1SignalDetector}{SignalDetector}}\ *\ \mbox{\hyperlink{namespacesmacc2_a48db490d0965c854f6bf50be1cde63e9}{g\_signal\_detector}}\ =\ \textcolor{keyword}{nullptr};}
-\DoxyCodeLine{\Hypertarget{signal__detector_8cpp_source_l00043}00043\ }
-\DoxyCodeLine{\Hypertarget{signal__detector_8cpp_source_l00049}\mbox{\hyperlink{classsmacc2_1_1SignalDetector_aaecf2579dc44db5da5155fc6c4402c92}{00049}}\ \mbox{\hyperlink{classsmacc2_1_1SignalDetector_aaecf2579dc44db5da5155fc6c4402c92}{SignalDetector::SignalDetector}}(\mbox{\hyperlink{smacc__fifo__scheduler_8hpp_a0063e275231c80d5f97df21d17257bf7}{SmaccFifoScheduler}}\ *\ scheduler,\ \mbox{\hyperlink{namespacesmacc2_a1a2b312e55d319400e73bbf7ec27d6da}{ExecutionModel}}\ executionModel)}
+\DoxyCodeLine{\Hypertarget{signal__detector_8cpp_source_l00045}\mbox{\hyperlink{classsmacc2_1_1SmExecution_a65a806ed72a75e286545d1adc6913d80}{00045}}\ \mbox{\hyperlink{classsmacc2_1_1SmExecution_a65a806ed72a75e286545d1adc6913d80}{SmExecution::SmExecution}}()}
+\DoxyCodeLine{\Hypertarget{signal__detector_8cpp_source_l00046}00046\ :\ schedulerThread(nullptr),}
+\DoxyCodeLine{\Hypertarget{signal__detector_8cpp_source_l00047}00047\ \ \ signalDetectorLoop(nullptr),}
+\DoxyCodeLine{\Hypertarget{signal__detector_8cpp_source_l00048}00048\ \ \ signalDetector(nullptr),}
+\DoxyCodeLine{\Hypertarget{signal__detector_8cpp_source_l00049}00049\ \ \ scheduler1(nullptr)}
 \DoxyCodeLine{\Hypertarget{signal__detector_8cpp_source_l00050}00050\ \{}
-\DoxyCodeLine{\Hypertarget{signal__detector_8cpp_source_l00051}00051\ \ \ \mbox{\hyperlink{classsmacc2_1_1SignalDetector_a1912d4bc0a3c88986d335882c7d1b787}{scheduler\_}}\ =\ scheduler;}
-\DoxyCodeLine{\Hypertarget{signal__detector_8cpp_source_l00052}00052\ \ \ \mbox{\hyperlink{classsmacc2_1_1SignalDetector_ac67b27bde2d30322b6792bafa0522274}{loop\_rate\_hz}}\ =\ 20.0;}
-\DoxyCodeLine{\Hypertarget{signal__detector_8cpp_source_l00053}00053\ \ \ \mbox{\hyperlink{classsmacc2_1_1SignalDetector_ac8756409452924cdd2cc9a99ca2fdd30}{end\_}}\ =\ \textcolor{keyword}{false};}
-\DoxyCodeLine{\Hypertarget{signal__detector_8cpp_source_l00054}00054\ \ \ \mbox{\hyperlink{classsmacc2_1_1SignalDetector_afc0defc618060c06def70d822ff2eb6a}{initialized\_}}\ =\ \textcolor{keyword}{false};}
-\DoxyCodeLine{\Hypertarget{signal__detector_8cpp_source_l00055}00055\ \ \ \mbox{\hyperlink{classsmacc2_1_1SignalDetector_a5f38c4c3bab961791a5b6268c1948619}{executionModel\_}}\ =\ executionModel;}
-\DoxyCodeLine{\Hypertarget{signal__detector_8cpp_source_l00056}00056\ \}}
-\DoxyCodeLine{\Hypertarget{signal__detector_8cpp_source_l00057}00057\ }
-\DoxyCodeLine{\Hypertarget{signal__detector_8cpp_source_l00058}\mbox{\hyperlink{classsmacc2_1_1SignalDetector_aa774a30b0118ee411ba423fc668405b3}{00058}}\ rclcpp::Node::SharedPtr\ \mbox{\hyperlink{classsmacc2_1_1SignalDetector_aa774a30b0118ee411ba423fc668405b3}{SignalDetector::getNode}}()\ \{\ \textcolor{keywordflow}{return}\ this-\/>\mbox{\hyperlink{classsmacc2_1_1SignalDetector_af6362522bbb882307839852593041cf8}{smaccStateMachine\_}}-\/>\mbox{\hyperlink{classsmacc2_1_1ISmaccStateMachine_a2cf8b817f7e137fc648e373ae4614a2f}{getNode}}();\ \}}
-\DoxyCodeLine{\Hypertarget{signal__detector_8cpp_source_l00059}00059\ }
-\DoxyCodeLine{\Hypertarget{signal__detector_8cpp_source_l00065}\mbox{\hyperlink{classsmacc2_1_1SignalDetector_a6035e4180f1f868d42902021eb41d9c6}{00065}}\ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{classsmacc2_1_1SignalDetector_a6035e4180f1f868d42902021eb41d9c6}{SignalDetector::initialize}}(\mbox{\hyperlink{classsmacc2_1_1ISmaccStateMachine}{ISmaccStateMachine}}\ *\ stateMachine)}
-\DoxyCodeLine{\Hypertarget{signal__detector_8cpp_source_l00066}00066\ \{}
-\DoxyCodeLine{\Hypertarget{signal__detector_8cpp_source_l00067}00067\ \ \ \mbox{\hyperlink{classsmacc2_1_1SignalDetector_af6362522bbb882307839852593041cf8}{smaccStateMachine\_}}\ =\ stateMachine;}
-\DoxyCodeLine{\Hypertarget{signal__detector_8cpp_source_l00068}00068\ \ \ \mbox{\hyperlink{classsmacc2_1_1SignalDetector_ab09229b1fade75f7b7b03bf9aed9211c}{lastState\_}}\ =\ std::numeric\_limits<int64\_t>::quiet\_NaN();}
-\DoxyCodeLine{\Hypertarget{signal__detector_8cpp_source_l00069}00069\ \ \ \mbox{\hyperlink{classsmacc2_1_1SignalDetector_af325def90b56dd82ab34d351f5a37a02}{findUpdatableClientsAndComponents}}();}
-\DoxyCodeLine{\Hypertarget{signal__detector_8cpp_source_l00070}00070\ \ \ this-\/>\mbox{\hyperlink{classsmacc2_1_1SignalDetector_aa774a30b0118ee411ba423fc668405b3}{getNode}}()-\/>declare\_parameter(\textcolor{stringliteral}{"{}signal\_detector\_loop\_freq"{}},\ this-\/>\mbox{\hyperlink{classsmacc2_1_1SignalDetector_ac67b27bde2d30322b6792bafa0522274}{loop\_rate\_hz}});}
-\DoxyCodeLine{\Hypertarget{signal__detector_8cpp_source_l00071}00071\ }
-\DoxyCodeLine{\Hypertarget{signal__detector_8cpp_source_l00072}00072\ \ \ \mbox{\hyperlink{classsmacc2_1_1SignalDetector_afc0defc618060c06def70d822ff2eb6a}{initialized\_}}\ =\ \textcolor{keyword}{true};}
-\DoxyCodeLine{\Hypertarget{signal__detector_8cpp_source_l00073}00073\ \}}
+\DoxyCodeLine{\Hypertarget{signal__detector_8cpp_source_l00051}00051\ \}}
+\DoxyCodeLine{\Hypertarget{signal__detector_8cpp_source_l00052}00052\ }
+\DoxyCodeLine{\Hypertarget{signal__detector_8cpp_source_l00053}\mbox{\hyperlink{classsmacc2_1_1SmExecution_a6187db4e1417a6655addde58021d6175}{00053}}\ \mbox{\hyperlink{classsmacc2_1_1SmExecution}{SmExecution}}\ \&\ \mbox{\hyperlink{classsmacc2_1_1SmExecution_a6187db4e1417a6655addde58021d6175}{SmExecution::getInstance}}()}
+\DoxyCodeLine{\Hypertarget{signal__detector_8cpp_source_l00054}00054\ \{}
+\DoxyCodeLine{\Hypertarget{signal__detector_8cpp_source_l00055}00055\ \ \ \textcolor{keyword}{static}\ \mbox{\hyperlink{classsmacc2_1_1SmExecution}{SmExecution}}\ instance;}
+\DoxyCodeLine{\Hypertarget{signal__detector_8cpp_source_l00056}00056\ \ \ \textcolor{keywordflow}{return}\ instance;}
+\DoxyCodeLine{\Hypertarget{signal__detector_8cpp_source_l00057}00057\ \}}
+\DoxyCodeLine{\Hypertarget{signal__detector_8cpp_source_l00058}00058\ }
+\DoxyCodeLine{\Hypertarget{signal__detector_8cpp_source_l00064}\mbox{\hyperlink{classsmacc2_1_1SignalDetector_aaecf2579dc44db5da5155fc6c4402c92}{00064}}\ \mbox{\hyperlink{classsmacc2_1_1SignalDetector_aaecf2579dc44db5da5155fc6c4402c92}{SignalDetector::SignalDetector}}(\mbox{\hyperlink{smacc__fifo__scheduler_8hpp_a0063e275231c80d5f97df21d17257bf7}{SmaccFifoScheduler}}\ *\ scheduler,\ \mbox{\hyperlink{namespacesmacc2_a1a2b312e55d319400e73bbf7ec27d6da}{ExecutionModel}}\ executionModel)}
+\DoxyCodeLine{\Hypertarget{signal__detector_8cpp_source_l00065}00065\ \{}
+\DoxyCodeLine{\Hypertarget{signal__detector_8cpp_source_l00066}00066\ \ \ \mbox{\hyperlink{classsmacc2_1_1SignalDetector_a1912d4bc0a3c88986d335882c7d1b787}{scheduler\_}}\ =\ scheduler;}
+\DoxyCodeLine{\Hypertarget{signal__detector_8cpp_source_l00067}00067\ \ \ \mbox{\hyperlink{classsmacc2_1_1SignalDetector_ac67b27bde2d30322b6792bafa0522274}{loop\_rate\_hz}}\ =\ 20.0;}
+\DoxyCodeLine{\Hypertarget{signal__detector_8cpp_source_l00068}00068\ \ \ \mbox{\hyperlink{classsmacc2_1_1SignalDetector_ac8756409452924cdd2cc9a99ca2fdd30}{end\_}}\ =\ \textcolor{keyword}{false};}
+\DoxyCodeLine{\Hypertarget{signal__detector_8cpp_source_l00069}00069\ \ \ \mbox{\hyperlink{classsmacc2_1_1SignalDetector_afc0defc618060c06def70d822ff2eb6a}{initialized\_}}\ =\ \textcolor{keyword}{false};}
+\DoxyCodeLine{\Hypertarget{signal__detector_8cpp_source_l00070}00070\ \ \ \mbox{\hyperlink{classsmacc2_1_1SignalDetector_a5f38c4c3bab961791a5b6268c1948619}{executionModel\_}}\ =\ executionModel;}
+\DoxyCodeLine{\Hypertarget{signal__detector_8cpp_source_l00071}00071\ \}}
+\DoxyCodeLine{\Hypertarget{signal__detector_8cpp_source_l00072}00072\ }
+\DoxyCodeLine{\Hypertarget{signal__detector_8cpp_source_l00073}\mbox{\hyperlink{classsmacc2_1_1SignalDetector_aa774a30b0118ee411ba423fc668405b3}{00073}}\ rclcpp::Node::SharedPtr\ \mbox{\hyperlink{classsmacc2_1_1SignalDetector_aa774a30b0118ee411ba423fc668405b3}{SignalDetector::getNode}}()\ \{\ \textcolor{keywordflow}{return}\ this-\/>\mbox{\hyperlink{classsmacc2_1_1SignalDetector_af6362522bbb882307839852593041cf8}{smaccStateMachine\_}}-\/>\mbox{\hyperlink{classsmacc2_1_1ISmaccStateMachine_a2cf8b817f7e137fc648e373ae4614a2f}{getNode}}();\ \}}
 \DoxyCodeLine{\Hypertarget{signal__detector_8cpp_source_l00074}00074\ }
-\DoxyCodeLine{\Hypertarget{signal__detector_8cpp_source_l00080}\mbox{\hyperlink{classsmacc2_1_1SignalDetector_af325def90b56dd82ab34d351f5a37a02}{00080}}\ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{classsmacc2_1_1SignalDetector_af325def90b56dd82ab34d351f5a37a02}{SignalDetector::findUpdatableClientsAndComponents}}()}
+\DoxyCodeLine{\Hypertarget{signal__detector_8cpp_source_l00080}\mbox{\hyperlink{classsmacc2_1_1SignalDetector_a6035e4180f1f868d42902021eb41d9c6}{00080}}\ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{classsmacc2_1_1SignalDetector_a6035e4180f1f868d42902021eb41d9c6}{SignalDetector::initialize}}(\mbox{\hyperlink{classsmacc2_1_1ISmaccStateMachine}{ISmaccStateMachine}}\ *\ stateMachine)}
 \DoxyCodeLine{\Hypertarget{signal__detector_8cpp_source_l00081}00081\ \{}
-\DoxyCodeLine{\Hypertarget{signal__detector_8cpp_source_l00082}00082\ \ \ this-\/>\mbox{\hyperlink{classsmacc2_1_1SignalDetector_ab4e25decb9b9deb1d0b9c5514aa1e37b}{updatableClients\_}}.clear();}
-\DoxyCodeLine{\Hypertarget{signal__detector_8cpp_source_l00083}00083\ \ \ \textcolor{keywordflow}{for}\ (\textcolor{keyword}{auto}\ pair\ :\ this-\/>\mbox{\hyperlink{classsmacc2_1_1SignalDetector_af6362522bbb882307839852593041cf8}{smaccStateMachine\_}}-\/>\mbox{\hyperlink{classsmacc2_1_1ISmaccStateMachine_a5add78b13865291a7d167cbc496d0d35}{getOrthogonals}}())}
-\DoxyCodeLine{\Hypertarget{signal__detector_8cpp_source_l00084}00084\ \ \ \{}
-\DoxyCodeLine{\Hypertarget{signal__detector_8cpp_source_l00085}00085\ \ \ \ \ \textcolor{keyword}{auto}\ \&\ orthogonal\ =\ pair.second;}
-\DoxyCodeLine{\Hypertarget{signal__detector_8cpp_source_l00086}00086\ \ \ \ \ \textcolor{keyword}{auto}\ \&\ clients\ =\ orthogonal-\/>getClients();}
-\DoxyCodeLine{\Hypertarget{signal__detector_8cpp_source_l00087}00087\ }
-\DoxyCodeLine{\Hypertarget{signal__detector_8cpp_source_l00088}00088\ \ \ \ \ \textcolor{keywordflow}{for}\ (\textcolor{keyword}{auto}\ \&\ client\ :\ clients)}
-\DoxyCodeLine{\Hypertarget{signal__detector_8cpp_source_l00089}00089\ \ \ \ \ \{}
-\DoxyCodeLine{\Hypertarget{signal__detector_8cpp_source_l00090}00090\ \ \ \ \ \ \ \textcolor{comment}{//\ updatable\ client\ components}}
-\DoxyCodeLine{\Hypertarget{signal__detector_8cpp_source_l00091}00091\ \ \ \ \ \ \ \textcolor{keyword}{auto}\ updatableClient\ =\ \textcolor{keyword}{dynamic\_cast<}\mbox{\hyperlink{classsmacc2_1_1ISmaccUpdatable}{ISmaccUpdatable}}\ *\textcolor{keyword}{>}(client.get());}
-\DoxyCodeLine{\Hypertarget{signal__detector_8cpp_source_l00092}00092\ }
-\DoxyCodeLine{\Hypertarget{signal__detector_8cpp_source_l00093}00093\ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (updatableClient\ !=\ \textcolor{keyword}{nullptr})}
-\DoxyCodeLine{\Hypertarget{signal__detector_8cpp_source_l00094}00094\ \ \ \ \ \ \ \{}
-\DoxyCodeLine{\Hypertarget{signal__detector_8cpp_source_l00095}00095\ \ \ \ \ \ \ \ \ RCLCPP\_DEBUG\_STREAM(}
-\DoxyCodeLine{\Hypertarget{signal__detector_8cpp_source_l00096}00096\ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{classsmacc2_1_1SignalDetector_a97db4ee81e1e63ab67ea40775fd57302}{getLogger}}(),\ \textcolor{stringliteral}{"{}Adding\ updatable\ client:\ "{}}\ <<\ \mbox{\hyperlink{namespacesmacc2_1_1introspection_af0776d8076fe19b4f806405e9ab08cfe}{demangleType}}(\textcolor{keyword}{typeid}(updatableClient)));}
-\DoxyCodeLine{\Hypertarget{signal__detector_8cpp_source_l00097}00097\ \ \ \ \ \ \ \ \ this-\/>\mbox{\hyperlink{classsmacc2_1_1SignalDetector_ab4e25decb9b9deb1d0b9c5514aa1e37b}{updatableClients\_}}.push\_back(updatableClient);}
-\DoxyCodeLine{\Hypertarget{signal__detector_8cpp_source_l00098}00098\ \ \ \ \ \ \ \}}
-\DoxyCodeLine{\Hypertarget{signal__detector_8cpp_source_l00099}00099\ }
-\DoxyCodeLine{\Hypertarget{signal__detector_8cpp_source_l00100}00100\ \ \ \ \ \ \ \textcolor{comment}{//\ updatable\ client\ components}}
-\DoxyCodeLine{\Hypertarget{signal__detector_8cpp_source_l00101}00101\ \ \ \ \ \ \ std::vector<std::shared\_ptr<ISmaccComponent>>\ components;}
-\DoxyCodeLine{\Hypertarget{signal__detector_8cpp_source_l00102}00102\ \ \ \ \ \ \ client-\/>getComponents(components);}
-\DoxyCodeLine{\Hypertarget{signal__detector_8cpp_source_l00103}00103\ \ \ \ \ \ \ \textcolor{keywordflow}{for}\ (\textcolor{keyword}{auto}\ \&\ componententry\ :\ components)}
-\DoxyCodeLine{\Hypertarget{signal__detector_8cpp_source_l00104}00104\ \ \ \ \ \ \ \{}
-\DoxyCodeLine{\Hypertarget{signal__detector_8cpp_source_l00105}00105\ \ \ \ \ \ \ \ \ \textcolor{keyword}{auto}\ updatableComponent\ =\ \textcolor{keyword}{dynamic\_cast<}\mbox{\hyperlink{classsmacc2_1_1ISmaccUpdatable}{ISmaccUpdatable}}\ *\textcolor{keyword}{>}(componententry.get());}
-\DoxyCodeLine{\Hypertarget{signal__detector_8cpp_source_l00106}00106\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (updatableComponent\ !=\ \textcolor{keyword}{nullptr})}
-\DoxyCodeLine{\Hypertarget{signal__detector_8cpp_source_l00107}00107\ \ \ \ \ \ \ \ \ \{}
-\DoxyCodeLine{\Hypertarget{signal__detector_8cpp_source_l00108}00108\ \ \ \ \ \ \ \ \ \ \ RCLCPP\_DEBUG\_STREAM(}
-\DoxyCodeLine{\Hypertarget{signal__detector_8cpp_source_l00109}00109\ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{classsmacc2_1_1SignalDetector_a97db4ee81e1e63ab67ea40775fd57302}{getLogger}}(),}
-\DoxyCodeLine{\Hypertarget{signal__detector_8cpp_source_l00110}00110\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}Adding\ updatable\ component:\ "{}}\ <<\ \mbox{\hyperlink{namespacesmacc2_1_1introspection_af0776d8076fe19b4f806405e9ab08cfe}{demangleType}}(\textcolor{keyword}{typeid}(*updatableComponent)));}
-\DoxyCodeLine{\Hypertarget{signal__detector_8cpp_source_l00111}00111\ \ \ \ \ \ \ \ \ \ \ this-\/>\mbox{\hyperlink{classsmacc2_1_1SignalDetector_ab4e25decb9b9deb1d0b9c5514aa1e37b}{updatableClients\_}}.push\_back(updatableComponent);}
-\DoxyCodeLine{\Hypertarget{signal__detector_8cpp_source_l00112}00112\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{signal__detector_8cpp_source_l00082}00082\ \ \ \mbox{\hyperlink{classsmacc2_1_1SignalDetector_af6362522bbb882307839852593041cf8}{smaccStateMachine\_}}\ =\ stateMachine;}
+\DoxyCodeLine{\Hypertarget{signal__detector_8cpp_source_l00083}00083\ \ \ \mbox{\hyperlink{classsmacc2_1_1SignalDetector_ab09229b1fade75f7b7b03bf9aed9211c}{lastState\_}}\ =\ std::numeric\_limits<int64\_t>::quiet\_NaN();}
+\DoxyCodeLine{\Hypertarget{signal__detector_8cpp_source_l00084}00084\ \ \ \mbox{\hyperlink{classsmacc2_1_1SignalDetector_af325def90b56dd82ab34d351f5a37a02}{findUpdatableClientsAndComponents}}();}
+\DoxyCodeLine{\Hypertarget{signal__detector_8cpp_source_l00085}00085\ \ \ this-\/>\mbox{\hyperlink{classsmacc2_1_1SignalDetector_aa774a30b0118ee411ba423fc668405b3}{getNode}}()-\/>declare\_parameter(\textcolor{stringliteral}{"{}signal\_detector\_loop\_freq"{}},\ this-\/>\mbox{\hyperlink{classsmacc2_1_1SignalDetector_ac67b27bde2d30322b6792bafa0522274}{loop\_rate\_hz}});}
+\DoxyCodeLine{\Hypertarget{signal__detector_8cpp_source_l00086}00086\ }
+\DoxyCodeLine{\Hypertarget{signal__detector_8cpp_source_l00087}00087\ \ \ \mbox{\hyperlink{classsmacc2_1_1SignalDetector_afc0defc618060c06def70d822ff2eb6a}{initialized\_}}\ =\ \textcolor{keyword}{true};}
+\DoxyCodeLine{\Hypertarget{signal__detector_8cpp_source_l00088}00088\ \}}
+\DoxyCodeLine{\Hypertarget{signal__detector_8cpp_source_l00089}00089\ }
+\DoxyCodeLine{\Hypertarget{signal__detector_8cpp_source_l00095}\mbox{\hyperlink{classsmacc2_1_1SignalDetector_af325def90b56dd82ab34d351f5a37a02}{00095}}\ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{classsmacc2_1_1SignalDetector_af325def90b56dd82ab34d351f5a37a02}{SignalDetector::findUpdatableClientsAndComponents}}()}
+\DoxyCodeLine{\Hypertarget{signal__detector_8cpp_source_l00096}00096\ \{}
+\DoxyCodeLine{\Hypertarget{signal__detector_8cpp_source_l00097}00097\ \ \ this-\/>\mbox{\hyperlink{classsmacc2_1_1SignalDetector_ab4e25decb9b9deb1d0b9c5514aa1e37b}{updatableClients\_}}.clear();}
+\DoxyCodeLine{\Hypertarget{signal__detector_8cpp_source_l00098}00098\ \ \ \textcolor{keywordflow}{for}\ (\textcolor{keyword}{auto}\ pair\ :\ this-\/>\mbox{\hyperlink{classsmacc2_1_1SignalDetector_af6362522bbb882307839852593041cf8}{smaccStateMachine\_}}-\/>\mbox{\hyperlink{classsmacc2_1_1ISmaccStateMachine_a5add78b13865291a7d167cbc496d0d35}{getOrthogonals}}())}
+\DoxyCodeLine{\Hypertarget{signal__detector_8cpp_source_l00099}00099\ \ \ \{}
+\DoxyCodeLine{\Hypertarget{signal__detector_8cpp_source_l00100}00100\ \ \ \ \ \textcolor{keyword}{auto}\ \&\ orthogonal\ =\ pair.second;}
+\DoxyCodeLine{\Hypertarget{signal__detector_8cpp_source_l00101}00101\ \ \ \ \ \textcolor{keyword}{auto}\ \&\ clients\ =\ orthogonal-\/>getClients();}
+\DoxyCodeLine{\Hypertarget{signal__detector_8cpp_source_l00102}00102\ }
+\DoxyCodeLine{\Hypertarget{signal__detector_8cpp_source_l00103}00103\ \ \ \ \ \textcolor{keywordflow}{for}\ (\textcolor{keyword}{auto}\ \&\ client\ :\ clients)}
+\DoxyCodeLine{\Hypertarget{signal__detector_8cpp_source_l00104}00104\ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{signal__detector_8cpp_source_l00105}00105\ \ \ \ \ \ \ \textcolor{comment}{//\ updatable\ client\ components}}
+\DoxyCodeLine{\Hypertarget{signal__detector_8cpp_source_l00106}00106\ \ \ \ \ \ \ \textcolor{keyword}{auto}\ updatableClient\ =\ \textcolor{keyword}{dynamic\_cast<}\mbox{\hyperlink{classsmacc2_1_1ISmaccUpdatable}{ISmaccUpdatable}}\ *\textcolor{keyword}{>}(client.get());}
+\DoxyCodeLine{\Hypertarget{signal__detector_8cpp_source_l00107}00107\ }
+\DoxyCodeLine{\Hypertarget{signal__detector_8cpp_source_l00108}00108\ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (updatableClient\ !=\ \textcolor{keyword}{nullptr})}
+\DoxyCodeLine{\Hypertarget{signal__detector_8cpp_source_l00109}00109\ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{signal__detector_8cpp_source_l00110}00110\ \ \ \ \ \ \ \ \ RCLCPP\_DEBUG\_STREAM(}
+\DoxyCodeLine{\Hypertarget{signal__detector_8cpp_source_l00111}00111\ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{classsmacc2_1_1SignalDetector_a97db4ee81e1e63ab67ea40775fd57302}{getLogger}}(),\ \textcolor{stringliteral}{"{}Adding\ updatable\ client:\ "{}}\ <<\ \mbox{\hyperlink{namespacesmacc2_1_1introspection_af0776d8076fe19b4f806405e9ab08cfe}{demangleType}}(\textcolor{keyword}{typeid}(updatableClient)));}
+\DoxyCodeLine{\Hypertarget{signal__detector_8cpp_source_l00112}00112\ \ \ \ \ \ \ \ \ this-\/>\mbox{\hyperlink{classsmacc2_1_1SignalDetector_ab4e25decb9b9deb1d0b9c5514aa1e37b}{updatableClients\_}}.push\_back(updatableClient);}
 \DoxyCodeLine{\Hypertarget{signal__detector_8cpp_source_l00113}00113\ \ \ \ \ \ \ \}}
-\DoxyCodeLine{\Hypertarget{signal__detector_8cpp_source_l00114}00114\ \ \ \ \ \}}
-\DoxyCodeLine{\Hypertarget{signal__detector_8cpp_source_l00115}00115\ \ \ \}}
-\DoxyCodeLine{\Hypertarget{signal__detector_8cpp_source_l00116}00116\ \}}
-\DoxyCodeLine{\Hypertarget{signal__detector_8cpp_source_l00117}00117\ }
-\DoxyCodeLine{\Hypertarget{signal__detector_8cpp_source_l00123}\mbox{\hyperlink{classsmacc2_1_1SignalDetector_af12c85d2ec8747c891f7490086d2d6a2}{00123}}\ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{classsmacc2_1_1SignalDetector_af12c85d2ec8747c891f7490086d2d6a2}{SignalDetector::findUpdatableStateElements}}(\mbox{\hyperlink{classsmacc2_1_1ISmaccState}{ISmaccState}}\ *\ currentState)}
-\DoxyCodeLine{\Hypertarget{signal__detector_8cpp_source_l00124}00124\ \{}
-\DoxyCodeLine{\Hypertarget{signal__detector_8cpp_source_l00125}00125\ \ \ \mbox{\hyperlink{classsmacc2_1_1SignalDetector_a772d6191c6ab407166794a4d1d987f3b}{updatableStateElements\_}}.push\_back(std::vector<ISmaccUpdatable\ *>());}
-\DoxyCodeLine{\Hypertarget{signal__detector_8cpp_source_l00126}00126\ }
-\DoxyCodeLine{\Hypertarget{signal__detector_8cpp_source_l00127}00127\ \ \ \textcolor{keyword}{auto}\ \&\ updatableElements\ =\ \mbox{\hyperlink{classsmacc2_1_1SignalDetector_a772d6191c6ab407166794a4d1d987f3b}{updatableStateElements\_}}.back();}
-\DoxyCodeLine{\Hypertarget{signal__detector_8cpp_source_l00128}00128\ }
-\DoxyCodeLine{\Hypertarget{signal__detector_8cpp_source_l00129}00129\ \ \ \textcolor{keywordflow}{for}\ (\textcolor{keyword}{auto}\ pair\ :\ this-\/>\mbox{\hyperlink{classsmacc2_1_1SignalDetector_af6362522bbb882307839852593041cf8}{smaccStateMachine\_}}-\/>\mbox{\hyperlink{classsmacc2_1_1ISmaccStateMachine_a5add78b13865291a7d167cbc496d0d35}{getOrthogonals}}())}
-\DoxyCodeLine{\Hypertarget{signal__detector_8cpp_source_l00130}00130\ \ \ \{}
-\DoxyCodeLine{\Hypertarget{signal__detector_8cpp_source_l00131}00131\ \ \ \ \ \textcolor{keyword}{auto}\ \&\ orthogonal\ =\ pair.second;}
-\DoxyCodeLine{\Hypertarget{signal__detector_8cpp_source_l00132}00132\ \ \ \ \ \textcolor{keyword}{auto}\ \&\ behaviors\ =\ orthogonal-\/>getClientBehaviors().back();}
-\DoxyCodeLine{\Hypertarget{signal__detector_8cpp_source_l00133}00133\ }
-\DoxyCodeLine{\Hypertarget{signal__detector_8cpp_source_l00134}00134\ \ \ \ \ \textcolor{keywordflow}{for}\ (\textcolor{keyword}{auto}\ \&\ currentBehavior\ :\ behaviors)}
-\DoxyCodeLine{\Hypertarget{signal__detector_8cpp_source_l00135}00135\ \ \ \ \ \{}
-\DoxyCodeLine{\Hypertarget{signal__detector_8cpp_source_l00136}00136\ \ \ \ \ \ \ \mbox{\hyperlink{classsmacc2_1_1ISmaccUpdatable}{ISmaccUpdatable}}\ *\ updatableClientBehavior\ =}
-\DoxyCodeLine{\Hypertarget{signal__detector_8cpp_source_l00137}00137\ \ \ \ \ \ \ \ \ \textcolor{keyword}{dynamic\_cast<}\mbox{\hyperlink{classsmacc2_1_1ISmaccUpdatable}{ISmaccUpdatable}}\ *\textcolor{keyword}{>}(currentBehavior.get());}
-\DoxyCodeLine{\Hypertarget{signal__detector_8cpp_source_l00138}00138\ }
-\DoxyCodeLine{\Hypertarget{signal__detector_8cpp_source_l00139}00139\ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (updatableClientBehavior\ !=\ \textcolor{keyword}{nullptr})}
-\DoxyCodeLine{\Hypertarget{signal__detector_8cpp_source_l00140}00140\ \ \ \ \ \ \ \{}
-\DoxyCodeLine{\Hypertarget{signal__detector_8cpp_source_l00141}00141\ \ \ \ \ \ \ \ \ RCLCPP\_DEBUG\_STREAM(}
-\DoxyCodeLine{\Hypertarget{signal__detector_8cpp_source_l00142}00142\ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{classsmacc2_1_1SignalDetector_a97db4ee81e1e63ab67ea40775fd57302}{getLogger}}(),}
-\DoxyCodeLine{\Hypertarget{signal__detector_8cpp_source_l00143}00143\ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}Adding\ updatable\ behavior:\ "{}}\ <<\ \mbox{\hyperlink{namespacesmacc2_1_1introspection_af0776d8076fe19b4f806405e9ab08cfe}{demangleType}}(\textcolor{keyword}{typeid}(updatableClientBehavior)));}
-\DoxyCodeLine{\Hypertarget{signal__detector_8cpp_source_l00144}00144\ \ \ \ \ \ \ \ \ updatableElements.push\_back(updatableClientBehavior);}
-\DoxyCodeLine{\Hypertarget{signal__detector_8cpp_source_l00145}00145\ \ \ \ \ \ \ \}}
-\DoxyCodeLine{\Hypertarget{signal__detector_8cpp_source_l00146}00146\ \ \ \ \ \}}
-\DoxyCodeLine{\Hypertarget{signal__detector_8cpp_source_l00147}00147\ \ \ \}}
+\DoxyCodeLine{\Hypertarget{signal__detector_8cpp_source_l00114}00114\ }
+\DoxyCodeLine{\Hypertarget{signal__detector_8cpp_source_l00115}00115\ \ \ \ \ \ \ \textcolor{comment}{//\ updatable\ client\ components}}
+\DoxyCodeLine{\Hypertarget{signal__detector_8cpp_source_l00116}00116\ \ \ \ \ \ \ std::vector<std::shared\_ptr<ISmaccComponent>>\ components;}
+\DoxyCodeLine{\Hypertarget{signal__detector_8cpp_source_l00117}00117\ \ \ \ \ \ \ client-\/>getComponents(components);}
+\DoxyCodeLine{\Hypertarget{signal__detector_8cpp_source_l00118}00118\ \ \ \ \ \ \ \textcolor{keywordflow}{for}\ (\textcolor{keyword}{auto}\ \&\ componententry\ :\ components)}
+\DoxyCodeLine{\Hypertarget{signal__detector_8cpp_source_l00119}00119\ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{signal__detector_8cpp_source_l00120}00120\ \ \ \ \ \ \ \ \ \textcolor{keyword}{auto}\ updatableComponent\ =\ \textcolor{keyword}{dynamic\_cast<}\mbox{\hyperlink{classsmacc2_1_1ISmaccUpdatable}{ISmaccUpdatable}}\ *\textcolor{keyword}{>}(componententry.get());}
+\DoxyCodeLine{\Hypertarget{signal__detector_8cpp_source_l00121}00121\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (updatableComponent\ !=\ \textcolor{keyword}{nullptr})}
+\DoxyCodeLine{\Hypertarget{signal__detector_8cpp_source_l00122}00122\ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{signal__detector_8cpp_source_l00123}00123\ \ \ \ \ \ \ \ \ \ \ RCLCPP\_DEBUG\_STREAM(}
+\DoxyCodeLine{\Hypertarget{signal__detector_8cpp_source_l00124}00124\ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{classsmacc2_1_1SignalDetector_a97db4ee81e1e63ab67ea40775fd57302}{getLogger}}(),}
+\DoxyCodeLine{\Hypertarget{signal__detector_8cpp_source_l00125}00125\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}Adding\ updatable\ component:\ "{}}\ <<\ \mbox{\hyperlink{namespacesmacc2_1_1introspection_af0776d8076fe19b4f806405e9ab08cfe}{demangleType}}(\textcolor{keyword}{typeid}(*updatableComponent)));}
+\DoxyCodeLine{\Hypertarget{signal__detector_8cpp_source_l00126}00126\ \ \ \ \ \ \ \ \ \ \ this-\/>\mbox{\hyperlink{classsmacc2_1_1SignalDetector_ab4e25decb9b9deb1d0b9c5514aa1e37b}{updatableClients\_}}.push\_back(updatableComponent);}
+\DoxyCodeLine{\Hypertarget{signal__detector_8cpp_source_l00127}00127\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{signal__detector_8cpp_source_l00128}00128\ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{signal__detector_8cpp_source_l00129}00129\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{signal__detector_8cpp_source_l00130}00130\ \ \ \}}
+\DoxyCodeLine{\Hypertarget{signal__detector_8cpp_source_l00131}00131\ \}}
+\DoxyCodeLine{\Hypertarget{signal__detector_8cpp_source_l00132}00132\ }
+\DoxyCodeLine{\Hypertarget{signal__detector_8cpp_source_l00138}\mbox{\hyperlink{classsmacc2_1_1SignalDetector_af12c85d2ec8747c891f7490086d2d6a2}{00138}}\ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{classsmacc2_1_1SignalDetector_af12c85d2ec8747c891f7490086d2d6a2}{SignalDetector::findUpdatableStateElements}}(\mbox{\hyperlink{classsmacc2_1_1ISmaccState}{ISmaccState}}\ *\ currentState)}
+\DoxyCodeLine{\Hypertarget{signal__detector_8cpp_source_l00139}00139\ \{}
+\DoxyCodeLine{\Hypertarget{signal__detector_8cpp_source_l00140}00140\ \ \ \mbox{\hyperlink{classsmacc2_1_1SignalDetector_a772d6191c6ab407166794a4d1d987f3b}{updatableStateElements\_}}.push\_back(std::vector<ISmaccUpdatable\ *>());}
+\DoxyCodeLine{\Hypertarget{signal__detector_8cpp_source_l00141}00141\ }
+\DoxyCodeLine{\Hypertarget{signal__detector_8cpp_source_l00142}00142\ \ \ \textcolor{keyword}{auto}\ \&\ updatableElements\ =\ \mbox{\hyperlink{classsmacc2_1_1SignalDetector_a772d6191c6ab407166794a4d1d987f3b}{updatableStateElements\_}}.back();}
+\DoxyCodeLine{\Hypertarget{signal__detector_8cpp_source_l00143}00143\ }
+\DoxyCodeLine{\Hypertarget{signal__detector_8cpp_source_l00144}00144\ \ \ \textcolor{keywordflow}{for}\ (\textcolor{keyword}{auto}\ pair\ :\ this-\/>\mbox{\hyperlink{classsmacc2_1_1SignalDetector_af6362522bbb882307839852593041cf8}{smaccStateMachine\_}}-\/>\mbox{\hyperlink{classsmacc2_1_1ISmaccStateMachine_a5add78b13865291a7d167cbc496d0d35}{getOrthogonals}}())}
+\DoxyCodeLine{\Hypertarget{signal__detector_8cpp_source_l00145}00145\ \ \ \{}
+\DoxyCodeLine{\Hypertarget{signal__detector_8cpp_source_l00146}00146\ \ \ \ \ \textcolor{keyword}{auto}\ \&\ orthogonal\ =\ pair.second;}
+\DoxyCodeLine{\Hypertarget{signal__detector_8cpp_source_l00147}00147\ \ \ \ \ \textcolor{keyword}{auto}\ \&\ behaviors\ =\ orthogonal-\/>getClientBehaviors().back();}
 \DoxyCodeLine{\Hypertarget{signal__detector_8cpp_source_l00148}00148\ }
-\DoxyCodeLine{\Hypertarget{signal__detector_8cpp_source_l00149}00149\ \ \ \textcolor{keyword}{auto}\ updatableState\ =\ \textcolor{keyword}{dynamic\_cast<}\mbox{\hyperlink{classsmacc2_1_1ISmaccUpdatable}{ISmaccUpdatable}}\ *\textcolor{keyword}{>}(currentState);}
-\DoxyCodeLine{\Hypertarget{signal__detector_8cpp_source_l00150}00150\ \ \ \textcolor{keywordflow}{if}\ (updatableState\ !=\ \textcolor{keyword}{nullptr})}
-\DoxyCodeLine{\Hypertarget{signal__detector_8cpp_source_l00151}00151\ \ \ \{}
-\DoxyCodeLine{\Hypertarget{signal__detector_8cpp_source_l00152}00152\ \ \ \ \ updatableElements.push\_back(updatableState);}
-\DoxyCodeLine{\Hypertarget{signal__detector_8cpp_source_l00153}00153\ \ \ \}}
-\DoxyCodeLine{\Hypertarget{signal__detector_8cpp_source_l00154}00154\ }
-\DoxyCodeLine{\Hypertarget{signal__detector_8cpp_source_l00155}00155\ \ \ \textcolor{keyword}{auto}\ statereactors\ =\ currentState-\/>\mbox{\hyperlink{classsmacc2_1_1ISmaccState_a7831b97a7a61146977dad18c9891aa79}{getStateReactors}}();}
-\DoxyCodeLine{\Hypertarget{signal__detector_8cpp_source_l00156}00156\ \ \ \textcolor{keywordflow}{for}\ (\textcolor{keyword}{auto}\ \&\ sr\ :\ statereactors)}
-\DoxyCodeLine{\Hypertarget{signal__detector_8cpp_source_l00157}00157\ \ \ \{}
-\DoxyCodeLine{\Hypertarget{signal__detector_8cpp_source_l00158}00158\ \ \ \ \ \mbox{\hyperlink{classsmacc2_1_1ISmaccUpdatable}{ISmaccUpdatable}}\ *\ updatableStateReactor\ =\ \textcolor{keyword}{dynamic\_cast<}\mbox{\hyperlink{classsmacc2_1_1ISmaccUpdatable}{ISmaccUpdatable}}\ *\textcolor{keyword}{>}(sr.get());}
-\DoxyCodeLine{\Hypertarget{signal__detector_8cpp_source_l00159}00159\ \ \ \ \ \textcolor{keywordflow}{if}\ (updatableStateReactor\ !=\ \textcolor{keyword}{nullptr})}
-\DoxyCodeLine{\Hypertarget{signal__detector_8cpp_source_l00160}00160\ \ \ \ \ \{}
-\DoxyCodeLine{\Hypertarget{signal__detector_8cpp_source_l00161}00161\ \ \ \ \ \ \ RCLCPP\_DEBUG\_STREAM(}
-\DoxyCodeLine{\Hypertarget{signal__detector_8cpp_source_l00162}00162\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{classsmacc2_1_1SignalDetector_a97db4ee81e1e63ab67ea40775fd57302}{getLogger}}(),}
-\DoxyCodeLine{\Hypertarget{signal__detector_8cpp_source_l00163}00163\ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}Adding\ updatable\ stateReactorr:\ "{}}\ <<\ \mbox{\hyperlink{namespacesmacc2_1_1introspection_af0776d8076fe19b4f806405e9ab08cfe}{demangleType}}(\textcolor{keyword}{typeid}(updatableStateReactor)));}
-\DoxyCodeLine{\Hypertarget{signal__detector_8cpp_source_l00164}00164\ \ \ \ \ \ \ updatableElements.push\_back(updatableStateReactor);}
-\DoxyCodeLine{\Hypertarget{signal__detector_8cpp_source_l00165}00165\ \ \ \ \ \}}
-\DoxyCodeLine{\Hypertarget{signal__detector_8cpp_source_l00166}00166\ \ \ \}}
-\DoxyCodeLine{\Hypertarget{signal__detector_8cpp_source_l00167}00167\ }
-\DoxyCodeLine{\Hypertarget{signal__detector_8cpp_source_l00168}00168\ \ \ \textcolor{keyword}{auto}\ eventgenerators\ =\ currentState-\/>\mbox{\hyperlink{classsmacc2_1_1ISmaccState_ab8b2cbd702be6ea6f3d781eec29c3d1e}{getEventGenerators}}();}
-\DoxyCodeLine{\Hypertarget{signal__detector_8cpp_source_l00169}00169\ \ \ \textcolor{keywordflow}{for}\ (\textcolor{keyword}{auto}\ \&\ eg\ :\ eventgenerators)}
-\DoxyCodeLine{\Hypertarget{signal__detector_8cpp_source_l00170}00170\ \ \ \{}
-\DoxyCodeLine{\Hypertarget{signal__detector_8cpp_source_l00171}00171\ \ \ \ \ \mbox{\hyperlink{classsmacc2_1_1ISmaccUpdatable}{ISmaccUpdatable}}\ *\ updatableEventGenerator\ =\ \textcolor{keyword}{dynamic\_cast<}\mbox{\hyperlink{classsmacc2_1_1ISmaccUpdatable}{ISmaccUpdatable}}\ *\textcolor{keyword}{>}(eg.get());}
-\DoxyCodeLine{\Hypertarget{signal__detector_8cpp_source_l00172}00172\ \ \ \ \ \textcolor{keywordflow}{if}\ (updatableEventGenerator\ !=\ \textcolor{keyword}{nullptr})}
-\DoxyCodeLine{\Hypertarget{signal__detector_8cpp_source_l00173}00173\ \ \ \ \ \{}
-\DoxyCodeLine{\Hypertarget{signal__detector_8cpp_source_l00174}00174\ \ \ \ \ \ \ RCLCPP\_DEBUG\_STREAM(}
-\DoxyCodeLine{\Hypertarget{signal__detector_8cpp_source_l00175}00175\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{classsmacc2_1_1SignalDetector_a97db4ee81e1e63ab67ea40775fd57302}{getLogger}}(),}
-\DoxyCodeLine{\Hypertarget{signal__detector_8cpp_source_l00176}00176\ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}Adding\ updatable\ eventGenerator:\ "{}}\ <<\ \mbox{\hyperlink{namespacesmacc2_1_1introspection_af0776d8076fe19b4f806405e9ab08cfe}{demangleType}}(\textcolor{keyword}{typeid}(updatableEventGenerator)));}
-\DoxyCodeLine{\Hypertarget{signal__detector_8cpp_source_l00177}00177\ \ \ \ \ \ \ updatableElements.push\_back(updatableEventGenerator);}
-\DoxyCodeLine{\Hypertarget{signal__detector_8cpp_source_l00178}00178\ \ \ \ \ \}}
-\DoxyCodeLine{\Hypertarget{signal__detector_8cpp_source_l00179}00179\ \ \ \}}
-\DoxyCodeLine{\Hypertarget{signal__detector_8cpp_source_l00180}00180\ \}}
-\DoxyCodeLine{\Hypertarget{signal__detector_8cpp_source_l00181}00181\ }
-\DoxyCodeLine{\Hypertarget{signal__detector_8cpp_source_l00182}\mbox{\hyperlink{classsmacc2_1_1SignalDetector_af9a0197754ac252b657a8785ac1ef84d}{00182}}\ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{classsmacc2_1_1SignalDetector_af9a0197754ac252b657a8785ac1ef84d}{SignalDetector::notifyStateConfigured}}(\mbox{\hyperlink{classsmacc2_1_1ISmaccState}{ISmaccState}}\ *\ currentState)}
-\DoxyCodeLine{\Hypertarget{signal__detector_8cpp_source_l00183}00183\ \{}
-\DoxyCodeLine{\Hypertarget{signal__detector_8cpp_source_l00184}00184\ \ \ this-\/>\mbox{\hyperlink{classsmacc2_1_1SignalDetector_af12c85d2ec8747c891f7490086d2d6a2}{findUpdatableStateElements}}(currentState);}
-\DoxyCodeLine{\Hypertarget{signal__detector_8cpp_source_l00185}00185\ \}}
-\DoxyCodeLine{\Hypertarget{signal__detector_8cpp_source_l00186}00186\ }
-\DoxyCodeLine{\Hypertarget{signal__detector_8cpp_source_l00187}\mbox{\hyperlink{classsmacc2_1_1SignalDetector_a5bba754f0a9e2366034da17501a6b490}{00187}}\ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{classsmacc2_1_1SignalDetector_a5bba754f0a9e2366034da17501a6b490}{SignalDetector::notifyStateExited}}(\mbox{\hyperlink{classsmacc2_1_1ISmaccState}{ISmaccState}}\ *\ \textcolor{comment}{/*currentState*/})}
-\DoxyCodeLine{\Hypertarget{signal__detector_8cpp_source_l00188}00188\ \{}
-\DoxyCodeLine{\Hypertarget{signal__detector_8cpp_source_l00189}00189\ \ \ this-\/>\mbox{\hyperlink{classsmacc2_1_1SignalDetector_a772d6191c6ab407166794a4d1d987f3b}{updatableStateElements\_}}.pop\_back();}
-\DoxyCodeLine{\Hypertarget{signal__detector_8cpp_source_l00190}00190\ \}}
-\DoxyCodeLine{\Hypertarget{signal__detector_8cpp_source_l00191}00191\ }
-\DoxyCodeLine{\Hypertarget{signal__detector_8cpp_source_l00197}\mbox{\hyperlink{classsmacc2_1_1SignalDetector_adf9f225226e698d44a5e952fa3963057}{00197}}\ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{classsmacc2_1_1SignalDetector_adf9f225226e698d44a5e952fa3963057}{SignalDetector::setProcessorHandle}}(SmaccFifoScheduler::processor\_handle\ processorHandle)}
+\DoxyCodeLine{\Hypertarget{signal__detector_8cpp_source_l00149}00149\ \ \ \ \ \textcolor{keywordflow}{for}\ (\textcolor{keyword}{auto}\ \&\ currentBehavior\ :\ behaviors)}
+\DoxyCodeLine{\Hypertarget{signal__detector_8cpp_source_l00150}00150\ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{signal__detector_8cpp_source_l00151}00151\ \ \ \ \ \ \ \mbox{\hyperlink{classsmacc2_1_1ISmaccUpdatable}{ISmaccUpdatable}}\ *\ updatableClientBehavior\ =}
+\DoxyCodeLine{\Hypertarget{signal__detector_8cpp_source_l00152}00152\ \ \ \ \ \ \ \ \ \textcolor{keyword}{dynamic\_cast<}\mbox{\hyperlink{classsmacc2_1_1ISmaccUpdatable}{ISmaccUpdatable}}\ *\textcolor{keyword}{>}(currentBehavior.get());}
+\DoxyCodeLine{\Hypertarget{signal__detector_8cpp_source_l00153}00153\ }
+\DoxyCodeLine{\Hypertarget{signal__detector_8cpp_source_l00154}00154\ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (updatableClientBehavior\ !=\ \textcolor{keyword}{nullptr})}
+\DoxyCodeLine{\Hypertarget{signal__detector_8cpp_source_l00155}00155\ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{signal__detector_8cpp_source_l00156}00156\ \ \ \ \ \ \ \ \ RCLCPP\_DEBUG\_STREAM(}
+\DoxyCodeLine{\Hypertarget{signal__detector_8cpp_source_l00157}00157\ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{classsmacc2_1_1SignalDetector_a97db4ee81e1e63ab67ea40775fd57302}{getLogger}}(),}
+\DoxyCodeLine{\Hypertarget{signal__detector_8cpp_source_l00158}00158\ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}Adding\ updatable\ behavior:\ "{}}\ <<\ \mbox{\hyperlink{namespacesmacc2_1_1introspection_af0776d8076fe19b4f806405e9ab08cfe}{demangleType}}(\textcolor{keyword}{typeid}(updatableClientBehavior)));}
+\DoxyCodeLine{\Hypertarget{signal__detector_8cpp_source_l00159}00159\ \ \ \ \ \ \ \ \ updatableElements.push\_back(updatableClientBehavior);}
+\DoxyCodeLine{\Hypertarget{signal__detector_8cpp_source_l00160}00160\ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{signal__detector_8cpp_source_l00161}00161\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{signal__detector_8cpp_source_l00162}00162\ \ \ \}}
+\DoxyCodeLine{\Hypertarget{signal__detector_8cpp_source_l00163}00163\ }
+\DoxyCodeLine{\Hypertarget{signal__detector_8cpp_source_l00164}00164\ \ \ \textcolor{keyword}{auto}\ updatableState\ =\ \textcolor{keyword}{dynamic\_cast<}\mbox{\hyperlink{classsmacc2_1_1ISmaccUpdatable}{ISmaccUpdatable}}\ *\textcolor{keyword}{>}(currentState);}
+\DoxyCodeLine{\Hypertarget{signal__detector_8cpp_source_l00165}00165\ \ \ \textcolor{keywordflow}{if}\ (updatableState\ !=\ \textcolor{keyword}{nullptr})}
+\DoxyCodeLine{\Hypertarget{signal__detector_8cpp_source_l00166}00166\ \ \ \{}
+\DoxyCodeLine{\Hypertarget{signal__detector_8cpp_source_l00167}00167\ \ \ \ \ updatableElements.push\_back(updatableState);}
+\DoxyCodeLine{\Hypertarget{signal__detector_8cpp_source_l00168}00168\ \ \ \}}
+\DoxyCodeLine{\Hypertarget{signal__detector_8cpp_source_l00169}00169\ }
+\DoxyCodeLine{\Hypertarget{signal__detector_8cpp_source_l00170}00170\ \ \ \textcolor{keyword}{auto}\ statereactors\ =\ currentState-\/>\mbox{\hyperlink{classsmacc2_1_1ISmaccState_a7831b97a7a61146977dad18c9891aa79}{getStateReactors}}();}
+\DoxyCodeLine{\Hypertarget{signal__detector_8cpp_source_l00171}00171\ \ \ \textcolor{keywordflow}{for}\ (\textcolor{keyword}{auto}\ \&\ sr\ :\ statereactors)}
+\DoxyCodeLine{\Hypertarget{signal__detector_8cpp_source_l00172}00172\ \ \ \{}
+\DoxyCodeLine{\Hypertarget{signal__detector_8cpp_source_l00173}00173\ \ \ \ \ \mbox{\hyperlink{classsmacc2_1_1ISmaccUpdatable}{ISmaccUpdatable}}\ *\ updatableStateReactor\ =\ \textcolor{keyword}{dynamic\_cast<}\mbox{\hyperlink{classsmacc2_1_1ISmaccUpdatable}{ISmaccUpdatable}}\ *\textcolor{keyword}{>}(sr.get());}
+\DoxyCodeLine{\Hypertarget{signal__detector_8cpp_source_l00174}00174\ \ \ \ \ \textcolor{keywordflow}{if}\ (updatableStateReactor\ !=\ \textcolor{keyword}{nullptr})}
+\DoxyCodeLine{\Hypertarget{signal__detector_8cpp_source_l00175}00175\ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{signal__detector_8cpp_source_l00176}00176\ \ \ \ \ \ \ RCLCPP\_DEBUG\_STREAM(}
+\DoxyCodeLine{\Hypertarget{signal__detector_8cpp_source_l00177}00177\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{classsmacc2_1_1SignalDetector_a97db4ee81e1e63ab67ea40775fd57302}{getLogger}}(),}
+\DoxyCodeLine{\Hypertarget{signal__detector_8cpp_source_l00178}00178\ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}Adding\ updatable\ stateReactorr:\ "{}}\ <<\ \mbox{\hyperlink{namespacesmacc2_1_1introspection_af0776d8076fe19b4f806405e9ab08cfe}{demangleType}}(\textcolor{keyword}{typeid}(updatableStateReactor)));}
+\DoxyCodeLine{\Hypertarget{signal__detector_8cpp_source_l00179}00179\ \ \ \ \ \ \ updatableElements.push\_back(updatableStateReactor);}
+\DoxyCodeLine{\Hypertarget{signal__detector_8cpp_source_l00180}00180\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{signal__detector_8cpp_source_l00181}00181\ \ \ \}}
+\DoxyCodeLine{\Hypertarget{signal__detector_8cpp_source_l00182}00182\ }
+\DoxyCodeLine{\Hypertarget{signal__detector_8cpp_source_l00183}00183\ \ \ \textcolor{keyword}{auto}\ eventgenerators\ =\ currentState-\/>\mbox{\hyperlink{classsmacc2_1_1ISmaccState_ab8b2cbd702be6ea6f3d781eec29c3d1e}{getEventGenerators}}();}
+\DoxyCodeLine{\Hypertarget{signal__detector_8cpp_source_l00184}00184\ \ \ \textcolor{keywordflow}{for}\ (\textcolor{keyword}{auto}\ \&\ eg\ :\ eventgenerators)}
+\DoxyCodeLine{\Hypertarget{signal__detector_8cpp_source_l00185}00185\ \ \ \{}
+\DoxyCodeLine{\Hypertarget{signal__detector_8cpp_source_l00186}00186\ \ \ \ \ \mbox{\hyperlink{classsmacc2_1_1ISmaccUpdatable}{ISmaccUpdatable}}\ *\ updatableEventGenerator\ =\ \textcolor{keyword}{dynamic\_cast<}\mbox{\hyperlink{classsmacc2_1_1ISmaccUpdatable}{ISmaccUpdatable}}\ *\textcolor{keyword}{>}(eg.get());}
+\DoxyCodeLine{\Hypertarget{signal__detector_8cpp_source_l00187}00187\ \ \ \ \ \textcolor{keywordflow}{if}\ (updatableEventGenerator\ !=\ \textcolor{keyword}{nullptr})}
+\DoxyCodeLine{\Hypertarget{signal__detector_8cpp_source_l00188}00188\ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{signal__detector_8cpp_source_l00189}00189\ \ \ \ \ \ \ RCLCPP\_DEBUG\_STREAM(}
+\DoxyCodeLine{\Hypertarget{signal__detector_8cpp_source_l00190}00190\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{classsmacc2_1_1SignalDetector_a97db4ee81e1e63ab67ea40775fd57302}{getLogger}}(),}
+\DoxyCodeLine{\Hypertarget{signal__detector_8cpp_source_l00191}00191\ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}Adding\ updatable\ eventGenerator:\ "{}}\ <<\ \mbox{\hyperlink{namespacesmacc2_1_1introspection_af0776d8076fe19b4f806405e9ab08cfe}{demangleType}}(\textcolor{keyword}{typeid}(updatableEventGenerator)));}
+\DoxyCodeLine{\Hypertarget{signal__detector_8cpp_source_l00192}00192\ \ \ \ \ \ \ updatableElements.push\_back(updatableEventGenerator);}
+\DoxyCodeLine{\Hypertarget{signal__detector_8cpp_source_l00193}00193\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{signal__detector_8cpp_source_l00194}00194\ \ \ \}}
+\DoxyCodeLine{\Hypertarget{signal__detector_8cpp_source_l00195}00195\ \}}
+\DoxyCodeLine{\Hypertarget{signal__detector_8cpp_source_l00196}00196\ }
+\DoxyCodeLine{\Hypertarget{signal__detector_8cpp_source_l00197}\mbox{\hyperlink{classsmacc2_1_1SignalDetector_af9a0197754ac252b657a8785ac1ef84d}{00197}}\ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{classsmacc2_1_1SignalDetector_af9a0197754ac252b657a8785ac1ef84d}{SignalDetector::notifyStateConfigured}}(\mbox{\hyperlink{classsmacc2_1_1ISmaccState}{ISmaccState}}\ *\ currentState)}
 \DoxyCodeLine{\Hypertarget{signal__detector_8cpp_source_l00198}00198\ \{}
-\DoxyCodeLine{\Hypertarget{signal__detector_8cpp_source_l00199}00199\ \ \ \mbox{\hyperlink{classsmacc2_1_1SignalDetector_aa80e007075a6b03ddcf3e3dd066a220b}{processorHandle\_}}\ =\ processorHandle;}
+\DoxyCodeLine{\Hypertarget{signal__detector_8cpp_source_l00199}00199\ \ \ this-\/>\mbox{\hyperlink{classsmacc2_1_1SignalDetector_af12c85d2ec8747c891f7490086d2d6a2}{findUpdatableStateElements}}(currentState);}
 \DoxyCodeLine{\Hypertarget{signal__detector_8cpp_source_l00200}00200\ \}}
 \DoxyCodeLine{\Hypertarget{signal__detector_8cpp_source_l00201}00201\ }
-\DoxyCodeLine{\Hypertarget{signal__detector_8cpp_source_l00207}\mbox{\hyperlink{classsmacc2_1_1SignalDetector_a2532abcf6a11a04270ea2951b5b3a208}{00207}}\ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{classsmacc2_1_1SignalDetector_a2532abcf6a11a04270ea2951b5b3a208}{SignalDetector::runThread}}()}
-\DoxyCodeLine{\Hypertarget{signal__detector_8cpp_source_l00208}00208\ \{}
-\DoxyCodeLine{\Hypertarget{signal__detector_8cpp_source_l00209}00209\ \ \ \mbox{\hyperlink{classsmacc2_1_1SignalDetector_a276146375c7556e114af678adb96a1f9}{signalDetectorThread\_}}\ =\ boost::thread(boost::bind(\&\mbox{\hyperlink{classsmacc2_1_1SignalDetector_a08d072feafb277794a16fe33a6dcc97e}{SignalDetector::pollingLoop}},\ \textcolor{keyword}{this}));}
-\DoxyCodeLine{\Hypertarget{signal__detector_8cpp_source_l00210}00210\ \}}
-\DoxyCodeLine{\Hypertarget{signal__detector_8cpp_source_l00211}00211\ }
-\DoxyCodeLine{\Hypertarget{signal__detector_8cpp_source_l00217}\mbox{\hyperlink{classsmacc2_1_1SignalDetector_a3bd69a0b127939119472d9ee70d4b653}{00217}}\ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{classsmacc2_1_1SignalDetector_a3bd69a0b127939119472d9ee70d4b653}{SignalDetector::join}}()\ \{\ \mbox{\hyperlink{classsmacc2_1_1SignalDetector_a276146375c7556e114af678adb96a1f9}{signalDetectorThread\_}}.join();\ \}}
-\DoxyCodeLine{\Hypertarget{signal__detector_8cpp_source_l00218}00218\ }
-\DoxyCodeLine{\Hypertarget{signal__detector_8cpp_source_l00224}\mbox{\hyperlink{classsmacc2_1_1SignalDetector_ae630e845276184854cc451b21db52c25}{00224}}\ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{classsmacc2_1_1SignalDetector_ae630e845276184854cc451b21db52c25}{SignalDetector::stop}}()\ \{\ \mbox{\hyperlink{classsmacc2_1_1SignalDetector_ac8756409452924cdd2cc9a99ca2fdd30}{end\_}}\ =\ \textcolor{keyword}{true};\ \}}
-\DoxyCodeLine{\Hypertarget{signal__detector_8cpp_source_l00225}00225\ }
-\DoxyCodeLine{\Hypertarget{signal__detector_8cpp_source_l00231}\mbox{\hyperlink{classsmacc2_1_1SignalDetector_a211032d17d55b5a0318c572063fbb9bd}{00231}}\ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{classsmacc2_1_1SignalDetector_a211032d17d55b5a0318c572063fbb9bd}{SignalDetector::terminateScheduler}}()}
-\DoxyCodeLine{\Hypertarget{signal__detector_8cpp_source_l00232}00232\ \{}
-\DoxyCodeLine{\Hypertarget{signal__detector_8cpp_source_l00233}00233\ \ \ \textcolor{keywordflow}{if}\ (\mbox{\hyperlink{classsmacc2_1_1SignalDetector_a1912d4bc0a3c88986d335882c7d1b787}{scheduler\_}})}
-\DoxyCodeLine{\Hypertarget{signal__detector_8cpp_source_l00234}00234\ \ \ \{}
-\DoxyCodeLine{\Hypertarget{signal__detector_8cpp_source_l00235}00235\ \ \ \ \ RCLCPP\_INFO(\mbox{\hyperlink{classsmacc2_1_1SignalDetector_a97db4ee81e1e63ab67ea40775fd57302}{getLogger}}(),\ \textcolor{stringliteral}{"{}[SignalDetector]\ Terminating\ scheduler..."{}});}
-\DoxyCodeLine{\Hypertarget{signal__detector_8cpp_source_l00236}00236\ \ \ \ \ \mbox{\hyperlink{classsmacc2_1_1SignalDetector_a1912d4bc0a3c88986d335882c7d1b787}{scheduler\_}}-\/>terminate();}
-\DoxyCodeLine{\Hypertarget{signal__detector_8cpp_source_l00237}00237\ \ \ \}}
-\DoxyCodeLine{\Hypertarget{signal__detector_8cpp_source_l00238}00238\ \}}
-\DoxyCodeLine{\Hypertarget{signal__detector_8cpp_source_l00239}00239\ }
-\DoxyCodeLine{\Hypertarget{signal__detector_8cpp_source_l00245}\mbox{\hyperlink{classsmacc2_1_1SignalDetector_af363cea3f8228eeb68b25ad21903dc74}{00245}}\ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{classsmacc2_1_1SignalDetector_af363cea3f8228eeb68b25ad21903dc74}{SignalDetector::pollOnce}}()}
-\DoxyCodeLine{\Hypertarget{signal__detector_8cpp_source_l00246}00246\ \{}
-\DoxyCodeLine{\Hypertarget{signal__detector_8cpp_source_l00247}00247\ \ \ \textcolor{comment}{//\ precondition:\ smaccStateMachine\_\ !=\ nullptr}}
-\DoxyCodeLine{\Hypertarget{signal__detector_8cpp_source_l00248}00248\ }
-\DoxyCodeLine{\Hypertarget{signal__detector_8cpp_source_l00249}00249\ \ \ \textcolor{comment}{//TRACEPOINT(\ spinOnce);}}
-\DoxyCodeLine{\Hypertarget{signal__detector_8cpp_source_l00250}00250\ \ \ \mbox{\hyperlink{smacc__tracing_8cpp_a99b909db1e382a9b899ec134046d0213}{TRACEPOINT}}(spinOnce);}
-\DoxyCodeLine{\Hypertarget{signal__detector_8cpp_source_l00251}00251\ }
-\DoxyCodeLine{\Hypertarget{signal__detector_8cpp_source_l00252}00252\ \ \ std::lock\_guard<std::recursive\_mutex>\ lock(\mbox{\hyperlink{classsmacc2_1_1SignalDetector_af6362522bbb882307839852593041cf8}{smaccStateMachine\_}}-\/>\mbox{\hyperlink{classsmacc2_1_1ISmaccStateMachine_a5c3c7701e263d0dda0a1a4d74a4217c0}{m\_mutex\_}});}
-\DoxyCodeLine{\Hypertarget{signal__detector_8cpp_source_l00253}00253\ \ \ \textcolor{keywordflow}{try}}
-\DoxyCodeLine{\Hypertarget{signal__detector_8cpp_source_l00254}00254\ \ \ \{}
-\DoxyCodeLine{\Hypertarget{signal__detector_8cpp_source_l00255}00255\ \ \ \ \ \textcolor{comment}{//smaccStateMachine\_-\/>lockStateMachine("{}update\ behaviors"{});}}
-\DoxyCodeLine{\Hypertarget{signal__detector_8cpp_source_l00256}00256\ }
-\DoxyCodeLine{\Hypertarget{signal__detector_8cpp_source_l00257}00257\ \ \ \ \ this-\/>\mbox{\hyperlink{classsmacc2_1_1SignalDetector_af325def90b56dd82ab34d351f5a37a02}{findUpdatableClientsAndComponents}}();}
-\DoxyCodeLine{\Hypertarget{signal__detector_8cpp_source_l00258}00258\ \ \ \ \ RCLCPP\_DEBUG\_STREAM(\mbox{\hyperlink{classsmacc2_1_1SignalDetector_a97db4ee81e1e63ab67ea40775fd57302}{getLogger}}(),\ \textcolor{stringliteral}{"{}Updatable\ clients:\ "{}}\ <<\ this-\/>\mbox{\hyperlink{classsmacc2_1_1SignalDetector_ab4e25decb9b9deb1d0b9c5514aa1e37b}{updatableClients\_}}.size());}
-\DoxyCodeLine{\Hypertarget{signal__detector_8cpp_source_l00259}00259\ }
-\DoxyCodeLine{\Hypertarget{signal__detector_8cpp_source_l00260}00260\ \ \ \ \ \textcolor{keywordflow}{if}\ (this-\/>\mbox{\hyperlink{classsmacc2_1_1SignalDetector_ab4e25decb9b9deb1d0b9c5514aa1e37b}{updatableClients\_}}.size())}
-\DoxyCodeLine{\Hypertarget{signal__detector_8cpp_source_l00261}00261\ \ \ \ \ \{}
-\DoxyCodeLine{\Hypertarget{signal__detector_8cpp_source_l00262}00262\ \ \ \ \ \ \ \textcolor{keyword}{auto}\ node\ =\ \mbox{\hyperlink{classsmacc2_1_1SignalDetector_aa774a30b0118ee411ba423fc668405b3}{getNode}}();}
-\DoxyCodeLine{\Hypertarget{signal__detector_8cpp_source_l00263}00263\ \ \ \ \ \ \ \textcolor{keywordflow}{for}\ (\textcolor{keyword}{auto}\ *\ updatableClient\ :\ this-\/>\mbox{\hyperlink{classsmacc2_1_1SignalDetector_ab4e25decb9b9deb1d0b9c5514aa1e37b}{updatableClients\_}})}
-\DoxyCodeLine{\Hypertarget{signal__detector_8cpp_source_l00264}00264\ \ \ \ \ \ \ \{}
-\DoxyCodeLine{\Hypertarget{signal__detector_8cpp_source_l00265}00265\ \ \ \ \ \ \ \ \ \textcolor{keyword}{auto}\ updatableElementName\ =\ \mbox{\hyperlink{namespacesmacc2_1_1introspection_af0776d8076fe19b4f806405e9ab08cfe}{demangleType}}(\textcolor{keyword}{typeid}(*updatableClient)).c\_str();}
-\DoxyCodeLine{\Hypertarget{signal__detector_8cpp_source_l00266}00266\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{try}}
-\DoxyCodeLine{\Hypertarget{signal__detector_8cpp_source_l00267}00267\ \ \ \ \ \ \ \ \ \{}
-\DoxyCodeLine{\Hypertarget{signal__detector_8cpp_source_l00268}00268\ \ \ \ \ \ \ \ \ \ \ RCLCPP\_DEBUG\_STREAM(}
-\DoxyCodeLine{\Hypertarget{signal__detector_8cpp_source_l00269}00269\ \ \ \ \ \ \ \ \ \ \ \ \ node-\/>get\_logger(),}
-\DoxyCodeLine{\Hypertarget{signal__detector_8cpp_source_l00270}00270\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}[PollOnce]\ update\ client\ call:\ \ "{}}\ <<\ \mbox{\hyperlink{namespacesmacc2_1_1introspection_af0776d8076fe19b4f806405e9ab08cfe}{demangleType}}(\textcolor{keyword}{typeid}(*updatableClient)));}
+\DoxyCodeLine{\Hypertarget{signal__detector_8cpp_source_l00202}\mbox{\hyperlink{classsmacc2_1_1SignalDetector_a5bba754f0a9e2366034da17501a6b490}{00202}}\ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{classsmacc2_1_1SignalDetector_a5bba754f0a9e2366034da17501a6b490}{SignalDetector::notifyStateExited}}(\mbox{\hyperlink{classsmacc2_1_1ISmaccState}{ISmaccState}}\ *\ \textcolor{comment}{/*currentState*/})}
+\DoxyCodeLine{\Hypertarget{signal__detector_8cpp_source_l00203}00203\ \{}
+\DoxyCodeLine{\Hypertarget{signal__detector_8cpp_source_l00204}00204\ \ \ this-\/>\mbox{\hyperlink{classsmacc2_1_1SignalDetector_a772d6191c6ab407166794a4d1d987f3b}{updatableStateElements\_}}.pop\_back();}
+\DoxyCodeLine{\Hypertarget{signal__detector_8cpp_source_l00205}00205\ \}}
+\DoxyCodeLine{\Hypertarget{signal__detector_8cpp_source_l00206}00206\ }
+\DoxyCodeLine{\Hypertarget{signal__detector_8cpp_source_l00212}\mbox{\hyperlink{classsmacc2_1_1SignalDetector_adf9f225226e698d44a5e952fa3963057}{00212}}\ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{classsmacc2_1_1SignalDetector_adf9f225226e698d44a5e952fa3963057}{SignalDetector::setProcessorHandle}}(SmaccFifoScheduler::processor\_handle\ processorHandle)}
+\DoxyCodeLine{\Hypertarget{signal__detector_8cpp_source_l00213}00213\ \{}
+\DoxyCodeLine{\Hypertarget{signal__detector_8cpp_source_l00214}00214\ \ \ \mbox{\hyperlink{classsmacc2_1_1SignalDetector_aa80e007075a6b03ddcf3e3dd066a220b}{processorHandle\_}}\ =\ processorHandle;}
+\DoxyCodeLine{\Hypertarget{signal__detector_8cpp_source_l00215}00215\ \}}
+\DoxyCodeLine{\Hypertarget{signal__detector_8cpp_source_l00216}00216\ }
+\DoxyCodeLine{\Hypertarget{signal__detector_8cpp_source_l00222}\mbox{\hyperlink{classsmacc2_1_1SignalDetector_a2532abcf6a11a04270ea2951b5b3a208}{00222}}\ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{classsmacc2_1_1SignalDetector_a2532abcf6a11a04270ea2951b5b3a208}{SignalDetector::runThread}}()}
+\DoxyCodeLine{\Hypertarget{signal__detector_8cpp_source_l00223}00223\ \{}
+\DoxyCodeLine{\Hypertarget{signal__detector_8cpp_source_l00224}00224\ \ \ \mbox{\hyperlink{classsmacc2_1_1SignalDetector_a276146375c7556e114af678adb96a1f9}{signalDetectorThread\_}}\ =\ boost::thread(boost::bind(\&\mbox{\hyperlink{classsmacc2_1_1SignalDetector_a08d072feafb277794a16fe33a6dcc97e}{SignalDetector::pollingLoop}},\ \textcolor{keyword}{this}));}
+\DoxyCodeLine{\Hypertarget{signal__detector_8cpp_source_l00225}00225\ \}}
+\DoxyCodeLine{\Hypertarget{signal__detector_8cpp_source_l00226}00226\ }
+\DoxyCodeLine{\Hypertarget{signal__detector_8cpp_source_l00232}\mbox{\hyperlink{classsmacc2_1_1SignalDetector_a3bd69a0b127939119472d9ee70d4b653}{00232}}\ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{classsmacc2_1_1SignalDetector_a3bd69a0b127939119472d9ee70d4b653}{SignalDetector::join}}()\ \{\ \mbox{\hyperlink{classsmacc2_1_1SignalDetector_a276146375c7556e114af678adb96a1f9}{signalDetectorThread\_}}.join();\ \}}
+\DoxyCodeLine{\Hypertarget{signal__detector_8cpp_source_l00233}00233\ }
+\DoxyCodeLine{\Hypertarget{signal__detector_8cpp_source_l00239}\mbox{\hyperlink{classsmacc2_1_1SignalDetector_ae630e845276184854cc451b21db52c25}{00239}}\ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{classsmacc2_1_1SignalDetector_ae630e845276184854cc451b21db52c25}{SignalDetector::stop}}()\ \{\ \mbox{\hyperlink{classsmacc2_1_1SignalDetector_ac8756409452924cdd2cc9a99ca2fdd30}{end\_}}\ =\ \textcolor{keyword}{true};\ \}}
+\DoxyCodeLine{\Hypertarget{signal__detector_8cpp_source_l00240}00240\ }
+\DoxyCodeLine{\Hypertarget{signal__detector_8cpp_source_l00246}\mbox{\hyperlink{classsmacc2_1_1SignalDetector_a211032d17d55b5a0318c572063fbb9bd}{00246}}\ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{classsmacc2_1_1SignalDetector_a211032d17d55b5a0318c572063fbb9bd}{SignalDetector::terminateScheduler}}()}
+\DoxyCodeLine{\Hypertarget{signal__detector_8cpp_source_l00247}00247\ \{}
+\DoxyCodeLine{\Hypertarget{signal__detector_8cpp_source_l00248}00248\ \ \ \textcolor{keywordflow}{if}\ (\mbox{\hyperlink{classsmacc2_1_1SignalDetector_a1912d4bc0a3c88986d335882c7d1b787}{scheduler\_}})}
+\DoxyCodeLine{\Hypertarget{signal__detector_8cpp_source_l00249}00249\ \ \ \{}
+\DoxyCodeLine{\Hypertarget{signal__detector_8cpp_source_l00250}00250\ \ \ \ \ RCLCPP\_INFO(\mbox{\hyperlink{classsmacc2_1_1SignalDetector_a97db4ee81e1e63ab67ea40775fd57302}{getLogger}}(),\ \textcolor{stringliteral}{"{}[SignalDetector]\ Terminating\ scheduler..."{}});}
+\DoxyCodeLine{\Hypertarget{signal__detector_8cpp_source_l00251}00251\ \ \ \ \ \mbox{\hyperlink{classsmacc2_1_1SignalDetector_a1912d4bc0a3c88986d335882c7d1b787}{scheduler\_}}-\/>terminate();}
+\DoxyCodeLine{\Hypertarget{signal__detector_8cpp_source_l00252}00252\ \ \ \}}
+\DoxyCodeLine{\Hypertarget{signal__detector_8cpp_source_l00253}00253\ \}}
+\DoxyCodeLine{\Hypertarget{signal__detector_8cpp_source_l00254}00254\ }
+\DoxyCodeLine{\Hypertarget{signal__detector_8cpp_source_l00260}\mbox{\hyperlink{classsmacc2_1_1SignalDetector_af363cea3f8228eeb68b25ad21903dc74}{00260}}\ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{classsmacc2_1_1SignalDetector_af363cea3f8228eeb68b25ad21903dc74}{SignalDetector::pollOnce}}()}
+\DoxyCodeLine{\Hypertarget{signal__detector_8cpp_source_l00261}00261\ \{}
+\DoxyCodeLine{\Hypertarget{signal__detector_8cpp_source_l00262}00262\ \ \ \textcolor{comment}{//\ precondition:\ smaccStateMachine\_\ !=\ nullptr}}
+\DoxyCodeLine{\Hypertarget{signal__detector_8cpp_source_l00263}00263\ }
+\DoxyCodeLine{\Hypertarget{signal__detector_8cpp_source_l00264}00264\ \ \ \textcolor{comment}{//TRACEPOINT(\ spinOnce);}}
+\DoxyCodeLine{\Hypertarget{signal__detector_8cpp_source_l00265}00265\ \ \ \mbox{\hyperlink{smacc__tracing_8cpp_a99b909db1e382a9b899ec134046d0213}{TRACEPOINT}}(spinOnce);}
+\DoxyCodeLine{\Hypertarget{signal__detector_8cpp_source_l00266}00266\ }
+\DoxyCodeLine{\Hypertarget{signal__detector_8cpp_source_l00267}00267\ \ \ std::lock\_guard<std::recursive\_mutex>\ lock(\mbox{\hyperlink{classsmacc2_1_1SignalDetector_af6362522bbb882307839852593041cf8}{smaccStateMachine\_}}-\/>\mbox{\hyperlink{classsmacc2_1_1ISmaccStateMachine_a5c3c7701e263d0dda0a1a4d74a4217c0}{m\_mutex\_}});}
+\DoxyCodeLine{\Hypertarget{signal__detector_8cpp_source_l00268}00268\ \ \ \textcolor{keywordflow}{try}}
+\DoxyCodeLine{\Hypertarget{signal__detector_8cpp_source_l00269}00269\ \ \ \{}
+\DoxyCodeLine{\Hypertarget{signal__detector_8cpp_source_l00270}00270\ \ \ \ \ \textcolor{comment}{//smaccStateMachine\_-\/>lockStateMachine("{}update\ behaviors"{});}}
 \DoxyCodeLine{\Hypertarget{signal__detector_8cpp_source_l00271}00271\ }
-\DoxyCodeLine{\Hypertarget{signal__detector_8cpp_source_l00272}00272\ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{smacc__tracing_8cpp_a99b909db1e382a9b899ec134046d0213}{TRACEPOINT}}(\mbox{\hyperlink{trace__provider_8hpp_a1bc2f5aa2425be3f58dffdb1b4ae8bb5}{smacc2\_state\_update\_start}},\ updatableElementName);}
-\DoxyCodeLine{\Hypertarget{signal__detector_8cpp_source_l00273}00273\ \ \ \ \ \ \ \ \ \ \ updatableClient-\/>executeUpdate(\mbox{\hyperlink{classsmacc2_1_1SignalDetector_af6362522bbb882307839852593041cf8}{smaccStateMachine\_}}-\/>\mbox{\hyperlink{classsmacc2_1_1ISmaccStateMachine_a2cf8b817f7e137fc648e373ae4614a2f}{getNode}}());}
-\DoxyCodeLine{\Hypertarget{signal__detector_8cpp_source_l00274}00274\ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{smacc__tracing_8cpp_a99b909db1e382a9b899ec134046d0213}{TRACEPOINT}}(\mbox{\hyperlink{trace__provider_8hpp_a1bc2f5aa2425be3f58dffdb1b4ae8bb5}{smacc2\_state\_update\_start}},\ updatableElementName);}
-\DoxyCodeLine{\Hypertarget{signal__detector_8cpp_source_l00275}00275\ \ \ \ \ \ \ \ \ \}}
-\DoxyCodeLine{\Hypertarget{signal__detector_8cpp_source_l00276}00276\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{catch}\ (\textcolor{keyword}{const}\ std::exception\ \&\ e)}
-\DoxyCodeLine{\Hypertarget{signal__detector_8cpp_source_l00277}00277\ \ \ \ \ \ \ \ \ \{}
-\DoxyCodeLine{\Hypertarget{signal__detector_8cpp_source_l00278}00278\ \ \ \ \ \ \ \ \ \ \ RCLCPP\_ERROR\_STREAM(}
-\DoxyCodeLine{\Hypertarget{signal__detector_8cpp_source_l00279}00279\ \ \ \ \ \ \ \ \ \ \ \ \ node-\/>get\_logger(),}
-\DoxyCodeLine{\Hypertarget{signal__detector_8cpp_source_l00280}00280\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}Error\ in\ updatable\ elemnent\ "{}}\ <<\ updatableElementName\ <<\ \textcolor{stringliteral}{"{}:\ "{}}\ <<\ e.what()\ <<\ \textcolor{charliteral}{'\(\backslash\)n'});}
-\DoxyCodeLine{\Hypertarget{signal__detector_8cpp_source_l00281}00281\ \ \ \ \ \ \ \ \ \}}
-\DoxyCodeLine{\Hypertarget{signal__detector_8cpp_source_l00282}00282\ \ \ \ \ \ \ \}}
-\DoxyCodeLine{\Hypertarget{signal__detector_8cpp_source_l00283}00283\ \ \ \ \ \}}
-\DoxyCodeLine{\Hypertarget{signal__detector_8cpp_source_l00284}00284\ }
-\DoxyCodeLine{\Hypertarget{signal__detector_8cpp_source_l00285}00285\ \ \ \ \ \textcolor{comment}{//\ STATE\ UPDATABLE\ ELEMENTS}}
-\DoxyCodeLine{\Hypertarget{signal__detector_8cpp_source_l00286}00286\ \ \ \ \ \textcolor{keywordflow}{if}\ (}
-\DoxyCodeLine{\Hypertarget{signal__detector_8cpp_source_l00287}00287\ \ \ \ \ \ \ this-\/>\mbox{\hyperlink{classsmacc2_1_1SignalDetector_af6362522bbb882307839852593041cf8}{smaccStateMachine\_}}-\/>\mbox{\hyperlink{classsmacc2_1_1ISmaccStateMachine_a26e99c677a32820a2640313a870ae300}{stateMachineCurrentAction}}\ !=}
-\DoxyCodeLine{\Hypertarget{signal__detector_8cpp_source_l00288}00288\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{namespacesmacc2_af13b5c45bc293d2492a93482c86d179fa5e174e130ee1847f37541ba5786207a3}{StateMachineInternalAction::TRANSITIONING}}\ \&\&}
-\DoxyCodeLine{\Hypertarget{signal__detector_8cpp_source_l00289}00289\ \ \ \ \ \ \ this-\/>smaccStateMachine\_-\/>stateMachineCurrentAction\ !=}
-\DoxyCodeLine{\Hypertarget{signal__detector_8cpp_source_l00290}00290\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{namespacesmacc2_af13b5c45bc293d2492a93482c86d179fa32406d3560b9f36b3e6e3b84454e1be5}{StateMachineInternalAction::STATE\_CONFIGURING}}\ \&\&}
-\DoxyCodeLine{\Hypertarget{signal__detector_8cpp_source_l00291}00291\ \ \ \ \ \ \ this-\/>smaccStateMachine\_-\/>stateMachineCurrentAction\ !=}
-\DoxyCodeLine{\Hypertarget{signal__detector_8cpp_source_l00292}00292\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{namespacesmacc2_af13b5c45bc293d2492a93482c86d179faef27ae3e54b805b81e1efacea3c02575}{StateMachineInternalAction::STATE\_ENTERING}}\ \&\&}
-\DoxyCodeLine{\Hypertarget{signal__detector_8cpp_source_l00293}00293\ \ \ \ \ \ \ this-\/>smaccStateMachine\_-\/>stateMachineCurrentAction\ !=}
-\DoxyCodeLine{\Hypertarget{signal__detector_8cpp_source_l00294}00294\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{namespacesmacc2_af13b5c45bc293d2492a93482c86d179fa22bd5bb7935dd66f181d92efc273951e}{StateMachineInternalAction::STATE\_EXITING}})}
-\DoxyCodeLine{\Hypertarget{signal__detector_8cpp_source_l00295}00295\ \ \ \ \ \{}
-\DoxyCodeLine{\Hypertarget{signal__detector_8cpp_source_l00296}00296\ \ \ \ \ \ \ RCLCPP\_DEBUG\_STREAM(}
-\DoxyCodeLine{\Hypertarget{signal__detector_8cpp_source_l00297}00297\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{classsmacc2_1_1SignalDetector_a97db4ee81e1e63ab67ea40775fd57302}{getLogger}}(),\ \textcolor{stringliteral}{"{}Updatable\ states:\ "{}}\ <<\ this-\/>\mbox{\hyperlink{classsmacc2_1_1SignalDetector_a772d6191c6ab407166794a4d1d987f3b}{updatableStateElements\_}}.size());}
-\DoxyCodeLine{\Hypertarget{signal__detector_8cpp_source_l00298}00298\ }
-\DoxyCodeLine{\Hypertarget{signal__detector_8cpp_source_l00299}00299\ \ \ \ \ \ \ \textcolor{keywordflow}{for}\ (\textcolor{keyword}{auto}\ stateElement\ :\ this-\/>\mbox{\hyperlink{classsmacc2_1_1SignalDetector_a772d6191c6ab407166794a4d1d987f3b}{updatableStateElements\_}})}
-\DoxyCodeLine{\Hypertarget{signal__detector_8cpp_source_l00300}00300\ \ \ \ \ \ \ \{}
-\DoxyCodeLine{\Hypertarget{signal__detector_8cpp_source_l00301}00301\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{for}\ (\textcolor{keyword}{auto}\ *\ udpatableStateElement\ :\ stateElement)}
-\DoxyCodeLine{\Hypertarget{signal__detector_8cpp_source_l00302}00302\ \ \ \ \ \ \ \ \ \{}
-\DoxyCodeLine{\Hypertarget{signal__detector_8cpp_source_l00303}00303\ \ \ \ \ \ \ \ \ \ \ std::string\ updatableElementName\ =\ \mbox{\hyperlink{namespacesmacc2_1_1introspection_af0776d8076fe19b4f806405e9ab08cfe}{demangleType}}(\textcolor{keyword}{typeid}(*udpatableStateElement));}
-\DoxyCodeLine{\Hypertarget{signal__detector_8cpp_source_l00304}00304\ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{auto}\ updatableElementNameCstr\ =\ updatableElementName.c\_str();}
-\DoxyCodeLine{\Hypertarget{signal__detector_8cpp_source_l00305}00305\ }
-\DoxyCodeLine{\Hypertarget{signal__detector_8cpp_source_l00306}00306\ \ \ \ \ \ \ \ \ \ \ RCLCPP\_DEBUG\_STREAM(}
-\DoxyCodeLine{\Hypertarget{signal__detector_8cpp_source_l00307}00307\ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{classsmacc2_1_1SignalDetector_a97db4ee81e1e63ab67ea40775fd57302}{getLogger}}(),\ \textcolor{stringliteral}{"{}pollOnce\ update\ client\ behavior\ call:\ "{}}}
-\DoxyCodeLine{\Hypertarget{signal__detector_8cpp_source_l00308}00308\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ <<\ \mbox{\hyperlink{namespacesmacc2_1_1introspection_af0776d8076fe19b4f806405e9ab08cfe}{demangleType}}(\textcolor{keyword}{typeid}(*udpatableStateElement)));}
-\DoxyCodeLine{\Hypertarget{signal__detector_8cpp_source_l00309}00309\ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{smacc__tracing_8cpp_a99b909db1e382a9b899ec134046d0213}{TRACEPOINT}}(\mbox{\hyperlink{trace__provider_8hpp_a1bc2f5aa2425be3f58dffdb1b4ae8bb5}{smacc2\_state\_update\_start}},\ updatableElementNameCstr);}
-\DoxyCodeLine{\Hypertarget{signal__detector_8cpp_source_l00310}00310\ }
-\DoxyCodeLine{\Hypertarget{signal__detector_8cpp_source_l00311}00311\ \ \ \ \ \ \ \ \ \ \ udpatableStateElement-\/>executeUpdate(\mbox{\hyperlink{classsmacc2_1_1SignalDetector_af6362522bbb882307839852593041cf8}{smaccStateMachine\_}}-\/>\mbox{\hyperlink{classsmacc2_1_1ISmaccStateMachine_a2cf8b817f7e137fc648e373ae4614a2f}{getNode}}());}
-\DoxyCodeLine{\Hypertarget{signal__detector_8cpp_source_l00312}00312\ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{smacc__tracing_8cpp_a99b909db1e382a9b899ec134046d0213}{TRACEPOINT}}(\mbox{\hyperlink{trace__provider_8hpp_a1bc2f5aa2425be3f58dffdb1b4ae8bb5}{smacc2\_state\_update\_start}},\ updatableElementNameCstr);}
-\DoxyCodeLine{\Hypertarget{signal__detector_8cpp_source_l00313}00313\ \ \ \ \ \ \ \ \ \}}
-\DoxyCodeLine{\Hypertarget{signal__detector_8cpp_source_l00314}00314\ \ \ \ \ \ \ \}}
-\DoxyCodeLine{\Hypertarget{signal__detector_8cpp_source_l00315}00315\ \ \ \ \ \}}
-\DoxyCodeLine{\Hypertarget{signal__detector_8cpp_source_l00316}00316\ \ \ \}}
-\DoxyCodeLine{\Hypertarget{signal__detector_8cpp_source_l00317}00317\ \ \ \textcolor{keywordflow}{catch}\ (std::exception\ \&\ ex)}
-\DoxyCodeLine{\Hypertarget{signal__detector_8cpp_source_l00318}00318\ \ \ \{}
-\DoxyCodeLine{\Hypertarget{signal__detector_8cpp_source_l00319}00319\ \ \ \ \ RCLCPP\_ERROR(\mbox{\hyperlink{classsmacc2_1_1SignalDetector_a97db4ee81e1e63ab67ea40775fd57302}{getLogger}}(),\ \textcolor{stringliteral}{"{}Exception\ during\ Signal\ Detector\ update\ loop.\ \%s."{}},\ ex.what());}
-\DoxyCodeLine{\Hypertarget{signal__detector_8cpp_source_l00320}00320\ \ \ \}}
-\DoxyCodeLine{\Hypertarget{signal__detector_8cpp_source_l00321}00321\ }
-\DoxyCodeLine{\Hypertarget{signal__detector_8cpp_source_l00322}00322\ \ \ \textcolor{keyword}{auto}\ nh\ =\ this-\/>\mbox{\hyperlink{classsmacc2_1_1SignalDetector_aa774a30b0118ee411ba423fc668405b3}{getNode}}();}
-\DoxyCodeLine{\Hypertarget{signal__detector_8cpp_source_l00323}00323\ \ \ rclcpp::spin\_some(nh);}
-\DoxyCodeLine{\Hypertarget{signal__detector_8cpp_source_l00324}00324\ \ \ \textcolor{comment}{//smaccStateMachine\_-\/>unlockStateMachine("{}update\ behaviors"{});}}
-\DoxyCodeLine{\Hypertarget{signal__detector_8cpp_source_l00325}00325\ \}}
-\DoxyCodeLine{\Hypertarget{signal__detector_8cpp_source_l00326}00326\ }
-\DoxyCodeLine{\Hypertarget{signal__detector_8cpp_source_l00332}\mbox{\hyperlink{classsmacc2_1_1SignalDetector_a08d072feafb277794a16fe33a6dcc97e}{00332}}\ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{classsmacc2_1_1SignalDetector_a08d072feafb277794a16fe33a6dcc97e}{SignalDetector::pollingLoop}}()}
-\DoxyCodeLine{\Hypertarget{signal__detector_8cpp_source_l00333}00333\ \{}
-\DoxyCodeLine{\Hypertarget{signal__detector_8cpp_source_l00334}00334\ \ \ \textcolor{comment}{//\ rclcpp::Node::SharedPtr\ nh("{}\string~"{});\ //\ use\ node\ name\ as\ root\ of\ the\ parameter\ server}}
-\DoxyCodeLine{\Hypertarget{signal__detector_8cpp_source_l00335}00335\ \ \ rclcpp::Node::SharedPtr\ \_;}
-\DoxyCodeLine{\Hypertarget{signal__detector_8cpp_source_l00336}00336\ \ \ rclcpp::Rate\ r0(20);}
-\DoxyCodeLine{\Hypertarget{signal__detector_8cpp_source_l00337}00337\ }
-\DoxyCodeLine{\Hypertarget{signal__detector_8cpp_source_l00338}00338\ \ \ \textcolor{keywordflow}{while}\ (!\mbox{\hyperlink{classsmacc2_1_1SignalDetector_afc0defc618060c06def70d822ff2eb6a}{initialized\_}})}
-\DoxyCodeLine{\Hypertarget{signal__detector_8cpp_source_l00339}00339\ \ \ \{}
-\DoxyCodeLine{\Hypertarget{signal__detector_8cpp_source_l00340}00340\ \ \ \ \ r0.sleep();}
-\DoxyCodeLine{\Hypertarget{signal__detector_8cpp_source_l00341}00341\ \ \ \}}
-\DoxyCodeLine{\Hypertarget{signal__detector_8cpp_source_l00342}00342\ }
-\DoxyCodeLine{\Hypertarget{signal__detector_8cpp_source_l00343}00343\ \ \ \textcolor{keyword}{auto}\ nh\ =\ \mbox{\hyperlink{classsmacc2_1_1SignalDetector_aa774a30b0118ee411ba423fc668405b3}{getNode}}();}
-\DoxyCodeLine{\Hypertarget{signal__detector_8cpp_source_l00344}00344\ }
-\DoxyCodeLine{\Hypertarget{signal__detector_8cpp_source_l00345}00345\ \ \ \textcolor{keywordflow}{if}\ (!nh-\/>get\_parameter(\textcolor{stringliteral}{"{}signal\_detector\_loop\_freq"{}},\ this-\/>loop\_rate\_hz))}
-\DoxyCodeLine{\Hypertarget{signal__detector_8cpp_source_l00346}00346\ \ \ \{}
-\DoxyCodeLine{\Hypertarget{signal__detector_8cpp_source_l00347}00347\ \ \ \ \ RCLCPP\_WARN(}
-\DoxyCodeLine{\Hypertarget{signal__detector_8cpp_source_l00348}00348\ \ \ \ \ \ \ \mbox{\hyperlink{classsmacc2_1_1SignalDetector_a97db4ee81e1e63ab67ea40775fd57302}{getLogger}}(),}
-\DoxyCodeLine{\Hypertarget{signal__detector_8cpp_source_l00349}00349\ \ \ \ \ \ \ \textcolor{stringliteral}{"{}Signal\ Detector\ frequency\ (ros\ param\ signal\_detector\_loop\_freq)\ was\ not\ set,\ using\ default\ "{}}}
-\DoxyCodeLine{\Hypertarget{signal__detector_8cpp_source_l00350}00350\ \ \ \ \ \ \ \textcolor{stringliteral}{"{}frequency:\ "{}}}
-\DoxyCodeLine{\Hypertarget{signal__detector_8cpp_source_l00351}00351\ \ \ \ \ \ \ \textcolor{stringliteral}{"{}\%lf"{}},}
-\DoxyCodeLine{\Hypertarget{signal__detector_8cpp_source_l00352}00352\ \ \ \ \ \ \ this-\/>\mbox{\hyperlink{classsmacc2_1_1SignalDetector_ac67b27bde2d30322b6792bafa0522274}{loop\_rate\_hz}});}
-\DoxyCodeLine{\Hypertarget{signal__detector_8cpp_source_l00353}00353\ \ \ \}}
-\DoxyCodeLine{\Hypertarget{signal__detector_8cpp_source_l00354}00354\ \ \ \textcolor{keywordflow}{else}}
-\DoxyCodeLine{\Hypertarget{signal__detector_8cpp_source_l00355}00355\ \ \ \{}
-\DoxyCodeLine{\Hypertarget{signal__detector_8cpp_source_l00356}00356\ \ \ \ \ RCLCPP\_WARN(}
-\DoxyCodeLine{\Hypertarget{signal__detector_8cpp_source_l00357}00357\ \ \ \ \ \ \ \mbox{\hyperlink{classsmacc2_1_1SignalDetector_a97db4ee81e1e63ab67ea40775fd57302}{getLogger}}(),\ \textcolor{stringliteral}{"{}Signal\ Detector\ frequency\ (ros\ param\ signal\_detector\_loop\_freq):\ \%lf"{}},}
-\DoxyCodeLine{\Hypertarget{signal__detector_8cpp_source_l00358}00358\ \ \ \ \ \ \ this-\/>\mbox{\hyperlink{classsmacc2_1_1SignalDetector_ac67b27bde2d30322b6792bafa0522274}{loop\_rate\_hz}});}
-\DoxyCodeLine{\Hypertarget{signal__detector_8cpp_source_l00359}00359\ \ \ \}}
-\DoxyCodeLine{\Hypertarget{signal__detector_8cpp_source_l00360}00360\ }
-\DoxyCodeLine{\Hypertarget{signal__detector_8cpp_source_l00361}00361\ \ \ nh-\/>set\_parameter(rclcpp::Parameter(\textcolor{stringliteral}{"{}signal\_detector\_loop\_freq"{}},\ this-\/>\mbox{\hyperlink{classsmacc2_1_1SignalDetector_ac67b27bde2d30322b6792bafa0522274}{loop\_rate\_hz}}));}
-\DoxyCodeLine{\Hypertarget{signal__detector_8cpp_source_l00362}00362\ }
-\DoxyCodeLine{\Hypertarget{signal__detector_8cpp_source_l00363}00363\ \ \ RCLCPP\_INFO\_STREAM(\mbox{\hyperlink{classsmacc2_1_1SignalDetector_a97db4ee81e1e63ab67ea40775fd57302}{getLogger}}(),\ \textcolor{stringliteral}{"{}[SignalDetector]\ Loop\ rate\ hz:"{}}\ <<\ \mbox{\hyperlink{classsmacc2_1_1SignalDetector_ac67b27bde2d30322b6792bafa0522274}{loop\_rate\_hz}});}
-\DoxyCodeLine{\Hypertarget{signal__detector_8cpp_source_l00364}00364\ }
-\DoxyCodeLine{\Hypertarget{signal__detector_8cpp_source_l00365}00365\ \ \ \textcolor{keywordflow}{if}\ (this-\/>\mbox{\hyperlink{classsmacc2_1_1SignalDetector_a5f38c4c3bab961791a5b6268c1948619}{executionModel\_}}\ ==\ \mbox{\hyperlink{namespacesmacc2_a1a2b312e55d319400e73bbf7ec27d6daab4c3af830a31cbfd165e744c166b9ee7}{ExecutionModel::SINGLE\_THREAD\_SPINNER}})}
-\DoxyCodeLine{\Hypertarget{signal__detector_8cpp_source_l00366}00366\ \ \ \{}
-\DoxyCodeLine{\Hypertarget{signal__detector_8cpp_source_l00367}00367\ \ \ \ \ RCLCPP\_INFO\_STREAM(\mbox{\hyperlink{classsmacc2_1_1SignalDetector_a97db4ee81e1e63ab67ea40775fd57302}{getLogger}}(),\ \textcolor{stringliteral}{"{}[SignalDetector]\ Running\ in\ single-\/threaded\ mode."{}});}
-\DoxyCodeLine{\Hypertarget{signal__detector_8cpp_source_l00368}00368\ }
-\DoxyCodeLine{\Hypertarget{signal__detector_8cpp_source_l00369}00369\ \ \ \ \ rclcpp::Rate\ r(\mbox{\hyperlink{classsmacc2_1_1SignalDetector_ac67b27bde2d30322b6792bafa0522274}{loop\_rate\_hz}});}
-\DoxyCodeLine{\Hypertarget{signal__detector_8cpp_source_l00370}00370\ \ \ \ \ \textcolor{keywordflow}{while}\ (rclcpp::ok()\ \&\&\ !\mbox{\hyperlink{classsmacc2_1_1SignalDetector_ac8756409452924cdd2cc9a99ca2fdd30}{end\_}})}
-\DoxyCodeLine{\Hypertarget{signal__detector_8cpp_source_l00371}00371\ \ \ \ \ \{}
-\DoxyCodeLine{\Hypertarget{signal__detector_8cpp_source_l00372}00372\ \ \ \ \ \ \ RCLCPP\_INFO\_STREAM\_THROTTLE(}
-\DoxyCodeLine{\Hypertarget{signal__detector_8cpp_source_l00373}00373\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{classsmacc2_1_1SignalDetector_a97db4ee81e1e63ab67ea40775fd57302}{getLogger}}(),\ *\mbox{\hyperlink{classsmacc2_1_1SignalDetector_aa774a30b0118ee411ba423fc668405b3}{getNode}}()-\/>get\_clock(),\ 10000,\ \textcolor{stringliteral}{"{}[SignalDetector]\ Heartbeat"{}});}
-\DoxyCodeLine{\Hypertarget{signal__detector_8cpp_source_l00374}00374\ \ \ \ \ \ \ \mbox{\hyperlink{classsmacc2_1_1SignalDetector_af363cea3f8228eeb68b25ad21903dc74}{pollOnce}}();}
-\DoxyCodeLine{\Hypertarget{signal__detector_8cpp_source_l00375}00375\ \ \ \ \ \ \ rclcpp::spin\_some(nh);}
-\DoxyCodeLine{\Hypertarget{signal__detector_8cpp_source_l00376}00376\ \ \ \ \ \ \ r.sleep();}
-\DoxyCodeLine{\Hypertarget{signal__detector_8cpp_source_l00377}00377\ \ \ \ \ \}}
-\DoxyCodeLine{\Hypertarget{signal__detector_8cpp_source_l00378}00378\ \ \ \}}
-\DoxyCodeLine{\Hypertarget{signal__detector_8cpp_source_l00379}00379\ \ \ \textcolor{keywordflow}{else}}
-\DoxyCodeLine{\Hypertarget{signal__detector_8cpp_source_l00380}00380\ \ \ \{}
-\DoxyCodeLine{\Hypertarget{signal__detector_8cpp_source_l00381}00381\ \ \ \ \ RCLCPP\_INFO\_STREAM(\mbox{\hyperlink{classsmacc2_1_1SignalDetector_a97db4ee81e1e63ab67ea40775fd57302}{getLogger}}(),\ \textcolor{stringliteral}{"{}[SignalDetector]\ Running\ in\ multi-\/threaded\ mode."{}});}
-\DoxyCodeLine{\Hypertarget{signal__detector_8cpp_source_l00382}00382\ }
-\DoxyCodeLine{\Hypertarget{signal__detector_8cpp_source_l00383}00383\ \ \ \ \ rclcpp::executors::MultiThreadedExecutor\ executor;}
-\DoxyCodeLine{\Hypertarget{signal__detector_8cpp_source_l00384}00384\ \ \ \ \ executor.add\_node(nh);}
-\DoxyCodeLine{\Hypertarget{signal__detector_8cpp_source_l00385}00385\ \ \ \ \ executor.spin();}
-\DoxyCodeLine{\Hypertarget{signal__detector_8cpp_source_l00386}00386\ \ \ \}}
-\DoxyCodeLine{\Hypertarget{signal__detector_8cpp_source_l00387}00387\ \}}
-\DoxyCodeLine{\Hypertarget{signal__detector_8cpp_source_l00388}00388\ }
-\DoxyCodeLine{\Hypertarget{signal__detector_8cpp_source_l00389}\mbox{\hyperlink{namespacesmacc2_a7162a8ee9e4eb93a7ba9c14e5dcde552}{00389}}\ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{namespacesmacc2_a7162a8ee9e4eb93a7ba9c14e5dcde552}{onSignalShutdown}}(\textcolor{keywordtype}{int}\ sig)}
-\DoxyCodeLine{\Hypertarget{signal__detector_8cpp_source_l00390}00390\ \{}
-\DoxyCodeLine{\Hypertarget{signal__detector_8cpp_source_l00391}00391\ \ \ \textcolor{comment}{//\ IMPORTANT:\ Signal\ handlers\ can\ only\ call\ async-\/signal-\/safe\ functions}}
-\DoxyCodeLine{\Hypertarget{signal__detector_8cpp_source_l00392}00392\ \ \ \textcolor{comment}{//\ We\ must\ NOT\ call\ complex\ C++\ methods\ here\ (like\ terminateScheduler)}}
-\DoxyCodeLine{\Hypertarget{signal__detector_8cpp_source_l00393}00393\ \ \ \textcolor{comment}{//\ as\ they\ may\ use\ mutexes/condition\ variables\ which\ are\ not\ signal-\/safe}}
-\DoxyCodeLine{\Hypertarget{signal__detector_8cpp_source_l00394}00394\ }
-\DoxyCodeLine{\Hypertarget{signal__detector_8cpp_source_l00395}00395\ \ \ \textcolor{comment}{//\ Set\ global\ shutdown\ flag\ (atomic\ operation\ -\/\ signal-\/safe)}}
-\DoxyCodeLine{\Hypertarget{signal__detector_8cpp_source_l00396}00396\ \ \ \mbox{\hyperlink{namespacesmacc2_abc56caf5feda13e03ba95341d436d221}{g\_shutdown\_requested}}\ =\ \textcolor{keyword}{true};}
+\DoxyCodeLine{\Hypertarget{signal__detector_8cpp_source_l00272}00272\ \ \ \ \ this-\/>\mbox{\hyperlink{classsmacc2_1_1SignalDetector_af325def90b56dd82ab34d351f5a37a02}{findUpdatableClientsAndComponents}}();}
+\DoxyCodeLine{\Hypertarget{signal__detector_8cpp_source_l00273}00273\ \ \ \ \ RCLCPP\_DEBUG\_STREAM(\mbox{\hyperlink{classsmacc2_1_1SignalDetector_a97db4ee81e1e63ab67ea40775fd57302}{getLogger}}(),\ \textcolor{stringliteral}{"{}Updatable\ clients:\ "{}}\ <<\ this-\/>\mbox{\hyperlink{classsmacc2_1_1SignalDetector_ab4e25decb9b9deb1d0b9c5514aa1e37b}{updatableClients\_}}.size());}
+\DoxyCodeLine{\Hypertarget{signal__detector_8cpp_source_l00274}00274\ }
+\DoxyCodeLine{\Hypertarget{signal__detector_8cpp_source_l00275}00275\ \ \ \ \ \textcolor{keywordflow}{if}\ (this-\/>\mbox{\hyperlink{classsmacc2_1_1SignalDetector_ab4e25decb9b9deb1d0b9c5514aa1e37b}{updatableClients\_}}.size())}
+\DoxyCodeLine{\Hypertarget{signal__detector_8cpp_source_l00276}00276\ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{signal__detector_8cpp_source_l00277}00277\ \ \ \ \ \ \ \textcolor{keyword}{auto}\ node\ =\ \mbox{\hyperlink{classsmacc2_1_1SignalDetector_aa774a30b0118ee411ba423fc668405b3}{getNode}}();}
+\DoxyCodeLine{\Hypertarget{signal__detector_8cpp_source_l00278}00278\ \ \ \ \ \ \ \textcolor{keywordflow}{for}\ (\textcolor{keyword}{auto}\ *\ updatableClient\ :\ this-\/>\mbox{\hyperlink{classsmacc2_1_1SignalDetector_ab4e25decb9b9deb1d0b9c5514aa1e37b}{updatableClients\_}})}
+\DoxyCodeLine{\Hypertarget{signal__detector_8cpp_source_l00279}00279\ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{signal__detector_8cpp_source_l00280}00280\ \ \ \ \ \ \ \ \ \textcolor{keyword}{auto}\ updatableElementName\ =\ \mbox{\hyperlink{namespacesmacc2_1_1introspection_af0776d8076fe19b4f806405e9ab08cfe}{demangleType}}(\textcolor{keyword}{typeid}(*updatableClient)).c\_str();}
+\DoxyCodeLine{\Hypertarget{signal__detector_8cpp_source_l00281}00281\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{try}}
+\DoxyCodeLine{\Hypertarget{signal__detector_8cpp_source_l00282}00282\ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{signal__detector_8cpp_source_l00283}00283\ \ \ \ \ \ \ \ \ \ \ RCLCPP\_DEBUG\_STREAM(}
+\DoxyCodeLine{\Hypertarget{signal__detector_8cpp_source_l00284}00284\ \ \ \ \ \ \ \ \ \ \ \ \ node-\/>get\_logger(),}
+\DoxyCodeLine{\Hypertarget{signal__detector_8cpp_source_l00285}00285\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}[PollOnce]\ update\ client\ call:\ \ "{}}\ <<\ \mbox{\hyperlink{namespacesmacc2_1_1introspection_af0776d8076fe19b4f806405e9ab08cfe}{demangleType}}(\textcolor{keyword}{typeid}(*updatableClient)));}
+\DoxyCodeLine{\Hypertarget{signal__detector_8cpp_source_l00286}00286\ }
+\DoxyCodeLine{\Hypertarget{signal__detector_8cpp_source_l00287}00287\ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{smacc__tracing_8cpp_a99b909db1e382a9b899ec134046d0213}{TRACEPOINT}}(\mbox{\hyperlink{trace__provider_8hpp_a1bc2f5aa2425be3f58dffdb1b4ae8bb5}{smacc2\_state\_update\_start}},\ updatableElementName);}
+\DoxyCodeLine{\Hypertarget{signal__detector_8cpp_source_l00288}00288\ \ \ \ \ \ \ \ \ \ \ updatableClient-\/>executeUpdate(\mbox{\hyperlink{classsmacc2_1_1SignalDetector_af6362522bbb882307839852593041cf8}{smaccStateMachine\_}}-\/>\mbox{\hyperlink{classsmacc2_1_1ISmaccStateMachine_a2cf8b817f7e137fc648e373ae4614a2f}{getNode}}());}
+\DoxyCodeLine{\Hypertarget{signal__detector_8cpp_source_l00289}00289\ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{smacc__tracing_8cpp_a99b909db1e382a9b899ec134046d0213}{TRACEPOINT}}(\mbox{\hyperlink{trace__provider_8hpp_a1bc2f5aa2425be3f58dffdb1b4ae8bb5}{smacc2\_state\_update\_start}},\ updatableElementName);}
+\DoxyCodeLine{\Hypertarget{signal__detector_8cpp_source_l00290}00290\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{signal__detector_8cpp_source_l00291}00291\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{catch}\ (\textcolor{keyword}{const}\ std::exception\ \&\ e)}
+\DoxyCodeLine{\Hypertarget{signal__detector_8cpp_source_l00292}00292\ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{signal__detector_8cpp_source_l00293}00293\ \ \ \ \ \ \ \ \ \ \ RCLCPP\_ERROR\_STREAM(}
+\DoxyCodeLine{\Hypertarget{signal__detector_8cpp_source_l00294}00294\ \ \ \ \ \ \ \ \ \ \ \ \ node-\/>get\_logger(),}
+\DoxyCodeLine{\Hypertarget{signal__detector_8cpp_source_l00295}00295\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}Error\ in\ updatable\ elemnent\ "{}}\ <<\ updatableElementName\ <<\ \textcolor{stringliteral}{"{}:\ "{}}\ <<\ e.what()\ <<\ \textcolor{charliteral}{'\(\backslash\)n'});}
+\DoxyCodeLine{\Hypertarget{signal__detector_8cpp_source_l00296}00296\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{signal__detector_8cpp_source_l00297}00297\ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{signal__detector_8cpp_source_l00298}00298\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{signal__detector_8cpp_source_l00299}00299\ }
+\DoxyCodeLine{\Hypertarget{signal__detector_8cpp_source_l00300}00300\ \ \ \ \ \textcolor{comment}{//\ STATE\ UPDATABLE\ ELEMENTS}}
+\DoxyCodeLine{\Hypertarget{signal__detector_8cpp_source_l00301}00301\ \ \ \ \ \textcolor{keywordflow}{if}\ (}
+\DoxyCodeLine{\Hypertarget{signal__detector_8cpp_source_l00302}00302\ \ \ \ \ \ \ this-\/>\mbox{\hyperlink{classsmacc2_1_1SignalDetector_af6362522bbb882307839852593041cf8}{smaccStateMachine\_}}-\/>\mbox{\hyperlink{classsmacc2_1_1ISmaccStateMachine_a26e99c677a32820a2640313a870ae300}{stateMachineCurrentAction}}\ !=}
+\DoxyCodeLine{\Hypertarget{signal__detector_8cpp_source_l00303}00303\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{namespacesmacc2_af13b5c45bc293d2492a93482c86d179fa5e174e130ee1847f37541ba5786207a3}{StateMachineInternalAction::TRANSITIONING}}\ \&\&}
+\DoxyCodeLine{\Hypertarget{signal__detector_8cpp_source_l00304}00304\ \ \ \ \ \ \ this-\/>smaccStateMachine\_-\/>stateMachineCurrentAction\ !=}
+\DoxyCodeLine{\Hypertarget{signal__detector_8cpp_source_l00305}00305\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{namespacesmacc2_af13b5c45bc293d2492a93482c86d179fa32406d3560b9f36b3e6e3b84454e1be5}{StateMachineInternalAction::STATE\_CONFIGURING}}\ \&\&}
+\DoxyCodeLine{\Hypertarget{signal__detector_8cpp_source_l00306}00306\ \ \ \ \ \ \ this-\/>smaccStateMachine\_-\/>stateMachineCurrentAction\ !=}
+\DoxyCodeLine{\Hypertarget{signal__detector_8cpp_source_l00307}00307\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{namespacesmacc2_af13b5c45bc293d2492a93482c86d179faef27ae3e54b805b81e1efacea3c02575}{StateMachineInternalAction::STATE\_ENTERING}}\ \&\&}
+\DoxyCodeLine{\Hypertarget{signal__detector_8cpp_source_l00308}00308\ \ \ \ \ \ \ this-\/>smaccStateMachine\_-\/>stateMachineCurrentAction\ !=}
+\DoxyCodeLine{\Hypertarget{signal__detector_8cpp_source_l00309}00309\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{namespacesmacc2_af13b5c45bc293d2492a93482c86d179fa22bd5bb7935dd66f181d92efc273951e}{StateMachineInternalAction::STATE\_EXITING}})}
+\DoxyCodeLine{\Hypertarget{signal__detector_8cpp_source_l00310}00310\ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{signal__detector_8cpp_source_l00311}00311\ \ \ \ \ \ \ RCLCPP\_DEBUG\_STREAM(}
+\DoxyCodeLine{\Hypertarget{signal__detector_8cpp_source_l00312}00312\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{classsmacc2_1_1SignalDetector_a97db4ee81e1e63ab67ea40775fd57302}{getLogger}}(),\ \textcolor{stringliteral}{"{}Updatable\ states:\ "{}}\ <<\ this-\/>\mbox{\hyperlink{classsmacc2_1_1SignalDetector_a772d6191c6ab407166794a4d1d987f3b}{updatableStateElements\_}}.size());}
+\DoxyCodeLine{\Hypertarget{signal__detector_8cpp_source_l00313}00313\ }
+\DoxyCodeLine{\Hypertarget{signal__detector_8cpp_source_l00314}00314\ \ \ \ \ \ \ \textcolor{keywordflow}{for}\ (\textcolor{keyword}{auto}\ stateElement\ :\ this-\/>\mbox{\hyperlink{classsmacc2_1_1SignalDetector_a772d6191c6ab407166794a4d1d987f3b}{updatableStateElements\_}})}
+\DoxyCodeLine{\Hypertarget{signal__detector_8cpp_source_l00315}00315\ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{signal__detector_8cpp_source_l00316}00316\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{for}\ (\textcolor{keyword}{auto}\ *\ udpatableStateElement\ :\ stateElement)}
+\DoxyCodeLine{\Hypertarget{signal__detector_8cpp_source_l00317}00317\ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{signal__detector_8cpp_source_l00318}00318\ \ \ \ \ \ \ \ \ \ \ std::string\ updatableElementName\ =\ \mbox{\hyperlink{namespacesmacc2_1_1introspection_af0776d8076fe19b4f806405e9ab08cfe}{demangleType}}(\textcolor{keyword}{typeid}(*udpatableStateElement));}
+\DoxyCodeLine{\Hypertarget{signal__detector_8cpp_source_l00319}00319\ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{auto}\ updatableElementNameCstr\ =\ updatableElementName.c\_str();}
+\DoxyCodeLine{\Hypertarget{signal__detector_8cpp_source_l00320}00320\ }
+\DoxyCodeLine{\Hypertarget{signal__detector_8cpp_source_l00321}00321\ \ \ \ \ \ \ \ \ \ \ RCLCPP\_DEBUG\_STREAM(}
+\DoxyCodeLine{\Hypertarget{signal__detector_8cpp_source_l00322}00322\ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{classsmacc2_1_1SignalDetector_a97db4ee81e1e63ab67ea40775fd57302}{getLogger}}(),\ \textcolor{stringliteral}{"{}pollOnce\ update\ client\ behavior\ call:\ "{}}}
+\DoxyCodeLine{\Hypertarget{signal__detector_8cpp_source_l00323}00323\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ <<\ \mbox{\hyperlink{namespacesmacc2_1_1introspection_af0776d8076fe19b4f806405e9ab08cfe}{demangleType}}(\textcolor{keyword}{typeid}(*udpatableStateElement)));}
+\DoxyCodeLine{\Hypertarget{signal__detector_8cpp_source_l00324}00324\ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{smacc__tracing_8cpp_a99b909db1e382a9b899ec134046d0213}{TRACEPOINT}}(\mbox{\hyperlink{trace__provider_8hpp_a1bc2f5aa2425be3f58dffdb1b4ae8bb5}{smacc2\_state\_update\_start}},\ updatableElementNameCstr);}
+\DoxyCodeLine{\Hypertarget{signal__detector_8cpp_source_l00325}00325\ }
+\DoxyCodeLine{\Hypertarget{signal__detector_8cpp_source_l00326}00326\ \ \ \ \ \ \ \ \ \ \ udpatableStateElement-\/>executeUpdate(\mbox{\hyperlink{classsmacc2_1_1SignalDetector_af6362522bbb882307839852593041cf8}{smaccStateMachine\_}}-\/>\mbox{\hyperlink{classsmacc2_1_1ISmaccStateMachine_a2cf8b817f7e137fc648e373ae4614a2f}{getNode}}());}
+\DoxyCodeLine{\Hypertarget{signal__detector_8cpp_source_l00327}00327\ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{smacc__tracing_8cpp_a99b909db1e382a9b899ec134046d0213}{TRACEPOINT}}(\mbox{\hyperlink{trace__provider_8hpp_a1bc2f5aa2425be3f58dffdb1b4ae8bb5}{smacc2\_state\_update\_start}},\ updatableElementNameCstr);}
+\DoxyCodeLine{\Hypertarget{signal__detector_8cpp_source_l00328}00328\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{signal__detector_8cpp_source_l00329}00329\ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{signal__detector_8cpp_source_l00330}00330\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{signal__detector_8cpp_source_l00331}00331\ \ \ \}}
+\DoxyCodeLine{\Hypertarget{signal__detector_8cpp_source_l00332}00332\ \ \ \textcolor{keywordflow}{catch}\ (std::exception\ \&\ ex)}
+\DoxyCodeLine{\Hypertarget{signal__detector_8cpp_source_l00333}00333\ \ \ \{}
+\DoxyCodeLine{\Hypertarget{signal__detector_8cpp_source_l00334}00334\ \ \ \ \ RCLCPP\_ERROR(\mbox{\hyperlink{classsmacc2_1_1SignalDetector_a97db4ee81e1e63ab67ea40775fd57302}{getLogger}}(),\ \textcolor{stringliteral}{"{}Exception\ during\ Signal\ Detector\ update\ loop.\ \%s."{}},\ ex.what());}
+\DoxyCodeLine{\Hypertarget{signal__detector_8cpp_source_l00335}00335\ \ \ \}}
+\DoxyCodeLine{\Hypertarget{signal__detector_8cpp_source_l00336}00336\ }
+\DoxyCodeLine{\Hypertarget{signal__detector_8cpp_source_l00337}00337\ \ \ \textcolor{keyword}{auto}\ nh\ =\ this-\/>\mbox{\hyperlink{classsmacc2_1_1SignalDetector_aa774a30b0118ee411ba423fc668405b3}{getNode}}();}
+\DoxyCodeLine{\Hypertarget{signal__detector_8cpp_source_l00338}00338\ \ \ rclcpp::spin\_some(nh);}
+\DoxyCodeLine{\Hypertarget{signal__detector_8cpp_source_l00339}00339\ \ \ \textcolor{comment}{//smaccStateMachine\_-\/>unlockStateMachine("{}update\ behaviors"{});}}
+\DoxyCodeLine{\Hypertarget{signal__detector_8cpp_source_l00340}00340\ \}}
+\DoxyCodeLine{\Hypertarget{signal__detector_8cpp_source_l00341}00341\ }
+\DoxyCodeLine{\Hypertarget{signal__detector_8cpp_source_l00347}\mbox{\hyperlink{classsmacc2_1_1SignalDetector_a08d072feafb277794a16fe33a6dcc97e}{00347}}\ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{classsmacc2_1_1SignalDetector_a08d072feafb277794a16fe33a6dcc97e}{SignalDetector::pollingLoop}}()}
+\DoxyCodeLine{\Hypertarget{signal__detector_8cpp_source_l00348}00348\ \{}
+\DoxyCodeLine{\Hypertarget{signal__detector_8cpp_source_l00349}00349\ \ \ \textcolor{comment}{//\ rclcpp::Node::SharedPtr\ nh("{}\string~"{});\ //\ use\ node\ name\ as\ root\ of\ the\ parameter\ server}}
+\DoxyCodeLine{\Hypertarget{signal__detector_8cpp_source_l00350}00350\ \ \ rclcpp::Node::SharedPtr\ \_;}
+\DoxyCodeLine{\Hypertarget{signal__detector_8cpp_source_l00351}00351\ \ \ rclcpp::Rate\ r0(20);}
+\DoxyCodeLine{\Hypertarget{signal__detector_8cpp_source_l00352}00352\ }
+\DoxyCodeLine{\Hypertarget{signal__detector_8cpp_source_l00353}00353\ \ \ \textcolor{keywordflow}{while}\ (!\mbox{\hyperlink{classsmacc2_1_1SignalDetector_afc0defc618060c06def70d822ff2eb6a}{initialized\_}})}
+\DoxyCodeLine{\Hypertarget{signal__detector_8cpp_source_l00354}00354\ \ \ \{}
+\DoxyCodeLine{\Hypertarget{signal__detector_8cpp_source_l00355}00355\ \ \ \ \ r0.sleep();}
+\DoxyCodeLine{\Hypertarget{signal__detector_8cpp_source_l00356}00356\ \ \ \}}
+\DoxyCodeLine{\Hypertarget{signal__detector_8cpp_source_l00357}00357\ }
+\DoxyCodeLine{\Hypertarget{signal__detector_8cpp_source_l00358}00358\ \ \ \textcolor{keyword}{auto}\ nh\ =\ \mbox{\hyperlink{classsmacc2_1_1SignalDetector_aa774a30b0118ee411ba423fc668405b3}{getNode}}();}
+\DoxyCodeLine{\Hypertarget{signal__detector_8cpp_source_l00359}00359\ }
+\DoxyCodeLine{\Hypertarget{signal__detector_8cpp_source_l00360}00360\ \ \ \textcolor{keywordflow}{if}\ (!nh-\/>get\_parameter(\textcolor{stringliteral}{"{}signal\_detector\_loop\_freq"{}},\ this-\/>loop\_rate\_hz))}
+\DoxyCodeLine{\Hypertarget{signal__detector_8cpp_source_l00361}00361\ \ \ \{}
+\DoxyCodeLine{\Hypertarget{signal__detector_8cpp_source_l00362}00362\ \ \ \ \ RCLCPP\_WARN(}
+\DoxyCodeLine{\Hypertarget{signal__detector_8cpp_source_l00363}00363\ \ \ \ \ \ \ \mbox{\hyperlink{classsmacc2_1_1SignalDetector_a97db4ee81e1e63ab67ea40775fd57302}{getLogger}}(),}
+\DoxyCodeLine{\Hypertarget{signal__detector_8cpp_source_l00364}00364\ \ \ \ \ \ \ \textcolor{stringliteral}{"{}Signal\ Detector\ frequency\ (ros\ param\ signal\_detector\_loop\_freq)\ was\ not\ set,\ using\ default\ "{}}}
+\DoxyCodeLine{\Hypertarget{signal__detector_8cpp_source_l00365}00365\ \ \ \ \ \ \ \textcolor{stringliteral}{"{}frequency:\ "{}}}
+\DoxyCodeLine{\Hypertarget{signal__detector_8cpp_source_l00366}00366\ \ \ \ \ \ \ \textcolor{stringliteral}{"{}\%lf"{}},}
+\DoxyCodeLine{\Hypertarget{signal__detector_8cpp_source_l00367}00367\ \ \ \ \ \ \ this-\/>\mbox{\hyperlink{classsmacc2_1_1SignalDetector_ac67b27bde2d30322b6792bafa0522274}{loop\_rate\_hz}});}
+\DoxyCodeLine{\Hypertarget{signal__detector_8cpp_source_l00368}00368\ \ \ \}}
+\DoxyCodeLine{\Hypertarget{signal__detector_8cpp_source_l00369}00369\ \ \ \textcolor{keywordflow}{else}}
+\DoxyCodeLine{\Hypertarget{signal__detector_8cpp_source_l00370}00370\ \ \ \{}
+\DoxyCodeLine{\Hypertarget{signal__detector_8cpp_source_l00371}00371\ \ \ \ \ RCLCPP\_WARN(}
+\DoxyCodeLine{\Hypertarget{signal__detector_8cpp_source_l00372}00372\ \ \ \ \ \ \ \mbox{\hyperlink{classsmacc2_1_1SignalDetector_a97db4ee81e1e63ab67ea40775fd57302}{getLogger}}(),\ \textcolor{stringliteral}{"{}Signal\ Detector\ frequency\ (ros\ param\ signal\_detector\_loop\_freq):\ \%lf"{}},}
+\DoxyCodeLine{\Hypertarget{signal__detector_8cpp_source_l00373}00373\ \ \ \ \ \ \ this-\/>\mbox{\hyperlink{classsmacc2_1_1SignalDetector_ac67b27bde2d30322b6792bafa0522274}{loop\_rate\_hz}});}
+\DoxyCodeLine{\Hypertarget{signal__detector_8cpp_source_l00374}00374\ \ \ \}}
+\DoxyCodeLine{\Hypertarget{signal__detector_8cpp_source_l00375}00375\ }
+\DoxyCodeLine{\Hypertarget{signal__detector_8cpp_source_l00376}00376\ \ \ nh-\/>set\_parameter(rclcpp::Parameter(\textcolor{stringliteral}{"{}signal\_detector\_loop\_freq"{}},\ this-\/>\mbox{\hyperlink{classsmacc2_1_1SignalDetector_ac67b27bde2d30322b6792bafa0522274}{loop\_rate\_hz}}));}
+\DoxyCodeLine{\Hypertarget{signal__detector_8cpp_source_l00377}00377\ }
+\DoxyCodeLine{\Hypertarget{signal__detector_8cpp_source_l00378}00378\ \ \ RCLCPP\_INFO\_STREAM(\mbox{\hyperlink{classsmacc2_1_1SignalDetector_a97db4ee81e1e63ab67ea40775fd57302}{getLogger}}(),\ \textcolor{stringliteral}{"{}[SignalDetector]\ Loop\ rate\ hz:"{}}\ <<\ \mbox{\hyperlink{classsmacc2_1_1SignalDetector_ac67b27bde2d30322b6792bafa0522274}{loop\_rate\_hz}});}
+\DoxyCodeLine{\Hypertarget{signal__detector_8cpp_source_l00379}00379\ }
+\DoxyCodeLine{\Hypertarget{signal__detector_8cpp_source_l00380}00380\ \ \ \textcolor{keywordflow}{if}\ (this-\/>\mbox{\hyperlink{classsmacc2_1_1SignalDetector_a5f38c4c3bab961791a5b6268c1948619}{executionModel\_}}\ ==\ \mbox{\hyperlink{namespacesmacc2_a1a2b312e55d319400e73bbf7ec27d6daab4c3af830a31cbfd165e744c166b9ee7}{ExecutionModel::SINGLE\_THREAD\_SPINNER}})}
+\DoxyCodeLine{\Hypertarget{signal__detector_8cpp_source_l00381}00381\ \ \ \{}
+\DoxyCodeLine{\Hypertarget{signal__detector_8cpp_source_l00382}00382\ \ \ \ \ RCLCPP\_INFO\_STREAM(\mbox{\hyperlink{classsmacc2_1_1SignalDetector_a97db4ee81e1e63ab67ea40775fd57302}{getLogger}}(),\ \textcolor{stringliteral}{"{}[SignalDetector]\ Running\ in\ single-\/threaded\ mode."{}});}
+\DoxyCodeLine{\Hypertarget{signal__detector_8cpp_source_l00383}00383\ }
+\DoxyCodeLine{\Hypertarget{signal__detector_8cpp_source_l00384}00384\ \ \ \ \ rclcpp::Rate\ r(\mbox{\hyperlink{classsmacc2_1_1SignalDetector_ac67b27bde2d30322b6792bafa0522274}{loop\_rate\_hz}});}
+\DoxyCodeLine{\Hypertarget{signal__detector_8cpp_source_l00385}00385\ \ \ \ \ \textcolor{keywordflow}{while}\ (rclcpp::ok()\ \&\&\ !\mbox{\hyperlink{classsmacc2_1_1SignalDetector_ac8756409452924cdd2cc9a99ca2fdd30}{end\_}})}
+\DoxyCodeLine{\Hypertarget{signal__detector_8cpp_source_l00386}00386\ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{signal__detector_8cpp_source_l00387}00387\ \ \ \ \ \ \ RCLCPP\_INFO\_STREAM\_THROTTLE(}
+\DoxyCodeLine{\Hypertarget{signal__detector_8cpp_source_l00388}00388\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{classsmacc2_1_1SignalDetector_a97db4ee81e1e63ab67ea40775fd57302}{getLogger}}(),\ *\mbox{\hyperlink{classsmacc2_1_1SignalDetector_aa774a30b0118ee411ba423fc668405b3}{getNode}}()-\/>get\_clock(),\ 10000,\ \textcolor{stringliteral}{"{}[SignalDetector]\ Heartbeat"{}});}
+\DoxyCodeLine{\Hypertarget{signal__detector_8cpp_source_l00389}00389\ \ \ \ \ \ \ \mbox{\hyperlink{classsmacc2_1_1SignalDetector_af363cea3f8228eeb68b25ad21903dc74}{pollOnce}}();}
+\DoxyCodeLine{\Hypertarget{signal__detector_8cpp_source_l00390}00390\ \ \ \ \ \ \ rclcpp::spin\_some(nh);}
+\DoxyCodeLine{\Hypertarget{signal__detector_8cpp_source_l00391}00391\ \ \ \ \ \ \ r.sleep();}
+\DoxyCodeLine{\Hypertarget{signal__detector_8cpp_source_l00392}00392\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{signal__detector_8cpp_source_l00393}00393\ \ \ \}}
+\DoxyCodeLine{\Hypertarget{signal__detector_8cpp_source_l00394}00394\ \ \ \textcolor{keywordflow}{else}}
+\DoxyCodeLine{\Hypertarget{signal__detector_8cpp_source_l00395}00395\ \ \ \{}
+\DoxyCodeLine{\Hypertarget{signal__detector_8cpp_source_l00396}00396\ \ \ \ \ RCLCPP\_INFO\_STREAM(\mbox{\hyperlink{classsmacc2_1_1SignalDetector_a97db4ee81e1e63ab67ea40775fd57302}{getLogger}}(),\ \textcolor{stringliteral}{"{}[SignalDetector]\ Running\ in\ multi-\/threaded\ mode."{}});}
 \DoxyCodeLine{\Hypertarget{signal__detector_8cpp_source_l00397}00397\ }
-\DoxyCodeLine{\Hypertarget{signal__detector_8cpp_source_l00398}00398\ \ \ \textcolor{comment}{//\ Stop\ the\ signal\ detector\ loop\ (atomic\ operation\ -\/\ signal-\/safe)}}
-\DoxyCodeLine{\Hypertarget{signal__detector_8cpp_source_l00399}00399\ \ \ \textcolor{keywordflow}{if}\ (\mbox{\hyperlink{namespacesmacc2_a48db490d0965c854f6bf50be1cde63e9}{g\_signal\_detector}})}
-\DoxyCodeLine{\Hypertarget{signal__detector_8cpp_source_l00400}00400\ \ \ \{}
-\DoxyCodeLine{\Hypertarget{signal__detector_8cpp_source_l00401}00401\ \ \ \ \ \mbox{\hyperlink{namespacesmacc2_a48db490d0965c854f6bf50be1cde63e9}{g\_signal\_detector}}-\/>\mbox{\hyperlink{classsmacc2_1_1SignalDetector_ae630e845276184854cc451b21db52c25}{stop}}();}
-\DoxyCodeLine{\Hypertarget{signal__detector_8cpp_source_l00402}00402\ \ \ \}}
+\DoxyCodeLine{\Hypertarget{signal__detector_8cpp_source_l00398}00398\ \ \ \ \ rclcpp::executors::MultiThreadedExecutor\ executor;}
+\DoxyCodeLine{\Hypertarget{signal__detector_8cpp_source_l00399}00399\ \ \ \ \ executor.add\_node(nh);}
+\DoxyCodeLine{\Hypertarget{signal__detector_8cpp_source_l00400}00400\ \ \ \ \ executor.spin();}
+\DoxyCodeLine{\Hypertarget{signal__detector_8cpp_source_l00401}00401\ \ \ \}}
+\DoxyCodeLine{\Hypertarget{signal__detector_8cpp_source_l00402}00402\ \}}
 \DoxyCodeLine{\Hypertarget{signal__detector_8cpp_source_l00403}00403\ }
-\DoxyCodeLine{\Hypertarget{signal__detector_8cpp_source_l00404}00404\ \ \ \textcolor{comment}{//\ Trigger\ ROS2\ shutdown\ (this\ handles\ its\ own\ signal\ safety)}}
-\DoxyCodeLine{\Hypertarget{signal__detector_8cpp_source_l00405}00405\ \ \ rclcpp::shutdown();}
-\DoxyCodeLine{\Hypertarget{signal__detector_8cpp_source_l00406}00406\ }
-\DoxyCodeLine{\Hypertarget{signal__detector_8cpp_source_l00407}00407\ \ \ \textcolor{comment}{//\ Note:\ Scheduler\ termination\ will\ happen\ from\ main\ thread\ after\ polling\ loop\ exits}}
-\DoxyCodeLine{\Hypertarget{signal__detector_8cpp_source_l00408}00408\ \}}
+\DoxyCodeLine{\Hypertarget{signal__detector_8cpp_source_l00404}\mbox{\hyperlink{namespacesmacc2_a7162a8ee9e4eb93a7ba9c14e5dcde552}{00404}}\ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{namespacesmacc2_a7162a8ee9e4eb93a7ba9c14e5dcde552}{onSignalShutdown}}(\textcolor{keywordtype}{int}\ sig)}
+\DoxyCodeLine{\Hypertarget{signal__detector_8cpp_source_l00405}00405\ \{}
+\DoxyCodeLine{\Hypertarget{signal__detector_8cpp_source_l00406}00406\ \ \ \textcolor{comment}{//\ IMPORTANT:\ Signal\ handlers\ can\ only\ call\ async-\/signal-\/safe\ functions}}
+\DoxyCodeLine{\Hypertarget{signal__detector_8cpp_source_l00407}00407\ \ \ \textcolor{comment}{//\ We\ must\ NOT\ call\ complex\ C++\ methods\ here\ (like\ terminateScheduler)}}
+\DoxyCodeLine{\Hypertarget{signal__detector_8cpp_source_l00408}00408\ \ \ \textcolor{comment}{//\ as\ they\ may\ use\ mutexes/condition\ variables\ which\ are\ not\ signal-\/safe}}
 \DoxyCodeLine{\Hypertarget{signal__detector_8cpp_source_l00409}00409\ }
-\DoxyCodeLine{\Hypertarget{signal__detector_8cpp_source_l00410}\mbox{\hyperlink{namespacesmacc2_a35ee0f3a5b83fd021a59b49b7f271b1d}{00410}}\ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{namespacesmacc2_a35ee0f3a5b83fd021a59b49b7f271b1d}{onSigQuit}}(\textcolor{keywordtype}{int})}
-\DoxyCodeLine{\Hypertarget{signal__detector_8cpp_source_l00411}00411\ \{}
-\DoxyCodeLine{\Hypertarget{signal__detector_8cpp_source_l00412}00412\ \ \ RCLCPP\_INFO(rclcpp::get\_logger(\textcolor{stringliteral}{"{}SMACC"{}}),\ \textcolor{stringliteral}{"{}SignalDetector:\ SIGQUIT\ received."{}});}
-\DoxyCodeLine{\Hypertarget{signal__detector_8cpp_source_l00413}00413\ \ \ exit(0);}
-\DoxyCodeLine{\Hypertarget{signal__detector_8cpp_source_l00414}00414\ \}}
-\DoxyCodeLine{\Hypertarget{signal__detector_8cpp_source_l00415}00415\ }
-\DoxyCodeLine{\Hypertarget{signal__detector_8cpp_source_l00416}00416\ \}\ \ \textcolor{comment}{//\ namespace\ smacc2}}
+\DoxyCodeLine{\Hypertarget{signal__detector_8cpp_source_l00410}00410\ \ \ \textcolor{comment}{//\ Stop\ the\ signal\ detector\ loop\ (atomic\ operation\ -\/\ signal-\/safe)}}
+\DoxyCodeLine{\Hypertarget{signal__detector_8cpp_source_l00411}00411\ \ \ \mbox{\hyperlink{classsmacc2_1_1SmExecution}{SmExecution}}\ \&\ smExecution\ =\ \mbox{\hyperlink{classsmacc2_1_1SmExecution_a6187db4e1417a6655addde58021d6175}{SmExecution::getInstance}}();}
+\DoxyCodeLine{\Hypertarget{signal__detector_8cpp_source_l00412}00412\ \ \ \textcolor{keywordflow}{if}\ (smExecution.\mbox{\hyperlink{classsmacc2_1_1SmExecution_af13d818e0041f33826df081387d75e10}{signalDetector}})}
+\DoxyCodeLine{\Hypertarget{signal__detector_8cpp_source_l00413}00413\ \ \ \{}
+\DoxyCodeLine{\Hypertarget{signal__detector_8cpp_source_l00414}00414\ \ \ \ \ smExecution.\mbox{\hyperlink{classsmacc2_1_1SmExecution_af13d818e0041f33826df081387d75e10}{signalDetector}}-\/>\mbox{\hyperlink{classsmacc2_1_1SignalDetector_ae630e845276184854cc451b21db52c25}{stop}}();}
+\DoxyCodeLine{\Hypertarget{signal__detector_8cpp_source_l00415}00415\ \ \ \}}
+\DoxyCodeLine{\Hypertarget{signal__detector_8cpp_source_l00416}00416\ }
+\DoxyCodeLine{\Hypertarget{signal__detector_8cpp_source_l00417}00417\ \ \ \textcolor{comment}{//\ Trigger\ ROS2\ shutdown\ (this\ handles\ its\ own\ signal\ safety)}}
+\DoxyCodeLine{\Hypertarget{signal__detector_8cpp_source_l00418}00418\ \ \ rclcpp::shutdown();}
+\DoxyCodeLine{\Hypertarget{signal__detector_8cpp_source_l00419}00419\ }
+\DoxyCodeLine{\Hypertarget{signal__detector_8cpp_source_l00420}00420\ \ \ \textcolor{comment}{//\ Note:\ Scheduler\ termination\ will\ happen\ from\ main\ thread\ after\ polling\ loop\ exits}}
+\DoxyCodeLine{\Hypertarget{signal__detector_8cpp_source_l00421}00421\ \}}
+\DoxyCodeLine{\Hypertarget{signal__detector_8cpp_source_l00422}00422\ }
+\DoxyCodeLine{\Hypertarget{signal__detector_8cpp_source_l00423}\mbox{\hyperlink{namespacesmacc2_a35ee0f3a5b83fd021a59b49b7f271b1d}{00423}}\ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{namespacesmacc2_a35ee0f3a5b83fd021a59b49b7f271b1d}{onSigQuit}}(\textcolor{keywordtype}{int})}
+\DoxyCodeLine{\Hypertarget{signal__detector_8cpp_source_l00424}00424\ \{}
+\DoxyCodeLine{\Hypertarget{signal__detector_8cpp_source_l00425}00425\ \ \ RCLCPP\_INFO(rclcpp::get\_logger(\textcolor{stringliteral}{"{}SMACC"{}}),\ \textcolor{stringliteral}{"{}SignalDetector:\ SIGQUIT\ received."{}});}
+\DoxyCodeLine{\Hypertarget{signal__detector_8cpp_source_l00426}00426\ \ \ exit(0);}
+\DoxyCodeLine{\Hypertarget{signal__detector_8cpp_source_l00427}00427\ \}}
+\DoxyCodeLine{\Hypertarget{signal__detector_8cpp_source_l00428}00428\ }
+\DoxyCodeLine{\Hypertarget{signal__detector_8cpp_source_l00429}00429\ \}\ \ \textcolor{comment}{//\ namespace\ smacc2}}
 
 \end{DoxyCode}
