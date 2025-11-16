@@ -1,0 +1,320 @@
+\doxysection{cp\+\_\+motion\+\_\+planner.\+hpp}
+\hypertarget{cp__motion__planner_8hpp_source}{}\label{cp__motion__planner_8hpp_source}\index{smacc2\_client\_library/cl\_moveit2z/include/cl\_moveit2z/components/cp\_motion\_planner.hpp@{smacc2\_client\_library/cl\_moveit2z/include/cl\_moveit2z/components/cp\_motion\_planner.hpp}}
+\mbox{\hyperlink{cp__motion__planner_8hpp}{Go to the documentation of this file.}}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\Hypertarget{cp__motion__planner_8hpp_source_l00001}00001\ \textcolor{comment}{//\ Copyright\ 2021\ RobosoftAI\ Inc.}}
+\DoxyCodeLine{\Hypertarget{cp__motion__planner_8hpp_source_l00002}00002\ \textcolor{comment}{//}}
+\DoxyCodeLine{\Hypertarget{cp__motion__planner_8hpp_source_l00003}00003\ \textcolor{comment}{//\ Licensed\ under\ the\ Apache\ License,\ Version\ 2.0\ (the\ "{}License"{});}}
+\DoxyCodeLine{\Hypertarget{cp__motion__planner_8hpp_source_l00004}00004\ \textcolor{comment}{//\ you\ may\ not\ use\ this\ file\ except\ in\ compliance\ with\ the\ License.}}
+\DoxyCodeLine{\Hypertarget{cp__motion__planner_8hpp_source_l00005}00005\ \textcolor{comment}{//\ You\ may\ obtain\ a\ copy\ of\ the\ License\ at}}
+\DoxyCodeLine{\Hypertarget{cp__motion__planner_8hpp_source_l00006}00006\ \textcolor{comment}{//}}
+\DoxyCodeLine{\Hypertarget{cp__motion__planner_8hpp_source_l00007}00007\ \textcolor{comment}{//\ \ \ \ \ http://www.apache.org/licenses/LICENSE-\/2.0}}
+\DoxyCodeLine{\Hypertarget{cp__motion__planner_8hpp_source_l00008}00008\ \textcolor{comment}{//}}
+\DoxyCodeLine{\Hypertarget{cp__motion__planner_8hpp_source_l00009}00009\ \textcolor{comment}{//\ Unless\ required\ by\ applicable\ law\ or\ agreed\ to\ in\ writing,\ software}}
+\DoxyCodeLine{\Hypertarget{cp__motion__planner_8hpp_source_l00010}00010\ \textcolor{comment}{//\ distributed\ under\ the\ License\ is\ distributed\ on\ an\ "{}AS\ IS"{}\ BASIS,}}
+\DoxyCodeLine{\Hypertarget{cp__motion__planner_8hpp_source_l00011}00011\ \textcolor{comment}{//\ WITHOUT\ WARRANTIES\ OR\ CONDITIONS\ OF\ ANY\ KIND,\ either\ express\ or\ implied.}}
+\DoxyCodeLine{\Hypertarget{cp__motion__planner_8hpp_source_l00012}00012\ \textcolor{comment}{//\ See\ the\ License\ for\ the\ specific\ language\ governing\ permissions\ and}}
+\DoxyCodeLine{\Hypertarget{cp__motion__planner_8hpp_source_l00013}00013\ \textcolor{comment}{//\ limitations\ under\ the\ License.}}
+\DoxyCodeLine{\Hypertarget{cp__motion__planner_8hpp_source_l00014}00014\ }
+\DoxyCodeLine{\Hypertarget{cp__motion__planner_8hpp_source_l00015}00015\ \textcolor{comment}{/*****************************************************************************************************************}}
+\DoxyCodeLine{\Hypertarget{cp__motion__planner_8hpp_source_l00016}00016\ \textcolor{comment}{\ *}}
+\DoxyCodeLine{\Hypertarget{cp__motion__planner_8hpp_source_l00017}00017\ \textcolor{comment}{\ *\ \ \ Authors:\ Pablo\ Inigo\ Blasco,\ Brett\ Aldrich}}
+\DoxyCodeLine{\Hypertarget{cp__motion__planner_8hpp_source_l00018}00018\ \textcolor{comment}{\ *}}
+\DoxyCodeLine{\Hypertarget{cp__motion__planner_8hpp_source_l00019}00019\ \textcolor{comment}{\ *****************************************************************************************************************/}}
+\DoxyCodeLine{\Hypertarget{cp__motion__planner_8hpp_source_l00020}00020\ }
+\DoxyCodeLine{\Hypertarget{cp__motion__planner_8hpp_source_l00021}00021\ \textcolor{preprocessor}{\#pragma\ once}}
+\DoxyCodeLine{\Hypertarget{cp__motion__planner_8hpp_source_l00022}00022\ }
+\DoxyCodeLine{\Hypertarget{cp__motion__planner_8hpp_source_l00023}00023\ \textcolor{preprocessor}{\#include\ <\mbox{\hyperlink{component_8hpp}{smacc2/component.hpp}}>}}
+\DoxyCodeLine{\Hypertarget{cp__motion__planner_8hpp_source_l00024}00024\ }
+\DoxyCodeLine{\Hypertarget{cp__motion__planner_8hpp_source_l00025}00025\ \textcolor{preprocessor}{\#include\ <\mbox{\hyperlink{cl__moveit2z_8hpp}{cl\_moveit2z/cl\_moveit2z.hpp}}>}}
+\DoxyCodeLine{\Hypertarget{cp__motion__planner_8hpp_source_l00026}00026\ }
+\DoxyCodeLine{\Hypertarget{cp__motion__planner_8hpp_source_l00027}00027\ \textcolor{preprocessor}{\#include\ <moveit/move\_group\_interface/move\_group\_interface.h>}}
+\DoxyCodeLine{\Hypertarget{cp__motion__planner_8hpp_source_l00028}00028\ \textcolor{preprocessor}{\#include\ <geometry\_msgs/msg/pose\_stamped.hpp>}}
+\DoxyCodeLine{\Hypertarget{cp__motion__planner_8hpp_source_l00029}00029\ \textcolor{preprocessor}{\#include\ <moveit\_msgs/msg/move\_it\_error\_codes.hpp>}}
+\DoxyCodeLine{\Hypertarget{cp__motion__planner_8hpp_source_l00030}00030\ \textcolor{preprocessor}{\#include\ <moveit\_msgs/msg/robot\_trajectory.hpp>}}
+\DoxyCodeLine{\Hypertarget{cp__motion__planner_8hpp_source_l00031}00031\ }
+\DoxyCodeLine{\Hypertarget{cp__motion__planner_8hpp_source_l00032}00032\ \textcolor{preprocessor}{\#include\ <map>}}
+\DoxyCodeLine{\Hypertarget{cp__motion__planner_8hpp_source_l00033}00033\ \textcolor{preprocessor}{\#include\ <optional>}}
+\DoxyCodeLine{\Hypertarget{cp__motion__planner_8hpp_source_l00034}00034\ \textcolor{preprocessor}{\#include\ <string>}}
+\DoxyCodeLine{\Hypertarget{cp__motion__planner_8hpp_source_l00035}00035\ }
+\DoxyCodeLine{\Hypertarget{cp__motion__planner_8hpp_source_l00036}00036\ \textcolor{keyword}{namespace\ }\mbox{\hyperlink{namespacecl__moveit2z}{cl\_moveit2z}}}
+\DoxyCodeLine{\Hypertarget{cp__motion__planner_8hpp_source_l00037}00037\ \{}
+\DoxyCodeLine{\Hypertarget{cp__motion__planner_8hpp_source_l00041}\mbox{\hyperlink{structcl__moveit2z_1_1PlanningOptions}{00041}}\ \textcolor{keyword}{struct\ }\mbox{\hyperlink{structcl__moveit2z_1_1PlanningOptions}{PlanningOptions}}}
+\DoxyCodeLine{\Hypertarget{cp__motion__planner_8hpp_source_l00042}00042\ \{}
+\DoxyCodeLine{\Hypertarget{cp__motion__planner_8hpp_source_l00043}\mbox{\hyperlink{structcl__moveit2z_1_1PlanningOptions_abec030a50a8603945fd56a77c9a74995}{00043}}\ \ \ std::optional<double>\ \mbox{\hyperlink{structcl__moveit2z_1_1PlanningOptions_abec030a50a8603945fd56a77c9a74995}{planningTime}};}
+\DoxyCodeLine{\Hypertarget{cp__motion__planner_8hpp_source_l00044}\mbox{\hyperlink{structcl__moveit2z_1_1PlanningOptions_a84a6681771839cfb6389a3732230fbfc}{00044}}\ \ \ std::optional<double>\ \mbox{\hyperlink{structcl__moveit2z_1_1PlanningOptions_a84a6681771839cfb6389a3732230fbfc}{maxVelocityScaling}};}
+\DoxyCodeLine{\Hypertarget{cp__motion__planner_8hpp_source_l00045}\mbox{\hyperlink{structcl__moveit2z_1_1PlanningOptions_aa59b6b4cf9fac9eae3376da634af1775}{00045}}\ \ \ std::optional<double>\ \mbox{\hyperlink{structcl__moveit2z_1_1PlanningOptions_aa59b6b4cf9fac9eae3376da634af1775}{maxAccelerationScaling}};}
+\DoxyCodeLine{\Hypertarget{cp__motion__planner_8hpp_source_l00046}\mbox{\hyperlink{structcl__moveit2z_1_1PlanningOptions_ae7e035a0ac4ad83ef254c57d78b3c2e8}{00046}}\ \ \ std::optional<std::string>\ \mbox{\hyperlink{structcl__moveit2z_1_1PlanningOptions_ae7e035a0ac4ad83ef254c57d78b3c2e8}{planningPipelineId}};}
+\DoxyCodeLine{\Hypertarget{cp__motion__planner_8hpp_source_l00047}\mbox{\hyperlink{structcl__moveit2z_1_1PlanningOptions_a7c4f8c7694041f8fbc5dbcb0cff842b2}{00047}}\ \ \ std::optional<std::string>\ \mbox{\hyperlink{structcl__moveit2z_1_1PlanningOptions_a7c4f8c7694041f8fbc5dbcb0cff842b2}{plannerId}};}
+\DoxyCodeLine{\Hypertarget{cp__motion__planner_8hpp_source_l00048}\mbox{\hyperlink{structcl__moveit2z_1_1PlanningOptions_aa4cb0f8c5ed3122a8289894c7a1f77df}{00048}}\ \ \ std::optional<std::string>\ \mbox{\hyperlink{structcl__moveit2z_1_1PlanningOptions_aa4cb0f8c5ed3122a8289894c7a1f77df}{poseReferenceFrame}};}
+\DoxyCodeLine{\Hypertarget{cp__motion__planner_8hpp_source_l00049}00049\ \};}
+\DoxyCodeLine{\Hypertarget{cp__motion__planner_8hpp_source_l00050}00050\ }
+\DoxyCodeLine{\Hypertarget{cp__motion__planner_8hpp_source_l00054}\mbox{\hyperlink{structcl__moveit2z_1_1PlanningResult}{00054}}\ \textcolor{keyword}{struct\ }\mbox{\hyperlink{structcl__moveit2z_1_1PlanningResult}{PlanningResult}}}
+\DoxyCodeLine{\Hypertarget{cp__motion__planner_8hpp_source_l00055}00055\ \{}
+\DoxyCodeLine{\Hypertarget{cp__motion__planner_8hpp_source_l00056}\mbox{\hyperlink{structcl__moveit2z_1_1PlanningResult_a615cfa90ab06f35a271bd471fd16ef2d}{00056}}\ \ \ \textcolor{keywordtype}{bool}\ \mbox{\hyperlink{structcl__moveit2z_1_1PlanningResult_a615cfa90ab06f35a271bd471fd16ef2d}{success}};}
+\DoxyCodeLine{\Hypertarget{cp__motion__planner_8hpp_source_l00057}\mbox{\hyperlink{structcl__moveit2z_1_1PlanningResult_a257271407876a0030b425fa8d9bf380e}{00057}}\ \ \ moveit::planning\_interface::MoveGroupInterface::Plan\ \mbox{\hyperlink{structcl__moveit2z_1_1PlanningResult_a257271407876a0030b425fa8d9bf380e}{plan}};}
+\DoxyCodeLine{\Hypertarget{cp__motion__planner_8hpp_source_l00058}\mbox{\hyperlink{structcl__moveit2z_1_1PlanningResult_a2c26966016d2e7985d339ac19fe57d2c}{00058}}\ \ \ moveit::core::MoveItErrorCode\ \mbox{\hyperlink{structcl__moveit2z_1_1PlanningResult_a2c26966016d2e7985d339ac19fe57d2c}{errorCode}};}
+\DoxyCodeLine{\Hypertarget{cp__motion__planner_8hpp_source_l00059}\mbox{\hyperlink{structcl__moveit2z_1_1PlanningResult_a7aaec056eb112991f8da327e6d6a9562}{00059}}\ \ \ std::string\ \mbox{\hyperlink{structcl__moveit2z_1_1PlanningResult_a7aaec056eb112991f8da327e6d6a9562}{errorMessage}};}
+\DoxyCodeLine{\Hypertarget{cp__motion__planner_8hpp_source_l00060}00060\ }
+\DoxyCodeLine{\Hypertarget{cp__motion__planner_8hpp_source_l00061}\mbox{\hyperlink{structcl__moveit2z_1_1PlanningResult_ab794e9231ab5d9462b43845abb05864a}{00061}}\ \ \ \mbox{\hyperlink{structcl__moveit2z_1_1PlanningResult_ab794e9231ab5d9462b43845abb05864a}{PlanningResult}}()}
+\DoxyCodeLine{\Hypertarget{cp__motion__planner_8hpp_source_l00062}00062\ \ \ :\ \mbox{\hyperlink{structcl__moveit2z_1_1PlanningResult_a615cfa90ab06f35a271bd471fd16ef2d}{success}}(false),\ \mbox{\hyperlink{structcl__moveit2z_1_1PlanningResult_a2c26966016d2e7985d339ac19fe57d2c}{errorCode}}(moveit::core::MoveItErrorCode::FAILURE),\ \mbox{\hyperlink{structcl__moveit2z_1_1PlanningResult_a7aaec056eb112991f8da327e6d6a9562}{errorMessage}}(\textcolor{stringliteral}{"{}"{}})}
+\DoxyCodeLine{\Hypertarget{cp__motion__planner_8hpp_source_l00063}00063\ \ \ \{}
+\DoxyCodeLine{\Hypertarget{cp__motion__planner_8hpp_source_l00064}00064\ \ \ \}}
+\DoxyCodeLine{\Hypertarget{cp__motion__planner_8hpp_source_l00065}00065\ \};}
+\DoxyCodeLine{\Hypertarget{cp__motion__planner_8hpp_source_l00066}00066\ }
+\DoxyCodeLine{\Hypertarget{cp__motion__planner_8hpp_source_l00079}\mbox{\hyperlink{classcl__moveit2z_1_1CpMotionPlanner}{00079}}\ \textcolor{keyword}{class\ }\mbox{\hyperlink{classcl__moveit2z_1_1CpMotionPlanner}{CpMotionPlanner}}\ :\ \textcolor{keyword}{public}\ \mbox{\hyperlink{classsmacc2_1_1ISmaccComponent}{smacc2::ISmaccComponent}}}
+\DoxyCodeLine{\Hypertarget{cp__motion__planner_8hpp_source_l00080}00080\ \{}
+\DoxyCodeLine{\Hypertarget{cp__motion__planner_8hpp_source_l00081}00081\ \textcolor{keyword}{public}:}
+\DoxyCodeLine{\Hypertarget{cp__motion__planner_8hpp_source_l00082}\mbox{\hyperlink{classcl__moveit2z_1_1CpMotionPlanner_a592eee3e6804e826754e05b24f031af6}{00082}}\ \ \ \mbox{\hyperlink{classcl__moveit2z_1_1CpMotionPlanner_a592eee3e6804e826754e05b24f031af6}{CpMotionPlanner}}()\ =\ \textcolor{keywordflow}{default};}
+\DoxyCodeLine{\Hypertarget{cp__motion__planner_8hpp_source_l00083}\mbox{\hyperlink{classcl__moveit2z_1_1CpMotionPlanner_ad5fb5d584eb5177fcf70dbdd8af8de41}{00083}}\ \ \ \textcolor{keyword}{virtual}\ \mbox{\hyperlink{classcl__moveit2z_1_1CpMotionPlanner_ad5fb5d584eb5177fcf70dbdd8af8de41}{\string~CpMotionPlanner}}()\ =\ \textcolor{keywordflow}{default};}
+\DoxyCodeLine{\Hypertarget{cp__motion__planner_8hpp_source_l00084}00084\ }
+\DoxyCodeLine{\Hypertarget{cp__motion__planner_8hpp_source_l00088}\mbox{\hyperlink{classcl__moveit2z_1_1CpMotionPlanner_ac82b11119fd89ccdb5cecd841519b1d3}{00088}}\ \ \ \textcolor{keyword}{inline}\ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{classcl__moveit2z_1_1CpMotionPlanner_ac82b11119fd89ccdb5cecd841519b1d3}{onInitialize}}()\textcolor{keyword}{\ override}}
+\DoxyCodeLine{\Hypertarget{cp__motion__planner_8hpp_source_l00089}00089\ \textcolor{keyword}{\ \ }\{}
+\DoxyCodeLine{\Hypertarget{cp__motion__planner_8hpp_source_l00090}00090\ \ \ \ \ this-\/>\mbox{\hyperlink{classsmacc2_1_1ISmaccComponent_a5269f43605f1aa022d34bfeb220bc72c}{requiresClient}}(\mbox{\hyperlink{classcl__moveit2z_1_1CpMotionPlanner_aaef44f84d991ea2fa74b9a17197c1c34}{moveit2zClient\_}});}
+\DoxyCodeLine{\Hypertarget{cp__motion__planner_8hpp_source_l00091}00091\ \ \ \ \ RCLCPP\_INFO(\mbox{\hyperlink{classsmacc2_1_1ISmaccComponent_a77ee85823bab8d84edcdf5d28782b728}{getLogger}}(),\ \textcolor{stringliteral}{"{}[CpMotionPlanner]\ Component\ initialized"{}});}
+\DoxyCodeLine{\Hypertarget{cp__motion__planner_8hpp_source_l00092}00092\ \ \ \}}
+\DoxyCodeLine{\Hypertarget{cp__motion__planner_8hpp_source_l00093}00093\ }
+\DoxyCodeLine{\Hypertarget{cp__motion__planner_8hpp_source_l00102}\mbox{\hyperlink{classcl__moveit2z_1_1CpMotionPlanner_a4f6c1cd3e3a381d9d00acc288c0ebf7b}{00102}}\ \ \ \textcolor{keyword}{inline}\ \mbox{\hyperlink{structcl__moveit2z_1_1PlanningResult}{PlanningResult}}\ \mbox{\hyperlink{classcl__moveit2z_1_1CpMotionPlanner_a4f6c1cd3e3a381d9d00acc288c0ebf7b}{planToPose}}(}
+\DoxyCodeLine{\Hypertarget{cp__motion__planner_8hpp_source_l00103}00103\ \ \ \ \ \textcolor{keyword}{const}\ geometry\_msgs::msg::PoseStamped\ \&\ target,}
+\DoxyCodeLine{\Hypertarget{cp__motion__planner_8hpp_source_l00104}00104\ \ \ \ \ \textcolor{keyword}{const}\ std::optional<std::string>\ \&\ tipLink\ =\ std::nullopt,\ \textcolor{keyword}{const}\ \mbox{\hyperlink{structcl__moveit2z_1_1PlanningOptions}{PlanningOptions}}\ \&\ options\ =\ \{\})}
+\DoxyCodeLine{\Hypertarget{cp__motion__planner_8hpp_source_l00105}00105\ \ \ \{}
+\DoxyCodeLine{\Hypertarget{cp__motion__planner_8hpp_source_l00106}00106\ \ \ \ \ \mbox{\hyperlink{structcl__moveit2z_1_1PlanningResult}{PlanningResult}}\ result;}
+\DoxyCodeLine{\Hypertarget{cp__motion__planner_8hpp_source_l00107}00107\ }
+\DoxyCodeLine{\Hypertarget{cp__motion__planner_8hpp_source_l00108}00108\ \ \ \ \ \textcolor{keywordflow}{if}\ (!\mbox{\hyperlink{classcl__moveit2z_1_1CpMotionPlanner_aaef44f84d991ea2fa74b9a17197c1c34}{moveit2zClient\_}})}
+\DoxyCodeLine{\Hypertarget{cp__motion__planner_8hpp_source_l00109}00109\ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{cp__motion__planner_8hpp_source_l00110}00110\ \ \ \ \ \ \ result.\mbox{\hyperlink{structcl__moveit2z_1_1PlanningResult_a7aaec056eb112991f8da327e6d6a9562}{errorMessage}}\ =\ \textcolor{stringliteral}{"{}ClMoveit2z\ client\ not\ available"{}};}
+\DoxyCodeLine{\Hypertarget{cp__motion__planner_8hpp_source_l00111}00111\ \ \ \ \ \ \ RCLCPP\_ERROR(\mbox{\hyperlink{classsmacc2_1_1ISmaccComponent_a77ee85823bab8d84edcdf5d28782b728}{getLogger}}(),\ \textcolor{stringliteral}{"{}[CpMotionPlanner]\ \%s"{}},\ result.\mbox{\hyperlink{structcl__moveit2z_1_1PlanningResult_a7aaec056eb112991f8da327e6d6a9562}{errorMessage}}.c\_str());}
+\DoxyCodeLine{\Hypertarget{cp__motion__planner_8hpp_source_l00112}00112\ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ result;}
+\DoxyCodeLine{\Hypertarget{cp__motion__planner_8hpp_source_l00113}00113\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{cp__motion__planner_8hpp_source_l00114}00114\ }
+\DoxyCodeLine{\Hypertarget{cp__motion__planner_8hpp_source_l00115}00115\ \ \ \ \ \textcolor{keyword}{auto}\ \&\ moveGroup\ =\ \mbox{\hyperlink{classcl__moveit2z_1_1CpMotionPlanner_aaef44f84d991ea2fa74b9a17197c1c34}{moveit2zClient\_}}-\/>\mbox{\hyperlink{classcl__moveit2z_1_1ClMoveit2z_a03659105e35b4a2d2b1bbc82f5ff92bf}{moveGroupClientInterface}};}
+\DoxyCodeLine{\Hypertarget{cp__motion__planner_8hpp_source_l00116}00116\ }
+\DoxyCodeLine{\Hypertarget{cp__motion__planner_8hpp_source_l00117}00117\ \ \ \ \ \textcolor{keywordflow}{try}}
+\DoxyCodeLine{\Hypertarget{cp__motion__planner_8hpp_source_l00118}00118\ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{cp__motion__planner_8hpp_source_l00119}00119\ \ \ \ \ \ \ \textcolor{comment}{//\ Apply\ planning\ options}}
+\DoxyCodeLine{\Hypertarget{cp__motion__planner_8hpp_source_l00120}00120\ \ \ \ \ \ \ \mbox{\hyperlink{classcl__moveit2z_1_1CpMotionPlanner_ac3b96c0cc3fa1f214f1a0f65b44bac56}{applyPlanningOptions}}(*moveGroup,\ options);}
+\DoxyCodeLine{\Hypertarget{cp__motion__planner_8hpp_source_l00121}00121\ }
+\DoxyCodeLine{\Hypertarget{cp__motion__planner_8hpp_source_l00122}00122\ \ \ \ \ \ \ \textcolor{comment}{//\ Set\ pose\ target}}
+\DoxyCodeLine{\Hypertarget{cp__motion__planner_8hpp_source_l00123}00123\ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (tipLink\ \&\&\ !tipLink-\/>empty())}
+\DoxyCodeLine{\Hypertarget{cp__motion__planner_8hpp_source_l00124}00124\ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{cp__motion__planner_8hpp_source_l00125}00125\ \ \ \ \ \ \ \ \ moveGroup-\/>setPoseTarget(target,\ *tipLink);}
+\DoxyCodeLine{\Hypertarget{cp__motion__planner_8hpp_source_l00126}00126\ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{cp__motion__planner_8hpp_source_l00127}00127\ \ \ \ \ \ \ \textcolor{keywordflow}{else}}
+\DoxyCodeLine{\Hypertarget{cp__motion__planner_8hpp_source_l00128}00128\ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{cp__motion__planner_8hpp_source_l00129}00129\ \ \ \ \ \ \ \ \ moveGroup-\/>setPoseTarget(target);}
+\DoxyCodeLine{\Hypertarget{cp__motion__planner_8hpp_source_l00130}00130\ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{cp__motion__planner_8hpp_source_l00131}00131\ }
+\DoxyCodeLine{\Hypertarget{cp__motion__planner_8hpp_source_l00132}00132\ \ \ \ \ \ \ \textcolor{comment}{//\ Set\ reference\ frame\ if\ specified}}
+\DoxyCodeLine{\Hypertarget{cp__motion__planner_8hpp_source_l00133}00133\ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (options.poseReferenceFrame)}
+\DoxyCodeLine{\Hypertarget{cp__motion__planner_8hpp_source_l00134}00134\ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{cp__motion__planner_8hpp_source_l00135}00135\ \ \ \ \ \ \ \ \ moveGroup-\/>setPoseReferenceFrame(*options.poseReferenceFrame);}
+\DoxyCodeLine{\Hypertarget{cp__motion__planner_8hpp_source_l00136}00136\ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{cp__motion__planner_8hpp_source_l00137}00137\ \ \ \ \ \ \ \textcolor{keywordflow}{else}\ \textcolor{keywordflow}{if}\ (!target.header.frame\_id.empty())}
+\DoxyCodeLine{\Hypertarget{cp__motion__planner_8hpp_source_l00138}00138\ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{cp__motion__planner_8hpp_source_l00139}00139\ \ \ \ \ \ \ \ \ moveGroup-\/>setPoseReferenceFrame(target.header.frame\_id);}
+\DoxyCodeLine{\Hypertarget{cp__motion__planner_8hpp_source_l00140}00140\ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{cp__motion__planner_8hpp_source_l00141}00141\ }
+\DoxyCodeLine{\Hypertarget{cp__motion__planner_8hpp_source_l00142}00142\ \ \ \ \ \ \ RCLCPP\_INFO(\mbox{\hyperlink{classsmacc2_1_1ISmaccComponent_a77ee85823bab8d84edcdf5d28782b728}{getLogger}}(),\ \textcolor{stringliteral}{"{}[CpMotionPlanner]\ Planning\ to\ pose..."{}});}
+\DoxyCodeLine{\Hypertarget{cp__motion__planner_8hpp_source_l00143}00143\ }
+\DoxyCodeLine{\Hypertarget{cp__motion__planner_8hpp_source_l00144}00144\ \ \ \ \ \ \ \textcolor{comment}{//\ Plan}}
+\DoxyCodeLine{\Hypertarget{cp__motion__planner_8hpp_source_l00145}00145\ \ \ \ \ \ \ result.\mbox{\hyperlink{structcl__moveit2z_1_1PlanningResult_a2c26966016d2e7985d339ac19fe57d2c}{errorCode}}\ =\ moveGroup-\/>plan(result.\mbox{\hyperlink{structcl__moveit2z_1_1PlanningResult_a257271407876a0030b425fa8d9bf380e}{plan}});}
+\DoxyCodeLine{\Hypertarget{cp__motion__planner_8hpp_source_l00146}00146\ \ \ \ \ \ \ result.\mbox{\hyperlink{structcl__moveit2z_1_1PlanningResult_a615cfa90ab06f35a271bd471fd16ef2d}{success}}\ =\ (result.\mbox{\hyperlink{structcl__moveit2z_1_1PlanningResult_a2c26966016d2e7985d339ac19fe57d2c}{errorCode}}\ ==\ moveit::core::MoveItErrorCode::SUCCESS);}
+\DoxyCodeLine{\Hypertarget{cp__motion__planner_8hpp_source_l00147}00147\ }
+\DoxyCodeLine{\Hypertarget{cp__motion__planner_8hpp_source_l00148}00148\ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (result.\mbox{\hyperlink{structcl__moveit2z_1_1PlanningResult_a615cfa90ab06f35a271bd471fd16ef2d}{success}})}
+\DoxyCodeLine{\Hypertarget{cp__motion__planner_8hpp_source_l00149}00149\ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{cp__motion__planner_8hpp_source_l00150}00150\ \ \ \ \ \ \ \ \ RCLCPP\_INFO(\mbox{\hyperlink{classsmacc2_1_1ISmaccComponent_a77ee85823bab8d84edcdf5d28782b728}{getLogger}}(),\ \textcolor{stringliteral}{"{}[CpMotionPlanner]\ Planning\ to\ pose\ succeeded"{}});}
+\DoxyCodeLine{\Hypertarget{cp__motion__planner_8hpp_source_l00151}00151\ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{cp__motion__planner_8hpp_source_l00152}00152\ \ \ \ \ \ \ \textcolor{keywordflow}{else}}
+\DoxyCodeLine{\Hypertarget{cp__motion__planner_8hpp_source_l00153}00153\ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{cp__motion__planner_8hpp_source_l00154}00154\ \ \ \ \ \ \ \ \ result.\mbox{\hyperlink{structcl__moveit2z_1_1PlanningResult_a7aaec056eb112991f8da327e6d6a9562}{errorMessage}}\ =}
+\DoxyCodeLine{\Hypertarget{cp__motion__planner_8hpp_source_l00155}00155\ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}Planning\ to\ pose\ failed\ with\ error\ code:\ "{}}\ +\ std::to\_string(result.\mbox{\hyperlink{structcl__moveit2z_1_1PlanningResult_a2c26966016d2e7985d339ac19fe57d2c}{errorCode}}.val);}
+\DoxyCodeLine{\Hypertarget{cp__motion__planner_8hpp_source_l00156}00156\ \ \ \ \ \ \ \ \ RCLCPP\_WARN(\mbox{\hyperlink{classsmacc2_1_1ISmaccComponent_a77ee85823bab8d84edcdf5d28782b728}{getLogger}}(),\ \textcolor{stringliteral}{"{}[CpMotionPlanner]\ \%s"{}},\ result.\mbox{\hyperlink{structcl__moveit2z_1_1PlanningResult_a7aaec056eb112991f8da327e6d6a9562}{errorMessage}}.c\_str());}
+\DoxyCodeLine{\Hypertarget{cp__motion__planner_8hpp_source_l00157}00157\ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{cp__motion__planner_8hpp_source_l00158}00158\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{cp__motion__planner_8hpp_source_l00159}00159\ \ \ \ \ \textcolor{keywordflow}{catch}\ (\textcolor{keyword}{const}\ std::exception\ \&\ e)}
+\DoxyCodeLine{\Hypertarget{cp__motion__planner_8hpp_source_l00160}00160\ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{cp__motion__planner_8hpp_source_l00161}00161\ \ \ \ \ \ \ result.\mbox{\hyperlink{structcl__moveit2z_1_1PlanningResult_a615cfa90ab06f35a271bd471fd16ef2d}{success}}\ =\ \textcolor{keyword}{false};}
+\DoxyCodeLine{\Hypertarget{cp__motion__planner_8hpp_source_l00162}00162\ \ \ \ \ \ \ result.\mbox{\hyperlink{structcl__moveit2z_1_1PlanningResult_a7aaec056eb112991f8da327e6d6a9562}{errorMessage}}\ =\ std::string(\textcolor{stringliteral}{"{}Exception\ during\ planning:\ "{}})\ +\ e.what();}
+\DoxyCodeLine{\Hypertarget{cp__motion__planner_8hpp_source_l00163}00163\ \ \ \ \ \ \ RCLCPP\_ERROR(\mbox{\hyperlink{classsmacc2_1_1ISmaccComponent_a77ee85823bab8d84edcdf5d28782b728}{getLogger}}(),\ \textcolor{stringliteral}{"{}[CpMotionPlanner]\ \%s"{}},\ result.\mbox{\hyperlink{structcl__moveit2z_1_1PlanningResult_a7aaec056eb112991f8da327e6d6a9562}{errorMessage}}.c\_str());}
+\DoxyCodeLine{\Hypertarget{cp__motion__planner_8hpp_source_l00164}00164\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{cp__motion__planner_8hpp_source_l00165}00165\ }
+\DoxyCodeLine{\Hypertarget{cp__motion__planner_8hpp_source_l00166}00166\ \ \ \ \ \textcolor{keywordflow}{return}\ result;}
+\DoxyCodeLine{\Hypertarget{cp__motion__planner_8hpp_source_l00167}00167\ \ \ \}}
+\DoxyCodeLine{\Hypertarget{cp__motion__planner_8hpp_source_l00168}00168\ }
+\DoxyCodeLine{\Hypertarget{cp__motion__planner_8hpp_source_l00176}\mbox{\hyperlink{classcl__moveit2z_1_1CpMotionPlanner_a3a67127478e6cf8934758a5a596d4d6f}{00176}}\ \ \ \textcolor{keyword}{inline}\ \mbox{\hyperlink{structcl__moveit2z_1_1PlanningResult}{PlanningResult}}\ \mbox{\hyperlink{classcl__moveit2z_1_1CpMotionPlanner_a3a67127478e6cf8934758a5a596d4d6f}{planToJointTarget}}(}
+\DoxyCodeLine{\Hypertarget{cp__motion__planner_8hpp_source_l00177}00177\ \ \ \ \ \textcolor{keyword}{const}\ std::map<std::string,\ double>\ \&\ jointTargets,\ \textcolor{keyword}{const}\ \mbox{\hyperlink{structcl__moveit2z_1_1PlanningOptions}{PlanningOptions}}\ \&\ options\ =\ \{\})}
+\DoxyCodeLine{\Hypertarget{cp__motion__planner_8hpp_source_l00178}00178\ \ \ \{}
+\DoxyCodeLine{\Hypertarget{cp__motion__planner_8hpp_source_l00179}00179\ \ \ \ \ \mbox{\hyperlink{structcl__moveit2z_1_1PlanningResult}{PlanningResult}}\ result;}
+\DoxyCodeLine{\Hypertarget{cp__motion__planner_8hpp_source_l00180}00180\ }
+\DoxyCodeLine{\Hypertarget{cp__motion__planner_8hpp_source_l00181}00181\ \ \ \ \ \textcolor{keywordflow}{if}\ (!\mbox{\hyperlink{classcl__moveit2z_1_1CpMotionPlanner_aaef44f84d991ea2fa74b9a17197c1c34}{moveit2zClient\_}})}
+\DoxyCodeLine{\Hypertarget{cp__motion__planner_8hpp_source_l00182}00182\ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{cp__motion__planner_8hpp_source_l00183}00183\ \ \ \ \ \ \ result.\mbox{\hyperlink{structcl__moveit2z_1_1PlanningResult_a7aaec056eb112991f8da327e6d6a9562}{errorMessage}}\ =\ \textcolor{stringliteral}{"{}ClMoveit2z\ client\ not\ available"{}};}
+\DoxyCodeLine{\Hypertarget{cp__motion__planner_8hpp_source_l00184}00184\ \ \ \ \ \ \ RCLCPP\_ERROR(\mbox{\hyperlink{classsmacc2_1_1ISmaccComponent_a77ee85823bab8d84edcdf5d28782b728}{getLogger}}(),\ \textcolor{stringliteral}{"{}[CpMotionPlanner]\ \%s"{}},\ result.\mbox{\hyperlink{structcl__moveit2z_1_1PlanningResult_a7aaec056eb112991f8da327e6d6a9562}{errorMessage}}.c\_str());}
+\DoxyCodeLine{\Hypertarget{cp__motion__planner_8hpp_source_l00185}00185\ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ result;}
+\DoxyCodeLine{\Hypertarget{cp__motion__planner_8hpp_source_l00186}00186\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{cp__motion__planner_8hpp_source_l00187}00187\ }
+\DoxyCodeLine{\Hypertarget{cp__motion__planner_8hpp_source_l00188}00188\ \ \ \ \ \textcolor{keywordflow}{if}\ (jointTargets.empty())}
+\DoxyCodeLine{\Hypertarget{cp__motion__planner_8hpp_source_l00189}00189\ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{cp__motion__planner_8hpp_source_l00190}00190\ \ \ \ \ \ \ result.\mbox{\hyperlink{structcl__moveit2z_1_1PlanningResult_a7aaec056eb112991f8da327e6d6a9562}{errorMessage}}\ =\ \textcolor{stringliteral}{"{}No\ joint\ targets\ specified"{}};}
+\DoxyCodeLine{\Hypertarget{cp__motion__planner_8hpp_source_l00191}00191\ \ \ \ \ \ \ RCLCPP\_WARN(\mbox{\hyperlink{classsmacc2_1_1ISmaccComponent_a77ee85823bab8d84edcdf5d28782b728}{getLogger}}(),\ \textcolor{stringliteral}{"{}[CpMotionPlanner]\ \%s"{}},\ result.\mbox{\hyperlink{structcl__moveit2z_1_1PlanningResult_a7aaec056eb112991f8da327e6d6a9562}{errorMessage}}.c\_str());}
+\DoxyCodeLine{\Hypertarget{cp__motion__planner_8hpp_source_l00192}00192\ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ result;}
+\DoxyCodeLine{\Hypertarget{cp__motion__planner_8hpp_source_l00193}00193\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{cp__motion__planner_8hpp_source_l00194}00194\ }
+\DoxyCodeLine{\Hypertarget{cp__motion__planner_8hpp_source_l00195}00195\ \ \ \ \ \textcolor{keyword}{auto}\ \&\ moveGroup\ =\ \mbox{\hyperlink{classcl__moveit2z_1_1CpMotionPlanner_aaef44f84d991ea2fa74b9a17197c1c34}{moveit2zClient\_}}-\/>\mbox{\hyperlink{classcl__moveit2z_1_1ClMoveit2z_a03659105e35b4a2d2b1bbc82f5ff92bf}{moveGroupClientInterface}};}
+\DoxyCodeLine{\Hypertarget{cp__motion__planner_8hpp_source_l00196}00196\ }
+\DoxyCodeLine{\Hypertarget{cp__motion__planner_8hpp_source_l00197}00197\ \ \ \ \ \textcolor{keywordflow}{try}}
+\DoxyCodeLine{\Hypertarget{cp__motion__planner_8hpp_source_l00198}00198\ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{cp__motion__planner_8hpp_source_l00199}00199\ \ \ \ \ \ \ \textcolor{comment}{//\ Apply\ planning\ options}}
+\DoxyCodeLine{\Hypertarget{cp__motion__planner_8hpp_source_l00200}00200\ \ \ \ \ \ \ \mbox{\hyperlink{classcl__moveit2z_1_1CpMotionPlanner_ac3b96c0cc3fa1f214f1a0f65b44bac56}{applyPlanningOptions}}(*moveGroup,\ options);}
+\DoxyCodeLine{\Hypertarget{cp__motion__planner_8hpp_source_l00201}00201\ }
+\DoxyCodeLine{\Hypertarget{cp__motion__planner_8hpp_source_l00202}00202\ \ \ \ \ \ \ \textcolor{comment}{//\ Set\ joint\ value\ targets}}
+\DoxyCodeLine{\Hypertarget{cp__motion__planner_8hpp_source_l00203}00203\ \ \ \ \ \ \ moveGroup-\/>setJointValueTarget(jointTargets);}
+\DoxyCodeLine{\Hypertarget{cp__motion__planner_8hpp_source_l00204}00204\ }
+\DoxyCodeLine{\Hypertarget{cp__motion__planner_8hpp_source_l00205}00205\ \ \ \ \ \ \ RCLCPP\_INFO(}
+\DoxyCodeLine{\Hypertarget{cp__motion__planner_8hpp_source_l00206}00206\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{classsmacc2_1_1ISmaccComponent_a77ee85823bab8d84edcdf5d28782b728}{getLogger}}(),\ \textcolor{stringliteral}{"{}[CpMotionPlanner]\ Planning\ to\ joint\ configuration\ (\%lu\ joints)..."{}},}
+\DoxyCodeLine{\Hypertarget{cp__motion__planner_8hpp_source_l00207}00207\ \ \ \ \ \ \ \ \ jointTargets.size());}
+\DoxyCodeLine{\Hypertarget{cp__motion__planner_8hpp_source_l00208}00208\ }
+\DoxyCodeLine{\Hypertarget{cp__motion__planner_8hpp_source_l00209}00209\ \ \ \ \ \ \ \textcolor{comment}{//\ Plan}}
+\DoxyCodeLine{\Hypertarget{cp__motion__planner_8hpp_source_l00210}00210\ \ \ \ \ \ \ result.\mbox{\hyperlink{structcl__moveit2z_1_1PlanningResult_a2c26966016d2e7985d339ac19fe57d2c}{errorCode}}\ =\ moveGroup-\/>plan(result.\mbox{\hyperlink{structcl__moveit2z_1_1PlanningResult_a257271407876a0030b425fa8d9bf380e}{plan}});}
+\DoxyCodeLine{\Hypertarget{cp__motion__planner_8hpp_source_l00211}00211\ \ \ \ \ \ \ result.\mbox{\hyperlink{structcl__moveit2z_1_1PlanningResult_a615cfa90ab06f35a271bd471fd16ef2d}{success}}\ =\ (result.\mbox{\hyperlink{structcl__moveit2z_1_1PlanningResult_a2c26966016d2e7985d339ac19fe57d2c}{errorCode}}\ ==\ moveit::core::MoveItErrorCode::SUCCESS);}
+\DoxyCodeLine{\Hypertarget{cp__motion__planner_8hpp_source_l00212}00212\ }
+\DoxyCodeLine{\Hypertarget{cp__motion__planner_8hpp_source_l00213}00213\ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (result.\mbox{\hyperlink{structcl__moveit2z_1_1PlanningResult_a615cfa90ab06f35a271bd471fd16ef2d}{success}})}
+\DoxyCodeLine{\Hypertarget{cp__motion__planner_8hpp_source_l00214}00214\ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{cp__motion__planner_8hpp_source_l00215}00215\ \ \ \ \ \ \ \ \ RCLCPP\_INFO(\mbox{\hyperlink{classsmacc2_1_1ISmaccComponent_a77ee85823bab8d84edcdf5d28782b728}{getLogger}}(),\ \textcolor{stringliteral}{"{}[CpMotionPlanner]\ Planning\ to\ joint\ configuration\ succeeded"{}});}
+\DoxyCodeLine{\Hypertarget{cp__motion__planner_8hpp_source_l00216}00216\ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{cp__motion__planner_8hpp_source_l00217}00217\ \ \ \ \ \ \ \textcolor{keywordflow}{else}}
+\DoxyCodeLine{\Hypertarget{cp__motion__planner_8hpp_source_l00218}00218\ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{cp__motion__planner_8hpp_source_l00219}00219\ \ \ \ \ \ \ \ \ result.\mbox{\hyperlink{structcl__moveit2z_1_1PlanningResult_a7aaec056eb112991f8da327e6d6a9562}{errorMessage}}\ =\ \textcolor{stringliteral}{"{}Planning\ to\ joint\ configuration\ failed\ with\ error\ code:\ "{}}\ +}
+\DoxyCodeLine{\Hypertarget{cp__motion__planner_8hpp_source_l00220}00220\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ std::to\_string(result.\mbox{\hyperlink{structcl__moveit2z_1_1PlanningResult_a2c26966016d2e7985d339ac19fe57d2c}{errorCode}}.val);}
+\DoxyCodeLine{\Hypertarget{cp__motion__planner_8hpp_source_l00221}00221\ \ \ \ \ \ \ \ \ RCLCPP\_WARN(\mbox{\hyperlink{classsmacc2_1_1ISmaccComponent_a77ee85823bab8d84edcdf5d28782b728}{getLogger}}(),\ \textcolor{stringliteral}{"{}[CpMotionPlanner]\ \%s"{}},\ result.\mbox{\hyperlink{structcl__moveit2z_1_1PlanningResult_a7aaec056eb112991f8da327e6d6a9562}{errorMessage}}.c\_str());}
+\DoxyCodeLine{\Hypertarget{cp__motion__planner_8hpp_source_l00222}00222\ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{cp__motion__planner_8hpp_source_l00223}00223\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{cp__motion__planner_8hpp_source_l00224}00224\ \ \ \ \ \textcolor{keywordflow}{catch}\ (\textcolor{keyword}{const}\ std::exception\ \&\ e)}
+\DoxyCodeLine{\Hypertarget{cp__motion__planner_8hpp_source_l00225}00225\ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{cp__motion__planner_8hpp_source_l00226}00226\ \ \ \ \ \ \ result.\mbox{\hyperlink{structcl__moveit2z_1_1PlanningResult_a615cfa90ab06f35a271bd471fd16ef2d}{success}}\ =\ \textcolor{keyword}{false};}
+\DoxyCodeLine{\Hypertarget{cp__motion__planner_8hpp_source_l00227}00227\ \ \ \ \ \ \ result.\mbox{\hyperlink{structcl__moveit2z_1_1PlanningResult_a7aaec056eb112991f8da327e6d6a9562}{errorMessage}}\ =\ std::string(\textcolor{stringliteral}{"{}Exception\ during\ planning:\ "{}})\ +\ e.what();}
+\DoxyCodeLine{\Hypertarget{cp__motion__planner_8hpp_source_l00228}00228\ \ \ \ \ \ \ RCLCPP\_ERROR(\mbox{\hyperlink{classsmacc2_1_1ISmaccComponent_a77ee85823bab8d84edcdf5d28782b728}{getLogger}}(),\ \textcolor{stringliteral}{"{}[CpMotionPlanner]\ \%s"{}},\ result.\mbox{\hyperlink{structcl__moveit2z_1_1PlanningResult_a7aaec056eb112991f8da327e6d6a9562}{errorMessage}}.c\_str());}
+\DoxyCodeLine{\Hypertarget{cp__motion__planner_8hpp_source_l00229}00229\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{cp__motion__planner_8hpp_source_l00230}00230\ }
+\DoxyCodeLine{\Hypertarget{cp__motion__planner_8hpp_source_l00231}00231\ \ \ \ \ \textcolor{keywordflow}{return}\ result;}
+\DoxyCodeLine{\Hypertarget{cp__motion__planner_8hpp_source_l00232}00232\ \ \ \}}
+\DoxyCodeLine{\Hypertarget{cp__motion__planner_8hpp_source_l00233}00233\ }
+\DoxyCodeLine{\Hypertarget{cp__motion__planner_8hpp_source_l00243}\mbox{\hyperlink{classcl__moveit2z_1_1CpMotionPlanner_a9b3a13d24ce9627f420232c98febc854}{00243}}\ \ \ \textcolor{keyword}{inline}\ \mbox{\hyperlink{structcl__moveit2z_1_1PlanningResult}{PlanningResult}}\ \mbox{\hyperlink{classcl__moveit2z_1_1CpMotionPlanner_a9b3a13d24ce9627f420232c98febc854}{planCartesianPath}}(}
+\DoxyCodeLine{\Hypertarget{cp__motion__planner_8hpp_source_l00244}00244\ \ \ \ \ \textcolor{keyword}{const}\ std::vector<geometry\_msgs::msg::Pose>\ \&\ waypoints,\ \textcolor{keywordtype}{double}\ maxStep\ =\ 0.01,}
+\DoxyCodeLine{\Hypertarget{cp__motion__planner_8hpp_source_l00245}00245\ \ \ \ \ \textcolor{keywordtype}{double}\ jumpThreshold\ =\ 0.0,\ \textcolor{keywordtype}{bool}\ avoidCollisions\ =\ \textcolor{keyword}{true})}
+\DoxyCodeLine{\Hypertarget{cp__motion__planner_8hpp_source_l00246}00246\ \ \ \{}
+\DoxyCodeLine{\Hypertarget{cp__motion__planner_8hpp_source_l00247}00247\ \ \ \ \ \mbox{\hyperlink{structcl__moveit2z_1_1PlanningResult}{PlanningResult}}\ result;}
+\DoxyCodeLine{\Hypertarget{cp__motion__planner_8hpp_source_l00248}00248\ }
+\DoxyCodeLine{\Hypertarget{cp__motion__planner_8hpp_source_l00249}00249\ \ \ \ \ \textcolor{keywordflow}{if}\ (!\mbox{\hyperlink{classcl__moveit2z_1_1CpMotionPlanner_aaef44f84d991ea2fa74b9a17197c1c34}{moveit2zClient\_}})}
+\DoxyCodeLine{\Hypertarget{cp__motion__planner_8hpp_source_l00250}00250\ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{cp__motion__planner_8hpp_source_l00251}00251\ \ \ \ \ \ \ result.\mbox{\hyperlink{structcl__moveit2z_1_1PlanningResult_a7aaec056eb112991f8da327e6d6a9562}{errorMessage}}\ =\ \textcolor{stringliteral}{"{}ClMoveit2z\ client\ not\ available"{}};}
+\DoxyCodeLine{\Hypertarget{cp__motion__planner_8hpp_source_l00252}00252\ \ \ \ \ \ \ RCLCPP\_ERROR(\mbox{\hyperlink{classsmacc2_1_1ISmaccComponent_a77ee85823bab8d84edcdf5d28782b728}{getLogger}}(),\ \textcolor{stringliteral}{"{}[CpMotionPlanner]\ \%s"{}},\ result.\mbox{\hyperlink{structcl__moveit2z_1_1PlanningResult_a7aaec056eb112991f8da327e6d6a9562}{errorMessage}}.c\_str());}
+\DoxyCodeLine{\Hypertarget{cp__motion__planner_8hpp_source_l00253}00253\ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ result;}
+\DoxyCodeLine{\Hypertarget{cp__motion__planner_8hpp_source_l00254}00254\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{cp__motion__planner_8hpp_source_l00255}00255\ }
+\DoxyCodeLine{\Hypertarget{cp__motion__planner_8hpp_source_l00256}00256\ \ \ \ \ \textcolor{keywordflow}{if}\ (waypoints.empty())}
+\DoxyCodeLine{\Hypertarget{cp__motion__planner_8hpp_source_l00257}00257\ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{cp__motion__planner_8hpp_source_l00258}00258\ \ \ \ \ \ \ result.\mbox{\hyperlink{structcl__moveit2z_1_1PlanningResult_a7aaec056eb112991f8da327e6d6a9562}{errorMessage}}\ =\ \textcolor{stringliteral}{"{}No\ waypoints\ specified"{}};}
+\DoxyCodeLine{\Hypertarget{cp__motion__planner_8hpp_source_l00259}00259\ \ \ \ \ \ \ RCLCPP\_WARN(\mbox{\hyperlink{classsmacc2_1_1ISmaccComponent_a77ee85823bab8d84edcdf5d28782b728}{getLogger}}(),\ \textcolor{stringliteral}{"{}[CpMotionPlanner]\ \%s"{}},\ result.\mbox{\hyperlink{structcl__moveit2z_1_1PlanningResult_a7aaec056eb112991f8da327e6d6a9562}{errorMessage}}.c\_str());}
+\DoxyCodeLine{\Hypertarget{cp__motion__planner_8hpp_source_l00260}00260\ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ result;}
+\DoxyCodeLine{\Hypertarget{cp__motion__planner_8hpp_source_l00261}00261\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{cp__motion__planner_8hpp_source_l00262}00262\ }
+\DoxyCodeLine{\Hypertarget{cp__motion__planner_8hpp_source_l00263}00263\ \ \ \ \ \textcolor{keyword}{auto}\ \&\ moveGroup\ =\ \mbox{\hyperlink{classcl__moveit2z_1_1CpMotionPlanner_aaef44f84d991ea2fa74b9a17197c1c34}{moveit2zClient\_}}-\/>\mbox{\hyperlink{classcl__moveit2z_1_1ClMoveit2z_a03659105e35b4a2d2b1bbc82f5ff92bf}{moveGroupClientInterface}};}
+\DoxyCodeLine{\Hypertarget{cp__motion__planner_8hpp_source_l00264}00264\ }
+\DoxyCodeLine{\Hypertarget{cp__motion__planner_8hpp_source_l00265}00265\ \ \ \ \ \textcolor{keywordflow}{try}}
+\DoxyCodeLine{\Hypertarget{cp__motion__planner_8hpp_source_l00266}00266\ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{cp__motion__planner_8hpp_source_l00267}00267\ \ \ \ \ \ \ RCLCPP\_INFO(}
+\DoxyCodeLine{\Hypertarget{cp__motion__planner_8hpp_source_l00268}00268\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{classsmacc2_1_1ISmaccComponent_a77ee85823bab8d84edcdf5d28782b728}{getLogger}}(),\ \textcolor{stringliteral}{"{}[CpMotionPlanner]\ Planning\ Cartesian\ path\ with\ \%lu\ waypoints..."{}},}
+\DoxyCodeLine{\Hypertarget{cp__motion__planner_8hpp_source_l00269}00269\ \ \ \ \ \ \ \ \ waypoints.size());}
+\DoxyCodeLine{\Hypertarget{cp__motion__planner_8hpp_source_l00270}00270\ }
+\DoxyCodeLine{\Hypertarget{cp__motion__planner_8hpp_source_l00271}00271\ \ \ \ \ \ \ moveit\_msgs::msg::RobotTrajectory\ trajectory;}
+\DoxyCodeLine{\Hypertarget{cp__motion__planner_8hpp_source_l00272}00272\ \ \ \ \ \ \ \textcolor{keywordtype}{double}\ fractionAchieved\ =\ moveGroup-\/>computeCartesianPath(}
+\DoxyCodeLine{\Hypertarget{cp__motion__planner_8hpp_source_l00273}00273\ \ \ \ \ \ \ \ \ waypoints,\ maxStep,\ jumpThreshold,\ trajectory,\ avoidCollisions);}
+\DoxyCodeLine{\Hypertarget{cp__motion__planner_8hpp_source_l00274}00274\ }
+\DoxyCodeLine{\Hypertarget{cp__motion__planner_8hpp_source_l00275}00275\ \ \ \ \ \ \ result.\mbox{\hyperlink{structcl__moveit2z_1_1PlanningResult_a257271407876a0030b425fa8d9bf380e}{plan}}.trajectory\ =\ trajectory;}
+\DoxyCodeLine{\Hypertarget{cp__motion__planner_8hpp_source_l00276}00276\ }
+\DoxyCodeLine{\Hypertarget{cp__motion__planner_8hpp_source_l00277}00277\ \ \ \ \ \ \ \textcolor{comment}{//\ Consider\ successful\ if\ we\ achieved\ at\ least\ 95\%\ of\ the\ path}}
+\DoxyCodeLine{\Hypertarget{cp__motion__planner_8hpp_source_l00278}00278\ \ \ \ \ \ \ result.\mbox{\hyperlink{structcl__moveit2z_1_1PlanningResult_a615cfa90ab06f35a271bd471fd16ef2d}{success}}\ =\ (fractionAchieved\ >=\ 0.95);}
+\DoxyCodeLine{\Hypertarget{cp__motion__planner_8hpp_source_l00279}00279\ }
+\DoxyCodeLine{\Hypertarget{cp__motion__planner_8hpp_source_l00280}00280\ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (result.\mbox{\hyperlink{structcl__moveit2z_1_1PlanningResult_a615cfa90ab06f35a271bd471fd16ef2d}{success}})}
+\DoxyCodeLine{\Hypertarget{cp__motion__planner_8hpp_source_l00281}00281\ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{cp__motion__planner_8hpp_source_l00282}00282\ \ \ \ \ \ \ \ \ result.\mbox{\hyperlink{structcl__moveit2z_1_1PlanningResult_a2c26966016d2e7985d339ac19fe57d2c}{errorCode}}\ =\ moveit::core::MoveItErrorCode::SUCCESS;}
+\DoxyCodeLine{\Hypertarget{cp__motion__planner_8hpp_source_l00283}00283\ \ \ \ \ \ \ \ \ RCLCPP\_INFO(}
+\DoxyCodeLine{\Hypertarget{cp__motion__planner_8hpp_source_l00284}00284\ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{classsmacc2_1_1ISmaccComponent_a77ee85823bab8d84edcdf5d28782b728}{getLogger}}(),\ \textcolor{stringliteral}{"{}[CpMotionPlanner]\ Cartesian\ path\ planning\ succeeded\ (\%.1f\%\%\ achieved)"{}},}
+\DoxyCodeLine{\Hypertarget{cp__motion__planner_8hpp_source_l00285}00285\ \ \ \ \ \ \ \ \ \ \ fractionAchieved\ *\ 100.0);}
+\DoxyCodeLine{\Hypertarget{cp__motion__planner_8hpp_source_l00286}00286\ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{cp__motion__planner_8hpp_source_l00287}00287\ \ \ \ \ \ \ \textcolor{keywordflow}{else}}
+\DoxyCodeLine{\Hypertarget{cp__motion__planner_8hpp_source_l00288}00288\ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{cp__motion__planner_8hpp_source_l00289}00289\ \ \ \ \ \ \ \ \ result.\mbox{\hyperlink{structcl__moveit2z_1_1PlanningResult_a2c26966016d2e7985d339ac19fe57d2c}{errorCode}}\ =\ moveit::core::MoveItErrorCode::PLANNING\_FAILED;}
+\DoxyCodeLine{\Hypertarget{cp__motion__planner_8hpp_source_l00290}00290\ \ \ \ \ \ \ \ \ result.\mbox{\hyperlink{structcl__moveit2z_1_1PlanningResult_a7aaec056eb112991f8da327e6d6a9562}{errorMessage}}\ =\ \textcolor{stringliteral}{"{}Cartesian\ path\ planning\ achieved\ only\ "{}}\ +}
+\DoxyCodeLine{\Hypertarget{cp__motion__planner_8hpp_source_l00291}00291\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ std::to\_string(fractionAchieved\ *\ 100.0)\ +\ \textcolor{stringliteral}{"{}\%\ of\ the\ path"{}};}
+\DoxyCodeLine{\Hypertarget{cp__motion__planner_8hpp_source_l00292}00292\ \ \ \ \ \ \ \ \ RCLCPP\_WARN(\mbox{\hyperlink{classsmacc2_1_1ISmaccComponent_a77ee85823bab8d84edcdf5d28782b728}{getLogger}}(),\ \textcolor{stringliteral}{"{}[CpMotionPlanner]\ \%s"{}},\ result.\mbox{\hyperlink{structcl__moveit2z_1_1PlanningResult_a7aaec056eb112991f8da327e6d6a9562}{errorMessage}}.c\_str());}
+\DoxyCodeLine{\Hypertarget{cp__motion__planner_8hpp_source_l00293}00293\ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{cp__motion__planner_8hpp_source_l00294}00294\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{cp__motion__planner_8hpp_source_l00295}00295\ \ \ \ \ \textcolor{keywordflow}{catch}\ (\textcolor{keyword}{const}\ std::exception\ \&\ e)}
+\DoxyCodeLine{\Hypertarget{cp__motion__planner_8hpp_source_l00296}00296\ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{cp__motion__planner_8hpp_source_l00297}00297\ \ \ \ \ \ \ result.\mbox{\hyperlink{structcl__moveit2z_1_1PlanningResult_a615cfa90ab06f35a271bd471fd16ef2d}{success}}\ =\ \textcolor{keyword}{false};}
+\DoxyCodeLine{\Hypertarget{cp__motion__planner_8hpp_source_l00298}00298\ \ \ \ \ \ \ result.\mbox{\hyperlink{structcl__moveit2z_1_1PlanningResult_a7aaec056eb112991f8da327e6d6a9562}{errorMessage}}\ =\ std::string(\textcolor{stringliteral}{"{}Exception\ during\ Cartesian\ path\ planning:\ "{}})\ +\ e.what();}
+\DoxyCodeLine{\Hypertarget{cp__motion__planner_8hpp_source_l00299}00299\ \ \ \ \ \ \ RCLCPP\_ERROR(\mbox{\hyperlink{classsmacc2_1_1ISmaccComponent_a77ee85823bab8d84edcdf5d28782b728}{getLogger}}(),\ \textcolor{stringliteral}{"{}[CpMotionPlanner]\ \%s"{}},\ result.\mbox{\hyperlink{structcl__moveit2z_1_1PlanningResult_a7aaec056eb112991f8da327e6d6a9562}{errorMessage}}.c\_str());}
+\DoxyCodeLine{\Hypertarget{cp__motion__planner_8hpp_source_l00300}00300\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{cp__motion__planner_8hpp_source_l00301}00301\ }
+\DoxyCodeLine{\Hypertarget{cp__motion__planner_8hpp_source_l00302}00302\ \ \ \ \ \textcolor{keywordflow}{return}\ result;}
+\DoxyCodeLine{\Hypertarget{cp__motion__planner_8hpp_source_l00303}00303\ \ \ \}}
+\DoxyCodeLine{\Hypertarget{cp__motion__planner_8hpp_source_l00304}00304\ }
+\DoxyCodeLine{\Hypertarget{cp__motion__planner_8hpp_source_l00311}\mbox{\hyperlink{classcl__moveit2z_1_1CpMotionPlanner_a180227575e90d4dd60ecd5c6111bd377}{00311}}\ \ \ \textcolor{keyword}{inline}\ moveit::core::RobotStatePtr\ \mbox{\hyperlink{classcl__moveit2z_1_1CpMotionPlanner_a180227575e90d4dd60ecd5c6111bd377}{getCurrentState}}(\textcolor{keywordtype}{double}\ waitTime\ =\ 1.0)}
+\DoxyCodeLine{\Hypertarget{cp__motion__planner_8hpp_source_l00312}00312\ \ \ \{}
+\DoxyCodeLine{\Hypertarget{cp__motion__planner_8hpp_source_l00313}00313\ \ \ \ \ \textcolor{keywordflow}{if}\ (!\mbox{\hyperlink{classcl__moveit2z_1_1CpMotionPlanner_aaef44f84d991ea2fa74b9a17197c1c34}{moveit2zClient\_}})}
+\DoxyCodeLine{\Hypertarget{cp__motion__planner_8hpp_source_l00314}00314\ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{cp__motion__planner_8hpp_source_l00315}00315\ \ \ \ \ \ \ RCLCPP\_ERROR(\mbox{\hyperlink{classsmacc2_1_1ISmaccComponent_a77ee85823bab8d84edcdf5d28782b728}{getLogger}}(),\ \textcolor{stringliteral}{"{}[CpMotionPlanner]\ ClMoveit2z\ client\ not\ available"{}});}
+\DoxyCodeLine{\Hypertarget{cp__motion__planner_8hpp_source_l00316}00316\ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \textcolor{keyword}{nullptr};}
+\DoxyCodeLine{\Hypertarget{cp__motion__planner_8hpp_source_l00317}00317\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{cp__motion__planner_8hpp_source_l00318}00318\ }
+\DoxyCodeLine{\Hypertarget{cp__motion__planner_8hpp_source_l00319}00319\ \ \ \ \ \textcolor{keyword}{auto}\ \&\ moveGroup\ =\ \mbox{\hyperlink{classcl__moveit2z_1_1CpMotionPlanner_aaef44f84d991ea2fa74b9a17197c1c34}{moveit2zClient\_}}-\/>\mbox{\hyperlink{classcl__moveit2z_1_1ClMoveit2z_a03659105e35b4a2d2b1bbc82f5ff92bf}{moveGroupClientInterface}};}
+\DoxyCodeLine{\Hypertarget{cp__motion__planner_8hpp_source_l00320}00320\ }
+\DoxyCodeLine{\Hypertarget{cp__motion__planner_8hpp_source_l00321}00321\ \ \ \ \ \textcolor{keywordflow}{try}}
+\DoxyCodeLine{\Hypertarget{cp__motion__planner_8hpp_source_l00322}00322\ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{cp__motion__planner_8hpp_source_l00323}00323\ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ moveGroup-\/>getCurrentState(waitTime);}
+\DoxyCodeLine{\Hypertarget{cp__motion__planner_8hpp_source_l00324}00324\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{cp__motion__planner_8hpp_source_l00325}00325\ \ \ \ \ \textcolor{keywordflow}{catch}\ (\textcolor{keyword}{const}\ std::exception\ \&\ e)}
+\DoxyCodeLine{\Hypertarget{cp__motion__planner_8hpp_source_l00326}00326\ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{cp__motion__planner_8hpp_source_l00327}00327\ \ \ \ \ \ \ RCLCPP\_ERROR(\mbox{\hyperlink{classsmacc2_1_1ISmaccComponent_a77ee85823bab8d84edcdf5d28782b728}{getLogger}}(),\ \textcolor{stringliteral}{"{}[CpMotionPlanner]\ Exception\ getting\ current\ state:\ \%s"{}},\ e.what());}
+\DoxyCodeLine{\Hypertarget{cp__motion__planner_8hpp_source_l00328}00328\ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \textcolor{keyword}{nullptr};}
+\DoxyCodeLine{\Hypertarget{cp__motion__planner_8hpp_source_l00329}00329\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{cp__motion__planner_8hpp_source_l00330}00330\ \ \ \}}
+\DoxyCodeLine{\Hypertarget{cp__motion__planner_8hpp_source_l00331}00331\ }
+\DoxyCodeLine{\Hypertarget{cp__motion__planner_8hpp_source_l00332}00332\ \textcolor{keyword}{private}:}
+\DoxyCodeLine{\Hypertarget{cp__motion__planner_8hpp_source_l00333}\mbox{\hyperlink{classcl__moveit2z_1_1CpMotionPlanner_aaef44f84d991ea2fa74b9a17197c1c34}{00333}}\ \ \ \mbox{\hyperlink{classcl__moveit2z_1_1ClMoveit2z}{ClMoveit2z}}\ *\ \mbox{\hyperlink{classcl__moveit2z_1_1CpMotionPlanner_aaef44f84d991ea2fa74b9a17197c1c34}{moveit2zClient\_}}\ =\ \textcolor{keyword}{nullptr};}
+\DoxyCodeLine{\Hypertarget{cp__motion__planner_8hpp_source_l00334}00334\ }
+\DoxyCodeLine{\Hypertarget{cp__motion__planner_8hpp_source_l00341}\mbox{\hyperlink{classcl__moveit2z_1_1CpMotionPlanner_ac3b96c0cc3fa1f214f1a0f65b44bac56}{00341}}\ \ \ \textcolor{keyword}{inline}\ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{classcl__moveit2z_1_1CpMotionPlanner_ac3b96c0cc3fa1f214f1a0f65b44bac56}{applyPlanningOptions}}(}
+\DoxyCodeLine{\Hypertarget{cp__motion__planner_8hpp_source_l00342}00342\ \ \ \ \ moveit::planning\_interface::MoveGroupInterface\ \&\ moveGroup,\ \textcolor{keyword}{const}\ \mbox{\hyperlink{structcl__moveit2z_1_1PlanningOptions}{PlanningOptions}}\ \&\ options)}
+\DoxyCodeLine{\Hypertarget{cp__motion__planner_8hpp_source_l00343}00343\ \ \ \{}
+\DoxyCodeLine{\Hypertarget{cp__motion__planner_8hpp_source_l00344}00344\ \ \ \ \ \textcolor{keywordflow}{if}\ (options.\mbox{\hyperlink{structcl__moveit2z_1_1PlanningOptions_abec030a50a8603945fd56a77c9a74995}{planningTime}})}
+\DoxyCodeLine{\Hypertarget{cp__motion__planner_8hpp_source_l00345}00345\ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{cp__motion__planner_8hpp_source_l00346}00346\ \ \ \ \ \ \ moveGroup.setPlanningTime(*options.\mbox{\hyperlink{structcl__moveit2z_1_1PlanningOptions_abec030a50a8603945fd56a77c9a74995}{planningTime}});}
+\DoxyCodeLine{\Hypertarget{cp__motion__planner_8hpp_source_l00347}00347\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{cp__motion__planner_8hpp_source_l00348}00348\ }
+\DoxyCodeLine{\Hypertarget{cp__motion__planner_8hpp_source_l00349}00349\ \ \ \ \ \textcolor{keywordflow}{if}\ (options.\mbox{\hyperlink{structcl__moveit2z_1_1PlanningOptions_a84a6681771839cfb6389a3732230fbfc}{maxVelocityScaling}})}
+\DoxyCodeLine{\Hypertarget{cp__motion__planner_8hpp_source_l00350}00350\ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{cp__motion__planner_8hpp_source_l00351}00351\ \ \ \ \ \ \ moveGroup.setMaxVelocityScalingFactor(*options.\mbox{\hyperlink{structcl__moveit2z_1_1PlanningOptions_a84a6681771839cfb6389a3732230fbfc}{maxVelocityScaling}});}
+\DoxyCodeLine{\Hypertarget{cp__motion__planner_8hpp_source_l00352}00352\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{cp__motion__planner_8hpp_source_l00353}00353\ }
+\DoxyCodeLine{\Hypertarget{cp__motion__planner_8hpp_source_l00354}00354\ \ \ \ \ \textcolor{keywordflow}{if}\ (options.\mbox{\hyperlink{structcl__moveit2z_1_1PlanningOptions_aa59b6b4cf9fac9eae3376da634af1775}{maxAccelerationScaling}})}
+\DoxyCodeLine{\Hypertarget{cp__motion__planner_8hpp_source_l00355}00355\ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{cp__motion__planner_8hpp_source_l00356}00356\ \ \ \ \ \ \ moveGroup.setMaxAccelerationScalingFactor(*options.\mbox{\hyperlink{structcl__moveit2z_1_1PlanningOptions_aa59b6b4cf9fac9eae3376da634af1775}{maxAccelerationScaling}});}
+\DoxyCodeLine{\Hypertarget{cp__motion__planner_8hpp_source_l00357}00357\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{cp__motion__planner_8hpp_source_l00358}00358\ }
+\DoxyCodeLine{\Hypertarget{cp__motion__planner_8hpp_source_l00359}00359\ \ \ \ \ \textcolor{keywordflow}{if}\ (options.\mbox{\hyperlink{structcl__moveit2z_1_1PlanningOptions_ae7e035a0ac4ad83ef254c57d78b3c2e8}{planningPipelineId}})}
+\DoxyCodeLine{\Hypertarget{cp__motion__planner_8hpp_source_l00360}00360\ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{cp__motion__planner_8hpp_source_l00361}00361\ \ \ \ \ \ \ moveGroup.setPlanningPipelineId(*options.\mbox{\hyperlink{structcl__moveit2z_1_1PlanningOptions_ae7e035a0ac4ad83ef254c57d78b3c2e8}{planningPipelineId}});}
+\DoxyCodeLine{\Hypertarget{cp__motion__planner_8hpp_source_l00362}00362\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{cp__motion__planner_8hpp_source_l00363}00363\ }
+\DoxyCodeLine{\Hypertarget{cp__motion__planner_8hpp_source_l00364}00364\ \ \ \ \ \textcolor{keywordflow}{if}\ (options.\mbox{\hyperlink{structcl__moveit2z_1_1PlanningOptions_a7c4f8c7694041f8fbc5dbcb0cff842b2}{plannerId}})}
+\DoxyCodeLine{\Hypertarget{cp__motion__planner_8hpp_source_l00365}00365\ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{cp__motion__planner_8hpp_source_l00366}00366\ \ \ \ \ \ \ moveGroup.setPlannerId(*options.\mbox{\hyperlink{structcl__moveit2z_1_1PlanningOptions_a7c4f8c7694041f8fbc5dbcb0cff842b2}{plannerId}});}
+\DoxyCodeLine{\Hypertarget{cp__motion__planner_8hpp_source_l00367}00367\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{cp__motion__planner_8hpp_source_l00368}00368\ \ \ \}}
+\DoxyCodeLine{\Hypertarget{cp__motion__planner_8hpp_source_l00369}00369\ \};}
+\DoxyCodeLine{\Hypertarget{cp__motion__planner_8hpp_source_l00370}00370\ }
+\DoxyCodeLine{\Hypertarget{cp__motion__planner_8hpp_source_l00371}00371\ \}\ \ \textcolor{comment}{//\ namespace\ cl\_moveit2z}}
+
+\end{DoxyCode}

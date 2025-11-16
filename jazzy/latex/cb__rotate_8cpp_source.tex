@@ -1,5 +1,5 @@
 \doxysection{cb\+\_\+rotate.\+cpp}
-\hypertarget{cb__rotate_8cpp_source}{}\label{cb__rotate_8cpp_source}\index{smacc2\_client\_library/nav2z\_client/nav2z\_client/src/nav2z\_client/client\_behaviors/cb\_rotate.cpp@{smacc2\_client\_library/nav2z\_client/nav2z\_client/src/nav2z\_client/client\_behaviors/cb\_rotate.cpp}}
+\hypertarget{cb__rotate_8cpp_source}{}\label{cb__rotate_8cpp_source}\index{smacc2\_client\_library/cl\_nav2z/src/cl\_nav2z/client\_behaviors/cb\_rotate.cpp@{smacc2\_client\_library/cl\_nav2z/src/cl\_nav2z/client\_behaviors/cb\_rotate.cpp}}
 \mbox{\hyperlink{cb__rotate_8cpp}{Go to the documentation of this file.}}
 \begin{DoxyCode}{0}
 \DoxyCodeLine{\Hypertarget{cb__rotate_8cpp_source_l00001}00001\ \textcolor{comment}{//\ Copyright\ 2021\ RobosoftAI\ Inc.}}
@@ -23,71 +23,77 @@
 \DoxyCodeLine{\Hypertarget{cb__rotate_8cpp_source_l00019}00019\ \textcolor{comment}{\ ******************************************************************************************************************/}}
 \DoxyCodeLine{\Hypertarget{cb__rotate_8cpp_source_l00020}00020\ \textcolor{preprocessor}{\#include\ <geometry\_msgs/msg/quaternion\_stamped.hpp>}}
 \DoxyCodeLine{\Hypertarget{cb__rotate_8cpp_source_l00021}00021\ }
-\DoxyCodeLine{\Hypertarget{cb__rotate_8cpp_source_l00022}00022\ \textcolor{preprocessor}{\#include\ <\mbox{\hyperlink{cb__rotate_8hpp}{nav2z\_client/client\_behaviors/cb\_rotate.hpp}}>}}
-\DoxyCodeLine{\Hypertarget{cb__rotate_8cpp_source_l00023}00023\ \textcolor{preprocessor}{\#include\ <\mbox{\hyperlink{client__library_2nav2z__client_2nav2z__client_2include_2nav2z__client_2common_8hpp}{nav2z\_client/common.hpp}}>}}
-\DoxyCodeLine{\Hypertarget{cb__rotate_8cpp_source_l00024}00024\ \textcolor{preprocessor}{\#include\ <\mbox{\hyperlink{cp__odom__tracker_8hpp}{nav2z\_client/components/odom\_tracker/cp\_odom\_tracker.hpp}}>}}
-\DoxyCodeLine{\Hypertarget{cb__rotate_8cpp_source_l00025}00025\ \textcolor{preprocessor}{\#include\ <\mbox{\hyperlink{cp__pose_8hpp}{nav2z\_client/components/pose/cp\_pose.hpp}}>}}
+\DoxyCodeLine{\Hypertarget{cb__rotate_8cpp_source_l00022}00022\ \textcolor{preprocessor}{\#include\ <\mbox{\hyperlink{cb__rotate_8hpp}{cl\_nav2z/client\_behaviors/cb\_rotate.hpp}}>}}
+\DoxyCodeLine{\Hypertarget{cb__rotate_8cpp_source_l00023}00023\ \textcolor{preprocessor}{\#include\ <\mbox{\hyperlink{client__library_2cl__nav2z_2include_2cl__nav2z_2common_8hpp}{cl\_nav2z/common.hpp}}>}}
+\DoxyCodeLine{\Hypertarget{cb__rotate_8cpp_source_l00024}00024\ \textcolor{preprocessor}{\#include\ <\mbox{\hyperlink{cp__odom__tracker_8hpp}{cl\_nav2z/components/odom\_tracker/cp\_odom\_tracker.hpp}}>}}
+\DoxyCodeLine{\Hypertarget{cb__rotate_8cpp_source_l00025}00025\ \textcolor{preprocessor}{\#include\ <\mbox{\hyperlink{cp__pose_8hpp}{cl\_nav2z/components/pose/cp\_pose.hpp}}>}}
 \DoxyCodeLine{\Hypertarget{cb__rotate_8cpp_source_l00026}00026\ }
 \DoxyCodeLine{\Hypertarget{cb__rotate_8cpp_source_l00027}00027\ \textcolor{keyword}{namespace\ }\mbox{\hyperlink{namespacecl__nav2z}{cl\_nav2z}}}
 \DoxyCodeLine{\Hypertarget{cb__rotate_8cpp_source_l00028}00028\ \{}
-\DoxyCodeLine{\Hypertarget{cb__rotate_8cpp_source_l00029}\mbox{\hyperlink{classcl__nav2z_1_1CbRotate_a96de5547fb565ff6bdcf9eb05f20da30}{00029}}\ \mbox{\hyperlink{classcl__nav2z_1_1CbRotate_a96de5547fb565ff6bdcf9eb05f20da30}{CbRotate::CbRotate}}(\textcolor{keywordtype}{float}\ rotate\_degree)\ :\ rotateDegree(rotate\_degree)\ \{\}}
+\DoxyCodeLine{\Hypertarget{cb__rotate_8cpp_source_l00029}00029\ \textcolor{keyword}{using\ namespace\ }\mbox{\hyperlink{namespacesmacc2}{smacc2}};}
 \DoxyCodeLine{\Hypertarget{cb__rotate_8cpp_source_l00030}00030\ }
-\DoxyCodeLine{\Hypertarget{cb__rotate_8cpp_source_l00031}\mbox{\hyperlink{classcl__nav2z_1_1CbRotate_a0bb7ff4d3665003a233ba21cbaa5a437}{00031}}\ \mbox{\hyperlink{classcl__nav2z_1_1CbRotate_a96de5547fb565ff6bdcf9eb05f20da30}{CbRotate::CbRotate}}(\textcolor{keywordtype}{float}\ rotate\_degree,\ \mbox{\hyperlink{namespacecl__nav2z_a1cfbf070e982b7fb3867797b78227628}{SpinningPlanner}}\ spinning\_planner)}
-\DoxyCodeLine{\Hypertarget{cb__rotate_8cpp_source_l00032}00032\ :\ rotateDegree(rotate\_degree),\ spinningPlanner(spinning\_planner)}
-\DoxyCodeLine{\Hypertarget{cb__rotate_8cpp_source_l00033}00033\ \{}
-\DoxyCodeLine{\Hypertarget{cb__rotate_8cpp_source_l00034}00034\ \}}
-\DoxyCodeLine{\Hypertarget{cb__rotate_8cpp_source_l00035}00035\ }
-\DoxyCodeLine{\Hypertarget{cb__rotate_8cpp_source_l00036}\mbox{\hyperlink{classcl__nav2z_1_1CbRotate_a73303c69ad571c99128374b7b9627154}{00036}}\ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{classcl__nav2z_1_1CbRotate_a73303c69ad571c99128374b7b9627154}{CbRotate::onEntry}}()}
-\DoxyCodeLine{\Hypertarget{cb__rotate_8cpp_source_l00037}00037\ \{}
-\DoxyCodeLine{\Hypertarget{cb__rotate_8cpp_source_l00038}00038\ \ \ \textcolor{keywordtype}{double}\ angle\_increment\_degree\ =\ \mbox{\hyperlink{classcl__nav2z_1_1CbRotate_a81a2bfa7474674b90b58563dfeebe808}{rotateDegree}};}
-\DoxyCodeLine{\Hypertarget{cb__rotate_8cpp_source_l00039}00039\ }
-\DoxyCodeLine{\Hypertarget{cb__rotate_8cpp_source_l00040}00040\ \ \ \textcolor{keyword}{auto}\ plannerSwitcher\ =\ \mbox{\hyperlink{classcl__nav2z_1_1CbNav2ZClientBehaviorBase_a78f16ca8a9c9314e98f95c9410466678}{nav2zClient\_}}-\/>\mbox{\hyperlink{classsmacc2_1_1ISmaccClient_afc6e0f5f82a4552134c9423b75e3ca1d}{getComponent}}<\mbox{\hyperlink{classcl__nav2z_1_1CpPlannerSwitcher}{CpPlannerSwitcher}}>();}
+\DoxyCodeLine{\Hypertarget{cb__rotate_8cpp_source_l00031}\mbox{\hyperlink{classcl__nav2z_1_1CbRotate_a96de5547fb565ff6bdcf9eb05f20da30}{00031}}\ \mbox{\hyperlink{classcl__nav2z_1_1CbRotate_a96de5547fb565ff6bdcf9eb05f20da30}{CbRotate::CbRotate}}(\textcolor{keywordtype}{float}\ rotate\_degree)\ :\ rotateDegree(rotate\_degree)\ \{\}}
+\DoxyCodeLine{\Hypertarget{cb__rotate_8cpp_source_l00032}00032\ }
+\DoxyCodeLine{\Hypertarget{cb__rotate_8cpp_source_l00033}\mbox{\hyperlink{classcl__nav2z_1_1CbRotate_a0bb7ff4d3665003a233ba21cbaa5a437}{00033}}\ \mbox{\hyperlink{classcl__nav2z_1_1CbRotate_a96de5547fb565ff6bdcf9eb05f20da30}{CbRotate::CbRotate}}(\textcolor{keywordtype}{float}\ rotate\_degree,\ \mbox{\hyperlink{namespacecl__nav2z_a1cfbf070e982b7fb3867797b78227628}{SpinningPlanner}}\ spinning\_planner)}
+\DoxyCodeLine{\Hypertarget{cb__rotate_8cpp_source_l00034}00034\ :\ rotateDegree(rotate\_degree),\ spinningPlanner(spinning\_planner)}
+\DoxyCodeLine{\Hypertarget{cb__rotate_8cpp_source_l00035}00035\ \{}
+\DoxyCodeLine{\Hypertarget{cb__rotate_8cpp_source_l00036}00036\ \}}
+\DoxyCodeLine{\Hypertarget{cb__rotate_8cpp_source_l00037}00037\ }
+\DoxyCodeLine{\Hypertarget{cb__rotate_8cpp_source_l00038}\mbox{\hyperlink{classcl__nav2z_1_1CbRotate_a73303c69ad571c99128374b7b9627154}{00038}}\ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{classcl__nav2z_1_1CbRotate_a73303c69ad571c99128374b7b9627154}{CbRotate::onEntry}}()}
+\DoxyCodeLine{\Hypertarget{cb__rotate_8cpp_source_l00039}00039\ \{}
+\DoxyCodeLine{\Hypertarget{cb__rotate_8cpp_source_l00040}00040\ \ \ \textcolor{keywordtype}{double}\ angle\_increment\_degree\ =\ \mbox{\hyperlink{classcl__nav2z_1_1CbRotate_a81a2bfa7474674b90b58563dfeebe808}{rotateDegree}};}
 \DoxyCodeLine{\Hypertarget{cb__rotate_8cpp_source_l00041}00041\ }
-\DoxyCodeLine{\Hypertarget{cb__rotate_8cpp_source_l00042}00042\ \ \ \textcolor{keywordflow}{if}\ (\mbox{\hyperlink{classcl__nav2z_1_1CbRotate_a5cd2974b2d44c341ee873226ae7fc423}{spinningPlanner}}\ \&\&\ *\mbox{\hyperlink{classcl__nav2z_1_1CbRotate_a5cd2974b2d44c341ee873226ae7fc423}{spinningPlanner}}\ ==\ \mbox{\hyperlink{namespacecl__nav2z_a1cfbf070e982b7fb3867797b78227628aada5274435681a4ce04175bebfa6652f}{SpinningPlanner::PureSpinning}})}
-\DoxyCodeLine{\Hypertarget{cb__rotate_8cpp_source_l00043}00043\ \ \ \{}
-\DoxyCodeLine{\Hypertarget{cb__rotate_8cpp_source_l00044}00044\ \ \ \ \ plannerSwitcher-\/>setPureSpinningPlanner();}
-\DoxyCodeLine{\Hypertarget{cb__rotate_8cpp_source_l00045}00045\ \ \ \}}
-\DoxyCodeLine{\Hypertarget{cb__rotate_8cpp_source_l00046}00046\ \ \ \textcolor{keywordflow}{else}}
-\DoxyCodeLine{\Hypertarget{cb__rotate_8cpp_source_l00047}00047\ \ \ \{}
-\DoxyCodeLine{\Hypertarget{cb__rotate_8cpp_source_l00048}00048\ \ \ \ \ plannerSwitcher-\/>setDefaultPlanners();}
-\DoxyCodeLine{\Hypertarget{cb__rotate_8cpp_source_l00049}00049\ \ \ \}}
-\DoxyCodeLine{\Hypertarget{cb__rotate_8cpp_source_l00050}00050\ }
-\DoxyCodeLine{\Hypertarget{cb__rotate_8cpp_source_l00051}00051\ \ \ \textcolor{keyword}{auto}\ p\ =\ \mbox{\hyperlink{classcl__nav2z_1_1CbNav2ZClientBehaviorBase_a78f16ca8a9c9314e98f95c9410466678}{nav2zClient\_}}-\/>\mbox{\hyperlink{classsmacc2_1_1ISmaccClient_afc6e0f5f82a4552134c9423b75e3ca1d}{getComponent}}<\mbox{\hyperlink{classcl__nav2z_1_1Pose}{cl\_nav2z::Pose}}>();}
-\DoxyCodeLine{\Hypertarget{cb__rotate_8cpp_source_l00052}00052\ \ \ \textcolor{keyword}{auto}\ referenceFrame\ =\ p-\/>\mbox{\hyperlink{classcl__nav2z_1_1Pose_aa2694e3003979889f098a247c989b685}{getReferenceFrame}}();}
-\DoxyCodeLine{\Hypertarget{cb__rotate_8cpp_source_l00053}00053\ \ \ \textcolor{keyword}{auto}\ currentPoseMsg\ =\ p-\/>toPoseMsg();}
-\DoxyCodeLine{\Hypertarget{cb__rotate_8cpp_source_l00054}00054\ }
-\DoxyCodeLine{\Hypertarget{cb__rotate_8cpp_source_l00055}00055\ \ \ tf2::Transform\ currentPose;}
-\DoxyCodeLine{\Hypertarget{cb__rotate_8cpp_source_l00056}00056\ \ \ tf2::fromMsg(currentPoseMsg,\ currentPose);}
-\DoxyCodeLine{\Hypertarget{cb__rotate_8cpp_source_l00057}00057\ }
-\DoxyCodeLine{\Hypertarget{cb__rotate_8cpp_source_l00058}00058\ \ \ \textcolor{keyword}{auto}\ odomTracker\ =\ \mbox{\hyperlink{classcl__nav2z_1_1CbNav2ZClientBehaviorBase_a78f16ca8a9c9314e98f95c9410466678}{nav2zClient\_}}-\/>\mbox{\hyperlink{classsmacc2_1_1ISmaccClient_afc6e0f5f82a4552134c9423b75e3ca1d}{getComponent}}<\mbox{\hyperlink{classcl__nav2z_1_1odom__tracker_1_1CpOdomTracker}{odom\_tracker::CpOdomTracker}}>();}
-\DoxyCodeLine{\Hypertarget{cb__rotate_8cpp_source_l00059}00059\ \ \ \mbox{\hyperlink{classsmacc2_1_1client__bases_1_1SmaccActionClientBase_ab56ba47b81346277a471584dedf7d45c}{ClNav2Z::Goal}}\ goal;}
-\DoxyCodeLine{\Hypertarget{cb__rotate_8cpp_source_l00060}00060\ \ \ goal.pose.header.frame\_id\ =\ referenceFrame;}
-\DoxyCodeLine{\Hypertarget{cb__rotate_8cpp_source_l00061}00061\ \ \ \textcolor{comment}{//goal.pose.header.stamp\ =\ getNode()-\/>now();}}
+\DoxyCodeLine{\Hypertarget{cb__rotate_8cpp_source_l00042}00042\ \ \ \mbox{\hyperlink{classcl__nav2z_1_1CpPlannerSwitcher}{CpPlannerSwitcher}}\ *\ plannerSwitcher;}
+\DoxyCodeLine{\Hypertarget{cb__rotate_8cpp_source_l00043}00043\ \ \ this-\/>\mbox{\hyperlink{classsmacc2_1_1ISmaccClientBehavior_a887b49b1e396503f9e22250ef88dbaff}{requiresComponent}}(plannerSwitcher,\ ComponentRequirement::HARD);}
+\DoxyCodeLine{\Hypertarget{cb__rotate_8cpp_source_l00044}00044\ }
+\DoxyCodeLine{\Hypertarget{cb__rotate_8cpp_source_l00045}00045\ \ \ \textcolor{keywordflow}{if}\ (\mbox{\hyperlink{classcl__nav2z_1_1CbRotate_a5cd2974b2d44c341ee873226ae7fc423}{spinningPlanner}}\ \&\&\ *\mbox{\hyperlink{classcl__nav2z_1_1CbRotate_a5cd2974b2d44c341ee873226ae7fc423}{spinningPlanner}}\ ==\ \mbox{\hyperlink{namespacecl__nav2z_a1cfbf070e982b7fb3867797b78227628aada5274435681a4ce04175bebfa6652f}{SpinningPlanner::PureSpinning}})}
+\DoxyCodeLine{\Hypertarget{cb__rotate_8cpp_source_l00046}00046\ \ \ \{}
+\DoxyCodeLine{\Hypertarget{cb__rotate_8cpp_source_l00047}00047\ \ \ \ \ plannerSwitcher-\/>\mbox{\hyperlink{classcl__nav2z_1_1CpPlannerSwitcher_a03b0708756d88161d6d9843b2e8cabc2}{setPureSpinningPlanner}}();}
+\DoxyCodeLine{\Hypertarget{cb__rotate_8cpp_source_l00048}00048\ \ \ \}}
+\DoxyCodeLine{\Hypertarget{cb__rotate_8cpp_source_l00049}00049\ \ \ \textcolor{keywordflow}{else}}
+\DoxyCodeLine{\Hypertarget{cb__rotate_8cpp_source_l00050}00050\ \ \ \{}
+\DoxyCodeLine{\Hypertarget{cb__rotate_8cpp_source_l00051}00051\ \ \ \ \ plannerSwitcher-\/>\mbox{\hyperlink{classcl__nav2z_1_1CpPlannerSwitcher_a421a3c304ebf1bcc39bcc5e53b98a17b}{setDefaultPlanners}}();}
+\DoxyCodeLine{\Hypertarget{cb__rotate_8cpp_source_l00052}00052\ \ \ \}}
+\DoxyCodeLine{\Hypertarget{cb__rotate_8cpp_source_l00053}00053\ }
+\DoxyCodeLine{\Hypertarget{cb__rotate_8cpp_source_l00054}00054\ \ \ \mbox{\hyperlink{classcl__nav2z_1_1CpPose}{CpPose}}\ *\ p;}
+\DoxyCodeLine{\Hypertarget{cb__rotate_8cpp_source_l00055}00055\ \ \ this-\/>\mbox{\hyperlink{classsmacc2_1_1ISmaccClientBehavior_a887b49b1e396503f9e22250ef88dbaff}{requiresComponent}}(p,\ ComponentRequirement::HARD);}
+\DoxyCodeLine{\Hypertarget{cb__rotate_8cpp_source_l00056}00056\ }
+\DoxyCodeLine{\Hypertarget{cb__rotate_8cpp_source_l00057}00057\ \ \ \textcolor{keyword}{auto}\ referenceFrame\ =\ p-\/>\mbox{\hyperlink{classcl__nav2z_1_1CpPose_aafe0b5510d93a2a0595b84bb7432df1a}{getReferenceFrame}}();}
+\DoxyCodeLine{\Hypertarget{cb__rotate_8cpp_source_l00058}00058\ \ \ \textcolor{keyword}{auto}\ currentPoseMsg\ =\ p-\/>\mbox{\hyperlink{classcl__nav2z_1_1CpPose_a047aae7ec0c834d5e7d56d1a34de512d}{toPoseMsg}}();}
+\DoxyCodeLine{\Hypertarget{cb__rotate_8cpp_source_l00059}00059\ }
+\DoxyCodeLine{\Hypertarget{cb__rotate_8cpp_source_l00060}00060\ \ \ tf2::Transform\ currentPose;}
+\DoxyCodeLine{\Hypertarget{cb__rotate_8cpp_source_l00061}00061\ \ \ tf2::fromMsg(currentPoseMsg,\ currentPose);}
 \DoxyCodeLine{\Hypertarget{cb__rotate_8cpp_source_l00062}00062\ }
-\DoxyCodeLine{\Hypertarget{cb__rotate_8cpp_source_l00063}00063\ \ \ \textcolor{keyword}{auto}\ currentAngle\ =\ tf2::getYaw(currentPoseMsg.orientation);}
-\DoxyCodeLine{\Hypertarget{cb__rotate_8cpp_source_l00064}00064\ \ \ \textcolor{keyword}{auto}\ targetAngle\ =\ currentAngle\ +\ angle\_increment\_degree\ *\ M\_PI\ /\ 180.0;}
-\DoxyCodeLine{\Hypertarget{cb__rotate_8cpp_source_l00065}00065\ \ \ goal.pose.pose.position\ =\ currentPoseMsg.position;}
-\DoxyCodeLine{\Hypertarget{cb__rotate_8cpp_source_l00066}00066\ \ \ tf2::Quaternion\ q;}
-\DoxyCodeLine{\Hypertarget{cb__rotate_8cpp_source_l00067}00067\ \ \ q.setRPY(0,\ 0,\ targetAngle);}
-\DoxyCodeLine{\Hypertarget{cb__rotate_8cpp_source_l00068}00068\ \ \ goal.pose.pose.orientation\ =\ tf2::toMsg(q);}
+\DoxyCodeLine{\Hypertarget{cb__rotate_8cpp_source_l00063}00063\ \ \ \mbox{\hyperlink{classcl__nav2z_1_1odom__tracker_1_1CpOdomTracker}{odom\_tracker::CpOdomTracker}}\ *\ odomTracker;}
+\DoxyCodeLine{\Hypertarget{cb__rotate_8cpp_source_l00064}00064\ \ \ this-\/>\mbox{\hyperlink{classsmacc2_1_1ISmaccClientBehavior_a887b49b1e396503f9e22250ef88dbaff}{requiresComponent}}(odomTracker,\ ComponentRequirement::SOFT);}
+\DoxyCodeLine{\Hypertarget{cb__rotate_8cpp_source_l00065}00065\ }
+\DoxyCodeLine{\Hypertarget{cb__rotate_8cpp_source_l00066}00066\ \ \ nav2\_msgs::action::NavigateToPose::Goal\ goal;}
+\DoxyCodeLine{\Hypertarget{cb__rotate_8cpp_source_l00067}00067\ \ \ goal.pose.header.frame\_id\ =\ referenceFrame;}
+\DoxyCodeLine{\Hypertarget{cb__rotate_8cpp_source_l00068}00068\ \ \ \textcolor{comment}{//goal.pose.header.stamp\ =\ getNode()-\/>now();}}
 \DoxyCodeLine{\Hypertarget{cb__rotate_8cpp_source_l00069}00069\ }
-\DoxyCodeLine{\Hypertarget{cb__rotate_8cpp_source_l00070}00070\ \ \ geometry\_msgs::msg::PoseStamped\ stampedCurrentPoseMsg;}
-\DoxyCodeLine{\Hypertarget{cb__rotate_8cpp_source_l00071}00071\ \ \ stampedCurrentPoseMsg.header.frame\_id\ =\ referenceFrame;}
-\DoxyCodeLine{\Hypertarget{cb__rotate_8cpp_source_l00072}00072\ \ \ stampedCurrentPoseMsg.header.stamp\ =\ \mbox{\hyperlink{classsmacc2_1_1ISmaccClientBehavior_aa1b28d5e8a5208fff8160f9df9a89dc6}{getNode}}()-\/>now();}
-\DoxyCodeLine{\Hypertarget{cb__rotate_8cpp_source_l00073}00073\ \ \ stampedCurrentPoseMsg.pose\ =\ currentPoseMsg;}
-\DoxyCodeLine{\Hypertarget{cb__rotate_8cpp_source_l00074}00074\ }
-\DoxyCodeLine{\Hypertarget{cb__rotate_8cpp_source_l00075}00075\ \ \ this-\/>\mbox{\hyperlink{classsmacc2_1_1ISmaccClientBehavior_ad32d91e7aa6ac921b8d29610bd925244}{requiresClient}}(\mbox{\hyperlink{classcl__nav2z_1_1CbNav2ZClientBehaviorBase_a78f16ca8a9c9314e98f95c9410466678}{nav2zClient\_}});}
-\DoxyCodeLine{\Hypertarget{cb__rotate_8cpp_source_l00076}00076\ \ \ \textcolor{keyword}{auto}\ pathname\ =\ this-\/>\mbox{\hyperlink{classsmacc2_1_1ISmaccClientBehavior_a1a667b94eddb33662912587e87289cc1}{getCurrentState}}()-\/>\mbox{\hyperlink{classsmacc2_1_1ISmaccState_a69ec6fafcc7f109198412433cf06cbcc}{getName}}()\ +\ \textcolor{stringliteral}{"{}\ -\/\ "{}}\ +\ \mbox{\hyperlink{classsmacc2_1_1ISmaccClientBehavior_a3feaa9c382a7d376b7ba0017a63e294e}{getName}}();}
-\DoxyCodeLine{\Hypertarget{cb__rotate_8cpp_source_l00077}00077\ \ \ odomTracker-\/>pushPath(pathname);}
-\DoxyCodeLine{\Hypertarget{cb__rotate_8cpp_source_l00078}00078\ }
-\DoxyCodeLine{\Hypertarget{cb__rotate_8cpp_source_l00079}00079\ \ \ odomTracker-\/>setStartPoint(stampedCurrentPoseMsg);}
-\DoxyCodeLine{\Hypertarget{cb__rotate_8cpp_source_l00080}00080\ \ \ odomTracker-\/>setWorkingMode(\mbox{\hyperlink{namespacecl__nav2z_1_1odom__tracker_a0e181f0496e693e9fbd35874963c7211a023bc3adf68871ef7a0c616765ac80a7}{odom\_tracker::WorkingMode::RECORD\_PATH}});}
+\DoxyCodeLine{\Hypertarget{cb__rotate_8cpp_source_l00070}00070\ \ \ \textcolor{keyword}{auto}\ currentAngle\ =\ tf2::getYaw(currentPoseMsg.orientation);}
+\DoxyCodeLine{\Hypertarget{cb__rotate_8cpp_source_l00071}00071\ \ \ \textcolor{keyword}{auto}\ targetAngle\ =\ currentAngle\ +\ angle\_increment\_degree\ *\ M\_PI\ /\ 180.0;}
+\DoxyCodeLine{\Hypertarget{cb__rotate_8cpp_source_l00072}00072\ \ \ goal.pose.pose.position\ =\ currentPoseMsg.position;}
+\DoxyCodeLine{\Hypertarget{cb__rotate_8cpp_source_l00073}00073\ \ \ tf2::Quaternion\ q;}
+\DoxyCodeLine{\Hypertarget{cb__rotate_8cpp_source_l00074}00074\ \ \ q.setRPY(0,\ 0,\ targetAngle);}
+\DoxyCodeLine{\Hypertarget{cb__rotate_8cpp_source_l00075}00075\ \ \ goal.pose.pose.orientation\ =\ tf2::toMsg(q);}
+\DoxyCodeLine{\Hypertarget{cb__rotate_8cpp_source_l00076}00076\ }
+\DoxyCodeLine{\Hypertarget{cb__rotate_8cpp_source_l00077}00077\ \ \ geometry\_msgs::msg::PoseStamped\ stampedCurrentPoseMsg;}
+\DoxyCodeLine{\Hypertarget{cb__rotate_8cpp_source_l00078}00078\ \ \ stampedCurrentPoseMsg.header.frame\_id\ =\ referenceFrame;}
+\DoxyCodeLine{\Hypertarget{cb__rotate_8cpp_source_l00079}00079\ \ \ stampedCurrentPoseMsg.header.stamp\ =\ \mbox{\hyperlink{classsmacc2_1_1ISmaccClientBehavior_aa1b28d5e8a5208fff8160f9df9a89dc6}{getNode}}()-\/>now();}
+\DoxyCodeLine{\Hypertarget{cb__rotate_8cpp_source_l00080}00080\ \ \ stampedCurrentPoseMsg.pose\ =\ currentPoseMsg;}
 \DoxyCodeLine{\Hypertarget{cb__rotate_8cpp_source_l00081}00081\ }
-\DoxyCodeLine{\Hypertarget{cb__rotate_8cpp_source_l00082}00082\ \ \ RCLCPP\_INFO\_STREAM(\mbox{\hyperlink{classsmacc2_1_1ISmaccClientBehavior_a9c3d82542c800e2ba5207c5cff0e63e8}{getLogger}}(),\ \textcolor{stringliteral}{"{}current\ pose:\ "{}}\ <<\ currentPoseMsg);}
-\DoxyCodeLine{\Hypertarget{cb__rotate_8cpp_source_l00083}00083\ \ \ RCLCPP\_INFO\_STREAM(\mbox{\hyperlink{classsmacc2_1_1ISmaccClientBehavior_a9c3d82542c800e2ba5207c5cff0e63e8}{getLogger}}(),\ \textcolor{stringliteral}{"{}goal\ pose:\ "{}}\ <<\ goal.pose.pose);}
-\DoxyCodeLine{\Hypertarget{cb__rotate_8cpp_source_l00084}00084\ \ \ this-\/>\mbox{\hyperlink{classcl__nav2z_1_1CbNav2ZClientBehaviorBase_a1b4b0601a185ffc77453c1a5b35d21e0}{sendGoal}}(goal);}
-\DoxyCodeLine{\Hypertarget{cb__rotate_8cpp_source_l00085}00085\ \}}
-\DoxyCodeLine{\Hypertarget{cb__rotate_8cpp_source_l00086}00086\ }
-\DoxyCodeLine{\Hypertarget{cb__rotate_8cpp_source_l00087}00087\ \}\ \ \textcolor{comment}{//\ namespace\ cl\_nav2z}}
+\DoxyCodeLine{\Hypertarget{cb__rotate_8cpp_source_l00082}00082\ \ \ \textcolor{keyword}{auto}\ pathname\ =\ this-\/>\mbox{\hyperlink{classsmacc2_1_1ISmaccClientBehavior_a1a667b94eddb33662912587e87289cc1}{getCurrentState}}()-\/>\mbox{\hyperlink{classsmacc2_1_1ISmaccState_a69ec6fafcc7f109198412433cf06cbcc}{getName}}()\ +\ \textcolor{stringliteral}{"{}\ -\/\ "{}}\ +\ \mbox{\hyperlink{classsmacc2_1_1ISmaccClientBehavior_a3feaa9c382a7d376b7ba0017a63e294e}{getName}}();}
+\DoxyCodeLine{\Hypertarget{cb__rotate_8cpp_source_l00083}00083\ \ \ odomTracker-\/>\mbox{\hyperlink{classcl__nav2z_1_1odom__tracker_1_1CpOdomTracker_a5731914838169f20d2f34c919ef4dac1}{pushPath}}(pathname);}
+\DoxyCodeLine{\Hypertarget{cb__rotate_8cpp_source_l00084}00084\ }
+\DoxyCodeLine{\Hypertarget{cb__rotate_8cpp_source_l00085}00085\ \ \ odomTracker-\/>\mbox{\hyperlink{classcl__nav2z_1_1odom__tracker_1_1CpOdomTracker_ae1e77eed3471181b2a6a8c5822b13e5b}{setStartPoint}}(stampedCurrentPoseMsg);}
+\DoxyCodeLine{\Hypertarget{cb__rotate_8cpp_source_l00086}00086\ \ \ odomTracker-\/>\mbox{\hyperlink{classcl__nav2z_1_1odom__tracker_1_1CpOdomTracker_ab459705febf58fd0b961d455f2b2dcbe}{setWorkingMode}}(\mbox{\hyperlink{namespacecl__nav2z_1_1odom__tracker_a0e181f0496e693e9fbd35874963c7211a023bc3adf68871ef7a0c616765ac80a7}{odom\_tracker::WorkingMode::RECORD\_PATH}});}
+\DoxyCodeLine{\Hypertarget{cb__rotate_8cpp_source_l00087}00087\ }
+\DoxyCodeLine{\Hypertarget{cb__rotate_8cpp_source_l00088}00088\ \ \ RCLCPP\_INFO\_STREAM(\mbox{\hyperlink{classsmacc2_1_1ISmaccClientBehavior_a9c3d82542c800e2ba5207c5cff0e63e8}{getLogger}}(),\ \textcolor{stringliteral}{"{}current\ pose:\ "{}}\ <<\ currentPoseMsg);}
+\DoxyCodeLine{\Hypertarget{cb__rotate_8cpp_source_l00089}00089\ \ \ RCLCPP\_INFO\_STREAM(\mbox{\hyperlink{classsmacc2_1_1ISmaccClientBehavior_a9c3d82542c800e2ba5207c5cff0e63e8}{getLogger}}(),\ \textcolor{stringliteral}{"{}goal\ pose:\ "{}}\ <<\ goal.pose.pose);}
+\DoxyCodeLine{\Hypertarget{cb__rotate_8cpp_source_l00090}00090\ \ \ this-\/>\mbox{\hyperlink{classcl__nav2z_1_1CbNav2ZClientBehaviorBase_a9980ad890c779bf6f5a654878d871851}{sendGoal}}(goal);}
+\DoxyCodeLine{\Hypertarget{cb__rotate_8cpp_source_l00091}00091\ \}}
+\DoxyCodeLine{\Hypertarget{cb__rotate_8cpp_source_l00092}00092\ }
+\DoxyCodeLine{\Hypertarget{cb__rotate_8cpp_source_l00093}00093\ \}\ \ \textcolor{comment}{//\ namespace\ cl\_nav2z}}
 
 \end{DoxyCode}
