@@ -430,43 +430,48 @@ Additional Inherited Members</h2></td></tr>
 <div class="line"><span class="lineno">   54</span> </div>
 <div class="line"><span class="lineno">   55</span>      std::array&lt;char, 128&gt; buffer;</div>
 <div class="line"><span class="lineno">   56</span>      std::string result;</div>
-<div class="line"><span class="lineno">   57</span>      std::unique_ptr&lt;FILE, <span class="keyword">decltype</span>(&amp;pclose)&gt; pipe(popen(cmd.str().c_str(), <span class="stringliteral">&quot;r&quot;</span>), pclose);</div>
-<div class="line"><span class="lineno">   58</span>      <span class="keywordflow">if</span> (!pipe)</div>
-<div class="line"><span class="lineno">   59</span>      {</div>
-<div class="line"><span class="lineno">   60</span>        <span class="keywordflow">throw</span> std::runtime_error(<span class="stringliteral">&quot;popen() failed!&quot;</span>);</div>
-<div class="line"><span class="lineno">   61</span>      }</div>
-<div class="line"><span class="lineno">   62</span> </div>
-<div class="line"><span class="lineno">   63</span>      std::stringstream ss;</div>
-<div class="line"><span class="lineno">   64</span>      <span class="keywordtype">bool</span> cancelled = <span class="keyword">false</span>;</div>
-<div class="line"><span class="lineno">   65</span>      <span class="keywordflow">try</span></div>
-<div class="line"><span class="lineno">   66</span>      {</div>
-<div class="line"><span class="lineno">   67</span>        <span class="keywordflow">while</span> (fgets(buffer.data(), buffer.size(), pipe.get()) != <span class="keyword">nullptr</span> &amp;&amp;</div>
-<div class="line"><span class="lineno">   68</span>               !(cancelled = cancelCondition()))</div>
-<div class="line"><span class="lineno">   69</span>        {</div>
-<div class="line"><span class="lineno">   70</span>          ss &lt;&lt; buffer.data();</div>
-<div class="line"><span class="lineno">   71</span>          <span class="keywordflow">if</span> (cancelled)  <span class="comment">// break_pipe</span></div>
-<div class="line"><span class="lineno">   72</span>          {</div>
-<div class="line"><span class="lineno">   73</span>            RCLCPP_WARN_STREAM(</div>
-<div class="line"><span class="lineno">   74</span>              rclcpp::get_logger(<span class="stringliteral">&quot;smacc2&quot;</span>), <span class="stringliteral">&quot;[ClRosLaunch static] cancelling ros launch thread &quot;</span>);</div>
-<div class="line"><span class="lineno">   75</span> </div>
-<div class="line"><span class="lineno">   76</span>            <span class="comment">// break pipe</span></div>
-<div class="line"><span class="lineno">   77</span>            pclose(pipe.release());</div>
-<div class="line"><span class="lineno">   78</span> </div>
-<div class="line"><span class="lineno">   79</span>            <span class="keywordflow">break</span>;</div>
-<div class="line"><span class="lineno">   80</span>          }</div>
-<div class="line"><span class="lineno">   81</span>        }</div>
-<div class="line"><span class="lineno">   82</span>      }</div>
-<div class="line"><span class="lineno">   83</span>      <span class="keywordflow">catch</span> (<span class="keyword">const</span> std::exception &amp; e)</div>
-<div class="line"><span class="lineno">   84</span>      {</div>
-<div class="line"><span class="lineno">   85</span>        std::cerr &lt;&lt; e.what() &lt;&lt; <span class="charliteral">&#39;\n&#39;</span>;</div>
-<div class="line"><span class="lineno">   86</span>      }</div>
-<div class="line"><span class="lineno">   87</span> </div>
-<div class="line"><span class="lineno">   88</span>      result = ss.str();</div>
-<div class="line"><span class="lineno">   89</span>      RCLCPP_WARN_STREAM(</div>
-<div class="line"><span class="lineno">   90</span>        rclcpp::get_logger(<span class="stringliteral">&quot;smacc2&quot;</span>), <span class="stringliteral">&quot;[ClRosLaunch static]] RESULT = \n &quot;</span> &lt;&lt; ss.str());</div>
-<div class="line"><span class="lineno">   91</span>      <span class="keywordflow">return</span> result;</div>
-<div class="line"><span class="lineno">   92</span>    });</div>
-<div class="line"><span class="lineno">   93</span>}</div>
+<div class="line"><span class="lineno">   57</span>      <span class="keyword">auto</span> pipe_deleter = [](FILE * fp)</div>
+<div class="line"><span class="lineno">   58</span>      {</div>
+<div class="line"><span class="lineno">   59</span>        <span class="keywordflow">if</span> (fp) pclose(fp);</div>
+<div class="line"><span class="lineno">   60</span>      };</div>
+<div class="line"><span class="lineno">   61</span>      std::unique_ptr&lt;FILE, <span class="keyword">decltype</span>(pipe_deleter)&gt; pipe(</div>
+<div class="line"><span class="lineno">   62</span>        popen(cmd.str().c_str(), <span class="stringliteral">&quot;r&quot;</span>), pipe_deleter);</div>
+<div class="line"><span class="lineno">   63</span>      <span class="keywordflow">if</span> (!pipe)</div>
+<div class="line"><span class="lineno">   64</span>      {</div>
+<div class="line"><span class="lineno">   65</span>        <span class="keywordflow">throw</span> std::runtime_error(<span class="stringliteral">&quot;popen() failed!&quot;</span>);</div>
+<div class="line"><span class="lineno">   66</span>      }</div>
+<div class="line"><span class="lineno">   67</span> </div>
+<div class="line"><span class="lineno">   68</span>      std::stringstream ss;</div>
+<div class="line"><span class="lineno">   69</span>      <span class="keywordtype">bool</span> cancelled = <span class="keyword">false</span>;</div>
+<div class="line"><span class="lineno">   70</span>      <span class="keywordflow">try</span></div>
+<div class="line"><span class="lineno">   71</span>      {</div>
+<div class="line"><span class="lineno">   72</span>        <span class="keywordflow">while</span> (fgets(buffer.data(), buffer.size(), pipe.get()) != <span class="keyword">nullptr</span> &amp;&amp;</div>
+<div class="line"><span class="lineno">   73</span>               !(cancelled = cancelCondition()))</div>
+<div class="line"><span class="lineno">   74</span>        {</div>
+<div class="line"><span class="lineno">   75</span>          ss &lt;&lt; buffer.data();</div>
+<div class="line"><span class="lineno">   76</span>          <span class="keywordflow">if</span> (cancelled)  <span class="comment">// break_pipe</span></div>
+<div class="line"><span class="lineno">   77</span>          {</div>
+<div class="line"><span class="lineno">   78</span>            RCLCPP_WARN_STREAM(</div>
+<div class="line"><span class="lineno">   79</span>              rclcpp::get_logger(<span class="stringliteral">&quot;smacc2&quot;</span>), <span class="stringliteral">&quot;[ClRosLaunch static] cancelling ros launch thread &quot;</span>);</div>
+<div class="line"><span class="lineno">   80</span> </div>
+<div class="line"><span class="lineno">   81</span>            <span class="comment">// break pipe</span></div>
+<div class="line"><span class="lineno">   82</span>            pclose(pipe.release());</div>
+<div class="line"><span class="lineno">   83</span> </div>
+<div class="line"><span class="lineno">   84</span>            <span class="keywordflow">break</span>;</div>
+<div class="line"><span class="lineno">   85</span>          }</div>
+<div class="line"><span class="lineno">   86</span>        }</div>
+<div class="line"><span class="lineno">   87</span>      }</div>
+<div class="line"><span class="lineno">   88</span>      <span class="keywordflow">catch</span> (<span class="keyword">const</span> std::exception &amp; e)</div>
+<div class="line"><span class="lineno">   89</span>      {</div>
+<div class="line"><span class="lineno">   90</span>        std::cerr &lt;&lt; e.what() &lt;&lt; <span class="charliteral">&#39;\n&#39;</span>;</div>
+<div class="line"><span class="lineno">   91</span>      }</div>
+<div class="line"><span class="lineno">   92</span> </div>
+<div class="line"><span class="lineno">   93</span>      result = ss.str();</div>
+<div class="line"><span class="lineno">   94</span>      RCLCPP_WARN_STREAM(</div>
+<div class="line"><span class="lineno">   95</span>        rclcpp::get_logger(<span class="stringliteral">&quot;smacc2&quot;</span>), <span class="stringliteral">&quot;[ClRosLaunch static]] RESULT = \n &quot;</span> &lt;&lt; ss.str());</div>
+<div class="line"><span class="lineno">   96</span>      <span class="keywordflow">return</span> result;</div>
+<div class="line"><span class="lineno">   97</span>    });</div>
+<div class="line"><span class="lineno">   98</span>}</div>
 </div><!-- fragment -->
 <p class="reference">Referenced by <a class="el" href="smacc__ros__launch__client_8cpp_source.html#l00034">launch()</a>, and <a class="el" href="cb__ros__launch_8cpp_source.html#l00048">smacc2::client_behaviors::CbRosLaunch::onEntry()</a>.</p>
 <div class="dynheader">
