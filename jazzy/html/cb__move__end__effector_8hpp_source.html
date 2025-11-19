@@ -180,149 +180,151 @@ $(function(){ initResizable(false); });
 <div class="line"><a id="l00081" name="l00081"></a><span class="lineno">   81</span> </div>
 <div class="line"><a id="l00082" name="l00082"></a><span class="lineno">   82</span>    <span class="comment">// Try to use CpMotionPlanner component (preferred)</span></div>
 <div class="line"><a id="l00083" name="l00083"></a><span class="lineno">   83</span>    <a class="code hl_class" href="classcl__moveit2z_1_1CpMotionPlanner.html">CpMotionPlanner</a> * motionPlanner = <span class="keyword">nullptr</span>;</div>
-<div class="line"><a id="l00084" name="l00084"></a><span class="lineno">   84</span>    this-&gt;<a class="code hl_function" href="classsmacc2_1_1ISmaccClientBehavior.html#a887b49b1e396503f9e22250ef88dbaff">requiresComponent</a>(motionPlanner, <span class="keyword">false</span>);  <span class="comment">// Optional component</span></div>
-<div class="line"><a id="l00085" name="l00085"></a><span class="lineno">   85</span> </div>
-<div class="line"><a id="l00086" name="l00086"></a><span class="lineno">   86</span>    <span class="keywordtype">bool</span> success = <span class="keyword">false</span>;</div>
-<div class="line"><a id="l00087" name="l00087"></a><span class="lineno">   87</span>    moveit::planning_interface::MoveGroupInterface::Plan computedMotionPlan;</div>
-<div class="line"><a id="l00088" name="l00088"></a><span class="lineno">   88</span> </div>
-<div class="line"><a id="l00089" name="l00089"></a><span class="lineno">   89</span>    RCLCPP_INFO_STREAM(</div>
-<div class="line"><a id="l00090" name="l00090"></a><span class="lineno">   90</span>      <a class="code hl_function" href="classsmacc2_1_1ISmaccClientBehavior.html#a9c3d82542c800e2ba5207c5cff0e63e8">getLogger</a>(), <span class="stringliteral">&quot;[CbMoveEndEffector] Target End effector Pose: &quot;</span> &lt;&lt; targetObjectPose);</div>
-<div class="line"><a id="l00091" name="l00091"></a><span class="lineno">   91</span> </div>
-<div class="line"><a id="l00092" name="l00092"></a><span class="lineno">   92</span>    <span class="keywordflow">if</span> (motionPlanner != <span class="keyword">nullptr</span>)</div>
-<div class="line"><a id="l00093" name="l00093"></a><span class="lineno">   93</span>    {</div>
-<div class="line"><a id="l00094" name="l00094"></a><span class="lineno">   94</span>      <span class="comment">// Use component-based motion planner (preferred)</span></div>
-<div class="line"><a id="l00095" name="l00095"></a><span class="lineno">   95</span>      RCLCPP_INFO(<a class="code hl_function" href="classsmacc2_1_1ISmaccClientBehavior.html#a9c3d82542c800e2ba5207c5cff0e63e8">getLogger</a>(), <span class="stringliteral">&quot;[CbMoveEndEffector] Using CpMotionPlanner component for planning&quot;</span>);</div>
-<div class="line"><a id="l00096" name="l00096"></a><span class="lineno">   96</span> </div>
-<div class="line"><a id="l00097" name="l00097"></a><span class="lineno">   97</span>      <a class="code hl_struct" href="structcl__moveit2z_1_1PlanningOptions.html">PlanningOptions</a> options;</div>
-<div class="line"><a id="l00098" name="l00098"></a><span class="lineno">   98</span>      options.<a class="code hl_variable" href="structcl__moveit2z_1_1PlanningOptions.html#abec030a50a8603945fd56a77c9a74995">planningTime</a> = 1.0;</div>
-<div class="line"><a id="l00099" name="l00099"></a><span class="lineno">   99</span>      options.<a class="code hl_variable" href="structcl__moveit2z_1_1PlanningOptions.html#aa4cb0f8c5ed3122a8289894c7a1f77df">poseReferenceFrame</a> = targetObjectPose.header.frame_id;</div>
-<div class="line"><a id="l00100" name="l00100"></a><span class="lineno">  100</span> </div>
-<div class="line"><a id="l00101" name="l00101"></a><span class="lineno">  101</span>      std::optional&lt;std::string&gt; tipLinkOpt;</div>
-<div class="line"><a id="l00102" name="l00102"></a><span class="lineno">  102</span>      <span class="keywordflow">if</span> (!<a class="code hl_variable" href="classcl__moveit2z_1_1CbMoveEndEffector.html#abcdb07e0f0fbd5c156340466cd07d680">tip_link_</a>.empty())</div>
-<div class="line"><a id="l00103" name="l00103"></a><span class="lineno">  103</span>      {</div>
-<div class="line"><a id="l00104" name="l00104"></a><span class="lineno">  104</span>        tipLinkOpt = <a class="code hl_variable" href="classcl__moveit2z_1_1CbMoveEndEffector.html#abcdb07e0f0fbd5c156340466cd07d680">tip_link_</a>;</div>
-<div class="line"><a id="l00105" name="l00105"></a><span class="lineno">  105</span>      }</div>
-<div class="line"><a id="l00106" name="l00106"></a><span class="lineno">  106</span> </div>
-<div class="line"><a id="l00107" name="l00107"></a><span class="lineno">  107</span>      <span class="keyword">auto</span> result = motionPlanner-&gt;<a class="code hl_function" href="classcl__moveit2z_1_1CpMotionPlanner.html#a4f6c1cd3e3a381d9d00acc288c0ebf7b">planToPose</a>(targetObjectPose, tipLinkOpt, options);</div>
-<div class="line"><a id="l00108" name="l00108"></a><span class="lineno">  108</span> </div>
-<div class="line"><a id="l00109" name="l00109"></a><span class="lineno">  109</span>      success = result.success;</div>
-<div class="line"><a id="l00110" name="l00110"></a><span class="lineno">  110</span>      <span class="keywordflow">if</span> (success)</div>
-<div class="line"><a id="l00111" name="l00111"></a><span class="lineno">  111</span>      {</div>
-<div class="line"><a id="l00112" name="l00112"></a><span class="lineno">  112</span>        computedMotionPlan = result.plan;</div>
-<div class="line"><a id="l00113" name="l00113"></a><span class="lineno">  113</span>        RCLCPP_INFO(<a class="code hl_function" href="classsmacc2_1_1ISmaccClientBehavior.html#a9c3d82542c800e2ba5207c5cff0e63e8">getLogger</a>(), <span class="stringliteral">&quot;[CbMoveEndEffector] Planning succeeded (via CpMotionPlanner)&quot;</span>);</div>
-<div class="line"><a id="l00114" name="l00114"></a><span class="lineno">  114</span>      }</div>
-<div class="line"><a id="l00115" name="l00115"></a><span class="lineno">  115</span>      <span class="keywordflow">else</span></div>
-<div class="line"><a id="l00116" name="l00116"></a><span class="lineno">  116</span>      {</div>
-<div class="line"><a id="l00117" name="l00117"></a><span class="lineno">  117</span>        RCLCPP_WARN(</div>
-<div class="line"><a id="l00118" name="l00118"></a><span class="lineno">  118</span>          <a class="code hl_function" href="classsmacc2_1_1ISmaccClientBehavior.html#a9c3d82542c800e2ba5207c5cff0e63e8">getLogger</a>(), <span class="stringliteral">&quot;[CbMoveEndEffector] Planning failed (via CpMotionPlanner): %s&quot;</span>,</div>
-<div class="line"><a id="l00119" name="l00119"></a><span class="lineno">  119</span>          result.errorMessage.c_str());</div>
-<div class="line"><a id="l00120" name="l00120"></a><span class="lineno">  120</span>      }</div>
-<div class="line"><a id="l00121" name="l00121"></a><span class="lineno">  121</span>    }</div>
-<div class="line"><a id="l00122" name="l00122"></a><span class="lineno">  122</span>    <span class="keywordflow">else</span></div>
-<div class="line"><a id="l00123" name="l00123"></a><span class="lineno">  123</span>    {</div>
-<div class="line"><a id="l00124" name="l00124"></a><span class="lineno">  124</span>      <span class="comment">// Fallback to legacy direct API calls</span></div>
-<div class="line"><a id="l00125" name="l00125"></a><span class="lineno">  125</span>      RCLCPP_WARN(</div>
-<div class="line"><a id="l00126" name="l00126"></a><span class="lineno">  126</span>        <a class="code hl_function" href="classsmacc2_1_1ISmaccClientBehavior.html#a9c3d82542c800e2ba5207c5cff0e63e8">getLogger</a>(),</div>
-<div class="line"><a id="l00127" name="l00127"></a><span class="lineno">  127</span>        <span class="stringliteral">&quot;[CbMoveEndEffector] CpMotionPlanner component not available, using legacy planning &quot;</span></div>
-<div class="line"><a id="l00128" name="l00128"></a><span class="lineno">  128</span>        <span class="stringliteral">&quot;(consider adding CpMotionPlanner component)&quot;</span>);</div>
-<div class="line"><a id="l00129" name="l00129"></a><span class="lineno">  129</span> </div>
-<div class="line"><a id="l00130" name="l00130"></a><span class="lineno">  130</span>      moveGroupInterface.setPlanningTime(1.0);</div>
-<div class="line"><a id="l00131" name="l00131"></a><span class="lineno">  131</span>      moveGroupInterface.setPoseTarget(targetObjectPose, <a class="code hl_variable" href="classcl__moveit2z_1_1CbMoveEndEffector.html#abcdb07e0f0fbd5c156340466cd07d680">tip_link_</a>);</div>
-<div class="line"><a id="l00132" name="l00132"></a><span class="lineno">  132</span>      moveGroupInterface.setPoseReferenceFrame(targetObjectPose.header.frame_id);</div>
-<div class="line"><a id="l00133" name="l00133"></a><span class="lineno">  133</span> </div>
-<div class="line"><a id="l00134" name="l00134"></a><span class="lineno">  134</span>      success =</div>
-<div class="line"><a id="l00135" name="l00135"></a><span class="lineno">  135</span>        (moveGroupInterface.plan(computedMotionPlan) == moveit::core::MoveItErrorCode::SUCCESS);</div>
-<div class="line"><a id="l00136" name="l00136"></a><span class="lineno">  136</span>      RCLCPP_INFO(</div>
-<div class="line"><a id="l00137" name="l00137"></a><span class="lineno">  137</span>        <a class="code hl_function" href="classsmacc2_1_1ISmaccClientBehavior.html#a9c3d82542c800e2ba5207c5cff0e63e8">getLogger</a>(), <span class="stringliteral">&quot;[CbMoveEndEffector] Planning %s (legacy mode)&quot;</span>,</div>
-<div class="line"><a id="l00138" name="l00138"></a><span class="lineno">  138</span>        success ? <span class="stringliteral">&quot;succeeded&quot;</span> : <span class="stringliteral">&quot;FAILED&quot;</span>);</div>
-<div class="line"><a id="l00139" name="l00139"></a><span class="lineno">  139</span>    }</div>
-<div class="line"><a id="l00140" name="l00140"></a><span class="lineno">  140</span> </div>
-<div class="line"><a id="l00141" name="l00141"></a><span class="lineno">  141</span>    <span class="comment">// Execution</span></div>
-<div class="line"><a id="l00142" name="l00142"></a><span class="lineno">  142</span>    <span class="keywordflow">if</span> (success)</div>
-<div class="line"><a id="l00143" name="l00143"></a><span class="lineno">  143</span>    {</div>
-<div class="line"><a id="l00144" name="l00144"></a><span class="lineno">  144</span>      <span class="comment">// Try to use CpTrajectoryExecutor component (preferred)</span></div>
-<div class="line"><a id="l00145" name="l00145"></a><span class="lineno">  145</span>      <a class="code hl_class" href="classcl__moveit2z_1_1CpTrajectoryExecutor.html">CpTrajectoryExecutor</a> * trajectoryExecutor = <span class="keyword">nullptr</span>;</div>
-<div class="line"><a id="l00146" name="l00146"></a><span class="lineno">  146</span>      this-&gt;<a class="code hl_function" href="classsmacc2_1_1ISmaccClientBehavior.html#a887b49b1e396503f9e22250ef88dbaff">requiresComponent</a>(trajectoryExecutor, <span class="keyword">false</span>);  <span class="comment">// Optional component</span></div>
-<div class="line"><a id="l00147" name="l00147"></a><span class="lineno">  147</span> </div>
-<div class="line"><a id="l00148" name="l00148"></a><span class="lineno">  148</span>      <span class="keywordtype">bool</span> executionSuccess = <span class="keyword">false</span>;</div>
+<div class="line"><a id="l00084" name="l00084"></a><span class="lineno">   84</span>    this-&gt;<a class="code hl_function" href="classsmacc2_1_1ISmaccClientBehavior.html#aeb76b10b9bb3925244da9d484739a5a9">requiresComponent</a>(</div>
+<div class="line"><a id="l00085" name="l00085"></a><span class="lineno">   85</span>      motionPlanner, <a class="code hl_enumvalue" href="namespacesmacc2.html#ae6caa1d032436dea4d4d2a864566aff2a52e743143106c12bfd73aae547fc6e2e">smacc2::ComponentRequirement::SOFT</a>);  <span class="comment">// Optional component</span></div>
+<div class="line"><a id="l00086" name="l00086"></a><span class="lineno">   86</span> </div>
+<div class="line"><a id="l00087" name="l00087"></a><span class="lineno">   87</span>    <span class="keywordtype">bool</span> success = <span class="keyword">false</span>;</div>
+<div class="line"><a id="l00088" name="l00088"></a><span class="lineno">   88</span>    moveit::planning_interface::MoveGroupInterface::Plan computedMotionPlan;</div>
+<div class="line"><a id="l00089" name="l00089"></a><span class="lineno">   89</span> </div>
+<div class="line"><a id="l00090" name="l00090"></a><span class="lineno">   90</span>    RCLCPP_INFO_STREAM(</div>
+<div class="line"><a id="l00091" name="l00091"></a><span class="lineno">   91</span>      <a class="code hl_function" href="classsmacc2_1_1ISmaccClientBehavior.html#a9c3d82542c800e2ba5207c5cff0e63e8">getLogger</a>(), <span class="stringliteral">&quot;[CbMoveEndEffector] Target End effector Pose: &quot;</span> &lt;&lt; targetObjectPose);</div>
+<div class="line"><a id="l00092" name="l00092"></a><span class="lineno">   92</span> </div>
+<div class="line"><a id="l00093" name="l00093"></a><span class="lineno">   93</span>    <span class="keywordflow">if</span> (motionPlanner != <span class="keyword">nullptr</span>)</div>
+<div class="line"><a id="l00094" name="l00094"></a><span class="lineno">   94</span>    {</div>
+<div class="line"><a id="l00095" name="l00095"></a><span class="lineno">   95</span>      <span class="comment">// Use component-based motion planner (preferred)</span></div>
+<div class="line"><a id="l00096" name="l00096"></a><span class="lineno">   96</span>      RCLCPP_INFO(<a class="code hl_function" href="classsmacc2_1_1ISmaccClientBehavior.html#a9c3d82542c800e2ba5207c5cff0e63e8">getLogger</a>(), <span class="stringliteral">&quot;[CbMoveEndEffector] Using CpMotionPlanner component for planning&quot;</span>);</div>
+<div class="line"><a id="l00097" name="l00097"></a><span class="lineno">   97</span> </div>
+<div class="line"><a id="l00098" name="l00098"></a><span class="lineno">   98</span>      <a class="code hl_struct" href="structcl__moveit2z_1_1PlanningOptions.html">PlanningOptions</a> options;</div>
+<div class="line"><a id="l00099" name="l00099"></a><span class="lineno">   99</span>      options.<a class="code hl_variable" href="structcl__moveit2z_1_1PlanningOptions.html#abec030a50a8603945fd56a77c9a74995">planningTime</a> = 1.0;</div>
+<div class="line"><a id="l00100" name="l00100"></a><span class="lineno">  100</span>      options.<a class="code hl_variable" href="structcl__moveit2z_1_1PlanningOptions.html#aa4cb0f8c5ed3122a8289894c7a1f77df">poseReferenceFrame</a> = targetObjectPose.header.frame_id;</div>
+<div class="line"><a id="l00101" name="l00101"></a><span class="lineno">  101</span> </div>
+<div class="line"><a id="l00102" name="l00102"></a><span class="lineno">  102</span>      std::optional&lt;std::string&gt; tipLinkOpt;</div>
+<div class="line"><a id="l00103" name="l00103"></a><span class="lineno">  103</span>      <span class="keywordflow">if</span> (!<a class="code hl_variable" href="classcl__moveit2z_1_1CbMoveEndEffector.html#abcdb07e0f0fbd5c156340466cd07d680">tip_link_</a>.empty())</div>
+<div class="line"><a id="l00104" name="l00104"></a><span class="lineno">  104</span>      {</div>
+<div class="line"><a id="l00105" name="l00105"></a><span class="lineno">  105</span>        tipLinkOpt = <a class="code hl_variable" href="classcl__moveit2z_1_1CbMoveEndEffector.html#abcdb07e0f0fbd5c156340466cd07d680">tip_link_</a>;</div>
+<div class="line"><a id="l00106" name="l00106"></a><span class="lineno">  106</span>      }</div>
+<div class="line"><a id="l00107" name="l00107"></a><span class="lineno">  107</span> </div>
+<div class="line"><a id="l00108" name="l00108"></a><span class="lineno">  108</span>      <span class="keyword">auto</span> result = motionPlanner-&gt;<a class="code hl_function" href="classcl__moveit2z_1_1CpMotionPlanner.html#a4f6c1cd3e3a381d9d00acc288c0ebf7b">planToPose</a>(targetObjectPose, tipLinkOpt, options);</div>
+<div class="line"><a id="l00109" name="l00109"></a><span class="lineno">  109</span> </div>
+<div class="line"><a id="l00110" name="l00110"></a><span class="lineno">  110</span>      success = result.success;</div>
+<div class="line"><a id="l00111" name="l00111"></a><span class="lineno">  111</span>      <span class="keywordflow">if</span> (success)</div>
+<div class="line"><a id="l00112" name="l00112"></a><span class="lineno">  112</span>      {</div>
+<div class="line"><a id="l00113" name="l00113"></a><span class="lineno">  113</span>        computedMotionPlan = result.plan;</div>
+<div class="line"><a id="l00114" name="l00114"></a><span class="lineno">  114</span>        RCLCPP_INFO(<a class="code hl_function" href="classsmacc2_1_1ISmaccClientBehavior.html#a9c3d82542c800e2ba5207c5cff0e63e8">getLogger</a>(), <span class="stringliteral">&quot;[CbMoveEndEffector] Planning succeeded (via CpMotionPlanner)&quot;</span>);</div>
+<div class="line"><a id="l00115" name="l00115"></a><span class="lineno">  115</span>      }</div>
+<div class="line"><a id="l00116" name="l00116"></a><span class="lineno">  116</span>      <span class="keywordflow">else</span></div>
+<div class="line"><a id="l00117" name="l00117"></a><span class="lineno">  117</span>      {</div>
+<div class="line"><a id="l00118" name="l00118"></a><span class="lineno">  118</span>        RCLCPP_WARN(</div>
+<div class="line"><a id="l00119" name="l00119"></a><span class="lineno">  119</span>          <a class="code hl_function" href="classsmacc2_1_1ISmaccClientBehavior.html#a9c3d82542c800e2ba5207c5cff0e63e8">getLogger</a>(), <span class="stringliteral">&quot;[CbMoveEndEffector] Planning failed (via CpMotionPlanner): %s&quot;</span>,</div>
+<div class="line"><a id="l00120" name="l00120"></a><span class="lineno">  120</span>          result.errorMessage.c_str());</div>
+<div class="line"><a id="l00121" name="l00121"></a><span class="lineno">  121</span>      }</div>
+<div class="line"><a id="l00122" name="l00122"></a><span class="lineno">  122</span>    }</div>
+<div class="line"><a id="l00123" name="l00123"></a><span class="lineno">  123</span>    <span class="keywordflow">else</span></div>
+<div class="line"><a id="l00124" name="l00124"></a><span class="lineno">  124</span>    {</div>
+<div class="line"><a id="l00125" name="l00125"></a><span class="lineno">  125</span>      <span class="comment">// Fallback to legacy direct API calls</span></div>
+<div class="line"><a id="l00126" name="l00126"></a><span class="lineno">  126</span>      RCLCPP_WARN(</div>
+<div class="line"><a id="l00127" name="l00127"></a><span class="lineno">  127</span>        <a class="code hl_function" href="classsmacc2_1_1ISmaccClientBehavior.html#a9c3d82542c800e2ba5207c5cff0e63e8">getLogger</a>(),</div>
+<div class="line"><a id="l00128" name="l00128"></a><span class="lineno">  128</span>        <span class="stringliteral">&quot;[CbMoveEndEffector] CpMotionPlanner component not available, using legacy planning &quot;</span></div>
+<div class="line"><a id="l00129" name="l00129"></a><span class="lineno">  129</span>        <span class="stringliteral">&quot;(consider adding CpMotionPlanner component)&quot;</span>);</div>
+<div class="line"><a id="l00130" name="l00130"></a><span class="lineno">  130</span> </div>
+<div class="line"><a id="l00131" name="l00131"></a><span class="lineno">  131</span>      moveGroupInterface.setPlanningTime(1.0);</div>
+<div class="line"><a id="l00132" name="l00132"></a><span class="lineno">  132</span>      moveGroupInterface.setPoseTarget(targetObjectPose, <a class="code hl_variable" href="classcl__moveit2z_1_1CbMoveEndEffector.html#abcdb07e0f0fbd5c156340466cd07d680">tip_link_</a>);</div>
+<div class="line"><a id="l00133" name="l00133"></a><span class="lineno">  133</span>      moveGroupInterface.setPoseReferenceFrame(targetObjectPose.header.frame_id);</div>
+<div class="line"><a id="l00134" name="l00134"></a><span class="lineno">  134</span> </div>
+<div class="line"><a id="l00135" name="l00135"></a><span class="lineno">  135</span>      success =</div>
+<div class="line"><a id="l00136" name="l00136"></a><span class="lineno">  136</span>        (moveGroupInterface.plan(computedMotionPlan) == moveit::core::MoveItErrorCode::SUCCESS);</div>
+<div class="line"><a id="l00137" name="l00137"></a><span class="lineno">  137</span>      RCLCPP_INFO(</div>
+<div class="line"><a id="l00138" name="l00138"></a><span class="lineno">  138</span>        <a class="code hl_function" href="classsmacc2_1_1ISmaccClientBehavior.html#a9c3d82542c800e2ba5207c5cff0e63e8">getLogger</a>(), <span class="stringliteral">&quot;[CbMoveEndEffector] Planning %s (legacy mode)&quot;</span>,</div>
+<div class="line"><a id="l00139" name="l00139"></a><span class="lineno">  139</span>        success ? <span class="stringliteral">&quot;succeeded&quot;</span> : <span class="stringliteral">&quot;FAILED&quot;</span>);</div>
+<div class="line"><a id="l00140" name="l00140"></a><span class="lineno">  140</span>    }</div>
+<div class="line"><a id="l00141" name="l00141"></a><span class="lineno">  141</span> </div>
+<div class="line"><a id="l00142" name="l00142"></a><span class="lineno">  142</span>    <span class="comment">// Execution</span></div>
+<div class="line"><a id="l00143" name="l00143"></a><span class="lineno">  143</span>    <span class="keywordflow">if</span> (success)</div>
+<div class="line"><a id="l00144" name="l00144"></a><span class="lineno">  144</span>    {</div>
+<div class="line"><a id="l00145" name="l00145"></a><span class="lineno">  145</span>      <span class="comment">// Try to use CpTrajectoryExecutor component (preferred)</span></div>
+<div class="line"><a id="l00146" name="l00146"></a><span class="lineno">  146</span>      <a class="code hl_class" href="classcl__moveit2z_1_1CpTrajectoryExecutor.html">CpTrajectoryExecutor</a> * trajectoryExecutor = <span class="keyword">nullptr</span>;</div>
+<div class="line"><a id="l00147" name="l00147"></a><span class="lineno">  147</span>      this-&gt;<a class="code hl_function" href="classsmacc2_1_1ISmaccClientBehavior.html#aeb76b10b9bb3925244da9d484739a5a9">requiresComponent</a>(</div>
+<div class="line"><a id="l00148" name="l00148"></a><span class="lineno">  148</span>        trajectoryExecutor, <a class="code hl_enumvalue" href="namespacesmacc2.html#ae6caa1d032436dea4d4d2a864566aff2a52e743143106c12bfd73aae547fc6e2e">smacc2::ComponentRequirement::SOFT</a>);  <span class="comment">// Optional component</span></div>
 <div class="line"><a id="l00149" name="l00149"></a><span class="lineno">  149</span> </div>
-<div class="line"><a id="l00150" name="l00150"></a><span class="lineno">  150</span>      <span class="keywordflow">if</span> (trajectoryExecutor != <span class="keyword">nullptr</span>)</div>
-<div class="line"><a id="l00151" name="l00151"></a><span class="lineno">  151</span>      {</div>
-<div class="line"><a id="l00152" name="l00152"></a><span class="lineno">  152</span>        <span class="comment">// Use component-based trajectory executor (preferred)</span></div>
-<div class="line"><a id="l00153" name="l00153"></a><span class="lineno">  153</span>        RCLCPP_INFO(</div>
-<div class="line"><a id="l00154" name="l00154"></a><span class="lineno">  154</span>          <a class="code hl_function" href="classsmacc2_1_1ISmaccClientBehavior.html#a9c3d82542c800e2ba5207c5cff0e63e8">getLogger</a>(), <span class="stringliteral">&quot;[CbMoveEndEffector] Using CpTrajectoryExecutor component for execution&quot;</span>);</div>
-<div class="line"><a id="l00155" name="l00155"></a><span class="lineno">  155</span> </div>
-<div class="line"><a id="l00156" name="l00156"></a><span class="lineno">  156</span>        <a class="code hl_struct" href="structcl__moveit2z_1_1ExecutionOptions.html">ExecutionOptions</a> execOptions;</div>
-<div class="line"><a id="l00157" name="l00157"></a><span class="lineno">  157</span>        execOptions.<a class="code hl_variable" href="structcl__moveit2z_1_1ExecutionOptions.html#aba08a106377f5ebd9268333c58f82c4b">trajectoryName</a> = this-&gt;<a class="code hl_function" href="classsmacc2_1_1ISmaccClientBehavior.html#a3feaa9c382a7d376b7ba0017a63e294e">getName</a>();</div>
-<div class="line"><a id="l00158" name="l00158"></a><span class="lineno">  158</span> </div>
-<div class="line"><a id="l00159" name="l00159"></a><span class="lineno">  159</span>        <span class="keyword">auto</span> execResult = trajectoryExecutor-&gt;<a class="code hl_function" href="classcl__moveit2z_1_1CpTrajectoryExecutor.html#aa815e2744ddd69fe694ece787cd422b3">executePlan</a>(computedMotionPlan, execOptions);</div>
-<div class="line"><a id="l00160" name="l00160"></a><span class="lineno">  160</span>        executionSuccess = execResult.success;</div>
-<div class="line"><a id="l00161" name="l00161"></a><span class="lineno">  161</span> </div>
-<div class="line"><a id="l00162" name="l00162"></a><span class="lineno">  162</span>        <span class="keywordflow">if</span> (executionSuccess)</div>
-<div class="line"><a id="l00163" name="l00163"></a><span class="lineno">  163</span>        {</div>
-<div class="line"><a id="l00164" name="l00164"></a><span class="lineno">  164</span>          RCLCPP_INFO(</div>
-<div class="line"><a id="l00165" name="l00165"></a><span class="lineno">  165</span>            <a class="code hl_function" href="classsmacc2_1_1ISmaccClientBehavior.html#a9c3d82542c800e2ba5207c5cff0e63e8">getLogger</a>(), <span class="stringliteral">&quot;[CbMoveEndEffector] Execution succeeded (via CpTrajectoryExecutor)&quot;</span>);</div>
-<div class="line"><a id="l00166" name="l00166"></a><span class="lineno">  166</span>        }</div>
-<div class="line"><a id="l00167" name="l00167"></a><span class="lineno">  167</span>        <span class="keywordflow">else</span></div>
-<div class="line"><a id="l00168" name="l00168"></a><span class="lineno">  168</span>        {</div>
-<div class="line"><a id="l00169" name="l00169"></a><span class="lineno">  169</span>          RCLCPP_WARN(</div>
-<div class="line"><a id="l00170" name="l00170"></a><span class="lineno">  170</span>            <a class="code hl_function" href="classsmacc2_1_1ISmaccClientBehavior.html#a9c3d82542c800e2ba5207c5cff0e63e8">getLogger</a>(), <span class="stringliteral">&quot;[CbMoveEndEffector] Execution failed (via CpTrajectoryExecutor): %s&quot;</span>,</div>
-<div class="line"><a id="l00171" name="l00171"></a><span class="lineno">  171</span>            execResult.errorMessage.c_str());</div>
-<div class="line"><a id="l00172" name="l00172"></a><span class="lineno">  172</span>        }</div>
-<div class="line"><a id="l00173" name="l00173"></a><span class="lineno">  173</span>      }</div>
-<div class="line"><a id="l00174" name="l00174"></a><span class="lineno">  174</span>      <span class="keywordflow">else</span></div>
-<div class="line"><a id="l00175" name="l00175"></a><span class="lineno">  175</span>      {</div>
-<div class="line"><a id="l00176" name="l00176"></a><span class="lineno">  176</span>        <span class="comment">// Fallback to legacy direct execution</span></div>
-<div class="line"><a id="l00177" name="l00177"></a><span class="lineno">  177</span>        RCLCPP_WARN(</div>
-<div class="line"><a id="l00178" name="l00178"></a><span class="lineno">  178</span>          <a class="code hl_function" href="classsmacc2_1_1ISmaccClientBehavior.html#a9c3d82542c800e2ba5207c5cff0e63e8">getLogger</a>(),</div>
-<div class="line"><a id="l00179" name="l00179"></a><span class="lineno">  179</span>          <span class="stringliteral">&quot;[CbMoveEndEffector] CpTrajectoryExecutor component not available, using legacy &quot;</span></div>
-<div class="line"><a id="l00180" name="l00180"></a><span class="lineno">  180</span>          <span class="stringliteral">&quot;execution &quot;</span></div>
-<div class="line"><a id="l00181" name="l00181"></a><span class="lineno">  181</span>          <span class="stringliteral">&quot;(consider adding CpTrajectoryExecutor component)&quot;</span>);</div>
-<div class="line"><a id="l00182" name="l00182"></a><span class="lineno">  182</span> </div>
-<div class="line"><a id="l00183" name="l00183"></a><span class="lineno">  183</span>        <span class="keyword">auto</span> executionResult = moveGroupInterface.execute(computedMotionPlan);</div>
-<div class="line"><a id="l00184" name="l00184"></a><span class="lineno">  184</span>        executionSuccess = (executionResult == moveit_msgs::msg::MoveItErrorCodes::SUCCESS);</div>
-<div class="line"><a id="l00185" name="l00185"></a><span class="lineno">  185</span> </div>
-<div class="line"><a id="l00186" name="l00186"></a><span class="lineno">  186</span>        RCLCPP_INFO(</div>
-<div class="line"><a id="l00187" name="l00187"></a><span class="lineno">  187</span>          <a class="code hl_function" href="classsmacc2_1_1ISmaccClientBehavior.html#a9c3d82542c800e2ba5207c5cff0e63e8">getLogger</a>(), <span class="stringliteral">&quot;[CbMoveEndEffector] Execution %s (legacy mode)&quot;</span>,</div>
-<div class="line"><a id="l00188" name="l00188"></a><span class="lineno">  188</span>          executionSuccess ? <span class="stringliteral">&quot;succeeded&quot;</span> : <span class="stringliteral">&quot;failed&quot;</span>);</div>
-<div class="line"><a id="l00189" name="l00189"></a><span class="lineno">  189</span>      }</div>
-<div class="line"><a id="l00190" name="l00190"></a><span class="lineno">  190</span> </div>
-<div class="line"><a id="l00191" name="l00191"></a><span class="lineno">  191</span>      <span class="comment">// Post events</span></div>
-<div class="line"><a id="l00192" name="l00192"></a><span class="lineno">  192</span>      <span class="keywordflow">if</span> (executionSuccess)</div>
-<div class="line"><a id="l00193" name="l00193"></a><span class="lineno">  193</span>      {</div>
-<div class="line"><a id="l00194" name="l00194"></a><span class="lineno">  194</span>        <a class="code hl_variable" href="classcl__moveit2z_1_1CbMoveEndEffector.html#a4279a2aad6abc1d2a6e5f8b2fe1aa2ff">movegroupClient_</a>-&gt;<a class="code hl_function" href="classcl__moveit2z_1_1ClMoveit2z.html#af1629101c36d1cf1f07b42955d5f1444">postEventMotionExecutionSucceded</a>();</div>
-<div class="line"><a id="l00195" name="l00195"></a><span class="lineno">  195</span>        this-&gt;<a class="code hl_function" href="classsmacc2_1_1SmaccAsyncClientBehavior.html#a2fb4de26d011fbbb55bc1bbaed2e6f5b">postSuccessEvent</a>();</div>
-<div class="line"><a id="l00196" name="l00196"></a><span class="lineno">  196</span>      }</div>
-<div class="line"><a id="l00197" name="l00197"></a><span class="lineno">  197</span>      <span class="keywordflow">else</span></div>
-<div class="line"><a id="l00198" name="l00198"></a><span class="lineno">  198</span>      {</div>
-<div class="line"><a id="l00199" name="l00199"></a><span class="lineno">  199</span>        <a class="code hl_variable" href="classcl__moveit2z_1_1CbMoveEndEffector.html#a4279a2aad6abc1d2a6e5f8b2fe1aa2ff">movegroupClient_</a>-&gt;<a class="code hl_function" href="classcl__moveit2z_1_1ClMoveit2z.html#aaa8bdd7ed8b74b726942222651e0811b">postEventMotionExecutionFailed</a>();</div>
-<div class="line"><a id="l00200" name="l00200"></a><span class="lineno">  200</span>        this-&gt;<a class="code hl_function" href="classsmacc2_1_1SmaccAsyncClientBehavior.html#afcb5c1a0bf3b9bae6c54e8f5ef1bc04d">postFailureEvent</a>();</div>
-<div class="line"><a id="l00201" name="l00201"></a><span class="lineno">  201</span>      }</div>
-<div class="line"><a id="l00202" name="l00202"></a><span class="lineno">  202</span>    }</div>
-<div class="line"><a id="l00203" name="l00203"></a><span class="lineno">  203</span>    <span class="keywordflow">else</span></div>
-<div class="line"><a id="l00204" name="l00204"></a><span class="lineno">  204</span>    {</div>
-<div class="line"><a id="l00205" name="l00205"></a><span class="lineno">  205</span>      RCLCPP_INFO(<a class="code hl_function" href="classsmacc2_1_1ISmaccClientBehavior.html#a9c3d82542c800e2ba5207c5cff0e63e8">getLogger</a>(), <span class="stringliteral">&quot;[CbMoveEndEffector] planning failed, skipping execution&quot;</span>);</div>
-<div class="line"><a id="l00206" name="l00206"></a><span class="lineno">  206</span>      <a class="code hl_variable" href="classcl__moveit2z_1_1CbMoveEndEffector.html#a4279a2aad6abc1d2a6e5f8b2fe1aa2ff">movegroupClient_</a>-&gt;<a class="code hl_function" href="classcl__moveit2z_1_1ClMoveit2z.html#aaa8bdd7ed8b74b726942222651e0811b">postEventMotionExecutionFailed</a>();</div>
-<div class="line"><a id="l00207" name="l00207"></a><span class="lineno">  207</span>      this-&gt;<a class="code hl_function" href="classsmacc2_1_1SmaccAsyncClientBehavior.html#afcb5c1a0bf3b9bae6c54e8f5ef1bc04d">postFailureEvent</a>();</div>
-<div class="line"><a id="l00208" name="l00208"></a><span class="lineno">  208</span>    }</div>
-<div class="line"><a id="l00209" name="l00209"></a><span class="lineno">  209</span> </div>
-<div class="line"><a id="l00210" name="l00210"></a><span class="lineno">  210</span>    RCLCPP_DEBUG(<a class="code hl_function" href="classsmacc2_1_1ISmaccClientBehavior.html#a9c3d82542c800e2ba5207c5cff0e63e8">getLogger</a>(), <span class="stringliteral">&quot;[CbMoveEndEffector] Synchronous sleep of 1 seconds&quot;</span>);</div>
-<div class="line"><a id="l00211" name="l00211"></a><span class="lineno">  211</span>    rclcpp::sleep_for(500ms);</div>
-<div class="line"><a id="l00212" name="l00212"></a><span class="lineno">  212</span> </div>
-<div class="line"><a id="l00213" name="l00213"></a><span class="lineno">  213</span>    <span class="keywordflow">return</span> success;</div>
-<div class="line"><a id="l00214" name="l00214"></a><span class="lineno">  214</span>  }</div>
+<div class="line"><a id="l00150" name="l00150"></a><span class="lineno">  150</span>      <span class="keywordtype">bool</span> executionSuccess = <span class="keyword">false</span>;</div>
+<div class="line"><a id="l00151" name="l00151"></a><span class="lineno">  151</span> </div>
+<div class="line"><a id="l00152" name="l00152"></a><span class="lineno">  152</span>      <span class="keywordflow">if</span> (trajectoryExecutor != <span class="keyword">nullptr</span>)</div>
+<div class="line"><a id="l00153" name="l00153"></a><span class="lineno">  153</span>      {</div>
+<div class="line"><a id="l00154" name="l00154"></a><span class="lineno">  154</span>        <span class="comment">// Use component-based trajectory executor (preferred)</span></div>
+<div class="line"><a id="l00155" name="l00155"></a><span class="lineno">  155</span>        RCLCPP_INFO(</div>
+<div class="line"><a id="l00156" name="l00156"></a><span class="lineno">  156</span>          <a class="code hl_function" href="classsmacc2_1_1ISmaccClientBehavior.html#a9c3d82542c800e2ba5207c5cff0e63e8">getLogger</a>(), <span class="stringliteral">&quot;[CbMoveEndEffector] Using CpTrajectoryExecutor component for execution&quot;</span>);</div>
+<div class="line"><a id="l00157" name="l00157"></a><span class="lineno">  157</span> </div>
+<div class="line"><a id="l00158" name="l00158"></a><span class="lineno">  158</span>        <a class="code hl_struct" href="structcl__moveit2z_1_1ExecutionOptions.html">ExecutionOptions</a> execOptions;</div>
+<div class="line"><a id="l00159" name="l00159"></a><span class="lineno">  159</span>        execOptions.<a class="code hl_variable" href="structcl__moveit2z_1_1ExecutionOptions.html#aba08a106377f5ebd9268333c58f82c4b">trajectoryName</a> = this-&gt;<a class="code hl_function" href="classsmacc2_1_1ISmaccClientBehavior.html#a3feaa9c382a7d376b7ba0017a63e294e">getName</a>();</div>
+<div class="line"><a id="l00160" name="l00160"></a><span class="lineno">  160</span> </div>
+<div class="line"><a id="l00161" name="l00161"></a><span class="lineno">  161</span>        <span class="keyword">auto</span> execResult = trajectoryExecutor-&gt;<a class="code hl_function" href="classcl__moveit2z_1_1CpTrajectoryExecutor.html#aa815e2744ddd69fe694ece787cd422b3">executePlan</a>(computedMotionPlan, execOptions);</div>
+<div class="line"><a id="l00162" name="l00162"></a><span class="lineno">  162</span>        executionSuccess = execResult.success;</div>
+<div class="line"><a id="l00163" name="l00163"></a><span class="lineno">  163</span> </div>
+<div class="line"><a id="l00164" name="l00164"></a><span class="lineno">  164</span>        <span class="keywordflow">if</span> (executionSuccess)</div>
+<div class="line"><a id="l00165" name="l00165"></a><span class="lineno">  165</span>        {</div>
+<div class="line"><a id="l00166" name="l00166"></a><span class="lineno">  166</span>          RCLCPP_INFO(</div>
+<div class="line"><a id="l00167" name="l00167"></a><span class="lineno">  167</span>            <a class="code hl_function" href="classsmacc2_1_1ISmaccClientBehavior.html#a9c3d82542c800e2ba5207c5cff0e63e8">getLogger</a>(), <span class="stringliteral">&quot;[CbMoveEndEffector] Execution succeeded (via CpTrajectoryExecutor)&quot;</span>);</div>
+<div class="line"><a id="l00168" name="l00168"></a><span class="lineno">  168</span>        }</div>
+<div class="line"><a id="l00169" name="l00169"></a><span class="lineno">  169</span>        <span class="keywordflow">else</span></div>
+<div class="line"><a id="l00170" name="l00170"></a><span class="lineno">  170</span>        {</div>
+<div class="line"><a id="l00171" name="l00171"></a><span class="lineno">  171</span>          RCLCPP_WARN(</div>
+<div class="line"><a id="l00172" name="l00172"></a><span class="lineno">  172</span>            <a class="code hl_function" href="classsmacc2_1_1ISmaccClientBehavior.html#a9c3d82542c800e2ba5207c5cff0e63e8">getLogger</a>(), <span class="stringliteral">&quot;[CbMoveEndEffector] Execution failed (via CpTrajectoryExecutor): %s&quot;</span>,</div>
+<div class="line"><a id="l00173" name="l00173"></a><span class="lineno">  173</span>            execResult.errorMessage.c_str());</div>
+<div class="line"><a id="l00174" name="l00174"></a><span class="lineno">  174</span>        }</div>
+<div class="line"><a id="l00175" name="l00175"></a><span class="lineno">  175</span>      }</div>
+<div class="line"><a id="l00176" name="l00176"></a><span class="lineno">  176</span>      <span class="keywordflow">else</span></div>
+<div class="line"><a id="l00177" name="l00177"></a><span class="lineno">  177</span>      {</div>
+<div class="line"><a id="l00178" name="l00178"></a><span class="lineno">  178</span>        <span class="comment">// Fallback to legacy direct execution</span></div>
+<div class="line"><a id="l00179" name="l00179"></a><span class="lineno">  179</span>        RCLCPP_WARN(</div>
+<div class="line"><a id="l00180" name="l00180"></a><span class="lineno">  180</span>          <a class="code hl_function" href="classsmacc2_1_1ISmaccClientBehavior.html#a9c3d82542c800e2ba5207c5cff0e63e8">getLogger</a>(),</div>
+<div class="line"><a id="l00181" name="l00181"></a><span class="lineno">  181</span>          <span class="stringliteral">&quot;[CbMoveEndEffector] CpTrajectoryExecutor component not available, using legacy &quot;</span></div>
+<div class="line"><a id="l00182" name="l00182"></a><span class="lineno">  182</span>          <span class="stringliteral">&quot;execution &quot;</span></div>
+<div class="line"><a id="l00183" name="l00183"></a><span class="lineno">  183</span>          <span class="stringliteral">&quot;(consider adding CpTrajectoryExecutor component)&quot;</span>);</div>
+<div class="line"><a id="l00184" name="l00184"></a><span class="lineno">  184</span> </div>
+<div class="line"><a id="l00185" name="l00185"></a><span class="lineno">  185</span>        <span class="keyword">auto</span> executionResult = moveGroupInterface.execute(computedMotionPlan);</div>
+<div class="line"><a id="l00186" name="l00186"></a><span class="lineno">  186</span>        executionSuccess = (executionResult == moveit_msgs::msg::MoveItErrorCodes::SUCCESS);</div>
+<div class="line"><a id="l00187" name="l00187"></a><span class="lineno">  187</span> </div>
+<div class="line"><a id="l00188" name="l00188"></a><span class="lineno">  188</span>        RCLCPP_INFO(</div>
+<div class="line"><a id="l00189" name="l00189"></a><span class="lineno">  189</span>          <a class="code hl_function" href="classsmacc2_1_1ISmaccClientBehavior.html#a9c3d82542c800e2ba5207c5cff0e63e8">getLogger</a>(), <span class="stringliteral">&quot;[CbMoveEndEffector] Execution %s (legacy mode)&quot;</span>,</div>
+<div class="line"><a id="l00190" name="l00190"></a><span class="lineno">  190</span>          executionSuccess ? <span class="stringliteral">&quot;succeeded&quot;</span> : <span class="stringliteral">&quot;failed&quot;</span>);</div>
+<div class="line"><a id="l00191" name="l00191"></a><span class="lineno">  191</span>      }</div>
+<div class="line"><a id="l00192" name="l00192"></a><span class="lineno">  192</span> </div>
+<div class="line"><a id="l00193" name="l00193"></a><span class="lineno">  193</span>      <span class="comment">// Post events</span></div>
+<div class="line"><a id="l00194" name="l00194"></a><span class="lineno">  194</span>      <span class="keywordflow">if</span> (executionSuccess)</div>
+<div class="line"><a id="l00195" name="l00195"></a><span class="lineno">  195</span>      {</div>
+<div class="line"><a id="l00196" name="l00196"></a><span class="lineno">  196</span>        <a class="code hl_variable" href="classcl__moveit2z_1_1CbMoveEndEffector.html#a4279a2aad6abc1d2a6e5f8b2fe1aa2ff">movegroupClient_</a>-&gt;<a class="code hl_function" href="classcl__moveit2z_1_1ClMoveit2z.html#af1629101c36d1cf1f07b42955d5f1444">postEventMotionExecutionSucceded</a>();</div>
+<div class="line"><a id="l00197" name="l00197"></a><span class="lineno">  197</span>        this-&gt;<a class="code hl_function" href="classsmacc2_1_1SmaccAsyncClientBehavior.html#a2fb4de26d011fbbb55bc1bbaed2e6f5b">postSuccessEvent</a>();</div>
+<div class="line"><a id="l00198" name="l00198"></a><span class="lineno">  198</span>      }</div>
+<div class="line"><a id="l00199" name="l00199"></a><span class="lineno">  199</span>      <span class="keywordflow">else</span></div>
+<div class="line"><a id="l00200" name="l00200"></a><span class="lineno">  200</span>      {</div>
+<div class="line"><a id="l00201" name="l00201"></a><span class="lineno">  201</span>        <a class="code hl_variable" href="classcl__moveit2z_1_1CbMoveEndEffector.html#a4279a2aad6abc1d2a6e5f8b2fe1aa2ff">movegroupClient_</a>-&gt;<a class="code hl_function" href="classcl__moveit2z_1_1ClMoveit2z.html#aaa8bdd7ed8b74b726942222651e0811b">postEventMotionExecutionFailed</a>();</div>
+<div class="line"><a id="l00202" name="l00202"></a><span class="lineno">  202</span>        this-&gt;<a class="code hl_function" href="classsmacc2_1_1SmaccAsyncClientBehavior.html#afcb5c1a0bf3b9bae6c54e8f5ef1bc04d">postFailureEvent</a>();</div>
+<div class="line"><a id="l00203" name="l00203"></a><span class="lineno">  203</span>      }</div>
+<div class="line"><a id="l00204" name="l00204"></a><span class="lineno">  204</span>    }</div>
+<div class="line"><a id="l00205" name="l00205"></a><span class="lineno">  205</span>    <span class="keywordflow">else</span></div>
+<div class="line"><a id="l00206" name="l00206"></a><span class="lineno">  206</span>    {</div>
+<div class="line"><a id="l00207" name="l00207"></a><span class="lineno">  207</span>      RCLCPP_INFO(<a class="code hl_function" href="classsmacc2_1_1ISmaccClientBehavior.html#a9c3d82542c800e2ba5207c5cff0e63e8">getLogger</a>(), <span class="stringliteral">&quot;[CbMoveEndEffector] planning failed, skipping execution&quot;</span>);</div>
+<div class="line"><a id="l00208" name="l00208"></a><span class="lineno">  208</span>      <a class="code hl_variable" href="classcl__moveit2z_1_1CbMoveEndEffector.html#a4279a2aad6abc1d2a6e5f8b2fe1aa2ff">movegroupClient_</a>-&gt;<a class="code hl_function" href="classcl__moveit2z_1_1ClMoveit2z.html#aaa8bdd7ed8b74b726942222651e0811b">postEventMotionExecutionFailed</a>();</div>
+<div class="line"><a id="l00209" name="l00209"></a><span class="lineno">  209</span>      this-&gt;<a class="code hl_function" href="classsmacc2_1_1SmaccAsyncClientBehavior.html#afcb5c1a0bf3b9bae6c54e8f5ef1bc04d">postFailureEvent</a>();</div>
+<div class="line"><a id="l00210" name="l00210"></a><span class="lineno">  210</span>    }</div>
+<div class="line"><a id="l00211" name="l00211"></a><span class="lineno">  211</span> </div>
+<div class="line"><a id="l00212" name="l00212"></a><span class="lineno">  212</span>    RCLCPP_DEBUG(<a class="code hl_function" href="classsmacc2_1_1ISmaccClientBehavior.html#a9c3d82542c800e2ba5207c5cff0e63e8">getLogger</a>(), <span class="stringliteral">&quot;[CbMoveEndEffector] Synchronous sleep of 1 seconds&quot;</span>);</div>
+<div class="line"><a id="l00213" name="l00213"></a><span class="lineno">  213</span>    rclcpp::sleep_for(500ms);</div>
+<div class="line"><a id="l00214" name="l00214"></a><span class="lineno">  214</span> </div>
+<div class="line"><a id="l00215" name="l00215"></a><span class="lineno">  215</span>    <span class="keywordflow">return</span> success;</div>
+<div class="line"><a id="l00216" name="l00216"></a><span class="lineno">  216</span>  }</div>
 </div>
-<div class="line"><a id="l00215" name="l00215"></a><span class="lineno">  215</span> </div>
-<div class="line"><a id="l00216" name="l00216"></a><span class="lineno"><a class="line" href="classcl__moveit2z_1_1CbMoveEndEffector.html#a4279a2aad6abc1d2a6e5f8b2fe1aa2ff">  216</a></span>  <a class="code hl_class" href="classcl__moveit2z_1_1ClMoveit2z.html">ClMoveit2z</a> * <a class="code hl_variable" href="classcl__moveit2z_1_1CbMoveEndEffector.html#a4279a2aad6abc1d2a6e5f8b2fe1aa2ff">movegroupClient_</a>;</div>
-<div class="line"><a id="l00217" name="l00217"></a><span class="lineno">  217</span>};</div>
+<div class="line"><a id="l00217" name="l00217"></a><span class="lineno">  217</span> </div>
+<div class="line"><a id="l00218" name="l00218"></a><span class="lineno"><a class="line" href="classcl__moveit2z_1_1CbMoveEndEffector.html#a4279a2aad6abc1d2a6e5f8b2fe1aa2ff">  218</a></span>  <a class="code hl_class" href="classcl__moveit2z_1_1ClMoveit2z.html">ClMoveit2z</a> * <a class="code hl_variable" href="classcl__moveit2z_1_1CbMoveEndEffector.html#a4279a2aad6abc1d2a6e5f8b2fe1aa2ff">movegroupClient_</a>;</div>
+<div class="line"><a id="l00219" name="l00219"></a><span class="lineno">  219</span>};</div>
 </div>
-<div class="line"><a id="l00218" name="l00218"></a><span class="lineno">  218</span>}  <span class="comment">// namespace cl_moveit2z</span></div>
+<div class="line"><a id="l00220" name="l00220"></a><span class="lineno">  220</span>}  <span class="comment">// namespace cl_moveit2z</span></div>
 <div class="ttc" id="acl__moveit2z_8hpp_html"><div class="ttname"><a href="cl__moveit2z_8hpp.html">cl_moveit2z.hpp</a></div></div>
 <div class="ttc" id="aclasscl__moveit2z_1_1CbMoveEndEffector_html"><div class="ttname"><a href="classcl__moveit2z_1_1CbMoveEndEffector.html">cl_moveit2z::CbMoveEndEffector</a></div><div class="ttdef"><b>Definition</b> <a href="#l00036">cb_move_end_effector.hpp:37</a></div></div>
 <div class="ttc" id="aclasscl__moveit2z_1_1CbMoveEndEffector_html_a06e928ed4407b4aead6a2147c916bcbb"><div class="ttname"><a href="classcl__moveit2z_1_1CbMoveEndEffector.html#a06e928ed4407b4aead6a2147c916bcbb">cl_moveit2z::CbMoveEndEffector::moveToAbsolutePose</a></div><div class="ttdeci">bool moveToAbsolutePose(moveit::planning_interface::MoveGroupInterface &amp;moveGroupInterface, geometry_msgs::msg::PoseStamped &amp;targetObjectPose)</div><div class="ttdef"><b>Definition</b> <a href="#l00075">cb_move_end_effector.hpp:75</a></div></div>
 <div class="ttc" id="aclasscl__moveit2z_1_1CbMoveEndEffector_html_a1ef618a2c8f4511d38e0b4f0e96757c5"><div class="ttname"><a href="classcl__moveit2z_1_1CbMoveEndEffector.html#a1ef618a2c8f4511d38e0b4f0e96757c5">cl_moveit2z::CbMoveEndEffector::CbMoveEndEffector</a></div><div class="ttdeci">CbMoveEndEffector()</div><div class="ttdef"><b>Definition</b> <a href="#l00043">cb_move_end_effector.hpp:43</a></div></div>
 <div class="ttc" id="aclasscl__moveit2z_1_1CbMoveEndEffector_html_a2f3f91c94cbc057f20d2c09c7330af05"><div class="ttname"><a href="classcl__moveit2z_1_1CbMoveEndEffector.html#a2f3f91c94cbc057f20d2c09c7330af05">cl_moveit2z::CbMoveEndEffector::onEntry</a></div><div class="ttdeci">virtual void onEntry() override</div><div class="ttdef"><b>Definition</b> <a href="#l00051">cb_move_end_effector.hpp:51</a></div></div>
-<div class="ttc" id="aclasscl__moveit2z_1_1CbMoveEndEffector_html_a4279a2aad6abc1d2a6e5f8b2fe1aa2ff"><div class="ttname"><a href="classcl__moveit2z_1_1CbMoveEndEffector.html#a4279a2aad6abc1d2a6e5f8b2fe1aa2ff">cl_moveit2z::CbMoveEndEffector::movegroupClient_</a></div><div class="ttdeci">ClMoveit2z * movegroupClient_</div><div class="ttdef"><b>Definition</b> <a href="#l00216">cb_move_end_effector.hpp:216</a></div></div>
+<div class="ttc" id="aclasscl__moveit2z_1_1CbMoveEndEffector_html_a4279a2aad6abc1d2a6e5f8b2fe1aa2ff"><div class="ttname"><a href="classcl__moveit2z_1_1CbMoveEndEffector.html#a4279a2aad6abc1d2a6e5f8b2fe1aa2ff">cl_moveit2z::CbMoveEndEffector::movegroupClient_</a></div><div class="ttdeci">ClMoveit2z * movegroupClient_</div><div class="ttdef"><b>Definition</b> <a href="#l00218">cb_move_end_effector.hpp:218</a></div></div>
 <div class="ttc" id="aclasscl__moveit2z_1_1CbMoveEndEffector_html_aa5c9ae753f183a46166e0856bf121390"><div class="ttname"><a href="classcl__moveit2z_1_1CbMoveEndEffector.html#aa5c9ae753f183a46166e0856bf121390">cl_moveit2z::CbMoveEndEffector::group_</a></div><div class="ttdeci">std::optional&lt; std::string &gt; group_</div><div class="ttdef"><b>Definition</b> <a href="#l00041">cb_move_end_effector.hpp:41</a></div></div>
 <div class="ttc" id="aclasscl__moveit2z_1_1CbMoveEndEffector_html_abcdb07e0f0fbd5c156340466cd07d680"><div class="ttname"><a href="classcl__moveit2z_1_1CbMoveEndEffector.html#abcdb07e0f0fbd5c156340466cd07d680">cl_moveit2z::CbMoveEndEffector::tip_link_</a></div><div class="ttdeci">std::string tip_link_</div><div class="ttdef"><b>Definition</b> <a href="#l00040">cb_move_end_effector.hpp:40</a></div></div>
 <div class="ttc" id="aclasscl__moveit2z_1_1CbMoveEndEffector_html_abf6dd4dadcefa9b53b1350c578ad1ab7"><div class="ttname"><a href="classcl__moveit2z_1_1CbMoveEndEffector.html#abf6dd4dadcefa9b53b1350c578ad1ab7">cl_moveit2z::CbMoveEndEffector::CbMoveEndEffector</a></div><div class="ttdeci">CbMoveEndEffector(geometry_msgs::msg::PoseStamped target_pose, std::string tip_link=&quot;&quot;)</div><div class="ttdef"><b>Definition</b> <a href="#l00045">cb_move_end_effector.hpp:45</a></div></div>
@@ -336,10 +338,10 @@ $(function(){ initResizable(false); });
 <div class="ttc" id="aclasscl__moveit2z_1_1CpTrajectoryExecutor_html"><div class="ttname"><a href="classcl__moveit2z_1_1CpTrajectoryExecutor.html">cl_moveit2z::CpTrajectoryExecutor</a></div><div class="ttdoc">Component for centralized trajectory execution.</div><div class="ttdef"><b>Definition</b> <a href="cp__trajectory__executor_8hpp_source.html#l00076">cp_trajectory_executor.hpp:77</a></div></div>
 <div class="ttc" id="aclasscl__moveit2z_1_1CpTrajectoryExecutor_html_aa815e2744ddd69fe694ece787cd422b3"><div class="ttname"><a href="classcl__moveit2z_1_1CpTrajectoryExecutor.html#aa815e2744ddd69fe694ece787cd422b3">cl_moveit2z::CpTrajectoryExecutor::executePlan</a></div><div class="ttdeci">ExecutionResult executePlan(const moveit::planning_interface::MoveGroupInterface::Plan &amp;plan, const ExecutionOptions &amp;options={})</div><div class="ttdoc">Execute a motion plan synchronously.</div><div class="ttdef"><b>Definition</b> <a href="cp__trajectory__executor_8hpp_source.html#l00187">cp_trajectory_executor.hpp:187</a></div></div>
 <div class="ttc" id="aclasssmacc2_1_1ISmaccClientBehavior_html_a3feaa9c382a7d376b7ba0017a63e294e"><div class="ttname"><a href="classsmacc2_1_1ISmaccClientBehavior.html#a3feaa9c382a7d376b7ba0017a63e294e">smacc2::ISmaccClientBehavior::getName</a></div><div class="ttdeci">std::string getName() const</div><div class="ttdef"><b>Definition</b> <a href="smacc__client__behavior__base_8cpp_source.html#l00036">smacc_client_behavior_base.cpp:36</a></div></div>
-<div class="ttc" id="aclasssmacc2_1_1ISmaccClientBehavior_html_a887b49b1e396503f9e22250ef88dbaff"><div class="ttname"><a href="classsmacc2_1_1ISmaccClientBehavior.html#a887b49b1e396503f9e22250ef88dbaff">smacc2::ISmaccClientBehavior::requiresComponent</a></div><div class="ttdeci">void requiresComponent(SmaccComponentType *&amp;storage, bool throwExceptionIfNotExist)</div><div class="ttdef"><b>Definition</b> <a href="smacc__client__behavior__impl_8hpp_source.html#l00091">smacc_client_behavior_impl.hpp:91</a></div></div>
 <div class="ttc" id="aclasssmacc2_1_1ISmaccClientBehavior_html_a9c3d82542c800e2ba5207c5cff0e63e8"><div class="ttname"><a href="classsmacc2_1_1ISmaccClientBehavior.html#a9c3d82542c800e2ba5207c5cff0e63e8">smacc2::ISmaccClientBehavior::getLogger</a></div><div class="ttdeci">virtual rclcpp::Logger getLogger() const</div><div class="ttdef"><b>Definition</b> <a href="smacc__client__behavior__base_8cpp_source.html#l00043">smacc_client_behavior_base.cpp:43</a></div></div>
 <div class="ttc" id="aclasssmacc2_1_1ISmaccClientBehavior_html_aa1b28d5e8a5208fff8160f9df9a89dc6"><div class="ttname"><a href="classsmacc2_1_1ISmaccClientBehavior.html#aa1b28d5e8a5208fff8160f9df9a89dc6">smacc2::ISmaccClientBehavior::getNode</a></div><div class="ttdeci">virtual rclcpp::Node::SharedPtr getNode() const</div><div class="ttdef"><b>Definition</b> <a href="smacc__client__behavior__base_8cpp_source.html#l00038">smacc_client_behavior_base.cpp:38</a></div></div>
 <div class="ttc" id="aclasssmacc2_1_1ISmaccClientBehavior_html_ad32d91e7aa6ac921b8d29610bd925244"><div class="ttname"><a href="classsmacc2_1_1ISmaccClientBehavior.html#ad32d91e7aa6ac921b8d29610bd925244">smacc2::ISmaccClientBehavior::requiresClient</a></div><div class="ttdeci">void requiresClient(SmaccClientType *&amp;storage)</div><div class="ttdef"><b>Definition</b> <a href="smacc__client__behavior__impl_8hpp_source.html#l00067">smacc_client_behavior_impl.hpp:67</a></div></div>
+<div class="ttc" id="aclasssmacc2_1_1ISmaccClientBehavior_html_aeb76b10b9bb3925244da9d484739a5a9"><div class="ttname"><a href="classsmacc2_1_1ISmaccClientBehavior.html#aeb76b10b9bb3925244da9d484739a5a9">smacc2::ISmaccClientBehavior::requiresComponent</a></div><div class="ttdeci">void requiresComponent(SmaccComponentType *&amp;storage, ComponentRequirement requirementType=ComponentRequirement::SOFT)</div><div class="ttdef"><b>Definition</b> <a href="smacc__client__behavior__impl_8hpp_source.html#l00073">smacc_client_behavior_impl.hpp:73</a></div></div>
 <div class="ttc" id="aclasssmacc2_1_1SmaccAsyncClientBehavior_html"><div class="ttname"><a href="classsmacc2_1_1SmaccAsyncClientBehavior.html">smacc2::SmaccAsyncClientBehavior</a></div><div class="ttdef"><b>Definition</b> <a href="smacc__asynchronous__client__behavior_8hpp_source.html#l00055">smacc_asynchronous_client_behavior.hpp:56</a></div></div>
 <div class="ttc" id="aclasssmacc2_1_1SmaccAsyncClientBehavior_html_a2fb4de26d011fbbb55bc1bbaed2e6f5b"><div class="ttname"><a href="classsmacc2_1_1SmaccAsyncClientBehavior.html#a2fb4de26d011fbbb55bc1bbaed2e6f5b">smacc2::SmaccAsyncClientBehavior::postSuccessEvent</a></div><div class="ttdeci">void postSuccessEvent()</div><div class="ttdef"><b>Definition</b> <a href="smacc__client__async__behavior_8cpp_source.html#l00153">smacc_client_async_behavior.cpp:153</a></div></div>
 <div class="ttc" id="aclasssmacc2_1_1SmaccAsyncClientBehavior_html_afcb5c1a0bf3b9bae6c54e8f5ef1bc04d"><div class="ttname"><a href="classsmacc2_1_1SmaccAsyncClientBehavior.html#afcb5c1a0bf3b9bae6c54e8f5ef1bc04d">smacc2::SmaccAsyncClientBehavior::postFailureEvent</a></div><div class="ttdeci">void postFailureEvent()</div><div class="ttdef"><b>Definition</b> <a href="smacc__client__async__behavior_8cpp_source.html#l00155">smacc_client_async_behavior.cpp:155</a></div></div>
@@ -347,6 +349,7 @@ $(function(){ initResizable(false); });
 <div class="ttc" id="acp__motion__planner_8hpp_html"><div class="ttname"><a href="cp__motion__planner_8hpp.html">cp_motion_planner.hpp</a></div></div>
 <div class="ttc" id="acp__trajectory__executor_8hpp_html"><div class="ttname"><a href="cp__trajectory__executor_8hpp.html">cp_trajectory_executor.hpp</a></div></div>
 <div class="ttc" id="anamespacecl__moveit2z_html"><div class="ttname"><a href="namespacecl__moveit2z.html">cl_moveit2z</a></div><div class="ttdef"><b>Definition</b> <a href="cl__moveit2z_8hpp_source.html#l00034">cl_moveit2z.hpp:35</a></div></div>
+<div class="ttc" id="anamespacesmacc2_html_ae6caa1d032436dea4d4d2a864566aff2a52e743143106c12bfd73aae547fc6e2e"><div class="ttname"><a href="namespacesmacc2.html#ae6caa1d032436dea4d4d2a864566aff2a52e743143106c12bfd73aae547fc6e2e">smacc2::ComponentRequirement::SOFT</a></div><div class="ttdeci">@ SOFT</div></div>
 <div class="ttc" id="asmacc__asynchronous__client__behavior_8hpp_html"><div class="ttname"><a href="smacc__asynchronous__client__behavior_8hpp.html">smacc_asynchronous_client_behavior.hpp</a></div></div>
 <div class="ttc" id="astructcl__moveit2z_1_1ExecutionOptions_html"><div class="ttname"><a href="structcl__moveit2z_1_1ExecutionOptions.html">cl_moveit2z::ExecutionOptions</a></div><div class="ttdoc">Configuration options for trajectory execution.</div><div class="ttdef"><b>Definition</b> <a href="cp__trajectory__executor_8hpp_source.html#l00041">cp_trajectory_executor.hpp:42</a></div></div>
 <div class="ttc" id="astructcl__moveit2z_1_1ExecutionOptions_html_aba08a106377f5ebd9268333c58f82c4b"><div class="ttname"><a href="structcl__moveit2z_1_1ExecutionOptions.html#aba08a106377f5ebd9268333c58f82c4b">cl_moveit2z::ExecutionOptions::trajectoryName</a></div><div class="ttdeci">std::optional&lt; std::string &gt; trajectoryName</div><div class="ttdef"><b>Definition</b> <a href="cp__trajectory__executor_8hpp_source.html#l00046">cp_trajectory_executor.hpp:46</a></div></div>
