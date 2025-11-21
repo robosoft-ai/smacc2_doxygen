@@ -198,150 +198,148 @@ Definition at line \mbox{\hyperlink{cb__position__control__free__space_8cpp_sour
 \DoxyCodeLine{00050\ \ \ geometry\_msgs::msg::Pose\ currentPose\ =\ pose-\/>toPoseMsg();}
 \DoxyCodeLine{00051\ }
 \DoxyCodeLine{00052\ \ \ rclcpp::Rate\ loop\_rate(10);}
-\DoxyCodeLine{00053\ \ \ \textcolor{keywordtype}{double}\ countAngle\ =\ 0;}
-\DoxyCodeLine{00054\ \ \ \textcolor{keyword}{auto}\ prevyaw\ =\ tf2::getYaw(currentPose.orientation);}
-\DoxyCodeLine{00055\ }
-\DoxyCodeLine{00056\ \ \ \textcolor{comment}{//\ PID\ controller\ gains\ (proportional,\ integral,\ and\ derivative)}}
-\DoxyCodeLine{00057\ \ \ \textcolor{keywordtype}{double}\ kp\_linear\ =\ 0.5;}
-\DoxyCodeLine{00058\ \ \ \textcolor{keywordtype}{double}\ ki\_linear\ =\ 0.0;}
-\DoxyCodeLine{00059\ \ \ \textcolor{keywordtype}{double}\ kd\_linear\ =\ 0.1;}
-\DoxyCodeLine{00060\ }
-\DoxyCodeLine{00061\ \ \ \textcolor{keywordtype}{double}\ kp\_angular\ =\ 0.5;}
-\DoxyCodeLine{00062\ \ \ \textcolor{keywordtype}{double}\ ki\_angular\ =\ 0.0;}
-\DoxyCodeLine{00063\ \ \ \textcolor{keywordtype}{double}\ kd\_angular\ =\ 0.1;}
-\DoxyCodeLine{00064\ }
-\DoxyCodeLine{00065\ \ \ \textcolor{keywordflow}{while}\ (rclcpp::ok()\ \&\&\ !\mbox{\hyperlink{structcl__nav2z_1_1CbPositionControlFreeSpace_a7dc345f6d2299eb50f656c8e03653958}{goalReached\_}})}
-\DoxyCodeLine{00066\ \ \ \{}
-\DoxyCodeLine{00067\ \ \ \ \ RCLCPP\_INFO\_STREAM\_THROTTLE(}
-\DoxyCodeLine{00068\ \ \ \ \ \ \ \mbox{\hyperlink{classsmacc2_1_1ISmaccClientBehavior_a9c3d82542c800e2ba5207c5cff0e63e8}{getLogger}}(),\ *\mbox{\hyperlink{classsmacc2_1_1ISmaccClientBehavior_aa1b28d5e8a5208fff8160f9df9a89dc6}{getNode}}()-\/>get\_clock(),\ 200,}
-\DoxyCodeLine{00069\ \ \ \ \ \ \ \textcolor{stringliteral}{"{}CbPositionControlFreeSpace,\ current\ pose:\ "{}}\ <<\ currentPose.position.x\ <<\ \textcolor{stringliteral}{"{},\ "{}}}
-\DoxyCodeLine{00070\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ <<\ currentPose.position.y\ <<\ \textcolor{stringliteral}{"{},\ "{}}}
-\DoxyCodeLine{00071\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ <<\ tf2::getYaw(currentPose.orientation));}
-\DoxyCodeLine{00072\ }
-\DoxyCodeLine{00073\ \ \ \ \ RCLCPP\_INFO\_STREAM\_THROTTLE(}
-\DoxyCodeLine{00074\ \ \ \ \ \ \ \mbox{\hyperlink{classsmacc2_1_1ISmaccClientBehavior_a9c3d82542c800e2ba5207c5cff0e63e8}{getLogger}}(),\ *\mbox{\hyperlink{classsmacc2_1_1ISmaccClientBehavior_aa1b28d5e8a5208fff8160f9df9a89dc6}{getNode}}()-\/>get\_clock(),\ 200,}
-\DoxyCodeLine{00075\ \ \ \ \ \ \ \textcolor{stringliteral}{"{}CbPositionControlFreeSpace,\ target\ pose:\ "{}}\ <<\ \mbox{\hyperlink{structcl__nav2z_1_1CbPositionControlFreeSpace_acfd6926ba77b3c5f96265182a33f066f}{target\_pose\_}}.position.x\ <<\ \textcolor{stringliteral}{"{},\ "{}}}
-\DoxyCodeLine{00076\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ <<\ \mbox{\hyperlink{structcl__nav2z_1_1CbPositionControlFreeSpace_acfd6926ba77b3c5f96265182a33f066f}{target\_pose\_}}.position.y\ <<\ \textcolor{stringliteral}{"{},\ "{}}}
-\DoxyCodeLine{00077\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ <<\ tf2::getYaw(\mbox{\hyperlink{structcl__nav2z_1_1CbPositionControlFreeSpace_acfd6926ba77b3c5f96265182a33f066f}{target\_pose\_}}.orientation));}
-\DoxyCodeLine{00078\ }
-\DoxyCodeLine{00079\ \ \ \ \ tf2::Quaternion\ q;}
-\DoxyCodeLine{00080\ \ \ \ \ currentPose\ =\ pose-\/>toPoseMsg();}
-\DoxyCodeLine{00081\ }
-\DoxyCodeLine{00082\ \ \ \ \ \textcolor{comment}{//\ Here\ we\ implement\ the\ control\ logic\ to\ calculate\ the\ velocity\ command}}
-\DoxyCodeLine{00083\ \ \ \ \ \textcolor{comment}{//\ based\ on\ the\ received\ position\ of\ the\ vehicle\ and\ the\ target\ pose.}}
-\DoxyCodeLine{00084\ }
-\DoxyCodeLine{00085\ \ \ \ \ \textcolor{comment}{//\ Calculate\ the\ errors\ in\ x\ and\ y}}
-\DoxyCodeLine{00086\ \ \ \ \ \textcolor{keywordtype}{double}\ error\_x\ =\ \mbox{\hyperlink{structcl__nav2z_1_1CbPositionControlFreeSpace_acfd6926ba77b3c5f96265182a33f066f}{target\_pose\_}}.position.x\ -\/\ currentPose.position.x;}
-\DoxyCodeLine{00087\ \ \ \ \ \textcolor{keywordtype}{double}\ error\_y\ =\ \mbox{\hyperlink{structcl__nav2z_1_1CbPositionControlFreeSpace_acfd6926ba77b3c5f96265182a33f066f}{target\_pose\_}}.position.y\ -\/\ currentPose.position.y;}
-\DoxyCodeLine{00088\ }
-\DoxyCodeLine{00089\ \ \ \ \ \textcolor{comment}{//\ Calculate\ the\ distance\ to\ the\ target\ pose}}
-\DoxyCodeLine{00090\ \ \ \ \ \textcolor{keywordtype}{double}\ distance\_to\_target\ =\ std::sqrt(error\_x\ *\ error\_x\ +\ error\_y\ *\ error\_y);}
-\DoxyCodeLine{00091\ }
-\DoxyCodeLine{00092\ \ \ \ \ RCLCPP\_INFO\_STREAM(}
-\DoxyCodeLine{00093\ \ \ \ \ \ \ \mbox{\hyperlink{classsmacc2_1_1ISmaccClientBehavior_a9c3d82542c800e2ba5207c5cff0e63e8}{getLogger}}(),\ \textcolor{stringliteral}{"{}["{}}\ <<\ \mbox{\hyperlink{classsmacc2_1_1ISmaccClientBehavior_a3feaa9c382a7d376b7ba0017a63e294e}{getName}}()\ <<\ \textcolor{stringliteral}{"{}]\ distance\ to\ target:\ "{}}\ <<\ distance\_to\_target}
-\DoxyCodeLine{00094\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ <<\ \textcolor{stringliteral}{"{}\ (\ th:\ "{}}\ <<\ \mbox{\hyperlink{structcl__nav2z_1_1CbPositionControlFreeSpace_a4adcb7de008328296d9c3878e1908cd0}{threshold\_distance\_}}\ <<\ \textcolor{stringliteral}{"{})"{}});}
-\DoxyCodeLine{00095\ }
-\DoxyCodeLine{00096\ \ \ \ \ \textcolor{comment}{//\ Check\ if\ the\ robot\ has\ reached\ the\ target\ pose}}
-\DoxyCodeLine{00097\ \ \ \ \ \textcolor{keywordflow}{if}\ (distance\_to\_target\ <\ \mbox{\hyperlink{structcl__nav2z_1_1CbPositionControlFreeSpace_a4adcb7de008328296d9c3878e1908cd0}{threshold\_distance\_}})}
-\DoxyCodeLine{00098\ \ \ \ \ \{}
-\DoxyCodeLine{00099\ \ \ \ \ \ \ RCLCPP\_INFO(\mbox{\hyperlink{classsmacc2_1_1ISmaccClientBehavior_a9c3d82542c800e2ba5207c5cff0e63e8}{getLogger}}(),\ \textcolor{stringliteral}{"{}Goal\ reached!"{}});}
-\DoxyCodeLine{00100\ \ \ \ \ \ \ \textcolor{comment}{//\ Stop\ the\ robot\ by\ setting\ the\ velocity\ commands\ to\ zero}}
-\DoxyCodeLine{00101\ \ \ \ \ \ \ geometry\_msgs::msg::Twist\ cmd\_vel\_msg;}
-\DoxyCodeLine{00102\ \ \ \ \ \ \ cmd\_vel\_msg.linear.x\ =\ 0.0;}
-\DoxyCodeLine{00103\ \ \ \ \ \ \ cmd\_vel\_msg.angular.z\ =\ 0.0;}
-\DoxyCodeLine{00104\ \ \ \ \ \ \ \mbox{\hyperlink{structcl__nav2z_1_1CbPositionControlFreeSpace_ab75251f26749e775580970008fa1f113}{cmd\_vel\_pub\_}}-\/>publish(cmd\_vel\_msg);}
-\DoxyCodeLine{00105\ \ \ \ \ \ \ \textcolor{keywordflow}{break};}
-\DoxyCodeLine{00106\ \ \ \ \ \}}
-\DoxyCodeLine{00107\ \ \ \ \ \textcolor{keywordflow}{else}}
-\DoxyCodeLine{00108\ \ \ \ \ \{}
-\DoxyCodeLine{00109\ \ \ \ \ \ \ \textcolor{comment}{//\ Calculate\ the\ desired\ orientation\ angle}}
-\DoxyCodeLine{00110\ \ \ \ \ \ \ \textcolor{keywordtype}{double}\ desired\_yaw\ =\ std::atan2(error\_y,\ error\_x);}
-\DoxyCodeLine{00111\ }
-\DoxyCodeLine{00112\ \ \ \ \ \ \ \textcolor{comment}{//\ Calculate\ the\ difference\ between\ the\ desired\ orientation\ and\ the}}
-\DoxyCodeLine{00113\ \ \ \ \ \ \ \textcolor{comment}{//\ current\ orientation}}
-\DoxyCodeLine{00114\ \ \ \ \ \ \ \textcolor{keywordtype}{double}\ yaw\_error\ =\ desired\_yaw\ -\/\ (tf2::getYaw(currentPose.orientation)\ +\ M\_PI);}
-\DoxyCodeLine{00115\ }
-\DoxyCodeLine{00116\ \ \ \ \ \ \ \textcolor{comment}{//\ Ensure\ the\ yaw\ error\ is\ within\ the\ range\ [-\/pi,\ pi]}}
-\DoxyCodeLine{00117\ \ \ \ \ \ \ \textcolor{keywordflow}{while}\ (yaw\_error\ >\ M\_PI)\ yaw\_error\ -\/=\ 2\ *\ M\_PI;}
-\DoxyCodeLine{00118\ \ \ \ \ \ \ \textcolor{keywordflow}{while}\ (yaw\_error\ <\ -\/M\_PI)\ yaw\_error\ +=\ 2\ *\ M\_PI;}
-\DoxyCodeLine{00119\ }
-\DoxyCodeLine{00120\ \ \ \ \ \ \ \textcolor{comment}{//\ Calculate\ the\ control\ signals\ (velocity\ commands)\ using\ PID\ controllers}}
-\DoxyCodeLine{00121\ \ \ \ \ \ \ \textcolor{keywordtype}{double}\ cmd\_linear\_x\ =\ kp\_linear\ *\ distance\_to\_target\ +\ ki\_linear\ *\ \mbox{\hyperlink{structcl__nav2z_1_1CbPositionControlFreeSpace_af305965c3f837378872c1893d1524731}{integral\_linear\_}}\ +}
-\DoxyCodeLine{00122\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ kd\_linear\ *\ (distance\_to\_target\ -\/\ \mbox{\hyperlink{structcl__nav2z_1_1CbPositionControlFreeSpace_ae180a86ae4408cfa896a8ffd6a8e35fc}{prev\_error\_linear\_}});}
-\DoxyCodeLine{00123\ \ \ \ \ \ \ \textcolor{keywordtype}{double}\ cmd\_angular\_z\ =\ kp\_angular\ *\ yaw\_error\ +\ ki\_angular\ *\ \mbox{\hyperlink{structcl__nav2z_1_1CbPositionControlFreeSpace_ae0b73ae875a8dab72203ab2e769108f8}{integral\_angular\_}}\ +}
-\DoxyCodeLine{00124\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ kd\_angular\ *\ (yaw\_error\ -\/\ \mbox{\hyperlink{structcl__nav2z_1_1CbPositionControlFreeSpace_a467b43e3cf492f214066454f9be46b97}{prev\_error\_angular\_}});}
-\DoxyCodeLine{00125\ }
-\DoxyCodeLine{00126\ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (cmd\_linear\_x\ >\ \mbox{\hyperlink{structcl__nav2z_1_1CbPositionControlFreeSpace_adf6cc61c4f052e604c829c30fc7b5d0d}{max\_linear\_velocity}})}
-\DoxyCodeLine{00127\ \ \ \ \ \ \ \ \ cmd\_linear\_x\ =\ \mbox{\hyperlink{structcl__nav2z_1_1CbPositionControlFreeSpace_adf6cc61c4f052e604c829c30fc7b5d0d}{max\_linear\_velocity}};}
-\DoxyCodeLine{00128\ \ \ \ \ \ \ \textcolor{keywordflow}{else}\ \textcolor{keywordflow}{if}\ (cmd\_linear\_x\ <\ -\/\mbox{\hyperlink{structcl__nav2z_1_1CbPositionControlFreeSpace_adf6cc61c4f052e604c829c30fc7b5d0d}{max\_linear\_velocity}})}
-\DoxyCodeLine{00129\ \ \ \ \ \ \ \ \ cmd\_linear\_x\ =\ -\/\mbox{\hyperlink{structcl__nav2z_1_1CbPositionControlFreeSpace_adf6cc61c4f052e604c829c30fc7b5d0d}{max\_linear\_velocity}};}
-\DoxyCodeLine{00130\ }
-\DoxyCodeLine{00131\ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (cmd\_angular\_z\ >\ \mbox{\hyperlink{structcl__nav2z_1_1CbPositionControlFreeSpace_ac7e5ede7d01f208e45aa95491e4388da}{max\_angular\_velocity}})}
-\DoxyCodeLine{00132\ \ \ \ \ \ \ \ \ cmd\_angular\_z\ =\ \mbox{\hyperlink{structcl__nav2z_1_1CbPositionControlFreeSpace_ac7e5ede7d01f208e45aa95491e4388da}{max\_angular\_velocity}};}
-\DoxyCodeLine{00133\ \ \ \ \ \ \ \textcolor{keywordflow}{else}\ \textcolor{keywordflow}{if}\ (cmd\_angular\_z\ <\ -\/\mbox{\hyperlink{structcl__nav2z_1_1CbPositionControlFreeSpace_ac7e5ede7d01f208e45aa95491e4388da}{max\_angular\_velocity}})}
-\DoxyCodeLine{00134\ \ \ \ \ \ \ \ \ cmd\_angular\_z\ =\ -\/\mbox{\hyperlink{structcl__nav2z_1_1CbPositionControlFreeSpace_ac7e5ede7d01f208e45aa95491e4388da}{max\_angular\_velocity}};}
-\DoxyCodeLine{00135\ }
-\DoxyCodeLine{00136\ \ \ \ \ \ \ \textcolor{comment}{//\ Construct\ and\ publish\ the\ velocity\ command\ message}}
-\DoxyCodeLine{00137\ \ \ \ \ \ \ geometry\_msgs::msg::Twist\ cmd\_vel\_msg;}
-\DoxyCodeLine{00138\ }
-\DoxyCodeLine{00139\ \ \ \ \ \ \ cmd\_vel\_msg.linear.x\ =\ cmd\_linear\_x;}
-\DoxyCodeLine{00140\ \ \ \ \ \ \ cmd\_vel\_msg.angular.z\ =\ cmd\_angular\_z;}
+\DoxyCodeLine{00053\ }
+\DoxyCodeLine{00054\ \ \ \textcolor{comment}{//\ PID\ controller\ gains\ (proportional,\ integral,\ and\ derivative)}}
+\DoxyCodeLine{00055\ \ \ \textcolor{keywordtype}{double}\ kp\_linear\ =\ 0.5;}
+\DoxyCodeLine{00056\ \ \ \textcolor{keywordtype}{double}\ ki\_linear\ =\ 0.0;}
+\DoxyCodeLine{00057\ \ \ \textcolor{keywordtype}{double}\ kd\_linear\ =\ 0.1;}
+\DoxyCodeLine{00058\ }
+\DoxyCodeLine{00059\ \ \ \textcolor{keywordtype}{double}\ kp\_angular\ =\ 0.5;}
+\DoxyCodeLine{00060\ \ \ \textcolor{keywordtype}{double}\ ki\_angular\ =\ 0.0;}
+\DoxyCodeLine{00061\ \ \ \textcolor{keywordtype}{double}\ kd\_angular\ =\ 0.1;}
+\DoxyCodeLine{00062\ }
+\DoxyCodeLine{00063\ \ \ \textcolor{keywordflow}{while}\ (rclcpp::ok()\ \&\&\ !\mbox{\hyperlink{structcl__nav2z_1_1CbPositionControlFreeSpace_a7dc345f6d2299eb50f656c8e03653958}{goalReached\_}})}
+\DoxyCodeLine{00064\ \ \ \{}
+\DoxyCodeLine{00065\ \ \ \ \ RCLCPP\_INFO\_STREAM\_THROTTLE(}
+\DoxyCodeLine{00066\ \ \ \ \ \ \ \mbox{\hyperlink{classsmacc2_1_1ISmaccClientBehavior_a9c3d82542c800e2ba5207c5cff0e63e8}{getLogger}}(),\ *\mbox{\hyperlink{classsmacc2_1_1ISmaccClientBehavior_aa1b28d5e8a5208fff8160f9df9a89dc6}{getNode}}()-\/>get\_clock(),\ 200,}
+\DoxyCodeLine{00067\ \ \ \ \ \ \ \textcolor{stringliteral}{"{}CbPositionControlFreeSpace,\ current\ pose:\ "{}}\ <<\ currentPose.position.x\ <<\ \textcolor{stringliteral}{"{},\ "{}}}
+\DoxyCodeLine{00068\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ <<\ currentPose.position.y\ <<\ \textcolor{stringliteral}{"{},\ "{}}}
+\DoxyCodeLine{00069\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ <<\ tf2::getYaw(currentPose.orientation));}
+\DoxyCodeLine{00070\ }
+\DoxyCodeLine{00071\ \ \ \ \ RCLCPP\_INFO\_STREAM\_THROTTLE(}
+\DoxyCodeLine{00072\ \ \ \ \ \ \ \mbox{\hyperlink{classsmacc2_1_1ISmaccClientBehavior_a9c3d82542c800e2ba5207c5cff0e63e8}{getLogger}}(),\ *\mbox{\hyperlink{classsmacc2_1_1ISmaccClientBehavior_aa1b28d5e8a5208fff8160f9df9a89dc6}{getNode}}()-\/>get\_clock(),\ 200,}
+\DoxyCodeLine{00073\ \ \ \ \ \ \ \textcolor{stringliteral}{"{}CbPositionControlFreeSpace,\ target\ pose:\ "{}}\ <<\ \mbox{\hyperlink{structcl__nav2z_1_1CbPositionControlFreeSpace_acfd6926ba77b3c5f96265182a33f066f}{target\_pose\_}}.position.x\ <<\ \textcolor{stringliteral}{"{},\ "{}}}
+\DoxyCodeLine{00074\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ <<\ \mbox{\hyperlink{structcl__nav2z_1_1CbPositionControlFreeSpace_acfd6926ba77b3c5f96265182a33f066f}{target\_pose\_}}.position.y\ <<\ \textcolor{stringliteral}{"{},\ "{}}}
+\DoxyCodeLine{00075\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ <<\ tf2::getYaw(\mbox{\hyperlink{structcl__nav2z_1_1CbPositionControlFreeSpace_acfd6926ba77b3c5f96265182a33f066f}{target\_pose\_}}.orientation));}
+\DoxyCodeLine{00076\ }
+\DoxyCodeLine{00077\ \ \ \ \ tf2::Quaternion\ q;}
+\DoxyCodeLine{00078\ \ \ \ \ currentPose\ =\ pose-\/>toPoseMsg();}
+\DoxyCodeLine{00079\ }
+\DoxyCodeLine{00080\ \ \ \ \ \textcolor{comment}{//\ Here\ we\ implement\ the\ control\ logic\ to\ calculate\ the\ velocity\ command}}
+\DoxyCodeLine{00081\ \ \ \ \ \textcolor{comment}{//\ based\ on\ the\ received\ position\ of\ the\ vehicle\ and\ the\ target\ pose.}}
+\DoxyCodeLine{00082\ }
+\DoxyCodeLine{00083\ \ \ \ \ \textcolor{comment}{//\ Calculate\ the\ errors\ in\ x\ and\ y}}
+\DoxyCodeLine{00084\ \ \ \ \ \textcolor{keywordtype}{double}\ error\_x\ =\ \mbox{\hyperlink{structcl__nav2z_1_1CbPositionControlFreeSpace_acfd6926ba77b3c5f96265182a33f066f}{target\_pose\_}}.position.x\ -\/\ currentPose.position.x;}
+\DoxyCodeLine{00085\ \ \ \ \ \textcolor{keywordtype}{double}\ error\_y\ =\ \mbox{\hyperlink{structcl__nav2z_1_1CbPositionControlFreeSpace_acfd6926ba77b3c5f96265182a33f066f}{target\_pose\_}}.position.y\ -\/\ currentPose.position.y;}
+\DoxyCodeLine{00086\ }
+\DoxyCodeLine{00087\ \ \ \ \ \textcolor{comment}{//\ Calculate\ the\ distance\ to\ the\ target\ pose}}
+\DoxyCodeLine{00088\ \ \ \ \ \textcolor{keywordtype}{double}\ distance\_to\_target\ =\ std::sqrt(error\_x\ *\ error\_x\ +\ error\_y\ *\ error\_y);}
+\DoxyCodeLine{00089\ }
+\DoxyCodeLine{00090\ \ \ \ \ RCLCPP\_INFO\_STREAM(}
+\DoxyCodeLine{00091\ \ \ \ \ \ \ \mbox{\hyperlink{classsmacc2_1_1ISmaccClientBehavior_a9c3d82542c800e2ba5207c5cff0e63e8}{getLogger}}(),\ \textcolor{stringliteral}{"{}["{}}\ <<\ \mbox{\hyperlink{classsmacc2_1_1ISmaccClientBehavior_a3feaa9c382a7d376b7ba0017a63e294e}{getName}}()\ <<\ \textcolor{stringliteral}{"{}]\ distance\ to\ target:\ "{}}\ <<\ distance\_to\_target}
+\DoxyCodeLine{00092\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ <<\ \textcolor{stringliteral}{"{}\ (\ th:\ "{}}\ <<\ \mbox{\hyperlink{structcl__nav2z_1_1CbPositionControlFreeSpace_a4adcb7de008328296d9c3878e1908cd0}{threshold\_distance\_}}\ <<\ \textcolor{stringliteral}{"{})"{}});}
+\DoxyCodeLine{00093\ }
+\DoxyCodeLine{00094\ \ \ \ \ \textcolor{comment}{//\ Check\ if\ the\ robot\ has\ reached\ the\ target\ pose}}
+\DoxyCodeLine{00095\ \ \ \ \ \textcolor{keywordflow}{if}\ (distance\_to\_target\ <\ \mbox{\hyperlink{structcl__nav2z_1_1CbPositionControlFreeSpace_a4adcb7de008328296d9c3878e1908cd0}{threshold\_distance\_}})}
+\DoxyCodeLine{00096\ \ \ \ \ \{}
+\DoxyCodeLine{00097\ \ \ \ \ \ \ RCLCPP\_INFO(\mbox{\hyperlink{classsmacc2_1_1ISmaccClientBehavior_a9c3d82542c800e2ba5207c5cff0e63e8}{getLogger}}(),\ \textcolor{stringliteral}{"{}Goal\ reached!"{}});}
+\DoxyCodeLine{00098\ \ \ \ \ \ \ \textcolor{comment}{//\ Stop\ the\ robot\ by\ setting\ the\ velocity\ commands\ to\ zero}}
+\DoxyCodeLine{00099\ \ \ \ \ \ \ geometry\_msgs::msg::Twist\ cmd\_vel\_msg;}
+\DoxyCodeLine{00100\ \ \ \ \ \ \ cmd\_vel\_msg.linear.x\ =\ 0.0;}
+\DoxyCodeLine{00101\ \ \ \ \ \ \ cmd\_vel\_msg.angular.z\ =\ 0.0;}
+\DoxyCodeLine{00102\ \ \ \ \ \ \ \mbox{\hyperlink{structcl__nav2z_1_1CbPositionControlFreeSpace_ab75251f26749e775580970008fa1f113}{cmd\_vel\_pub\_}}-\/>publish(cmd\_vel\_msg);}
+\DoxyCodeLine{00103\ \ \ \ \ \ \ \textcolor{keywordflow}{break};}
+\DoxyCodeLine{00104\ \ \ \ \ \}}
+\DoxyCodeLine{00105\ \ \ \ \ \textcolor{keywordflow}{else}}
+\DoxyCodeLine{00106\ \ \ \ \ \{}
+\DoxyCodeLine{00107\ \ \ \ \ \ \ \textcolor{comment}{//\ Calculate\ the\ desired\ orientation\ angle}}
+\DoxyCodeLine{00108\ \ \ \ \ \ \ \textcolor{keywordtype}{double}\ desired\_yaw\ =\ std::atan2(error\_y,\ error\_x);}
+\DoxyCodeLine{00109\ }
+\DoxyCodeLine{00110\ \ \ \ \ \ \ \textcolor{comment}{//\ Calculate\ the\ difference\ between\ the\ desired\ orientation\ and\ the}}
+\DoxyCodeLine{00111\ \ \ \ \ \ \ \textcolor{comment}{//\ current\ orientation}}
+\DoxyCodeLine{00112\ \ \ \ \ \ \ \textcolor{keywordtype}{double}\ yaw\_error\ =\ desired\_yaw\ -\/\ (tf2::getYaw(currentPose.orientation)\ +\ M\_PI);}
+\DoxyCodeLine{00113\ }
+\DoxyCodeLine{00114\ \ \ \ \ \ \ \textcolor{comment}{//\ Ensure\ the\ yaw\ error\ is\ within\ the\ range\ [-\/pi,\ pi]}}
+\DoxyCodeLine{00115\ \ \ \ \ \ \ \textcolor{keywordflow}{while}\ (yaw\_error\ >\ M\_PI)\ yaw\_error\ -\/=\ 2\ *\ M\_PI;}
+\DoxyCodeLine{00116\ \ \ \ \ \ \ \textcolor{keywordflow}{while}\ (yaw\_error\ <\ -\/M\_PI)\ yaw\_error\ +=\ 2\ *\ M\_PI;}
+\DoxyCodeLine{00117\ }
+\DoxyCodeLine{00118\ \ \ \ \ \ \ \textcolor{comment}{//\ Calculate\ the\ control\ signals\ (velocity\ commands)\ using\ PID\ controllers}}
+\DoxyCodeLine{00119\ \ \ \ \ \ \ \textcolor{keywordtype}{double}\ cmd\_linear\_x\ =\ kp\_linear\ *\ distance\_to\_target\ +\ ki\_linear\ *\ \mbox{\hyperlink{structcl__nav2z_1_1CbPositionControlFreeSpace_af305965c3f837378872c1893d1524731}{integral\_linear\_}}\ +}
+\DoxyCodeLine{00120\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ kd\_linear\ *\ (distance\_to\_target\ -\/\ \mbox{\hyperlink{structcl__nav2z_1_1CbPositionControlFreeSpace_ae180a86ae4408cfa896a8ffd6a8e35fc}{prev\_error\_linear\_}});}
+\DoxyCodeLine{00121\ \ \ \ \ \ \ \textcolor{keywordtype}{double}\ cmd\_angular\_z\ =\ kp\_angular\ *\ yaw\_error\ +\ ki\_angular\ *\ \mbox{\hyperlink{structcl__nav2z_1_1CbPositionControlFreeSpace_ae0b73ae875a8dab72203ab2e769108f8}{integral\_angular\_}}\ +}
+\DoxyCodeLine{00122\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ kd\_angular\ *\ (yaw\_error\ -\/\ \mbox{\hyperlink{structcl__nav2z_1_1CbPositionControlFreeSpace_a467b43e3cf492f214066454f9be46b97}{prev\_error\_angular\_}});}
+\DoxyCodeLine{00123\ }
+\DoxyCodeLine{00124\ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (cmd\_linear\_x\ >\ \mbox{\hyperlink{structcl__nav2z_1_1CbPositionControlFreeSpace_adf6cc61c4f052e604c829c30fc7b5d0d}{max\_linear\_velocity}})}
+\DoxyCodeLine{00125\ \ \ \ \ \ \ \ \ cmd\_linear\_x\ =\ \mbox{\hyperlink{structcl__nav2z_1_1CbPositionControlFreeSpace_adf6cc61c4f052e604c829c30fc7b5d0d}{max\_linear\_velocity}};}
+\DoxyCodeLine{00126\ \ \ \ \ \ \ \textcolor{keywordflow}{else}\ \textcolor{keywordflow}{if}\ (cmd\_linear\_x\ <\ -\/\mbox{\hyperlink{structcl__nav2z_1_1CbPositionControlFreeSpace_adf6cc61c4f052e604c829c30fc7b5d0d}{max\_linear\_velocity}})}
+\DoxyCodeLine{00127\ \ \ \ \ \ \ \ \ cmd\_linear\_x\ =\ -\/\mbox{\hyperlink{structcl__nav2z_1_1CbPositionControlFreeSpace_adf6cc61c4f052e604c829c30fc7b5d0d}{max\_linear\_velocity}};}
+\DoxyCodeLine{00128\ }
+\DoxyCodeLine{00129\ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (cmd\_angular\_z\ >\ \mbox{\hyperlink{structcl__nav2z_1_1CbPositionControlFreeSpace_ac7e5ede7d01f208e45aa95491e4388da}{max\_angular\_velocity}})}
+\DoxyCodeLine{00130\ \ \ \ \ \ \ \ \ cmd\_angular\_z\ =\ \mbox{\hyperlink{structcl__nav2z_1_1CbPositionControlFreeSpace_ac7e5ede7d01f208e45aa95491e4388da}{max\_angular\_velocity}};}
+\DoxyCodeLine{00131\ \ \ \ \ \ \ \textcolor{keywordflow}{else}\ \textcolor{keywordflow}{if}\ (cmd\_angular\_z\ <\ -\/\mbox{\hyperlink{structcl__nav2z_1_1CbPositionControlFreeSpace_ac7e5ede7d01f208e45aa95491e4388da}{max\_angular\_velocity}})}
+\DoxyCodeLine{00132\ \ \ \ \ \ \ \ \ cmd\_angular\_z\ =\ -\/\mbox{\hyperlink{structcl__nav2z_1_1CbPositionControlFreeSpace_ac7e5ede7d01f208e45aa95491e4388da}{max\_angular\_velocity}};}
+\DoxyCodeLine{00133\ }
+\DoxyCodeLine{00134\ \ \ \ \ \ \ \textcolor{comment}{//\ Construct\ and\ publish\ the\ velocity\ command\ message}}
+\DoxyCodeLine{00135\ \ \ \ \ \ \ geometry\_msgs::msg::Twist\ cmd\_vel\_msg;}
+\DoxyCodeLine{00136\ }
+\DoxyCodeLine{00137\ \ \ \ \ \ \ cmd\_vel\_msg.linear.x\ =\ cmd\_linear\_x;}
+\DoxyCodeLine{00138\ \ \ \ \ \ \ cmd\_vel\_msg.angular.z\ =\ cmd\_angular\_z;}
+\DoxyCodeLine{00139\ }
+\DoxyCodeLine{00140\ \ \ \ \ \ \ \mbox{\hyperlink{structcl__nav2z_1_1CbPositionControlFreeSpace_ab75251f26749e775580970008fa1f113}{cmd\_vel\_pub\_}}-\/>publish(cmd\_vel\_msg);}
 \DoxyCodeLine{00141\ }
-\DoxyCodeLine{00142\ \ \ \ \ \ \ \mbox{\hyperlink{structcl__nav2z_1_1CbPositionControlFreeSpace_ab75251f26749e775580970008fa1f113}{cmd\_vel\_pub\_}}-\/>publish(cmd\_vel\_msg);}
-\DoxyCodeLine{00143\ }
-\DoxyCodeLine{00144\ \ \ \ \ \ \ \textcolor{comment}{//\ Update\ errors\ and\ integrals\ for\ the\ next\ control\ cycle}}
-\DoxyCodeLine{00145\ \ \ \ \ \ \ \mbox{\hyperlink{structcl__nav2z_1_1CbPositionControlFreeSpace_ae180a86ae4408cfa896a8ffd6a8e35fc}{prev\_error\_linear\_}}\ =\ distance\_to\_target;}
-\DoxyCodeLine{00146\ \ \ \ \ \ \ \mbox{\hyperlink{structcl__nav2z_1_1CbPositionControlFreeSpace_a467b43e3cf492f214066454f9be46b97}{prev\_error\_angular\_}}\ =\ yaw\_error;}
-\DoxyCodeLine{00147\ \ \ \ \ \ \ \mbox{\hyperlink{structcl__nav2z_1_1CbPositionControlFreeSpace_af305965c3f837378872c1893d1524731}{integral\_linear\_}}\ +=\ distance\_to\_target;}
-\DoxyCodeLine{00148\ \ \ \ \ \ \ \mbox{\hyperlink{structcl__nav2z_1_1CbPositionControlFreeSpace_ae0b73ae875a8dab72203ab2e769108f8}{integral\_angular\_}}\ +=\ yaw\_error;}
-\DoxyCodeLine{00149\ }
-\DoxyCodeLine{00150\ \ \ \ \ \ \ \textcolor{comment}{//\ tf2::fromMsg(currentPose.orientation,\ q);}}
-\DoxyCodeLine{00151\ \ \ \ \ \ \ \textcolor{comment}{//\ auto\ currentYaw\ =\ tf2::getYaw(currentPose.orientation);}}
-\DoxyCodeLine{00152\ \ \ \ \ \ \ \textcolor{comment}{//\ auto\ deltaAngle\ =\ angles::shortest\_angular\_distance(prevyaw,}}
-\DoxyCodeLine{00153\ \ \ \ \ \ \ \textcolor{comment}{//\ currentYaw);\ countAngle\ +=\ deltaAngle;}}
-\DoxyCodeLine{00154\ }
-\DoxyCodeLine{00155\ \ \ \ \ \ \ \textcolor{comment}{//\ prevyaw\ =\ currentYaw;}}
-\DoxyCodeLine{00156\ \ \ \ \ \ \ \textcolor{comment}{//\ double\ angular\_error\ =\ targetYaw\_\ -\/\ countAngle;}}
-\DoxyCodeLine{00157\ }
-\DoxyCodeLine{00158\ \ \ \ \ \ \ \textcolor{comment}{//\ auto\ omega\ =\ angular\_error\ *\ k\_betta\_;}}
-\DoxyCodeLine{00159\ \ \ \ \ \ \ \textcolor{comment}{//\ cmd\_vel.linear.x\ =\ 0;}}
-\DoxyCodeLine{00160\ \ \ \ \ \ \ \textcolor{comment}{//\ cmd\_vel.linear.y\ =\ 0;}}
-\DoxyCodeLine{00161\ \ \ \ \ \ \ \textcolor{comment}{//\ cmd\_vel.linear.z\ =\ 0;}}
-\DoxyCodeLine{00162\ \ \ \ \ \ \ \textcolor{comment}{//\ cmd\_vel.angular.z\ =}}
-\DoxyCodeLine{00163\ \ \ \ \ \ \ \textcolor{comment}{//\ \ \ std::min(std::max(omega,\ -\/fabs(max\_angular\_yaw\_speed\_)),}}
-\DoxyCodeLine{00164\ \ \ \ \ \ \ \textcolor{comment}{//\ \ \ fabs(max\_angular\_yaw\_speed\_));}}
-\DoxyCodeLine{00165\ }
-\DoxyCodeLine{00166\ \ \ \ \ \ \ \textcolor{comment}{//\ RCLCPP\_INFO\_STREAM(getLogger(),\ "{}["{}\ <<\ getName()\ <<\ "{}]\ delta\ angle:\ "{}}}
-\DoxyCodeLine{00167\ \ \ \ \ \ \ \textcolor{comment}{//\ <<\ deltaAngle);\ RCLCPP\_INFO\_STREAM(getLogger(),\ "{}["{}\ <<\ getName()\ <<\ "{}]}}
-\DoxyCodeLine{00168\ \ \ \ \ \ \ \textcolor{comment}{//\ cummulated\ angle:\ "{}\ <<\ countAngle);\ RCLCPP\_INFO\_STREAM(getLogger(),\ "{}["{}}}
-\DoxyCodeLine{00169\ \ \ \ \ \ \ \textcolor{comment}{//\ <<\ getName()\ <<\ "{}]\ k\_betta\_:\ "{}\ <<\ k\_betta\_);}}
-\DoxyCodeLine{00170\ }
-\DoxyCodeLine{00171\ \ \ \ \ \ \ \textcolor{comment}{//\ RCLCPP\_INFO\_STREAM(}}
-\DoxyCodeLine{00172\ \ \ \ \ \ \ \textcolor{comment}{//\ \ \ getLogger(),\ "{}["{}\ <<\ getName()\ <<\ "{}]\ angular\ error:\ "{}\ <<\ angular\_error}}
-\DoxyCodeLine{00173\ \ \ \ \ \ \ \textcolor{comment}{//\ \ \ <<\ "{}("{}}}
-\DoxyCodeLine{00174\ \ \ \ \ \ \ \textcolor{comment}{//\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ <<\ yaw\_goal\_tolerance\_rads\_\ <<\ "{})"{});}}
-\DoxyCodeLine{00175\ \ \ \ \ \ \ \textcolor{comment}{//\ RCLCPP\_INFO\_STREAM(}}
-\DoxyCodeLine{00176\ \ \ \ \ \ \ \textcolor{comment}{//\ \ \ getLogger(),\ "{}["{}\ <<\ getName()\ <<\ "{}]\ command\ angular\ speed:\ "{}\ <<}}
-\DoxyCodeLine{00177\ \ \ \ \ \ \ \textcolor{comment}{//\ \ \ cmd\_vel.angular.z);}}
-\DoxyCodeLine{00178\ }
-\DoxyCodeLine{00179\ \ \ \ \ \ \ \textcolor{comment}{//\ if\ (fabs(angular\_error)\ <\ yaw\_goal\_tolerance\_rads\_)}}
-\DoxyCodeLine{00180\ \ \ \ \ \ \ \textcolor{comment}{//\ \{}}
-\DoxyCodeLine{00181\ \ \ \ \ \ \ \textcolor{comment}{//\ \ \ RCLCPP\_INFO\_STREAM(getLogger(),\ "{}["{}\ <<\ getName()\ <<\ "{}]\ GOAL\ REACHED.}}
-\DoxyCodeLine{00182\ \ \ \ \ \ \ \textcolor{comment}{//\ \ \ Sending\ stop\ command."{});\ goalReached\_\ =\ true;\ cmd\_vel.linear.x\ =\ 0;}}
-\DoxyCodeLine{00183\ \ \ \ \ \ \ \textcolor{comment}{//\ \ \ cmd\_vel.angular.z\ =\ 0;}}
-\DoxyCodeLine{00184\ \ \ \ \ \ \ \textcolor{comment}{//\ \ \ break;}}
-\DoxyCodeLine{00185\ \ \ \ \ \ \ \textcolor{comment}{//\ \}}}
+\DoxyCodeLine{00142\ \ \ \ \ \ \ \textcolor{comment}{//\ Update\ errors\ and\ integrals\ for\ the\ next\ control\ cycle}}
+\DoxyCodeLine{00143\ \ \ \ \ \ \ \mbox{\hyperlink{structcl__nav2z_1_1CbPositionControlFreeSpace_ae180a86ae4408cfa896a8ffd6a8e35fc}{prev\_error\_linear\_}}\ =\ distance\_to\_target;}
+\DoxyCodeLine{00144\ \ \ \ \ \ \ \mbox{\hyperlink{structcl__nav2z_1_1CbPositionControlFreeSpace_a467b43e3cf492f214066454f9be46b97}{prev\_error\_angular\_}}\ =\ yaw\_error;}
+\DoxyCodeLine{00145\ \ \ \ \ \ \ \mbox{\hyperlink{structcl__nav2z_1_1CbPositionControlFreeSpace_af305965c3f837378872c1893d1524731}{integral\_linear\_}}\ +=\ distance\_to\_target;}
+\DoxyCodeLine{00146\ \ \ \ \ \ \ \mbox{\hyperlink{structcl__nav2z_1_1CbPositionControlFreeSpace_ae0b73ae875a8dab72203ab2e769108f8}{integral\_angular\_}}\ +=\ yaw\_error;}
+\DoxyCodeLine{00147\ }
+\DoxyCodeLine{00148\ \ \ \ \ \ \ \textcolor{comment}{//\ tf2::fromMsg(currentPose.orientation,\ q);}}
+\DoxyCodeLine{00149\ \ \ \ \ \ \ \textcolor{comment}{//\ auto\ currentYaw\ =\ tf2::getYaw(currentPose.orientation);}}
+\DoxyCodeLine{00150\ \ \ \ \ \ \ \textcolor{comment}{//\ auto\ deltaAngle\ =\ angles::shortest\_angular\_distance(prevyaw,}}
+\DoxyCodeLine{00151\ \ \ \ \ \ \ \textcolor{comment}{//\ currentYaw);\ countAngle\ +=\ deltaAngle;}}
+\DoxyCodeLine{00152\ }
+\DoxyCodeLine{00153\ \ \ \ \ \ \ \textcolor{comment}{//\ prevyaw\ =\ currentYaw;}}
+\DoxyCodeLine{00154\ \ \ \ \ \ \ \textcolor{comment}{//\ double\ angular\_error\ =\ targetYaw\_\ -\/\ countAngle;}}
+\DoxyCodeLine{00155\ }
+\DoxyCodeLine{00156\ \ \ \ \ \ \ \textcolor{comment}{//\ auto\ omega\ =\ angular\_error\ *\ k\_betta\_;}}
+\DoxyCodeLine{00157\ \ \ \ \ \ \ \textcolor{comment}{//\ cmd\_vel.linear.x\ =\ 0;}}
+\DoxyCodeLine{00158\ \ \ \ \ \ \ \textcolor{comment}{//\ cmd\_vel.linear.y\ =\ 0;}}
+\DoxyCodeLine{00159\ \ \ \ \ \ \ \textcolor{comment}{//\ cmd\_vel.linear.z\ =\ 0;}}
+\DoxyCodeLine{00160\ \ \ \ \ \ \ \textcolor{comment}{//\ cmd\_vel.angular.z\ =}}
+\DoxyCodeLine{00161\ \ \ \ \ \ \ \textcolor{comment}{//\ \ \ std::min(std::max(omega,\ -\/fabs(max\_angular\_yaw\_speed\_)),}}
+\DoxyCodeLine{00162\ \ \ \ \ \ \ \textcolor{comment}{//\ \ \ fabs(max\_angular\_yaw\_speed\_));}}
+\DoxyCodeLine{00163\ }
+\DoxyCodeLine{00164\ \ \ \ \ \ \ \textcolor{comment}{//\ RCLCPP\_INFO\_STREAM(getLogger(),\ "{}["{}\ <<\ getName()\ <<\ "{}]\ delta\ angle:\ "{}}}
+\DoxyCodeLine{00165\ \ \ \ \ \ \ \textcolor{comment}{//\ <<\ deltaAngle);\ RCLCPP\_INFO\_STREAM(getLogger(),\ "{}["{}\ <<\ getName()\ <<\ "{}]}}
+\DoxyCodeLine{00166\ \ \ \ \ \ \ \textcolor{comment}{//\ cummulated\ angle:\ "{}\ <<\ countAngle);\ RCLCPP\_INFO\_STREAM(getLogger(),\ "{}["{}}}
+\DoxyCodeLine{00167\ \ \ \ \ \ \ \textcolor{comment}{//\ <<\ getName()\ <<\ "{}]\ k\_betta\_:\ "{}\ <<\ k\_betta\_);}}
+\DoxyCodeLine{00168\ }
+\DoxyCodeLine{00169\ \ \ \ \ \ \ \textcolor{comment}{//\ RCLCPP\_INFO\_STREAM(}}
+\DoxyCodeLine{00170\ \ \ \ \ \ \ \textcolor{comment}{//\ \ \ getLogger(),\ "{}["{}\ <<\ getName()\ <<\ "{}]\ angular\ error:\ "{}\ <<\ angular\_error}}
+\DoxyCodeLine{00171\ \ \ \ \ \ \ \textcolor{comment}{//\ \ \ <<\ "{}("{}}}
+\DoxyCodeLine{00172\ \ \ \ \ \ \ \textcolor{comment}{//\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ <<\ yaw\_goal\_tolerance\_rads\_\ <<\ "{})"{});}}
+\DoxyCodeLine{00173\ \ \ \ \ \ \ \textcolor{comment}{//\ RCLCPP\_INFO\_STREAM(}}
+\DoxyCodeLine{00174\ \ \ \ \ \ \ \textcolor{comment}{//\ \ \ getLogger(),\ "{}["{}\ <<\ getName()\ <<\ "{}]\ command\ angular\ speed:\ "{}\ <<}}
+\DoxyCodeLine{00175\ \ \ \ \ \ \ \textcolor{comment}{//\ \ \ cmd\_vel.angular.z);}}
+\DoxyCodeLine{00176\ }
+\DoxyCodeLine{00177\ \ \ \ \ \ \ \textcolor{comment}{//\ if\ (fabs(angular\_error)\ <\ yaw\_goal\_tolerance\_rads\_)}}
+\DoxyCodeLine{00178\ \ \ \ \ \ \ \textcolor{comment}{//\ \{}}
+\DoxyCodeLine{00179\ \ \ \ \ \ \ \textcolor{comment}{//\ \ \ RCLCPP\_INFO\_STREAM(getLogger(),\ "{}["{}\ <<\ getName()\ <<\ "{}]\ GOAL\ REACHED.}}
+\DoxyCodeLine{00180\ \ \ \ \ \ \ \textcolor{comment}{//\ \ \ Sending\ stop\ command."{});\ goalReached\_\ =\ true;\ cmd\_vel.linear.x\ =\ 0;}}
+\DoxyCodeLine{00181\ \ \ \ \ \ \ \textcolor{comment}{//\ \ \ cmd\_vel.angular.z\ =\ 0;}}
+\DoxyCodeLine{00182\ \ \ \ \ \ \ \textcolor{comment}{//\ \ \ break;}}
+\DoxyCodeLine{00183\ \ \ \ \ \ \ \textcolor{comment}{//\ \}}}
+\DoxyCodeLine{00184\ }
+\DoxyCodeLine{00185\ \ \ \ \ \ \ \textcolor{comment}{//\ this-\/>cmd\_vel\_pub\_-\/>publish(cmd\_vel);}}
 \DoxyCodeLine{00186\ }
-\DoxyCodeLine{00187\ \ \ \ \ \ \ \textcolor{comment}{//\ this-\/>cmd\_vel\_pub\_-\/>publish(cmd\_vel);}}
-\DoxyCodeLine{00188\ }
-\DoxyCodeLine{00189\ \ \ \ \ \ \ loop\_rate.sleep();}
-\DoxyCodeLine{00190\ \ \ \ \ \}}
-\DoxyCodeLine{00191\ \ \ \}}
+\DoxyCodeLine{00187\ \ \ \ \ \ \ loop\_rate.sleep();}
+\DoxyCodeLine{00188\ \ \ \ \ \}}
+\DoxyCodeLine{00189\ \ \ \}}
+\DoxyCodeLine{00190\ }
+\DoxyCodeLine{00191\ \ \ RCLCPP\_INFO\_STREAM(\mbox{\hyperlink{classsmacc2_1_1ISmaccClientBehavior_a9c3d82542c800e2ba5207c5cff0e63e8}{getLogger}}(),\ \textcolor{stringliteral}{"{}["{}}\ <<\ \mbox{\hyperlink{classsmacc2_1_1ISmaccClientBehavior_a3feaa9c382a7d376b7ba0017a63e294e}{getName}}()\ <<\ \textcolor{stringliteral}{"{}]\ Finished\ behavior\ execution"{}});}
 \DoxyCodeLine{00192\ }
-\DoxyCodeLine{00193\ \ \ RCLCPP\_INFO\_STREAM(\mbox{\hyperlink{classsmacc2_1_1ISmaccClientBehavior_a9c3d82542c800e2ba5207c5cff0e63e8}{getLogger}}(),\ \textcolor{stringliteral}{"{}["{}}\ <<\ \mbox{\hyperlink{classsmacc2_1_1ISmaccClientBehavior_a3feaa9c382a7d376b7ba0017a63e294e}{getName}}()\ <<\ \textcolor{stringliteral}{"{}]\ Finished\ behavior\ execution"{}});}
-\DoxyCodeLine{00194\ }
-\DoxyCodeLine{00195\ \ \ this-\/>\mbox{\hyperlink{classsmacc2_1_1SmaccAsyncClientBehavior_a2fb4de26d011fbbb55bc1bbaed2e6f5b}{postSuccessEvent}}();}
-\DoxyCodeLine{00196\ \}}
+\DoxyCodeLine{00193\ \ \ this-\/>\mbox{\hyperlink{classsmacc2_1_1SmaccAsyncClientBehavior_a2fb4de26d011fbbb55bc1bbaed2e6f5b}{postSuccessEvent}}();}
+\DoxyCodeLine{00194\ \}}
 
 \end{DoxyCode}
 
@@ -380,11 +378,11 @@ Reimplemented from \mbox{\hyperlink{classsmacc2_1_1ISmaccClientBehavior_a52b767b
 
 
 
-Definition at line \mbox{\hyperlink{cb__position__control__free__space_8cpp_source_l00198}{198}} of file \mbox{\hyperlink{cb__position__control__free__space_8cpp_source}{cb\+\_\+position\+\_\+control\+\_\+free\+\_\+space.\+cpp}}.
+Definition at line \mbox{\hyperlink{cb__position__control__free__space_8cpp_source_l00196}{196}} of file \mbox{\hyperlink{cb__position__control__free__space_8cpp_source}{cb\+\_\+position\+\_\+control\+\_\+free\+\_\+space.\+cpp}}.
 
 
 \begin{DoxyCode}{0}
-\DoxyCodeLine{00198\ \{\}}
+\DoxyCodeLine{00196\ \{\}}
 
 \end{DoxyCode}
 \Hypertarget{structcl__nav2z_1_1CbPositionControlFreeSpace_a872fe76f1d07c88629e99676d7d7bbd2}\index{cl\_nav2z::CbPositionControlFreeSpace@{cl\_nav2z::CbPositionControlFreeSpace}!updateParameters@{updateParameters}}

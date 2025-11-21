@@ -195,42 +195,41 @@ $(function(){ initResizable(false); });
 <div class="line"><a id="l00099" name="l00099"></a><span class="lineno">   99</span>      cmd_vel.linear.x = maxLinearVelocity;</div>
 <div class="line"><a id="l00100" name="l00100"></a><span class="lineno">  100</span>    }</div>
 <div class="line"><a id="l00101" name="l00101"></a><span class="lineno">  101</span> </div>
-<div class="line"><a id="l00102" name="l00102"></a><span class="lineno">  102</span>    <span class="keywordtype">float</span> signVal = (cmd_vel.angular.z &gt;= 0.0f) ? 1.0f : -1.0f;</div>
-<div class="line"><a id="l00103" name="l00103"></a><span class="lineno">  103</span>    <span class="comment">// cmd_vel.angular.z -= signVal * angularAcceleration * dt;</span></div>
-<div class="line"><a id="l00104" name="l00104"></a><span class="lineno">  104</span> </div>
-<div class="line"><a id="l00105" name="l00105"></a><span class="lineno">  105</span>    <span class="keywordtype">float</span> ellapsedTimeFactor = current_time.seconds() / spiralMotionDuration.seconds();</div>
-<div class="line"><a id="l00106" name="l00106"></a><span class="lineno">  106</span>    cmd_vel.angular.z = initialAngularVelocity * (1.0f - ellapsedTimeFactor) +</div>
-<div class="line"><a id="l00107" name="l00107"></a><span class="lineno">  107</span>                        finalAngularVelocity * ellapsedTimeFactor;</div>
-<div class="line"><a id="l00108" name="l00108"></a><span class="lineno">  108</span> </div>
-<div class="line"><a id="l00109" name="l00109"></a><span class="lineno">  109</span>    RCLCPP_INFO(</div>
-<div class="line"><a id="l00110" name="l00110"></a><span class="lineno">  110</span>      <a class="code hl_function" href="classsmacc2_1_1ISmaccClientBehavior.html#a9c3d82542c800e2ba5207c5cff0e63e8">getLogger</a>(), <span class="stringliteral">&quot;[CbSpiralMotion] cmd_vel.linear.x = %f, cmd_vel.angular.z = %f&quot;</span>,</div>
-<div class="line"><a id="l00111" name="l00111"></a><span class="lineno">  111</span>      cmd_vel.linear.x, cmd_vel.angular.z);</div>
-<div class="line"><a id="l00112" name="l00112"></a><span class="lineno">  112</span> </div>
-<div class="line"><a id="l00113" name="l00113"></a><span class="lineno">  113</span>    <a class="code hl_variable" href="structcl__nav2z_1_1CbSpiralMotion.html#aba0aef68031450b456d7b1f28d6960ed">cmdVelPub_</a>-&gt;publish(cmd_vel);</div>
-<div class="line"><a id="l00114" name="l00114"></a><span class="lineno">  114</span>    r.sleep();</div>
-<div class="line"><a id="l00115" name="l00115"></a><span class="lineno">  115</span> </div>
-<div class="line"><a id="l00116" name="l00116"></a><span class="lineno">  116</span>    <span class="keyword">auto</span> now = <a class="code hl_function" href="classsmacc2_1_1ISmaccClientBehavior.html#aa1b28d5e8a5208fff8160f9df9a89dc6">getNode</a>()-&gt;now();</div>
-<div class="line"><a id="l00117" name="l00117"></a><span class="lineno">  117</span> </div>
-<div class="line"><a id="l00118" name="l00118"></a><span class="lineno">  118</span>    rclcpp::Duration ellapsed = now - start_time;</div>
-<div class="line"><a id="l00119" name="l00119"></a><span class="lineno">  119</span>    RCLCPP_INFO_STREAM(</div>
-<div class="line"><a id="l00120" name="l00120"></a><span class="lineno">  120</span>      <a class="code hl_function" href="classsmacc2_1_1ISmaccClientBehavior.html#a9c3d82542c800e2ba5207c5cff0e63e8">getLogger</a>(), <span class="stringliteral">&quot;[CbSpiralMotion] ellapsed time: &quot;</span> &lt;&lt; ellapsed.seconds() &lt;&lt; <span class="stringliteral">&quot;, total duration: &quot;</span></div>
-<div class="line"><a id="l00121" name="l00121"></a><span class="lineno">  121</span>                                                      &lt;&lt; spiralMotionDuration.seconds());</div>
-<div class="line"><a id="l00122" name="l00122"></a><span class="lineno">  122</span>    <span class="keywordflow">if</span> (ellapsed &gt; spiralMotionDuration)</div>
-<div class="line"><a id="l00123" name="l00123"></a><span class="lineno">  123</span>    {</div>
-<div class="line"><a id="l00124" name="l00124"></a><span class="lineno">  124</span>      RCLCPP_INFO_STREAM(<a class="code hl_function" href="classsmacc2_1_1ISmaccClientBehavior.html#a9c3d82542c800e2ba5207c5cff0e63e8">getLogger</a>(), <span class="stringliteral">&quot;[CbSpiralMotion] spiralMotionDuration reached&quot;</span>);</div>
-<div class="line"><a id="l00125" name="l00125"></a><span class="lineno">  125</span>      end_condition = <span class="keyword">true</span>;</div>
-<div class="line"><a id="l00126" name="l00126"></a><span class="lineno">  126</span>    }</div>
-<div class="line"><a id="l00127" name="l00127"></a><span class="lineno">  127</span>  }</div>
-<div class="line"><a id="l00128" name="l00128"></a><span class="lineno">  128</span> </div>
-<div class="line"><a id="l00129" name="l00129"></a><span class="lineno">  129</span>  <span class="comment">// asynchronous client behaviors usually post a success event when they are done</span></div>
-<div class="line"><a id="l00130" name="l00130"></a><span class="lineno">  130</span>  <span class="comment">// that is used in states to transition to the next state</span></div>
-<div class="line"><a id="l00131" name="l00131"></a><span class="lineno">  131</span>  this-&gt;<a class="code hl_function" href="classsmacc2_1_1SmaccAsyncClientBehavior.html#a2fb4de26d011fbbb55bc1bbaed2e6f5b">postSuccessEvent</a>();</div>
-<div class="line"><a id="l00132" name="l00132"></a><span class="lineno">  132</span>}</div>
+<div class="line"><a id="l00102" name="l00102"></a><span class="lineno">  102</span>    <span class="comment">// cmd_vel.angular.z -= signVal * angularAcceleration * dt;</span></div>
+<div class="line"><a id="l00103" name="l00103"></a><span class="lineno">  103</span> </div>
+<div class="line"><a id="l00104" name="l00104"></a><span class="lineno">  104</span>    <span class="keywordtype">float</span> ellapsedTimeFactor = current_time.seconds() / spiralMotionDuration.seconds();</div>
+<div class="line"><a id="l00105" name="l00105"></a><span class="lineno">  105</span>    cmd_vel.angular.z = initialAngularVelocity * (1.0f - ellapsedTimeFactor) +</div>
+<div class="line"><a id="l00106" name="l00106"></a><span class="lineno">  106</span>                        finalAngularVelocity * ellapsedTimeFactor;</div>
+<div class="line"><a id="l00107" name="l00107"></a><span class="lineno">  107</span> </div>
+<div class="line"><a id="l00108" name="l00108"></a><span class="lineno">  108</span>    RCLCPP_INFO(</div>
+<div class="line"><a id="l00109" name="l00109"></a><span class="lineno">  109</span>      <a class="code hl_function" href="classsmacc2_1_1ISmaccClientBehavior.html#a9c3d82542c800e2ba5207c5cff0e63e8">getLogger</a>(), <span class="stringliteral">&quot;[CbSpiralMotion] cmd_vel.linear.x = %f, cmd_vel.angular.z = %f&quot;</span>,</div>
+<div class="line"><a id="l00110" name="l00110"></a><span class="lineno">  110</span>      cmd_vel.linear.x, cmd_vel.angular.z);</div>
+<div class="line"><a id="l00111" name="l00111"></a><span class="lineno">  111</span> </div>
+<div class="line"><a id="l00112" name="l00112"></a><span class="lineno">  112</span>    <a class="code hl_variable" href="structcl__nav2z_1_1CbSpiralMotion.html#aba0aef68031450b456d7b1f28d6960ed">cmdVelPub_</a>-&gt;publish(cmd_vel);</div>
+<div class="line"><a id="l00113" name="l00113"></a><span class="lineno">  113</span>    r.sleep();</div>
+<div class="line"><a id="l00114" name="l00114"></a><span class="lineno">  114</span> </div>
+<div class="line"><a id="l00115" name="l00115"></a><span class="lineno">  115</span>    <span class="keyword">auto</span> now = <a class="code hl_function" href="classsmacc2_1_1ISmaccClientBehavior.html#aa1b28d5e8a5208fff8160f9df9a89dc6">getNode</a>()-&gt;now();</div>
+<div class="line"><a id="l00116" name="l00116"></a><span class="lineno">  116</span> </div>
+<div class="line"><a id="l00117" name="l00117"></a><span class="lineno">  117</span>    rclcpp::Duration ellapsed = now - start_time;</div>
+<div class="line"><a id="l00118" name="l00118"></a><span class="lineno">  118</span>    RCLCPP_INFO_STREAM(</div>
+<div class="line"><a id="l00119" name="l00119"></a><span class="lineno">  119</span>      <a class="code hl_function" href="classsmacc2_1_1ISmaccClientBehavior.html#a9c3d82542c800e2ba5207c5cff0e63e8">getLogger</a>(), <span class="stringliteral">&quot;[CbSpiralMotion] ellapsed time: &quot;</span> &lt;&lt; ellapsed.seconds() &lt;&lt; <span class="stringliteral">&quot;, total duration: &quot;</span></div>
+<div class="line"><a id="l00120" name="l00120"></a><span class="lineno">  120</span>                                                      &lt;&lt; spiralMotionDuration.seconds());</div>
+<div class="line"><a id="l00121" name="l00121"></a><span class="lineno">  121</span>    <span class="keywordflow">if</span> (ellapsed &gt; spiralMotionDuration)</div>
+<div class="line"><a id="l00122" name="l00122"></a><span class="lineno">  122</span>    {</div>
+<div class="line"><a id="l00123" name="l00123"></a><span class="lineno">  123</span>      RCLCPP_INFO_STREAM(<a class="code hl_function" href="classsmacc2_1_1ISmaccClientBehavior.html#a9c3d82542c800e2ba5207c5cff0e63e8">getLogger</a>(), <span class="stringliteral">&quot;[CbSpiralMotion] spiralMotionDuration reached&quot;</span>);</div>
+<div class="line"><a id="l00124" name="l00124"></a><span class="lineno">  124</span>      end_condition = <span class="keyword">true</span>;</div>
+<div class="line"><a id="l00125" name="l00125"></a><span class="lineno">  125</span>    }</div>
+<div class="line"><a id="l00126" name="l00126"></a><span class="lineno">  126</span>  }</div>
+<div class="line"><a id="l00127" name="l00127"></a><span class="lineno">  127</span> </div>
+<div class="line"><a id="l00128" name="l00128"></a><span class="lineno">  128</span>  <span class="comment">// asynchronous client behaviors usually post a success event when they are done</span></div>
+<div class="line"><a id="l00129" name="l00129"></a><span class="lineno">  129</span>  <span class="comment">// that is used in states to transition to the next state</span></div>
+<div class="line"><a id="l00130" name="l00130"></a><span class="lineno">  130</span>  this-&gt;<a class="code hl_function" href="classsmacc2_1_1SmaccAsyncClientBehavior.html#a2fb4de26d011fbbb55bc1bbaed2e6f5b">postSuccessEvent</a>();</div>
+<div class="line"><a id="l00131" name="l00131"></a><span class="lineno">  131</span>}</div>
 </div>
-<div class="line"><a id="l00133" name="l00133"></a><span class="lineno">  133</span> </div>
-<div class="line"><a id="l00134" name="l00134"></a><span class="lineno"><a class="line" href="structcl__nav2z_1_1CbSpiralMotion.html#a5b9ed75148194bb96057ce0d5a4d8cb4">  134</a></span><span class="keywordtype">void</span> <a class="code hl_function" href="structcl__nav2z_1_1CbSpiralMotion.html#a5b9ed75148194bb96057ce0d5a4d8cb4">CbSpiralMotion::onExit</a>() {}</div>
-<div class="line"><a id="l00135" name="l00135"></a><span class="lineno">  135</span> </div>
-<div class="line"><a id="l00136" name="l00136"></a><span class="lineno">  136</span>}  <span class="comment">// namespace cl_nav2z</span></div>
+<div class="line"><a id="l00132" name="l00132"></a><span class="lineno">  132</span> </div>
+<div class="line"><a id="l00133" name="l00133"></a><span class="lineno"><a class="line" href="structcl__nav2z_1_1CbSpiralMotion.html#a5b9ed75148194bb96057ce0d5a4d8cb4">  133</a></span><span class="keywordtype">void</span> <a class="code hl_function" href="structcl__nav2z_1_1CbSpiralMotion.html#a5b9ed75148194bb96057ce0d5a4d8cb4">CbSpiralMotion::onExit</a>() {}</div>
+<div class="line"><a id="l00134" name="l00134"></a><span class="lineno">  134</span> </div>
+<div class="line"><a id="l00135" name="l00135"></a><span class="lineno">  135</span>}  <span class="comment">// namespace cl_nav2z</span></div>
 <div class="ttc" id="acb__spiral__motion_8hpp_html"><div class="ttname"><a href="cb__spiral__motion_8hpp.html">cb_spiral_motion.hpp</a></div></div>
 <div class="ttc" id="aclasssmacc2_1_1ISmaccClientBehavior_html_a9c3d82542c800e2ba5207c5cff0e63e8"><div class="ttname"><a href="classsmacc2_1_1ISmaccClientBehavior.html#a9c3d82542c800e2ba5207c5cff0e63e8">smacc2::ISmaccClientBehavior::getLogger</a></div><div class="ttdeci">virtual rclcpp::Logger getLogger() const</div><div class="ttdef"><b>Definition</b> <a href="smacc__client__behavior__base_8cpp_source.html#l00043">smacc_client_behavior_base.cpp:43</a></div></div>
 <div class="ttc" id="aclasssmacc2_1_1ISmaccClientBehavior_html_aa1b28d5e8a5208fff8160f9df9a89dc6"><div class="ttname"><a href="classsmacc2_1_1ISmaccClientBehavior.html#aa1b28d5e8a5208fff8160f9df9a89dc6">smacc2::ISmaccClientBehavior::getNode</a></div><div class="ttdeci">virtual rclcpp::Node::SharedPtr getNode() const</div><div class="ttdef"><b>Definition</b> <a href="smacc__client__behavior__base_8cpp_source.html#l00038">smacc_client_behavior_base.cpp:38</a></div></div>
@@ -244,7 +243,7 @@ $(function(){ initResizable(false); });
 <div class="ttc" id="astructcl__nav2z_1_1CbSpiralMotionOptions_html_a6187ce93b59e3e879e002c69e272e8df"><div class="ttname"><a href="structcl__nav2z_1_1CbSpiralMotionOptions.html#a6187ce93b59e3e879e002c69e272e8df">cl_nav2z::CbSpiralMotionOptions::maxLinearVelocity</a></div><div class="ttdeci">std::optional&lt; float &gt; maxLinearVelocity</div><div class="ttdef"><b>Definition</b> <a href="cb__spiral__motion_8hpp_source.html#l00035">cb_spiral_motion.hpp:35</a></div></div>
 <div class="ttc" id="astructcl__nav2z_1_1CbSpiralMotionOptions_html_a7aa6860e5dfe86c0c5d6a35e99fd1675"><div class="ttname"><a href="structcl__nav2z_1_1CbSpiralMotionOptions.html#a7aa6860e5dfe86c0c5d6a35e99fd1675">cl_nav2z::CbSpiralMotionOptions::finalRadius</a></div><div class="ttdeci">std::optional&lt; float &gt; finalRadius</div><div class="ttdef"><b>Definition</b> <a href="cb__spiral__motion_8hpp_source.html#l00038">cb_spiral_motion.hpp:38</a></div></div>
 <div class="ttc" id="astructcl__nav2z_1_1CbSpiralMotion_html_a3865932e8a96e312296e85306bbd956e"><div class="ttname"><a href="structcl__nav2z_1_1CbSpiralMotion.html#a3865932e8a96e312296e85306bbd956e">cl_nav2z::CbSpiralMotion::options_</a></div><div class="ttdeci">CbSpiralMotionOptions options_</div><div class="ttdef"><b>Definition</b> <a href="cb__spiral__motion_8hpp_source.html#l00059">cb_spiral_motion.hpp:59</a></div></div>
-<div class="ttc" id="astructcl__nav2z_1_1CbSpiralMotion_html_a5b9ed75148194bb96057ce0d5a4d8cb4"><div class="ttname"><a href="structcl__nav2z_1_1CbSpiralMotion.html#a5b9ed75148194bb96057ce0d5a4d8cb4">cl_nav2z::CbSpiralMotion::onExit</a></div><div class="ttdeci">void onExit() override</div><div class="ttdef"><b>Definition</b> <a href="#l00134">cb_spiral_motion.cpp:134</a></div></div>
+<div class="ttc" id="astructcl__nav2z_1_1CbSpiralMotion_html_a5b9ed75148194bb96057ce0d5a4d8cb4"><div class="ttname"><a href="structcl__nav2z_1_1CbSpiralMotion.html#a5b9ed75148194bb96057ce0d5a4d8cb4">cl_nav2z::CbSpiralMotion::onExit</a></div><div class="ttdeci">void onExit() override</div><div class="ttdef"><b>Definition</b> <a href="#l00133">cb_spiral_motion.cpp:133</a></div></div>
 <div class="ttc" id="astructcl__nav2z_1_1CbSpiralMotion_html_a98c9742c4d6722412f7d849c1c45a3e9"><div class="ttname"><a href="structcl__nav2z_1_1CbSpiralMotion.html#a98c9742c4d6722412f7d849c1c45a3e9">cl_nav2z::CbSpiralMotion::onEntry</a></div><div class="ttdeci">void onEntry() override</div><div class="ttdef"><b>Definition</b> <a href="#l00043">cb_spiral_motion.cpp:43</a></div></div>
 <div class="ttc" id="astructcl__nav2z_1_1CbSpiralMotion_html_aba0aef68031450b456d7b1f28d6960ed"><div class="ttname"><a href="structcl__nav2z_1_1CbSpiralMotion.html#aba0aef68031450b456d7b1f28d6960ed">cl_nav2z::CbSpiralMotion::cmdVelPub_</a></div><div class="ttdeci">rclcpp::Publisher&lt; geometry_msgs::msg::Twist &gt;::SharedPtr cmdVelPub_</div><div class="ttdef"><b>Definition</b> <a href="cb__spiral__motion_8hpp_source.html#l00056">cb_spiral_motion.hpp:56</a></div></div>
 <div class="ttc" id="astructcl__nav2z_1_1CbSpiralMotion_html_aeb468230c4db38eb6864aaed668d92ea"><div class="ttname"><a href="structcl__nav2z_1_1CbSpiralMotion.html#aeb468230c4db38eb6864aaed668d92ea">cl_nav2z::CbSpiralMotion::CbSpiralMotion</a></div><div class="ttdeci">CbSpiralMotion(std::optional&lt; CbSpiralMotionOptions &gt; options=std::nullopt)</div><div class="ttdef"><b>Definition</b> <a href="#l00030">cb_spiral_motion.cpp:30</a></div></div>
