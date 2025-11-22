@@ -1,0 +1,271 @@
+\doxysection{cp\+\_\+lifecycle\+\_\+event\+\_\+monitor.\+cpp}
+\hypertarget{cp__lifecycle__event__monitor_8cpp_source}{}\label{cp__lifecycle__event__monitor_8cpp_source}\index{smacc2\_client\_library/lifecyclenode\_client/src/lifecyclenode\_client/components/cp\_lifecycle\_event\_monitor.cpp@{smacc2\_client\_library/lifecyclenode\_client/src/lifecyclenode\_client/components/cp\_lifecycle\_event\_monitor.cpp}}
+\mbox{\hyperlink{cp__lifecycle__event__monitor_8cpp}{Go to the documentation of this file.}}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\Hypertarget{cp__lifecycle__event__monitor_8cpp_source_l00001}00001\ \textcolor{comment}{//\ Copyright\ 2024\ RobosoftAI\ Inc.}}
+\DoxyCodeLine{\Hypertarget{cp__lifecycle__event__monitor_8cpp_source_l00002}00002\ \textcolor{comment}{//}}
+\DoxyCodeLine{\Hypertarget{cp__lifecycle__event__monitor_8cpp_source_l00003}00003\ \textcolor{comment}{//\ Licensed\ under\ the\ Apache\ License,\ Version\ 2.0\ (the\ "{}License"{});}}
+\DoxyCodeLine{\Hypertarget{cp__lifecycle__event__monitor_8cpp_source_l00004}00004\ \textcolor{comment}{//\ you\ may\ not\ use\ this\ file\ except\ in\ compliance\ with\ the\ License.}}
+\DoxyCodeLine{\Hypertarget{cp__lifecycle__event__monitor_8cpp_source_l00005}00005\ \textcolor{comment}{//\ You\ may\ obtain\ a\ copy\ of\ the\ License\ at}}
+\DoxyCodeLine{\Hypertarget{cp__lifecycle__event__monitor_8cpp_source_l00006}00006\ \textcolor{comment}{//}}
+\DoxyCodeLine{\Hypertarget{cp__lifecycle__event__monitor_8cpp_source_l00007}00007\ \textcolor{comment}{//\ \ \ \ \ http://www.apache.org/licenses/LICENSE-\/2.0}}
+\DoxyCodeLine{\Hypertarget{cp__lifecycle__event__monitor_8cpp_source_l00008}00008\ \textcolor{comment}{//}}
+\DoxyCodeLine{\Hypertarget{cp__lifecycle__event__monitor_8cpp_source_l00009}00009\ \textcolor{comment}{//\ Unless\ required\ by\ applicable\ law\ or\ agreed\ to\ in\ writing,\ software}}
+\DoxyCodeLine{\Hypertarget{cp__lifecycle__event__monitor_8cpp_source_l00010}00010\ \textcolor{comment}{//\ distributed\ under\ the\ License\ is\ distributed\ on\ an\ "{}AS\ IS"{}\ BASIS,}}
+\DoxyCodeLine{\Hypertarget{cp__lifecycle__event__monitor_8cpp_source_l00011}00011\ \textcolor{comment}{//\ WITHOUT\ WARRANTIES\ OR\ CONDITIONS\ OF\ ANY\ KIND,\ either\ express\ or\ implied.}}
+\DoxyCodeLine{\Hypertarget{cp__lifecycle__event__monitor_8cpp_source_l00012}00012\ \textcolor{comment}{//\ See\ the\ License\ for\ the\ specific\ language\ governing\ permissions\ and}}
+\DoxyCodeLine{\Hypertarget{cp__lifecycle__event__monitor_8cpp_source_l00013}00013\ \textcolor{comment}{//\ limitations\ under\ the\ License.}}
+\DoxyCodeLine{\Hypertarget{cp__lifecycle__event__monitor_8cpp_source_l00014}00014\ }
+\DoxyCodeLine{\Hypertarget{cp__lifecycle__event__monitor_8cpp_source_l00015}00015\ \textcolor{preprocessor}{\#include\ <\mbox{\hyperlink{cp__lifecycle__event__monitor_8hpp}{lifecyclenode\_client/components/cp\_lifecycle\_event\_monitor.hpp}}>}}
+\DoxyCodeLine{\Hypertarget{cp__lifecycle__event__monitor_8cpp_source_l00016}00016\ }
+\DoxyCodeLine{\Hypertarget{cp__lifecycle__event__monitor_8cpp_source_l00017}00017\ \textcolor{keyword}{namespace\ }\mbox{\hyperlink{namespacecl__lifecyclenode}{cl\_lifecyclenode}}}
+\DoxyCodeLine{\Hypertarget{cp__lifecycle__event__monitor_8cpp_source_l00018}00018\ \{}
+\DoxyCodeLine{\Hypertarget{cp__lifecycle__event__monitor_8cpp_source_l00019}\mbox{\hyperlink{classcl__lifecyclenode_1_1CpLifecycleEventMonitor_a94fe722c3676f55137ad633e93ce8d34}{00019}}\ \mbox{\hyperlink{classcl__lifecyclenode_1_1CpLifecycleEventMonitor_a94fe722c3676f55137ad633e93ce8d34}{CpLifecycleEventMonitor::CpLifecycleEventMonitor}}(std::string\ nodeName)\ :\ nodeName\_(nodeName)\ \{\}}
+\DoxyCodeLine{\Hypertarget{cp__lifecycle__event__monitor_8cpp_source_l00020}00020\ }
+\DoxyCodeLine{\Hypertarget{cp__lifecycle__event__monitor_8cpp_source_l00021}\mbox{\hyperlink{classcl__lifecyclenode_1_1CpLifecycleEventMonitor_a41d2535647bb65b44c467d480a5af59a}{00021}}\ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{classcl__lifecyclenode_1_1CpLifecycleEventMonitor_a41d2535647bb65b44c467d480a5af59a}{CpLifecycleEventMonitor::onInitialize}}()}
+\DoxyCodeLine{\Hypertarget{cp__lifecycle__event__monitor_8cpp_source_l00022}00022\ \{}
+\DoxyCodeLine{\Hypertarget{cp__lifecycle__event__monitor_8cpp_source_l00023}00023\ \ \ \textcolor{comment}{//\ Phase\ 3:\ Create\ subscription\ to\ lifecycle\ transition\ events}}
+\DoxyCodeLine{\Hypertarget{cp__lifecycle__event__monitor_8cpp_source_l00024}00024\ \ \ \textcolor{keyword}{const}\ std::string\ node\_transition\_event\_topic\ =\ \textcolor{stringliteral}{"{}/transition\_event"{}};}
+\DoxyCodeLine{\Hypertarget{cp__lifecycle__event__monitor_8cpp_source_l00025}00025\ }
+\DoxyCodeLine{\Hypertarget{cp__lifecycle__event__monitor_8cpp_source_l00026}00026\ \ \ \mbox{\hyperlink{classcl__lifecyclenode_1_1CpLifecycleEventMonitor_a4232d2327e8faceb8353e75dede252a7}{subscription\_}}\ =\ \mbox{\hyperlink{classsmacc2_1_1ISmaccComponent_aaac68614687bed658c59f8f15746ab91}{getNode}}()-\/>create\_subscription<lifecycle\_msgs::msg::TransitionEvent>(}
+\DoxyCodeLine{\Hypertarget{cp__lifecycle__event__monitor_8cpp_source_l00027}00027\ \ \ \ \ \mbox{\hyperlink{classcl__lifecyclenode_1_1CpLifecycleEventMonitor_ab90d2a0efb41b0af78e47315231d6c8f}{nodeName\_}}\ +\ node\_transition\_event\_topic,\ 100,}
+\DoxyCodeLine{\Hypertarget{cp__lifecycle__event__monitor_8cpp_source_l00028}00028\ \ \ \ \ std::bind(\&\mbox{\hyperlink{classcl__lifecyclenode_1_1CpLifecycleEventMonitor_a2513e192069342bd5c7f3513c671440d}{CpLifecycleEventMonitor::onTransitionEvent}},\ \textcolor{keyword}{this},\ std::placeholders::\_1));}
+\DoxyCodeLine{\Hypertarget{cp__lifecycle__event__monitor_8cpp_source_l00029}00029\ }
+\DoxyCodeLine{\Hypertarget{cp__lifecycle__event__monitor_8cpp_source_l00030}00030\ \ \ RCLCPP\_INFO(}
+\DoxyCodeLine{\Hypertarget{cp__lifecycle__event__monitor_8cpp_source_l00031}00031\ \ \ \ \ \mbox{\hyperlink{classsmacc2_1_1ISmaccComponent_a77ee85823bab8d84edcdf5d28782b728}{getLogger}}(),\ \textcolor{stringliteral}{"{}[CpLifecycleEventMonitor]\ Subscribed\ to:\ \%s"{}},}
+\DoxyCodeLine{\Hypertarget{cp__lifecycle__event__monitor_8cpp_source_l00032}00032\ \ \ \ \ (\mbox{\hyperlink{classcl__lifecyclenode_1_1CpLifecycleEventMonitor_ab90d2a0efb41b0af78e47315231d6c8f}{nodeName\_}}\ +\ node\_transition\_event\_topic).c\_str());}
+\DoxyCodeLine{\Hypertarget{cp__lifecycle__event__monitor_8cpp_source_l00033}00033\ \}}
+\DoxyCodeLine{\Hypertarget{cp__lifecycle__event__monitor_8cpp_source_l00034}00034\ }
+\DoxyCodeLine{\Hypertarget{cp__lifecycle__event__monitor_8cpp_source_l00035}00035\ std::optional<lifecycle\_msgs::msg::TransitionEvent>}
+\DoxyCodeLine{\Hypertarget{cp__lifecycle__event__monitor_8cpp_source_l00036}\mbox{\hyperlink{classcl__lifecyclenode_1_1CpLifecycleEventMonitor_a6a29cbfd9a048a82b17e40d3ba839634}{00036}}\ \mbox{\hyperlink{classcl__lifecyclenode_1_1CpLifecycleEventMonitor_a6a29cbfd9a048a82b17e40d3ba839634}{CpLifecycleEventMonitor::getLastTransitionEvent}}()\textcolor{keyword}{\ const}}
+\DoxyCodeLine{\Hypertarget{cp__lifecycle__event__monitor_8cpp_source_l00037}00037\ \textcolor{keyword}{}\{}
+\DoxyCodeLine{\Hypertarget{cp__lifecycle__event__monitor_8cpp_source_l00038}00038\ \ \ std::lock\_guard<std::mutex>\ lock(\mbox{\hyperlink{classcl__lifecyclenode_1_1CpLifecycleEventMonitor_aa3802b9bbc9d8ed471964404aa849152}{eventMutex\_}});}
+\DoxyCodeLine{\Hypertarget{cp__lifecycle__event__monitor_8cpp_source_l00039}00039\ \ \ \textcolor{keywordflow}{if}\ (\mbox{\hyperlink{classcl__lifecyclenode_1_1CpLifecycleEventMonitor_aaed4542e96db403144aba6f553342c11}{lastTransitionEvent\_}})}
+\DoxyCodeLine{\Hypertarget{cp__lifecycle__event__monitor_8cpp_source_l00040}00040\ \ \ \{}
+\DoxyCodeLine{\Hypertarget{cp__lifecycle__event__monitor_8cpp_source_l00041}00041\ \ \ \ \ \textcolor{keywordflow}{return}\ *\mbox{\hyperlink{classcl__lifecyclenode_1_1CpLifecycleEventMonitor_aaed4542e96db403144aba6f553342c11}{lastTransitionEvent\_}};}
+\DoxyCodeLine{\Hypertarget{cp__lifecycle__event__monitor_8cpp_source_l00042}00042\ \ \ \}}
+\DoxyCodeLine{\Hypertarget{cp__lifecycle__event__monitor_8cpp_source_l00043}00043\ \ \ \textcolor{keywordflow}{return}\ std::nullopt;}
+\DoxyCodeLine{\Hypertarget{cp__lifecycle__event__monitor_8cpp_source_l00044}00044\ \}}
+\DoxyCodeLine{\Hypertarget{cp__lifecycle__event__monitor_8cpp_source_l00045}00045\ }
+\DoxyCodeLine{\Hypertarget{cp__lifecycle__event__monitor_8cpp_source_l00046}\mbox{\hyperlink{classcl__lifecyclenode_1_1CpLifecycleEventMonitor_a2513e192069342bd5c7f3513c671440d}{00046}}\ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{classcl__lifecyclenode_1_1CpLifecycleEventMonitor_a2513e192069342bd5c7f3513c671440d}{CpLifecycleEventMonitor::onTransitionEvent}}(}
+\DoxyCodeLine{\Hypertarget{cp__lifecycle__event__monitor_8cpp_source_l00047}00047\ \ \ \textcolor{keyword}{const}\ lifecycle\_msgs::msg::TransitionEvent::SharedPtr\ msg)}
+\DoxyCodeLine{\Hypertarget{cp__lifecycle__event__monitor_8cpp_source_l00048}00048\ \{}
+\DoxyCodeLine{\Hypertarget{cp__lifecycle__event__monitor_8cpp_source_l00049}00049\ \ \ RCLCPP\_INFO(}
+\DoxyCodeLine{\Hypertarget{cp__lifecycle__event__monitor_8cpp_source_l00050}00050\ \ \ \ \ \mbox{\hyperlink{classsmacc2_1_1ISmaccComponent_a77ee85823bab8d84edcdf5d28782b728}{getLogger}}(),\ \textcolor{stringliteral}{"{}[CpLifecycleEventMonitor]\ Transition\ event:\ \%d\ -\/>\ \%d"{}},\ msg-\/>start\_state.id,}
+\DoxyCodeLine{\Hypertarget{cp__lifecycle__event__monitor_8cpp_source_l00051}00051\ \ \ \ \ msg-\/>goal\_state.id);}
+\DoxyCodeLine{\Hypertarget{cp__lifecycle__event__monitor_8cpp_source_l00052}00052\ }
+\DoxyCodeLine{\Hypertarget{cp__lifecycle__event__monitor_8cpp_source_l00053}00053\ \ \ \textcolor{comment}{//\ Store\ the\ event}}
+\DoxyCodeLine{\Hypertarget{cp__lifecycle__event__monitor_8cpp_source_l00054}00054\ \ \ \{}
+\DoxyCodeLine{\Hypertarget{cp__lifecycle__event__monitor_8cpp_source_l00055}00055\ \ \ \ \ std::lock\_guard<std::mutex>\ lock(\mbox{\hyperlink{classcl__lifecyclenode_1_1CpLifecycleEventMonitor_aa3802b9bbc9d8ed471964404aa849152}{eventMutex\_}});}
+\DoxyCodeLine{\Hypertarget{cp__lifecycle__event__monitor_8cpp_source_l00056}00056\ \ \ \ \ \mbox{\hyperlink{classcl__lifecyclenode_1_1CpLifecycleEventMonitor_aaed4542e96db403144aba6f553342c11}{lastTransitionEvent\_}}\ =\ msg;}
+\DoxyCodeLine{\Hypertarget{cp__lifecycle__event__monitor_8cpp_source_l00057}00057\ \ \ \}}
+\DoxyCodeLine{\Hypertarget{cp__lifecycle__event__monitor_8cpp_source_l00058}00058\ }
+\DoxyCodeLine{\Hypertarget{cp__lifecycle__event__monitor_8cpp_source_l00059}00059\ \ \ \textcolor{comment}{//\ Phase\ 3:\ Full\ state-\/pair\ matching\ logic\ (moved\ from\ ClLifecycleNode)}}
+\DoxyCodeLine{\Hypertarget{cp__lifecycle__event__monitor_8cpp_source_l00060}00060\ \ \ \textcolor{comment}{//\ Parse\ transition\ events\ and\ emit\ corresponding\ signals}}
+\DoxyCodeLine{\Hypertarget{cp__lifecycle__event__monitor_8cpp_source_l00061}00061\ }
+\DoxyCodeLine{\Hypertarget{cp__lifecycle__event__monitor_8cpp_source_l00062}00062\ \ \ \textcolor{comment}{//\ TRANSITION\_CONFIGURE}}
+\DoxyCodeLine{\Hypertarget{cp__lifecycle__event__monitor_8cpp_source_l00063}00063\ \ \ \textcolor{keywordflow}{if}\ (}
+\DoxyCodeLine{\Hypertarget{cp__lifecycle__event__monitor_8cpp_source_l00064}00064\ \ \ \ \ msg-\/>start\_state.id\ ==\ lifecycle\_msgs::msg::State::PRIMARY\_STATE\_UNCONFIGURED\ \&\&}
+\DoxyCodeLine{\Hypertarget{cp__lifecycle__event__monitor_8cpp_source_l00065}00065\ \ \ \ \ msg-\/>goal\_state.id\ ==\ lifecycle\_msgs::msg::State::TRANSITION\_STATE\_CONFIGURING)}
+\DoxyCodeLine{\Hypertarget{cp__lifecycle__event__monitor_8cpp_source_l00066}00066\ \ \ \{}
+\DoxyCodeLine{\Hypertarget{cp__lifecycle__event__monitor_8cpp_source_l00067}00067\ \ \ \ \ RCLCPP\_INFO(\mbox{\hyperlink{classsmacc2_1_1ISmaccComponent_a77ee85823bab8d84edcdf5d28782b728}{getLogger}}(),\ \textcolor{stringliteral}{"{}TRANSITION\_CONFIGURE"{}});}
+\DoxyCodeLine{\Hypertarget{cp__lifecycle__event__monitor_8cpp_source_l00068}00068\ \ \ \ \ \mbox{\hyperlink{classcl__lifecyclenode_1_1CpLifecycleEventMonitor_a3d015905c172e0b831c9aa021b69977a}{onTransitionConfigure\_}}();}
+\DoxyCodeLine{\Hypertarget{cp__lifecycle__event__monitor_8cpp_source_l00069}00069\ \ \ \ \ \textcolor{keywordflow}{if}\ (\mbox{\hyperlink{classcl__lifecyclenode_1_1CpLifecycleEventMonitor_ae9e6291f8d110d6d27f73ebc3bc35221}{postEventConfigure\_}})\ \mbox{\hyperlink{classcl__lifecyclenode_1_1CpLifecycleEventMonitor_ae9e6291f8d110d6d27f73ebc3bc35221}{postEventConfigure\_}}();}
+\DoxyCodeLine{\Hypertarget{cp__lifecycle__event__monitor_8cpp_source_l00070}00070\ \ \ \}}
+\DoxyCodeLine{\Hypertarget{cp__lifecycle__event__monitor_8cpp_source_l00071}00071\ \ \ \textcolor{comment}{//\ TRANSITION\_CLEANUP}}
+\DoxyCodeLine{\Hypertarget{cp__lifecycle__event__monitor_8cpp_source_l00072}00072\ \ \ \textcolor{keywordflow}{else}\ \textcolor{keywordflow}{if}\ (}
+\DoxyCodeLine{\Hypertarget{cp__lifecycle__event__monitor_8cpp_source_l00073}00073\ \ \ \ \ msg-\/>start\_state.id\ ==\ lifecycle\_msgs::msg::State::PRIMARY\_STATE\_INACTIVE\ \&\&}
+\DoxyCodeLine{\Hypertarget{cp__lifecycle__event__monitor_8cpp_source_l00074}00074\ \ \ \ \ msg-\/>goal\_state.id\ ==\ lifecycle\_msgs::msg::State::TRANSITION\_STATE\_CLEANINGUP)}
+\DoxyCodeLine{\Hypertarget{cp__lifecycle__event__monitor_8cpp_source_l00075}00075\ \ \ \{}
+\DoxyCodeLine{\Hypertarget{cp__lifecycle__event__monitor_8cpp_source_l00076}00076\ \ \ \ \ RCLCPP\_INFO(\mbox{\hyperlink{classsmacc2_1_1ISmaccComponent_a77ee85823bab8d84edcdf5d28782b728}{getLogger}}(),\ \textcolor{stringliteral}{"{}TRANSITION\_CLEANUP"{}});}
+\DoxyCodeLine{\Hypertarget{cp__lifecycle__event__monitor_8cpp_source_l00077}00077\ \ \ \ \ \mbox{\hyperlink{classcl__lifecyclenode_1_1CpLifecycleEventMonitor_abe8a7c185980c3c8d2a4f408e4254f2d}{onTransitionCleanup\_}}();}
+\DoxyCodeLine{\Hypertarget{cp__lifecycle__event__monitor_8cpp_source_l00078}00078\ \ \ \ \ \textcolor{keywordflow}{if}\ (\mbox{\hyperlink{classcl__lifecyclenode_1_1CpLifecycleEventMonitor_aa91a7d2f89e24421f5a4ac277b23eec0}{postEventCleanup\_}})\ \mbox{\hyperlink{classcl__lifecyclenode_1_1CpLifecycleEventMonitor_aa91a7d2f89e24421f5a4ac277b23eec0}{postEventCleanup\_}}();}
+\DoxyCodeLine{\Hypertarget{cp__lifecycle__event__monitor_8cpp_source_l00079}00079\ \ \ \}}
+\DoxyCodeLine{\Hypertarget{cp__lifecycle__event__monitor_8cpp_source_l00080}00080\ \ \ \textcolor{comment}{//\ TRANSITION\_ACTIVATE}}
+\DoxyCodeLine{\Hypertarget{cp__lifecycle__event__monitor_8cpp_source_l00081}00081\ \ \ \textcolor{keywordflow}{else}\ \textcolor{keywordflow}{if}\ (}
+\DoxyCodeLine{\Hypertarget{cp__lifecycle__event__monitor_8cpp_source_l00082}00082\ \ \ \ \ msg-\/>start\_state.id\ ==\ lifecycle\_msgs::msg::State::PRIMARY\_STATE\_INACTIVE\ \&\&}
+\DoxyCodeLine{\Hypertarget{cp__lifecycle__event__monitor_8cpp_source_l00083}00083\ \ \ \ \ msg-\/>goal\_state.id\ ==\ lifecycle\_msgs::msg::State::TRANSITION\_STATE\_ACTIVATING)}
+\DoxyCodeLine{\Hypertarget{cp__lifecycle__event__monitor_8cpp_source_l00084}00084\ \ \ \{}
+\DoxyCodeLine{\Hypertarget{cp__lifecycle__event__monitor_8cpp_source_l00085}00085\ \ \ \ \ RCLCPP\_INFO(\mbox{\hyperlink{classsmacc2_1_1ISmaccComponent_a77ee85823bab8d84edcdf5d28782b728}{getLogger}}(),\ \textcolor{stringliteral}{"{}TRANSITION\_ACTIVATE"{}});}
+\DoxyCodeLine{\Hypertarget{cp__lifecycle__event__monitor_8cpp_source_l00086}00086\ \ \ \ \ \mbox{\hyperlink{classcl__lifecyclenode_1_1CpLifecycleEventMonitor_ab8eb12886ca5376f1af0c28b382e105c}{onTransitionActivate\_}}();}
+\DoxyCodeLine{\Hypertarget{cp__lifecycle__event__monitor_8cpp_source_l00087}00087\ \ \ \ \ \textcolor{keywordflow}{if}\ (\mbox{\hyperlink{classcl__lifecyclenode_1_1CpLifecycleEventMonitor_a422ca35e0e9c3c2ba1b2210351157600}{postEventActivate\_}})\ \mbox{\hyperlink{classcl__lifecyclenode_1_1CpLifecycleEventMonitor_a422ca35e0e9c3c2ba1b2210351157600}{postEventActivate\_}}();}
+\DoxyCodeLine{\Hypertarget{cp__lifecycle__event__monitor_8cpp_source_l00088}00088\ \ \ \}}
+\DoxyCodeLine{\Hypertarget{cp__lifecycle__event__monitor_8cpp_source_l00089}00089\ \ \ \textcolor{comment}{//\ TRANSITION\_DEACTIVATE}}
+\DoxyCodeLine{\Hypertarget{cp__lifecycle__event__monitor_8cpp_source_l00090}00090\ \ \ \textcolor{keywordflow}{else}\ \textcolor{keywordflow}{if}\ (}
+\DoxyCodeLine{\Hypertarget{cp__lifecycle__event__monitor_8cpp_source_l00091}00091\ \ \ \ \ msg-\/>start\_state.id\ ==\ lifecycle\_msgs::msg::State::PRIMARY\_STATE\_ACTIVE\ \&\&}
+\DoxyCodeLine{\Hypertarget{cp__lifecycle__event__monitor_8cpp_source_l00092}00092\ \ \ \ \ msg-\/>goal\_state.id\ ==\ lifecycle\_msgs::msg::State::TRANSITION\_STATE\_DEACTIVATING)}
+\DoxyCodeLine{\Hypertarget{cp__lifecycle__event__monitor_8cpp_source_l00093}00093\ \ \ \{}
+\DoxyCodeLine{\Hypertarget{cp__lifecycle__event__monitor_8cpp_source_l00094}00094\ \ \ \ \ RCLCPP\_INFO(\mbox{\hyperlink{classsmacc2_1_1ISmaccComponent_a77ee85823bab8d84edcdf5d28782b728}{getLogger}}(),\ \textcolor{stringliteral}{"{}TRANSITION\_DEACTIVATE"{}});}
+\DoxyCodeLine{\Hypertarget{cp__lifecycle__event__monitor_8cpp_source_l00095}00095\ \ \ \ \ \mbox{\hyperlink{classcl__lifecyclenode_1_1CpLifecycleEventMonitor_a182c603438fc1faa6fe852cdb56580ee}{onTransitionDeactivate\_}}();}
+\DoxyCodeLine{\Hypertarget{cp__lifecycle__event__monitor_8cpp_source_l00096}00096\ \ \ \ \ \textcolor{keywordflow}{if}\ (\mbox{\hyperlink{classcl__lifecyclenode_1_1CpLifecycleEventMonitor_a5f4c4bba4d8f1c6e86bf7ddb61a49c89}{postEventDeactivate\_}})\ \mbox{\hyperlink{classcl__lifecyclenode_1_1CpLifecycleEventMonitor_a5f4c4bba4d8f1c6e86bf7ddb61a49c89}{postEventDeactivate\_}}();}
+\DoxyCodeLine{\Hypertarget{cp__lifecycle__event__monitor_8cpp_source_l00097}00097\ \ \ \}}
+\DoxyCodeLine{\Hypertarget{cp__lifecycle__event__monitor_8cpp_source_l00098}00098\ \ \ \textcolor{comment}{//\ TRANSITION\_UNCONFIGURED\_SHUTDOWN}}
+\DoxyCodeLine{\Hypertarget{cp__lifecycle__event__monitor_8cpp_source_l00099}00099\ \ \ \textcolor{keywordflow}{else}\ \textcolor{keywordflow}{if}\ (}
+\DoxyCodeLine{\Hypertarget{cp__lifecycle__event__monitor_8cpp_source_l00100}00100\ \ \ \ \ msg-\/>start\_state.id\ ==\ lifecycle\_msgs::msg::State::PRIMARY\_STATE\_UNCONFIGURED\ \&\&}
+\DoxyCodeLine{\Hypertarget{cp__lifecycle__event__monitor_8cpp_source_l00101}00101\ \ \ \ \ msg-\/>goal\_state.id\ ==\ lifecycle\_msgs::msg::State::TRANSITION\_STATE\_SHUTTINGDOWN)}
+\DoxyCodeLine{\Hypertarget{cp__lifecycle__event__monitor_8cpp_source_l00102}00102\ \ \ \{}
+\DoxyCodeLine{\Hypertarget{cp__lifecycle__event__monitor_8cpp_source_l00103}00103\ \ \ \ \ RCLCPP\_INFO(\mbox{\hyperlink{classsmacc2_1_1ISmaccComponent_a77ee85823bab8d84edcdf5d28782b728}{getLogger}}(),\ \textcolor{stringliteral}{"{}TRANSITION\_UNCONFIGURED\_SHUTDOWN"{}});}
+\DoxyCodeLine{\Hypertarget{cp__lifecycle__event__monitor_8cpp_source_l00104}00104\ \ \ \ \ \mbox{\hyperlink{classcl__lifecyclenode_1_1CpLifecycleEventMonitor_a9ac3e88547f37a0115e005a682aa37f9}{onTransitionUnconfiguredShutdown\_}}();}
+\DoxyCodeLine{\Hypertarget{cp__lifecycle__event__monitor_8cpp_source_l00105}00105\ \ \ \ \ \textcolor{keywordflow}{if}\ (\mbox{\hyperlink{classcl__lifecyclenode_1_1CpLifecycleEventMonitor_a5f1539e02c2a4302b41725da6c90126f}{postEventUnconfiguredShutdown\_}})\ \mbox{\hyperlink{classcl__lifecyclenode_1_1CpLifecycleEventMonitor_a5f1539e02c2a4302b41725da6c90126f}{postEventUnconfiguredShutdown\_}}();}
+\DoxyCodeLine{\Hypertarget{cp__lifecycle__event__monitor_8cpp_source_l00106}00106\ \ \ \}}
+\DoxyCodeLine{\Hypertarget{cp__lifecycle__event__monitor_8cpp_source_l00107}00107\ \ \ \textcolor{comment}{//\ TRANSITION\_INACTIVE\_SHUTDOWN}}
+\DoxyCodeLine{\Hypertarget{cp__lifecycle__event__monitor_8cpp_source_l00108}00108\ \ \ \textcolor{keywordflow}{else}\ \textcolor{keywordflow}{if}\ (}
+\DoxyCodeLine{\Hypertarget{cp__lifecycle__event__monitor_8cpp_source_l00109}00109\ \ \ \ \ msg-\/>start\_state.id\ ==\ lifecycle\_msgs::msg::State::PRIMARY\_STATE\_INACTIVE\ \&\&}
+\DoxyCodeLine{\Hypertarget{cp__lifecycle__event__monitor_8cpp_source_l00110}00110\ \ \ \ \ msg-\/>goal\_state.id\ ==\ lifecycle\_msgs::msg::State::TRANSITION\_STATE\_SHUTTINGDOWN)}
+\DoxyCodeLine{\Hypertarget{cp__lifecycle__event__monitor_8cpp_source_l00111}00111\ \ \ \{}
+\DoxyCodeLine{\Hypertarget{cp__lifecycle__event__monitor_8cpp_source_l00112}00112\ \ \ \ \ RCLCPP\_INFO(\mbox{\hyperlink{classsmacc2_1_1ISmaccComponent_a77ee85823bab8d84edcdf5d28782b728}{getLogger}}(),\ \textcolor{stringliteral}{"{}TRANSITION\_INACTIVE\_SHUTDOWN"{}});}
+\DoxyCodeLine{\Hypertarget{cp__lifecycle__event__monitor_8cpp_source_l00113}00113\ \ \ \ \ \mbox{\hyperlink{classcl__lifecyclenode_1_1CpLifecycleEventMonitor_a7f7c66140b9385964ea6ccbc15ce28b2}{onTransitionInactiveShutdown\_}}();}
+\DoxyCodeLine{\Hypertarget{cp__lifecycle__event__monitor_8cpp_source_l00114}00114\ \ \ \ \ \textcolor{keywordflow}{if}\ (\mbox{\hyperlink{classcl__lifecyclenode_1_1CpLifecycleEventMonitor_a25172a7bc2c2a951229c083b02385c6c}{postEventInactiveShutdown\_}})\ \mbox{\hyperlink{classcl__lifecyclenode_1_1CpLifecycleEventMonitor_a25172a7bc2c2a951229c083b02385c6c}{postEventInactiveShutdown\_}}();}
+\DoxyCodeLine{\Hypertarget{cp__lifecycle__event__monitor_8cpp_source_l00115}00115\ \ \ \}}
+\DoxyCodeLine{\Hypertarget{cp__lifecycle__event__monitor_8cpp_source_l00116}00116\ \ \ \textcolor{comment}{//\ TRANSITION\_ACTIVE\_SHUTDOWN}}
+\DoxyCodeLine{\Hypertarget{cp__lifecycle__event__monitor_8cpp_source_l00117}00117\ \ \ \textcolor{keywordflow}{else}\ \textcolor{keywordflow}{if}\ (}
+\DoxyCodeLine{\Hypertarget{cp__lifecycle__event__monitor_8cpp_source_l00118}00118\ \ \ \ \ msg-\/>start\_state.id\ ==\ lifecycle\_msgs::msg::State::PRIMARY\_STATE\_ACTIVE\ \&\&}
+\DoxyCodeLine{\Hypertarget{cp__lifecycle__event__monitor_8cpp_source_l00119}00119\ \ \ \ \ msg-\/>goal\_state.id\ ==\ lifecycle\_msgs::msg::State::TRANSITION\_STATE\_SHUTTINGDOWN)}
+\DoxyCodeLine{\Hypertarget{cp__lifecycle__event__monitor_8cpp_source_l00120}00120\ \ \ \{}
+\DoxyCodeLine{\Hypertarget{cp__lifecycle__event__monitor_8cpp_source_l00121}00121\ \ \ \ \ RCLCPP\_INFO(\mbox{\hyperlink{classsmacc2_1_1ISmaccComponent_a77ee85823bab8d84edcdf5d28782b728}{getLogger}}(),\ \textcolor{stringliteral}{"{}TRANSITION\_ACTIVE\_SHUTDOWN"{}});}
+\DoxyCodeLine{\Hypertarget{cp__lifecycle__event__monitor_8cpp_source_l00122}00122\ \ \ \ \ \mbox{\hyperlink{classcl__lifecyclenode_1_1CpLifecycleEventMonitor_a6d111456911a933d650ef56c543d1e89}{onTransitionActiveShutdown\_}}();}
+\DoxyCodeLine{\Hypertarget{cp__lifecycle__event__monitor_8cpp_source_l00123}00123\ \ \ \ \ \textcolor{keywordflow}{if}\ (\mbox{\hyperlink{classcl__lifecyclenode_1_1CpLifecycleEventMonitor_a91e9338ab5e2c2aff04fd26264ea5ddf}{postEventActiveShutdown\_}})\ \mbox{\hyperlink{classcl__lifecyclenode_1_1CpLifecycleEventMonitor_a91e9338ab5e2c2aff04fd26264ea5ddf}{postEventActiveShutdown\_}}();}
+\DoxyCodeLine{\Hypertarget{cp__lifecycle__event__monitor_8cpp_source_l00124}00124\ \ \ \}}
+\DoxyCodeLine{\Hypertarget{cp__lifecycle__event__monitor_8cpp_source_l00125}00125\ \ \ \textcolor{comment}{//\ TRANSITION\_DESTROY}}
+\DoxyCodeLine{\Hypertarget{cp__lifecycle__event__monitor_8cpp_source_l00126}00126\ \ \ \textcolor{keywordflow}{else}\ \textcolor{keywordflow}{if}\ (msg-\/>start\_state.id\ ==\ lifecycle\_msgs::msg::State::PRIMARY\_STATE\_FINALIZED)}
+\DoxyCodeLine{\Hypertarget{cp__lifecycle__event__monitor_8cpp_source_l00127}00127\ \ \ \{}
+\DoxyCodeLine{\Hypertarget{cp__lifecycle__event__monitor_8cpp_source_l00128}00128\ \ \ \ \ RCLCPP\_INFO(\mbox{\hyperlink{classsmacc2_1_1ISmaccComponent_a77ee85823bab8d84edcdf5d28782b728}{getLogger}}(),\ \textcolor{stringliteral}{"{}TRANSITION\_DESTROY"{}});}
+\DoxyCodeLine{\Hypertarget{cp__lifecycle__event__monitor_8cpp_source_l00129}00129\ \ \ \ \ \mbox{\hyperlink{classcl__lifecyclenode_1_1CpLifecycleEventMonitor_ab4b8f0a83b1c3117f76bcb8130321773}{onTransitionDestroy\_}}();}
+\DoxyCodeLine{\Hypertarget{cp__lifecycle__event__monitor_8cpp_source_l00130}00130\ \ \ \ \ \textcolor{keywordflow}{if}\ (\mbox{\hyperlink{classcl__lifecyclenode_1_1CpLifecycleEventMonitor_aa3ce075140b7887fa30f041c1d6fa28b}{postEventDestroy\_}})\ \mbox{\hyperlink{classcl__lifecyclenode_1_1CpLifecycleEventMonitor_aa3ce075140b7887fa30f041c1d6fa28b}{postEventDestroy\_}}();}
+\DoxyCodeLine{\Hypertarget{cp__lifecycle__event__monitor_8cpp_source_l00131}00131\ \ \ \}}
+\DoxyCodeLine{\Hypertarget{cp__lifecycle__event__monitor_8cpp_source_l00132}00132\ \ \ \textcolor{comment}{//\ TRANSITION\_ON\_CONFIGURE\_SUCCESS}}
+\DoxyCodeLine{\Hypertarget{cp__lifecycle__event__monitor_8cpp_source_l00133}00133\ \ \ \textcolor{keywordflow}{else}\ \textcolor{keywordflow}{if}\ (}
+\DoxyCodeLine{\Hypertarget{cp__lifecycle__event__monitor_8cpp_source_l00134}00134\ \ \ \ \ msg-\/>start\_state.id\ ==\ lifecycle\_msgs::msg::State::TRANSITION\_STATE\_CONFIGURING\ \&\&}
+\DoxyCodeLine{\Hypertarget{cp__lifecycle__event__monitor_8cpp_source_l00135}00135\ \ \ \ \ msg-\/>goal\_state.id\ ==\ lifecycle\_msgs::msg::State::PRIMARY\_STATE\_INACTIVE)}
+\DoxyCodeLine{\Hypertarget{cp__lifecycle__event__monitor_8cpp_source_l00136}00136\ \ \ \{}
+\DoxyCodeLine{\Hypertarget{cp__lifecycle__event__monitor_8cpp_source_l00137}00137\ \ \ \ \ RCLCPP\_INFO(\mbox{\hyperlink{classsmacc2_1_1ISmaccComponent_a77ee85823bab8d84edcdf5d28782b728}{getLogger}}(),\ \textcolor{stringliteral}{"{}TRANSITION\_ON\_CONFIGURE\_SUCCESS"{}});}
+\DoxyCodeLine{\Hypertarget{cp__lifecycle__event__monitor_8cpp_source_l00138}00138\ \ \ \ \ \mbox{\hyperlink{classcl__lifecyclenode_1_1CpLifecycleEventMonitor_a7b73eda23d63e1025101a396728e832e}{onTransitionOnConfigureSuccess\_}}();}
+\DoxyCodeLine{\Hypertarget{cp__lifecycle__event__monitor_8cpp_source_l00139}00139\ \ \ \ \ \textcolor{keywordflow}{if}\ (\mbox{\hyperlink{classcl__lifecyclenode_1_1CpLifecycleEventMonitor_a3608a6819524a2992074ddc205f3ec50}{postEventOnConfigureSuccess\_}})\ \mbox{\hyperlink{classcl__lifecyclenode_1_1CpLifecycleEventMonitor_a3608a6819524a2992074ddc205f3ec50}{postEventOnConfigureSuccess\_}}();}
+\DoxyCodeLine{\Hypertarget{cp__lifecycle__event__monitor_8cpp_source_l00140}00140\ \ \ \}}
+\DoxyCodeLine{\Hypertarget{cp__lifecycle__event__monitor_8cpp_source_l00141}00141\ \ \ \textcolor{comment}{//\ TRANSITION\_ON\_CONFIGURE\_FAILURE}}
+\DoxyCodeLine{\Hypertarget{cp__lifecycle__event__monitor_8cpp_source_l00142}00142\ \ \ \textcolor{keywordflow}{else}\ \textcolor{keywordflow}{if}\ (}
+\DoxyCodeLine{\Hypertarget{cp__lifecycle__event__monitor_8cpp_source_l00143}00143\ \ \ \ \ msg-\/>start\_state.id\ ==\ lifecycle\_msgs::msg::State::TRANSITION\_STATE\_CONFIGURING\ \&\&}
+\DoxyCodeLine{\Hypertarget{cp__lifecycle__event__monitor_8cpp_source_l00144}00144\ \ \ \ \ msg-\/>goal\_state.id\ ==\ lifecycle\_msgs::msg::State::PRIMARY\_STATE\_UNCONFIGURED)}
+\DoxyCodeLine{\Hypertarget{cp__lifecycle__event__monitor_8cpp_source_l00145}00145\ \ \ \{}
+\DoxyCodeLine{\Hypertarget{cp__lifecycle__event__monitor_8cpp_source_l00146}00146\ \ \ \ \ RCLCPP\_INFO(\mbox{\hyperlink{classsmacc2_1_1ISmaccComponent_a77ee85823bab8d84edcdf5d28782b728}{getLogger}}(),\ \textcolor{stringliteral}{"{}TRANSITION\_ON\_CONFIGURE\_FAILURE"{}});}
+\DoxyCodeLine{\Hypertarget{cp__lifecycle__event__monitor_8cpp_source_l00147}00147\ \ \ \ \ \mbox{\hyperlink{classcl__lifecyclenode_1_1CpLifecycleEventMonitor_a255e7d846f89b72310ca69d054cde9a6}{onTransitionOnConfigureFailure\_}}();}
+\DoxyCodeLine{\Hypertarget{cp__lifecycle__event__monitor_8cpp_source_l00148}00148\ \ \ \ \ \textcolor{keywordflow}{if}\ (\mbox{\hyperlink{classcl__lifecyclenode_1_1CpLifecycleEventMonitor_a9ff39f67a73b38b02ba4f7c990dcbfd1}{postEventOnConfigureFailure\_}})\ \mbox{\hyperlink{classcl__lifecyclenode_1_1CpLifecycleEventMonitor_a9ff39f67a73b38b02ba4f7c990dcbfd1}{postEventOnConfigureFailure\_}}();}
+\DoxyCodeLine{\Hypertarget{cp__lifecycle__event__monitor_8cpp_source_l00149}00149\ \ \ \}}
+\DoxyCodeLine{\Hypertarget{cp__lifecycle__event__monitor_8cpp_source_l00150}00150\ \ \ \textcolor{comment}{//\ TRANSITION\_ON\_CONFIGURE\_ERROR}}
+\DoxyCodeLine{\Hypertarget{cp__lifecycle__event__monitor_8cpp_source_l00151}00151\ \ \ \textcolor{keywordflow}{if}\ (}
+\DoxyCodeLine{\Hypertarget{cp__lifecycle__event__monitor_8cpp_source_l00152}00152\ \ \ \ \ msg-\/>start\_state.id\ ==\ lifecycle\_msgs::msg::State::TRANSITION\_STATE\_CONFIGURING\ \&\&}
+\DoxyCodeLine{\Hypertarget{cp__lifecycle__event__monitor_8cpp_source_l00153}00153\ \ \ \ \ msg-\/>goal\_state.id\ ==\ lifecycle\_msgs::msg::State::TRANSITION\_STATE\_ERRORPROCESSING)}
+\DoxyCodeLine{\Hypertarget{cp__lifecycle__event__monitor_8cpp_source_l00154}00154\ \ \ \{}
+\DoxyCodeLine{\Hypertarget{cp__lifecycle__event__monitor_8cpp_source_l00155}00155\ \ \ \ \ RCLCPP\_INFO(\mbox{\hyperlink{classsmacc2_1_1ISmaccComponent_a77ee85823bab8d84edcdf5d28782b728}{getLogger}}(),\ \textcolor{stringliteral}{"{}TRANSITION\_ON\_CONFIGURE\_ERROR"{}});}
+\DoxyCodeLine{\Hypertarget{cp__lifecycle__event__monitor_8cpp_source_l00156}00156\ \ \ \ \ \mbox{\hyperlink{classcl__lifecyclenode_1_1CpLifecycleEventMonitor_aabb56848d0e5981a576a0272285e0c96}{onTransitionOnConfigureError\_}}();}
+\DoxyCodeLine{\Hypertarget{cp__lifecycle__event__monitor_8cpp_source_l00157}00157\ \ \ \ \ \textcolor{keywordflow}{if}\ (\mbox{\hyperlink{classcl__lifecyclenode_1_1CpLifecycleEventMonitor_aa227af58581fff92bf84a8a95fc6cec9}{postEventOnConfigureError\_}})\ \mbox{\hyperlink{classcl__lifecyclenode_1_1CpLifecycleEventMonitor_aa227af58581fff92bf84a8a95fc6cec9}{postEventOnConfigureError\_}}();}
+\DoxyCodeLine{\Hypertarget{cp__lifecycle__event__monitor_8cpp_source_l00158}00158\ \ \ \}}
+\DoxyCodeLine{\Hypertarget{cp__lifecycle__event__monitor_8cpp_source_l00159}00159\ \ \ \textcolor{comment}{//\ TRANSITION\_ON\_CLEANUP\_SUCCESS}}
+\DoxyCodeLine{\Hypertarget{cp__lifecycle__event__monitor_8cpp_source_l00160}00160\ \ \ \textcolor{keywordflow}{else}\ \textcolor{keywordflow}{if}\ (}
+\DoxyCodeLine{\Hypertarget{cp__lifecycle__event__monitor_8cpp_source_l00161}00161\ \ \ \ \ msg-\/>start\_state.id\ ==\ lifecycle\_msgs::msg::State::TRANSITION\_STATE\_CLEANINGUP\ \&\&}
+\DoxyCodeLine{\Hypertarget{cp__lifecycle__event__monitor_8cpp_source_l00162}00162\ \ \ \ \ msg-\/>goal\_state.id\ ==\ lifecycle\_msgs::msg::State::PRIMARY\_STATE\_UNCONFIGURED)}
+\DoxyCodeLine{\Hypertarget{cp__lifecycle__event__monitor_8cpp_source_l00163}00163\ \ \ \{}
+\DoxyCodeLine{\Hypertarget{cp__lifecycle__event__monitor_8cpp_source_l00164}00164\ \ \ \ \ RCLCPP\_INFO(\mbox{\hyperlink{classsmacc2_1_1ISmaccComponent_a77ee85823bab8d84edcdf5d28782b728}{getLogger}}(),\ \textcolor{stringliteral}{"{}TRANSITION\_ON\_CLEANUP\_SUCCESS"{}});}
+\DoxyCodeLine{\Hypertarget{cp__lifecycle__event__monitor_8cpp_source_l00165}00165\ \ \ \ \ \mbox{\hyperlink{classcl__lifecyclenode_1_1CpLifecycleEventMonitor_ab712502b67d9063032dce59f43f3e3d3}{onTransitionOnCleanupSuccess\_}}();}
+\DoxyCodeLine{\Hypertarget{cp__lifecycle__event__monitor_8cpp_source_l00166}00166\ \ \ \ \ \textcolor{keywordflow}{if}\ (\mbox{\hyperlink{classcl__lifecyclenode_1_1CpLifecycleEventMonitor_a3b736354886c37050dc8a641854fd356}{postEventOnCleanupSuccess\_}})\ \mbox{\hyperlink{classcl__lifecyclenode_1_1CpLifecycleEventMonitor_a3b736354886c37050dc8a641854fd356}{postEventOnCleanupSuccess\_}}();}
+\DoxyCodeLine{\Hypertarget{cp__lifecycle__event__monitor_8cpp_source_l00167}00167\ \ \ \}}
+\DoxyCodeLine{\Hypertarget{cp__lifecycle__event__monitor_8cpp_source_l00168}00168\ \ \ \textcolor{comment}{//\ TRANSITION\_ON\_CLEANUP\_ERROR}}
+\DoxyCodeLine{\Hypertarget{cp__lifecycle__event__monitor_8cpp_source_l00169}00169\ \ \ \textcolor{keywordflow}{else}\ \textcolor{keywordflow}{if}\ (}
+\DoxyCodeLine{\Hypertarget{cp__lifecycle__event__monitor_8cpp_source_l00170}00170\ \ \ \ \ msg-\/>start\_state.id\ ==\ lifecycle\_msgs::msg::State::TRANSITION\_STATE\_CLEANINGUP\ \&\&}
+\DoxyCodeLine{\Hypertarget{cp__lifecycle__event__monitor_8cpp_source_l00171}00171\ \ \ \ \ msg-\/>goal\_state.id\ ==\ lifecycle\_msgs::msg::State::TRANSITION\_STATE\_ERRORPROCESSING)}
+\DoxyCodeLine{\Hypertarget{cp__lifecycle__event__monitor_8cpp_source_l00172}00172\ \ \ \{}
+\DoxyCodeLine{\Hypertarget{cp__lifecycle__event__monitor_8cpp_source_l00173}00173\ \ \ \ \ RCLCPP\_INFO(\mbox{\hyperlink{classsmacc2_1_1ISmaccComponent_a77ee85823bab8d84edcdf5d28782b728}{getLogger}}(),\ \textcolor{stringliteral}{"{}TRANSITION\_ON\_CLEANUP\_ERROR"{}});}
+\DoxyCodeLine{\Hypertarget{cp__lifecycle__event__monitor_8cpp_source_l00174}00174\ \ \ \ \ \mbox{\hyperlink{classcl__lifecyclenode_1_1CpLifecycleEventMonitor_a3825a9c3aa4680cd5764a9cf3f5cf55c}{onTransitionOnCleanupError\_}}();}
+\DoxyCodeLine{\Hypertarget{cp__lifecycle__event__monitor_8cpp_source_l00175}00175\ \ \ \ \ \textcolor{keywordflow}{if}\ (\mbox{\hyperlink{classcl__lifecyclenode_1_1CpLifecycleEventMonitor_ad54f4f0d9bff47d0c95e803ac7496580}{postEventOnCleanupError\_}})\ \mbox{\hyperlink{classcl__lifecyclenode_1_1CpLifecycleEventMonitor_ad54f4f0d9bff47d0c95e803ac7496580}{postEventOnCleanupError\_}}();}
+\DoxyCodeLine{\Hypertarget{cp__lifecycle__event__monitor_8cpp_source_l00176}00176\ \ \ \}}
+\DoxyCodeLine{\Hypertarget{cp__lifecycle__event__monitor_8cpp_source_l00177}00177\ \ \ \textcolor{comment}{//\ TRANSITION\_ON\_ACTIVATE\_SUCCESS}}
+\DoxyCodeLine{\Hypertarget{cp__lifecycle__event__monitor_8cpp_source_l00178}00178\ \ \ \textcolor{keywordflow}{else}\ \textcolor{keywordflow}{if}\ (}
+\DoxyCodeLine{\Hypertarget{cp__lifecycle__event__monitor_8cpp_source_l00179}00179\ \ \ \ \ msg-\/>start\_state.id\ ==\ lifecycle\_msgs::msg::State::TRANSITION\_STATE\_ACTIVATING\ \&\&}
+\DoxyCodeLine{\Hypertarget{cp__lifecycle__event__monitor_8cpp_source_l00180}00180\ \ \ \ \ msg-\/>goal\_state.id\ ==\ lifecycle\_msgs::msg::State::PRIMARY\_STATE\_ACTIVE)}
+\DoxyCodeLine{\Hypertarget{cp__lifecycle__event__monitor_8cpp_source_l00181}00181\ \ \ \{}
+\DoxyCodeLine{\Hypertarget{cp__lifecycle__event__monitor_8cpp_source_l00182}00182\ \ \ \ \ RCLCPP\_INFO(\mbox{\hyperlink{classsmacc2_1_1ISmaccComponent_a77ee85823bab8d84edcdf5d28782b728}{getLogger}}(),\ \textcolor{stringliteral}{"{}TRANSITION\_ON\_ACTIVATE\_SUCCESS"{}});}
+\DoxyCodeLine{\Hypertarget{cp__lifecycle__event__monitor_8cpp_source_l00183}00183\ \ \ \ \ \mbox{\hyperlink{classcl__lifecyclenode_1_1CpLifecycleEventMonitor_a619e5895ea94859ada686a323dfa1a91}{onTransitionOnActivateSuccess\_}}();}
+\DoxyCodeLine{\Hypertarget{cp__lifecycle__event__monitor_8cpp_source_l00184}00184\ \ \ \ \ \textcolor{keywordflow}{if}\ (\mbox{\hyperlink{classcl__lifecyclenode_1_1CpLifecycleEventMonitor_a23da39692a9f08138bd8194989c9e431}{postEventOnActivateSuccess\_}})\ \mbox{\hyperlink{classcl__lifecyclenode_1_1CpLifecycleEventMonitor_a23da39692a9f08138bd8194989c9e431}{postEventOnActivateSuccess\_}}();}
+\DoxyCodeLine{\Hypertarget{cp__lifecycle__event__monitor_8cpp_source_l00185}00185\ \ \ \}}
+\DoxyCodeLine{\Hypertarget{cp__lifecycle__event__monitor_8cpp_source_l00186}00186\ \ \ \textcolor{comment}{//\ TRANSITION\_ON\_ACTIVATE\_FAILURE}}
+\DoxyCodeLine{\Hypertarget{cp__lifecycle__event__monitor_8cpp_source_l00187}00187\ \ \ \textcolor{keywordflow}{else}\ \textcolor{keywordflow}{if}\ (}
+\DoxyCodeLine{\Hypertarget{cp__lifecycle__event__monitor_8cpp_source_l00188}00188\ \ \ \ \ msg-\/>start\_state.id\ ==\ lifecycle\_msgs::msg::State::TRANSITION\_STATE\_ACTIVATING\ \&\&}
+\DoxyCodeLine{\Hypertarget{cp__lifecycle__event__monitor_8cpp_source_l00189}00189\ \ \ \ \ msg-\/>goal\_state.id\ ==\ lifecycle\_msgs::msg::State::PRIMARY\_STATE\_INACTIVE)}
+\DoxyCodeLine{\Hypertarget{cp__lifecycle__event__monitor_8cpp_source_l00190}00190\ \ \ \{}
+\DoxyCodeLine{\Hypertarget{cp__lifecycle__event__monitor_8cpp_source_l00191}00191\ \ \ \ \ RCLCPP\_INFO(\mbox{\hyperlink{classsmacc2_1_1ISmaccComponent_a77ee85823bab8d84edcdf5d28782b728}{getLogger}}(),\ \textcolor{stringliteral}{"{}TRANSITION\_ON\_ACTIVATE\_FAILURE"{}});}
+\DoxyCodeLine{\Hypertarget{cp__lifecycle__event__monitor_8cpp_source_l00192}00192\ \ \ \ \ \mbox{\hyperlink{classcl__lifecyclenode_1_1CpLifecycleEventMonitor_a1fee577201d8e82bd58beaafc95f31c3}{onTransitionOnActivateFailure\_}}();}
+\DoxyCodeLine{\Hypertarget{cp__lifecycle__event__monitor_8cpp_source_l00193}00193\ \ \ \ \ \textcolor{keywordflow}{if}\ (\mbox{\hyperlink{classcl__lifecyclenode_1_1CpLifecycleEventMonitor_a242dc7efc4053b0ad4408a30e0ff72ed}{postEventOnActivateFailure\_}})\ \mbox{\hyperlink{classcl__lifecyclenode_1_1CpLifecycleEventMonitor_a242dc7efc4053b0ad4408a30e0ff72ed}{postEventOnActivateFailure\_}}();}
+\DoxyCodeLine{\Hypertarget{cp__lifecycle__event__monitor_8cpp_source_l00194}00194\ \ \ \}}
+\DoxyCodeLine{\Hypertarget{cp__lifecycle__event__monitor_8cpp_source_l00195}00195\ \ \ \textcolor{comment}{//\ TRANSITION\_ON\_ACTIVATE\_ERROR}}
+\DoxyCodeLine{\Hypertarget{cp__lifecycle__event__monitor_8cpp_source_l00196}00196\ \ \ \textcolor{keywordflow}{else}\ \textcolor{keywordflow}{if}\ (}
+\DoxyCodeLine{\Hypertarget{cp__lifecycle__event__monitor_8cpp_source_l00197}00197\ \ \ \ \ msg-\/>start\_state.id\ ==\ lifecycle\_msgs::msg::State::TRANSITION\_STATE\_ACTIVATING\ \&\&}
+\DoxyCodeLine{\Hypertarget{cp__lifecycle__event__monitor_8cpp_source_l00198}00198\ \ \ \ \ msg-\/>goal\_state.id\ ==\ lifecycle\_msgs::msg::State::TRANSITION\_STATE\_ERRORPROCESSING)}
+\DoxyCodeLine{\Hypertarget{cp__lifecycle__event__monitor_8cpp_source_l00199}00199\ \ \ \{}
+\DoxyCodeLine{\Hypertarget{cp__lifecycle__event__monitor_8cpp_source_l00200}00200\ \ \ \ \ RCLCPP\_INFO(\mbox{\hyperlink{classsmacc2_1_1ISmaccComponent_a77ee85823bab8d84edcdf5d28782b728}{getLogger}}(),\ \textcolor{stringliteral}{"{}TRANSITION\_ON\_ACTIVATE\_ERROR"{}});}
+\DoxyCodeLine{\Hypertarget{cp__lifecycle__event__monitor_8cpp_source_l00201}00201\ \ \ \ \ \mbox{\hyperlink{classcl__lifecyclenode_1_1CpLifecycleEventMonitor_a4b5326b1cde3cbba0a45c71bcbdc984b}{onTransitionOnActivateError\_}}();}
+\DoxyCodeLine{\Hypertarget{cp__lifecycle__event__monitor_8cpp_source_l00202}00202\ \ \ \ \ \textcolor{keywordflow}{if}\ (\mbox{\hyperlink{classcl__lifecyclenode_1_1CpLifecycleEventMonitor_a6854ec0d47fd4820c0bb1826f86bf47e}{postEventOnActivateError\_}})\ \mbox{\hyperlink{classcl__lifecyclenode_1_1CpLifecycleEventMonitor_a6854ec0d47fd4820c0bb1826f86bf47e}{postEventOnActivateError\_}}();}
+\DoxyCodeLine{\Hypertarget{cp__lifecycle__event__monitor_8cpp_source_l00203}00203\ \ \ \}}
+\DoxyCodeLine{\Hypertarget{cp__lifecycle__event__monitor_8cpp_source_l00204}00204\ \ \ \textcolor{comment}{//\ TRANSITION\_ON\_DEACTIVATE\_SUCCESS}}
+\DoxyCodeLine{\Hypertarget{cp__lifecycle__event__monitor_8cpp_source_l00205}00205\ \ \ \textcolor{keywordflow}{else}\ \textcolor{keywordflow}{if}\ (}
+\DoxyCodeLine{\Hypertarget{cp__lifecycle__event__monitor_8cpp_source_l00206}00206\ \ \ \ \ msg-\/>start\_state.id\ ==\ lifecycle\_msgs::msg::State::TRANSITION\_STATE\_DEACTIVATING\ \&\&}
+\DoxyCodeLine{\Hypertarget{cp__lifecycle__event__monitor_8cpp_source_l00207}00207\ \ \ \ \ msg-\/>goal\_state.id\ ==\ lifecycle\_msgs::msg::State::PRIMARY\_STATE\_INACTIVE)}
+\DoxyCodeLine{\Hypertarget{cp__lifecycle__event__monitor_8cpp_source_l00208}00208\ \ \ \{}
+\DoxyCodeLine{\Hypertarget{cp__lifecycle__event__monitor_8cpp_source_l00209}00209\ \ \ \ \ RCLCPP\_INFO(\mbox{\hyperlink{classsmacc2_1_1ISmaccComponent_a77ee85823bab8d84edcdf5d28782b728}{getLogger}}(),\ \textcolor{stringliteral}{"{}TRANSITION\_ON\_DEACTIVATE\_SUCCESS"{}});}
+\DoxyCodeLine{\Hypertarget{cp__lifecycle__event__monitor_8cpp_source_l00210}00210\ \ \ \ \ \mbox{\hyperlink{classcl__lifecyclenode_1_1CpLifecycleEventMonitor_a09fba5f14c0e43a91f36c24f5a1520b9}{onTransitionOnDeactivateSuccess\_}}();}
+\DoxyCodeLine{\Hypertarget{cp__lifecycle__event__monitor_8cpp_source_l00211}00211\ \ \ \ \ \textcolor{keywordflow}{if}\ (\mbox{\hyperlink{classcl__lifecyclenode_1_1CpLifecycleEventMonitor_aeb4fbabc2e17ed4cdfebddd1ffcb6655}{postEventOnDeactivateSuccess\_}})\ \mbox{\hyperlink{classcl__lifecyclenode_1_1CpLifecycleEventMonitor_aeb4fbabc2e17ed4cdfebddd1ffcb6655}{postEventOnDeactivateSuccess\_}}();}
+\DoxyCodeLine{\Hypertarget{cp__lifecycle__event__monitor_8cpp_source_l00212}00212\ \ \ \}}
+\DoxyCodeLine{\Hypertarget{cp__lifecycle__event__monitor_8cpp_source_l00213}00213\ \ \ \textcolor{comment}{//\ TRANSITION\_ON\_DEACTIVATE\_ERROR}}
+\DoxyCodeLine{\Hypertarget{cp__lifecycle__event__monitor_8cpp_source_l00214}00214\ \ \ \textcolor{keywordflow}{else}\ \textcolor{keywordflow}{if}\ (}
+\DoxyCodeLine{\Hypertarget{cp__lifecycle__event__monitor_8cpp_source_l00215}00215\ \ \ \ \ msg-\/>start\_state.id\ ==\ lifecycle\_msgs::msg::State::TRANSITION\_STATE\_DEACTIVATING\ \&\&}
+\DoxyCodeLine{\Hypertarget{cp__lifecycle__event__monitor_8cpp_source_l00216}00216\ \ \ \ \ msg-\/>goal\_state.id\ ==\ lifecycle\_msgs::msg::State::TRANSITION\_STATE\_ERRORPROCESSING)}
+\DoxyCodeLine{\Hypertarget{cp__lifecycle__event__monitor_8cpp_source_l00217}00217\ \ \ \{}
+\DoxyCodeLine{\Hypertarget{cp__lifecycle__event__monitor_8cpp_source_l00218}00218\ \ \ \ \ RCLCPP\_INFO(\mbox{\hyperlink{classsmacc2_1_1ISmaccComponent_a77ee85823bab8d84edcdf5d28782b728}{getLogger}}(),\ \textcolor{stringliteral}{"{}TRANSITION\_ON\_DEACTIVATE\_ERROR"{}});}
+\DoxyCodeLine{\Hypertarget{cp__lifecycle__event__monitor_8cpp_source_l00219}00219\ \ \ \ \ \mbox{\hyperlink{classcl__lifecyclenode_1_1CpLifecycleEventMonitor_a2081ebb977cdf3f5d78a7c6ba17d293e}{onTransitionOnDeactivateError\_}}();}
+\DoxyCodeLine{\Hypertarget{cp__lifecycle__event__monitor_8cpp_source_l00220}00220\ \ \ \ \ \textcolor{keywordflow}{if}\ (\mbox{\hyperlink{classcl__lifecyclenode_1_1CpLifecycleEventMonitor_af2f201fb5b5bd13ada2b6137b513ade3}{postEventOnDeactivateError\_}})\ \mbox{\hyperlink{classcl__lifecyclenode_1_1CpLifecycleEventMonitor_af2f201fb5b5bd13ada2b6137b513ade3}{postEventOnDeactivateError\_}}();}
+\DoxyCodeLine{\Hypertarget{cp__lifecycle__event__monitor_8cpp_source_l00221}00221\ \ \ \}}
+\DoxyCodeLine{\Hypertarget{cp__lifecycle__event__monitor_8cpp_source_l00222}00222\ \ \ \textcolor{comment}{//\ TRANSITION\_ON\_SHUTDOWN\_SUCCESS}}
+\DoxyCodeLine{\Hypertarget{cp__lifecycle__event__monitor_8cpp_source_l00223}00223\ \ \ \textcolor{keywordflow}{else}\ \textcolor{keywordflow}{if}\ (}
+\DoxyCodeLine{\Hypertarget{cp__lifecycle__event__monitor_8cpp_source_l00224}00224\ \ \ \ \ msg-\/>start\_state.id\ ==\ lifecycle\_msgs::msg::State::TRANSITION\_STATE\_SHUTTINGDOWN\ \&\&}
+\DoxyCodeLine{\Hypertarget{cp__lifecycle__event__monitor_8cpp_source_l00225}00225\ \ \ \ \ msg-\/>goal\_state.id\ ==\ lifecycle\_msgs::msg::State::PRIMARY\_STATE\_FINALIZED)}
+\DoxyCodeLine{\Hypertarget{cp__lifecycle__event__monitor_8cpp_source_l00226}00226\ \ \ \{}
+\DoxyCodeLine{\Hypertarget{cp__lifecycle__event__monitor_8cpp_source_l00227}00227\ \ \ \ \ RCLCPP\_INFO(\mbox{\hyperlink{classsmacc2_1_1ISmaccComponent_a77ee85823bab8d84edcdf5d28782b728}{getLogger}}(),\ \textcolor{stringliteral}{"{}TRANSITION\_ON\_SHUTDOWN\_SUCCESS"{}});}
+\DoxyCodeLine{\Hypertarget{cp__lifecycle__event__monitor_8cpp_source_l00228}00228\ \ \ \ \ \mbox{\hyperlink{classcl__lifecyclenode_1_1CpLifecycleEventMonitor_a33d9cbd4c2b19f5e264d249ec439d986}{onTransitionOnShutdownSuccess\_}}();}
+\DoxyCodeLine{\Hypertarget{cp__lifecycle__event__monitor_8cpp_source_l00229}00229\ \ \ \ \ \textcolor{keywordflow}{if}\ (\mbox{\hyperlink{classcl__lifecyclenode_1_1CpLifecycleEventMonitor_a70210efc84fb58162a551ab38cee94b2}{postEventOnShutdownSuccess\_}})\ \mbox{\hyperlink{classcl__lifecyclenode_1_1CpLifecycleEventMonitor_a70210efc84fb58162a551ab38cee94b2}{postEventOnShutdownSuccess\_}}();}
+\DoxyCodeLine{\Hypertarget{cp__lifecycle__event__monitor_8cpp_source_l00230}00230\ \ \ \}}
+\DoxyCodeLine{\Hypertarget{cp__lifecycle__event__monitor_8cpp_source_l00231}00231\ \ \ \textcolor{comment}{//\ TRANSITION\_ON\_SHUTDOWN\_ERROR}}
+\DoxyCodeLine{\Hypertarget{cp__lifecycle__event__monitor_8cpp_source_l00232}00232\ \ \ \textcolor{keywordflow}{else}\ \textcolor{keywordflow}{if}\ (}
+\DoxyCodeLine{\Hypertarget{cp__lifecycle__event__monitor_8cpp_source_l00233}00233\ \ \ \ \ msg-\/>start\_state.id\ ==\ lifecycle\_msgs::msg::State::TRANSITION\_STATE\_SHUTTINGDOWN\ \&\&}
+\DoxyCodeLine{\Hypertarget{cp__lifecycle__event__monitor_8cpp_source_l00234}00234\ \ \ \ \ msg-\/>goal\_state.id\ ==\ lifecycle\_msgs::msg::State::TRANSITION\_STATE\_ERRORPROCESSING)}
+\DoxyCodeLine{\Hypertarget{cp__lifecycle__event__monitor_8cpp_source_l00235}00235\ \ \ \{}
+\DoxyCodeLine{\Hypertarget{cp__lifecycle__event__monitor_8cpp_source_l00236}00236\ \ \ \ \ RCLCPP\_INFO(\mbox{\hyperlink{classsmacc2_1_1ISmaccComponent_a77ee85823bab8d84edcdf5d28782b728}{getLogger}}(),\ \textcolor{stringliteral}{"{}TRANSITION\_ON\_SHUTDOWN\_ERROR"{}});}
+\DoxyCodeLine{\Hypertarget{cp__lifecycle__event__monitor_8cpp_source_l00237}00237\ \ \ \ \ \mbox{\hyperlink{classcl__lifecyclenode_1_1CpLifecycleEventMonitor_a1f6060a5309168a311074f59600320fe}{onTransitionOnShutdownError\_}}();}
+\DoxyCodeLine{\Hypertarget{cp__lifecycle__event__monitor_8cpp_source_l00238}00238\ \ \ \ \ \textcolor{keywordflow}{if}\ (\mbox{\hyperlink{classcl__lifecyclenode_1_1CpLifecycleEventMonitor_a3d8492eeb9a5d939e9817ad2ee7c7d0d}{postEventOnShutdownError\_}})\ \mbox{\hyperlink{classcl__lifecyclenode_1_1CpLifecycleEventMonitor_a3d8492eeb9a5d939e9817ad2ee7c7d0d}{postEventOnShutdownError\_}}();}
+\DoxyCodeLine{\Hypertarget{cp__lifecycle__event__monitor_8cpp_source_l00239}00239\ \ \ \}}
+\DoxyCodeLine{\Hypertarget{cp__lifecycle__event__monitor_8cpp_source_l00240}00240\ \ \ \textcolor{comment}{//\ TRANSITION\_ON\_ERROR\_SUCCESS}}
+\DoxyCodeLine{\Hypertarget{cp__lifecycle__event__monitor_8cpp_source_l00241}00241\ \ \ \textcolor{keywordflow}{else}\ \textcolor{keywordflow}{if}\ (}
+\DoxyCodeLine{\Hypertarget{cp__lifecycle__event__monitor_8cpp_source_l00242}00242\ \ \ \ \ msg-\/>start\_state.id\ ==\ lifecycle\_msgs::msg::State::TRANSITION\_STATE\_ERRORPROCESSING\ \&\&}
+\DoxyCodeLine{\Hypertarget{cp__lifecycle__event__monitor_8cpp_source_l00243}00243\ \ \ \ \ msg-\/>goal\_state.id\ ==\ lifecycle\_msgs::msg::State::PRIMARY\_STATE\_UNCONFIGURED)}
+\DoxyCodeLine{\Hypertarget{cp__lifecycle__event__monitor_8cpp_source_l00244}00244\ \ \ \{}
+\DoxyCodeLine{\Hypertarget{cp__lifecycle__event__monitor_8cpp_source_l00245}00245\ \ \ \ \ RCLCPP\_INFO(\mbox{\hyperlink{classsmacc2_1_1ISmaccComponent_a77ee85823bab8d84edcdf5d28782b728}{getLogger}}(),\ \textcolor{stringliteral}{"{}TRANSITION\_ON\_ERROR\_SUCCESS"{}});}
+\DoxyCodeLine{\Hypertarget{cp__lifecycle__event__monitor_8cpp_source_l00246}00246\ \ \ \ \ \mbox{\hyperlink{classcl__lifecyclenode_1_1CpLifecycleEventMonitor_a738e00aa016765a6f7dc71c5a5eb611d}{onTransitionOnErrorSuccess\_}}();}
+\DoxyCodeLine{\Hypertarget{cp__lifecycle__event__monitor_8cpp_source_l00247}00247\ \ \ \ \ \textcolor{keywordflow}{if}\ (\mbox{\hyperlink{classcl__lifecyclenode_1_1CpLifecycleEventMonitor_a6ebfbe6d851647172421579dcda641c5}{postEventOnErrorSuccess\_}})\ \mbox{\hyperlink{classcl__lifecyclenode_1_1CpLifecycleEventMonitor_a6ebfbe6d851647172421579dcda641c5}{postEventOnErrorSuccess\_}}();}
+\DoxyCodeLine{\Hypertarget{cp__lifecycle__event__monitor_8cpp_source_l00248}00248\ \ \ \}}
+\DoxyCodeLine{\Hypertarget{cp__lifecycle__event__monitor_8cpp_source_l00249}00249\ \ \ \textcolor{comment}{//\ TRANSITION\_ON\_ERROR\_FAILURE}}
+\DoxyCodeLine{\Hypertarget{cp__lifecycle__event__monitor_8cpp_source_l00250}00250\ \ \ \textcolor{keywordflow}{else}\ \textcolor{keywordflow}{if}\ (}
+\DoxyCodeLine{\Hypertarget{cp__lifecycle__event__monitor_8cpp_source_l00251}00251\ \ \ \ \ msg-\/>start\_state.id\ ==\ lifecycle\_msgs::msg::State::TRANSITION\_STATE\_ERRORPROCESSING\ \&\&}
+\DoxyCodeLine{\Hypertarget{cp__lifecycle__event__monitor_8cpp_source_l00252}00252\ \ \ \ \ msg-\/>goal\_state.id\ ==\ lifecycle\_msgs::msg::State::PRIMARY\_STATE\_FINALIZED)}
+\DoxyCodeLine{\Hypertarget{cp__lifecycle__event__monitor_8cpp_source_l00253}00253\ \ \ \{}
+\DoxyCodeLine{\Hypertarget{cp__lifecycle__event__monitor_8cpp_source_l00254}00254\ \ \ \ \ RCLCPP\_INFO(\mbox{\hyperlink{classsmacc2_1_1ISmaccComponent_a77ee85823bab8d84edcdf5d28782b728}{getLogger}}(),\ \textcolor{stringliteral}{"{}TRANSITION\_ON\_ERROR\_FAILURE"{}});}
+\DoxyCodeLine{\Hypertarget{cp__lifecycle__event__monitor_8cpp_source_l00255}00255\ \ \ \ \ \mbox{\hyperlink{classcl__lifecyclenode_1_1CpLifecycleEventMonitor_accd8e3dfb8d94479f9710e261a17c573}{onTransitionOnErrorFailure\_}}();}
+\DoxyCodeLine{\Hypertarget{cp__lifecycle__event__monitor_8cpp_source_l00256}00256\ \ \ \ \ \textcolor{keywordflow}{if}\ (\mbox{\hyperlink{classcl__lifecyclenode_1_1CpLifecycleEventMonitor_a3c76718301fbdf5ff4077cd9b6663259}{postEventOnErrorFailure\_}})\ \mbox{\hyperlink{classcl__lifecyclenode_1_1CpLifecycleEventMonitor_a3c76718301fbdf5ff4077cd9b6663259}{postEventOnErrorFailure\_}}();}
+\DoxyCodeLine{\Hypertarget{cp__lifecycle__event__monitor_8cpp_source_l00257}00257\ \ \ \}}
+\DoxyCodeLine{\Hypertarget{cp__lifecycle__event__monitor_8cpp_source_l00258}00258\ \ \ \textcolor{comment}{//\ UNKNOWN\ TRANSITION}}
+\DoxyCodeLine{\Hypertarget{cp__lifecycle__event__monitor_8cpp_source_l00259}00259\ \ \ \textcolor{keywordflow}{else}}
+\DoxyCodeLine{\Hypertarget{cp__lifecycle__event__monitor_8cpp_source_l00260}00260\ \ \ \{}
+\DoxyCodeLine{\Hypertarget{cp__lifecycle__event__monitor_8cpp_source_l00261}00261\ \ \ \ \ RCLCPP\_INFO(\mbox{\hyperlink{classsmacc2_1_1ISmaccComponent_a77ee85823bab8d84edcdf5d28782b728}{getLogger}}(),\ \textcolor{stringliteral}{"{}TRANSITION\_UNKNOWN"{}});}
+\DoxyCodeLine{\Hypertarget{cp__lifecycle__event__monitor_8cpp_source_l00262}00262\ \ \ \}}
+\DoxyCodeLine{\Hypertarget{cp__lifecycle__event__monitor_8cpp_source_l00263}00263\ \}}
+\DoxyCodeLine{\Hypertarget{cp__lifecycle__event__monitor_8cpp_source_l00264}00264\ }
+\DoxyCodeLine{\Hypertarget{cp__lifecycle__event__monitor_8cpp_source_l00265}00265\ \}\ \ \textcolor{comment}{//\ namespace\ cl\_lifecyclenode}}
+
+\end{DoxyCode}

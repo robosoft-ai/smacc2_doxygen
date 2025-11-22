@@ -12,6 +12,7 @@ var searchData=
   ['updateparameters_9',['updateParameters',['../structcl__nav2z_1_1CbPositionControlFreeSpace.html#a872fe76f1d07c88629e99676d7d7bbd2',1,'cl_nav2z::CbPositionControlFreeSpace::updateParameters()'],['../structcl__nav2z_1_1CbPureSpinning.html#a389406c68f1d0d3530fc7b64a99d7e4b',1,'cl_nav2z::CbPureSpinning::updateParameters()'],['../classcl__nav2z_1_1odom__tracker_1_1CpOdomTracker.html#a8fd16bc7f04b5a4d5f7dc020937aaefe',1,'cl_nav2z::odom_tracker::CpOdomTracker::updateParameters()']]],
   ['updatepredicate_5f_10',['updatePredicate_',['../classsmacc2_1_1event__generators_1_1EgConditionalGenerator.html#a30ea4669765d6f508489e6df76c15418',1,'smacc2::event_generators::EgConditionalGenerator']]],
   ['updaterecordpath_11',['updateRecordPath',['../classcl__nav2z_1_1odom__tracker_1_1CpOdomTracker.html#a09970ca6b3012ee6befec84d85c04d4d',1,'cl_nav2z::odom_tracker::CpOdomTracker']]],
-  ['updatestatusmessage_12',['updateStatusMessage',['../classsmacc2_1_1ISmaccStateMachine.html#af4f58396fd87d4f94299ddb624f154fa',1,'smacc2::ISmaccStateMachine']]],
-  ['updatetemporalbehaviorparameters_13',['updateTemporalBehaviorParameters',['../classcl__nav2z_1_1CbAbsoluteRotate.html#a9410b279fa1b5d2dc02a413166e8fe72',1,'cl_nav2z::CbAbsoluteRotate']]]
+  ['updatestate_12',['updateState',['../classcl__lifecyclenode_1_1CpLifecycleStateTracker.html#affdd4288c79f868714996d653f1cf5ed',1,'cl_lifecyclenode::CpLifecycleStateTracker']]],
+  ['updatestatusmessage_13',['updateStatusMessage',['../classsmacc2_1_1ISmaccStateMachine.html#af4f58396fd87d4f94299ddb624f154fa',1,'smacc2::ISmaccStateMachine']]],
+  ['updatetemporalbehaviorparameters_14',['updateTemporalBehaviorParameters',['../classcl__nav2z_1_1CbAbsoluteRotate.html#a9410b279fa1b5d2dc02a413166e8fe72',1,'cl_nav2z::CbAbsoluteRotate']]]
 ];
