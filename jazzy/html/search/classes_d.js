@@ -1,6 +1,6 @@
 var searchData=
 [
-  ['server_0',['Server',['../classcl__http_1_1ClHttp_1_1Server.html',1,'cl_http::ClHttp']]],
+  ['serverconfig_0',['ServerConfig',['../classcl__http_1_1CpHttpSessionManager_1_1ServerConfig.html',1,'cl_http::CpHttpSessionManager']]],
   ['signaldetector_1',['SignalDetector',['../classsmacc2_1_1SignalDetector.html',1,'smacc2']]],
   ['simple_5fstate_2',['simple_state',['../classboost_1_1statechart_1_1simple__state.html',1,'boost::statechart']]],
   ['smaccactionclientbase_3',['SmaccActionClientBase',['../classsmacc2_1_1client__bases_1_1SmaccActionClientBase.html',1,'smacc2::client_bases']]],

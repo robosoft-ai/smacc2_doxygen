@@ -14,5 +14,6 @@ var searchData=
   ['http_5fsession_2ehpp_11',['http_session.hpp',['../http__session_8hpp.html',1,'']]],
   ['http_5fsession_5fbase_12',['http_session_base',['../classcl__http_1_1http__session__base.html',1,'cl_http']]],
   ['http_5fsession_5fbase_2ehpp_13',['http_session_base.hpp',['../http__session__base_8hpp.html',1,'']]],
-  ['http_5fversion_14',['HTTP_VERSION',['../classcl__http_1_1ClHttp.html#aabb28ef5886dc64343fde985c071ec1f',1,'cl_http::ClHttp']]]
+  ['http_5fversion_14',['HTTP_VERSION',['../classcl__http_1_1ClHttp.html#aabb28ef5886dc64343fde985c071ec1f',1,'cl_http::ClHttp::HTTP_VERSION'],['../classcl__http_1_1CpHttpRequestExecutor.html#ae6f08e334b748b5f310085b71ab4fe7c',1,'cl_http::CpHttpRequestExecutor::HTTP_VERSION']]],
+  ['httpmethod_15',['HttpMethod',['../classcl__http_1_1CpHttpRequestExecutor.html#a472a32e60c2369ab883f3c1e704f7283',1,'cl_http::CpHttpRequestExecutor']]]
 ];

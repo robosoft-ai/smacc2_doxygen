@@ -18,6 +18,6 @@ var searchData=
   ['isserverready_15',['isServerReady',['../classsmacc2_1_1client__core__components_1_1CpActionClient.html#acf4fe4452c6e1cacc89219e81a6dda94',1,'smacc2::client_core_components::CpActionClient']]],
   ['isserviceready_16',['isServiceReady',['../classsmacc2_1_1client__core__components_1_1CpServiceClient.html#a58e6259057c312d7ffa8d09ddc5dfed0',1,'smacc2::client_core_components::CpServiceClient']]],
   ['isshutdownrequested_17',['isShutdownRequested',['../classsmacc2_1_1SmaccAsyncClientBehavior.html#a3fdbe8ec497fef82e2441e8e87899955',1,'smacc2::SmaccAsyncClientBehavior']]],
-  ['isssl_18',['isSSL',['../classcl__http_1_1ClHttp_1_1Server.html#a39fbd523c8a4c523e5b1ebf4b24902fa',1,'cl_http::ClHttp::Server']]],
+  ['isssl_18',['isSSL',['../classcl__http_1_1CpHttpSessionManager.html#a83e59e87c1ecb64c789a2d9b63065517',1,'cl_http::CpHttpSessionManager::isSSL()'],['../classcl__http_1_1CpHttpSessionManager_1_1ServerConfig.html#a8c5b110bfa8f45b003c36828a937d352',1,'cl_http::CpHttpSessionManager::ServerConfig::isSSL()']]],
   ['iteratecomponents_19',['iterateComponents',['../classsmacc2_1_1ISmaccClient.html#a1c24ea7b2d8e3d3da3fd1588842bdb0e',1,'smacc2::ISmaccClient']]]
 ];
