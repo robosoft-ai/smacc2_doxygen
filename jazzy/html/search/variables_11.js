@@ -23,6 +23,7 @@ var searchData=
   ['robotbasepathstackedpub_5f_20',['robotBasePathStackedPub_',['../classcl__nav2z_1_1odom__tracker_1_1CpOdomTracker.html#a9fbf1e769c3865b10eacee122f084d0b',1,'cl_nav2z::odom_tracker::CpOdomTracker']]],
   ['robotpose_5f_21',['robotPose_',['../classcl__nav2z_1_1odom__tracker_1_1CpOdomTracker.html#a6ceb5ad157f9db04c0fc13b4bef67031',1,'cl_nav2z::odom_tracker::CpOdomTracker']]],
   ['robotposetimer_5f_22',['robotPoseTimer_',['../classcl__nav2z_1_1odom__tracker_1_1CpOdomTracker.html#a981946a0b6fc4ad7f46436f254e1e44a',1,'cl_nav2z::odom_tracker::CpOdomTracker']]],
-  ['rotatedegree_23',['rotateDegree',['../classcl__nav2z_1_1CbRotate.html#a81a2bfa7474674b90b58563dfeebe808',1,'cl_nav2z::CbRotate']]],
-  ['runmode_5f_24',['runMode_',['../classsmacc2_1_1ISmaccStateMachine.html#a0391578b8ec4dbbe1c4a93f2905d59f1',1,'smacc2::ISmaccStateMachine']]]
+  ['rosinitialized_5f_23',['rosInitialized_',['../classsmacc2_1_1SignalDetector.html#a7e08e5f1711fa05126c254c5bca66807',1,'smacc2::SignalDetector']]],
+  ['rotatedegree_24',['rotateDegree',['../classcl__nav2z_1_1CbRotate.html#a81a2bfa7474674b90b58563dfeebe808',1,'cl_nav2z::CbRotate']]],
+  ['runmode_5f_25',['runMode_',['../classsmacc2_1_1ISmaccStateMachine.html#a0391578b8ec4dbbe1c4a93f2905d59f1',1,'smacc2::ISmaccStateMachine']]]
 ];

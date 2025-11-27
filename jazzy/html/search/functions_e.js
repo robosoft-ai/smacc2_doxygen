@@ -8,8 +8,9 @@ var searchData=
   ['notifyonstateentrystart_5',['notifyOnStateEntryStart',['../classsmacc2_1_1ISmaccStateMachine.html#afcf1bd46804d7e1b0784067b0f8339dd',1,'smacc2::ISmaccStateMachine']]],
   ['notifyonstateexited_6',['notifyOnStateExited',['../classsmacc2_1_1ISmaccStateMachine.html#a73ee6bc299f74724ad5c734b55e544c5',1,'smacc2::ISmaccStateMachine']]],
   ['notifyonstateexitting_7',['notifyOnStateExitting',['../classsmacc2_1_1ISmaccStateMachine.html#a380ecb6f3767060cbc4447e6c814d917',1,'smacc2::ISmaccStateMachine']]],
-  ['notifystateconfigured_8',['notifyStateConfigured',['../classsmacc2_1_1SignalDetector.html#af9a0197754ac252b657a8785ac1ef84d',1,'smacc2::SignalDetector']]],
-  ['notifystateexited_9',['notifyStateExited',['../classsmacc2_1_1SignalDetector.html#a5bba754f0a9e2366034da17501a6b490',1,'smacc2::SignalDetector']]],
-  ['notifytransition_10',['notifyTransition',['../classsmacc2_1_1ISmaccState.html#ad5349c83f7a9455a07113e088ad295d3',1,'smacc2::ISmaccState']]],
-  ['notifytransitionfromtransitiontypeinfo_11',['notifyTransitionFromTransitionTypeInfo',['../classsmacc2_1_1ISmaccState.html#af07000235dbc0541fe4cd9cc08790dd1',1,'smacc2::ISmaccState']]]
+  ['notifyrosinitialized_8',['notifyRosInitialized',['../classsmacc2_1_1SignalDetector.html#ad621cb54a515f0d8f4863f1e8a608c0b',1,'smacc2::SignalDetector']]],
+  ['notifystateconfigured_9',['notifyStateConfigured',['../classsmacc2_1_1SignalDetector.html#af9a0197754ac252b657a8785ac1ef84d',1,'smacc2::SignalDetector']]],
+  ['notifystateexited_10',['notifyStateExited',['../classsmacc2_1_1SignalDetector.html#a5bba754f0a9e2366034da17501a6b490',1,'smacc2::SignalDetector']]],
+  ['notifytransition_11',['notifyTransition',['../classsmacc2_1_1ISmaccState.html#ad5349c83f7a9455a07113e088ad295d3',1,'smacc2::ISmaccState']]],
+  ['notifytransitionfromtransitiontypeinfo_12',['notifyTransitionFromTransitionTypeInfo',['../classsmacc2_1_1ISmaccState.html#af07000235dbc0541fe4cd9cc08790dd1',1,'smacc2::ISmaccState']]]
 ];
