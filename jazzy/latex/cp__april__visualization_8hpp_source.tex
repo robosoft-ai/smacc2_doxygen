@@ -1,0 +1,179 @@
+\doxysection{cp\+\_\+april\+\_\+visualization.\+hpp}
+\hypertarget{cp__april__visualization_8hpp_source}{}\label{cp__april__visualization_8hpp_source}\index{smacc2\_client\_library/cl\_isaac\_apriltag/include/cl\_isaac\_apriltag/components/cp\_april\_visualization.hpp@{smacc2\_client\_library/cl\_isaac\_apriltag/include/cl\_isaac\_apriltag/components/cp\_april\_visualization.hpp}}
+\mbox{\hyperlink{cp__april__visualization_8hpp}{Go to the documentation of this file.}}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\Hypertarget{cp__april__visualization_8hpp_source_l00001}00001\ \textcolor{comment}{//\ Copyright\ 2021\ RobosoftAI\ Inc.}}
+\DoxyCodeLine{\Hypertarget{cp__april__visualization_8hpp_source_l00002}00002\ \textcolor{comment}{//}}
+\DoxyCodeLine{\Hypertarget{cp__april__visualization_8hpp_source_l00003}00003\ \textcolor{comment}{//\ Licensed\ under\ the\ Apache\ License,\ Version\ 2.0\ (the\ "{}License"{});}}
+\DoxyCodeLine{\Hypertarget{cp__april__visualization_8hpp_source_l00004}00004\ \textcolor{comment}{//\ you\ may\ not\ use\ this\ file\ except\ in\ compliance\ with\ the\ License.}}
+\DoxyCodeLine{\Hypertarget{cp__april__visualization_8hpp_source_l00005}00005\ \textcolor{comment}{//\ You\ may\ obtain\ a\ copy\ of\ the\ License\ at}}
+\DoxyCodeLine{\Hypertarget{cp__april__visualization_8hpp_source_l00006}00006\ \textcolor{comment}{//}}
+\DoxyCodeLine{\Hypertarget{cp__april__visualization_8hpp_source_l00007}00007\ \textcolor{comment}{//\ \ \ \ \ http://www.apache.org/licenses/LICENSE-\/2.0}}
+\DoxyCodeLine{\Hypertarget{cp__april__visualization_8hpp_source_l00008}00008\ \textcolor{comment}{//}}
+\DoxyCodeLine{\Hypertarget{cp__april__visualization_8hpp_source_l00009}00009\ \textcolor{comment}{//\ Unless\ required\ by\ applicable\ law\ or\ agreed\ to\ in\ writing,\ software}}
+\DoxyCodeLine{\Hypertarget{cp__april__visualization_8hpp_source_l00010}00010\ \textcolor{comment}{//\ distributed\ under\ the\ License\ is\ distributed\ on\ an\ "{}AS\ IS"{}\ BASIS,}}
+\DoxyCodeLine{\Hypertarget{cp__april__visualization_8hpp_source_l00011}00011\ \textcolor{comment}{//\ WITHOUT\ WARRANTIES\ OR\ CONDITIONS\ OF\ ANY\ KIND,\ either\ express\ or\ implied.}}
+\DoxyCodeLine{\Hypertarget{cp__april__visualization_8hpp_source_l00012}00012\ \textcolor{comment}{//\ See\ the\ License\ for\ the\ specific\ language\ governing\ permissions\ and}}
+\DoxyCodeLine{\Hypertarget{cp__april__visualization_8hpp_source_l00013}00013\ \textcolor{comment}{//\ limitations\ under\ the\ License.}}
+\DoxyCodeLine{\Hypertarget{cp__april__visualization_8hpp_source_l00014}00014\ }
+\DoxyCodeLine{\Hypertarget{cp__april__visualization_8hpp_source_l00015}00015\ \textcolor{comment}{/*****************************************************************************************************************}}
+\DoxyCodeLine{\Hypertarget{cp__april__visualization_8hpp_source_l00016}00016\ \textcolor{comment}{\ *}}
+\DoxyCodeLine{\Hypertarget{cp__april__visualization_8hpp_source_l00017}00017\ \textcolor{comment}{\ *\ \ \ Authors:\ Pablo\ Inigo\ Blasco,\ Brett\ Aldrich}}
+\DoxyCodeLine{\Hypertarget{cp__april__visualization_8hpp_source_l00018}00018\ \textcolor{comment}{\ *}}
+\DoxyCodeLine{\Hypertarget{cp__april__visualization_8hpp_source_l00019}00019\ \textcolor{comment}{\ ******************************************************************************************************************/}}
+\DoxyCodeLine{\Hypertarget{cp__april__visualization_8hpp_source_l00020}00020\ \textcolor{preprocessor}{\#pragma\ once}}
+\DoxyCodeLine{\Hypertarget{cp__april__visualization_8hpp_source_l00021}00021\ }
+\DoxyCodeLine{\Hypertarget{cp__april__visualization_8hpp_source_l00022}00022\ \textcolor{preprocessor}{\#include\ <\mbox{\hyperlink{include_2smacc2_2common_8hpp}{smacc2/common.hpp}}>}}
+\DoxyCodeLine{\Hypertarget{cp__april__visualization_8hpp_source_l00023}00023\ \textcolor{preprocessor}{\#include\ <\mbox{\hyperlink{component_8hpp}{smacc2/component.hpp}}>}}
+\DoxyCodeLine{\Hypertarget{cp__april__visualization_8hpp_source_l00024}00024\ }
+\DoxyCodeLine{\Hypertarget{cp__april__visualization_8hpp_source_l00025}00025\ \textcolor{preprocessor}{\#include\ <rclcpp/rclcpp.hpp>}}
+\DoxyCodeLine{\Hypertarget{cp__april__visualization_8hpp_source_l00026}00026\ }
+\DoxyCodeLine{\Hypertarget{cp__april__visualization_8hpp_source_l00027}00027\ \textcolor{preprocessor}{\#include\ <memory>}}
+\DoxyCodeLine{\Hypertarget{cp__april__visualization_8hpp_source_l00028}00028\ \textcolor{preprocessor}{\#include\ <mutex>}}
+\DoxyCodeLine{\Hypertarget{cp__april__visualization_8hpp_source_l00029}00029\ \textcolor{preprocessor}{\#include\ <vector>}}
+\DoxyCodeLine{\Hypertarget{cp__april__visualization_8hpp_source_l00030}00030\ }
+\DoxyCodeLine{\Hypertarget{cp__april__visualization_8hpp_source_l00031}00031\ \textcolor{preprocessor}{\#include\ <std\_msgs/msg/header.hpp>}}
+\DoxyCodeLine{\Hypertarget{cp__april__visualization_8hpp_source_l00032}00032\ \textcolor{preprocessor}{\#include\ <visualization\_msgs/msg/marker\_array.hpp>}}
+\DoxyCodeLine{\Hypertarget{cp__april__visualization_8hpp_source_l00033}00033\ }
+\DoxyCodeLine{\Hypertarget{cp__april__visualization_8hpp_source_l00034}00034\ \textcolor{keyword}{using\ namespace\ }std::chrono\_literals;}
+\DoxyCodeLine{\Hypertarget{cp__april__visualization_8hpp_source_l00035}00035\ \textcolor{keyword}{using\ }std::chrono\_literals::operator\textcolor{stringliteral}{"{}"{}}s;}
+\DoxyCodeLine{\Hypertarget{cp__april__visualization_8hpp_source_l00036}00036\ }
+\DoxyCodeLine{\Hypertarget{cp__april__visualization_8hpp_source_l00037}00037\ \textcolor{keyword}{namespace\ }\mbox{\hyperlink{namespacecl__isaac__apriltag}{cl\_isaac\_apriltag}}}
+\DoxyCodeLine{\Hypertarget{cp__april__visualization_8hpp_source_l00038}00038\ \{}
+\DoxyCodeLine{\Hypertarget{cp__april__visualization_8hpp_source_l00039}00039\ }
+\DoxyCodeLine{\Hypertarget{cp__april__visualization_8hpp_source_l00040}\mbox{\hyperlink{classcl__isaac__apriltag_1_1CpAprilTagVisualization}{00040}}\ \textcolor{keyword}{class\ }\mbox{\hyperlink{classcl__isaac__apriltag_1_1CpAprilTagVisualization}{CpAprilTagVisualization}}\ :\ \textcolor{keyword}{public}\ \mbox{\hyperlink{classsmacc2_1_1ISmaccComponent}{smacc2::ISmaccComponent}},\ \textcolor{keyword}{public}\ \mbox{\hyperlink{classsmacc2_1_1ISmaccUpdatable}{smacc2::ISmaccUpdatable}}}
+\DoxyCodeLine{\Hypertarget{cp__april__visualization_8hpp_source_l00041}00041\ \{}
+\DoxyCodeLine{\Hypertarget{cp__april__visualization_8hpp_source_l00042}00042\ \textcolor{keyword}{public}:}
+\DoxyCodeLine{\Hypertarget{cp__april__visualization_8hpp_source_l00043}\mbox{\hyperlink{classcl__isaac__apriltag_1_1CpAprilTagVisualization_abbf5f4e1a9a5f954119220dce9c80d2a}{00043}}\ \ \ \mbox{\hyperlink{classcl__isaac__apriltag_1_1CpAprilTagVisualization_abbf5f4e1a9a5f954119220dce9c80d2a}{CpAprilTagVisualization}}()}
+\DoxyCodeLine{\Hypertarget{cp__april__visualization_8hpp_source_l00044}00044\ \ \ \{}
+\DoxyCodeLine{\Hypertarget{cp__april__visualization_8hpp_source_l00045}00045\ }
+\DoxyCodeLine{\Hypertarget{cp__april__visualization_8hpp_source_l00046}00046\ \ \ \}}
+\DoxyCodeLine{\Hypertarget{cp__april__visualization_8hpp_source_l00047}00047\ }
+\DoxyCodeLine{\Hypertarget{cp__april__visualization_8hpp_source_l00048}\mbox{\hyperlink{classcl__isaac__apriltag_1_1CpAprilTagVisualization_afd2c952a6d2b63f146d6ff4657118c48}{00048}}\ \ \ \textcolor{keyword}{virtual}\ \mbox{\hyperlink{classcl__isaac__apriltag_1_1CpAprilTagVisualization_afd2c952a6d2b63f146d6ff4657118c48}{\string~CpAprilTagVisualization}}()}
+\DoxyCodeLine{\Hypertarget{cp__april__visualization_8hpp_source_l00049}00049\ \ \ \{}
+\DoxyCodeLine{\Hypertarget{cp__april__visualization_8hpp_source_l00050}00050\ \ \ \}}
+\DoxyCodeLine{\Hypertarget{cp__april__visualization_8hpp_source_l00051}00051\ }
+\DoxyCodeLine{\Hypertarget{cp__april__visualization_8hpp_source_l00052}\mbox{\hyperlink{classcl__isaac__apriltag_1_1CpAprilTagVisualization_afbacd2326d53fdd82d720a7fba9f96cd}{00052}}\ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{classcl__isaac__apriltag_1_1CpAprilTagVisualization_afbacd2326d53fdd82d720a7fba9f96cd}{onInitialize}}()\textcolor{keyword}{\ override}}
+\DoxyCodeLine{\Hypertarget{cp__april__visualization_8hpp_source_l00053}00053\ \textcolor{keyword}{\ \ }\{}
+\DoxyCodeLine{\Hypertarget{cp__april__visualization_8hpp_source_l00054}00054\ \ \ \ \ \ \ \mbox{\hyperlink{classcl__isaac__apriltag_1_1CpAprilTagVisualization_a5b36200934841f2a41d72fb806fa2be1}{markerPublisher}}\ =\ \mbox{\hyperlink{classsmacc2_1_1ISmaccComponent_aaac68614687bed658c59f8f15746ab91}{getNode}}()-\/>create\_publisher<visualization\_msgs::msg::MarkerArray>(\textcolor{stringliteral}{"{}/markers\_2"{}},\ 10);}
+\DoxyCodeLine{\Hypertarget{cp__april__visualization_8hpp_source_l00055}00055\ }
+\DoxyCodeLine{\Hypertarget{cp__april__visualization_8hpp_source_l00056}00056\ \ \ \}}
+\DoxyCodeLine{\Hypertarget{cp__april__visualization_8hpp_source_l00057}00057\ }
+\DoxyCodeLine{\Hypertarget{cp__april__visualization_8hpp_source_l00058}\mbox{\hyperlink{classcl__isaac__apriltag_1_1CpAprilTagVisualization_a5fd4fda5a649cb691e6b01b4c206dd3b}{00058}}\ \ \ std::optional<tf2::Transform>\ \mbox{\hyperlink{classcl__isaac__apriltag_1_1CpAprilTagVisualization_a5fd4fda5a649cb691e6b01b4c206dd3b}{getGlobalApriltagTransform}}()}
+\DoxyCodeLine{\Hypertarget{cp__april__visualization_8hpp_source_l00059}00059\ \ \ \{}
+\DoxyCodeLine{\Hypertarget{cp__april__visualization_8hpp_source_l00060}00060\ \ \ \ \ std::lock\_guard<std::mutex>\ lock(\mbox{\hyperlink{classcl__isaac__apriltag_1_1CpAprilTagVisualization_a6560b9b470dba450ff783074f319b53b}{m\_mutex\_}});}
+\DoxyCodeLine{\Hypertarget{cp__april__visualization_8hpp_source_l00061}00061\ \ \ \ \ \textcolor{keywordflow}{return}\ \mbox{\hyperlink{classcl__isaac__apriltag_1_1CpAprilTagVisualization_a66afce5bbdfece28a639c9fdad684a29}{globalApriltagTransform}};}
+\DoxyCodeLine{\Hypertarget{cp__april__visualization_8hpp_source_l00062}00062\ \ \ \}}
+\DoxyCodeLine{\Hypertarget{cp__april__visualization_8hpp_source_l00063}00063\ }
+\DoxyCodeLine{\Hypertarget{cp__april__visualization_8hpp_source_l00064}\mbox{\hyperlink{classcl__isaac__apriltag_1_1CpAprilTagVisualization_ac58255f35e54eec45b94db855413fc39}{00064}}\ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{classcl__isaac__apriltag_1_1CpAprilTagVisualization_ac58255f35e54eec45b94db855413fc39}{computeAggregatdMarker}}()}
+\DoxyCodeLine{\Hypertarget{cp__april__visualization_8hpp_source_l00065}00065\ \ \ \{}
+\DoxyCodeLine{\Hypertarget{cp__april__visualization_8hpp_source_l00066}00066\ \ \ \ \ std::stringstream\ ss;}
+\DoxyCodeLine{\Hypertarget{cp__april__visualization_8hpp_source_l00067}00067\ }
+\DoxyCodeLine{\Hypertarget{cp__april__visualization_8hpp_source_l00068}00068\ \ \ \ \ ss\ <<\ \textcolor{stringliteral}{"{}[CpAprilTagVisualization]\ computeAggregatdMarker"{}}\ <<\ std::endl;}
+\DoxyCodeLine{\Hypertarget{cp__april__visualization_8hpp_source_l00069}00069\ \ \ \ \ \ \mbox{\hyperlink{classcl__isaac__apriltag_1_1ClIsaacApriltag}{cl\_isaac\_apriltag::ClIsaacApriltag}}*\ apriltagDetector\ =\ \textcolor{keyword}{dynamic\_cast<}\mbox{\hyperlink{classcl__isaac__apriltag_1_1ClIsaacApriltag}{cl\_isaac\_apriltag::ClIsaacApriltag}}*\textcolor{keyword}{>}(this-\/>\mbox{\hyperlink{classsmacc2_1_1ISmaccComponent_a018a8e735cb3db4b50aeb20b685b58ce}{owner\_}});}
+\DoxyCodeLine{\Hypertarget{cp__april__visualization_8hpp_source_l00070}00070\ }
+\DoxyCodeLine{\Hypertarget{cp__april__visualization_8hpp_source_l00071}00071\ \ \ \ \ \ \ ss\ <<\ \textcolor{stringliteral}{"{}[CpAprilTagVisualization]\ getTagsWithinTime"{}}\ <<\ std::endl;}
+\DoxyCodeLine{\Hypertarget{cp__april__visualization_8hpp_source_l00072}00072\ \ \ \ \ \ \ \textcolor{keyword}{auto}\ tags\ =\ apriltagDetector-\/>\mbox{\hyperlink{classcl__isaac__apriltag_1_1ClIsaacApriltag_ae84485cb134231611fd220607994d667}{getTagsWithinTime}}(0.5s);}
+\DoxyCodeLine{\Hypertarget{cp__april__visualization_8hpp_source_l00073}00073\ }
+\DoxyCodeLine{\Hypertarget{cp__april__visualization_8hpp_source_l00074}00074\ \ \ \ \ \ \ \textcolor{comment}{//avergae\ apriltag\ position}}
+\DoxyCodeLine{\Hypertarget{cp__april__visualization_8hpp_source_l00075}00075\ \ \ \ \ \ \ \textcolor{keywordtype}{double}\ avgX\ =\ 0;}
+\DoxyCodeLine{\Hypertarget{cp__april__visualization_8hpp_source_l00076}00076\ \ \ \ \ \ \ \textcolor{keywordtype}{double}\ avgY\ =\ 0;}
+\DoxyCodeLine{\Hypertarget{cp__april__visualization_8hpp_source_l00077}00077\ \ \ \ \ \ \ \textcolor{keywordtype}{double}\ avgZ\ =\ 0;}
+\DoxyCodeLine{\Hypertarget{cp__april__visualization_8hpp_source_l00078}00078\ \ \ \ \ \ \ \textcolor{keywordflow}{for}\ (\textcolor{keyword}{auto}\ \&apriltag\ :\ tags)}
+\DoxyCodeLine{\Hypertarget{cp__april__visualization_8hpp_source_l00079}00079\ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{cp__april__visualization_8hpp_source_l00080}00080\ \ \ \ \ \ \ \ \ avgX\ +=\ apriltag.second.pose.position.x;}
+\DoxyCodeLine{\Hypertarget{cp__april__visualization_8hpp_source_l00081}00081\ \ \ \ \ \ \ \ \ avgY\ +=\ apriltag.second.pose.position.y;}
+\DoxyCodeLine{\Hypertarget{cp__april__visualization_8hpp_source_l00082}00082\ \ \ \ \ \ \ \ \ avgZ\ +=\ apriltag.second.pose.position.z;}
+\DoxyCodeLine{\Hypertarget{cp__april__visualization_8hpp_source_l00083}00083\ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{cp__april__visualization_8hpp_source_l00084}00084\ }
+\DoxyCodeLine{\Hypertarget{cp__april__visualization_8hpp_source_l00085}00085\ \ \ \ \ \ \ \textcolor{keywordflow}{if}(tags.size()\ ==\ 0)}
+\DoxyCodeLine{\Hypertarget{cp__april__visualization_8hpp_source_l00086}00086\ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{cp__april__visualization_8hpp_source_l00087}00087\ \ \ \ \ \ \ \ \ RCLCPP\_INFO\_THROTTLE(\mbox{\hyperlink{classsmacc2_1_1ISmaccComponent_a77ee85823bab8d84edcdf5d28782b728}{getLogger}}(),\ *(\mbox{\hyperlink{classsmacc2_1_1ISmaccComponent_aaac68614687bed658c59f8f15746ab91}{getNode}}()-\/>get\_clock()),\ 1000,\ \textcolor{stringliteral}{"{}[CpAprilTagVisualization]\ no\ apriltags\ detected\ to\ visualize"{}});}
+\DoxyCodeLine{\Hypertarget{cp__april__visualization_8hpp_source_l00088}00088\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return};}
+\DoxyCodeLine{\Hypertarget{cp__april__visualization_8hpp_source_l00089}00089\ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{cp__april__visualization_8hpp_source_l00090}00090\ }
+\DoxyCodeLine{\Hypertarget{cp__april__visualization_8hpp_source_l00091}00091\ \ \ \ \ \ \ avgX\ /=\ tags.size();}
+\DoxyCodeLine{\Hypertarget{cp__april__visualization_8hpp_source_l00092}00092\ \ \ \ \ \ \ avgY\ /=\ tags.size();}
+\DoxyCodeLine{\Hypertarget{cp__april__visualization_8hpp_source_l00093}00093\ \ \ \ \ \ \ avgZ\ /=\ tags.size();}
+\DoxyCodeLine{\Hypertarget{cp__april__visualization_8hpp_source_l00094}00094\ }
+\DoxyCodeLine{\Hypertarget{cp__april__visualization_8hpp_source_l00095}00095\ \ \ \ \ \ \ \textcolor{comment}{//substract\ some\ small\ forward\ offset\ from\ apriltag\ position\ for\ the\ goal\ position}}
+\DoxyCodeLine{\Hypertarget{cp__april__visualization_8hpp_source_l00096}00096\ \ \ \ \ \ \ avgX\ -\/=\ 0.15;}
+\DoxyCodeLine{\Hypertarget{cp__april__visualization_8hpp_source_l00097}00097\ }
+\DoxyCodeLine{\Hypertarget{cp__april__visualization_8hpp_source_l00098}00098\ \ \ \ \ \ \ ss\ <<\ \textcolor{stringliteral}{"{}[CpAprilTagVisualization]\ detected\ "{}}\ <<\ tags.size()\ <<\ \textcolor{stringliteral}{"{}\ tags"{}}\ <<\ std::endl;}
+\DoxyCodeLine{\Hypertarget{cp__april__visualization_8hpp_source_l00099}00099\ \ \ \ \ \ \ ss\ <<\ \textcolor{stringliteral}{"{}[CpAprilTagVisualization]\ avgX:\ "{}}\ <<\ avgX\ <<\ \textcolor{stringliteral}{"{},\ avgY:\ "{}}\ <<\ avgY\ <<\ \textcolor{stringliteral}{"{},\ avgZ:\ "{}}\ <<\ avgZ\ <<\ std::endl;}
+\DoxyCodeLine{\Hypertarget{cp__april__visualization_8hpp_source_l00100}00100\ }
+\DoxyCodeLine{\Hypertarget{cp__april__visualization_8hpp_source_l00101}00101\ \ \ \ \ \ \ tf2::Transform\ apriltagTransform;}
+\DoxyCodeLine{\Hypertarget{cp__april__visualization_8hpp_source_l00102}00102\ \ \ \ \ \ \ apriltagTransform.setOrigin(tf2::Vector3(avgX,\ avgY,\ 0.0));}
+\DoxyCodeLine{\Hypertarget{cp__april__visualization_8hpp_source_l00103}00103\ \ \ \ \ \ \ apriltagTransform.setRotation(tf2::Quaternion(0.0,\ 0.0,\ 0.0,\ 1.0));}
+\DoxyCodeLine{\Hypertarget{cp__april__visualization_8hpp_source_l00104}00104\ }
+\DoxyCodeLine{\Hypertarget{cp__april__visualization_8hpp_source_l00105}00105\ \ \ \ \ \ \ \mbox{\hyperlink{classcl__isaac__apriltag_1_1CpAprilTagVisualization_a66afce5bbdfece28a639c9fdad684a29}{globalApriltagTransform}}\ =\ apriltagTransform;}
+\DoxyCodeLine{\Hypertarget{cp__april__visualization_8hpp_source_l00106}00106\ }
+\DoxyCodeLine{\Hypertarget{cp__april__visualization_8hpp_source_l00107}00107\ \ \ \ \ \ \ ss\ <<\ \textcolor{stringliteral}{"{}[CpAprilTagVisualization]\ apriltagTransform:\ "{}}\ <<\ apriltagTransform.getOrigin().x()\ <<\ \textcolor{stringliteral}{"{},\ "{}}\ <<\ apriltagTransform.getOrigin().y()\ <<\ \textcolor{stringliteral}{"{},\ "{}}\ <<\ apriltagTransform.getOrigin().z();}
+\DoxyCodeLine{\Hypertarget{cp__april__visualization_8hpp_source_l00108}00108\ \ \ \ \ \ \ ss\ <<\ \textcolor{stringliteral}{"{}[CpAprilTagVisualization]\ globalApriltagTransform:\ "{}}\ <<\ \mbox{\hyperlink{classcl__isaac__apriltag_1_1CpAprilTagVisualization_a66afce5bbdfece28a639c9fdad684a29}{globalApriltagTransform}}-\/>getOrigin().x()\ <<\ \textcolor{stringliteral}{"{},\ "{}}\ <<\ \mbox{\hyperlink{classcl__isaac__apriltag_1_1CpAprilTagVisualization_a66afce5bbdfece28a639c9fdad684a29}{globalApriltagTransform}}-\/>getOrigin().y()\ <<\ \textcolor{stringliteral}{"{},\ "{}}\ <<\ \mbox{\hyperlink{classcl__isaac__apriltag_1_1CpAprilTagVisualization_a66afce5bbdfece28a639c9fdad684a29}{globalApriltagTransform}}-\/>getOrigin().z();}
+\DoxyCodeLine{\Hypertarget{cp__april__visualization_8hpp_source_l00109}00109\ \ \ \ \ \ \ RCLCPP\_INFO\_THROTTLE(\mbox{\hyperlink{classsmacc2_1_1ISmaccComponent_a77ee85823bab8d84edcdf5d28782b728}{getLogger}}(),\ *(\mbox{\hyperlink{classsmacc2_1_1ISmaccComponent_aaac68614687bed658c59f8f15746ab91}{getNode}}()-\/>get\_clock()),\ 1000,\ ss.str().c\_str());}
+\DoxyCodeLine{\Hypertarget{cp__april__visualization_8hpp_source_l00110}00110\ \ \ \}}
+\DoxyCodeLine{\Hypertarget{cp__april__visualization_8hpp_source_l00111}00111\ }
+\DoxyCodeLine{\Hypertarget{cp__april__visualization_8hpp_source_l00112}\mbox{\hyperlink{classcl__isaac__apriltag_1_1CpAprilTagVisualization_af44860a9950d7205f776f7edae105a82}{00112}}\ \ \ \textcolor{keyword}{virtual}\ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{classcl__isaac__apriltag_1_1CpAprilTagVisualization_af44860a9950d7205f776f7edae105a82}{update}}()\textcolor{keyword}{\ override}}
+\DoxyCodeLine{\Hypertarget{cp__april__visualization_8hpp_source_l00113}00113\ \textcolor{keyword}{\ \ }\{}
+\DoxyCodeLine{\Hypertarget{cp__april__visualization_8hpp_source_l00114}00114\ }
+\DoxyCodeLine{\Hypertarget{cp__april__visualization_8hpp_source_l00115}00115\ \ \ \ \ \textcolor{keywordflow}{if}\ (\mbox{\hyperlink{classcl__isaac__apriltag_1_1CpAprilTagVisualization_a66afce5bbdfece28a639c9fdad684a29}{globalApriltagTransform}})}
+\DoxyCodeLine{\Hypertarget{cp__april__visualization_8hpp_source_l00116}00116\ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{cp__april__visualization_8hpp_source_l00117}00117\ }
+\DoxyCodeLine{\Hypertarget{cp__april__visualization_8hpp_source_l00118}00118\ \ \ \ \ \ \ this-\/>\mbox{\hyperlink{classcl__isaac__apriltag_1_1CpAprilTagVisualization_ac58255f35e54eec45b94db855413fc39}{computeAggregatdMarker}}();}
+\DoxyCodeLine{\Hypertarget{cp__april__visualization_8hpp_source_l00119}00119\ }
+\DoxyCodeLine{\Hypertarget{cp__april__visualization_8hpp_source_l00120}00120\ \ \ \ \ \ \ \textcolor{comment}{//\ publish\ visualization\ markrs\ of\ th\ apriltag\ global\ estimation}}
+\DoxyCodeLine{\Hypertarget{cp__april__visualization_8hpp_source_l00121}00121\ \ \ \ \ \ \ visualization\_msgs::msg::MarkerArray\ markerArray;}
+\DoxyCodeLine{\Hypertarget{cp__april__visualization_8hpp_source_l00122}00122\ }
+\DoxyCodeLine{\Hypertarget{cp__april__visualization_8hpp_source_l00123}00123\ \ \ \ \ \ \ visualization\_msgs::msg::Marker\ marker;}
+\DoxyCodeLine{\Hypertarget{cp__april__visualization_8hpp_source_l00124}00124\ \ \ \ \ \ \ marker.header.frame\_id\ =\ \textcolor{stringliteral}{"{}map"{}};}
+\DoxyCodeLine{\Hypertarget{cp__april__visualization_8hpp_source_l00125}00125\ \ \ \ \ \ \ marker.header.stamp\ =\ \mbox{\hyperlink{classsmacc2_1_1ISmaccComponent_aaac68614687bed658c59f8f15746ab91}{getNode}}()-\/>now();}
+\DoxyCodeLine{\Hypertarget{cp__april__visualization_8hpp_source_l00126}00126\ \ \ \ \ \ \ marker.ns\ =\ \textcolor{stringliteral}{"{}apriltag"{}};}
+\DoxyCodeLine{\Hypertarget{cp__april__visualization_8hpp_source_l00127}00127\ \ \ \ \ \ \ marker.id\ =\ 0;}
+\DoxyCodeLine{\Hypertarget{cp__april__visualization_8hpp_source_l00128}00128\ \ \ \ \ \ \ marker.action\ =\ visualization\_msgs::msg::Marker::ADD;}
+\DoxyCodeLine{\Hypertarget{cp__april__visualization_8hpp_source_l00129}00129\ }
+\DoxyCodeLine{\Hypertarget{cp__april__visualization_8hpp_source_l00130}00130\ \ \ \ \ \ \ \textcolor{comment}{//lifetim\ of\ 0.5s}}
+\DoxyCodeLine{\Hypertarget{cp__april__visualization_8hpp_source_l00131}00131\ \ \ \ \ \ \ marker.lifetime\ =\ rclcpp::Duration(0.5s);}
+\DoxyCodeLine{\Hypertarget{cp__april__visualization_8hpp_source_l00132}00132\ }
+\DoxyCodeLine{\Hypertarget{cp__april__visualization_8hpp_source_l00133}00133\ \ \ \ \ \ \ \textcolor{comment}{//\ type\ sphere}}
+\DoxyCodeLine{\Hypertarget{cp__april__visualization_8hpp_source_l00134}00134\ \ \ \ \ \ \ marker.type\ =\ visualization\_msgs::msg::Marker::SPHERE;}
+\DoxyCodeLine{\Hypertarget{cp__april__visualization_8hpp_source_l00135}00135\ }
+\DoxyCodeLine{\Hypertarget{cp__april__visualization_8hpp_source_l00136}00136\ \ \ \ \ \ \ \textcolor{keyword}{auto}\ origin\ =\ \mbox{\hyperlink{classcl__isaac__apriltag_1_1CpAprilTagVisualization_a66afce5bbdfece28a639c9fdad684a29}{globalApriltagTransform}}-\/>getOrigin();}
+\DoxyCodeLine{\Hypertarget{cp__april__visualization_8hpp_source_l00137}00137\ \ \ \ \ \ \ marker.pose.position.x\ =\ origin.x();}
+\DoxyCodeLine{\Hypertarget{cp__april__visualization_8hpp_source_l00138}00138\ \ \ \ \ \ \ marker.pose.position.y\ =\ origin.y();}
+\DoxyCodeLine{\Hypertarget{cp__april__visualization_8hpp_source_l00139}00139\ \ \ \ \ \ \ marker.pose.position.z\ =\ origin.z();}
+\DoxyCodeLine{\Hypertarget{cp__april__visualization_8hpp_source_l00140}00140\ }
+\DoxyCodeLine{\Hypertarget{cp__april__visualization_8hpp_source_l00141}00141\ \ \ \ \ \ \ \textcolor{keyword}{auto}\ rotation\ =\ \mbox{\hyperlink{classcl__isaac__apriltag_1_1CpAprilTagVisualization_a66afce5bbdfece28a639c9fdad684a29}{globalApriltagTransform}}-\/>getRotation();}
+\DoxyCodeLine{\Hypertarget{cp__april__visualization_8hpp_source_l00142}00142\ \ \ \ \ \ \ marker.pose.orientation.w\ =\ rotation.w();}
+\DoxyCodeLine{\Hypertarget{cp__april__visualization_8hpp_source_l00143}00143\ \ \ \ \ \ \ marker.pose.orientation.y\ =\ rotation.y();}
+\DoxyCodeLine{\Hypertarget{cp__april__visualization_8hpp_source_l00144}00144\ \ \ \ \ \ \ marker.pose.orientation.z\ =\ rotation.z();}
+\DoxyCodeLine{\Hypertarget{cp__april__visualization_8hpp_source_l00145}00145\ \ \ \ \ \ \ marker.pose.orientation.x\ =\ rotation.x();}
+\DoxyCodeLine{\Hypertarget{cp__april__visualization_8hpp_source_l00146}00146\ }
+\DoxyCodeLine{\Hypertarget{cp__april__visualization_8hpp_source_l00147}00147\ \ \ \ \ \ \ RCLCPP\_INFO\_THROTTLE(\mbox{\hyperlink{classsmacc2_1_1ISmaccComponent_a77ee85823bab8d84edcdf5d28782b728}{getLogger}}(),\ *(\mbox{\hyperlink{classsmacc2_1_1ISmaccComponent_aaac68614687bed658c59f8f15746ab91}{getNode}}()-\/>get\_clock()),\ 1000,\ \textcolor{stringliteral}{"{}[CpAprilTagVisualization]\ marker\ position:\ \%f,\ \%f,\ \%f"{}},\ origin.x(),\ origin.y(),\ origin.z());}
+\DoxyCodeLine{\Hypertarget{cp__april__visualization_8hpp_source_l00148}00148\ }
+\DoxyCodeLine{\Hypertarget{cp__april__visualization_8hpp_source_l00149}00149\ \ \ \ \ \ \ \textcolor{comment}{//\ red\ color}}
+\DoxyCodeLine{\Hypertarget{cp__april__visualization_8hpp_source_l00150}00150\ \ \ \ \ \ \ marker.color.r\ =\ 1.0;}
+\DoxyCodeLine{\Hypertarget{cp__april__visualization_8hpp_source_l00151}00151\ \ \ \ \ \ \ marker.color.g\ =\ 0.0;}
+\DoxyCodeLine{\Hypertarget{cp__april__visualization_8hpp_source_l00152}00152\ \ \ \ \ \ \ marker.color.b\ =\ 0.0;}
+\DoxyCodeLine{\Hypertarget{cp__april__visualization_8hpp_source_l00153}00153\ \ \ \ \ \ \ marker.color.a\ =\ 1.0;}
+\DoxyCodeLine{\Hypertarget{cp__april__visualization_8hpp_source_l00154}00154\ }
+\DoxyCodeLine{\Hypertarget{cp__april__visualization_8hpp_source_l00155}00155\ \ \ \ \ \ \ marker.scale.x\ =\ 0.1;}
+\DoxyCodeLine{\Hypertarget{cp__april__visualization_8hpp_source_l00156}00156\ \ \ \ \ \ \ marker.scale.y\ =\ 0.1;}
+\DoxyCodeLine{\Hypertarget{cp__april__visualization_8hpp_source_l00157}00157\ \ \ \ \ \ \ marker.scale.z\ =\ 0.1;}
+\DoxyCodeLine{\Hypertarget{cp__april__visualization_8hpp_source_l00158}00158\ }
+\DoxyCodeLine{\Hypertarget{cp__april__visualization_8hpp_source_l00159}00159\ \ \ \ \ \ \ markerArray.markers.push\_back(marker);}
+\DoxyCodeLine{\Hypertarget{cp__april__visualization_8hpp_source_l00160}00160\ }
+\DoxyCodeLine{\Hypertarget{cp__april__visualization_8hpp_source_l00161}00161\ \ \ \ \ \ \ \mbox{\hyperlink{classcl__isaac__apriltag_1_1CpAprilTagVisualization_a5b36200934841f2a41d72fb806fa2be1}{markerPublisher}}-\/>publish(markerArray);}
+\DoxyCodeLine{\Hypertarget{cp__april__visualization_8hpp_source_l00162}00162\ \ \ \}}
+\DoxyCodeLine{\Hypertarget{cp__april__visualization_8hpp_source_l00163}00163\ \ \ \}}
+\DoxyCodeLine{\Hypertarget{cp__april__visualization_8hpp_source_l00164}00164\ }
+\DoxyCodeLine{\Hypertarget{cp__april__visualization_8hpp_source_l00165}00165\ \textcolor{keyword}{protected}:}
+\DoxyCodeLine{\Hypertarget{cp__april__visualization_8hpp_source_l00166}00166\ }
+\DoxyCodeLine{\Hypertarget{cp__april__visualization_8hpp_source_l00167}\mbox{\hyperlink{classcl__isaac__apriltag_1_1CpAprilTagVisualization_a6560b9b470dba450ff783074f319b53b}{00167}}\ \ \ std::mutex\ \mbox{\hyperlink{classcl__isaac__apriltag_1_1CpAprilTagVisualization_a6560b9b470dba450ff783074f319b53b}{m\_mutex\_}};}
+\DoxyCodeLine{\Hypertarget{cp__april__visualization_8hpp_source_l00168}00168\ }
+\DoxyCodeLine{\Hypertarget{cp__april__visualization_8hpp_source_l00169}\mbox{\hyperlink{classcl__isaac__apriltag_1_1CpAprilTagVisualization_a5b36200934841f2a41d72fb806fa2be1}{00169}}\ \ \ rclcpp::Publisher<visualization\_msgs::msg::MarkerArray>::SharedPtr\ \mbox{\hyperlink{classcl__isaac__apriltag_1_1CpAprilTagVisualization_a5b36200934841f2a41d72fb806fa2be1}{markerPublisher}};}
+\DoxyCodeLine{\Hypertarget{cp__april__visualization_8hpp_source_l00170}\mbox{\hyperlink{classcl__isaac__apriltag_1_1CpAprilTagVisualization_a66afce5bbdfece28a639c9fdad684a29}{00170}}\ \ \ std::optional<tf2::Transform>\ \mbox{\hyperlink{classcl__isaac__apriltag_1_1CpAprilTagVisualization_a66afce5bbdfece28a639c9fdad684a29}{globalApriltagTransform}};}
+\DoxyCodeLine{\Hypertarget{cp__april__visualization_8hpp_source_l00171}00171\ \};}
+\DoxyCodeLine{\Hypertarget{cp__april__visualization_8hpp_source_l00172}00172\ }
+\DoxyCodeLine{\Hypertarget{cp__april__visualization_8hpp_source_l00173}00173\ \}\ \ \textcolor{comment}{//\ namespace\ cl\_isaac\_apriltag}}
+
+\end{DoxyCode}
