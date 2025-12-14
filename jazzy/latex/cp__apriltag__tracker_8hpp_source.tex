@@ -1,0 +1,186 @@
+\doxysection{cp\+\_\+apriltag\+\_\+tracker.\+hpp}
+\hypertarget{cp__apriltag__tracker_8hpp_source}{}\label{cp__apriltag__tracker_8hpp_source}\index{smacc2\_client\_library/cl\_isaac\_apriltag/include/cl\_isaac\_apriltag/components/cp\_apriltag\_tracker.hpp@{smacc2\_client\_library/cl\_isaac\_apriltag/include/cl\_isaac\_apriltag/components/cp\_apriltag\_tracker.hpp}}
+\mbox{\hyperlink{cp__apriltag__tracker_8hpp}{Go to the documentation of this file.}}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\Hypertarget{cp__apriltag__tracker_8hpp_source_l00001}00001\ \textcolor{comment}{//\ Copyright\ 2021\ RobosoftAI\ Inc.}}
+\DoxyCodeLine{\Hypertarget{cp__apriltag__tracker_8hpp_source_l00002}00002\ \textcolor{comment}{//}}
+\DoxyCodeLine{\Hypertarget{cp__apriltag__tracker_8hpp_source_l00003}00003\ \textcolor{comment}{//\ Licensed\ under\ the\ Apache\ License,\ Version\ 2.0\ (the\ "{}License"{});}}
+\DoxyCodeLine{\Hypertarget{cp__apriltag__tracker_8hpp_source_l00004}00004\ \textcolor{comment}{//\ you\ may\ not\ use\ this\ file\ except\ in\ compliance\ with\ the\ License.}}
+\DoxyCodeLine{\Hypertarget{cp__apriltag__tracker_8hpp_source_l00005}00005\ \textcolor{comment}{//\ You\ may\ obtain\ a\ copy\ of\ the\ License\ at}}
+\DoxyCodeLine{\Hypertarget{cp__apriltag__tracker_8hpp_source_l00006}00006\ \textcolor{comment}{//}}
+\DoxyCodeLine{\Hypertarget{cp__apriltag__tracker_8hpp_source_l00007}00007\ \textcolor{comment}{//\ \ \ \ \ http://www.apache.org/licenses/LICENSE-\/2.0}}
+\DoxyCodeLine{\Hypertarget{cp__apriltag__tracker_8hpp_source_l00008}00008\ \textcolor{comment}{//}}
+\DoxyCodeLine{\Hypertarget{cp__apriltag__tracker_8hpp_source_l00009}00009\ \textcolor{comment}{//\ Unless\ required\ by\ applicable\ law\ or\ agreed\ to\ in\ writing,\ software}}
+\DoxyCodeLine{\Hypertarget{cp__apriltag__tracker_8hpp_source_l00010}00010\ \textcolor{comment}{//\ distributed\ under\ the\ License\ is\ distributed\ on\ an\ "{}AS\ IS"{}\ BASIS,}}
+\DoxyCodeLine{\Hypertarget{cp__apriltag__tracker_8hpp_source_l00011}00011\ \textcolor{comment}{//\ WITHOUT\ WARRANTIES\ OR\ CONDITIONS\ OF\ ANY\ KIND,\ either\ express\ or\ implied.}}
+\DoxyCodeLine{\Hypertarget{cp__apriltag__tracker_8hpp_source_l00012}00012\ \textcolor{comment}{//\ See\ the\ License\ for\ the\ specific\ language\ governing\ permissions\ and}}
+\DoxyCodeLine{\Hypertarget{cp__apriltag__tracker_8hpp_source_l00013}00013\ \textcolor{comment}{//\ limitations\ under\ the\ License.}}
+\DoxyCodeLine{\Hypertarget{cp__apriltag__tracker_8hpp_source_l00014}00014\ }
+\DoxyCodeLine{\Hypertarget{cp__apriltag__tracker_8hpp_source_l00015}00015\ \textcolor{comment}{/*****************************************************************************************************************}}
+\DoxyCodeLine{\Hypertarget{cp__apriltag__tracker_8hpp_source_l00016}00016\ \textcolor{comment}{\ *}}
+\DoxyCodeLine{\Hypertarget{cp__apriltag__tracker_8hpp_source_l00017}00017\ \textcolor{comment}{\ *\ \ \ Authors:\ Pablo\ Inigo\ Blasco,\ Brett\ Aldrich}}
+\DoxyCodeLine{\Hypertarget{cp__apriltag__tracker_8hpp_source_l00018}00018\ \textcolor{comment}{\ *}}
+\DoxyCodeLine{\Hypertarget{cp__apriltag__tracker_8hpp_source_l00019}00019\ \textcolor{comment}{\ ******************************************************************************************************************/}}
+\DoxyCodeLine{\Hypertarget{cp__apriltag__tracker_8hpp_source_l00020}00020\ \textcolor{preprocessor}{\#pragma\ once}}
+\DoxyCodeLine{\Hypertarget{cp__apriltag__tracker_8hpp_source_l00021}00021\ }
+\DoxyCodeLine{\Hypertarget{cp__apriltag__tracker_8hpp_source_l00022}00022\ \textcolor{preprocessor}{\#include\ <tf2\_ros/buffer.h>}}
+\DoxyCodeLine{\Hypertarget{cp__apriltag__tracker_8hpp_source_l00023}00023\ \textcolor{preprocessor}{\#include\ <tf2\_ros/transform\_listener.h>}}
+\DoxyCodeLine{\Hypertarget{cp__apriltag__tracker_8hpp_source_l00024}00024\ }
+\DoxyCodeLine{\Hypertarget{cp__apriltag__tracker_8hpp_source_l00025}00025\ \textcolor{preprocessor}{\#include\ <geometry\_msgs/msg/pose\_stamped.hpp>}}
+\DoxyCodeLine{\Hypertarget{cp__apriltag__tracker_8hpp_source_l00026}00026\ \textcolor{preprocessor}{\#include\ <isaac\_ros\_apriltag\_interfaces/msg/april\_tag\_detection\_array.hpp>}}
+\DoxyCodeLine{\Hypertarget{cp__apriltag__tracker_8hpp_source_l00027}00027\ \textcolor{preprocessor}{\#include\ <tf2\_geometry\_msgs/tf2\_geometry\_msgs.hpp>}}
+\DoxyCodeLine{\Hypertarget{cp__apriltag__tracker_8hpp_source_l00028}00028\ }
+\DoxyCodeLine{\Hypertarget{cp__apriltag__tracker_8hpp_source_l00029}00029\ \textcolor{preprocessor}{\#include\ <\mbox{\hyperlink{cp__topic__subscriber_8hpp}{smacc2/client\_core\_components/cp\_topic\_subscriber.hpp}}>}}
+\DoxyCodeLine{\Hypertarget{cp__apriltag__tracker_8hpp_source_l00030}00030\ \textcolor{preprocessor}{\#include\ <\mbox{\hyperlink{component_8hpp}{smacc2/component.hpp}}>}}
+\DoxyCodeLine{\Hypertarget{cp__apriltag__tracker_8hpp_source_l00031}00031\ \textcolor{preprocessor}{\#include\ <\mbox{\hyperlink{smacc__signal_8hpp}{smacc2/smacc\_signal.hpp}}>}}
+\DoxyCodeLine{\Hypertarget{cp__apriltag__tracker_8hpp_source_l00032}00032\ }
+\DoxyCodeLine{\Hypertarget{cp__apriltag__tracker_8hpp_source_l00033}00033\ \textcolor{preprocessor}{\#include\ <map>}}
+\DoxyCodeLine{\Hypertarget{cp__apriltag__tracker_8hpp_source_l00034}00034\ \textcolor{preprocessor}{\#include\ <mutex>}}
+\DoxyCodeLine{\Hypertarget{cp__apriltag__tracker_8hpp_source_l00035}00035\ \textcolor{preprocessor}{\#include\ <string>}}
+\DoxyCodeLine{\Hypertarget{cp__apriltag__tracker_8hpp_source_l00036}00036\ }
+\DoxyCodeLine{\Hypertarget{cp__apriltag__tracker_8hpp_source_l00037}00037\ \textcolor{keyword}{namespace\ }\mbox{\hyperlink{namespacecl__isaac__apriltag}{cl\_isaac\_apriltag}}}
+\DoxyCodeLine{\Hypertarget{cp__apriltag__tracker_8hpp_source_l00038}00038\ \{}
+\DoxyCodeLine{\Hypertarget{cp__apriltag__tracker_8hpp_source_l00039}00039\ }
+\DoxyCodeLine{\Hypertarget{cp__apriltag__tracker_8hpp_source_l00040}00040\ \textcolor{keyword}{using\ }\mbox{\hyperlink{namespacecl__isaac__apriltag_ab142494153e19884964b440e9fcb85ec}{AprilTagDetectionArray}}\ =\ isaac\_ros\_apriltag\_interfaces::msg::AprilTagDetectionArray;}
+\DoxyCodeLine{\Hypertarget{cp__apriltag__tracker_8hpp_source_l00041}00041\ }
+\DoxyCodeLine{\Hypertarget{cp__apriltag__tracker_8hpp_source_l00049}\mbox{\hyperlink{classcl__isaac__apriltag_1_1CpAprilTagTracker}{00049}}\ \textcolor{keyword}{class\ }\mbox{\hyperlink{classcl__isaac__apriltag_1_1CpAprilTagTracker}{CpAprilTagTracker}}\ :\ \textcolor{keyword}{public}\ \mbox{\hyperlink{classsmacc2_1_1ISmaccComponent}{smacc2::ISmaccComponent}}}
+\DoxyCodeLine{\Hypertarget{cp__apriltag__tracker_8hpp_source_l00050}00050\ \{}
+\DoxyCodeLine{\Hypertarget{cp__apriltag__tracker_8hpp_source_l00051}00051\ \textcolor{keyword}{public}:}
+\DoxyCodeLine{\Hypertarget{cp__apriltag__tracker_8hpp_source_l00052}\mbox{\hyperlink{classcl__isaac__apriltag_1_1CpAprilTagTracker_ad2889d5e2096874432817fb464665d17}{00052}}\ \ \ \mbox{\hyperlink{classcl__isaac__apriltag_1_1CpAprilTagTracker_ad2889d5e2096874432817fb464665d17}{CpAprilTagTracker}}(std::string\ target\_frame\ =\ \textcolor{stringliteral}{"{}map"{}})\ :\ \mbox{\hyperlink{classcl__isaac__apriltag_1_1CpAprilTagTracker_a672d58642ffb2d73c10ff8aa20925d10}{targetFrame\_}}(target\_frame)\ \{\}}
+\DoxyCodeLine{\Hypertarget{cp__apriltag__tracker_8hpp_source_l00053}00053\ }
+\DoxyCodeLine{\Hypertarget{cp__apriltag__tracker_8hpp_source_l00054}\mbox{\hyperlink{classcl__isaac__apriltag_1_1CpAprilTagTracker_a053329d6778512e1475c078114e3e140}{00054}}\ \ \ \textcolor{keyword}{virtual}\ \mbox{\hyperlink{classcl__isaac__apriltag_1_1CpAprilTagTracker_a053329d6778512e1475c078114e3e140}{\string~CpAprilTagTracker}}()\ \{\}}
+\DoxyCodeLine{\Hypertarget{cp__apriltag__tracker_8hpp_source_l00055}00055\ }
+\DoxyCodeLine{\Hypertarget{cp__apriltag__tracker_8hpp_source_l00056}\mbox{\hyperlink{classcl__isaac__apriltag_1_1CpAprilTagTracker_a7e9daeaf8a6647120a84184b43f1e30b}{00056}}\ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{classcl__isaac__apriltag_1_1CpAprilTagTracker_a7e9daeaf8a6647120a84184b43f1e30b}{onInitialize}}()\textcolor{keyword}{\ override}}
+\DoxyCodeLine{\Hypertarget{cp__apriltag__tracker_8hpp_source_l00057}00057\ \textcolor{keyword}{\ \ }\{}
+\DoxyCodeLine{\Hypertarget{cp__apriltag__tracker_8hpp_source_l00058}00058\ \ \ \ \ \mbox{\hyperlink{classcl__isaac__apriltag_1_1CpAprilTagTracker_ae93089b93298984ec13024f4e9ee715a}{tfBuffer\_}}\ =\ std::make\_shared<tf2\_ros::Buffer>(this-\/>\mbox{\hyperlink{classsmacc2_1_1ISmaccComponent_aaac68614687bed658c59f8f15746ab91}{getNode}}()-\/>get\_clock());}
+\DoxyCodeLine{\Hypertarget{cp__apriltag__tracker_8hpp_source_l00059}00059\ \ \ \ \ \mbox{\hyperlink{classcl__isaac__apriltag_1_1CpAprilTagTracker_aae152af18d24c7e6350e6ea9d22697df}{tfListener\_}}\ =\ std::make\_shared<tf2\_ros::TransformListener>(*\mbox{\hyperlink{classcl__isaac__apriltag_1_1CpAprilTagTracker_ae93089b93298984ec13024f4e9ee715a}{tfBuffer\_}});}
+\DoxyCodeLine{\Hypertarget{cp__apriltag__tracker_8hpp_source_l00060}00060\ \ \ \}}
+\DoxyCodeLine{\Hypertarget{cp__apriltag__tracker_8hpp_source_l00061}00061\ }
+\DoxyCodeLine{\Hypertarget{cp__apriltag__tracker_8hpp_source_l00062}00062\ \ \ \textcolor{keyword}{template}\ <\textcolor{keyword}{typename}\ TOrthogonal,\ \textcolor{keyword}{typename}\ TClient>}
+\DoxyCodeLine{\Hypertarget{cp__apriltag__tracker_8hpp_source_l00063}\mbox{\hyperlink{classcl__isaac__apriltag_1_1CpAprilTagTracker_ab5d99858d66ad3c013a456eb0ef27936}{00063}}\ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{classcl__isaac__apriltag_1_1CpAprilTagTracker_ab5d99858d66ad3c013a456eb0ef27936}{onComponentInitialization}}()}
+\DoxyCodeLine{\Hypertarget{cp__apriltag__tracker_8hpp_source_l00064}00064\ \ \ \{}
+\DoxyCodeLine{\Hypertarget{cp__apriltag__tracker_8hpp_source_l00065}00065\ \ \ \ \ \textcolor{comment}{//\ Get\ the\ topic\ subscriber\ component\ via\ requiresComponent\ pattern}}
+\DoxyCodeLine{\Hypertarget{cp__apriltag__tracker_8hpp_source_l00066}00066\ \ \ \ \ this-\/>\mbox{\hyperlink{classsmacc2_1_1ISmaccComponent_a9a7d49a43aacd065d6247c952ad2851f}{requiresComponent}}(\mbox{\hyperlink{classcl__isaac__apriltag_1_1CpAprilTagTracker_af6c6399de2b61162e4f11dfdfd2add6b}{topicSubscriber\_}});}
+\DoxyCodeLine{\Hypertarget{cp__apriltag__tracker_8hpp_source_l00067}00067\ }
+\DoxyCodeLine{\Hypertarget{cp__apriltag__tracker_8hpp_source_l00068}00068\ \ \ \ \ \textcolor{comment}{//\ Hook\ into\ the\ subscriber's\ message\ received\ signal}}
+\DoxyCodeLine{\Hypertarget{cp__apriltag__tracker_8hpp_source_l00069}00069\ \ \ \ \ \mbox{\hyperlink{classcl__isaac__apriltag_1_1CpAprilTagTracker_af6c6399de2b61162e4f11dfdfd2add6b}{topicSubscriber\_}}-\/>\mbox{\hyperlink{classsmacc2_1_1client__core__components_1_1CpTopicSubscriber_a5e40ed059d0222fc26c8adcaf436a5ef}{onMessageReceived}}(\&\mbox{\hyperlink{classcl__isaac__apriltag_1_1CpAprilTagTracker_aa7414b4b125f6b5b891c0e6584f98932}{CpAprilTagTracker::onAprilTagMessage}},\ \textcolor{keyword}{this});}
+\DoxyCodeLine{\Hypertarget{cp__apriltag__tracker_8hpp_source_l00070}00070\ \ \ \}}
+\DoxyCodeLine{\Hypertarget{cp__apriltag__tracker_8hpp_source_l00071}00071\ }
+\DoxyCodeLine{\Hypertarget{cp__apriltag__tracker_8hpp_source_l00077}\mbox{\hyperlink{classcl__isaac__apriltag_1_1CpAprilTagTracker_a171279312afb609e33fdec01fadecd09}{00077}}\ \ \ std::map<std::string,\ geometry\_msgs::msg::PoseStamped>\ \mbox{\hyperlink{classcl__isaac__apriltag_1_1CpAprilTagTracker_a171279312afb609e33fdec01fadecd09}{getTagsWithinTime}}(}
+\DoxyCodeLine{\Hypertarget{cp__apriltag__tracker_8hpp_source_l00078}00078\ \ \ \ \ rclcpp::Duration\ duration)}
+\DoxyCodeLine{\Hypertarget{cp__apriltag__tracker_8hpp_source_l00079}00079\ \ \ \{}
+\DoxyCodeLine{\Hypertarget{cp__apriltag__tracker_8hpp_source_l00080}00080\ \ \ \ \ std::lock\_guard<std::mutex>\ lock(\mbox{\hyperlink{classcl__isaac__apriltag_1_1CpAprilTagTracker_a1483c719a72daf381981773f842b698f}{mutex\_}});}
+\DoxyCodeLine{\Hypertarget{cp__apriltag__tracker_8hpp_source_l00081}00081\ \ \ \ \ std::map<std::string,\ geometry\_msgs::msg::PoseStamped>\ ret;}
+\DoxyCodeLine{\Hypertarget{cp__apriltag__tracker_8hpp_source_l00082}00082\ }
+\DoxyCodeLine{\Hypertarget{cp__apriltag__tracker_8hpp_source_l00083}00083\ \ \ \ \ \textcolor{keyword}{auto}\ now\ =\ \mbox{\hyperlink{classsmacc2_1_1ISmaccComponent_aaac68614687bed658c59f8f15746ab91}{getNode}}()-\/>now();}
+\DoxyCodeLine{\Hypertarget{cp__apriltag__tracker_8hpp_source_l00084}00084\ }
+\DoxyCodeLine{\Hypertarget{cp__apriltag__tracker_8hpp_source_l00085}00085\ \ \ \ \ std::stringstream\ ss;}
+\DoxyCodeLine{\Hypertarget{cp__apriltag__tracker_8hpp_source_l00086}00086\ \ \ \ \ \textcolor{keywordflow}{for}\ (\textcolor{keyword}{auto}\ \&\ apriltag\ :\ \mbox{\hyperlink{classcl__isaac__apriltag_1_1CpAprilTagTracker_a4d62ad2053b3c27d88e12294dcc2ef71}{detectedAprilTagsMapPose\_}})}
+\DoxyCodeLine{\Hypertarget{cp__apriltag__tracker_8hpp_source_l00087}00087\ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{cp__apriltag__tracker_8hpp_source_l00088}00088\ \ \ \ \ \ \ \textcolor{keyword}{auto}\ tagstamp\ =\ rclcpp::Time(apriltag.second.header.stamp);}
+\DoxyCodeLine{\Hypertarget{cp__apriltag__tracker_8hpp_source_l00089}00089\ \ \ \ \ \ \ rclcpp::Duration\ elapsed\ =\ now\ -\/\ tagstamp;}
+\DoxyCodeLine{\Hypertarget{cp__apriltag__tracker_8hpp_source_l00090}00090\ }
+\DoxyCodeLine{\Hypertarget{cp__apriltag__tracker_8hpp_source_l00091}00091\ \ \ \ \ \ \ ss\ <<\ \textcolor{stringliteral}{"{}[CpAprilTagTracker]\ AprilTag:\ "{}}\ <<\ apriltag.first\ <<\ \textcolor{stringliteral}{"{}\ Elapsed:\ "{}}\ <<\ elapsed.seconds()}
+\DoxyCodeLine{\Hypertarget{cp__apriltag__tracker_8hpp_source_l00092}00092\ \ \ \ \ \ \ \ \ \ <<\ \textcolor{stringliteral}{"{}\ Stamp:\ "{}}\ <<\ tagstamp.seconds()\ <<\ \textcolor{stringliteral}{"{}\ now\ "{}}\ <<\ now.seconds()\ <<\ std::endl;}
+\DoxyCodeLine{\Hypertarget{cp__apriltag__tracker_8hpp_source_l00093}00093\ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (elapsed\ <\ duration)}
+\DoxyCodeLine{\Hypertarget{cp__apriltag__tracker_8hpp_source_l00094}00094\ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{cp__apriltag__tracker_8hpp_source_l00095}00095\ \ \ \ \ \ \ \ \ ret.insert(apriltag);}
+\DoxyCodeLine{\Hypertarget{cp__apriltag__tracker_8hpp_source_l00096}00096\ \ \ \ \ \ \ \ \ ss\ <<\ \textcolor{stringliteral}{"{}[SELECTED]"{}}\ <<\ std::endl;}
+\DoxyCodeLine{\Hypertarget{cp__apriltag__tracker_8hpp_source_l00097}00097\ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{cp__apriltag__tracker_8hpp_source_l00098}00098\ \ \ \ \ \ \ \textcolor{keywordflow}{else}}
+\DoxyCodeLine{\Hypertarget{cp__apriltag__tracker_8hpp_source_l00099}00099\ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{cp__apriltag__tracker_8hpp_source_l00100}00100\ \ \ \ \ \ \ \ \ ss\ <<\ \textcolor{stringliteral}{"{}[NOT\ SELECTED]"{}}\ <<\ std::endl;}
+\DoxyCodeLine{\Hypertarget{cp__apriltag__tracker_8hpp_source_l00101}00101\ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{cp__apriltag__tracker_8hpp_source_l00102}00102\ \ \ \ \ \ \ ss\ <<\ std::endl;}
+\DoxyCodeLine{\Hypertarget{cp__apriltag__tracker_8hpp_source_l00103}00103\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{cp__apriltag__tracker_8hpp_source_l00104}00104\ }
+\DoxyCodeLine{\Hypertarget{cp__apriltag__tracker_8hpp_source_l00105}00105\ \ \ \ \ RCLCPP\_INFO\_THROTTLE(\mbox{\hyperlink{classsmacc2_1_1ISmaccComponent_a77ee85823bab8d84edcdf5d28782b728}{getLogger}}(),\ *(\mbox{\hyperlink{classsmacc2_1_1ISmaccComponent_aaac68614687bed658c59f8f15746ab91}{getNode}}()-\/>get\_clock()),\ 1000,\ \textcolor{stringliteral}{"{}\%s"{}},\ ss.str().c\_str());}
+\DoxyCodeLine{\Hypertarget{cp__apriltag__tracker_8hpp_source_l00106}00106\ \ \ \ \ \textcolor{keywordflow}{return}\ ret;}
+\DoxyCodeLine{\Hypertarget{cp__apriltag__tracker_8hpp_source_l00107}00107\ \ \ \}}
+\DoxyCodeLine{\Hypertarget{cp__apriltag__tracker_8hpp_source_l00108}00108\ }
+\DoxyCodeLine{\Hypertarget{cp__apriltag__tracker_8hpp_source_l00114}\mbox{\hyperlink{classcl__isaac__apriltag_1_1CpAprilTagTracker_adc73de0192a48a54a34efcb1f81a0741}{00114}}\ \ \ std::optional<geometry\_msgs::msg::PoseStamped>\ \mbox{\hyperlink{classcl__isaac__apriltag_1_1CpAprilTagTracker_adc73de0192a48a54a34efcb1f81a0741}{getTagPose}}(\textcolor{keyword}{const}\ std::string\ \&\ tag\_frame\_id)}
+\DoxyCodeLine{\Hypertarget{cp__apriltag__tracker_8hpp_source_l00115}00115\ \ \ \{}
+\DoxyCodeLine{\Hypertarget{cp__apriltag__tracker_8hpp_source_l00116}00116\ \ \ \ \ std::lock\_guard<std::mutex>\ lock(\mbox{\hyperlink{classcl__isaac__apriltag_1_1CpAprilTagTracker_a1483c719a72daf381981773f842b698f}{mutex\_}});}
+\DoxyCodeLine{\Hypertarget{cp__apriltag__tracker_8hpp_source_l00117}00117\ \ \ \ \ \textcolor{keyword}{auto}\ it\ =\ \mbox{\hyperlink{classcl__isaac__apriltag_1_1CpAprilTagTracker_a4d62ad2053b3c27d88e12294dcc2ef71}{detectedAprilTagsMapPose\_}}.find(tag\_frame\_id);}
+\DoxyCodeLine{\Hypertarget{cp__apriltag__tracker_8hpp_source_l00118}00118\ \ \ \ \ \textcolor{keywordflow}{if}\ (it\ !=\ \mbox{\hyperlink{classcl__isaac__apriltag_1_1CpAprilTagTracker_a4d62ad2053b3c27d88e12294dcc2ef71}{detectedAprilTagsMapPose\_}}.end())}
+\DoxyCodeLine{\Hypertarget{cp__apriltag__tracker_8hpp_source_l00119}00119\ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{cp__apriltag__tracker_8hpp_source_l00120}00120\ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ it-\/>second;}
+\DoxyCodeLine{\Hypertarget{cp__apriltag__tracker_8hpp_source_l00121}00121\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{cp__apriltag__tracker_8hpp_source_l00122}00122\ \ \ \ \ \textcolor{keywordflow}{return}\ std::nullopt;}
+\DoxyCodeLine{\Hypertarget{cp__apriltag__tracker_8hpp_source_l00123}00123\ \ \ \}}
+\DoxyCodeLine{\Hypertarget{cp__apriltag__tracker_8hpp_source_l00124}00124\ }
+\DoxyCodeLine{\Hypertarget{cp__apriltag__tracker_8hpp_source_l00125}00125\ \ \ \textcolor{comment}{//\ Signal\ emitted\ when\ AprilTag\ detections\ are\ processed}}
+\DoxyCodeLine{\Hypertarget{cp__apriltag__tracker_8hpp_source_l00126}\mbox{\hyperlink{classcl__isaac__apriltag_1_1CpAprilTagTracker_a7943ff3fd16dc0b05d833fcb416d1f44}{00126}}\ \ \ \mbox{\hyperlink{classsmacc2_1_1SmaccSignal}{smacc2::SmaccSignal}}<void(\textcolor{keyword}{const}\ AprilTagDetectionArray::SharedPtr\ \&)>\ \mbox{\hyperlink{classcl__isaac__apriltag_1_1CpAprilTagTracker_a7943ff3fd16dc0b05d833fcb416d1f44}{onAprilTagDetection\_}};}
+\DoxyCodeLine{\Hypertarget{cp__apriltag__tracker_8hpp_source_l00127}00127\ }
+\DoxyCodeLine{\Hypertarget{cp__apriltag__tracker_8hpp_source_l00134}00134\ \ \ \textcolor{keyword}{template}\ <\textcolor{keyword}{typename}\ T>}
+\DoxyCodeLine{\Hypertarget{cp__apriltag__tracker_8hpp_source_l00135}\mbox{\hyperlink{classcl__isaac__apriltag_1_1CpAprilTagTracker_aaa82d001a7aedf43167d08c61873b5d0}{00135}}\ \ \ boost::signals2::connection\ \mbox{\hyperlink{classcl__isaac__apriltag_1_1CpAprilTagTracker_aaa82d001a7aedf43167d08c61873b5d0}{onAprilTagDetected}}(}
+\DoxyCodeLine{\Hypertarget{cp__apriltag__tracker_8hpp_source_l00136}00136\ \ \ \ \ \textcolor{keywordtype}{void}\ (T::*callback)(\textcolor{keyword}{const}\ AprilTagDetectionArray::SharedPtr\ \&),\ T\ *\ \textcolor{keywordtype}{object})}
+\DoxyCodeLine{\Hypertarget{cp__apriltag__tracker_8hpp_source_l00137}00137\ \ \ \{}
+\DoxyCodeLine{\Hypertarget{cp__apriltag__tracker_8hpp_source_l00138}00138\ \ \ \ \ \textcolor{keywordflow}{return}\ this-\/>\mbox{\hyperlink{classsmacc2_1_1ISmaccComponent_a420ef07087efcdc74fb233f11ae3a517}{getStateMachine}}()-\/>\mbox{\hyperlink{classsmacc2_1_1ISmaccStateMachine_a25f13e947197c61b66c12cf58ee351d5}{createSignalConnection}}(onAprilTagDetection\_,\ callback,\ \textcolor{keywordtype}{object});}
+\DoxyCodeLine{\Hypertarget{cp__apriltag__tracker_8hpp_source_l00139}00139\ \ \ \}}
+\DoxyCodeLine{\Hypertarget{cp__apriltag__tracker_8hpp_source_l00140}00140\ }
+\DoxyCodeLine{\Hypertarget{cp__apriltag__tracker_8hpp_source_l00141}00141\ \textcolor{keyword}{private}:}
+\DoxyCodeLine{\Hypertarget{cp__apriltag__tracker_8hpp_source_l00142}00142\ \ \ \textcolor{comment}{//\ Topic\ subscriber\ component\ (obtained\ via\ requiresComponent)}}
+\DoxyCodeLine{\Hypertarget{cp__apriltag__tracker_8hpp_source_l00143}\mbox{\hyperlink{classcl__isaac__apriltag_1_1CpAprilTagTracker_af6c6399de2b61162e4f11dfdfd2add6b}{00143}}\ \ \ \mbox{\hyperlink{classsmacc2_1_1client__core__components_1_1CpTopicSubscriber}{smacc2::client\_core\_components::CpTopicSubscriber<AprilTagDetectionArray>}}\ *\ \mbox{\hyperlink{classcl__isaac__apriltag_1_1CpAprilTagTracker_af6c6399de2b61162e4f11dfdfd2add6b}{topicSubscriber\_}}\ =}
+\DoxyCodeLine{\Hypertarget{cp__apriltag__tracker_8hpp_source_l00144}00144\ \ \ \ \ \textcolor{keyword}{nullptr};}
+\DoxyCodeLine{\Hypertarget{cp__apriltag__tracker_8hpp_source_l00145}00145\ }
+\DoxyCodeLine{\Hypertarget{cp__apriltag__tracker_8hpp_source_l00146}00146\ \ \ \textcolor{comment}{//\ TF\ management}}
+\DoxyCodeLine{\Hypertarget{cp__apriltag__tracker_8hpp_source_l00147}\mbox{\hyperlink{classcl__isaac__apriltag_1_1CpAprilTagTracker_ae93089b93298984ec13024f4e9ee715a}{00147}}\ \ \ std::shared\_ptr<tf2\_ros::Buffer>\ \mbox{\hyperlink{classcl__isaac__apriltag_1_1CpAprilTagTracker_ae93089b93298984ec13024f4e9ee715a}{tfBuffer\_}};}
+\DoxyCodeLine{\Hypertarget{cp__apriltag__tracker_8hpp_source_l00148}\mbox{\hyperlink{classcl__isaac__apriltag_1_1CpAprilTagTracker_aae152af18d24c7e6350e6ea9d22697df}{00148}}\ \ \ std::shared\_ptr<tf2\_ros::TransformListener>\ \mbox{\hyperlink{classcl__isaac__apriltag_1_1CpAprilTagTracker_aae152af18d24c7e6350e6ea9d22697df}{tfListener\_}};}
+\DoxyCodeLine{\Hypertarget{cp__apriltag__tracker_8hpp_source_l00149}\mbox{\hyperlink{classcl__isaac__apriltag_1_1CpAprilTagTracker_a672d58642ffb2d73c10ff8aa20925d10}{00149}}\ \ \ std::string\ \mbox{\hyperlink{classcl__isaac__apriltag_1_1CpAprilTagTracker_a672d58642ffb2d73c10ff8aa20925d10}{targetFrame\_}};}
+\DoxyCodeLine{\Hypertarget{cp__apriltag__tracker_8hpp_source_l00150}00150\ }
+\DoxyCodeLine{\Hypertarget{cp__apriltag__tracker_8hpp_source_l00151}00151\ \ \ \textcolor{comment}{//\ Detection\ storage\ (thread-\/safe)}}
+\DoxyCodeLine{\Hypertarget{cp__apriltag__tracker_8hpp_source_l00152}\mbox{\hyperlink{classcl__isaac__apriltag_1_1CpAprilTagTracker_a4d62ad2053b3c27d88e12294dcc2ef71}{00152}}\ \ \ std::map<std::string,\ geometry\_msgs::msg::PoseStamped>\ \mbox{\hyperlink{classcl__isaac__apriltag_1_1CpAprilTagTracker_a4d62ad2053b3c27d88e12294dcc2ef71}{detectedAprilTagsMapPose\_}};}
+\DoxyCodeLine{\Hypertarget{cp__apriltag__tracker_8hpp_source_l00153}\mbox{\hyperlink{classcl__isaac__apriltag_1_1CpAprilTagTracker_a1483c719a72daf381981773f842b698f}{00153}}\ \ \ std::mutex\ \mbox{\hyperlink{classcl__isaac__apriltag_1_1CpAprilTagTracker_a1483c719a72daf381981773f842b698f}{mutex\_}};}
+\DoxyCodeLine{\Hypertarget{cp__apriltag__tracker_8hpp_source_l00154}00154\ }
+\DoxyCodeLine{\Hypertarget{cp__apriltag__tracker_8hpp_source_l00155}\mbox{\hyperlink{classcl__isaac__apriltag_1_1CpAprilTagTracker_aa7414b4b125f6b5b891c0e6584f98932}{00155}}\ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{classcl__isaac__apriltag_1_1CpAprilTagTracker_aa7414b4b125f6b5b891c0e6584f98932}{onAprilTagMessage}}(\textcolor{keyword}{const}\ \mbox{\hyperlink{namespacecl__isaac__apriltag_ab142494153e19884964b440e9fcb85ec}{AprilTagDetectionArray}}\ \&\ msg)}
+\DoxyCodeLine{\Hypertarget{cp__apriltag__tracker_8hpp_source_l00156}00156\ \ \ \{}
+\DoxyCodeLine{\Hypertarget{cp__apriltag__tracker_8hpp_source_l00157}00157\ \ \ \ \ std::lock\_guard<std::mutex>\ lock(\mbox{\hyperlink{classcl__isaac__apriltag_1_1CpAprilTagTracker_a1483c719a72daf381981773f842b698f}{mutex\_}});}
+\DoxyCodeLine{\Hypertarget{cp__apriltag__tracker_8hpp_source_l00158}00158\ }
+\DoxyCodeLine{\Hypertarget{cp__apriltag__tracker_8hpp_source_l00159}00159\ \ \ \ \ std::stringstream\ ss;}
+\DoxyCodeLine{\Hypertarget{cp__apriltag__tracker_8hpp_source_l00160}00160\ \ \ \ \ \textcolor{keywordflow}{for}\ (\textcolor{keyword}{auto}\ \&\ detection\ :\ msg.detections)}
+\DoxyCodeLine{\Hypertarget{cp__apriltag__tracker_8hpp_source_l00161}00161\ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{cp__apriltag__tracker_8hpp_source_l00162}00162\ \ \ \ \ \ \ std::string\ apriltag\_frameid\ =\ detection.family\ +\ \textcolor{stringliteral}{"{}:"{}}\ +\ std::to\_string(detection.id);}
+\DoxyCodeLine{\Hypertarget{cp__apriltag__tracker_8hpp_source_l00163}00163\ \ \ \ \ \ \ ss\ <<\ \textcolor{stringliteral}{"{}[CpAprilTagTracker]\ AprilTag\ detected:\ "{}}\ <<\ apriltag\_frameid\ <<\ std::endl;}
+\DoxyCodeLine{\Hypertarget{cp__apriltag__tracker_8hpp_source_l00164}00164\ }
+\DoxyCodeLine{\Hypertarget{cp__apriltag__tracker_8hpp_source_l00165}00165\ \ \ \ \ \ \ \textcolor{comment}{//\ Get\ map\ position\ using\ TF\ lookup}}
+\DoxyCodeLine{\Hypertarget{cp__apriltag__tracker_8hpp_source_l00166}00166\ \ \ \ \ \ \ geometry\_msgs::msg::TransformStamped\ transformStampedGlobal;}
+\DoxyCodeLine{\Hypertarget{cp__apriltag__tracker_8hpp_source_l00167}00167\ }
+\DoxyCodeLine{\Hypertarget{cp__apriltag__tracker_8hpp_source_l00168}00168\ \ \ \ \ \ \ \textcolor{keywordflow}{try}}
+\DoxyCodeLine{\Hypertarget{cp__apriltag__tracker_8hpp_source_l00169}00169\ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{cp__apriltag__tracker_8hpp_source_l00170}00170\ \ \ \ \ \ \ \ \ transformStampedGlobal\ =}
+\DoxyCodeLine{\Hypertarget{cp__apriltag__tracker_8hpp_source_l00171}00171\ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{classcl__isaac__apriltag_1_1CpAprilTagTracker_ae93089b93298984ec13024f4e9ee715a}{tfBuffer\_}}-\/>lookupTransform(\mbox{\hyperlink{classcl__isaac__apriltag_1_1CpAprilTagTracker_a672d58642ffb2d73c10ff8aa20925d10}{targetFrame\_}},\ apriltag\_frameid,\ msg.header.stamp);}
+\DoxyCodeLine{\Hypertarget{cp__apriltag__tracker_8hpp_source_l00172}00172\ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{cp__apriltag__tracker_8hpp_source_l00173}00173\ \ \ \ \ \ \ \textcolor{keywordflow}{catch}\ (tf2::TransformException\ \&\ ex)}
+\DoxyCodeLine{\Hypertarget{cp__apriltag__tracker_8hpp_source_l00174}00174\ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{cp__apriltag__tracker_8hpp_source_l00175}00175\ \ \ \ \ \ \ \ \ RCLCPP\_WARN\_THROTTLE(}
+\DoxyCodeLine{\Hypertarget{cp__apriltag__tracker_8hpp_source_l00176}00176\ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{classsmacc2_1_1ISmaccComponent_a77ee85823bab8d84edcdf5d28782b728}{getLogger}}(),\ *(\mbox{\hyperlink{classsmacc2_1_1ISmaccComponent_aaac68614687bed658c59f8f15746ab91}{getNode}}()-\/>get\_clock()),\ 1000,}
+\DoxyCodeLine{\Hypertarget{cp__apriltag__tracker_8hpp_source_l00177}00177\ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}[CpAprilTagTracker]\ TF\ lookup\ failed\ for\ \%s:\ \%s"{}},\ apriltag\_frameid.c\_str(),\ ex.what());}
+\DoxyCodeLine{\Hypertarget{cp__apriltag__tracker_8hpp_source_l00178}00178\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{continue};}
+\DoxyCodeLine{\Hypertarget{cp__apriltag__tracker_8hpp_source_l00179}00179\ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{cp__apriltag__tracker_8hpp_source_l00180}00180\ }
+\DoxyCodeLine{\Hypertarget{cp__apriltag__tracker_8hpp_source_l00181}00181\ \ \ \ \ \ \ \textcolor{comment}{//\ Transform\ to\ pose}}
+\DoxyCodeLine{\Hypertarget{cp__apriltag__tracker_8hpp_source_l00182}00182\ \ \ \ \ \ \ geometry\_msgs::msg::PoseStamped\ poseStamped;}
+\DoxyCodeLine{\Hypertarget{cp__apriltag__tracker_8hpp_source_l00183}00183\ \ \ \ \ \ \ poseStamped.header\ =\ transformStampedGlobal.header;}
+\DoxyCodeLine{\Hypertarget{cp__apriltag__tracker_8hpp_source_l00184}00184\ \ \ \ \ \ \ poseStamped.pose.position.x\ =\ transformStampedGlobal.transform.translation.x;}
+\DoxyCodeLine{\Hypertarget{cp__apriltag__tracker_8hpp_source_l00185}00185\ \ \ \ \ \ \ poseStamped.pose.position.y\ =\ transformStampedGlobal.transform.translation.y;}
+\DoxyCodeLine{\Hypertarget{cp__apriltag__tracker_8hpp_source_l00186}00186\ \ \ \ \ \ \ poseStamped.pose.position.z\ =\ transformStampedGlobal.transform.translation.z;}
+\DoxyCodeLine{\Hypertarget{cp__apriltag__tracker_8hpp_source_l00187}00187\ \ \ \ \ \ \ poseStamped.pose.orientation\ =\ transformStampedGlobal.transform.rotation;}
+\DoxyCodeLine{\Hypertarget{cp__apriltag__tracker_8hpp_source_l00188}00188\ }
+\DoxyCodeLine{\Hypertarget{cp__apriltag__tracker_8hpp_source_l00189}00189\ \ \ \ \ \ \ \mbox{\hyperlink{classcl__isaac__apriltag_1_1CpAprilTagTracker_a4d62ad2053b3c27d88e12294dcc2ef71}{detectedAprilTagsMapPose\_}}[apriltag\_frameid]\ =\ poseStamped;}
+\DoxyCodeLine{\Hypertarget{cp__apriltag__tracker_8hpp_source_l00190}00190\ }
+\DoxyCodeLine{\Hypertarget{cp__apriltag__tracker_8hpp_source_l00191}00191\ \ \ \ \ \ \ ss\ <<\ \textcolor{stringliteral}{"{}[CpAprilTagTracker]\ new\ AprilTag\ detected:\ "{}}\ <<\ apriltag\_frameid\ <<\ \textcolor{stringliteral}{"{}\ at\ "{}}}
+\DoxyCodeLine{\Hypertarget{cp__apriltag__tracker_8hpp_source_l00192}00192\ \ \ \ \ \ \ \ \ \ <<\ poseStamped.pose.position.x\ <<\ \textcolor{stringliteral}{"{},\ "{}}\ <<\ poseStamped.pose.position.y\ <<\ \textcolor{stringliteral}{"{},\ "{}}}
+\DoxyCodeLine{\Hypertarget{cp__apriltag__tracker_8hpp_source_l00193}00193\ \ \ \ \ \ \ \ \ \ <<\ poseStamped.pose.position.z;}
+\DoxyCodeLine{\Hypertarget{cp__apriltag__tracker_8hpp_source_l00194}00194\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{cp__apriltag__tracker_8hpp_source_l00195}00195\ \ \ \ \ RCLCPP\_INFO\_STREAM\_THROTTLE(\mbox{\hyperlink{classsmacc2_1_1ISmaccComponent_a77ee85823bab8d84edcdf5d28782b728}{getLogger}}(),\ *(\mbox{\hyperlink{classsmacc2_1_1ISmaccComponent_aaac68614687bed658c59f8f15746ab91}{getNode}}()-\/>get\_clock()),\ 1000,\ ss.str());}
+\DoxyCodeLine{\Hypertarget{cp__apriltag__tracker_8hpp_source_l00196}00196\ }
+\DoxyCodeLine{\Hypertarget{cp__apriltag__tracker_8hpp_source_l00197}00197\ \ \ \ \ \textcolor{comment}{//\ Emit\ signal\ with\ SharedPtr\ for\ downstream\ subscribers}}
+\DoxyCodeLine{\Hypertarget{cp__apriltag__tracker_8hpp_source_l00198}00198\ \ \ \ \ \textcolor{keyword}{auto}\ msgPtr\ =\ std::make\_shared<AprilTagDetectionArray>(msg);}
+\DoxyCodeLine{\Hypertarget{cp__apriltag__tracker_8hpp_source_l00199}00199\ \ \ \ \ \mbox{\hyperlink{classcl__isaac__apriltag_1_1CpAprilTagTracker_a7943ff3fd16dc0b05d833fcb416d1f44}{onAprilTagDetection\_}}(msgPtr);}
+\DoxyCodeLine{\Hypertarget{cp__apriltag__tracker_8hpp_source_l00200}00200\ \ \ \}}
+\DoxyCodeLine{\Hypertarget{cp__apriltag__tracker_8hpp_source_l00201}00201\ \};}
+\DoxyCodeLine{\Hypertarget{cp__apriltag__tracker_8hpp_source_l00202}00202\ }
+\DoxyCodeLine{\Hypertarget{cp__apriltag__tracker_8hpp_source_l00203}00203\ \}\ \ \textcolor{comment}{//\ namespace\ cl\_isaac\_apriltag}}
+
+\end{DoxyCode}

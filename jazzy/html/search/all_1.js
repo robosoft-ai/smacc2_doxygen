@@ -29,7 +29,7 @@ var searchData=
   ['appendtoheader_26',['appendToHeader',['../classcl__http_1_1ssl__http__session.html#a2dbf5afa00b05c9d6a5de3e52d800eb8',1,'cl_http::ssl_http_session']]],
   ['applyexecutionoptions_27',['applyExecutionOptions',['../classcl__moveit2z_1_1CpTrajectoryExecutor.html#a59c53540c6580c1b859281ce17be1d7b',1,'cl_moveit2z::CpTrajectoryExecutor']]],
   ['applyplanningoptions_28',['applyPlanningOptions',['../classcl__moveit2z_1_1CpMotionPlanner.html#ac3b96c0cc3fa1f214f1a0f65b44bac56',1,'cl_moveit2z::CpMotionPlanner']]],
-  ['apriltagsub_5f_29',['apriltagSub_',['../classcl__isaac__apriltag_1_1ClIsaacApriltag.html#a573bca0411262716c02b85eb5632b55d',1,'cl_isaac_apriltag::ClIsaacApriltag']]],
+  ['apriltagdetectionarray_29',['AprilTagDetectionArray',['../namespacecl__isaac__apriltag.html#ab142494153e19884964b440e9fcb85ec',1,'cl_isaac_apriltag']]],
   ['as_5f_30',['as_',['../classCpOdomTrackerActionServer.html#a6d1531afe519f97f54756fc331e45918',1,'CpOdomTrackerActionServer']]],
   ['assemblesmstructuremessage_31',['assembleSMStructureMessage',['../classsmacc2_1_1introspection_1_1SmaccStateMachineInfo.html#af9405e186cb828249d86c4dd64375521',1,'smacc2::introspection::SmaccStateMachineInfo']]],
   ['assignclienttoorthogonal_32',['assignClientToOrthogonal',['../classsmacc2_1_1ISmaccOrthogonal.html#ae58f05ba54120366f940d3d5b927b5fb',1,'smacc2::ISmaccOrthogonal']]],
