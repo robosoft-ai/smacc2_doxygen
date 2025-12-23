@@ -1,0 +1,230 @@
+\doxysection{cp\+\_\+modbus\+\_\+connection.\+cpp}
+\hypertarget{cp__modbus__connection_8cpp_source}{}\label{cp__modbus__connection_8cpp_source}\index{smacc2\_client\_library/cl\_modbus\_tcp\_relay/src/cl\_modbus\_tcp\_relay/components/cp\_modbus\_connection.cpp@{smacc2\_client\_library/cl\_modbus\_tcp\_relay/src/cl\_modbus\_tcp\_relay/components/cp\_modbus\_connection.cpp}}
+\mbox{\hyperlink{cp__modbus__connection_8cpp}{Go to the documentation of this file.}}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\Hypertarget{cp__modbus__connection_8cpp_source_l00001}00001\ \textcolor{comment}{//\ Copyright\ 2024\ RobosoftAI\ Inc.}}
+\DoxyCodeLine{\Hypertarget{cp__modbus__connection_8cpp_source_l00002}00002\ \textcolor{comment}{//}}
+\DoxyCodeLine{\Hypertarget{cp__modbus__connection_8cpp_source_l00003}00003\ \textcolor{comment}{//\ Licensed\ under\ the\ Apache\ License,\ Version\ 2.0\ (the\ "{}License"{});}}
+\DoxyCodeLine{\Hypertarget{cp__modbus__connection_8cpp_source_l00004}00004\ \textcolor{comment}{//\ you\ may\ not\ use\ this\ file\ except\ in\ compliance\ with\ the\ License.}}
+\DoxyCodeLine{\Hypertarget{cp__modbus__connection_8cpp_source_l00005}00005\ \textcolor{comment}{//\ You\ may\ obtain\ a\ copy\ of\ the\ License\ at}}
+\DoxyCodeLine{\Hypertarget{cp__modbus__connection_8cpp_source_l00006}00006\ \textcolor{comment}{//}}
+\DoxyCodeLine{\Hypertarget{cp__modbus__connection_8cpp_source_l00007}00007\ \textcolor{comment}{//\ \ \ \ \ http://www.apache.org/licenses/LICENSE-\/2.0}}
+\DoxyCodeLine{\Hypertarget{cp__modbus__connection_8cpp_source_l00008}00008\ \textcolor{comment}{//}}
+\DoxyCodeLine{\Hypertarget{cp__modbus__connection_8cpp_source_l00009}00009\ \textcolor{comment}{//\ Unless\ required\ by\ applicable\ law\ or\ agreed\ to\ in\ writing,\ software}}
+\DoxyCodeLine{\Hypertarget{cp__modbus__connection_8cpp_source_l00010}00010\ \textcolor{comment}{//\ distributed\ under\ the\ License\ is\ distributed\ on\ an\ "{}AS\ IS"{}\ BASIS,}}
+\DoxyCodeLine{\Hypertarget{cp__modbus__connection_8cpp_source_l00011}00011\ \textcolor{comment}{//\ WITHOUT\ WARRANTIES\ OR\ CONDITIONS\ OF\ ANY\ KIND,\ either\ express\ or\ implied.}}
+\DoxyCodeLine{\Hypertarget{cp__modbus__connection_8cpp_source_l00012}00012\ \textcolor{comment}{//\ See\ the\ License\ for\ the\ specific\ language\ governing\ permissions\ and}}
+\DoxyCodeLine{\Hypertarget{cp__modbus__connection_8cpp_source_l00013}00013\ \textcolor{comment}{//\ limitations\ under\ the\ License.}}
+\DoxyCodeLine{\Hypertarget{cp__modbus__connection_8cpp_source_l00014}00014\ }
+\DoxyCodeLine{\Hypertarget{cp__modbus__connection_8cpp_source_l00015}00015\ \textcolor{comment}{/*****************************************************************************************************************}}
+\DoxyCodeLine{\Hypertarget{cp__modbus__connection_8cpp_source_l00016}00016\ \textcolor{comment}{\ *}}
+\DoxyCodeLine{\Hypertarget{cp__modbus__connection_8cpp_source_l00017}00017\ \textcolor{comment}{\ *\ \ \ Authors:\ Pablo\ Inigo\ Blasco,\ Brett\ Aldrich}}
+\DoxyCodeLine{\Hypertarget{cp__modbus__connection_8cpp_source_l00018}00018\ \textcolor{comment}{\ *}}
+\DoxyCodeLine{\Hypertarget{cp__modbus__connection_8cpp_source_l00019}00019\ \textcolor{comment}{\ ******************************************************************************************************************/}}
+\DoxyCodeLine{\Hypertarget{cp__modbus__connection_8cpp_source_l00020}00020\ }
+\DoxyCodeLine{\Hypertarget{cp__modbus__connection_8cpp_source_l00021}00021\ \textcolor{preprocessor}{\#include\ <\mbox{\hyperlink{cp__modbus__connection_8hpp}{cl\_modbus\_tcp\_relay/components/cp\_modbus\_connection.hpp}}>}}
+\DoxyCodeLine{\Hypertarget{cp__modbus__connection_8cpp_source_l00022}00022\ }
+\DoxyCodeLine{\Hypertarget{cp__modbus__connection_8cpp_source_l00023}00023\ \textcolor{keyword}{namespace\ }\mbox{\hyperlink{namespacecl__modbus__tcp__relay}{cl\_modbus\_tcp\_relay}}}
+\DoxyCodeLine{\Hypertarget{cp__modbus__connection_8cpp_source_l00024}00024\ \{}
+\DoxyCodeLine{\Hypertarget{cp__modbus__connection_8cpp_source_l00025}00025\ }
+\DoxyCodeLine{\Hypertarget{cp__modbus__connection_8cpp_source_l00026}\mbox{\hyperlink{classcl__modbus__tcp__relay_1_1CpModbusConnection_a00310de0cd49725644e873683433a96d}{00026}}\ \mbox{\hyperlink{classcl__modbus__tcp__relay_1_1CpModbusConnection_a00310de0cd49725644e873683433a96d}{CpModbusConnection::CpModbusConnection}}()}
+\DoxyCodeLine{\Hypertarget{cp__modbus__connection_8cpp_source_l00027}00027\ :\ ISmaccUpdatable(rclcpp::Duration::from\_seconds(1.0)),\ \ \textcolor{comment}{//\ Default\ 1\ second\ update\ period}}
+\DoxyCodeLine{\Hypertarget{cp__modbus__connection_8cpp_source_l00028}00028\ \ \ ip\_address\_(\textcolor{stringliteral}{"{}192.168.1.254"{}}),}
+\DoxyCodeLine{\Hypertarget{cp__modbus__connection_8cpp_source_l00029}00029\ \ \ port\_(502),}
+\DoxyCodeLine{\Hypertarget{cp__modbus__connection_8cpp_source_l00030}00030\ \ \ slave\_id\_(1),}
+\DoxyCodeLine{\Hypertarget{cp__modbus__connection_8cpp_source_l00031}00031\ \ \ heartbeat\_interval\_ms\_(1000),}
+\DoxyCodeLine{\Hypertarget{cp__modbus__connection_8cpp_source_l00032}00032\ \ \ connect\_on\_init\_(true),}
+\DoxyCodeLine{\Hypertarget{cp__modbus__connection_8cpp_source_l00033}00033\ \ \ ctx\_(nullptr),}
+\DoxyCodeLine{\Hypertarget{cp__modbus__connection_8cpp_source_l00034}00034\ \ \ connected\_(false)}
+\DoxyCodeLine{\Hypertarget{cp__modbus__connection_8cpp_source_l00035}00035\ \{}
+\DoxyCodeLine{\Hypertarget{cp__modbus__connection_8cpp_source_l00036}00036\ \}}
+\DoxyCodeLine{\Hypertarget{cp__modbus__connection_8cpp_source_l00037}00037\ }
+\DoxyCodeLine{\Hypertarget{cp__modbus__connection_8cpp_source_l00038}\mbox{\hyperlink{classcl__modbus__tcp__relay_1_1CpModbusConnection_a2b6f604a5d08fb4e86f34e40742831b6}{00038}}\ \mbox{\hyperlink{classcl__modbus__tcp__relay_1_1CpModbusConnection_a2b6f604a5d08fb4e86f34e40742831b6}{CpModbusConnection::\string~CpModbusConnection}}()}
+\DoxyCodeLine{\Hypertarget{cp__modbus__connection_8cpp_source_l00039}00039\ \{}
+\DoxyCodeLine{\Hypertarget{cp__modbus__connection_8cpp_source_l00040}00040\ \ \ \mbox{\hyperlink{classcl__modbus__tcp__relay_1_1CpModbusConnection_af1fb5a1adc188714d5ebce0ca197db27}{disconnect}}();}
+\DoxyCodeLine{\Hypertarget{cp__modbus__connection_8cpp_source_l00041}00041\ \ \ \textcolor{keywordflow}{if}\ (\mbox{\hyperlink{classcl__modbus__tcp__relay_1_1CpModbusConnection_af89095b9fb88bdec6574cd780fee32f9}{ctx\_}})}
+\DoxyCodeLine{\Hypertarget{cp__modbus__connection_8cpp_source_l00042}00042\ \ \ \{}
+\DoxyCodeLine{\Hypertarget{cp__modbus__connection_8cpp_source_l00043}00043\ \ \ \ \ modbus\_free(\mbox{\hyperlink{classcl__modbus__tcp__relay_1_1CpModbusConnection_af89095b9fb88bdec6574cd780fee32f9}{ctx\_}});}
+\DoxyCodeLine{\Hypertarget{cp__modbus__connection_8cpp_source_l00044}00044\ \ \ \ \ \mbox{\hyperlink{classcl__modbus__tcp__relay_1_1CpModbusConnection_af89095b9fb88bdec6574cd780fee32f9}{ctx\_}}\ =\ \textcolor{keyword}{nullptr};}
+\DoxyCodeLine{\Hypertarget{cp__modbus__connection_8cpp_source_l00045}00045\ \ \ \}}
+\DoxyCodeLine{\Hypertarget{cp__modbus__connection_8cpp_source_l00046}00046\ \}}
+\DoxyCodeLine{\Hypertarget{cp__modbus__connection_8cpp_source_l00047}00047\ }
+\DoxyCodeLine{\Hypertarget{cp__modbus__connection_8cpp_source_l00048}00048\ \textcolor{keyword}{template}\ <\textcolor{keyword}{typename}\ T>}
+\DoxyCodeLine{\Hypertarget{cp__modbus__connection_8cpp_source_l00049}\mbox{\hyperlink{classcl__modbus__tcp__relay_1_1CpModbusConnection_a5a36c05946de9b32896e6e85e559f1ab}{00049}}\ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{classcl__modbus__tcp__relay_1_1CpModbusConnection_a5a36c05946de9b32896e6e85e559f1ab}{CpModbusConnection::declareAndLoadParam}}(}
+\DoxyCodeLine{\Hypertarget{cp__modbus__connection_8cpp_source_l00050}00050\ \ \ \textcolor{keyword}{const}\ std::string\ \&\ name,\ T\ \&\ value,\ \textcolor{keyword}{const}\ T\ \&\ default\_val)}
+\DoxyCodeLine{\Hypertarget{cp__modbus__connection_8cpp_source_l00051}00051\ \{}
+\DoxyCodeLine{\Hypertarget{cp__modbus__connection_8cpp_source_l00052}00052\ \ \ \textcolor{keyword}{auto}\ node\ =\ \mbox{\hyperlink{classsmacc2_1_1ISmaccComponent_aaac68614687bed658c59f8f15746ab91}{getNode}}();}
+\DoxyCodeLine{\Hypertarget{cp__modbus__connection_8cpp_source_l00053}00053\ \ \ \textcolor{keywordflow}{if}\ (!node-\/>has\_parameter(name))}
+\DoxyCodeLine{\Hypertarget{cp__modbus__connection_8cpp_source_l00054}00054\ \ \ \{}
+\DoxyCodeLine{\Hypertarget{cp__modbus__connection_8cpp_source_l00055}00055\ \ \ \ \ node-\/>declare\_parameter(name,\ default\_val);}
+\DoxyCodeLine{\Hypertarget{cp__modbus__connection_8cpp_source_l00056}00056\ \ \ \}}
+\DoxyCodeLine{\Hypertarget{cp__modbus__connection_8cpp_source_l00057}00057\ \ \ node-\/>get\_parameter(name,\ value);}
+\DoxyCodeLine{\Hypertarget{cp__modbus__connection_8cpp_source_l00058}00058\ \}}
+\DoxyCodeLine{\Hypertarget{cp__modbus__connection_8cpp_source_l00059}00059\ }
+\DoxyCodeLine{\Hypertarget{cp__modbus__connection_8cpp_source_l00060}00060\ \textcolor{comment}{//\ Explicit\ specialization\ for\ string\ type}}
+\DoxyCodeLine{\Hypertarget{cp__modbus__connection_8cpp_source_l00061}00061\ \textcolor{keyword}{template}\ <>}
+\DoxyCodeLine{\Hypertarget{cp__modbus__connection_8cpp_source_l00062}\mbox{\hyperlink{namespacecl__modbus__tcp__relay_ad0bafb655669f90014c04e67a17c804e}{00062}}\ \textcolor{keywordtype}{void}\ CpModbusConnection::declareAndLoadParam<std::string>(}
+\DoxyCodeLine{\Hypertarget{cp__modbus__connection_8cpp_source_l00063}00063\ \ \ \textcolor{keyword}{const}\ std::string\ \&\ name,\ std::string\ \&\ value,\ \textcolor{keyword}{const}\ std::string\ \&\ default\_val)}
+\DoxyCodeLine{\Hypertarget{cp__modbus__connection_8cpp_source_l00064}00064\ \{}
+\DoxyCodeLine{\Hypertarget{cp__modbus__connection_8cpp_source_l00065}00065\ \ \ \textcolor{keyword}{auto}\ node\ =\ getNode();}
+\DoxyCodeLine{\Hypertarget{cp__modbus__connection_8cpp_source_l00066}00066\ \ \ \textcolor{keywordflow}{if}\ (!node-\/>has\_parameter(name))}
+\DoxyCodeLine{\Hypertarget{cp__modbus__connection_8cpp_source_l00067}00067\ \ \ \{}
+\DoxyCodeLine{\Hypertarget{cp__modbus__connection_8cpp_source_l00068}00068\ \ \ \ \ node-\/>declare\_parameter(name,\ default\_val);}
+\DoxyCodeLine{\Hypertarget{cp__modbus__connection_8cpp_source_l00069}00069\ \ \ \}}
+\DoxyCodeLine{\Hypertarget{cp__modbus__connection_8cpp_source_l00070}00070\ \ \ node-\/>get\_parameter(name,\ value);}
+\DoxyCodeLine{\Hypertarget{cp__modbus__connection_8cpp_source_l00071}00071\ \ \ RCLCPP\_INFO(getLogger(),\ \textcolor{stringliteral}{"{}[CpModbusConnection]\ \%s:\ \%s"{}},\ name.c\_str(),\ value.c\_str());}
+\DoxyCodeLine{\Hypertarget{cp__modbus__connection_8cpp_source_l00072}00072\ \}}
+\DoxyCodeLine{\Hypertarget{cp__modbus__connection_8cpp_source_l00073}00073\ }
+\DoxyCodeLine{\Hypertarget{cp__modbus__connection_8cpp_source_l00074}\mbox{\hyperlink{classcl__modbus__tcp__relay_1_1CpModbusConnection_a6dfdb77e78560dd31e068a6c30723bed}{00074}}\ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{classcl__modbus__tcp__relay_1_1CpModbusConnection_a6dfdb77e78560dd31e068a6c30723bed}{CpModbusConnection::onInitialize}}()}
+\DoxyCodeLine{\Hypertarget{cp__modbus__connection_8cpp_source_l00075}00075\ \{}
+\DoxyCodeLine{\Hypertarget{cp__modbus__connection_8cpp_source_l00076}00076\ \ \ RCLCPP\_INFO(\mbox{\hyperlink{classsmacc2_1_1ISmaccComponent_a77ee85823bab8d84edcdf5d28782b728}{getLogger}}(),\ \textcolor{stringliteral}{"{}[CpModbusConnection]\ Initializing..."{}});}
+\DoxyCodeLine{\Hypertarget{cp__modbus__connection_8cpp_source_l00077}00077\ }
+\DoxyCodeLine{\Hypertarget{cp__modbus__connection_8cpp_source_l00078}00078\ \ \ \textcolor{comment}{//\ Load\ configuration\ from\ YAML\ with\ defaults}}
+\DoxyCodeLine{\Hypertarget{cp__modbus__connection_8cpp_source_l00079}00079\ \ \ \mbox{\hyperlink{classcl__modbus__tcp__relay_1_1CpModbusConnection_a5a36c05946de9b32896e6e85e559f1ab}{declareAndLoadParam}}(\textcolor{stringliteral}{"{}modbus\_relay.ip\_address"{}},\ \mbox{\hyperlink{classcl__modbus__tcp__relay_1_1CpModbusConnection_ad1a909030cd11ac08e80f93429f7c791}{ip\_address\_}},\ std::string(\textcolor{stringliteral}{"{}192.168.1.254"{}}));}
+\DoxyCodeLine{\Hypertarget{cp__modbus__connection_8cpp_source_l00080}00080\ \ \ \mbox{\hyperlink{classcl__modbus__tcp__relay_1_1CpModbusConnection_a5a36c05946de9b32896e6e85e559f1ab}{declareAndLoadParam}}(\textcolor{stringliteral}{"{}modbus\_relay.port"{}},\ \mbox{\hyperlink{classcl__modbus__tcp__relay_1_1CpModbusConnection_a2fd8bd78fe67bad939857de1d6849ee5}{port\_}},\ 502);}
+\DoxyCodeLine{\Hypertarget{cp__modbus__connection_8cpp_source_l00081}00081\ \ \ \mbox{\hyperlink{classcl__modbus__tcp__relay_1_1CpModbusConnection_a5a36c05946de9b32896e6e85e559f1ab}{declareAndLoadParam}}(\textcolor{stringliteral}{"{}modbus\_relay.slave\_id"{}},\ \mbox{\hyperlink{classcl__modbus__tcp__relay_1_1CpModbusConnection_a22977af0b7daf0aa251b13a952e6efef}{slave\_id\_}},\ 1);}
+\DoxyCodeLine{\Hypertarget{cp__modbus__connection_8cpp_source_l00082}00082\ \ \ \mbox{\hyperlink{classcl__modbus__tcp__relay_1_1CpModbusConnection_a5a36c05946de9b32896e6e85e559f1ab}{declareAndLoadParam}}(\textcolor{stringliteral}{"{}modbus\_relay.heartbeat\_interval\_ms"{}},\ \mbox{\hyperlink{classcl__modbus__tcp__relay_1_1CpModbusConnection_adf42c0383365da7c4c86badbeca12771}{heartbeat\_interval\_ms\_}},\ 1000);}
+\DoxyCodeLine{\Hypertarget{cp__modbus__connection_8cpp_source_l00083}00083\ \ \ \mbox{\hyperlink{classcl__modbus__tcp__relay_1_1CpModbusConnection_a5a36c05946de9b32896e6e85e559f1ab}{declareAndLoadParam}}(\textcolor{stringliteral}{"{}modbus\_relay.connect\_on\_init"{}},\ \mbox{\hyperlink{classcl__modbus__tcp__relay_1_1CpModbusConnection_ab07003c45713039da61c507c2e14966e}{connect\_on\_init\_}},\ \textcolor{keyword}{true});}
+\DoxyCodeLine{\Hypertarget{cp__modbus__connection_8cpp_source_l00084}00084\ }
+\DoxyCodeLine{\Hypertarget{cp__modbus__connection_8cpp_source_l00085}00085\ \ \ RCLCPP\_INFO(}
+\DoxyCodeLine{\Hypertarget{cp__modbus__connection_8cpp_source_l00086}00086\ \ \ \ \ \mbox{\hyperlink{classsmacc2_1_1ISmaccComponent_a77ee85823bab8d84edcdf5d28782b728}{getLogger}}(),}
+\DoxyCodeLine{\Hypertarget{cp__modbus__connection_8cpp_source_l00087}00087\ \ \ \ \ \textcolor{stringliteral}{"{}[CpModbusConnection]\ Config:\ \%s:\%d\ (slave=\%d,\ heartbeat=\%dms,\ connect\_on\_init=\%s)"{}},}
+\DoxyCodeLine{\Hypertarget{cp__modbus__connection_8cpp_source_l00088}00088\ \ \ \ \ \mbox{\hyperlink{classcl__modbus__tcp__relay_1_1CpModbusConnection_ad1a909030cd11ac08e80f93429f7c791}{ip\_address\_}}.c\_str(),\ \mbox{\hyperlink{classcl__modbus__tcp__relay_1_1CpModbusConnection_a2fd8bd78fe67bad939857de1d6849ee5}{port\_}},\ \mbox{\hyperlink{classcl__modbus__tcp__relay_1_1CpModbusConnection_a22977af0b7daf0aa251b13a952e6efef}{slave\_id\_}},\ \mbox{\hyperlink{classcl__modbus__tcp__relay_1_1CpModbusConnection_adf42c0383365da7c4c86badbeca12771}{heartbeat\_interval\_ms\_}},}
+\DoxyCodeLine{\Hypertarget{cp__modbus__connection_8cpp_source_l00089}00089\ \ \ \ \ \mbox{\hyperlink{classcl__modbus__tcp__relay_1_1CpModbusConnection_ab07003c45713039da61c507c2e14966e}{connect\_on\_init\_}}\ ?\ \textcolor{stringliteral}{"{}true"{}}\ :\ \textcolor{stringliteral}{"{}false"{}});}
+\DoxyCodeLine{\Hypertarget{cp__modbus__connection_8cpp_source_l00090}00090\ }
+\DoxyCodeLine{\Hypertarget{cp__modbus__connection_8cpp_source_l00091}00091\ \ \ \textcolor{comment}{//\ Set\ update\ period\ for\ heartbeat}}
+\DoxyCodeLine{\Hypertarget{cp__modbus__connection_8cpp_source_l00092}00092\ \ \ this-\/>\mbox{\hyperlink{classsmacc2_1_1ISmaccUpdatable_aba34d2c265dc3a911d4efaabc7341dc0}{setUpdatePeriod}}(rclcpp::Duration::from\_seconds(\mbox{\hyperlink{classcl__modbus__tcp__relay_1_1CpModbusConnection_adf42c0383365da7c4c86badbeca12771}{heartbeat\_interval\_ms\_}}\ /\ 1000.0));}
+\DoxyCodeLine{\Hypertarget{cp__modbus__connection_8cpp_source_l00093}00093\ }
+\DoxyCodeLine{\Hypertarget{cp__modbus__connection_8cpp_source_l00094}00094\ \ \ \textcolor{comment}{//\ Create\ modbus\ context}}
+\DoxyCodeLine{\Hypertarget{cp__modbus__connection_8cpp_source_l00095}00095\ \ \ \mbox{\hyperlink{classcl__modbus__tcp__relay_1_1CpModbusConnection_af89095b9fb88bdec6574cd780fee32f9}{ctx\_}}\ =\ modbus\_new\_tcp(\mbox{\hyperlink{classcl__modbus__tcp__relay_1_1CpModbusConnection_ad1a909030cd11ac08e80f93429f7c791}{ip\_address\_}}.c\_str(),\ \mbox{\hyperlink{classcl__modbus__tcp__relay_1_1CpModbusConnection_a2fd8bd78fe67bad939857de1d6849ee5}{port\_}});}
+\DoxyCodeLine{\Hypertarget{cp__modbus__connection_8cpp_source_l00096}00096\ \ \ \textcolor{keywordflow}{if}\ (\mbox{\hyperlink{classcl__modbus__tcp__relay_1_1CpModbusConnection_af89095b9fb88bdec6574cd780fee32f9}{ctx\_}})}
+\DoxyCodeLine{\Hypertarget{cp__modbus__connection_8cpp_source_l00097}00097\ \ \ \{}
+\DoxyCodeLine{\Hypertarget{cp__modbus__connection_8cpp_source_l00098}00098\ \ \ \ \ modbus\_set\_slave(\mbox{\hyperlink{classcl__modbus__tcp__relay_1_1CpModbusConnection_af89095b9fb88bdec6574cd780fee32f9}{ctx\_}},\ \mbox{\hyperlink{classcl__modbus__tcp__relay_1_1CpModbusConnection_a22977af0b7daf0aa251b13a952e6efef}{slave\_id\_}});}
+\DoxyCodeLine{\Hypertarget{cp__modbus__connection_8cpp_source_l00099}00099\ \ \ \ \ modbus\_set\_response\_timeout(\mbox{\hyperlink{classcl__modbus__tcp__relay_1_1CpModbusConnection_af89095b9fb88bdec6574cd780fee32f9}{ctx\_}},\ 1,\ 0);\ \ \textcolor{comment}{//\ 1\ second\ timeout}}
+\DoxyCodeLine{\Hypertarget{cp__modbus__connection_8cpp_source_l00100}00100\ }
+\DoxyCodeLine{\Hypertarget{cp__modbus__connection_8cpp_source_l00101}00101\ \ \ \ \ \textcolor{keywordflow}{if}\ (\mbox{\hyperlink{classcl__modbus__tcp__relay_1_1CpModbusConnection_ab07003c45713039da61c507c2e14966e}{connect\_on\_init\_}})}
+\DoxyCodeLine{\Hypertarget{cp__modbus__connection_8cpp_source_l00102}00102\ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{cp__modbus__connection_8cpp_source_l00103}00103\ \ \ \ \ \ \ \mbox{\hyperlink{classcl__modbus__tcp__relay_1_1CpModbusConnection_a918aadde01013dc21746128985aad50e}{connect}}();}
+\DoxyCodeLine{\Hypertarget{cp__modbus__connection_8cpp_source_l00104}00104\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{cp__modbus__connection_8cpp_source_l00105}00105\ \ \ \}}
+\DoxyCodeLine{\Hypertarget{cp__modbus__connection_8cpp_source_l00106}00106\ \ \ \textcolor{keywordflow}{else}}
+\DoxyCodeLine{\Hypertarget{cp__modbus__connection_8cpp_source_l00107}00107\ \ \ \{}
+\DoxyCodeLine{\Hypertarget{cp__modbus__connection_8cpp_source_l00108}00108\ \ \ \ \ std::string\ error\_msg\ =\ \textcolor{stringliteral}{"{}Failed\ to\ create\ modbus\ context"{}};}
+\DoxyCodeLine{\Hypertarget{cp__modbus__connection_8cpp_source_l00109}00109\ \ \ \ \ RCLCPP\_ERROR(\mbox{\hyperlink{classsmacc2_1_1ISmaccComponent_a77ee85823bab8d84edcdf5d28782b728}{getLogger}}(),\ \textcolor{stringliteral}{"{}[CpModbusConnection]\ \%s"{}},\ error\_msg.c\_str());}
+\DoxyCodeLine{\Hypertarget{cp__modbus__connection_8cpp_source_l00110}00110\ \ \ \ \ \mbox{\hyperlink{classcl__modbus__tcp__relay_1_1CpModbusConnection_aecb3ca94729c46b5c3e444951db1671f}{onConnectionError\_}}(error\_msg);}
+\DoxyCodeLine{\Hypertarget{cp__modbus__connection_8cpp_source_l00111}00111\ \ \ \}}
+\DoxyCodeLine{\Hypertarget{cp__modbus__connection_8cpp_source_l00112}00112\ \}}
+\DoxyCodeLine{\Hypertarget{cp__modbus__connection_8cpp_source_l00113}00113\ }
+\DoxyCodeLine{\Hypertarget{cp__modbus__connection_8cpp_source_l00114}\mbox{\hyperlink{classcl__modbus__tcp__relay_1_1CpModbusConnection_a918aadde01013dc21746128985aad50e}{00114}}\ \textcolor{keywordtype}{bool}\ \mbox{\hyperlink{classcl__modbus__tcp__relay_1_1CpModbusConnection_a918aadde01013dc21746128985aad50e}{CpModbusConnection::connect}}()}
+\DoxyCodeLine{\Hypertarget{cp__modbus__connection_8cpp_source_l00115}00115\ \{}
+\DoxyCodeLine{\Hypertarget{cp__modbus__connection_8cpp_source_l00116}00116\ \ \ std::lock\_guard<std::mutex>\ lock(\mbox{\hyperlink{classcl__modbus__tcp__relay_1_1CpModbusConnection_aac151cef795f0d723a79816e176cd98b}{mutex\_}});}
+\DoxyCodeLine{\Hypertarget{cp__modbus__connection_8cpp_source_l00117}00117\ }
+\DoxyCodeLine{\Hypertarget{cp__modbus__connection_8cpp_source_l00118}00118\ \ \ \textcolor{keywordflow}{if}\ (!\mbox{\hyperlink{classcl__modbus__tcp__relay_1_1CpModbusConnection_af89095b9fb88bdec6574cd780fee32f9}{ctx\_}})}
+\DoxyCodeLine{\Hypertarget{cp__modbus__connection_8cpp_source_l00119}00119\ \ \ \{}
+\DoxyCodeLine{\Hypertarget{cp__modbus__connection_8cpp_source_l00120}00120\ \ \ \ \ RCLCPP\_ERROR(\mbox{\hyperlink{classsmacc2_1_1ISmaccComponent_a77ee85823bab8d84edcdf5d28782b728}{getLogger}}(),\ \textcolor{stringliteral}{"{}[CpModbusConnection]\ Cannot\ connect:\ context\ is\ null"{}});}
+\DoxyCodeLine{\Hypertarget{cp__modbus__connection_8cpp_source_l00121}00121\ \ \ \ \ \textcolor{keywordflow}{return}\ \textcolor{keyword}{false};}
+\DoxyCodeLine{\Hypertarget{cp__modbus__connection_8cpp_source_l00122}00122\ \ \ \}}
+\DoxyCodeLine{\Hypertarget{cp__modbus__connection_8cpp_source_l00123}00123\ }
+\DoxyCodeLine{\Hypertarget{cp__modbus__connection_8cpp_source_l00124}00124\ \ \ \textcolor{keywordflow}{if}\ (\mbox{\hyperlink{classcl__modbus__tcp__relay_1_1CpModbusConnection_a9086789b54fa10da17394fe3246917a8}{connected\_}})}
+\DoxyCodeLine{\Hypertarget{cp__modbus__connection_8cpp_source_l00125}00125\ \ \ \{}
+\DoxyCodeLine{\Hypertarget{cp__modbus__connection_8cpp_source_l00126}00126\ \ \ \ \ RCLCPP\_DEBUG(\mbox{\hyperlink{classsmacc2_1_1ISmaccComponent_a77ee85823bab8d84edcdf5d28782b728}{getLogger}}(),\ \textcolor{stringliteral}{"{}[CpModbusConnection]\ Already\ connected"{}});}
+\DoxyCodeLine{\Hypertarget{cp__modbus__connection_8cpp_source_l00127}00127\ \ \ \ \ \textcolor{keywordflow}{return}\ \textcolor{keyword}{true};}
+\DoxyCodeLine{\Hypertarget{cp__modbus__connection_8cpp_source_l00128}00128\ \ \ \}}
+\DoxyCodeLine{\Hypertarget{cp__modbus__connection_8cpp_source_l00129}00129\ }
+\DoxyCodeLine{\Hypertarget{cp__modbus__connection_8cpp_source_l00130}00130\ \ \ RCLCPP\_INFO(}
+\DoxyCodeLine{\Hypertarget{cp__modbus__connection_8cpp_source_l00131}00131\ \ \ \ \ \mbox{\hyperlink{classsmacc2_1_1ISmaccComponent_a77ee85823bab8d84edcdf5d28782b728}{getLogger}}(),\ \textcolor{stringliteral}{"{}[CpModbusConnection]\ Connecting\ to\ \%s:\%d..."{}},\ \mbox{\hyperlink{classcl__modbus__tcp__relay_1_1CpModbusConnection_ad1a909030cd11ac08e80f93429f7c791}{ip\_address\_}}.c\_str(),\ \mbox{\hyperlink{classcl__modbus__tcp__relay_1_1CpModbusConnection_a2fd8bd78fe67bad939857de1d6849ee5}{port\_}});}
+\DoxyCodeLine{\Hypertarget{cp__modbus__connection_8cpp_source_l00132}00132\ }
+\DoxyCodeLine{\Hypertarget{cp__modbus__connection_8cpp_source_l00133}00133\ \ \ \textcolor{keywordtype}{int}\ rc\ =\ modbus\_connect(\mbox{\hyperlink{classcl__modbus__tcp__relay_1_1CpModbusConnection_af89095b9fb88bdec6574cd780fee32f9}{ctx\_}});}
+\DoxyCodeLine{\Hypertarget{cp__modbus__connection_8cpp_source_l00134}00134\ \ \ \textcolor{keywordflow}{if}\ (rc\ ==\ -\/1)}
+\DoxyCodeLine{\Hypertarget{cp__modbus__connection_8cpp_source_l00135}00135\ \ \ \{}
+\DoxyCodeLine{\Hypertarget{cp__modbus__connection_8cpp_source_l00136}00136\ \ \ \ \ std::string\ error\_msg\ =\ std::string(\textcolor{stringliteral}{"{}Connection\ failed:\ "{}})\ +\ modbus\_strerror(errno);}
+\DoxyCodeLine{\Hypertarget{cp__modbus__connection_8cpp_source_l00137}00137\ \ \ \ \ RCLCPP\_ERROR(\mbox{\hyperlink{classsmacc2_1_1ISmaccComponent_a77ee85823bab8d84edcdf5d28782b728}{getLogger}}(),\ \textcolor{stringliteral}{"{}[CpModbusConnection]\ \%s"{}},\ error\_msg.c\_str());}
+\DoxyCodeLine{\Hypertarget{cp__modbus__connection_8cpp_source_l00138}00138\ \ \ \ \ \mbox{\hyperlink{classcl__modbus__tcp__relay_1_1CpModbusConnection_aecb3ca94729c46b5c3e444951db1671f}{onConnectionError\_}}(error\_msg);}
+\DoxyCodeLine{\Hypertarget{cp__modbus__connection_8cpp_source_l00139}00139\ \ \ \ \ \textcolor{keywordflow}{return}\ \textcolor{keyword}{false};}
+\DoxyCodeLine{\Hypertarget{cp__modbus__connection_8cpp_source_l00140}00140\ \ \ \}}
+\DoxyCodeLine{\Hypertarget{cp__modbus__connection_8cpp_source_l00141}00141\ }
+\DoxyCodeLine{\Hypertarget{cp__modbus__connection_8cpp_source_l00142}00142\ \ \ \mbox{\hyperlink{classcl__modbus__tcp__relay_1_1CpModbusConnection_a9086789b54fa10da17394fe3246917a8}{connected\_}}\ =\ \textcolor{keyword}{true};}
+\DoxyCodeLine{\Hypertarget{cp__modbus__connection_8cpp_source_l00143}00143\ \ \ RCLCPP\_INFO(\mbox{\hyperlink{classsmacc2_1_1ISmaccComponent_a77ee85823bab8d84edcdf5d28782b728}{getLogger}}(),\ \textcolor{stringliteral}{"{}[CpModbusConnection]\ Connected\ successfully"{}});}
+\DoxyCodeLine{\Hypertarget{cp__modbus__connection_8cpp_source_l00144}00144\ \ \ \textcolor{keywordflow}{return}\ \textcolor{keyword}{true};}
+\DoxyCodeLine{\Hypertarget{cp__modbus__connection_8cpp_source_l00145}00145\ \}}
+\DoxyCodeLine{\Hypertarget{cp__modbus__connection_8cpp_source_l00146}00146\ }
+\DoxyCodeLine{\Hypertarget{cp__modbus__connection_8cpp_source_l00147}\mbox{\hyperlink{classcl__modbus__tcp__relay_1_1CpModbusConnection_af1fb5a1adc188714d5ebce0ca197db27}{00147}}\ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{classcl__modbus__tcp__relay_1_1CpModbusConnection_af1fb5a1adc188714d5ebce0ca197db27}{CpModbusConnection::disconnect}}()}
+\DoxyCodeLine{\Hypertarget{cp__modbus__connection_8cpp_source_l00148}00148\ \{}
+\DoxyCodeLine{\Hypertarget{cp__modbus__connection_8cpp_source_l00149}00149\ \ \ std::lock\_guard<std::mutex>\ lock(\mbox{\hyperlink{classcl__modbus__tcp__relay_1_1CpModbusConnection_aac151cef795f0d723a79816e176cd98b}{mutex\_}});}
+\DoxyCodeLine{\Hypertarget{cp__modbus__connection_8cpp_source_l00150}00150\ }
+\DoxyCodeLine{\Hypertarget{cp__modbus__connection_8cpp_source_l00151}00151\ \ \ \textcolor{keywordflow}{if}\ (\mbox{\hyperlink{classcl__modbus__tcp__relay_1_1CpModbusConnection_af89095b9fb88bdec6574cd780fee32f9}{ctx\_}}\ \&\&\ \mbox{\hyperlink{classcl__modbus__tcp__relay_1_1CpModbusConnection_a9086789b54fa10da17394fe3246917a8}{connected\_}})}
+\DoxyCodeLine{\Hypertarget{cp__modbus__connection_8cpp_source_l00152}00152\ \ \ \{}
+\DoxyCodeLine{\Hypertarget{cp__modbus__connection_8cpp_source_l00153}00153\ \ \ \ \ modbus\_close(\mbox{\hyperlink{classcl__modbus__tcp__relay_1_1CpModbusConnection_af89095b9fb88bdec6574cd780fee32f9}{ctx\_}});}
+\DoxyCodeLine{\Hypertarget{cp__modbus__connection_8cpp_source_l00154}00154\ \ \ \ \ \mbox{\hyperlink{classcl__modbus__tcp__relay_1_1CpModbusConnection_a9086789b54fa10da17394fe3246917a8}{connected\_}}\ =\ \textcolor{keyword}{false};}
+\DoxyCodeLine{\Hypertarget{cp__modbus__connection_8cpp_source_l00155}00155\ \ \ \ \ RCLCPP\_INFO(\mbox{\hyperlink{classsmacc2_1_1ISmaccComponent_a77ee85823bab8d84edcdf5d28782b728}{getLogger}}(),\ \textcolor{stringliteral}{"{}[CpModbusConnection]\ Disconnected"{}});}
+\DoxyCodeLine{\Hypertarget{cp__modbus__connection_8cpp_source_l00156}00156\ \ \ \}}
+\DoxyCodeLine{\Hypertarget{cp__modbus__connection_8cpp_source_l00157}00157\ \}}
+\DoxyCodeLine{\Hypertarget{cp__modbus__connection_8cpp_source_l00158}00158\ }
+\DoxyCodeLine{\Hypertarget{cp__modbus__connection_8cpp_source_l00159}\mbox{\hyperlink{classcl__modbus__tcp__relay_1_1CpModbusConnection_afe636ae2ca3c22a720cd38718e344308}{00159}}\ \textcolor{keywordtype}{bool}\ \mbox{\hyperlink{classcl__modbus__tcp__relay_1_1CpModbusConnection_afe636ae2ca3c22a720cd38718e344308}{CpModbusConnection::reconnect}}()}
+\DoxyCodeLine{\Hypertarget{cp__modbus__connection_8cpp_source_l00160}00160\ \{}
+\DoxyCodeLine{\Hypertarget{cp__modbus__connection_8cpp_source_l00161}00161\ \ \ RCLCPP\_INFO(\mbox{\hyperlink{classsmacc2_1_1ISmaccComponent_a77ee85823bab8d84edcdf5d28782b728}{getLogger}}(),\ \textcolor{stringliteral}{"{}[CpModbusConnection]\ Reconnecting..."{}});}
+\DoxyCodeLine{\Hypertarget{cp__modbus__connection_8cpp_source_l00162}00162\ \ \ \mbox{\hyperlink{classcl__modbus__tcp__relay_1_1CpModbusConnection_af1fb5a1adc188714d5ebce0ca197db27}{disconnect}}();}
+\DoxyCodeLine{\Hypertarget{cp__modbus__connection_8cpp_source_l00163}00163\ \ \ \textcolor{keywordflow}{return}\ \mbox{\hyperlink{classcl__modbus__tcp__relay_1_1CpModbusConnection_a918aadde01013dc21746128985aad50e}{connect}}();}
+\DoxyCodeLine{\Hypertarget{cp__modbus__connection_8cpp_source_l00164}00164\ \}}
+\DoxyCodeLine{\Hypertarget{cp__modbus__connection_8cpp_source_l00165}00165\ }
+\DoxyCodeLine{\Hypertarget{cp__modbus__connection_8cpp_source_l00166}\mbox{\hyperlink{classcl__modbus__tcp__relay_1_1CpModbusConnection_aa28e907276ba44c430231bc2663a0330}{00166}}\ \textcolor{keywordtype}{bool}\ \mbox{\hyperlink{classcl__modbus__tcp__relay_1_1CpModbusConnection_aa28e907276ba44c430231bc2663a0330}{CpModbusConnection::isConnected}}()\textcolor{keyword}{\ const}}
+\DoxyCodeLine{\Hypertarget{cp__modbus__connection_8cpp_source_l00167}00167\ \textcolor{keyword}{}\{}
+\DoxyCodeLine{\Hypertarget{cp__modbus__connection_8cpp_source_l00168}00168\ \ \ std::lock\_guard<std::mutex>\ lock(\mbox{\hyperlink{classcl__modbus__tcp__relay_1_1CpModbusConnection_aac151cef795f0d723a79816e176cd98b}{mutex\_}});}
+\DoxyCodeLine{\Hypertarget{cp__modbus__connection_8cpp_source_l00169}00169\ \ \ \textcolor{keywordflow}{return}\ \mbox{\hyperlink{classcl__modbus__tcp__relay_1_1CpModbusConnection_a9086789b54fa10da17394fe3246917a8}{connected\_}};}
+\DoxyCodeLine{\Hypertarget{cp__modbus__connection_8cpp_source_l00170}00170\ \}}
+\DoxyCodeLine{\Hypertarget{cp__modbus__connection_8cpp_source_l00171}00171\ }
+\DoxyCodeLine{\Hypertarget{cp__modbus__connection_8cpp_source_l00172}\mbox{\hyperlink{classcl__modbus__tcp__relay_1_1CpModbusConnection_a2e0f48fab3a5458018da9c4627b3e8df}{00172}}\ modbus\_t\ *\ \mbox{\hyperlink{classcl__modbus__tcp__relay_1_1CpModbusConnection_a2e0f48fab3a5458018da9c4627b3e8df}{CpModbusConnection::getContext}}()\ \{\ \textcolor{keywordflow}{return}\ \mbox{\hyperlink{classcl__modbus__tcp__relay_1_1CpModbusConnection_af89095b9fb88bdec6574cd780fee32f9}{ctx\_}};\ \}}
+\DoxyCodeLine{\Hypertarget{cp__modbus__connection_8cpp_source_l00173}00173\ }
+\DoxyCodeLine{\Hypertarget{cp__modbus__connection_8cpp_source_l00174}\mbox{\hyperlink{classcl__modbus__tcp__relay_1_1CpModbusConnection_a995bcebc02803b08ac3150dadca30d9c}{00174}}\ std::mutex\ \&\ \mbox{\hyperlink{classcl__modbus__tcp__relay_1_1CpModbusConnection_a995bcebc02803b08ac3150dadca30d9c}{CpModbusConnection::getMutex}}()\ \{\ \textcolor{keywordflow}{return}\ \mbox{\hyperlink{classcl__modbus__tcp__relay_1_1CpModbusConnection_aac151cef795f0d723a79816e176cd98b}{mutex\_}};\ \}}
+\DoxyCodeLine{\Hypertarget{cp__modbus__connection_8cpp_source_l00175}00175\ }
+\DoxyCodeLine{\Hypertarget{cp__modbus__connection_8cpp_source_l00176}\mbox{\hyperlink{classcl__modbus__tcp__relay_1_1CpModbusConnection_aa2800cbb86cc96e788ab715ed9568537}{00176}}\ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{classcl__modbus__tcp__relay_1_1CpModbusConnection_aa2800cbb86cc96e788ab715ed9568537}{CpModbusConnection::update}}()}
+\DoxyCodeLine{\Hypertarget{cp__modbus__connection_8cpp_source_l00177}00177\ \{}
+\DoxyCodeLine{\Hypertarget{cp__modbus__connection_8cpp_source_l00178}00178\ \ \ std::lock\_guard<std::mutex>\ lock(\mbox{\hyperlink{classcl__modbus__tcp__relay_1_1CpModbusConnection_aac151cef795f0d723a79816e176cd98b}{mutex\_}});}
+\DoxyCodeLine{\Hypertarget{cp__modbus__connection_8cpp_source_l00179}00179\ }
+\DoxyCodeLine{\Hypertarget{cp__modbus__connection_8cpp_source_l00180}00180\ \ \ \textcolor{keywordflow}{if}\ (!\mbox{\hyperlink{classcl__modbus__tcp__relay_1_1CpModbusConnection_af89095b9fb88bdec6574cd780fee32f9}{ctx\_}})}
+\DoxyCodeLine{\Hypertarget{cp__modbus__connection_8cpp_source_l00181}00181\ \ \ \{}
+\DoxyCodeLine{\Hypertarget{cp__modbus__connection_8cpp_source_l00182}00182\ \ \ \ \ \textcolor{keywordflow}{return};}
+\DoxyCodeLine{\Hypertarget{cp__modbus__connection_8cpp_source_l00183}00183\ \ \ \}}
+\DoxyCodeLine{\Hypertarget{cp__modbus__connection_8cpp_source_l00184}00184\ }
+\DoxyCodeLine{\Hypertarget{cp__modbus__connection_8cpp_source_l00185}00185\ \ \ \textcolor{keywordflow}{if}\ (!\mbox{\hyperlink{classcl__modbus__tcp__relay_1_1CpModbusConnection_a9086789b54fa10da17394fe3246917a8}{connected\_}})}
+\DoxyCodeLine{\Hypertarget{cp__modbus__connection_8cpp_source_l00186}00186\ \ \ \{}
+\DoxyCodeLine{\Hypertarget{cp__modbus__connection_8cpp_source_l00187}00187\ \ \ \ \ \textcolor{comment}{//\ Try\ to\ reconnect\ if\ not\ connected}}
+\DoxyCodeLine{\Hypertarget{cp__modbus__connection_8cpp_source_l00188}00188\ \ \ \ \ RCLCPP\_DEBUG(\mbox{\hyperlink{classsmacc2_1_1ISmaccComponent_a77ee85823bab8d84edcdf5d28782b728}{getLogger}}(),\ \textcolor{stringliteral}{"{}[CpModbusConnection]\ Not\ connected,\ attempting\ to\ connect..."{}});}
+\DoxyCodeLine{\Hypertarget{cp__modbus__connection_8cpp_source_l00189}00189\ \ \ \ \ \textcolor{keywordtype}{int}\ rc\ =\ modbus\_connect(\mbox{\hyperlink{classcl__modbus__tcp__relay_1_1CpModbusConnection_af89095b9fb88bdec6574cd780fee32f9}{ctx\_}});}
+\DoxyCodeLine{\Hypertarget{cp__modbus__connection_8cpp_source_l00190}00190\ \ \ \ \ \textcolor{keywordflow}{if}\ (rc\ ==\ 0)}
+\DoxyCodeLine{\Hypertarget{cp__modbus__connection_8cpp_source_l00191}00191\ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{cp__modbus__connection_8cpp_source_l00192}00192\ \ \ \ \ \ \ \mbox{\hyperlink{classcl__modbus__tcp__relay_1_1CpModbusConnection_a9086789b54fa10da17394fe3246917a8}{connected\_}}\ =\ \textcolor{keyword}{true};}
+\DoxyCodeLine{\Hypertarget{cp__modbus__connection_8cpp_source_l00193}00193\ \ \ \ \ \ \ RCLCPP\_INFO(\mbox{\hyperlink{classsmacc2_1_1ISmaccComponent_a77ee85823bab8d84edcdf5d28782b728}{getLogger}}(),\ \textcolor{stringliteral}{"{}[CpModbusConnection]\ Connection\ restored"{}});}
+\DoxyCodeLine{\Hypertarget{cp__modbus__connection_8cpp_source_l00194}00194\ \ \ \ \ \ \ \mbox{\hyperlink{classcl__modbus__tcp__relay_1_1CpModbusConnection_a672ea38ca511327b2b5f6a3f06dc5c91}{onConnectionRestored\_}}();}
+\DoxyCodeLine{\Hypertarget{cp__modbus__connection_8cpp_source_l00195}00195\ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (\mbox{\hyperlink{classcl__modbus__tcp__relay_1_1CpModbusConnection_a862bd923a8939147abffe8624201ef69}{postConnectionRestoredEvent\_}})}
+\DoxyCodeLine{\Hypertarget{cp__modbus__connection_8cpp_source_l00196}00196\ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{cp__modbus__connection_8cpp_source_l00197}00197\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{classcl__modbus__tcp__relay_1_1CpModbusConnection_a862bd923a8939147abffe8624201ef69}{postConnectionRestoredEvent\_}}();}
+\DoxyCodeLine{\Hypertarget{cp__modbus__connection_8cpp_source_l00198}00198\ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{cp__modbus__connection_8cpp_source_l00199}00199\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{cp__modbus__connection_8cpp_source_l00200}00200\ \ \ \ \ \textcolor{keywordflow}{return};}
+\DoxyCodeLine{\Hypertarget{cp__modbus__connection_8cpp_source_l00201}00201\ \ \ \}}
+\DoxyCodeLine{\Hypertarget{cp__modbus__connection_8cpp_source_l00202}00202\ }
+\DoxyCodeLine{\Hypertarget{cp__modbus__connection_8cpp_source_l00203}00203\ \ \ \textcolor{comment}{//\ Heartbeat:\ Try\ to\ read\ a\ single\ coil\ to\ verify\ connectivity}}
+\DoxyCodeLine{\Hypertarget{cp__modbus__connection_8cpp_source_l00204}00204\ \ \ uint8\_t\ status;}
+\DoxyCodeLine{\Hypertarget{cp__modbus__connection_8cpp_source_l00205}00205\ \ \ \textcolor{keywordtype}{int}\ rc\ =\ modbus\_read\_bits(\mbox{\hyperlink{classcl__modbus__tcp__relay_1_1CpModbusConnection_af89095b9fb88bdec6574cd780fee32f9}{ctx\_}},\ 0x0000,\ 1,\ \&status);}
+\DoxyCodeLine{\Hypertarget{cp__modbus__connection_8cpp_source_l00206}00206\ }
+\DoxyCodeLine{\Hypertarget{cp__modbus__connection_8cpp_source_l00207}00207\ \ \ \textcolor{keywordflow}{if}\ (rc\ ==\ -\/1)}
+\DoxyCodeLine{\Hypertarget{cp__modbus__connection_8cpp_source_l00208}00208\ \ \ \{}
+\DoxyCodeLine{\Hypertarget{cp__modbus__connection_8cpp_source_l00209}00209\ \ \ \ \ \mbox{\hyperlink{classcl__modbus__tcp__relay_1_1CpModbusConnection_a9086789b54fa10da17394fe3246917a8}{connected\_}}\ =\ \textcolor{keyword}{false};}
+\DoxyCodeLine{\Hypertarget{cp__modbus__connection_8cpp_source_l00210}00210\ \ \ \ \ std::string\ error\_msg\ =\ modbus\_strerror(errno);}
+\DoxyCodeLine{\Hypertarget{cp__modbus__connection_8cpp_source_l00211}00211\ \ \ \ \ RCLCPP\_WARN(\mbox{\hyperlink{classsmacc2_1_1ISmaccComponent_a77ee85823bab8d84edcdf5d28782b728}{getLogger}}(),\ \textcolor{stringliteral}{"{}[CpModbusConnection]\ Heartbeat\ failed:\ \%s"{}},\ error\_msg.c\_str());}
+\DoxyCodeLine{\Hypertarget{cp__modbus__connection_8cpp_source_l00212}00212\ \ \ \ \ \mbox{\hyperlink{classcl__modbus__tcp__relay_1_1CpModbusConnection_a26dae6e259428d39339212ec896d3557}{onConnectionLost\_}}();}
+\DoxyCodeLine{\Hypertarget{cp__modbus__connection_8cpp_source_l00213}00213\ \ \ \ \ \textcolor{keywordflow}{if}\ (\mbox{\hyperlink{classcl__modbus__tcp__relay_1_1CpModbusConnection_a324bec0d6f21ede9efda4ccbc7e438fb}{postConnectionLostEvent\_}})}
+\DoxyCodeLine{\Hypertarget{cp__modbus__connection_8cpp_source_l00214}00214\ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{cp__modbus__connection_8cpp_source_l00215}00215\ \ \ \ \ \ \ \mbox{\hyperlink{classcl__modbus__tcp__relay_1_1CpModbusConnection_a324bec0d6f21ede9efda4ccbc7e438fb}{postConnectionLostEvent\_}}();}
+\DoxyCodeLine{\Hypertarget{cp__modbus__connection_8cpp_source_l00216}00216\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{cp__modbus__connection_8cpp_source_l00217}00217\ \ \ \}}
+\DoxyCodeLine{\Hypertarget{cp__modbus__connection_8cpp_source_l00218}00218\ \ \ \textcolor{keywordflow}{else}}
+\DoxyCodeLine{\Hypertarget{cp__modbus__connection_8cpp_source_l00219}00219\ \ \ \{}
+\DoxyCodeLine{\Hypertarget{cp__modbus__connection_8cpp_source_l00220}00220\ \ \ \ \ RCLCPP\_DEBUG(\mbox{\hyperlink{classsmacc2_1_1ISmaccComponent_a77ee85823bab8d84edcdf5d28782b728}{getLogger}}(),\ \textcolor{stringliteral}{"{}[CpModbusConnection]\ Heartbeat\ OK\ (coil\ 0\ status:\ \%d)"{}},\ status);}
+\DoxyCodeLine{\Hypertarget{cp__modbus__connection_8cpp_source_l00221}00221\ \ \ \}}
+\DoxyCodeLine{\Hypertarget{cp__modbus__connection_8cpp_source_l00222}00222\ \}}
+\DoxyCodeLine{\Hypertarget{cp__modbus__connection_8cpp_source_l00223}00223\ }
+\DoxyCodeLine{\Hypertarget{cp__modbus__connection_8cpp_source_l00224}00224\ \}\ \ \textcolor{comment}{//\ namespace\ cl\_modbus\_tcp\_relay}}
+
+\end{DoxyCode}

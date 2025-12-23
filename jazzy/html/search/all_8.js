@@ -8,13 +8,14 @@ var searchData=
   ['hasspecificnamedonexit_5',['HasSpecificNamedOnExit',['../classsmacc2_1_1HasSpecificNamedOnExit.html',1,'smacc2']]],
   ['hasstandardonexit_6',['HasStandardOnExit',['../classsmacc2_1_1HasStandardOnExit.html',1,'smacc2']]],
   ['have_5fnew_5fyamlcpp_7',['HAVE_NEW_YAMLCPP',['../cb__move__known__state_8hpp.html#a8f298134094422968fe45aeb8b32b9aa',1,'HAVE_NEW_YAMLCPP:&#160;cb_move_known_state.hpp'],['../cp__waypoints__navigator_8cpp.html#a8f298134094422968fe45aeb8b32b9aa',1,'HAVE_NEW_YAMLCPP:&#160;cp_waypoints_navigator.cpp']]],
-  ['historicalposes_5f_8',['historicalPoses_',['../structcl__foundation__pose_1_1DetectedObject.html#aab58a34d28b9f95d8cc7704afdec5e72',1,'cl_foundation_pose::DetectedObject']]],
-  ['historynode_9',['historyNode',['../structsmacc2_1_1introspection_1_1SmaccTransitionInfo.html#a091920ae341aa044c623f5542e795386',1,'smacc2::introspection::SmaccTransitionInfo']]],
-  ['http_5fsession_10',['http_session',['../classcl__http_1_1http__session.html',1,'cl_http::http_session'],['../classcl__http_1_1http__session.html#a4adc34a7d7a1c096dcd36d3313e6ceb1',1,'cl_http::http_session::http_session()']]],
-  ['http_5fsession_2ecpp_11',['http_session.cpp',['../http__session_8cpp.html',1,'']]],
-  ['http_5fsession_2ehpp_12',['http_session.hpp',['../http__session_8hpp.html',1,'']]],
-  ['http_5fsession_5fbase_13',['http_session_base',['../classcl__http_1_1http__session__base.html',1,'cl_http']]],
-  ['http_5fsession_5fbase_2ehpp_14',['http_session_base.hpp',['../http__session__base_8hpp.html',1,'']]],
-  ['http_5fversion_15',['HTTP_VERSION',['../classcl__http_1_1ClHttp.html#aabb28ef5886dc64343fde985c071ec1f',1,'cl_http::ClHttp::HTTP_VERSION'],['../classcl__http_1_1CpHttpRequestExecutor.html#ae6f08e334b748b5f310085b71ab4fe7c',1,'cl_http::CpHttpRequestExecutor::HTTP_VERSION']]],
-  ['httpmethod_16',['HttpMethod',['../classcl__http_1_1CpHttpRequestExecutor.html#a472a32e60c2369ab883f3c1e704f7283',1,'cl_http::CpHttpRequestExecutor']]]
+  ['heartbeat_5finterval_5fms_5f_8',['heartbeat_interval_ms_',['../classcl__modbus__tcp__relay_1_1CpModbusConnection.html#adf42c0383365da7c4c86badbeca12771',1,'cl_modbus_tcp_relay::CpModbusConnection']]],
+  ['historicalposes_5f_9',['historicalPoses_',['../structcl__foundation__pose_1_1DetectedObject.html#aab58a34d28b9f95d8cc7704afdec5e72',1,'cl_foundation_pose::DetectedObject']]],
+  ['historynode_10',['historyNode',['../structsmacc2_1_1introspection_1_1SmaccTransitionInfo.html#a091920ae341aa044c623f5542e795386',1,'smacc2::introspection::SmaccTransitionInfo']]],
+  ['http_5fsession_11',['http_session',['../classcl__http_1_1http__session.html',1,'cl_http::http_session'],['../classcl__http_1_1http__session.html#a4adc34a7d7a1c096dcd36d3313e6ceb1',1,'cl_http::http_session::http_session()']]],
+  ['http_5fsession_2ecpp_12',['http_session.cpp',['../http__session_8cpp.html',1,'']]],
+  ['http_5fsession_2ehpp_13',['http_session.hpp',['../http__session_8hpp.html',1,'']]],
+  ['http_5fsession_5fbase_14',['http_session_base',['../classcl__http_1_1http__session__base.html',1,'cl_http']]],
+  ['http_5fsession_5fbase_2ehpp_15',['http_session_base.hpp',['../http__session__base_8hpp.html',1,'']]],
+  ['http_5fversion_16',['HTTP_VERSION',['../classcl__http_1_1ClHttp.html#aabb28ef5886dc64343fde985c071ec1f',1,'cl_http::ClHttp::HTTP_VERSION'],['../classcl__http_1_1CpHttpRequestExecutor.html#ae6f08e334b748b5f310085b71ab4fe7c',1,'cl_http::CpHttpRequestExecutor::HTTP_VERSION']]],
+  ['httpmethod_17',['HttpMethod',['../classcl__http_1_1CpHttpRequestExecutor.html#a472a32e60c2369ab883f3c1e704f7283',1,'cl_http::CpHttpRequestExecutor']]]
 ];
