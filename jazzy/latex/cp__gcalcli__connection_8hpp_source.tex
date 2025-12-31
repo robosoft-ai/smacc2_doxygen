@@ -1,0 +1,125 @@
+\doxysection{cp\+\_\+gcalcli\+\_\+connection.\+hpp}
+\hypertarget{cp__gcalcli__connection_8hpp_source}{}\label{cp__gcalcli__connection_8hpp_source}\index{smacc2\_client\_library/cl\_gcalcli/include/cl\_gcalcli/components/cp\_gcalcli\_connection.hpp@{smacc2\_client\_library/cl\_gcalcli/include/cl\_gcalcli/components/cp\_gcalcli\_connection.hpp}}
+\mbox{\hyperlink{cp__gcalcli__connection_8hpp}{Go to the documentation of this file.}}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\Hypertarget{cp__gcalcli__connection_8hpp_source_l00001}00001\ \textcolor{comment}{//\ Copyright\ 2024\ RobosoftAI\ Inc.}}
+\DoxyCodeLine{\Hypertarget{cp__gcalcli__connection_8hpp_source_l00002}00002\ \textcolor{comment}{//}}
+\DoxyCodeLine{\Hypertarget{cp__gcalcli__connection_8hpp_source_l00003}00003\ \textcolor{comment}{//\ Licensed\ under\ the\ Apache\ License,\ Version\ 2.0\ (the\ "{}License"{});}}
+\DoxyCodeLine{\Hypertarget{cp__gcalcli__connection_8hpp_source_l00004}00004\ \textcolor{comment}{//\ you\ may\ not\ use\ this\ file\ except\ in\ compliance\ with\ the\ License.}}
+\DoxyCodeLine{\Hypertarget{cp__gcalcli__connection_8hpp_source_l00005}00005\ \textcolor{comment}{//\ You\ may\ obtain\ a\ copy\ of\ the\ License\ at}}
+\DoxyCodeLine{\Hypertarget{cp__gcalcli__connection_8hpp_source_l00006}00006\ \textcolor{comment}{//}}
+\DoxyCodeLine{\Hypertarget{cp__gcalcli__connection_8hpp_source_l00007}00007\ \textcolor{comment}{//\ \ \ \ \ http://www.apache.org/licenses/LICENSE-\/2.0}}
+\DoxyCodeLine{\Hypertarget{cp__gcalcli__connection_8hpp_source_l00008}00008\ \textcolor{comment}{//}}
+\DoxyCodeLine{\Hypertarget{cp__gcalcli__connection_8hpp_source_l00009}00009\ \textcolor{comment}{//\ Unless\ required\ by\ applicable\ law\ or\ agreed\ to\ in\ writing,\ software}}
+\DoxyCodeLine{\Hypertarget{cp__gcalcli__connection_8hpp_source_l00010}00010\ \textcolor{comment}{//\ distributed\ under\ the\ License\ is\ distributed\ on\ an\ "{}AS\ IS"{}\ BASIS,}}
+\DoxyCodeLine{\Hypertarget{cp__gcalcli__connection_8hpp_source_l00011}00011\ \textcolor{comment}{//\ WITHOUT\ WARRANTIES\ OR\ CONDITIONS\ OF\ ANY\ KIND,\ either\ express\ or\ implied.}}
+\DoxyCodeLine{\Hypertarget{cp__gcalcli__connection_8hpp_source_l00012}00012\ \textcolor{comment}{//\ See\ the\ License\ for\ the\ specific\ language\ governing\ permissions\ and}}
+\DoxyCodeLine{\Hypertarget{cp__gcalcli__connection_8hpp_source_l00013}00013\ \textcolor{comment}{//\ limitations\ under\ the\ License.}}
+\DoxyCodeLine{\Hypertarget{cp__gcalcli__connection_8hpp_source_l00014}00014\ }
+\DoxyCodeLine{\Hypertarget{cp__gcalcli__connection_8hpp_source_l00015}00015\ \textcolor{preprocessor}{\#pragma\ once}}
+\DoxyCodeLine{\Hypertarget{cp__gcalcli__connection_8hpp_source_l00016}00016\ }
+\DoxyCodeLine{\Hypertarget{cp__gcalcli__connection_8hpp_source_l00017}00017\ \textcolor{preprocessor}{\#include\ <chrono>}}
+\DoxyCodeLine{\Hypertarget{cp__gcalcli__connection_8hpp_source_l00018}00018\ \textcolor{preprocessor}{\#include\ <functional>}}
+\DoxyCodeLine{\Hypertarget{cp__gcalcli__connection_8hpp_source_l00019}00019\ \textcolor{preprocessor}{\#include\ <mutex>}}
+\DoxyCodeLine{\Hypertarget{cp__gcalcli__connection_8hpp_source_l00020}00020\ \textcolor{preprocessor}{\#include\ <string>}}
+\DoxyCodeLine{\Hypertarget{cp__gcalcli__connection_8hpp_source_l00021}00021\ }
+\DoxyCodeLine{\Hypertarget{cp__gcalcli__connection_8hpp_source_l00022}00022\ \textcolor{preprocessor}{\#include\ <rclcpp/rclcpp.hpp>}}
+\DoxyCodeLine{\Hypertarget{cp__gcalcli__connection_8hpp_source_l00023}00023\ \textcolor{preprocessor}{\#include\ <\mbox{\hyperlink{cp__subprocess__executor_8hpp}{smacc2/client\_core\_components/cp\_subprocess\_executor.hpp}}>}}
+\DoxyCodeLine{\Hypertarget{cp__gcalcli__connection_8hpp_source_l00024}00024\ \textcolor{preprocessor}{\#include\ <\mbox{\hyperlink{smacc_8hpp}{smacc2/smacc.hpp}}>}}
+\DoxyCodeLine{\Hypertarget{cp__gcalcli__connection_8hpp_source_l00025}00025\ }
+\DoxyCodeLine{\Hypertarget{cp__gcalcli__connection_8hpp_source_l00026}00026\ \textcolor{preprocessor}{\#include\ <\mbox{\hyperlink{events_8hpp}{cl\_gcalcli/events.hpp}}>}}
+\DoxyCodeLine{\Hypertarget{cp__gcalcli__connection_8hpp_source_l00027}00027\ \textcolor{preprocessor}{\#include\ <\mbox{\hyperlink{types_8hpp}{cl\_gcalcli/types.hpp}}>}}
+\DoxyCodeLine{\Hypertarget{cp__gcalcli__connection_8hpp_source_l00028}00028\ }
+\DoxyCodeLine{\Hypertarget{cp__gcalcli__connection_8hpp_source_l00029}00029\ \textcolor{keyword}{namespace\ }\mbox{\hyperlink{namespacecl__gcalcli}{cl\_gcalcli}}}
+\DoxyCodeLine{\Hypertarget{cp__gcalcli__connection_8hpp_source_l00030}00030\ \{}
+\DoxyCodeLine{\Hypertarget{cp__gcalcli__connection_8hpp_source_l00031}00031\ }
+\DoxyCodeLine{\Hypertarget{cp__gcalcli__connection_8hpp_source_l00042}\mbox{\hyperlink{classcl__gcalcli_1_1CpGcalcliConnection}{00042}}\ \textcolor{keyword}{class\ }\mbox{\hyperlink{classcl__gcalcli_1_1CpGcalcliConnection}{CpGcalcliConnection}}\ :\ \textcolor{keyword}{public}\ \mbox{\hyperlink{classsmacc2_1_1ISmaccComponent}{smacc2::ISmaccComponent}},\ \textcolor{keyword}{public}\ \mbox{\hyperlink{classsmacc2_1_1ISmaccUpdatable}{smacc2::ISmaccUpdatable}}}
+\DoxyCodeLine{\Hypertarget{cp__gcalcli__connection_8hpp_source_l00043}00043\ \{}
+\DoxyCodeLine{\Hypertarget{cp__gcalcli__connection_8hpp_source_l00044}00044\ \textcolor{keyword}{public}:}
+\DoxyCodeLine{\Hypertarget{cp__gcalcli__connection_8hpp_source_l00045}00045\ \ \ \mbox{\hyperlink{classcl__gcalcli_1_1CpGcalcliConnection_a87a6da9163bfd4bb3b83034c1bd9b422}{CpGcalcliConnection}}();}
+\DoxyCodeLine{\Hypertarget{cp__gcalcli__connection_8hpp_source_l00046}\mbox{\hyperlink{classcl__gcalcli_1_1CpGcalcliConnection_a7e094c935d72ea7368e146fa8641de9c}{00046}}\ \ \ \textcolor{keyword}{virtual}\ \mbox{\hyperlink{classcl__gcalcli_1_1CpGcalcliConnection_a7e094c935d72ea7368e146fa8641de9c}{\string~CpGcalcliConnection}}()\ =\ \textcolor{keywordflow}{default};}
+\DoxyCodeLine{\Hypertarget{cp__gcalcli__connection_8hpp_source_l00047}00047\ }
+\DoxyCodeLine{\Hypertarget{cp__gcalcli__connection_8hpp_source_l00048}00048\ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{classcl__gcalcli_1_1CpGcalcliConnection_aa96e9729de7323cdc40455e0e714ddaa}{onInitialize}}()\ \textcolor{keyword}{override};}
+\DoxyCodeLine{\Hypertarget{cp__gcalcli__connection_8hpp_source_l00049}00049\ }
+\DoxyCodeLine{\Hypertarget{cp__gcalcli__connection_8hpp_source_l00053}00053\ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{classcl__gcalcli_1_1CpGcalcliConnection_aa7cd1eff8d989667b5b0d7103394c827}{configure}}(\textcolor{keyword}{const}\ \mbox{\hyperlink{structcl__gcalcli_1_1GcalcliConfig}{GcalcliConfig}}\ \&\ config);}
+\DoxyCodeLine{\Hypertarget{cp__gcalcli__connection_8hpp_source_l00054}00054\ }
+\DoxyCodeLine{\Hypertarget{cp__gcalcli__connection_8hpp_source_l00058}00058\ \ \ \mbox{\hyperlink{namespacecl__gcalcli_a668a0d0d2ed50beda7c26da498960301}{ConnectionState}}\ \mbox{\hyperlink{classcl__gcalcli_1_1CpGcalcliConnection_a001aeb69c09b7637480d5c4249a0f05c}{getConnectionState}}()\ \textcolor{keyword}{const};}
+\DoxyCodeLine{\Hypertarget{cp__gcalcli__connection_8hpp_source_l00059}00059\ }
+\DoxyCodeLine{\Hypertarget{cp__gcalcli__connection_8hpp_source_l00063}00063\ \ \ \textcolor{keywordtype}{bool}\ \mbox{\hyperlink{classcl__gcalcli_1_1CpGcalcliConnection_a4ee3af6a3551c1652bfe97767aab96b2}{isConnected}}()\ \textcolor{keyword}{const};}
+\DoxyCodeLine{\Hypertarget{cp__gcalcli__connection_8hpp_source_l00064}00064\ }
+\DoxyCodeLine{\Hypertarget{cp__gcalcli__connection_8hpp_source_l00069}00069\ \ \ \textcolor{keywordtype}{bool}\ \mbox{\hyperlink{classcl__gcalcli_1_1CpGcalcliConnection_a941608628f80b52454fff5095e87d00d}{checkConnection}}();}
+\DoxyCodeLine{\Hypertarget{cp__gcalcli__connection_8hpp_source_l00070}00070\ }
+\DoxyCodeLine{\Hypertarget{cp__gcalcli__connection_8hpp_source_l00074}00074\ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{classcl__gcalcli_1_1CpGcalcliConnection_a34bae963eb3539382583a687a4342a87}{restartConnection}}();}
+\DoxyCodeLine{\Hypertarget{cp__gcalcli__connection_8hpp_source_l00075}00075\ }
+\DoxyCodeLine{\Hypertarget{cp__gcalcli__connection_8hpp_source_l00082}00082\ \ \ \mbox{\hyperlink{structsmacc2_1_1client__core__components_1_1SubprocessResult}{smacc2::client\_core\_components::SubprocessResult}}\ \mbox{\hyperlink{classcl__gcalcli_1_1CpGcalcliConnection_a7b07a154a0bade4a23ff840c327c2232}{executeGcalcli}}(}
+\DoxyCodeLine{\Hypertarget{cp__gcalcli__connection_8hpp_source_l00083}00083\ \ \ \ \ \textcolor{keyword}{const}\ std::string\ \&\ args,\ \textcolor{keywordtype}{int}\ timeout\_ms\ =\ 30000);}
+\DoxyCodeLine{\Hypertarget{cp__gcalcli__connection_8hpp_source_l00084}00084\ }
+\DoxyCodeLine{\Hypertarget{cp__gcalcli__connection_8hpp_source_l00088}\mbox{\hyperlink{classcl__gcalcli_1_1CpGcalcliConnection_a206e3ab5298fa1f853d69aba12111e4b}{00088}}\ \ \ \textcolor{keyword}{const}\ \mbox{\hyperlink{structcl__gcalcli_1_1GcalcliConfig}{GcalcliConfig}}\ \&\ \mbox{\hyperlink{classcl__gcalcli_1_1CpGcalcliConnection_a206e3ab5298fa1f853d69aba12111e4b}{getConfig}}()\textcolor{keyword}{\ const\ }\{\ \textcolor{keywordflow}{return}\ \mbox{\hyperlink{classcl__gcalcli_1_1CpGcalcliConnection_afd30c8fef7f33d2130186e9b037503e4}{config\_}};\ \}}
+\DoxyCodeLine{\Hypertarget{cp__gcalcli__connection_8hpp_source_l00089}00089\ }
+\DoxyCodeLine{\Hypertarget{cp__gcalcli__connection_8hpp_source_l00090}00090\ \ \ \textcolor{comment}{//\ Signals}}
+\DoxyCodeLine{\Hypertarget{cp__gcalcli__connection_8hpp_source_l00091}\mbox{\hyperlink{classcl__gcalcli_1_1CpGcalcliConnection_a307c3156cde78196a88e964975ff873b}{00091}}\ \ \ \mbox{\hyperlink{classsmacc2_1_1SmaccSignal}{smacc2::SmaccSignal}}<void()>\ \mbox{\hyperlink{classcl__gcalcli_1_1CpGcalcliConnection_a307c3156cde78196a88e964975ff873b}{onConnectionLost\_}};}
+\DoxyCodeLine{\Hypertarget{cp__gcalcli__connection_8hpp_source_l00092}\mbox{\hyperlink{classcl__gcalcli_1_1CpGcalcliConnection_a6b7636fec2fbb1259be76e1e2eb24c9c}{00092}}\ \ \ \mbox{\hyperlink{classsmacc2_1_1SmaccSignal}{smacc2::SmaccSignal}}<void()>\ \mbox{\hyperlink{classcl__gcalcli_1_1CpGcalcliConnection_a6b7636fec2fbb1259be76e1e2eb24c9c}{onConnectionRestored\_}};}
+\DoxyCodeLine{\Hypertarget{cp__gcalcli__connection_8hpp_source_l00093}\mbox{\hyperlink{classcl__gcalcli_1_1CpGcalcliConnection_a316770ae8ca45c46bd1507e447d4a2e5}{00093}}\ \ \ \mbox{\hyperlink{classsmacc2_1_1SmaccSignal}{smacc2::SmaccSignal}}<void()>\ \mbox{\hyperlink{classcl__gcalcli_1_1CpGcalcliConnection_a316770ae8ca45c46bd1507e447d4a2e5}{onAuthenticationRequired\_}};}
+\DoxyCodeLine{\Hypertarget{cp__gcalcli__connection_8hpp_source_l00094}00094\ }
+\DoxyCodeLine{\Hypertarget{cp__gcalcli__connection_8hpp_source_l00095}00095\ \ \ \textcolor{comment}{//\ Signal\ connection\ helpers}}
+\DoxyCodeLine{\Hypertarget{cp__gcalcli__connection_8hpp_source_l00096}00096\ \ \ \textcolor{keyword}{template}\ <\textcolor{keyword}{typename}\ T>}
+\DoxyCodeLine{\Hypertarget{cp__gcalcli__connection_8hpp_source_l00097}\mbox{\hyperlink{classcl__gcalcli_1_1CpGcalcliConnection_a7310c54ab9a3a3cfd5bf20034fe01494}{00097}}\ \ \ \mbox{\hyperlink{namespacesmacc2_a5a5bb8f06eff3a799445f680c8e22c88}{smacc2::SmaccSignalConnection}}\ \mbox{\hyperlink{classcl__gcalcli_1_1CpGcalcliConnection_a7310c54ab9a3a3cfd5bf20034fe01494}{onConnectionLost}}(\textcolor{keywordtype}{void}\ (T::*callback)(),\ T\ *\ \textcolor{keywordtype}{object})}
+\DoxyCodeLine{\Hypertarget{cp__gcalcli__connection_8hpp_source_l00098}00098\ \ \ \{}
+\DoxyCodeLine{\Hypertarget{cp__gcalcli__connection_8hpp_source_l00099}00099\ \ \ \ \ \textcolor{keywordflow}{return}\ this-\/>\mbox{\hyperlink{classsmacc2_1_1ISmaccComponent_a420ef07087efcdc74fb233f11ae3a517}{getStateMachine}}()-\/>\mbox{\hyperlink{classsmacc2_1_1ISmaccStateMachine_a5a7796e13095b776bdd9a112d018e0f0}{createSignalConnection}}(onConnectionLost\_,\ callback,\ \textcolor{keywordtype}{object});}
+\DoxyCodeLine{\Hypertarget{cp__gcalcli__connection_8hpp_source_l00100}00100\ \ \ \}}
+\DoxyCodeLine{\Hypertarget{cp__gcalcli__connection_8hpp_source_l00101}00101\ }
+\DoxyCodeLine{\Hypertarget{cp__gcalcli__connection_8hpp_source_l00102}00102\ \ \ \textcolor{keyword}{template}\ <\textcolor{keyword}{typename}\ T>}
+\DoxyCodeLine{\Hypertarget{cp__gcalcli__connection_8hpp_source_l00103}\mbox{\hyperlink{classcl__gcalcli_1_1CpGcalcliConnection_ac2828a9c08cd26af58060f7c9f9f9986}{00103}}\ \ \ \mbox{\hyperlink{namespacesmacc2_a5a5bb8f06eff3a799445f680c8e22c88}{smacc2::SmaccSignalConnection}}\ \mbox{\hyperlink{classcl__gcalcli_1_1CpGcalcliConnection_ac2828a9c08cd26af58060f7c9f9f9986}{onConnectionRestored}}(\textcolor{keywordtype}{void}\ (T::*callback)(),\ T\ *\ \textcolor{keywordtype}{object})}
+\DoxyCodeLine{\Hypertarget{cp__gcalcli__connection_8hpp_source_l00104}00104\ \ \ \{}
+\DoxyCodeLine{\Hypertarget{cp__gcalcli__connection_8hpp_source_l00105}00105\ \ \ \ \ \textcolor{keywordflow}{return}\ this-\/>\mbox{\hyperlink{classsmacc2_1_1ISmaccComponent_a420ef07087efcdc74fb233f11ae3a517}{getStateMachine}}()-\/>\mbox{\hyperlink{classsmacc2_1_1ISmaccStateMachine_a5a7796e13095b776bdd9a112d018e0f0}{createSignalConnection}}(onConnectionRestored\_,\ callback,\ \textcolor{keywordtype}{object});}
+\DoxyCodeLine{\Hypertarget{cp__gcalcli__connection_8hpp_source_l00106}00106\ \ \ \}}
+\DoxyCodeLine{\Hypertarget{cp__gcalcli__connection_8hpp_source_l00107}00107\ }
+\DoxyCodeLine{\Hypertarget{cp__gcalcli__connection_8hpp_source_l00108}00108\ \ \ \textcolor{keyword}{template}\ <\textcolor{keyword}{typename}\ T>}
+\DoxyCodeLine{\Hypertarget{cp__gcalcli__connection_8hpp_source_l00109}\mbox{\hyperlink{classcl__gcalcli_1_1CpGcalcliConnection_ae866e876d66d1f20be2e7cd755f13bb2}{00109}}\ \ \ \mbox{\hyperlink{namespacesmacc2_a5a5bb8f06eff3a799445f680c8e22c88}{smacc2::SmaccSignalConnection}}\ \mbox{\hyperlink{classcl__gcalcli_1_1CpGcalcliConnection_ae866e876d66d1f20be2e7cd755f13bb2}{onAuthenticationRequired}}(\textcolor{keywordtype}{void}\ (T::*callback)(),\ T\ *\ \textcolor{keywordtype}{object})}
+\DoxyCodeLine{\Hypertarget{cp__gcalcli__connection_8hpp_source_l00110}00110\ \ \ \{}
+\DoxyCodeLine{\Hypertarget{cp__gcalcli__connection_8hpp_source_l00111}00111\ \ \ \ \ \textcolor{keywordflow}{return}\ this-\/>\mbox{\hyperlink{classsmacc2_1_1ISmaccComponent_a420ef07087efcdc74fb233f11ae3a517}{getStateMachine}}()-\/>\mbox{\hyperlink{classsmacc2_1_1ISmaccStateMachine_a5a7796e13095b776bdd9a112d018e0f0}{createSignalConnection}}(}
+\DoxyCodeLine{\Hypertarget{cp__gcalcli__connection_8hpp_source_l00112}00112\ \ \ \ \ \ \ onAuthenticationRequired\_,\ callback,\ \textcolor{keywordtype}{object});}
+\DoxyCodeLine{\Hypertarget{cp__gcalcli__connection_8hpp_source_l00113}00113\ \ \ \}}
+\DoxyCodeLine{\Hypertarget{cp__gcalcli__connection_8hpp_source_l00114}00114\ }
+\DoxyCodeLine{\Hypertarget{cp__gcalcli__connection_8hpp_source_l00115}00115\ \ \ \textcolor{comment}{//\ Event\ posting\ function\ -\/\ set\ via\ onStateOrthogonalAllocation}}
+\DoxyCodeLine{\Hypertarget{cp__gcalcli__connection_8hpp_source_l00116}\mbox{\hyperlink{classcl__gcalcli_1_1CpGcalcliConnection_a1ee9ce380308cecfdf9f08f588e763eb}{00116}}\ \ \ std::function<void()>\ \mbox{\hyperlink{classcl__gcalcli_1_1CpGcalcliConnection_a1ee9ce380308cecfdf9f08f588e763eb}{postConnectionLostEvent\_}};}
+\DoxyCodeLine{\Hypertarget{cp__gcalcli__connection_8hpp_source_l00117}\mbox{\hyperlink{classcl__gcalcli_1_1CpGcalcliConnection_a960d3fc006093d645e336d16006d8754}{00117}}\ \ \ std::function<void()>\ \mbox{\hyperlink{classcl__gcalcli_1_1CpGcalcliConnection_a960d3fc006093d645e336d16006d8754}{postConnectionRestoredEvent\_}};}
+\DoxyCodeLine{\Hypertarget{cp__gcalcli__connection_8hpp_source_l00118}\mbox{\hyperlink{classcl__gcalcli_1_1CpGcalcliConnection_a67e5412f66c3324d86db5677d2e303e1}{00118}}\ \ \ std::function<void()>\ \mbox{\hyperlink{classcl__gcalcli_1_1CpGcalcliConnection_a67e5412f66c3324d86db5677d2e303e1}{postAuthenticationRequiredEvent\_}};}
+\DoxyCodeLine{\Hypertarget{cp__gcalcli__connection_8hpp_source_l00119}00119\ }
+\DoxyCodeLine{\Hypertarget{cp__gcalcli__connection_8hpp_source_l00123}00123\ \ \ \textcolor{keyword}{template}\ <\textcolor{keyword}{typename}\ TOrthogonal,\ \textcolor{keyword}{typename}\ TSourceObject>}
+\DoxyCodeLine{\Hypertarget{cp__gcalcli__connection_8hpp_source_l00124}\mbox{\hyperlink{classcl__gcalcli_1_1CpGcalcliConnection_ad09ef2d29ecc2ad68e4ccd89c3965474}{00124}}\ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{classcl__gcalcli_1_1CpGcalcliConnection_ad09ef2d29ecc2ad68e4ccd89c3965474}{onStateOrthogonalAllocation}}()}
+\DoxyCodeLine{\Hypertarget{cp__gcalcli__connection_8hpp_source_l00125}00125\ \ \ \{}
+\DoxyCodeLine{\Hypertarget{cp__gcalcli__connection_8hpp_source_l00126}00126\ \ \ \ \ \mbox{\hyperlink{classcl__gcalcli_1_1CpGcalcliConnection_a1ee9ce380308cecfdf9f08f588e763eb}{postConnectionLostEvent\_}}\ =\ [\textcolor{keyword}{this}]()}
+\DoxyCodeLine{\Hypertarget{cp__gcalcli__connection_8hpp_source_l00127}00127\ \ \ \ \ \{\ this-\/>\mbox{\hyperlink{classsmacc2_1_1ISmaccComponent_a03dd302448a2e186b1059822cff8c669}{postEvent<EvConnectionLost<CpGcalcliConnection,\ TOrthogonal>}}>();\ \};}
+\DoxyCodeLine{\Hypertarget{cp__gcalcli__connection_8hpp_source_l00128}00128\ }
+\DoxyCodeLine{\Hypertarget{cp__gcalcli__connection_8hpp_source_l00129}00129\ \ \ \ \ postConnectionRestoredEvent\_\ =\ [\textcolor{keyword}{this}]()}
+\DoxyCodeLine{\Hypertarget{cp__gcalcli__connection_8hpp_source_l00130}00130\ \ \ \ \ \{\ this-\/>\mbox{\hyperlink{classsmacc2_1_1ISmaccComponent_a03dd302448a2e186b1059822cff8c669}{postEvent<EvConnectionRestored<CpGcalcliConnection,\ TOrthogonal>}}>();\ \};}
+\DoxyCodeLine{\Hypertarget{cp__gcalcli__connection_8hpp_source_l00131}00131\ }
+\DoxyCodeLine{\Hypertarget{cp__gcalcli__connection_8hpp_source_l00132}00132\ \ \ \ \ postAuthenticationRequiredEvent\_\ =\ [\textcolor{keyword}{this}]()}
+\DoxyCodeLine{\Hypertarget{cp__gcalcli__connection_8hpp_source_l00133}00133\ \ \ \ \ \{\ this-\/>\mbox{\hyperlink{classsmacc2_1_1ISmaccComponent_a03dd302448a2e186b1059822cff8c669}{postEvent<EvAuthenticationRequired<CpGcalcliConnection,\ TOrthogonal>}}>();\ \};}
+\DoxyCodeLine{\Hypertarget{cp__gcalcli__connection_8hpp_source_l00134}00134\ \ \ \}}
+\DoxyCodeLine{\Hypertarget{cp__gcalcli__connection_8hpp_source_l00135}00135\ }
+\DoxyCodeLine{\Hypertarget{cp__gcalcli__connection_8hpp_source_l00136}00136\ \textcolor{keyword}{protected}:}
+\DoxyCodeLine{\Hypertarget{cp__gcalcli__connection_8hpp_source_l00140}00140\ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{classcl__gcalcli_1_1CpGcalcliConnection_a451b56ef37a144303932e35d2923d226}{update}}()\ \textcolor{keyword}{override};}
+\DoxyCodeLine{\Hypertarget{cp__gcalcli__connection_8hpp_source_l00141}00141\ }
+\DoxyCodeLine{\Hypertarget{cp__gcalcli__connection_8hpp_source_l00142}00142\ \textcolor{keyword}{private}:}
+\DoxyCodeLine{\Hypertarget{cp__gcalcli__connection_8hpp_source_l00146}00146\ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{classcl__gcalcli_1_1CpGcalcliConnection_abfa8d50804533cc3795c75257e2c5692}{performHeartbeat}}();}
+\DoxyCodeLine{\Hypertarget{cp__gcalcli__connection_8hpp_source_l00147}00147\ }
+\DoxyCodeLine{\Hypertarget{cp__gcalcli__connection_8hpp_source_l00151}00151\ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{classcl__gcalcli_1_1CpGcalcliConnection_a93d04e82270fb1df84c0d8537a04da82}{handleConnectionStateChange}}(\textcolor{keywordtype}{bool}\ success,\ \textcolor{keyword}{const}\ std::string\ \&\ output);}
+\DoxyCodeLine{\Hypertarget{cp__gcalcli__connection_8hpp_source_l00152}00152\ }
+\DoxyCodeLine{\Hypertarget{cp__gcalcli__connection_8hpp_source_l00156}00156\ \ \ \textcolor{keywordtype}{bool}\ \mbox{\hyperlink{classcl__gcalcli_1_1CpGcalcliConnection_a24c441d490235730becad3d312dcccd2}{isAuthenticationError}}(\textcolor{keyword}{const}\ std::string\ \&\ output)\ \textcolor{keyword}{const};}
+\DoxyCodeLine{\Hypertarget{cp__gcalcli__connection_8hpp_source_l00157}00157\ }
+\DoxyCodeLine{\Hypertarget{cp__gcalcli__connection_8hpp_source_l00158}\mbox{\hyperlink{classcl__gcalcli_1_1CpGcalcliConnection_afd30c8fef7f33d2130186e9b037503e4}{00158}}\ \ \ \mbox{\hyperlink{structcl__gcalcli_1_1GcalcliConfig}{GcalcliConfig}}\ \mbox{\hyperlink{classcl__gcalcli_1_1CpGcalcliConnection_afd30c8fef7f33d2130186e9b037503e4}{config\_}};}
+\DoxyCodeLine{\Hypertarget{cp__gcalcli__connection_8hpp_source_l00159}\mbox{\hyperlink{classcl__gcalcli_1_1CpGcalcliConnection_a721ef6eee61f9619f8ea36b56e17cca8}{00159}}\ \ \ \mbox{\hyperlink{namespacecl__gcalcli_a668a0d0d2ed50beda7c26da498960301}{ConnectionState}}\ \mbox{\hyperlink{classcl__gcalcli_1_1CpGcalcliConnection_a721ef6eee61f9619f8ea36b56e17cca8}{connection\_state\_}};}
+\DoxyCodeLine{\Hypertarget{cp__gcalcli__connection_8hpp_source_l00160}\mbox{\hyperlink{classcl__gcalcli_1_1CpGcalcliConnection_a3033256c058ca4ed3f3e9d78fddc4cc1}{00160}}\ \ \ \textcolor{keywordtype}{int}\ \mbox{\hyperlink{classcl__gcalcli_1_1CpGcalcliConnection_a3033256c058ca4ed3f3e9d78fddc4cc1}{consecutive\_failures\_}};}
+\DoxyCodeLine{\Hypertarget{cp__gcalcli__connection_8hpp_source_l00161}\mbox{\hyperlink{classcl__gcalcli_1_1CpGcalcliConnection_a9f51d05c38396eb6094e42d98fe53259}{00161}}\ \ \ \textcolor{keywordtype}{bool}\ \mbox{\hyperlink{classcl__gcalcli_1_1CpGcalcliConnection_a9f51d05c38396eb6094e42d98fe53259}{initialized\_}};}
+\DoxyCodeLine{\Hypertarget{cp__gcalcli__connection_8hpp_source_l00162}00162\ }
+\DoxyCodeLine{\Hypertarget{cp__gcalcli__connection_8hpp_source_l00163}\mbox{\hyperlink{classcl__gcalcli_1_1CpGcalcliConnection_ad071df9c3afa693738c5b1479ac33e69}{00163}}\ \ \ std::chrono::steady\_clock::time\_point\ \mbox{\hyperlink{classcl__gcalcli_1_1CpGcalcliConnection_ad071df9c3afa693738c5b1479ac33e69}{last\_heartbeat\_time\_}};}
+\DoxyCodeLine{\Hypertarget{cp__gcalcli__connection_8hpp_source_l00164}00164\ }
+\DoxyCodeLine{\Hypertarget{cp__gcalcli__connection_8hpp_source_l00165}\mbox{\hyperlink{classcl__gcalcli_1_1CpGcalcliConnection_a73ca439b23e1e8c16969ea42fa78ea90}{00165}}\ \ \ \mbox{\hyperlink{classsmacc2_1_1client__core__components_1_1CpSubprocessExecutor}{smacc2::client\_core\_components::CpSubprocessExecutor}}\ *\ \mbox{\hyperlink{classcl__gcalcli_1_1CpGcalcliConnection_a73ca439b23e1e8c16969ea42fa78ea90}{subprocess\_executor\_}};}
+\DoxyCodeLine{\Hypertarget{cp__gcalcli__connection_8hpp_source_l00166}\mbox{\hyperlink{classcl__gcalcli_1_1CpGcalcliConnection_a1800161ec1e8b5a56c2136c7827810fd}{00166}}\ \ \ \textcolor{keyword}{mutable}\ std::mutex\ \mbox{\hyperlink{classcl__gcalcli_1_1CpGcalcliConnection_a1800161ec1e8b5a56c2136c7827810fd}{state\_mutex\_}};}
+\DoxyCodeLine{\Hypertarget{cp__gcalcli__connection_8hpp_source_l00167}00167\ \};}
+\DoxyCodeLine{\Hypertarget{cp__gcalcli__connection_8hpp_source_l00168}00168\ }
+\DoxyCodeLine{\Hypertarget{cp__gcalcli__connection_8hpp_source_l00169}00169\ \}\ \ \textcolor{comment}{//\ namespace\ cl\_gcalcli}}
+
+\end{DoxyCode}

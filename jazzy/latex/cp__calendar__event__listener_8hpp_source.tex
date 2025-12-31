@@ -1,0 +1,136 @@
+\doxysection{cp\+\_\+calendar\+\_\+event\+\_\+listener.\+hpp}
+\hypertarget{cp__calendar__event__listener_8hpp_source}{}\label{cp__calendar__event__listener_8hpp_source}\index{smacc2\_client\_library/cl\_gcalcli/include/cl\_gcalcli/components/cp\_calendar\_event\_listener.hpp@{smacc2\_client\_library/cl\_gcalcli/include/cl\_gcalcli/components/cp\_calendar\_event\_listener.hpp}}
+\mbox{\hyperlink{cp__calendar__event__listener_8hpp}{Go to the documentation of this file.}}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\Hypertarget{cp__calendar__event__listener_8hpp_source_l00001}00001\ \textcolor{comment}{//\ Copyright\ 2024\ RobosoftAI\ Inc.}}
+\DoxyCodeLine{\Hypertarget{cp__calendar__event__listener_8hpp_source_l00002}00002\ \textcolor{comment}{//}}
+\DoxyCodeLine{\Hypertarget{cp__calendar__event__listener_8hpp_source_l00003}00003\ \textcolor{comment}{//\ Licensed\ under\ the\ Apache\ License,\ Version\ 2.0\ (the\ "{}License"{});}}
+\DoxyCodeLine{\Hypertarget{cp__calendar__event__listener_8hpp_source_l00004}00004\ \textcolor{comment}{//\ you\ may\ not\ use\ this\ file\ except\ in\ compliance\ with\ the\ License.}}
+\DoxyCodeLine{\Hypertarget{cp__calendar__event__listener_8hpp_source_l00005}00005\ \textcolor{comment}{//\ You\ may\ obtain\ a\ copy\ of\ the\ License\ at}}
+\DoxyCodeLine{\Hypertarget{cp__calendar__event__listener_8hpp_source_l00006}00006\ \textcolor{comment}{//}}
+\DoxyCodeLine{\Hypertarget{cp__calendar__event__listener_8hpp_source_l00007}00007\ \textcolor{comment}{//\ \ \ \ \ http://www.apache.org/licenses/LICENSE-\/2.0}}
+\DoxyCodeLine{\Hypertarget{cp__calendar__event__listener_8hpp_source_l00008}00008\ \textcolor{comment}{//}}
+\DoxyCodeLine{\Hypertarget{cp__calendar__event__listener_8hpp_source_l00009}00009\ \textcolor{comment}{//\ Unless\ required\ by\ applicable\ law\ or\ agreed\ to\ in\ writing,\ software}}
+\DoxyCodeLine{\Hypertarget{cp__calendar__event__listener_8hpp_source_l00010}00010\ \textcolor{comment}{//\ distributed\ under\ the\ License\ is\ distributed\ on\ an\ "{}AS\ IS"{}\ BASIS,}}
+\DoxyCodeLine{\Hypertarget{cp__calendar__event__listener_8hpp_source_l00011}00011\ \textcolor{comment}{//\ WITHOUT\ WARRANTIES\ OR\ CONDITIONS\ OF\ ANY\ KIND,\ either\ express\ or\ implied.}}
+\DoxyCodeLine{\Hypertarget{cp__calendar__event__listener_8hpp_source_l00012}00012\ \textcolor{comment}{//\ See\ the\ License\ for\ the\ specific\ language\ governing\ permissions\ and}}
+\DoxyCodeLine{\Hypertarget{cp__calendar__event__listener_8hpp_source_l00013}00013\ \textcolor{comment}{//\ limitations\ under\ the\ License.}}
+\DoxyCodeLine{\Hypertarget{cp__calendar__event__listener_8hpp_source_l00014}00014\ }
+\DoxyCodeLine{\Hypertarget{cp__calendar__event__listener_8hpp_source_l00015}00015\ \textcolor{preprocessor}{\#pragma\ once}}
+\DoxyCodeLine{\Hypertarget{cp__calendar__event__listener_8hpp_source_l00016}00016\ }
+\DoxyCodeLine{\Hypertarget{cp__calendar__event__listener_8hpp_source_l00017}00017\ \textcolor{preprocessor}{\#include\ <chrono>}}
+\DoxyCodeLine{\Hypertarget{cp__calendar__event__listener_8hpp_source_l00018}00018\ \textcolor{preprocessor}{\#include\ <functional>}}
+\DoxyCodeLine{\Hypertarget{cp__calendar__event__listener_8hpp_source_l00019}00019\ \textcolor{preprocessor}{\#include\ <mutex>}}
+\DoxyCodeLine{\Hypertarget{cp__calendar__event__listener_8hpp_source_l00020}00020\ \textcolor{preprocessor}{\#include\ <set>}}
+\DoxyCodeLine{\Hypertarget{cp__calendar__event__listener_8hpp_source_l00021}00021\ \textcolor{preprocessor}{\#include\ <string>}}
+\DoxyCodeLine{\Hypertarget{cp__calendar__event__listener_8hpp_source_l00022}00022\ \textcolor{preprocessor}{\#include\ <vector>}}
+\DoxyCodeLine{\Hypertarget{cp__calendar__event__listener_8hpp_source_l00023}00023\ }
+\DoxyCodeLine{\Hypertarget{cp__calendar__event__listener_8hpp_source_l00024}00024\ \textcolor{preprocessor}{\#include\ <rclcpp/rclcpp.hpp>}}
+\DoxyCodeLine{\Hypertarget{cp__calendar__event__listener_8hpp_source_l00025}00025\ \textcolor{preprocessor}{\#include\ <\mbox{\hyperlink{smacc_8hpp}{smacc2/smacc.hpp}}>}}
+\DoxyCodeLine{\Hypertarget{cp__calendar__event__listener_8hpp_source_l00026}00026\ }
+\DoxyCodeLine{\Hypertarget{cp__calendar__event__listener_8hpp_source_l00027}00027\ \textcolor{preprocessor}{\#include\ <\mbox{\hyperlink{cp__calendar__poller_8hpp}{cl\_gcalcli/components/cp\_calendar\_poller.hpp}}>}}
+\DoxyCodeLine{\Hypertarget{cp__calendar__event__listener_8hpp_source_l00028}00028\ \textcolor{preprocessor}{\#include\ <\mbox{\hyperlink{events_8hpp}{cl\_gcalcli/events.hpp}}>}}
+\DoxyCodeLine{\Hypertarget{cp__calendar__event__listener_8hpp_source_l00029}00029\ \textcolor{preprocessor}{\#include\ <\mbox{\hyperlink{types_8hpp}{cl\_gcalcli/types.hpp}}>}}
+\DoxyCodeLine{\Hypertarget{cp__calendar__event__listener_8hpp_source_l00030}00030\ }
+\DoxyCodeLine{\Hypertarget{cp__calendar__event__listener_8hpp_source_l00031}00031\ \textcolor{keyword}{namespace\ }\mbox{\hyperlink{namespacecl__gcalcli}{cl\_gcalcli}}}
+\DoxyCodeLine{\Hypertarget{cp__calendar__event__listener_8hpp_source_l00032}00032\ \{}
+\DoxyCodeLine{\Hypertarget{cp__calendar__event__listener_8hpp_source_l00033}00033\ }
+\DoxyCodeLine{\Hypertarget{cp__calendar__event__listener_8hpp_source_l00045}\mbox{\hyperlink{classcl__gcalcli_1_1CpCalendarEventListener}{00045}}\ \textcolor{keyword}{class\ }\mbox{\hyperlink{classcl__gcalcli_1_1CpCalendarEventListener}{CpCalendarEventListener}}\ :\ \textcolor{keyword}{public}\ \mbox{\hyperlink{classsmacc2_1_1ISmaccComponent}{smacc2::ISmaccComponent}},\ \textcolor{keyword}{public}\ \mbox{\hyperlink{classsmacc2_1_1ISmaccUpdatable}{smacc2::ISmaccUpdatable}}}
+\DoxyCodeLine{\Hypertarget{cp__calendar__event__listener_8hpp_source_l00046}00046\ \{}
+\DoxyCodeLine{\Hypertarget{cp__calendar__event__listener_8hpp_source_l00047}00047\ \textcolor{keyword}{public}:}
+\DoxyCodeLine{\Hypertarget{cp__calendar__event__listener_8hpp_source_l00048}00048\ \ \ \mbox{\hyperlink{classcl__gcalcli_1_1CpCalendarEventListener_af2f4eb78a71c8bcbd55c9e7d9e83e640}{CpCalendarEventListener}}();}
+\DoxyCodeLine{\Hypertarget{cp__calendar__event__listener_8hpp_source_l00049}\mbox{\hyperlink{classcl__gcalcli_1_1CpCalendarEventListener_acbee1f2d69f1f1290947361a730a7c1e}{00049}}\ \ \ \textcolor{keyword}{virtual}\ \mbox{\hyperlink{classcl__gcalcli_1_1CpCalendarEventListener_acbee1f2d69f1f1290947361a730a7c1e}{\string~CpCalendarEventListener}}()\ =\ \textcolor{keywordflow}{default};}
+\DoxyCodeLine{\Hypertarget{cp__calendar__event__listener_8hpp_source_l00050}00050\ }
+\DoxyCodeLine{\Hypertarget{cp__calendar__event__listener_8hpp_source_l00051}00051\ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{classcl__gcalcli_1_1CpCalendarEventListener_afd707b05bb815c3e5bac59c9841ac610}{onInitialize}}()\ \textcolor{keyword}{override};}
+\DoxyCodeLine{\Hypertarget{cp__calendar__event__listener_8hpp_source_l00052}00052\ }
+\DoxyCodeLine{\Hypertarget{cp__calendar__event__listener_8hpp_source_l00056}00056\ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{classcl__gcalcli_1_1CpCalendarEventListener_ae346345daf23dd51c8b0f57a2751f3b9}{addWatch}}(\textcolor{keyword}{const}\ \mbox{\hyperlink{structcl__gcalcli_1_1EventWatch}{EventWatch}}\ \&\ watch);}
+\DoxyCodeLine{\Hypertarget{cp__calendar__event__listener_8hpp_source_l00057}00057\ }
+\DoxyCodeLine{\Hypertarget{cp__calendar__event__listener_8hpp_source_l00061}00061\ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{classcl__gcalcli_1_1CpCalendarEventListener_aa2125c99ad83829a383f0ea7dc974717}{clearWatches}}();}
+\DoxyCodeLine{\Hypertarget{cp__calendar__event__listener_8hpp_source_l00062}00062\ }
+\DoxyCodeLine{\Hypertarget{cp__calendar__event__listener_8hpp_source_l00066}00066\ \ \ std::vector<EventWatch>\ \mbox{\hyperlink{classcl__gcalcli_1_1CpCalendarEventListener_a3ac8a0e59ffcaaf7d045212f32a6d622}{getWatches}}()\ \textcolor{keyword}{const};}
+\DoxyCodeLine{\Hypertarget{cp__calendar__event__listener_8hpp_source_l00067}00067\ }
+\DoxyCodeLine{\Hypertarget{cp__calendar__event__listener_8hpp_source_l00071}00071\ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{classcl__gcalcli_1_1CpCalendarEventListener_a5b6c8c812c502594edd23872800acbe2}{resetTriggeredEvents}}();}
+\DoxyCodeLine{\Hypertarget{cp__calendar__event__listener_8hpp_source_l00072}00072\ }
+\DoxyCodeLine{\Hypertarget{cp__calendar__event__listener_8hpp_source_l00073}00073\ \ \ \textcolor{comment}{//\ Signals}}
+\DoxyCodeLine{\Hypertarget{cp__calendar__event__listener_8hpp_source_l00074}\mbox{\hyperlink{classcl__gcalcli_1_1CpCalendarEventListener_a07a8e6a19b7e58a6243f9e05fc233451}{00074}}\ \ \ \mbox{\hyperlink{classsmacc2_1_1SmaccSignal}{smacc2::SmaccSignal}}<void(\textcolor{keyword}{const}\ \mbox{\hyperlink{structcl__gcalcli_1_1CalendarEvent}{CalendarEvent}}\ \&,\ \textcolor{keyword}{const}\ std::string\ \&)>\ \mbox{\hyperlink{classcl__gcalcli_1_1CpCalendarEventListener_a07a8e6a19b7e58a6243f9e05fc233451}{onEventDetected\_}};}
+\DoxyCodeLine{\Hypertarget{cp__calendar__event__listener_8hpp_source_l00075}\mbox{\hyperlink{classcl__gcalcli_1_1CpCalendarEventListener_ab6f571ccd5f6de1a8fa9488c4c95103f}{00075}}\ \ \ \mbox{\hyperlink{classsmacc2_1_1SmaccSignal}{smacc2::SmaccSignal}}<void(\textcolor{keyword}{const}\ \mbox{\hyperlink{structcl__gcalcli_1_1CalendarEvent}{CalendarEvent}}\ \&)>\ \mbox{\hyperlink{classcl__gcalcli_1_1CpCalendarEventListener_ab6f571ccd5f6de1a8fa9488c4c95103f}{onEventStarted\_}};}
+\DoxyCodeLine{\Hypertarget{cp__calendar__event__listener_8hpp_source_l00076}\mbox{\hyperlink{classcl__gcalcli_1_1CpCalendarEventListener_a9a6206a42ae1ff7838071e44c2760009}{00076}}\ \ \ \mbox{\hyperlink{classsmacc2_1_1SmaccSignal}{smacc2::SmaccSignal}}<void(\textcolor{keyword}{const}\ \mbox{\hyperlink{structcl__gcalcli_1_1CalendarEvent}{CalendarEvent}}\ \&)>\ \mbox{\hyperlink{classcl__gcalcli_1_1CpCalendarEventListener_a9a6206a42ae1ff7838071e44c2760009}{onEventEnded\_}};}
+\DoxyCodeLine{\Hypertarget{cp__calendar__event__listener_8hpp_source_l00077}00077\ }
+\DoxyCodeLine{\Hypertarget{cp__calendar__event__listener_8hpp_source_l00078}00078\ \ \ \textcolor{comment}{//\ Signal\ connection\ helpers}}
+\DoxyCodeLine{\Hypertarget{cp__calendar__event__listener_8hpp_source_l00079}00079\ \ \ \textcolor{keyword}{template}\ <\textcolor{keyword}{typename}\ T>}
+\DoxyCodeLine{\Hypertarget{cp__calendar__event__listener_8hpp_source_l00080}\mbox{\hyperlink{classcl__gcalcli_1_1CpCalendarEventListener_a32187f15a921172fd19e38f63950e639}{00080}}\ \ \ \mbox{\hyperlink{namespacesmacc2_a5a5bb8f06eff3a799445f680c8e22c88}{smacc2::SmaccSignalConnection}}\ \mbox{\hyperlink{classcl__gcalcli_1_1CpCalendarEventListener_a32187f15a921172fd19e38f63950e639}{onEventDetected}}(}
+\DoxyCodeLine{\Hypertarget{cp__calendar__event__listener_8hpp_source_l00081}00081\ \ \ \ \ \textcolor{keywordtype}{void}\ (T::*callback)(\textcolor{keyword}{const}\ \mbox{\hyperlink{structcl__gcalcli_1_1CalendarEvent}{CalendarEvent}}\ \&,\ \textcolor{keyword}{const}\ std::string\ \&),\ T\ *\ \textcolor{keywordtype}{object})}
+\DoxyCodeLine{\Hypertarget{cp__calendar__event__listener_8hpp_source_l00082}00082\ \ \ \{}
+\DoxyCodeLine{\Hypertarget{cp__calendar__event__listener_8hpp_source_l00083}00083\ \ \ \ \ \textcolor{keywordflow}{return}\ this-\/>\mbox{\hyperlink{classsmacc2_1_1ISmaccComponent_a420ef07087efcdc74fb233f11ae3a517}{getStateMachine}}()-\/>\mbox{\hyperlink{classsmacc2_1_1ISmaccStateMachine_a5a7796e13095b776bdd9a112d018e0f0}{createSignalConnection}}(onEventDetected\_,\ callback,\ \textcolor{keywordtype}{object});}
+\DoxyCodeLine{\Hypertarget{cp__calendar__event__listener_8hpp_source_l00084}00084\ \ \ \}}
+\DoxyCodeLine{\Hypertarget{cp__calendar__event__listener_8hpp_source_l00085}00085\ }
+\DoxyCodeLine{\Hypertarget{cp__calendar__event__listener_8hpp_source_l00086}00086\ \ \ \textcolor{keyword}{template}\ <\textcolor{keyword}{typename}\ T>}
+\DoxyCodeLine{\Hypertarget{cp__calendar__event__listener_8hpp_source_l00087}\mbox{\hyperlink{classcl__gcalcli_1_1CpCalendarEventListener_a609acf8bc58546efba40ea670c9e6442}{00087}}\ \ \ \mbox{\hyperlink{namespacesmacc2_a5a5bb8f06eff3a799445f680c8e22c88}{smacc2::SmaccSignalConnection}}\ \mbox{\hyperlink{classcl__gcalcli_1_1CpCalendarEventListener_a609acf8bc58546efba40ea670c9e6442}{onEventStarted}}(}
+\DoxyCodeLine{\Hypertarget{cp__calendar__event__listener_8hpp_source_l00088}00088\ \ \ \ \ \textcolor{keywordtype}{void}\ (T::*callback)(\textcolor{keyword}{const}\ \mbox{\hyperlink{structcl__gcalcli_1_1CalendarEvent}{CalendarEvent}}\ \&),\ T\ *\ \textcolor{keywordtype}{object})}
+\DoxyCodeLine{\Hypertarget{cp__calendar__event__listener_8hpp_source_l00089}00089\ \ \ \{}
+\DoxyCodeLine{\Hypertarget{cp__calendar__event__listener_8hpp_source_l00090}00090\ \ \ \ \ \textcolor{keywordflow}{return}\ this-\/>\mbox{\hyperlink{classsmacc2_1_1ISmaccComponent_a420ef07087efcdc74fb233f11ae3a517}{getStateMachine}}()-\/>\mbox{\hyperlink{classsmacc2_1_1ISmaccStateMachine_a5a7796e13095b776bdd9a112d018e0f0}{createSignalConnection}}(onEventStarted\_,\ callback,\ \textcolor{keywordtype}{object});}
+\DoxyCodeLine{\Hypertarget{cp__calendar__event__listener_8hpp_source_l00091}00091\ \ \ \}}
+\DoxyCodeLine{\Hypertarget{cp__calendar__event__listener_8hpp_source_l00092}00092\ }
+\DoxyCodeLine{\Hypertarget{cp__calendar__event__listener_8hpp_source_l00093}00093\ \ \ \textcolor{keyword}{template}\ <\textcolor{keyword}{typename}\ T>}
+\DoxyCodeLine{\Hypertarget{cp__calendar__event__listener_8hpp_source_l00094}\mbox{\hyperlink{classcl__gcalcli_1_1CpCalendarEventListener_a3164601e7fcc9cd32efe8a760c46c70d}{00094}}\ \ \ \mbox{\hyperlink{namespacesmacc2_a5a5bb8f06eff3a799445f680c8e22c88}{smacc2::SmaccSignalConnection}}\ \mbox{\hyperlink{classcl__gcalcli_1_1CpCalendarEventListener_a3164601e7fcc9cd32efe8a760c46c70d}{onEventEnded}}(\textcolor{keywordtype}{void}\ (T::*callback)(\textcolor{keyword}{const}\ \mbox{\hyperlink{structcl__gcalcli_1_1CalendarEvent}{CalendarEvent}}\ \&),\ T\ *\ \textcolor{keywordtype}{object})}
+\DoxyCodeLine{\Hypertarget{cp__calendar__event__listener_8hpp_source_l00095}00095\ \ \ \{}
+\DoxyCodeLine{\Hypertarget{cp__calendar__event__listener_8hpp_source_l00096}00096\ \ \ \ \ \textcolor{keywordflow}{return}\ this-\/>\mbox{\hyperlink{classsmacc2_1_1ISmaccComponent_a420ef07087efcdc74fb233f11ae3a517}{getStateMachine}}()-\/>\mbox{\hyperlink{classsmacc2_1_1ISmaccStateMachine_a5a7796e13095b776bdd9a112d018e0f0}{createSignalConnection}}(onEventEnded\_,\ callback,\ \textcolor{keywordtype}{object});}
+\DoxyCodeLine{\Hypertarget{cp__calendar__event__listener_8hpp_source_l00097}00097\ \ \ \}}
+\DoxyCodeLine{\Hypertarget{cp__calendar__event__listener_8hpp_source_l00098}00098\ }
+\DoxyCodeLine{\Hypertarget{cp__calendar__event__listener_8hpp_source_l00099}00099\ \ \ \textcolor{comment}{//\ Event\ posting\ functions\ -\/\ set\ via\ onStateOrthogonalAllocation}}
+\DoxyCodeLine{\Hypertarget{cp__calendar__event__listener_8hpp_source_l00100}\mbox{\hyperlink{classcl__gcalcli_1_1CpCalendarEventListener_a0e281bcd9e43015786323c16b1b4743c}{00100}}\ \ \ std::function<void(\textcolor{keyword}{const}\ \mbox{\hyperlink{structcl__gcalcli_1_1CalendarEvent}{CalendarEvent}}\ \&,\ \textcolor{keyword}{const}\ std::string\ \&)>\ \mbox{\hyperlink{classcl__gcalcli_1_1CpCalendarEventListener_a0e281bcd9e43015786323c16b1b4743c}{postEventDetectedEvent\_}};}
+\DoxyCodeLine{\Hypertarget{cp__calendar__event__listener_8hpp_source_l00101}\mbox{\hyperlink{classcl__gcalcli_1_1CpCalendarEventListener_a8eb09b782f972fd7e68cd246707532fb}{00101}}\ \ \ std::function<void(\textcolor{keyword}{const}\ \mbox{\hyperlink{structcl__gcalcli_1_1CalendarEvent}{CalendarEvent}}\ \&)>\ \mbox{\hyperlink{classcl__gcalcli_1_1CpCalendarEventListener_a8eb09b782f972fd7e68cd246707532fb}{postEventStartedEvent\_}};}
+\DoxyCodeLine{\Hypertarget{cp__calendar__event__listener_8hpp_source_l00102}\mbox{\hyperlink{classcl__gcalcli_1_1CpCalendarEventListener_a506ec2e5adf9953094b35d0cbe37e769}{00102}}\ \ \ std::function<void(\textcolor{keyword}{const}\ \mbox{\hyperlink{structcl__gcalcli_1_1CalendarEvent}{CalendarEvent}}\ \&)>\ \mbox{\hyperlink{classcl__gcalcli_1_1CpCalendarEventListener_a506ec2e5adf9953094b35d0cbe37e769}{postEventEndedEvent\_}};}
+\DoxyCodeLine{\Hypertarget{cp__calendar__event__listener_8hpp_source_l00103}00103\ }
+\DoxyCodeLine{\Hypertarget{cp__calendar__event__listener_8hpp_source_l00107}00107\ \ \ \textcolor{keyword}{template}\ <\textcolor{keyword}{typename}\ TOrthogonal,\ \textcolor{keyword}{typename}\ TSourceObject>}
+\DoxyCodeLine{\Hypertarget{cp__calendar__event__listener_8hpp_source_l00108}\mbox{\hyperlink{classcl__gcalcli_1_1CpCalendarEventListener_a72298bb216720c1a354bff11aa4da3d1}{00108}}\ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{classcl__gcalcli_1_1CpCalendarEventListener_a72298bb216720c1a354bff11aa4da3d1}{onStateOrthogonalAllocation}}()}
+\DoxyCodeLine{\Hypertarget{cp__calendar__event__listener_8hpp_source_l00109}00109\ \ \ \{}
+\DoxyCodeLine{\Hypertarget{cp__calendar__event__listener_8hpp_source_l00110}00110\ \ \ \ \ \mbox{\hyperlink{classcl__gcalcli_1_1CpCalendarEventListener_a0e281bcd9e43015786323c16b1b4743c}{postEventDetectedEvent\_}}\ =\ [\textcolor{keyword}{this}](\textcolor{keyword}{const}\ \mbox{\hyperlink{structcl__gcalcli_1_1CalendarEvent}{CalendarEvent}}\ \&\ event,\ \textcolor{keyword}{const}\ std::string\ \&\ pattern)}
+\DoxyCodeLine{\Hypertarget{cp__calendar__event__listener_8hpp_source_l00111}00111\ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{cp__calendar__event__listener_8hpp_source_l00112}00112\ \ \ \ \ \ \ \textcolor{keyword}{auto}\ ev\ =\ \textcolor{keyword}{new}\ \mbox{\hyperlink{structcl__gcalcli_1_1EvCalendarEventDetected}{EvCalendarEventDetected<CpCalendarEventListener,\ TOrthogonal>}}();}
+\DoxyCodeLine{\Hypertarget{cp__calendar__event__listener_8hpp_source_l00113}00113\ \ \ \ \ \ \ ev-\/>event\ =\ event;}
+\DoxyCodeLine{\Hypertarget{cp__calendar__event__listener_8hpp_source_l00114}00114\ \ \ \ \ \ \ ev-\/>matched\_pattern\ =\ pattern;}
+\DoxyCodeLine{\Hypertarget{cp__calendar__event__listener_8hpp_source_l00115}00115\ \ \ \ \ \ \ this-\/>\mbox{\hyperlink{classsmacc2_1_1ISmaccComponent_a03dd302448a2e186b1059822cff8c669}{postEvent}}(ev);}
+\DoxyCodeLine{\Hypertarget{cp__calendar__event__listener_8hpp_source_l00116}00116\ \ \ \ \ \};}
+\DoxyCodeLine{\Hypertarget{cp__calendar__event__listener_8hpp_source_l00117}00117\ }
+\DoxyCodeLine{\Hypertarget{cp__calendar__event__listener_8hpp_source_l00118}00118\ \ \ \ \ \mbox{\hyperlink{classcl__gcalcli_1_1CpCalendarEventListener_a8eb09b782f972fd7e68cd246707532fb}{postEventStartedEvent\_}}\ =\ [\textcolor{keyword}{this}](\textcolor{keyword}{const}\ \mbox{\hyperlink{structcl__gcalcli_1_1CalendarEvent}{CalendarEvent}}\ \&\ event)}
+\DoxyCodeLine{\Hypertarget{cp__calendar__event__listener_8hpp_source_l00119}00119\ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{cp__calendar__event__listener_8hpp_source_l00120}00120\ \ \ \ \ \ \ \textcolor{keyword}{auto}\ ev\ =\ \textcolor{keyword}{new}\ \mbox{\hyperlink{structcl__gcalcli_1_1EvCalendarEventStarted}{EvCalendarEventStarted<CpCalendarEventListener,\ TOrthogonal>}}();}
+\DoxyCodeLine{\Hypertarget{cp__calendar__event__listener_8hpp_source_l00121}00121\ \ \ \ \ \ \ ev-\/>event\ =\ event;}
+\DoxyCodeLine{\Hypertarget{cp__calendar__event__listener_8hpp_source_l00122}00122\ \ \ \ \ \ \ this-\/>\mbox{\hyperlink{classsmacc2_1_1ISmaccComponent_a03dd302448a2e186b1059822cff8c669}{postEvent}}(ev);}
+\DoxyCodeLine{\Hypertarget{cp__calendar__event__listener_8hpp_source_l00123}00123\ \ \ \ \ \};}
+\DoxyCodeLine{\Hypertarget{cp__calendar__event__listener_8hpp_source_l00124}00124\ }
+\DoxyCodeLine{\Hypertarget{cp__calendar__event__listener_8hpp_source_l00125}00125\ \ \ \ \ \mbox{\hyperlink{classcl__gcalcli_1_1CpCalendarEventListener_a506ec2e5adf9953094b35d0cbe37e769}{postEventEndedEvent\_}}\ =\ [\textcolor{keyword}{this}](\textcolor{keyword}{const}\ \mbox{\hyperlink{structcl__gcalcli_1_1CalendarEvent}{CalendarEvent}}\ \&\ event)}
+\DoxyCodeLine{\Hypertarget{cp__calendar__event__listener_8hpp_source_l00126}00126\ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{cp__calendar__event__listener_8hpp_source_l00127}00127\ \ \ \ \ \ \ \textcolor{keyword}{auto}\ ev\ =\ \textcolor{keyword}{new}\ \mbox{\hyperlink{structcl__gcalcli_1_1EvCalendarEventEnded}{EvCalendarEventEnded<CpCalendarEventListener,\ TOrthogonal>}}();}
+\DoxyCodeLine{\Hypertarget{cp__calendar__event__listener_8hpp_source_l00128}00128\ \ \ \ \ \ \ ev-\/>event\ =\ event;}
+\DoxyCodeLine{\Hypertarget{cp__calendar__event__listener_8hpp_source_l00129}00129\ \ \ \ \ \ \ this-\/>\mbox{\hyperlink{classsmacc2_1_1ISmaccComponent_a03dd302448a2e186b1059822cff8c669}{postEvent}}(ev);}
+\DoxyCodeLine{\Hypertarget{cp__calendar__event__listener_8hpp_source_l00130}00130\ \ \ \ \ \};}
+\DoxyCodeLine{\Hypertarget{cp__calendar__event__listener_8hpp_source_l00131}00131\ \ \ \}}
+\DoxyCodeLine{\Hypertarget{cp__calendar__event__listener_8hpp_source_l00132}00132\ }
+\DoxyCodeLine{\Hypertarget{cp__calendar__event__listener_8hpp_source_l00133}00133\ \textcolor{keyword}{protected}:}
+\DoxyCodeLine{\Hypertarget{cp__calendar__event__listener_8hpp_source_l00137}00137\ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{classcl__gcalcli_1_1CpCalendarEventListener_a21d34c526767ce343c20cb6f8cb95abb}{update}}()\ \textcolor{keyword}{override};}
+\DoxyCodeLine{\Hypertarget{cp__calendar__event__listener_8hpp_source_l00138}00138\ }
+\DoxyCodeLine{\Hypertarget{cp__calendar__event__listener_8hpp_source_l00139}00139\ \textcolor{keyword}{private}:}
+\DoxyCodeLine{\Hypertarget{cp__calendar__event__listener_8hpp_source_l00143}00143\ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{classcl__gcalcli_1_1CpCalendarEventListener_aba53f23263c64ef053f9f7655f0bb752}{onAgendaUpdated}}(\textcolor{keyword}{const}\ std::vector<CalendarEvent>\ \&\ events);}
+\DoxyCodeLine{\Hypertarget{cp__calendar__event__listener_8hpp_source_l00144}00144\ }
+\DoxyCodeLine{\Hypertarget{cp__calendar__event__listener_8hpp_source_l00148}00148\ \ \ \textcolor{keywordtype}{bool}\ \mbox{\hyperlink{classcl__gcalcli_1_1CpCalendarEventListener_ab4660671f20658ff04100346b79b02b2}{matchesPattern}}(\textcolor{keyword}{const}\ \mbox{\hyperlink{structcl__gcalcli_1_1CalendarEvent}{CalendarEvent}}\ \&\ event,\ \textcolor{keyword}{const}\ \mbox{\hyperlink{structcl__gcalcli_1_1EventWatch}{EventWatch}}\ \&\ watch)\ \textcolor{keyword}{const};}
+\DoxyCodeLine{\Hypertarget{cp__calendar__event__listener_8hpp_source_l00149}00149\ }
+\DoxyCodeLine{\Hypertarget{cp__calendar__event__listener_8hpp_source_l00153}00153\ \ \ \textcolor{keywordtype}{bool}\ \mbox{\hyperlink{classcl__gcalcli_1_1CpCalendarEventListener_a12f1c7a9c60abdaff040a406f3891df9}{shouldTriggerStart}}(\textcolor{keyword}{const}\ \mbox{\hyperlink{structcl__gcalcli_1_1CalendarEvent}{CalendarEvent}}\ \&\ event,\ \textcolor{keyword}{const}\ \mbox{\hyperlink{structcl__gcalcli_1_1EventWatch}{EventWatch}}\ \&\ watch)\ \textcolor{keyword}{const};}
+\DoxyCodeLine{\Hypertarget{cp__calendar__event__listener_8hpp_source_l00154}00154\ }
+\DoxyCodeLine{\Hypertarget{cp__calendar__event__listener_8hpp_source_l00158}00158\ \ \ \textcolor{keywordtype}{bool}\ \mbox{\hyperlink{classcl__gcalcli_1_1CpCalendarEventListener_ac71133f1548143bd5e66fb2f56e71ac0}{shouldTriggerEnd}}(\textcolor{keyword}{const}\ \mbox{\hyperlink{structcl__gcalcli_1_1CalendarEvent}{CalendarEvent}}\ \&\ event,\ \textcolor{keyword}{const}\ \mbox{\hyperlink{structcl__gcalcli_1_1EventWatch}{EventWatch}}\ \&\ watch)\ \textcolor{keyword}{const};}
+\DoxyCodeLine{\Hypertarget{cp__calendar__event__listener_8hpp_source_l00159}00159\ }
+\DoxyCodeLine{\Hypertarget{cp__calendar__event__listener_8hpp_source_l00163}00163\ \ \ std::string\ \mbox{\hyperlink{classcl__gcalcli_1_1CpCalendarEventListener_a417fdaadd39c4e5b08cfc037f3845348}{getTriggeredKey}}(\textcolor{keyword}{const}\ \mbox{\hyperlink{structcl__gcalcli_1_1CalendarEvent}{CalendarEvent}}\ \&\ event,\ \textcolor{keyword}{const}\ std::string\ \&\ trigger\_type)\ \textcolor{keyword}{const};}
+\DoxyCodeLine{\Hypertarget{cp__calendar__event__listener_8hpp_source_l00164}00164\ }
+\DoxyCodeLine{\Hypertarget{cp__calendar__event__listener_8hpp_source_l00165}\mbox{\hyperlink{classcl__gcalcli_1_1CpCalendarEventListener_a691c7f3523d4b547878a345a569bc134}{00165}}\ \ \ \mbox{\hyperlink{classcl__gcalcli_1_1CpCalendarPoller}{CpCalendarPoller}}\ *\ \mbox{\hyperlink{classcl__gcalcli_1_1CpCalendarEventListener_a691c7f3523d4b547878a345a569bc134}{poller\_}};}
+\DoxyCodeLine{\Hypertarget{cp__calendar__event__listener_8hpp_source_l00166}\mbox{\hyperlink{classcl__gcalcli_1_1CpCalendarEventListener_a465fc151175d3866d2aee8c46c8291d6}{00166}}\ \ \ std::vector<EventWatch>\ \mbox{\hyperlink{classcl__gcalcli_1_1CpCalendarEventListener_a465fc151175d3866d2aee8c46c8291d6}{watches\_}};}
+\DoxyCodeLine{\Hypertarget{cp__calendar__event__listener_8hpp_source_l00167}\mbox{\hyperlink{classcl__gcalcli_1_1CpCalendarEventListener_af1453eff43848c62f39dd6595c56079f}{00167}}\ \ \ std::set<std::string>\ \mbox{\hyperlink{classcl__gcalcli_1_1CpCalendarEventListener_af1453eff43848c62f39dd6595c56079f}{triggered\_events\_}};\ \ \textcolor{comment}{//\ Tracks\ which\ events\ have\ been\ triggered}}
+\DoxyCodeLine{\Hypertarget{cp__calendar__event__listener_8hpp_source_l00168}\mbox{\hyperlink{classcl__gcalcli_1_1CpCalendarEventListener_ae2964883f43a4b46ef91a93b1e74c5b9}{00168}}\ \ \ std::vector<CalendarEvent>\ \mbox{\hyperlink{classcl__gcalcli_1_1CpCalendarEventListener_ae2964883f43a4b46ef91a93b1e74c5b9}{current\_events\_}};}
+\DoxyCodeLine{\Hypertarget{cp__calendar__event__listener_8hpp_source_l00169}\mbox{\hyperlink{classcl__gcalcli_1_1CpCalendarEventListener_a5f5a6bc55f7fbbc91f23d0e4ccf2bbdb}{00169}}\ \ \ \textcolor{keywordtype}{bool}\ \mbox{\hyperlink{classcl__gcalcli_1_1CpCalendarEventListener_a5f5a6bc55f7fbbc91f23d0e4ccf2bbdb}{initialized\_}};}
+\DoxyCodeLine{\Hypertarget{cp__calendar__event__listener_8hpp_source_l00170}00170\ }
+\DoxyCodeLine{\Hypertarget{cp__calendar__event__listener_8hpp_source_l00171}\mbox{\hyperlink{classcl__gcalcli_1_1CpCalendarEventListener_aab5c30fe3752efef5b68c5568f4e2332}{00171}}\ \ \ \textcolor{keyword}{mutable}\ std::mutex\ \mbox{\hyperlink{classcl__gcalcli_1_1CpCalendarEventListener_aab5c30fe3752efef5b68c5568f4e2332}{mutex\_}};}
+\DoxyCodeLine{\Hypertarget{cp__calendar__event__listener_8hpp_source_l00172}00172\ \};}
+\DoxyCodeLine{\Hypertarget{cp__calendar__event__listener_8hpp_source_l00173}00173\ }
+\DoxyCodeLine{\Hypertarget{cp__calendar__event__listener_8hpp_source_l00174}00174\ \}\ \ \textcolor{comment}{//\ namespace\ cl\_gcalcli}}
+
+\end{DoxyCode}

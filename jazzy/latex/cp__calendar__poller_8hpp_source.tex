@@ -1,0 +1,107 @@
+\doxysection{cp\+\_\+calendar\+\_\+poller.\+hpp}
+\hypertarget{cp__calendar__poller_8hpp_source}{}\label{cp__calendar__poller_8hpp_source}\index{smacc2\_client\_library/cl\_gcalcli/include/cl\_gcalcli/components/cp\_calendar\_poller.hpp@{smacc2\_client\_library/cl\_gcalcli/include/cl\_gcalcli/components/cp\_calendar\_poller.hpp}}
+\mbox{\hyperlink{cp__calendar__poller_8hpp}{Go to the documentation of this file.}}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\Hypertarget{cp__calendar__poller_8hpp_source_l00001}00001\ \textcolor{comment}{//\ Copyright\ 2024\ RobosoftAI\ Inc.}}
+\DoxyCodeLine{\Hypertarget{cp__calendar__poller_8hpp_source_l00002}00002\ \textcolor{comment}{//}}
+\DoxyCodeLine{\Hypertarget{cp__calendar__poller_8hpp_source_l00003}00003\ \textcolor{comment}{//\ Licensed\ under\ the\ Apache\ License,\ Version\ 2.0\ (the\ "{}License"{});}}
+\DoxyCodeLine{\Hypertarget{cp__calendar__poller_8hpp_source_l00004}00004\ \textcolor{comment}{//\ you\ may\ not\ use\ this\ file\ except\ in\ compliance\ with\ the\ License.}}
+\DoxyCodeLine{\Hypertarget{cp__calendar__poller_8hpp_source_l00005}00005\ \textcolor{comment}{//\ You\ may\ obtain\ a\ copy\ of\ the\ License\ at}}
+\DoxyCodeLine{\Hypertarget{cp__calendar__poller_8hpp_source_l00006}00006\ \textcolor{comment}{//}}
+\DoxyCodeLine{\Hypertarget{cp__calendar__poller_8hpp_source_l00007}00007\ \textcolor{comment}{//\ \ \ \ \ http://www.apache.org/licenses/LICENSE-\/2.0}}
+\DoxyCodeLine{\Hypertarget{cp__calendar__poller_8hpp_source_l00008}00008\ \textcolor{comment}{//}}
+\DoxyCodeLine{\Hypertarget{cp__calendar__poller_8hpp_source_l00009}00009\ \textcolor{comment}{//\ Unless\ required\ by\ applicable\ law\ or\ agreed\ to\ in\ writing,\ software}}
+\DoxyCodeLine{\Hypertarget{cp__calendar__poller_8hpp_source_l00010}00010\ \textcolor{comment}{//\ distributed\ under\ the\ License\ is\ distributed\ on\ an\ "{}AS\ IS"{}\ BASIS,}}
+\DoxyCodeLine{\Hypertarget{cp__calendar__poller_8hpp_source_l00011}00011\ \textcolor{comment}{//\ WITHOUT\ WARRANTIES\ OR\ CONDITIONS\ OF\ ANY\ KIND,\ either\ express\ or\ implied.}}
+\DoxyCodeLine{\Hypertarget{cp__calendar__poller_8hpp_source_l00012}00012\ \textcolor{comment}{//\ See\ the\ License\ for\ the\ specific\ language\ governing\ permissions\ and}}
+\DoxyCodeLine{\Hypertarget{cp__calendar__poller_8hpp_source_l00013}00013\ \textcolor{comment}{//\ limitations\ under\ the\ License.}}
+\DoxyCodeLine{\Hypertarget{cp__calendar__poller_8hpp_source_l00014}00014\ }
+\DoxyCodeLine{\Hypertarget{cp__calendar__poller_8hpp_source_l00015}00015\ \textcolor{preprocessor}{\#pragma\ once}}
+\DoxyCodeLine{\Hypertarget{cp__calendar__poller_8hpp_source_l00016}00016\ }
+\DoxyCodeLine{\Hypertarget{cp__calendar__poller_8hpp_source_l00017}00017\ \textcolor{preprocessor}{\#include\ <chrono>}}
+\DoxyCodeLine{\Hypertarget{cp__calendar__poller_8hpp_source_l00018}00018\ \textcolor{preprocessor}{\#include\ <functional>}}
+\DoxyCodeLine{\Hypertarget{cp__calendar__poller_8hpp_source_l00019}00019\ \textcolor{preprocessor}{\#include\ <mutex>}}
+\DoxyCodeLine{\Hypertarget{cp__calendar__poller_8hpp_source_l00020}00020\ \textcolor{preprocessor}{\#include\ <string>}}
+\DoxyCodeLine{\Hypertarget{cp__calendar__poller_8hpp_source_l00021}00021\ \textcolor{preprocessor}{\#include\ <vector>}}
+\DoxyCodeLine{\Hypertarget{cp__calendar__poller_8hpp_source_l00022}00022\ }
+\DoxyCodeLine{\Hypertarget{cp__calendar__poller_8hpp_source_l00023}00023\ \textcolor{preprocessor}{\#include\ <rclcpp/rclcpp.hpp>}}
+\DoxyCodeLine{\Hypertarget{cp__calendar__poller_8hpp_source_l00024}00024\ \textcolor{preprocessor}{\#include\ <\mbox{\hyperlink{smacc_8hpp}{smacc2/smacc.hpp}}>}}
+\DoxyCodeLine{\Hypertarget{cp__calendar__poller_8hpp_source_l00025}00025\ }
+\DoxyCodeLine{\Hypertarget{cp__calendar__poller_8hpp_source_l00026}00026\ \textcolor{preprocessor}{\#include\ <\mbox{\hyperlink{cp__gcalcli__connection_8hpp}{cl\_gcalcli/components/cp\_gcalcli\_connection.hpp}}>}}
+\DoxyCodeLine{\Hypertarget{cp__calendar__poller_8hpp_source_l00027}00027\ \textcolor{preprocessor}{\#include\ <\mbox{\hyperlink{events_8hpp}{cl\_gcalcli/events.hpp}}>}}
+\DoxyCodeLine{\Hypertarget{cp__calendar__poller_8hpp_source_l00028}00028\ \textcolor{preprocessor}{\#include\ <\mbox{\hyperlink{types_8hpp}{cl\_gcalcli/types.hpp}}>}}
+\DoxyCodeLine{\Hypertarget{cp__calendar__poller_8hpp_source_l00029}00029\ }
+\DoxyCodeLine{\Hypertarget{cp__calendar__poller_8hpp_source_l00030}00030\ \textcolor{keyword}{namespace\ }\mbox{\hyperlink{namespacecl__gcalcli}{cl\_gcalcli}}}
+\DoxyCodeLine{\Hypertarget{cp__calendar__poller_8hpp_source_l00031}00031\ \{}
+\DoxyCodeLine{\Hypertarget{cp__calendar__poller_8hpp_source_l00032}00032\ }
+\DoxyCodeLine{\Hypertarget{cp__calendar__poller_8hpp_source_l00043}\mbox{\hyperlink{classcl__gcalcli_1_1CpCalendarPoller}{00043}}\ \textcolor{keyword}{class\ }\mbox{\hyperlink{classcl__gcalcli_1_1CpCalendarPoller}{CpCalendarPoller}}\ :\ \textcolor{keyword}{public}\ \mbox{\hyperlink{classsmacc2_1_1ISmaccComponent}{smacc2::ISmaccComponent}},\ \textcolor{keyword}{public}\ \mbox{\hyperlink{classsmacc2_1_1ISmaccUpdatable}{smacc2::ISmaccUpdatable}}}
+\DoxyCodeLine{\Hypertarget{cp__calendar__poller_8hpp_source_l00044}00044\ \{}
+\DoxyCodeLine{\Hypertarget{cp__calendar__poller_8hpp_source_l00045}00045\ \textcolor{keyword}{public}:}
+\DoxyCodeLine{\Hypertarget{cp__calendar__poller_8hpp_source_l00046}00046\ \ \ \mbox{\hyperlink{classcl__gcalcli_1_1CpCalendarPoller_afeedc659a7db28fb6306b124388eb76b}{CpCalendarPoller}}();}
+\DoxyCodeLine{\Hypertarget{cp__calendar__poller_8hpp_source_l00047}\mbox{\hyperlink{classcl__gcalcli_1_1CpCalendarPoller_ad9f48323afb4caca453836405dfc82b0}{00047}}\ \ \ \textcolor{keyword}{virtual}\ \mbox{\hyperlink{classcl__gcalcli_1_1CpCalendarPoller_ad9f48323afb4caca453836405dfc82b0}{\string~CpCalendarPoller}}()\ =\ \textcolor{keywordflow}{default};}
+\DoxyCodeLine{\Hypertarget{cp__calendar__poller_8hpp_source_l00048}00048\ }
+\DoxyCodeLine{\Hypertarget{cp__calendar__poller_8hpp_source_l00049}00049\ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{classcl__gcalcli_1_1CpCalendarPoller_a60a8d3077544d7c5965c01e441ef53ae}{onInitialize}}()\ \textcolor{keyword}{override};}
+\DoxyCodeLine{\Hypertarget{cp__calendar__poller_8hpp_source_l00050}00050\ }
+\DoxyCodeLine{\Hypertarget{cp__calendar__poller_8hpp_source_l00055}00055\ \ \ \textcolor{keywordtype}{bool}\ \mbox{\hyperlink{classcl__gcalcli_1_1CpCalendarPoller_a44a3e967eb75bf7e7fe33c6f1add802a}{refreshAgenda}}();}
+\DoxyCodeLine{\Hypertarget{cp__calendar__poller_8hpp_source_l00056}00056\ }
+\DoxyCodeLine{\Hypertarget{cp__calendar__poller_8hpp_source_l00060}00060\ \ \ std::vector<CalendarEvent>\ \mbox{\hyperlink{classcl__gcalcli_1_1CpCalendarPoller_a704ce0a4f9beb7525cc9568471010b2b}{getEvents}}()\ \textcolor{keyword}{const};}
+\DoxyCodeLine{\Hypertarget{cp__calendar__poller_8hpp_source_l00061}00061\ }
+\DoxyCodeLine{\Hypertarget{cp__calendar__poller_8hpp_source_l00067}00067\ \ \ std::vector<CalendarEvent>\ \mbox{\hyperlink{classcl__gcalcli_1_1CpCalendarPoller_a4c1873d1a5101b41928ab943526fff49}{findEvents}}(\textcolor{keyword}{const}\ std::string\ \&\ pattern,\ \textcolor{keywordtype}{bool}\ use\_regex\ =\ \textcolor{keyword}{false})\ \textcolor{keyword}{const};}
+\DoxyCodeLine{\Hypertarget{cp__calendar__poller_8hpp_source_l00068}00068\ }
+\DoxyCodeLine{\Hypertarget{cp__calendar__poller_8hpp_source_l00072}00072\ \ \ std::vector<CalendarEvent>\ \mbox{\hyperlink{classcl__gcalcli_1_1CpCalendarPoller_a20889942ba03adfb89b894d44936f3d7}{getEventsInWindow}}(}
+\DoxyCodeLine{\Hypertarget{cp__calendar__poller_8hpp_source_l00073}00073\ \ \ \ \ std::chrono::system\_clock::time\_point\ start,\ std::chrono::system\_clock::time\_point\ end)\ \textcolor{keyword}{const};}
+\DoxyCodeLine{\Hypertarget{cp__calendar__poller_8hpp_source_l00074}00074\ }
+\DoxyCodeLine{\Hypertarget{cp__calendar__poller_8hpp_source_l00078}00078\ \ \ std::vector<CalendarEvent>\ \mbox{\hyperlink{classcl__gcalcli_1_1CpCalendarPoller_a6f19c7f5fb05cd551a92525ce5e550e9}{getActiveEvents}}()\ \textcolor{keyword}{const};}
+\DoxyCodeLine{\Hypertarget{cp__calendar__poller_8hpp_source_l00079}00079\ }
+\DoxyCodeLine{\Hypertarget{cp__calendar__poller_8hpp_source_l00083}00083\ \ \ std::chrono::system\_clock::time\_point\ \mbox{\hyperlink{classcl__gcalcli_1_1CpCalendarPoller_ada4d143c588264e27b12ec99d8a73214}{getLastPollTime}}()\ \textcolor{keyword}{const};}
+\DoxyCodeLine{\Hypertarget{cp__calendar__poller_8hpp_source_l00084}00084\ }
+\DoxyCodeLine{\Hypertarget{cp__calendar__poller_8hpp_source_l00085}00085\ \ \ \textcolor{comment}{//\ Signal\ for\ agenda\ updates}}
+\DoxyCodeLine{\Hypertarget{cp__calendar__poller_8hpp_source_l00086}\mbox{\hyperlink{classcl__gcalcli_1_1CpCalendarPoller_a1cf1b0e673f6addd106d3c1a6a75af40}{00086}}\ \ \ \mbox{\hyperlink{classsmacc2_1_1SmaccSignal}{smacc2::SmaccSignal}}<void(\textcolor{keyword}{const}\ std::vector<CalendarEvent>\ \&)>\ \mbox{\hyperlink{classcl__gcalcli_1_1CpCalendarPoller_a1cf1b0e673f6addd106d3c1a6a75af40}{onAgendaUpdated\_}};}
+\DoxyCodeLine{\Hypertarget{cp__calendar__poller_8hpp_source_l00087}00087\ }
+\DoxyCodeLine{\Hypertarget{cp__calendar__poller_8hpp_source_l00088}00088\ \ \ \textcolor{comment}{//\ Signal\ connection\ helper}}
+\DoxyCodeLine{\Hypertarget{cp__calendar__poller_8hpp_source_l00089}00089\ \ \ \textcolor{keyword}{template}\ <\textcolor{keyword}{typename}\ T>}
+\DoxyCodeLine{\Hypertarget{cp__calendar__poller_8hpp_source_l00090}\mbox{\hyperlink{classcl__gcalcli_1_1CpCalendarPoller_ab50a719dfb9a362fedb18575d8dde73d}{00090}}\ \ \ \mbox{\hyperlink{namespacesmacc2_a5a5bb8f06eff3a799445f680c8e22c88}{smacc2::SmaccSignalConnection}}\ \mbox{\hyperlink{classcl__gcalcli_1_1CpCalendarPoller_ab50a719dfb9a362fedb18575d8dde73d}{onAgendaUpdated}}(}
+\DoxyCodeLine{\Hypertarget{cp__calendar__poller_8hpp_source_l00091}00091\ \ \ \ \ \textcolor{keywordtype}{void}\ (T::*callback)(\textcolor{keyword}{const}\ std::vector<CalendarEvent>\ \&),\ T\ *\ \textcolor{keywordtype}{object})}
+\DoxyCodeLine{\Hypertarget{cp__calendar__poller_8hpp_source_l00092}00092\ \ \ \{}
+\DoxyCodeLine{\Hypertarget{cp__calendar__poller_8hpp_source_l00093}00093\ \ \ \ \ \textcolor{keywordflow}{return}\ this-\/>\mbox{\hyperlink{classsmacc2_1_1ISmaccComponent_a420ef07087efcdc74fb233f11ae3a517}{getStateMachine}}()-\/>\mbox{\hyperlink{classsmacc2_1_1ISmaccStateMachine_a5a7796e13095b776bdd9a112d018e0f0}{createSignalConnection}}(onAgendaUpdated\_,\ callback,\ \textcolor{keywordtype}{object});}
+\DoxyCodeLine{\Hypertarget{cp__calendar__poller_8hpp_source_l00094}00094\ \ \ \}}
+\DoxyCodeLine{\Hypertarget{cp__calendar__poller_8hpp_source_l00095}00095\ }
+\DoxyCodeLine{\Hypertarget{cp__calendar__poller_8hpp_source_l00096}00096\ \ \ \textcolor{comment}{//\ Event\ posting\ function\ -\/\ set\ via\ onStateOrthogonalAllocation}}
+\DoxyCodeLine{\Hypertarget{cp__calendar__poller_8hpp_source_l00097}\mbox{\hyperlink{classcl__gcalcli_1_1CpCalendarPoller_a995b9e3fc9a400867412b1e88d02dcf8}{00097}}\ \ \ std::function<void(\textcolor{keyword}{const}\ std::vector<CalendarEvent>\ \&)>\ \mbox{\hyperlink{classcl__gcalcli_1_1CpCalendarPoller_a995b9e3fc9a400867412b1e88d02dcf8}{postAgendaUpdatedEvent\_}};}
+\DoxyCodeLine{\Hypertarget{cp__calendar__poller_8hpp_source_l00098}00098\ }
+\DoxyCodeLine{\Hypertarget{cp__calendar__poller_8hpp_source_l00102}00102\ \ \ \textcolor{keyword}{template}\ <\textcolor{keyword}{typename}\ TOrthogonal,\ \textcolor{keyword}{typename}\ TSourceObject>}
+\DoxyCodeLine{\Hypertarget{cp__calendar__poller_8hpp_source_l00103}\mbox{\hyperlink{classcl__gcalcli_1_1CpCalendarPoller_a5dd34735c5ebf23a94689d9014eacaa6}{00103}}\ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{classcl__gcalcli_1_1CpCalendarPoller_a5dd34735c5ebf23a94689d9014eacaa6}{onStateOrthogonalAllocation}}()}
+\DoxyCodeLine{\Hypertarget{cp__calendar__poller_8hpp_source_l00104}00104\ \ \ \{}
+\DoxyCodeLine{\Hypertarget{cp__calendar__poller_8hpp_source_l00105}00105\ \ \ \ \ \mbox{\hyperlink{classcl__gcalcli_1_1CpCalendarPoller_a995b9e3fc9a400867412b1e88d02dcf8}{postAgendaUpdatedEvent\_}}\ =\ [\textcolor{keyword}{this}](\textcolor{keyword}{const}\ std::vector<CalendarEvent>\ \&\ events)}
+\DoxyCodeLine{\Hypertarget{cp__calendar__poller_8hpp_source_l00106}00106\ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{cp__calendar__poller_8hpp_source_l00107}00107\ \ \ \ \ \ \ \textcolor{keyword}{auto}\ ev\ =\ \textcolor{keyword}{new}\ \mbox{\hyperlink{structcl__gcalcli_1_1EvAgendaUpdated}{EvAgendaUpdated<CpCalendarPoller,\ TOrthogonal>}}();}
+\DoxyCodeLine{\Hypertarget{cp__calendar__poller_8hpp_source_l00108}00108\ \ \ \ \ \ \ ev-\/>events\ =\ events;}
+\DoxyCodeLine{\Hypertarget{cp__calendar__poller_8hpp_source_l00109}00109\ \ \ \ \ \ \ this-\/>\mbox{\hyperlink{classsmacc2_1_1ISmaccComponent_a03dd302448a2e186b1059822cff8c669}{postEvent}}(ev);}
+\DoxyCodeLine{\Hypertarget{cp__calendar__poller_8hpp_source_l00110}00110\ \ \ \ \ \};}
+\DoxyCodeLine{\Hypertarget{cp__calendar__poller_8hpp_source_l00111}00111\ \ \ \}}
+\DoxyCodeLine{\Hypertarget{cp__calendar__poller_8hpp_source_l00112}00112\ }
+\DoxyCodeLine{\Hypertarget{cp__calendar__poller_8hpp_source_l00113}00113\ \textcolor{keyword}{protected}:}
+\DoxyCodeLine{\Hypertarget{cp__calendar__poller_8hpp_source_l00117}00117\ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{classcl__gcalcli_1_1CpCalendarPoller_a452f70468992ede22c70f9533762d54d}{update}}()\ \textcolor{keyword}{override};}
+\DoxyCodeLine{\Hypertarget{cp__calendar__poller_8hpp_source_l00118}00118\ }
+\DoxyCodeLine{\Hypertarget{cp__calendar__poller_8hpp_source_l00119}00119\ \textcolor{keyword}{private}:}
+\DoxyCodeLine{\Hypertarget{cp__calendar__poller_8hpp_source_l00123}00123\ \ \ std::vector<CalendarEvent>\ \mbox{\hyperlink{classcl__gcalcli_1_1CpCalendarPoller_ad73bc51b0476140a0f9f494435cd1cf6}{parseTsvOutput}}(\textcolor{keyword}{const}\ std::string\ \&\ output);}
+\DoxyCodeLine{\Hypertarget{cp__calendar__poller_8hpp_source_l00124}00124\ }
+\DoxyCodeLine{\Hypertarget{cp__calendar__poller_8hpp_source_l00128}00128\ \ \ std::optional<CalendarEvent>\ \mbox{\hyperlink{classcl__gcalcli_1_1CpCalendarPoller_a7e3cfeb1e7f6afbd8e1062f7bd1986d4}{parseTsvLine}}(\textcolor{keyword}{const}\ std::string\ \&\ line);}
+\DoxyCodeLine{\Hypertarget{cp__calendar__poller_8hpp_source_l00129}00129\ }
+\DoxyCodeLine{\Hypertarget{cp__calendar__poller_8hpp_source_l00135}00135\ \ \ std::optional<std::chrono::system\_clock::time\_point>\ \mbox{\hyperlink{classcl__gcalcli_1_1CpCalendarPoller_a013afb653f3068fa17ae0b89369cb5b3}{parseDateTime}}(}
+\DoxyCodeLine{\Hypertarget{cp__calendar__poller_8hpp_source_l00136}00136\ \ \ \ \ \textcolor{keyword}{const}\ std::string\ \&\ date\_str,\ \textcolor{keyword}{const}\ std::string\ \&\ time\_str);}
+\DoxyCodeLine{\Hypertarget{cp__calendar__poller_8hpp_source_l00137}00137\ }
+\DoxyCodeLine{\Hypertarget{cp__calendar__poller_8hpp_source_l00141}00141\ \ \ std::string\ \mbox{\hyperlink{classcl__gcalcli_1_1CpCalendarPoller_a7e2408f55c862f39d2488947ea8959f7}{generateEventId}}(\textcolor{keyword}{const}\ \mbox{\hyperlink{structcl__gcalcli_1_1CalendarEvent}{CalendarEvent}}\ \&\ event);}
+\DoxyCodeLine{\Hypertarget{cp__calendar__poller_8hpp_source_l00142}00142\ }
+\DoxyCodeLine{\Hypertarget{cp__calendar__poller_8hpp_source_l00143}\mbox{\hyperlink{classcl__gcalcli_1_1CpCalendarPoller_a6159769820268f147a9602663737eadf}{00143}}\ \ \ \mbox{\hyperlink{classcl__gcalcli_1_1CpGcalcliConnection}{CpGcalcliConnection}}\ *\ \mbox{\hyperlink{classcl__gcalcli_1_1CpCalendarPoller_a6159769820268f147a9602663737eadf}{connection\_}};}
+\DoxyCodeLine{\Hypertarget{cp__calendar__poller_8hpp_source_l00144}\mbox{\hyperlink{classcl__gcalcli_1_1CpCalendarPoller_ae30b6605f78c2c71ff57c690c9235084}{00144}}\ \ \ std::vector<CalendarEvent>\ \mbox{\hyperlink{classcl__gcalcli_1_1CpCalendarPoller_ae30b6605f78c2c71ff57c690c9235084}{cached\_events\_}};}
+\DoxyCodeLine{\Hypertarget{cp__calendar__poller_8hpp_source_l00145}\mbox{\hyperlink{classcl__gcalcli_1_1CpCalendarPoller_a32daf1d78efa0b199b2f07ada9d2242a}{00145}}\ \ \ std::chrono::system\_clock::time\_point\ \mbox{\hyperlink{classcl__gcalcli_1_1CpCalendarPoller_a32daf1d78efa0b199b2f07ada9d2242a}{last\_poll\_time\_}};}
+\DoxyCodeLine{\Hypertarget{cp__calendar__poller_8hpp_source_l00146}\mbox{\hyperlink{classcl__gcalcli_1_1CpCalendarPoller_a8aa19e67ddef701aaca399460af2dd78}{00146}}\ \ \ std::chrono::steady\_clock::time\_point\ \mbox{\hyperlink{classcl__gcalcli_1_1CpCalendarPoller_a8aa19e67ddef701aaca399460af2dd78}{last\_poll\_attempt\_}};}
+\DoxyCodeLine{\Hypertarget{cp__calendar__poller_8hpp_source_l00147}\mbox{\hyperlink{classcl__gcalcli_1_1CpCalendarPoller_af4da8d01db66823e79bb4ce18ebe277a}{00147}}\ \ \ \textcolor{keywordtype}{bool}\ \mbox{\hyperlink{classcl__gcalcli_1_1CpCalendarPoller_af4da8d01db66823e79bb4ce18ebe277a}{initialized\_}};}
+\DoxyCodeLine{\Hypertarget{cp__calendar__poller_8hpp_source_l00148}00148\ }
+\DoxyCodeLine{\Hypertarget{cp__calendar__poller_8hpp_source_l00149}\mbox{\hyperlink{classcl__gcalcli_1_1CpCalendarPoller_af390f973d8154c11fa050fe624807719}{00149}}\ \ \ \textcolor{keyword}{mutable}\ std::mutex\ \mbox{\hyperlink{classcl__gcalcli_1_1CpCalendarPoller_af390f973d8154c11fa050fe624807719}{events\_mutex\_}};}
+\DoxyCodeLine{\Hypertarget{cp__calendar__poller_8hpp_source_l00150}00150\ \};}
+\DoxyCodeLine{\Hypertarget{cp__calendar__poller_8hpp_source_l00151}00151\ }
+\DoxyCodeLine{\Hypertarget{cp__calendar__poller_8hpp_source_l00152}00152\ \}\ \ \textcolor{comment}{//\ namespace\ cl\_gcalcli}}
+
+\end{DoxyCode}

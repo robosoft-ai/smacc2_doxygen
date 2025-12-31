@@ -1,4 +1,5 @@
 var searchData=
 [
-  ['my_5fcontext_0',['my_context',['../structsmacc2_1_1SmaccState_1_1my__context.html',1,'smacc2::SmaccState']]]
+  ['jointtrajectoryoptions_0',['JointTrajectoryOptions',['../structcl__moveit2z_1_1JointTrajectoryOptions.html',1,'cl_moveit2z']]],
+  ['jointtrajectoryresult_1',['JointTrajectoryResult',['../structcl__moveit2z_1_1JointTrajectoryResult.html',1,'cl_moveit2z']]]
 ];
