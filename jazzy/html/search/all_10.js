@@ -15,7 +15,7 @@ var searchData=
   ['pathinfos_5f_12',['pathInfos_',['../classcl__nav2z_1_1odom__tracker_1_1CpOdomTracker.html#a9550ac2607b731343864ec42aeffada4',1,'cl_nav2z::odom_tracker::CpOdomTracker']]],
   ['pathstack_5f_13',['pathStack_',['../classcl__nav2z_1_1odom__tracker_1_1CpOdomTracker.html#aad82411a2bfa3012f333c0f4385911c1',1,'cl_nav2z::odom_tracker::CpOdomTracker']]],
   ['pattern_14',['pattern',['../structcl__gcalcli_1_1EventWatch.html#acf04d13297d4449b72383641cbee9c55',1,'cl_gcalcli::EventWatch']]],
-  ['pattern_5f_15',['pattern_',['../classcl__gcalcli_1_1CbEventDetect.html#aab2aa2ce67fd8a2b8749e6c54b5ec307',1,'cl_gcalcli::CbEventDetect']]],
+  ['pattern_5f_15',['pattern_',['../classcl__gcalcli_1_1CbDetectCalendarEvent.html#a54afd3eab4a26625505586a7bde3d124',1,'cl_gcalcli::CbDetectCalendarEvent::pattern_'],['../classcl__gcalcli_1_1CbEventDetect.html#aab2aa2ce67fd8a2b8749e6c54b5ec307',1,'cl_gcalcli::CbEventDetect::pattern_']]],
   ['paused_16',['Paused',['../classcl__nav2z_1_1CpSlamToolbox.html#ad3d52fa2801e9ac16f945704aaefb064ae99180abf47a8b3a856e0bcb2656990a',1,'cl_nav2z::CpSlamToolbox']]],
   ['pcontext_5f_17',['pContext_',['../structsmacc2_1_1SmaccState_1_1my__context.html#a52c079137d251f37f6cc227e1e3783be',1,'smacc2::SmaccState::my_context']]],
   ['performheartbeat_18',['performHeartbeat',['../classcl__gcalcli_1_1CpGcalcliConnection.html#abfa8d50804533cc3795c75257e2c5692',1,'cl_gcalcli::CpGcalcliConnection']]],

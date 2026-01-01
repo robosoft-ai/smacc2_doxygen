@@ -27,7 +27,7 @@ var searchData=
   ['maxveltheta_24',['maxVelTheta',['../classcl__nav2z_1_1CbAbsoluteRotate.html#a37db07e24a84986fa5d7eac36a819283',1,'cl_nav2z::CbAbsoluteRotate']]],
   ['messagecallback_25',['messageCallback',['../classsmacc2_1_1client__bases_1_1SmaccSubscriberClient.html#a5f7fc4a0d2806046a9fe2bd841fda455',1,'smacc2::client_bases::SmaccSubscriberClient::messageCallback()'],['../classsmacc2_1_1client__core__components_1_1CpTopicSubscriber.html#a2e5f28486e1785e841c54ff6abb6b6e0',1,'smacc2::client_core_components::CpTopicSubscriber::messageCallback()']]],
   ['minutes_5fbefore_26',['minutes_before',['../structcl__gcalcli_1_1EventWatch.html#aced7fb72df69d164defcdfc14746c81b',1,'cl_gcalcli::EventWatch']]],
-  ['minutes_5fbefore_5f_27',['minutes_before_',['../classcl__gcalcli_1_1CbEventDetect.html#a2fffb4062d2306086c0c2cd41b34b09d',1,'cl_gcalcli::CbEventDetect']]],
+  ['minutes_5fbefore_5f_27',['minutes_before_',['../classcl__gcalcli_1_1CbDetectCalendarEvent.html#aa55c86acf4459520fe87df0caba65511',1,'cl_gcalcli::CbDetectCalendarEvent::minutes_before_'],['../classcl__gcalcli_1_1CbEventDetect.html#a2fffb4062d2306086c0c2cd41b34b09d',1,'cl_gcalcli::CbEventDetect::minutes_before_']]],
   ['minutesuntilstart_28',['minutesUntilStart',['../structcl__gcalcli_1_1CalendarEvent.html#a134ee59efffd772868fa3f3dc95dd56c',1,'cl_gcalcli::CalendarEvent']]],
   ['minvalue_29',['minValue',['../classsmacc2_1_1state__reactors_1_1EgRandomGenerator.html#acbe798166ff91f328827919d8fa5fe9f',1,'smacc2::state_reactors::EgRandomGenerator']]],
   ['missionstate_5f_30',['missionState_',['../classcl__isaac__apriltag_1_1CbDetectAprilTag.html#afb0f7a5bb939c47a258a7d7744ec6a51',1,'cl_isaac_apriltag::CbDetectAprilTag']]],

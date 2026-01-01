@@ -17,5 +17,5 @@ var searchData=
   ['updatestatusmessage_14',['updateStatusMessage',['../classsmacc2_1_1ISmaccStateMachine.html#af4f58396fd87d4f94299ddb624f154fa',1,'smacc2::ISmaccStateMachine']]],
   ['updatetemporalbehaviorparameters_15',['updateTemporalBehaviorParameters',['../classcl__nav2z_1_1CbAbsoluteRotate.html#a9410b279fa1b5d2dc02a413166e8fe72',1,'cl_nav2z::CbAbsoluteRotate']]],
   ['use_5fregex_16',['use_regex',['../structcl__gcalcli_1_1EventWatch.html#a38961dd20a148c6bfcac85417f7e344a',1,'cl_gcalcli::EventWatch']]],
-  ['use_5fregex_5f_17',['use_regex_',['../classcl__gcalcli_1_1CbEventDetect.html#a43dd80634a32f199a91e82f1c1035f31',1,'cl_gcalcli::CbEventDetect']]]
+  ['use_5fregex_5f_17',['use_regex_',['../classcl__gcalcli_1_1CbDetectCalendarEvent.html#a709e0727552171d64aca9daeecab2d44',1,'cl_gcalcli::CbDetectCalendarEvent::use_regex_'],['../classcl__gcalcli_1_1CbEventDetect.html#a43dd80634a32f199a91e82f1c1035f31',1,'cl_gcalcli::CbEventDetect::use_regex_']]]
 ];

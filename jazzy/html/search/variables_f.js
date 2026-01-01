@@ -8,7 +8,7 @@ var searchData=
   ['pathinfos_5f_5',['pathInfos_',['../classcl__nav2z_1_1odom__tracker_1_1CpOdomTracker.html#a9550ac2607b731343864ec42aeffada4',1,'cl_nav2z::odom_tracker::CpOdomTracker']]],
   ['pathstack_5f_6',['pathStack_',['../classcl__nav2z_1_1odom__tracker_1_1CpOdomTracker.html#aad82411a2bfa3012f333c0f4385911c1',1,'cl_nav2z::odom_tracker::CpOdomTracker']]],
   ['pattern_7',['pattern',['../structcl__gcalcli_1_1EventWatch.html#acf04d13297d4449b72383641cbee9c55',1,'cl_gcalcli::EventWatch']]],
-  ['pattern_5f_8',['pattern_',['../classcl__gcalcli_1_1CbEventDetect.html#aab2aa2ce67fd8a2b8749e6c54b5ec307',1,'cl_gcalcli::CbEventDetect']]],
+  ['pattern_5f_8',['pattern_',['../classcl__gcalcli_1_1CbDetectCalendarEvent.html#a54afd3eab4a26625505586a7bde3d124',1,'cl_gcalcli::CbDetectCalendarEvent::pattern_'],['../classcl__gcalcli_1_1CbEventDetect.html#aab2aa2ce67fd8a2b8749e6c54b5ec307',1,'cl_gcalcli::CbEventDetect::pattern_']]],
   ['pcontext_5f_9',['pContext_',['../structsmacc2_1_1SmaccState_1_1my__context.html#a52c079137d251f37f6cc227e1e3783be',1,'smacc2::SmaccState::my_context']]],
   ['periodduration_5f_10',['periodDuration_',['../classsmacc2_1_1ISmaccUpdatable.html#a864e07bd5607c0d9a08beb84f6c1f19c',1,'smacc2::ISmaccUpdatable']]],
   ['pid_11',['pid',['../structsmacc2_1_1client__bases_1_1ProcessInfo.html#a4b89d5acba7e751d5384a6bc473758bb',1,'smacc2::client_bases::ProcessInfo']]],
