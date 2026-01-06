@@ -17,5 +17,6 @@ var searchData=
   ['transformpose_14',['transformPose',['../classcl__moveit2z_1_1CpTfListener.html#af9683495696fe16881f3e99c3f8626d4',1,'cl_moveit2z::CpTfListener']]],
   ['transitioninfotomsg_15',['transitionInfoToMsg',['../namespacesmacc2_1_1introspection.html#aff63647843caf0176c8dac4c8cbfd04f',1,'smacc2::introspection']]],
   ['triggers_16',['triggers',['../classsmacc2_1_1StateReactor.html#afcfe88b2fe9b09b1866a32a053a3c201',1,'smacc2::StateReactor::triggers()'],['../classsmacc2_1_1state__reactors_1_1SrAllEventsGo.html#a1ad9f6cae0c69ffb1dd467aa7c73df76',1,'smacc2::state_reactors::SrAllEventsGo::triggers()'],['../classsmacc2_1_1state__reactors_1_1SrConditional.html#a6823bd76d418532a60a66b67246e0a3e',1,'smacc2::state_reactors::SrConditional::triggers()'],['../classsmacc2_1_1state__reactors_1_1SrEventCountdown.html#a2f08f663b2ccb6f677cd4407efba341a',1,'smacc2::state_reactors::SrEventCountdown::triggers()']]],
-  ['typeinfo_17',['TypeInfo',['../classsmacc2_1_1introspection_1_1TypeInfo.html#abc281e8d027d7b3fde9393a7e154edbc',1,'smacc2::introspection::TypeInfo']]]
+  ['trygetorset_17',['tryGetOrSet',['../namespacecl__nav2z_1_1backward__local__planner.html#a432d8eb2168129213955575a2da12e19',1,'cl_nav2z::backward_local_planner::tryGetOrSet()'],['../namespacecl__nav2z_1_1pure__spinning__local__planner.html#ae259356343718184bed39cb2a384ce45',1,'cl_nav2z::pure_spinning_local_planner::tryGetOrSet()']]],
+  ['typeinfo_18',['TypeInfo',['../classsmacc2_1_1introspection_1_1TypeInfo.html#abc281e8d027d7b3fde9393a7e154edbc',1,'smacc2::introspection::TypeInfo']]]
 ];

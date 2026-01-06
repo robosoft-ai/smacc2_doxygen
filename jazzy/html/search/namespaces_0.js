@@ -13,8 +13,14 @@ var searchData=
   ['cl_5fmodbus_5ftcp_5frelay_10',['cl_modbus_tcp_relay',['../namespacecl__modbus__tcp__relay.html',1,'']]],
   ['cl_5fmoveit2z_11',['cl_moveit2z',['../namespacecl__moveit2z.html',1,'']]],
   ['cl_5fnav2z_12',['cl_nav2z',['../namespacecl__nav2z.html',1,'']]],
-  ['cl_5fnav2z_3a_3acomponents_13',['components',['../namespacecl__nav2z_1_1components.html',1,'cl_nav2z']]],
-  ['cl_5fnav2z_3a_3aodom_5ftracker_14',['odom_tracker',['../namespacecl__nav2z_1_1odom__tracker.html',1,'cl_nav2z']]],
-  ['cl_5fros2_5ftimer_15',['cl_ros2_timer',['../namespacecl__ros2__timer.html',1,'']]],
-  ['cl_5fros2_5ftimer_3a_3acomponents_16',['components',['../namespacecl__ros2__timer_1_1components.html',1,'cl_ros2_timer']]]
+  ['cl_5fnav2z_3a_3abackward_5fglobal_5fplanner_13',['backward_global_planner',['../namespacecl__nav2z_1_1backward__global__planner.html',1,'cl_nav2z']]],
+  ['cl_5fnav2z_3a_3abackward_5flocal_5fplanner_14',['backward_local_planner',['../namespacecl__nav2z_1_1backward__local__planner.html',1,'cl_nav2z']]],
+  ['cl_5fnav2z_3a_3acomponents_15',['components',['../namespacecl__nav2z_1_1components.html',1,'cl_nav2z']]],
+  ['cl_5fnav2z_3a_3aforward_5fglobal_5fplanner_16',['forward_global_planner',['../namespacecl__nav2z_1_1forward__global__planner.html',1,'cl_nav2z']]],
+  ['cl_5fnav2z_3a_3aforward_5flocal_5fplanner_17',['forward_local_planner',['../namespacecl__nav2z_1_1forward__local__planner.html',1,'cl_nav2z']]],
+  ['cl_5fnav2z_3a_3aodom_5ftracker_18',['odom_tracker',['../namespacecl__nav2z_1_1odom__tracker.html',1,'cl_nav2z']]],
+  ['cl_5fnav2z_3a_3apure_5fspinning_5flocal_5fplanner_19',['pure_spinning_local_planner',['../namespacecl__nav2z_1_1pure__spinning__local__planner.html',1,'cl_nav2z']]],
+  ['cl_5fnav2z_3a_3aundo_5fpath_5fglobal_5fplanner_20',['undo_path_global_planner',['../namespacecl__nav2z_1_1undo__path__global__planner.html',1,'cl_nav2z']]],
+  ['cl_5fros2_5ftimer_21',['cl_ros2_timer',['../namespacecl__ros2__timer.html',1,'']]],
+  ['cl_5fros2_5ftimer_3a_3acomponents_22',['components',['../namespacecl__ros2__timer_1_1components.html',1,'cl_ros2_timer']]]
 ];
