@@ -1,0 +1,86 @@
+\doxysection{cb\+\_\+takeoff.\+cpp}
+\hypertarget{cb__takeoff_8cpp_source}{}\label{cb__takeoff_8cpp_source}\index{smacc2\_client\_library/cl\_px4\_mr/src/cl\_px4\_mr/client\_behaviors/cb\_takeoff.cpp@{smacc2\_client\_library/cl\_px4\_mr/src/cl\_px4\_mr/client\_behaviors/cb\_takeoff.cpp}}
+\mbox{\hyperlink{cb__takeoff_8cpp}{Go to the documentation of this file.}}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\Hypertarget{cb__takeoff_8cpp_source_l00001}00001\ \textcolor{comment}{//\ Copyright\ 2025\ Robosoft\ Inc.}}
+\DoxyCodeLine{\Hypertarget{cb__takeoff_8cpp_source_l00002}00002\ \textcolor{comment}{//}}
+\DoxyCodeLine{\Hypertarget{cb__takeoff_8cpp_source_l00003}00003\ \textcolor{comment}{//\ Licensed\ under\ the\ Apache\ License,\ Version\ 2.0\ (the\ "{}License"{});}}
+\DoxyCodeLine{\Hypertarget{cb__takeoff_8cpp_source_l00004}00004\ \textcolor{comment}{//\ you\ may\ not\ use\ this\ file\ except\ in\ compliance\ with\ the\ License.}}
+\DoxyCodeLine{\Hypertarget{cb__takeoff_8cpp_source_l00005}00005\ \textcolor{comment}{//\ You\ may\ obtain\ a\ copy\ of\ the\ License\ at}}
+\DoxyCodeLine{\Hypertarget{cb__takeoff_8cpp_source_l00006}00006\ \textcolor{comment}{//}}
+\DoxyCodeLine{\Hypertarget{cb__takeoff_8cpp_source_l00007}00007\ \textcolor{comment}{//\ \ \ \ \ http://www.apache.org/licenses/LICENSE-\/2.0}}
+\DoxyCodeLine{\Hypertarget{cb__takeoff_8cpp_source_l00008}00008\ \textcolor{comment}{//}}
+\DoxyCodeLine{\Hypertarget{cb__takeoff_8cpp_source_l00009}00009\ \textcolor{comment}{//\ Unless\ required\ by\ applicable\ law\ or\ agreed\ to\ in\ writing,\ software}}
+\DoxyCodeLine{\Hypertarget{cb__takeoff_8cpp_source_l00010}00010\ \textcolor{comment}{//\ distributed\ under\ the\ License\ is\ distributed\ on\ an\ "{}AS\ IS"{}\ BASIS,}}
+\DoxyCodeLine{\Hypertarget{cb__takeoff_8cpp_source_l00011}00011\ \textcolor{comment}{//\ WITHOUT\ WARRANTIES\ OR\ CONDITIONS\ OF\ ANY\ KIND,\ either\ express\ or\ implied.}}
+\DoxyCodeLine{\Hypertarget{cb__takeoff_8cpp_source_l00012}00012\ \textcolor{comment}{//\ See\ the\ License\ for\ the\ specific\ language\ governing\ permissions\ and}}
+\DoxyCodeLine{\Hypertarget{cb__takeoff_8cpp_source_l00013}00013\ \textcolor{comment}{//\ limitations\ under\ the\ License.}}
+\DoxyCodeLine{\Hypertarget{cb__takeoff_8cpp_source_l00014}00014\ }
+\DoxyCodeLine{\Hypertarget{cb__takeoff_8cpp_source_l00015}00015\ \textcolor{preprocessor}{\#include\ <\mbox{\hyperlink{cb__takeoff_8hpp}{cl\_px4\_mr/client\_behaviors/cb\_takeoff.hpp}}>}}
+\DoxyCodeLine{\Hypertarget{cb__takeoff_8cpp_source_l00016}00016\ \textcolor{preprocessor}{\#include\ <\mbox{\hyperlink{cp__goal__checker_8hpp}{cl\_px4\_mr/components/cp\_goal\_checker.hpp}}>}}
+\DoxyCodeLine{\Hypertarget{cb__takeoff_8cpp_source_l00017}00017\ \textcolor{preprocessor}{\#include\ <\mbox{\hyperlink{cp__offboard__keep__alive_8hpp}{cl\_px4\_mr/components/cp\_offboard\_keep\_alive.hpp}}>}}
+\DoxyCodeLine{\Hypertarget{cb__takeoff_8cpp_source_l00018}00018\ \textcolor{preprocessor}{\#include\ <\mbox{\hyperlink{cp__trajectory__setpoint_8hpp}{cl\_px4\_mr/components/cp\_trajectory\_setpoint.hpp}}>}}
+\DoxyCodeLine{\Hypertarget{cb__takeoff_8cpp_source_l00019}00019\ \textcolor{preprocessor}{\#include\ <\mbox{\hyperlink{cp__vehicle__command_8hpp}{cl\_px4\_mr/components/cp\_vehicle\_command.hpp}}>}}
+\DoxyCodeLine{\Hypertarget{cb__takeoff_8cpp_source_l00020}00020\ \textcolor{preprocessor}{\#include\ <\mbox{\hyperlink{cp__vehicle__local__position_8hpp}{cl\_px4\_mr/components/cp\_vehicle\_local\_position.hpp}}>}}
+\DoxyCodeLine{\Hypertarget{cb__takeoff_8cpp_source_l00021}00021\ }
+\DoxyCodeLine{\Hypertarget{cb__takeoff_8cpp_source_l00022}00022\ \textcolor{preprocessor}{\#include\ <chrono>}}
+\DoxyCodeLine{\Hypertarget{cb__takeoff_8cpp_source_l00023}00023\ \textcolor{preprocessor}{\#include\ <thread>}}
+\DoxyCodeLine{\Hypertarget{cb__takeoff_8cpp_source_l00024}00024\ }
+\DoxyCodeLine{\Hypertarget{cb__takeoff_8cpp_source_l00025}00025\ \textcolor{keyword}{namespace\ }\mbox{\hyperlink{namespacecl__px4__mr}{cl\_px4\_mr}}}
+\DoxyCodeLine{\Hypertarget{cb__takeoff_8cpp_source_l00026}00026\ \{}
+\DoxyCodeLine{\Hypertarget{cb__takeoff_8cpp_source_l00027}00027\ }
+\DoxyCodeLine{\Hypertarget{cb__takeoff_8cpp_source_l00028}\mbox{\hyperlink{classcl__px4__mr_1_1CbTakeOff_ad573b511009d775722afe8d8eab53fdb}{00028}}\ \mbox{\hyperlink{classcl__px4__mr_1_1CbTakeOff_ad573b511009d775722afe8d8eab53fdb}{CbTakeOff::CbTakeOff}}(\textcolor{keywordtype}{float}\ targetAltitude)\ :\ targetAltitude\_(targetAltitude)\ \{\}}
+\DoxyCodeLine{\Hypertarget{cb__takeoff_8cpp_source_l00029}00029\ }
+\DoxyCodeLine{\Hypertarget{cb__takeoff_8cpp_source_l00030}\mbox{\hyperlink{classcl__px4__mr_1_1CbTakeOff_a3eb0fd3c2e364236635d182bf92c8a22}{00030}}\ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{classcl__px4__mr_1_1CbTakeOff_a3eb0fd3c2e364236635d182bf92c8a22}{CbTakeOff::onEntry}}()}
+\DoxyCodeLine{\Hypertarget{cb__takeoff_8cpp_source_l00031}00031\ \{}
+\DoxyCodeLine{\Hypertarget{cb__takeoff_8cpp_source_l00032}00032\ \ \ this-\/>\mbox{\hyperlink{classsmacc2_1_1ISmaccClientBehavior_aeb76b10b9bb3925244da9d484739a5a9}{requiresComponent}}(\mbox{\hyperlink{classcl__px4__mr_1_1CbTakeOff_ac8c9cdd7730ae5d74d2ebc3117408541}{vehicleCommand\_}});}
+\DoxyCodeLine{\Hypertarget{cb__takeoff_8cpp_source_l00033}00033\ \ \ this-\/>\mbox{\hyperlink{classsmacc2_1_1ISmaccClientBehavior_aeb76b10b9bb3925244da9d484739a5a9}{requiresComponent}}(\mbox{\hyperlink{classcl__px4__mr_1_1CbTakeOff_ac6f5dc2b385093b9283f48cb0671a083}{offboardKeepAlive\_}});}
+\DoxyCodeLine{\Hypertarget{cb__takeoff_8cpp_source_l00034}00034\ \ \ this-\/>\mbox{\hyperlink{classsmacc2_1_1ISmaccClientBehavior_aeb76b10b9bb3925244da9d484739a5a9}{requiresComponent}}(\mbox{\hyperlink{classcl__px4__mr_1_1CbTakeOff_af8afc371362e789e13e08ec1b2ee14da}{trajectorySetpoint\_}});}
+\DoxyCodeLine{\Hypertarget{cb__takeoff_8cpp_source_l00035}00035\ \ \ this-\/>\mbox{\hyperlink{classsmacc2_1_1ISmaccClientBehavior_aeb76b10b9bb3925244da9d484739a5a9}{requiresComponent}}(\mbox{\hyperlink{classcl__px4__mr_1_1CbTakeOff_a9ae6c7be1fde7c3446c0840455ce643d}{goalChecker\_}});}
+\DoxyCodeLine{\Hypertarget{cb__takeoff_8cpp_source_l00036}00036\ \ \ this-\/>\mbox{\hyperlink{classsmacc2_1_1ISmaccClientBehavior_aeb76b10b9bb3925244da9d484739a5a9}{requiresComponent}}(\mbox{\hyperlink{classcl__px4__mr_1_1CbTakeOff_a78f9b650e472d967520799a8565047af}{localPosition\_}});}
+\DoxyCodeLine{\Hypertarget{cb__takeoff_8cpp_source_l00037}00037\ }
+\DoxyCodeLine{\Hypertarget{cb__takeoff_8cpp_source_l00038}00038\ \ \ this-\/>\mbox{\hyperlink{classsmacc2_1_1ISmaccClientBehavior_aef894ccf74067413e7cf501dbf022cd2}{getStateMachine}}()-\/>\mbox{\hyperlink{classsmacc2_1_1ISmaccStateMachine_a5a7796e13095b776bdd9a112d018e0f0}{createSignalConnection}}(}
+\DoxyCodeLine{\Hypertarget{cb__takeoff_8cpp_source_l00039}00039\ \ \ \ \ \mbox{\hyperlink{classcl__px4__mr_1_1CbTakeOff_a9ae6c7be1fde7c3446c0840455ce643d}{goalChecker\_}}-\/>\mbox{\hyperlink{classcl__px4__mr_1_1CpGoalChecker_a9ea229287945f005d24aeb213095332e}{onGoalReached\_}},\ \&\mbox{\hyperlink{classcl__px4__mr_1_1CbTakeOff_aad3dd5629efde9730f2685b7784c1da7}{CbTakeOff::onGoalReachedCallback}},\ \textcolor{keyword}{this});}
+\DoxyCodeLine{\Hypertarget{cb__takeoff_8cpp_source_l00040}00040\ }
+\DoxyCodeLine{\Hypertarget{cb__takeoff_8cpp_source_l00041}00041\ \ \ \textcolor{comment}{//\ 1.\ Enable\ offboard\ keepalive\ heartbeat}}
+\DoxyCodeLine{\Hypertarget{cb__takeoff_8cpp_source_l00042}00042\ \ \ \mbox{\hyperlink{classcl__px4__mr_1_1CbTakeOff_ac6f5dc2b385093b9283f48cb0671a083}{offboardKeepAlive\_}}-\/>\mbox{\hyperlink{classcl__px4__mr_1_1CpOffboardKeepAlive_ac463c035be066fe87a10cc8b1177affd}{enable}}();}
+\DoxyCodeLine{\Hypertarget{cb__takeoff_8cpp_source_l00043}00043\ }
+\DoxyCodeLine{\Hypertarget{cb__takeoff_8cpp_source_l00044}00044\ \ \ \textcolor{comment}{//\ 2.\ Hold\ current\ position\ to\ begin\ streaming\ setpoints}}
+\DoxyCodeLine{\Hypertarget{cb__takeoff_8cpp_source_l00045}00045\ \ \ \mbox{\hyperlink{classcl__px4__mr_1_1CbTakeOff_af8afc371362e789e13e08ec1b2ee14da}{trajectorySetpoint\_}}-\/>\mbox{\hyperlink{classcl__px4__mr_1_1CpTrajectorySetpoint_ad24019edc277c9e401fd3a5e9557a3b1}{hold}}();}
+\DoxyCodeLine{\Hypertarget{cb__takeoff_8cpp_source_l00046}00046\ }
+\DoxyCodeLine{\Hypertarget{cb__takeoff_8cpp_source_l00047}00047\ \ \ \textcolor{comment}{//\ 3.\ Wait\ for\ PX4\ to\ see\ the\ setpoint\ stream\ (needs\ >2Hz\ for\ 1\ second)}}
+\DoxyCodeLine{\Hypertarget{cb__takeoff_8cpp_source_l00048}00048\ \ \ RCLCPP\_INFO(\mbox{\hyperlink{classsmacc2_1_1ISmaccClientBehavior_a9c3d82542c800e2ba5207c5cff0e63e8}{getLogger}}(),\ \textcolor{stringliteral}{"{}CbTakeOff:\ streaming\ setpoints\ before\ offboard\ switch..."{}});}
+\DoxyCodeLine{\Hypertarget{cb__takeoff_8cpp_source_l00049}00049\ \ \ std::this\_thread::sleep\_for(std::chrono::seconds(2));}
+\DoxyCodeLine{\Hypertarget{cb__takeoff_8cpp_source_l00050}00050\ }
+\DoxyCodeLine{\Hypertarget{cb__takeoff_8cpp_source_l00051}00051\ \ \ \textcolor{comment}{//\ 4.\ Switch\ to\ offboard\ mode}}
+\DoxyCodeLine{\Hypertarget{cb__takeoff_8cpp_source_l00052}00052\ \ \ RCLCPP\_INFO(\mbox{\hyperlink{classsmacc2_1_1ISmaccClientBehavior_a9c3d82542c800e2ba5207c5cff0e63e8}{getLogger}}(),\ \textcolor{stringliteral}{"{}CbTakeOff:\ switching\ to\ offboard\ mode"{}});}
+\DoxyCodeLine{\Hypertarget{cb__takeoff_8cpp_source_l00053}00053\ \ \ \mbox{\hyperlink{classcl__px4__mr_1_1CbTakeOff_ac8c9cdd7730ae5d74d2ebc3117408541}{vehicleCommand\_}}-\/>\mbox{\hyperlink{classcl__px4__mr_1_1CpVehicleCommand_a370c374f5f33f65cbf6acec08f677318}{setOffboardMode}}();}
+\DoxyCodeLine{\Hypertarget{cb__takeoff_8cpp_source_l00054}00054\ }
+\DoxyCodeLine{\Hypertarget{cb__takeoff_8cpp_source_l00055}00055\ \ \ \textcolor{comment}{//\ 5.\ Small\ delay\ for\ mode\ switch\ to\ take\ effect}}
+\DoxyCodeLine{\Hypertarget{cb__takeoff_8cpp_source_l00056}00056\ \ \ std::this\_thread::sleep\_for(std::chrono::milliseconds(500));}
+\DoxyCodeLine{\Hypertarget{cb__takeoff_8cpp_source_l00057}00057\ }
+\DoxyCodeLine{\Hypertarget{cb__takeoff_8cpp_source_l00058}00058\ \ \ \textcolor{comment}{//\ 6.\ Command\ target\ altitude\ (NED:\ up\ is\ negative\ Z)}}
+\DoxyCodeLine{\Hypertarget{cb__takeoff_8cpp_source_l00059}00059\ \ \ \textcolor{keywordtype}{float}\ currentX\ =\ \mbox{\hyperlink{classcl__px4__mr_1_1CbTakeOff_a78f9b650e472d967520799a8565047af}{localPosition\_}}-\/>\mbox{\hyperlink{classcl__px4__mr_1_1CpVehicleLocalPosition_a90fd0ca926c0eba124d97f04cbc64880}{getX}}();}
+\DoxyCodeLine{\Hypertarget{cb__takeoff_8cpp_source_l00060}00060\ \ \ \textcolor{keywordtype}{float}\ currentY\ =\ \mbox{\hyperlink{classcl__px4__mr_1_1CbTakeOff_a78f9b650e472d967520799a8565047af}{localPosition\_}}-\/>\mbox{\hyperlink{classcl__px4__mr_1_1CpVehicleLocalPosition_a1d9536e60ab3709dec4876f3c650f964}{getY}}();}
+\DoxyCodeLine{\Hypertarget{cb__takeoff_8cpp_source_l00061}00061\ \ \ \textcolor{keywordtype}{float}\ targetZ\ =\ -\/\mbox{\hyperlink{classcl__px4__mr_1_1CbTakeOff_ad1f37a4580373c29eb4517e76ceee568}{targetAltitude\_}};}
+\DoxyCodeLine{\Hypertarget{cb__takeoff_8cpp_source_l00062}00062\ \ \ \textcolor{keywordtype}{float}\ currentHeading\ =\ \mbox{\hyperlink{classcl__px4__mr_1_1CbTakeOff_a78f9b650e472d967520799a8565047af}{localPosition\_}}-\/>\mbox{\hyperlink{classcl__px4__mr_1_1CpVehicleLocalPosition_ad20d2706ccb883910ec694f4c8587fd4}{getHeading}}();}
+\DoxyCodeLine{\Hypertarget{cb__takeoff_8cpp_source_l00063}00063\ }
+\DoxyCodeLine{\Hypertarget{cb__takeoff_8cpp_source_l00064}00064\ \ \ RCLCPP\_INFO(}
+\DoxyCodeLine{\Hypertarget{cb__takeoff_8cpp_source_l00065}00065\ \ \ \ \ \mbox{\hyperlink{classsmacc2_1_1ISmaccClientBehavior_a9c3d82542c800e2ba5207c5cff0e63e8}{getLogger}}(),\ \textcolor{stringliteral}{"{}CbTakeOff:\ commanding\ altitude\ \%.2f\ m\ (NED\ z=\%.2f)"{}},\ \mbox{\hyperlink{classcl__px4__mr_1_1CbTakeOff_ad1f37a4580373c29eb4517e76ceee568}{targetAltitude\_}},\ targetZ);}
+\DoxyCodeLine{\Hypertarget{cb__takeoff_8cpp_source_l00066}00066\ \ \ \mbox{\hyperlink{classcl__px4__mr_1_1CbTakeOff_af8afc371362e789e13e08ec1b2ee14da}{trajectorySetpoint\_}}-\/>\mbox{\hyperlink{classcl__px4__mr_1_1CpTrajectorySetpoint_ad05cf6bdc5f1bc48e305ddec619e7322}{setPositionNED}}(currentX,\ currentY,\ targetZ,\ currentHeading);}
+\DoxyCodeLine{\Hypertarget{cb__takeoff_8cpp_source_l00067}00067\ }
+\DoxyCodeLine{\Hypertarget{cb__takeoff_8cpp_source_l00068}00068\ \ \ \textcolor{comment}{//\ 7.\ Set\ goal\ checker\ for\ target\ altitude}}
+\DoxyCodeLine{\Hypertarget{cb__takeoff_8cpp_source_l00069}00069\ \ \ \mbox{\hyperlink{classcl__px4__mr_1_1CbTakeOff_a9ae6c7be1fde7c3446c0840455ce643d}{goalChecker\_}}-\/>\mbox{\hyperlink{classcl__px4__mr_1_1CpGoalChecker_a7fa0e4e87daf41945e7f84f4d06d57d7}{setGoal}}(currentX,\ currentY,\ targetZ,\ 0.5f,\ 0.3f);}
+\DoxyCodeLine{\Hypertarget{cb__takeoff_8cpp_source_l00070}00070\ \}}
+\DoxyCodeLine{\Hypertarget{cb__takeoff_8cpp_source_l00071}00071\ }
+\DoxyCodeLine{\Hypertarget{cb__takeoff_8cpp_source_l00072}\mbox{\hyperlink{classcl__px4__mr_1_1CbTakeOff_a630f0e63e65b2a2fbec79d5ac1a83f56}{00072}}\ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{classcl__px4__mr_1_1CbTakeOff_a630f0e63e65b2a2fbec79d5ac1a83f56}{CbTakeOff::onExit}}()\ \{\}}
+\DoxyCodeLine{\Hypertarget{cb__takeoff_8cpp_source_l00073}00073\ }
+\DoxyCodeLine{\Hypertarget{cb__takeoff_8cpp_source_l00074}\mbox{\hyperlink{classcl__px4__mr_1_1CbTakeOff_aad3dd5629efde9730f2685b7784c1da7}{00074}}\ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{classcl__px4__mr_1_1CbTakeOff_aad3dd5629efde9730f2685b7784c1da7}{CbTakeOff::onGoalReachedCallback}}()}
+\DoxyCodeLine{\Hypertarget{cb__takeoff_8cpp_source_l00075}00075\ \{}
+\DoxyCodeLine{\Hypertarget{cb__takeoff_8cpp_source_l00076}00076\ \ \ RCLCPP\_INFO(\mbox{\hyperlink{classsmacc2_1_1ISmaccClientBehavior_a9c3d82542c800e2ba5207c5cff0e63e8}{getLogger}}(),\ \textcolor{stringliteral}{"{}CbTakeOff:\ target\ altitude\ reached\ -\/\ posting\ success"{}});}
+\DoxyCodeLine{\Hypertarget{cb__takeoff_8cpp_source_l00077}00077\ \ \ this-\/>\mbox{\hyperlink{classsmacc2_1_1SmaccAsyncClientBehavior_a2fb4de26d011fbbb55bc1bbaed2e6f5b}{postSuccessEvent}}();}
+\DoxyCodeLine{\Hypertarget{cb__takeoff_8cpp_source_l00078}00078\ \}}
+\DoxyCodeLine{\Hypertarget{cb__takeoff_8cpp_source_l00079}00079\ }
+\DoxyCodeLine{\Hypertarget{cb__takeoff_8cpp_source_l00080}00080\ \}\ \ \textcolor{comment}{//\ namespace\ cl\_px4\_mr}}
+
+\end{DoxyCode}
