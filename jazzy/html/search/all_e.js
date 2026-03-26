@@ -31,5 +31,6 @@ var searchData=
   ['notifytransitionfromtransitiontypeinfo_28',['notifyTransitionFromTransitionTypeInfo',['../classsmacc2_1_1ISmaccState.html#af07000235dbc0541fe4cd9cc08790dd1',1,'smacc2::ISmaccState']]],
   ['notype_29',['NoType',['../classsmacc2_1_1introspection_1_1HasEventLabel.html#a0973f948b562743c65b39e12ffe9c775',1,'smacc2::introspection::HasEventLabel::NoType'],['../classsmacc2_1_1introspection_1_1HasAutomaticTransitionTag.html#a983b787ff58c39af95ff1805fbb5ad57',1,'smacc2::introspection::HasAutomaticTransitionTag::NoType'],['../classsmacc2_1_1introspection_1_1HasAutomaticTransitionType.html#a316cb7ee6873684e1a6c8b29b7cab23c',1,'smacc2::introspection::HasAutomaticTransitionType::NoType'],['../classsmacc2_1_1introspection_1_1HasOnDefinition.html#a76b4dccd8aad5886eddb0e350213cfee',1,'smacc2::introspection::HasOnDefinition::NoType']]],
   ['num_5fchannels_30',['NUM_CHANNELS',['../classcl__modbus__tcp__relay_1_1CpModbusRelay.html#ad2c40e5b134d93b5fe99d182b11366fb',1,'cl_modbus_tcp_relay::CpModbusRelay']]],
-  ['numorbits_5f_31',['numOrbits_',['../classcl__px4__mr_1_1CbOrbitLocation.html#aa63323a7836cec44a47fda0616868428',1,'cl_px4_mr::CbOrbitLocation']]]
+  ['numloops_5f_31',['numLoops_',['../classcl__px4__mr_1_1CbFigureEight.html#a6c66eeac6019432fd1475b7abb59d2d2',1,'cl_px4_mr::CbFigureEight']]],
+  ['numorbits_5f_32',['numOrbits_',['../classcl__px4__mr_1_1CbOrbitLocation.html#aa63323a7836cec44a47fda0616868428',1,'cl_px4_mr::CbOrbitLocation']]]
 ];

@@ -1,0 +1,90 @@
+\doxysection{cb\+\_\+follow\+\_\+waypoints.\+cpp}
+\hypertarget{cb__follow__waypoints_8cpp_source}{}\label{cb__follow__waypoints_8cpp_source}\index{smacc2\_client\_library/cl\_px4\_mr/src/cl\_px4\_mr/client\_behaviors/cb\_follow\_waypoints.cpp@{smacc2\_client\_library/cl\_px4\_mr/src/cl\_px4\_mr/client\_behaviors/cb\_follow\_waypoints.cpp}}
+\mbox{\hyperlink{cb__follow__waypoints_8cpp}{Go to the documentation of this file.}}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\Hypertarget{cb__follow__waypoints_8cpp_source_l00001}00001\ \textcolor{comment}{//\ Copyright\ 2025\ Robosoft\ Inc.}}
+\DoxyCodeLine{\Hypertarget{cb__follow__waypoints_8cpp_source_l00002}00002\ \textcolor{comment}{//}}
+\DoxyCodeLine{\Hypertarget{cb__follow__waypoints_8cpp_source_l00003}00003\ \textcolor{comment}{//\ Licensed\ under\ the\ Apache\ License,\ Version\ 2.0\ (the\ "{}License"{});}}
+\DoxyCodeLine{\Hypertarget{cb__follow__waypoints_8cpp_source_l00004}00004\ \textcolor{comment}{//\ you\ may\ not\ use\ this\ file\ except\ in\ compliance\ with\ the\ License.}}
+\DoxyCodeLine{\Hypertarget{cb__follow__waypoints_8cpp_source_l00005}00005\ \textcolor{comment}{//\ You\ may\ obtain\ a\ copy\ of\ the\ License\ at}}
+\DoxyCodeLine{\Hypertarget{cb__follow__waypoints_8cpp_source_l00006}00006\ \textcolor{comment}{//}}
+\DoxyCodeLine{\Hypertarget{cb__follow__waypoints_8cpp_source_l00007}00007\ \textcolor{comment}{//\ \ \ \ \ http://www.apache.org/licenses/LICENSE-\/2.0}}
+\DoxyCodeLine{\Hypertarget{cb__follow__waypoints_8cpp_source_l00008}00008\ \textcolor{comment}{//}}
+\DoxyCodeLine{\Hypertarget{cb__follow__waypoints_8cpp_source_l00009}00009\ \textcolor{comment}{//\ Unless\ required\ by\ applicable\ law\ or\ agreed\ to\ in\ writing,\ software}}
+\DoxyCodeLine{\Hypertarget{cb__follow__waypoints_8cpp_source_l00010}00010\ \textcolor{comment}{//\ distributed\ under\ the\ License\ is\ distributed\ on\ an\ "{}AS\ IS"{}\ BASIS,}}
+\DoxyCodeLine{\Hypertarget{cb__follow__waypoints_8cpp_source_l00011}00011\ \textcolor{comment}{//\ WITHOUT\ WARRANTIES\ OR\ CONDITIONS\ OF\ ANY\ KIND,\ either\ express\ or\ implied.}}
+\DoxyCodeLine{\Hypertarget{cb__follow__waypoints_8cpp_source_l00012}00012\ \textcolor{comment}{//\ See\ the\ License\ for\ the\ specific\ language\ governing\ permissions\ and}}
+\DoxyCodeLine{\Hypertarget{cb__follow__waypoints_8cpp_source_l00013}00013\ \textcolor{comment}{//\ limitations\ under\ the\ License.}}
+\DoxyCodeLine{\Hypertarget{cb__follow__waypoints_8cpp_source_l00014}00014\ }
+\DoxyCodeLine{\Hypertarget{cb__follow__waypoints_8cpp_source_l00015}00015\ \textcolor{preprocessor}{\#include\ <\mbox{\hyperlink{cb__follow__waypoints_8hpp}{cl\_px4\_mr/client\_behaviors/cb\_follow\_waypoints.hpp}}>}}
+\DoxyCodeLine{\Hypertarget{cb__follow__waypoints_8cpp_source_l00016}00016\ \textcolor{preprocessor}{\#include\ <\mbox{\hyperlink{cp__goal__checker_8hpp}{cl\_px4\_mr/components/cp\_goal\_checker.hpp}}>}}
+\DoxyCodeLine{\Hypertarget{cb__follow__waypoints_8cpp_source_l00017}00017\ \textcolor{preprocessor}{\#include\ <\mbox{\hyperlink{cp__trajectory__setpoint_8hpp}{cl\_px4\_mr/components/cp\_trajectory\_setpoint.hpp}}>}}
+\DoxyCodeLine{\Hypertarget{cb__follow__waypoints_8cpp_source_l00018}00018\ }
+\DoxyCodeLine{\Hypertarget{cb__follow__waypoints_8cpp_source_l00019}00019\ \textcolor{keyword}{namespace\ }\mbox{\hyperlink{namespacecl__px4__mr}{cl\_px4\_mr}}}
+\DoxyCodeLine{\Hypertarget{cb__follow__waypoints_8cpp_source_l00020}00020\ \{}
+\DoxyCodeLine{\Hypertarget{cb__follow__waypoints_8cpp_source_l00021}00021\ }
+\DoxyCodeLine{\Hypertarget{cb__follow__waypoints_8cpp_source_l00022}\mbox{\hyperlink{classcl__px4__mr_1_1CbFollowWaypoints_a2d7bc0c6a7058a39eeb4c6ec4dfa87dd}{00022}}\ \mbox{\hyperlink{classcl__px4__mr_1_1CbFollowWaypoints_a2d7bc0c6a7058a39eeb4c6ec4dfa87dd}{CbFollowWaypoints::CbFollowWaypoints}}(}
+\DoxyCodeLine{\Hypertarget{cb__follow__waypoints_8cpp_source_l00023}00023\ \ \ std::vector<std::array<float,\ 4>>\ waypoints,\ \textcolor{keywordtype}{float}\ xyTol,\ \textcolor{keywordtype}{float}\ zTol)}
+\DoxyCodeLine{\Hypertarget{cb__follow__waypoints_8cpp_source_l00024}00024\ :\ waypoints\_(std::move(waypoints)),\ xyTol\_(xyTol),\ zTol\_(zTol)}
+\DoxyCodeLine{\Hypertarget{cb__follow__waypoints_8cpp_source_l00025}00025\ \{}
+\DoxyCodeLine{\Hypertarget{cb__follow__waypoints_8cpp_source_l00026}00026\ \}}
+\DoxyCodeLine{\Hypertarget{cb__follow__waypoints_8cpp_source_l00027}00027\ }
+\DoxyCodeLine{\Hypertarget{cb__follow__waypoints_8cpp_source_l00028}\mbox{\hyperlink{classcl__px4__mr_1_1CbFollowWaypoints_a420342b17ec8a197557626dcbdaf3afc}{00028}}\ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{classcl__px4__mr_1_1CbFollowWaypoints_a420342b17ec8a197557626dcbdaf3afc}{CbFollowWaypoints::onEntry}}()}
+\DoxyCodeLine{\Hypertarget{cb__follow__waypoints_8cpp_source_l00029}00029\ \{}
+\DoxyCodeLine{\Hypertarget{cb__follow__waypoints_8cpp_source_l00030}00030\ \ \ this-\/>\mbox{\hyperlink{classsmacc2_1_1ISmaccClientBehavior_aeb76b10b9bb3925244da9d484739a5a9}{requiresComponent}}(\mbox{\hyperlink{classcl__px4__mr_1_1CbFollowWaypoints_af6cde02dd5905c519161e4c66a3a05ec}{trajectorySetpoint\_}});}
+\DoxyCodeLine{\Hypertarget{cb__follow__waypoints_8cpp_source_l00031}00031\ \ \ this-\/>\mbox{\hyperlink{classsmacc2_1_1ISmaccClientBehavior_aeb76b10b9bb3925244da9d484739a5a9}{requiresComponent}}(\mbox{\hyperlink{classcl__px4__mr_1_1CbFollowWaypoints_ac3b3ec1cf3ae4097902bfdbf587c76d0}{goalChecker\_}});}
+\DoxyCodeLine{\Hypertarget{cb__follow__waypoints_8cpp_source_l00032}00032\ }
+\DoxyCodeLine{\Hypertarget{cb__follow__waypoints_8cpp_source_l00033}00033\ \ \ this-\/>\mbox{\hyperlink{classsmacc2_1_1ISmaccClientBehavior_aef894ccf74067413e7cf501dbf022cd2}{getStateMachine}}()-\/>\mbox{\hyperlink{classsmacc2_1_1ISmaccStateMachine_a5a7796e13095b776bdd9a112d018e0f0}{createSignalConnection}}(}
+\DoxyCodeLine{\Hypertarget{cb__follow__waypoints_8cpp_source_l00034}00034\ \ \ \ \ \mbox{\hyperlink{classcl__px4__mr_1_1CbFollowWaypoints_ac3b3ec1cf3ae4097902bfdbf587c76d0}{goalChecker\_}}-\/>\mbox{\hyperlink{classcl__px4__mr_1_1CpGoalChecker_a9ea229287945f005d24aeb213095332e}{onGoalReached\_}},\ \&\mbox{\hyperlink{classcl__px4__mr_1_1CbFollowWaypoints_a4172590abac9f1635a433d8319a046f9}{CbFollowWaypoints::onGoalReachedCallback}},\ \textcolor{keyword}{this});}
+\DoxyCodeLine{\Hypertarget{cb__follow__waypoints_8cpp_source_l00035}00035\ }
+\DoxyCodeLine{\Hypertarget{cb__follow__waypoints_8cpp_source_l00036}00036\ \ \ \textcolor{keywordflow}{if}\ (\mbox{\hyperlink{classcl__px4__mr_1_1CbFollowWaypoints_aca7a3238110af0c6f55e99134eda6d17}{waypoints\_}}.empty())}
+\DoxyCodeLine{\Hypertarget{cb__follow__waypoints_8cpp_source_l00037}00037\ \ \ \{}
+\DoxyCodeLine{\Hypertarget{cb__follow__waypoints_8cpp_source_l00038}00038\ \ \ \ \ RCLCPP\_WARN(\mbox{\hyperlink{classsmacc2_1_1ISmaccClientBehavior_a9c3d82542c800e2ba5207c5cff0e63e8}{getLogger}}(),\ \textcolor{stringliteral}{"{}CbFollowWaypoints:\ no\ waypoints\ provided\ -\/\ posting\ success"{}});}
+\DoxyCodeLine{\Hypertarget{cb__follow__waypoints_8cpp_source_l00039}00039\ \ \ \ \ this-\/>\mbox{\hyperlink{classsmacc2_1_1SmaccAsyncClientBehavior_a2fb4de26d011fbbb55bc1bbaed2e6f5b}{postSuccessEvent}}();}
+\DoxyCodeLine{\Hypertarget{cb__follow__waypoints_8cpp_source_l00040}00040\ \ \ \ \ \textcolor{keywordflow}{return};}
+\DoxyCodeLine{\Hypertarget{cb__follow__waypoints_8cpp_source_l00041}00041\ \ \ \}}
+\DoxyCodeLine{\Hypertarget{cb__follow__waypoints_8cpp_source_l00042}00042\ }
+\DoxyCodeLine{\Hypertarget{cb__follow__waypoints_8cpp_source_l00043}00043\ \ \ RCLCPP\_INFO(\mbox{\hyperlink{classsmacc2_1_1ISmaccClientBehavior_a9c3d82542c800e2ba5207c5cff0e63e8}{getLogger}}(),\ \textcolor{stringliteral}{"{}CbFollowWaypoints:\ following\ \%zu\ waypoints"{}},\ \mbox{\hyperlink{classcl__px4__mr_1_1CbFollowWaypoints_aca7a3238110af0c6f55e99134eda6d17}{waypoints\_}}.size());}
+\DoxyCodeLine{\Hypertarget{cb__follow__waypoints_8cpp_source_l00044}00044\ }
+\DoxyCodeLine{\Hypertarget{cb__follow__waypoints_8cpp_source_l00045}00045\ \ \ \mbox{\hyperlink{classcl__px4__mr_1_1CbFollowWaypoints_a62aa05100a5248f14c59d7c73f0ae66a}{currentIndex\_}}\ =\ 0;}
+\DoxyCodeLine{\Hypertarget{cb__follow__waypoints_8cpp_source_l00046}00046\ \ \ \mbox{\hyperlink{classcl__px4__mr_1_1CbFollowWaypoints_ac24814c9bc57b6a19661978258a3eec8}{commandCurrentWaypoint}}();}
+\DoxyCodeLine{\Hypertarget{cb__follow__waypoints_8cpp_source_l00047}00047\ \}}
+\DoxyCodeLine{\Hypertarget{cb__follow__waypoints_8cpp_source_l00048}00048\ }
+\DoxyCodeLine{\Hypertarget{cb__follow__waypoints_8cpp_source_l00049}\mbox{\hyperlink{classcl__px4__mr_1_1CbFollowWaypoints_a776337df7b3efff2cdd4b9fb891763f0}{00049}}\ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{classcl__px4__mr_1_1CbFollowWaypoints_a776337df7b3efff2cdd4b9fb891763f0}{CbFollowWaypoints::onExit}}()\ \{\ \mbox{\hyperlink{classcl__px4__mr_1_1CbFollowWaypoints_ac3b3ec1cf3ae4097902bfdbf587c76d0}{goalChecker\_}}-\/>\mbox{\hyperlink{classcl__px4__mr_1_1CpGoalChecker_af76d8955a2c6b23895481f331936c21d}{clearGoal}}();\ \}}
+\DoxyCodeLine{\Hypertarget{cb__follow__waypoints_8cpp_source_l00050}00050\ }
+\DoxyCodeLine{\Hypertarget{cb__follow__waypoints_8cpp_source_l00051}\mbox{\hyperlink{classcl__px4__mr_1_1CbFollowWaypoints_ac24814c9bc57b6a19661978258a3eec8}{00051}}\ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{classcl__px4__mr_1_1CbFollowWaypoints_ac24814c9bc57b6a19661978258a3eec8}{CbFollowWaypoints::commandCurrentWaypoint}}()}
+\DoxyCodeLine{\Hypertarget{cb__follow__waypoints_8cpp_source_l00052}00052\ \{}
+\DoxyCodeLine{\Hypertarget{cb__follow__waypoints_8cpp_source_l00053}00053\ \ \ \textcolor{keyword}{const}\ \textcolor{keyword}{auto}\ \&\ wp\ =\ \mbox{\hyperlink{classcl__px4__mr_1_1CbFollowWaypoints_aca7a3238110af0c6f55e99134eda6d17}{waypoints\_}}[\mbox{\hyperlink{classcl__px4__mr_1_1CbFollowWaypoints_a62aa05100a5248f14c59d7c73f0ae66a}{currentIndex\_}}];}
+\DoxyCodeLine{\Hypertarget{cb__follow__waypoints_8cpp_source_l00054}00054\ \ \ \textcolor{keywordtype}{float}\ x\ =\ wp[0];}
+\DoxyCodeLine{\Hypertarget{cb__follow__waypoints_8cpp_source_l00055}00055\ \ \ \textcolor{keywordtype}{float}\ y\ =\ wp[1];}
+\DoxyCodeLine{\Hypertarget{cb__follow__waypoints_8cpp_source_l00056}00056\ \ \ \textcolor{keywordtype}{float}\ z\ =\ wp[2];}
+\DoxyCodeLine{\Hypertarget{cb__follow__waypoints_8cpp_source_l00057}00057\ \ \ \textcolor{keywordtype}{float}\ yaw\ =\ wp[3];}
+\DoxyCodeLine{\Hypertarget{cb__follow__waypoints_8cpp_source_l00058}00058\ }
+\DoxyCodeLine{\Hypertarget{cb__follow__waypoints_8cpp_source_l00059}00059\ \ \ RCLCPP\_INFO(}
+\DoxyCodeLine{\Hypertarget{cb__follow__waypoints_8cpp_source_l00060}00060\ \ \ \ \ \mbox{\hyperlink{classsmacc2_1_1ISmaccClientBehavior_a9c3d82542c800e2ba5207c5cff0e63e8}{getLogger}}(),\ \textcolor{stringliteral}{"{}CbFollowWaypoints:\ commanding\ waypoint\ \%zu/\%zu\ [\%.2f,\ \%.2f,\ \%.2f]\ yaw=\%.2f"{}},}
+\DoxyCodeLine{\Hypertarget{cb__follow__waypoints_8cpp_source_l00061}00061\ \ \ \ \ \mbox{\hyperlink{classcl__px4__mr_1_1CbFollowWaypoints_a62aa05100a5248f14c59d7c73f0ae66a}{currentIndex\_}}\ +\ 1,\ \mbox{\hyperlink{classcl__px4__mr_1_1CbFollowWaypoints_aca7a3238110af0c6f55e99134eda6d17}{waypoints\_}}.size(),\ x,\ y,\ z,\ yaw);}
+\DoxyCodeLine{\Hypertarget{cb__follow__waypoints_8cpp_source_l00062}00062\ }
+\DoxyCodeLine{\Hypertarget{cb__follow__waypoints_8cpp_source_l00063}00063\ \ \ \mbox{\hyperlink{classcl__px4__mr_1_1CbFollowWaypoints_af6cde02dd5905c519161e4c66a3a05ec}{trajectorySetpoint\_}}-\/>\mbox{\hyperlink{classcl__px4__mr_1_1CpTrajectorySetpoint_ad05cf6bdc5f1bc48e305ddec619e7322}{setPositionNED}}(x,\ y,\ z,\ yaw);}
+\DoxyCodeLine{\Hypertarget{cb__follow__waypoints_8cpp_source_l00064}00064\ \ \ \mbox{\hyperlink{classcl__px4__mr_1_1CbFollowWaypoints_ac3b3ec1cf3ae4097902bfdbf587c76d0}{goalChecker\_}}-\/>\mbox{\hyperlink{classcl__px4__mr_1_1CpGoalChecker_a7fa0e4e87daf41945e7f84f4d06d57d7}{setGoal}}(x,\ y,\ z,\ \mbox{\hyperlink{classcl__px4__mr_1_1CbFollowWaypoints_a4360296e08ca5dbca9028d56fd1a98f8}{xyTol\_}},\ \mbox{\hyperlink{classcl__px4__mr_1_1CbFollowWaypoints_a7244eb40319781632d398d0c0b93fc82}{zTol\_}});}
+\DoxyCodeLine{\Hypertarget{cb__follow__waypoints_8cpp_source_l00065}00065\ \}}
+\DoxyCodeLine{\Hypertarget{cb__follow__waypoints_8cpp_source_l00066}00066\ }
+\DoxyCodeLine{\Hypertarget{cb__follow__waypoints_8cpp_source_l00067}\mbox{\hyperlink{classcl__px4__mr_1_1CbFollowWaypoints_a4172590abac9f1635a433d8319a046f9}{00067}}\ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{classcl__px4__mr_1_1CbFollowWaypoints_a4172590abac9f1635a433d8319a046f9}{CbFollowWaypoints::onGoalReachedCallback}}()}
+\DoxyCodeLine{\Hypertarget{cb__follow__waypoints_8cpp_source_l00068}00068\ \{}
+\DoxyCodeLine{\Hypertarget{cb__follow__waypoints_8cpp_source_l00069}00069\ \ \ \mbox{\hyperlink{classcl__px4__mr_1_1CbFollowWaypoints_a62aa05100a5248f14c59d7c73f0ae66a}{currentIndex\_}}++;}
+\DoxyCodeLine{\Hypertarget{cb__follow__waypoints_8cpp_source_l00070}00070\ }
+\DoxyCodeLine{\Hypertarget{cb__follow__waypoints_8cpp_source_l00071}00071\ \ \ \textcolor{keywordflow}{if}\ (\mbox{\hyperlink{classcl__px4__mr_1_1CbFollowWaypoints_a62aa05100a5248f14c59d7c73f0ae66a}{currentIndex\_}}\ >=\ \mbox{\hyperlink{classcl__px4__mr_1_1CbFollowWaypoints_aca7a3238110af0c6f55e99134eda6d17}{waypoints\_}}.size())}
+\DoxyCodeLine{\Hypertarget{cb__follow__waypoints_8cpp_source_l00072}00072\ \ \ \{}
+\DoxyCodeLine{\Hypertarget{cb__follow__waypoints_8cpp_source_l00073}00073\ \ \ \ \ RCLCPP\_INFO(}
+\DoxyCodeLine{\Hypertarget{cb__follow__waypoints_8cpp_source_l00074}00074\ \ \ \ \ \ \ \mbox{\hyperlink{classsmacc2_1_1ISmaccClientBehavior_a9c3d82542c800e2ba5207c5cff0e63e8}{getLogger}}(),\ \textcolor{stringliteral}{"{}CbFollowWaypoints:\ all\ \%zu\ waypoints\ reached\ -\/\ posting\ success"{}},}
+\DoxyCodeLine{\Hypertarget{cb__follow__waypoints_8cpp_source_l00075}00075\ \ \ \ \ \ \ \mbox{\hyperlink{classcl__px4__mr_1_1CbFollowWaypoints_aca7a3238110af0c6f55e99134eda6d17}{waypoints\_}}.size());}
+\DoxyCodeLine{\Hypertarget{cb__follow__waypoints_8cpp_source_l00076}00076\ \ \ \ \ this-\/>\mbox{\hyperlink{classsmacc2_1_1SmaccAsyncClientBehavior_a2fb4de26d011fbbb55bc1bbaed2e6f5b}{postSuccessEvent}}();}
+\DoxyCodeLine{\Hypertarget{cb__follow__waypoints_8cpp_source_l00077}00077\ \ \ \}}
+\DoxyCodeLine{\Hypertarget{cb__follow__waypoints_8cpp_source_l00078}00078\ \ \ \textcolor{keywordflow}{else}}
+\DoxyCodeLine{\Hypertarget{cb__follow__waypoints_8cpp_source_l00079}00079\ \ \ \{}
+\DoxyCodeLine{\Hypertarget{cb__follow__waypoints_8cpp_source_l00080}00080\ \ \ \ \ \mbox{\hyperlink{classcl__px4__mr_1_1CbFollowWaypoints_ac24814c9bc57b6a19661978258a3eec8}{commandCurrentWaypoint}}();}
+\DoxyCodeLine{\Hypertarget{cb__follow__waypoints_8cpp_source_l00081}00081\ \ \ \}}
+\DoxyCodeLine{\Hypertarget{cb__follow__waypoints_8cpp_source_l00082}00082\ \}}
+\DoxyCodeLine{\Hypertarget{cb__follow__waypoints_8cpp_source_l00083}00083\ }
+\DoxyCodeLine{\Hypertarget{cb__follow__waypoints_8cpp_source_l00084}00084\ \}\ \ \textcolor{comment}{//\ namespace\ cl\_px4\_mr}}
+
+\end{DoxyCode}
