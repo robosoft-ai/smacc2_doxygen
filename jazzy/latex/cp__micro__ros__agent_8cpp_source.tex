@@ -1,0 +1,217 @@
+\doxysection{cp\+\_\+micro\+\_\+ros\+\_\+agent.\+cpp}
+\hypertarget{cp__micro__ros__agent_8cpp_source}{}\label{cp__micro__ros__agent_8cpp_source}\index{smacc2\_client\_library/cl\_px4\_mr/src/cl\_px4\_mr/components/cp\_micro\_ros\_agent.cpp@{smacc2\_client\_library/cl\_px4\_mr/src/cl\_px4\_mr/components/cp\_micro\_ros\_agent.cpp}}
+\mbox{\hyperlink{cp__micro__ros__agent_8cpp}{Go to the documentation of this file.}}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\Hypertarget{cp__micro__ros__agent_8cpp_source_l00001}00001\ \textcolor{comment}{//\ Copyright\ 2025\ Robosoft\ Inc.}}
+\DoxyCodeLine{\Hypertarget{cp__micro__ros__agent_8cpp_source_l00002}00002\ \textcolor{comment}{//}}
+\DoxyCodeLine{\Hypertarget{cp__micro__ros__agent_8cpp_source_l00003}00003\ \textcolor{comment}{//\ Licensed\ under\ the\ Apache\ License,\ Version\ 2.0\ (the\ "{}License"{});}}
+\DoxyCodeLine{\Hypertarget{cp__micro__ros__agent_8cpp_source_l00004}00004\ \textcolor{comment}{//\ you\ may\ not\ use\ this\ file\ except\ in\ compliance\ with\ the\ License.}}
+\DoxyCodeLine{\Hypertarget{cp__micro__ros__agent_8cpp_source_l00005}00005\ \textcolor{comment}{//\ You\ may\ obtain\ a\ copy\ of\ the\ License\ at}}
+\DoxyCodeLine{\Hypertarget{cp__micro__ros__agent_8cpp_source_l00006}00006\ \textcolor{comment}{//}}
+\DoxyCodeLine{\Hypertarget{cp__micro__ros__agent_8cpp_source_l00007}00007\ \textcolor{comment}{//\ \ \ \ \ http://www.apache.org/licenses/LICENSE-\/2.0}}
+\DoxyCodeLine{\Hypertarget{cp__micro__ros__agent_8cpp_source_l00008}00008\ \textcolor{comment}{//}}
+\DoxyCodeLine{\Hypertarget{cp__micro__ros__agent_8cpp_source_l00009}00009\ \textcolor{comment}{//\ Unless\ required\ by\ applicable\ law\ or\ agreed\ to\ in\ writing,\ software}}
+\DoxyCodeLine{\Hypertarget{cp__micro__ros__agent_8cpp_source_l00010}00010\ \textcolor{comment}{//\ distributed\ under\ the\ License\ is\ distributed\ on\ an\ "{}AS\ IS"{}\ BASIS,}}
+\DoxyCodeLine{\Hypertarget{cp__micro__ros__agent_8cpp_source_l00011}00011\ \textcolor{comment}{//\ WITHOUT\ WARRANTIES\ OR\ CONDITIONS\ OF\ ANY\ KIND,\ either\ express\ or\ implied.}}
+\DoxyCodeLine{\Hypertarget{cp__micro__ros__agent_8cpp_source_l00012}00012\ \textcolor{comment}{//\ See\ the\ License\ for\ the\ specific\ language\ governing\ permissions\ and}}
+\DoxyCodeLine{\Hypertarget{cp__micro__ros__agent_8cpp_source_l00013}00013\ \textcolor{comment}{//\ limitations\ under\ the\ License.}}
+\DoxyCodeLine{\Hypertarget{cp__micro__ros__agent_8cpp_source_l00014}00014\ }
+\DoxyCodeLine{\Hypertarget{cp__micro__ros__agent_8cpp_source_l00015}00015\ \textcolor{preprocessor}{\#include\ <\mbox{\hyperlink{cp__micro__ros__agent_8hpp}{cl\_px4\_mr/components/cp\_micro\_ros\_agent.hpp}}>}}
+\DoxyCodeLine{\Hypertarget{cp__micro__ros__agent_8cpp_source_l00016}00016\ }
+\DoxyCodeLine{\Hypertarget{cp__micro__ros__agent_8cpp_source_l00017}00017\ \textcolor{preprocessor}{\#include\ <errno.h>}}
+\DoxyCodeLine{\Hypertarget{cp__micro__ros__agent_8cpp_source_l00018}00018\ \textcolor{preprocessor}{\#include\ <fcntl.h>}}
+\DoxyCodeLine{\Hypertarget{cp__micro__ros__agent_8cpp_source_l00019}00019\ \textcolor{preprocessor}{\#include\ <signal.h>}}
+\DoxyCodeLine{\Hypertarget{cp__micro__ros__agent_8cpp_source_l00020}00020\ \textcolor{preprocessor}{\#include\ <stdio.h>}}
+\DoxyCodeLine{\Hypertarget{cp__micro__ros__agent_8cpp_source_l00021}00021\ \textcolor{preprocessor}{\#include\ <sys/types.h>}}
+\DoxyCodeLine{\Hypertarget{cp__micro__ros__agent_8cpp_source_l00022}00022\ \textcolor{preprocessor}{\#include\ <sys/wait.h>}}
+\DoxyCodeLine{\Hypertarget{cp__micro__ros__agent_8cpp_source_l00023}00023\ \textcolor{preprocessor}{\#include\ <unistd.h>}}
+\DoxyCodeLine{\Hypertarget{cp__micro__ros__agent_8cpp_source_l00024}00024\ \textcolor{preprocessor}{\#include\ <cstring>}}
+\DoxyCodeLine{\Hypertarget{cp__micro__ros__agent_8cpp_source_l00025}00025\ \textcolor{preprocessor}{\#include\ <sstream>}}
+\DoxyCodeLine{\Hypertarget{cp__micro__ros__agent_8cpp_source_l00026}00026\ \textcolor{preprocessor}{\#include\ <thread>}}
+\DoxyCodeLine{\Hypertarget{cp__micro__ros__agent_8cpp_source_l00027}00027\ \textcolor{preprocessor}{\#include\ <vector>}}
+\DoxyCodeLine{\Hypertarget{cp__micro__ros__agent_8cpp_source_l00028}00028\ }
+\DoxyCodeLine{\Hypertarget{cp__micro__ros__agent_8cpp_source_l00029}00029\ \textcolor{keyword}{namespace\ }\mbox{\hyperlink{namespacecl__px4__mr}{cl\_px4\_mr}}}
+\DoxyCodeLine{\Hypertarget{cp__micro__ros__agent_8cpp_source_l00030}00030\ \{}
+\DoxyCodeLine{\Hypertarget{cp__micro__ros__agent_8cpp_source_l00031}00031\ }
+\DoxyCodeLine{\Hypertarget{cp__micro__ros__agent_8cpp_source_l00032}\mbox{\hyperlink{classcl__px4__mr_1_1CpMicroRosAgent_a22a93c2518b0f0e00e001172a239c8fe}{00032}}\ \mbox{\hyperlink{classcl__px4__mr_1_1CpMicroRosAgent_a22a93c2518b0f0e00e001172a239c8fe}{CpMicroRosAgent::CpMicroRosAgent}}(std::string\ command,\ std::string\ nodeName)}
+\DoxyCodeLine{\Hypertarget{cp__micro__ros__agent_8cpp_source_l00033}00033\ :\ command\_(std::move(command)),\ nodeName\_(std::move(nodeName))}
+\DoxyCodeLine{\Hypertarget{cp__micro__ros__agent_8cpp_source_l00034}00034\ \{}
+\DoxyCodeLine{\Hypertarget{cp__micro__ros__agent_8cpp_source_l00035}00035\ \}}
+\DoxyCodeLine{\Hypertarget{cp__micro__ros__agent_8cpp_source_l00036}00036\ }
+\DoxyCodeLine{\Hypertarget{cp__micro__ros__agent_8cpp_source_l00037}\mbox{\hyperlink{classcl__px4__mr_1_1CpMicroRosAgent_a6525eeb8d760d37c1ee3401993aa5c3c}{00037}}\ \mbox{\hyperlink{classcl__px4__mr_1_1CpMicroRosAgent_a6525eeb8d760d37c1ee3401993aa5c3c}{CpMicroRosAgent::\string~CpMicroRosAgent}}()\ \{\ \mbox{\hyperlink{classcl__px4__mr_1_1CpMicroRosAgent_add7dac82b912a25832616ad27c15bb7d}{shutdown}}();\ \}}
+\DoxyCodeLine{\Hypertarget{cp__micro__ros__agent_8cpp_source_l00038}00038\ }
+\DoxyCodeLine{\Hypertarget{cp__micro__ros__agent_8cpp_source_l00039}\mbox{\hyperlink{classcl__px4__mr_1_1CpMicroRosAgent_a5412947da4bf691ae59c0fbb21918ca8}{00039}}\ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{classcl__px4__mr_1_1CpMicroRosAgent_a5412947da4bf691ae59c0fbb21918ca8}{CpMicroRosAgent::launch}}()}
+\DoxyCodeLine{\Hypertarget{cp__micro__ros__agent_8cpp_source_l00040}00040\ \{}
+\DoxyCodeLine{\Hypertarget{cp__micro__ros__agent_8cpp_source_l00041}00041\ \ \ std::lock\_guard<std::mutex>\ lock(\mbox{\hyperlink{classcl__px4__mr_1_1CpMicroRosAgent_a5b425a5b7d0769f86b7c5241c5a04478}{mutex\_}});}
+\DoxyCodeLine{\Hypertarget{cp__micro__ros__agent_8cpp_source_l00042}00042\ }
+\DoxyCodeLine{\Hypertarget{cp__micro__ros__agent_8cpp_source_l00043}00043\ \ \ \textcolor{keywordflow}{if}\ (\mbox{\hyperlink{classcl__px4__mr_1_1CpMicroRosAgent_aef475f4bc372beecaae8df7b19c79153}{launched\_}})}
+\DoxyCodeLine{\Hypertarget{cp__micro__ros__agent_8cpp_source_l00044}00044\ \ \ \{}
+\DoxyCodeLine{\Hypertarget{cp__micro__ros__agent_8cpp_source_l00045}00045\ \ \ \ \ RCLCPP\_INFO(\mbox{\hyperlink{classsmacc2_1_1ISmaccComponent_a77ee85823bab8d84edcdf5d28782b728}{getLogger}}(),\ \textcolor{stringliteral}{"{}CpMicroRosAgent:\ already\ launched,\ skipping"{}});}
+\DoxyCodeLine{\Hypertarget{cp__micro__ros__agent_8cpp_source_l00046}00046\ \ \ \ \ \textcolor{keywordflow}{return};}
+\DoxyCodeLine{\Hypertarget{cp__micro__ros__agent_8cpp_source_l00047}00047\ \ \ \}}
+\DoxyCodeLine{\Hypertarget{cp__micro__ros__agent_8cpp_source_l00048}00048\ }
+\DoxyCodeLine{\Hypertarget{cp__micro__ros__agent_8cpp_source_l00049}00049\ \ \ RCLCPP\_INFO(\mbox{\hyperlink{classsmacc2_1_1ISmaccComponent_a77ee85823bab8d84edcdf5d28782b728}{getLogger}}(),\ \textcolor{stringliteral}{"{}CpMicroRosAgent:\ launching\ '\%s'"{}},\ \mbox{\hyperlink{classcl__px4__mr_1_1CpMicroRosAgent_a23e3560a2472df1520661a9189b79334}{command\_}}.c\_str());}
+\DoxyCodeLine{\Hypertarget{cp__micro__ros__agent_8cpp_source_l00050}00050\ }
+\DoxyCodeLine{\Hypertarget{cp__micro__ros__agent_8cpp_source_l00051}00051\ \ \ \textcolor{keywordtype}{int}\ pipefd[2];}
+\DoxyCodeLine{\Hypertarget{cp__micro__ros__agent_8cpp_source_l00052}00052\ \ \ \textcolor{keywordflow}{if}\ (pipe(pipefd)\ ==\ -\/1)}
+\DoxyCodeLine{\Hypertarget{cp__micro__ros__agent_8cpp_source_l00053}00053\ \ \ \{}
+\DoxyCodeLine{\Hypertarget{cp__micro__ros__agent_8cpp_source_l00054}00054\ \ \ \ \ RCLCPP\_ERROR(\mbox{\hyperlink{classsmacc2_1_1ISmaccComponent_a77ee85823bab8d84edcdf5d28782b728}{getLogger}}(),\ \textcolor{stringliteral}{"{}CpMicroRosAgent:\ pipe()\ failed:\ \%s"{}},\ strerror(errno));}
+\DoxyCodeLine{\Hypertarget{cp__micro__ros__agent_8cpp_source_l00055}00055\ \ \ \ \ \textcolor{keywordflow}{return};}
+\DoxyCodeLine{\Hypertarget{cp__micro__ros__agent_8cpp_source_l00056}00056\ \ \ \}}
+\DoxyCodeLine{\Hypertarget{cp__micro__ros__agent_8cpp_source_l00057}00057\ }
+\DoxyCodeLine{\Hypertarget{cp__micro__ros__agent_8cpp_source_l00058}00058\ \ \ pid\_t\ pid\ =\ fork();}
+\DoxyCodeLine{\Hypertarget{cp__micro__ros__agent_8cpp_source_l00059}00059\ }
+\DoxyCodeLine{\Hypertarget{cp__micro__ros__agent_8cpp_source_l00060}00060\ \ \ \textcolor{keywordflow}{if}\ (pid\ ==\ 0)}
+\DoxyCodeLine{\Hypertarget{cp__micro__ros__agent_8cpp_source_l00061}00061\ \ \ \{}
+\DoxyCodeLine{\Hypertarget{cp__micro__ros__agent_8cpp_source_l00062}00062\ \ \ \ \ \textcolor{comment}{//\ Child\ process}}
+\DoxyCodeLine{\Hypertarget{cp__micro__ros__agent_8cpp_source_l00063}00063\ \ \ \ \ close(pipefd[0]);}
+\DoxyCodeLine{\Hypertarget{cp__micro__ros__agent_8cpp_source_l00064}00064\ \ \ \ \ dup2(pipefd[1],\ STDOUT\_FILENO);}
+\DoxyCodeLine{\Hypertarget{cp__micro__ros__agent_8cpp_source_l00065}00065\ \ \ \ \ dup2(pipefd[1],\ STDERR\_FILENO);}
+\DoxyCodeLine{\Hypertarget{cp__micro__ros__agent_8cpp_source_l00066}00066\ \ \ \ \ close(pipefd[1]);}
+\DoxyCodeLine{\Hypertarget{cp__micro__ros__agent_8cpp_source_l00067}00067\ }
+\DoxyCodeLine{\Hypertarget{cp__micro__ros__agent_8cpp_source_l00068}00068\ \ \ \ \ execl(\textcolor{stringliteral}{"{}/bin/sh"{}},\ \textcolor{stringliteral}{"{}/bin/sh"{}},\ \textcolor{stringliteral}{"{}-\/c"{}},\ \mbox{\hyperlink{classcl__px4__mr_1_1CpMicroRosAgent_a23e3560a2472df1520661a9189b79334}{command\_}}.c\_str(),\ \textcolor{keyword}{nullptr});}
+\DoxyCodeLine{\Hypertarget{cp__micro__ros__agent_8cpp_source_l00069}00069\ }
+\DoxyCodeLine{\Hypertarget{cp__micro__ros__agent_8cpp_source_l00070}00070\ \ \ \ \ \textcolor{comment}{//\ If\ execl\ returns,\ it\ failed}}
+\DoxyCodeLine{\Hypertarget{cp__micro__ros__agent_8cpp_source_l00071}00071\ \ \ \ \ \_exit(1);}
+\DoxyCodeLine{\Hypertarget{cp__micro__ros__agent_8cpp_source_l00072}00072\ \ \ \}}
+\DoxyCodeLine{\Hypertarget{cp__micro__ros__agent_8cpp_source_l00073}00073\ \ \ \textcolor{keywordflow}{else}\ \textcolor{keywordflow}{if}\ (pid\ >\ 0)}
+\DoxyCodeLine{\Hypertarget{cp__micro__ros__agent_8cpp_source_l00074}00074\ \ \ \{}
+\DoxyCodeLine{\Hypertarget{cp__micro__ros__agent_8cpp_source_l00075}00075\ \ \ \ \ \textcolor{comment}{//\ Parent\ process}}
+\DoxyCodeLine{\Hypertarget{cp__micro__ros__agent_8cpp_source_l00076}00076\ \ \ \ \ close(pipefd[1]);}
+\DoxyCodeLine{\Hypertarget{cp__micro__ros__agent_8cpp_source_l00077}00077\ \ \ \ \ \mbox{\hyperlink{classcl__px4__mr_1_1CpMicroRosAgent_afcae667e0404dffebb23992af5667814}{agentPid\_}}\ =\ pid;}
+\DoxyCodeLine{\Hypertarget{cp__micro__ros__agent_8cpp_source_l00078}00078\ \ \ \ \ \mbox{\hyperlink{classcl__px4__mr_1_1CpMicroRosAgent_ab0bc3dc67d87513f4a451e2f5754f482}{pipeFd\_}}\ =\ pipefd[0];}
+\DoxyCodeLine{\Hypertarget{cp__micro__ros__agent_8cpp_source_l00079}00079\ }
+\DoxyCodeLine{\Hypertarget{cp__micro__ros__agent_8cpp_source_l00080}00080\ \ \ \ \ \textcolor{comment}{//\ Set\ pipe\ to\ non-\/blocking}}
+\DoxyCodeLine{\Hypertarget{cp__micro__ros__agent_8cpp_source_l00081}00081\ \ \ \ \ \textcolor{keywordtype}{int}\ flags\ =\ fcntl(\mbox{\hyperlink{classcl__px4__mr_1_1CpMicroRosAgent_ab0bc3dc67d87513f4a451e2f5754f482}{pipeFd\_}},\ F\_GETFL,\ 0);}
+\DoxyCodeLine{\Hypertarget{cp__micro__ros__agent_8cpp_source_l00082}00082\ \ \ \ \ fcntl(\mbox{\hyperlink{classcl__px4__mr_1_1CpMicroRosAgent_ab0bc3dc67d87513f4a451e2f5754f482}{pipeFd\_}},\ F\_SETFL,\ flags\ |\ O\_NONBLOCK);}
+\DoxyCodeLine{\Hypertarget{cp__micro__ros__agent_8cpp_source_l00083}00083\ }
+\DoxyCodeLine{\Hypertarget{cp__micro__ros__agent_8cpp_source_l00084}00084\ \ \ \ \ \textcolor{comment}{//\ Spawn\ detached\ reader\ thread\ to\ drain\ pipe\ (prevents\ buffer\ fill)}}
+\DoxyCodeLine{\Hypertarget{cp__micro__ros__agent_8cpp_source_l00085}00085\ \ \ \ \ \mbox{\hyperlink{classcl__px4__mr_1_1CpMicroRosAgent_a7e11b8a5374a3e9686a1783e4548b002}{shutdownRequested\_}}\ =\ \textcolor{keyword}{false};}
+\DoxyCodeLine{\Hypertarget{cp__micro__ros__agent_8cpp_source_l00086}00086\ \ \ \ \ std::thread\ readerThread(}
+\DoxyCodeLine{\Hypertarget{cp__micro__ros__agent_8cpp_source_l00087}00087\ \ \ \ \ \ \ [\textcolor{keyword}{this}]()}
+\DoxyCodeLine{\Hypertarget{cp__micro__ros__agent_8cpp_source_l00088}00088\ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{cp__micro__ros__agent_8cpp_source_l00089}00089\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{char}\ buf[256];}
+\DoxyCodeLine{\Hypertarget{cp__micro__ros__agent_8cpp_source_l00090}00090\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{while}\ (!\mbox{\hyperlink{classcl__px4__mr_1_1CpMicroRosAgent_a7e11b8a5374a3e9686a1783e4548b002}{shutdownRequested\_}})}
+\DoxyCodeLine{\Hypertarget{cp__micro__ros__agent_8cpp_source_l00091}00091\ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{cp__micro__ros__agent_8cpp_source_l00092}00092\ \ \ \ \ \ \ \ \ \ \ ssize\_t\ n\ =\ read(\mbox{\hyperlink{classcl__px4__mr_1_1CpMicroRosAgent_ab0bc3dc67d87513f4a451e2f5754f482}{pipeFd\_}},\ buf,\ \textcolor{keyword}{sizeof}(buf)\ -\/\ 1);}
+\DoxyCodeLine{\Hypertarget{cp__micro__ros__agent_8cpp_source_l00093}00093\ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (n\ >\ 0)}
+\DoxyCodeLine{\Hypertarget{cp__micro__ros__agent_8cpp_source_l00094}00094\ \ \ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{cp__micro__ros__agent_8cpp_source_l00095}00095\ \ \ \ \ \ \ \ \ \ \ \ \ buf[n]\ =\ \textcolor{charliteral}{'\(\backslash\)0'};}
+\DoxyCodeLine{\Hypertarget{cp__micro__ros__agent_8cpp_source_l00096}00096\ \ \ \ \ \ \ \ \ \ \ \ \ RCLCPP\_DEBUG(\mbox{\hyperlink{classsmacc2_1_1ISmaccComponent_a77ee85823bab8d84edcdf5d28782b728}{getLogger}}(),\ \textcolor{stringliteral}{"{}[micro\_ros\_agent]\ \%s"{}},\ buf);}
+\DoxyCodeLine{\Hypertarget{cp__micro__ros__agent_8cpp_source_l00097}00097\ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{cp__micro__ros__agent_8cpp_source_l00098}00098\ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{else}}
+\DoxyCodeLine{\Hypertarget{cp__micro__ros__agent_8cpp_source_l00099}00099\ \ \ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{cp__micro__ros__agent_8cpp_source_l00100}00100\ \ \ \ \ \ \ \ \ \ \ \ \ std::this\_thread::sleep\_for(std::chrono::milliseconds(100));}
+\DoxyCodeLine{\Hypertarget{cp__micro__ros__agent_8cpp_source_l00101}00101\ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{cp__micro__ros__agent_8cpp_source_l00102}00102\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{cp__micro__ros__agent_8cpp_source_l00103}00103\ \ \ \ \ \ \ \});}
+\DoxyCodeLine{\Hypertarget{cp__micro__ros__agent_8cpp_source_l00104}00104\ \ \ \ \ readerThread.detach();}
+\DoxyCodeLine{\Hypertarget{cp__micro__ros__agent_8cpp_source_l00105}00105\ }
+\DoxyCodeLine{\Hypertarget{cp__micro__ros__agent_8cpp_source_l00106}00106\ \ \ \ \ \mbox{\hyperlink{classcl__px4__mr_1_1CpMicroRosAgent_aef475f4bc372beecaae8df7b19c79153}{launched\_}}\ =\ \textcolor{keyword}{true};}
+\DoxyCodeLine{\Hypertarget{cp__micro__ros__agent_8cpp_source_l00107}00107\ \ \ \ \ RCLCPP\_INFO(\mbox{\hyperlink{classsmacc2_1_1ISmaccComponent_a77ee85823bab8d84edcdf5d28782b728}{getLogger}}(),\ \textcolor{stringliteral}{"{}CpMicroRosAgent:\ launched\ with\ PID\ \%d"{}},\ \mbox{\hyperlink{classcl__px4__mr_1_1CpMicroRosAgent_afcae667e0404dffebb23992af5667814}{agentPid\_}});}
+\DoxyCodeLine{\Hypertarget{cp__micro__ros__agent_8cpp_source_l00108}00108\ \ \ \}}
+\DoxyCodeLine{\Hypertarget{cp__micro__ros__agent_8cpp_source_l00109}00109\ \ \ \textcolor{keywordflow}{else}}
+\DoxyCodeLine{\Hypertarget{cp__micro__ros__agent_8cpp_source_l00110}00110\ \ \ \{}
+\DoxyCodeLine{\Hypertarget{cp__micro__ros__agent_8cpp_source_l00111}00111\ \ \ \ \ RCLCPP\_ERROR(\mbox{\hyperlink{classsmacc2_1_1ISmaccComponent_a77ee85823bab8d84edcdf5d28782b728}{getLogger}}(),\ \textcolor{stringliteral}{"{}CpMicroRosAgent:\ fork()\ failed:\ \%s"{}},\ strerror(errno));}
+\DoxyCodeLine{\Hypertarget{cp__micro__ros__agent_8cpp_source_l00112}00112\ \ \ \ \ close(pipefd[0]);}
+\DoxyCodeLine{\Hypertarget{cp__micro__ros__agent_8cpp_source_l00113}00113\ \ \ \ \ close(pipefd[1]);}
+\DoxyCodeLine{\Hypertarget{cp__micro__ros__agent_8cpp_source_l00114}00114\ \ \ \}}
+\DoxyCodeLine{\Hypertarget{cp__micro__ros__agent_8cpp_source_l00115}00115\ \}}
+\DoxyCodeLine{\Hypertarget{cp__micro__ros__agent_8cpp_source_l00116}00116\ }
+\DoxyCodeLine{\Hypertarget{cp__micro__ros__agent_8cpp_source_l00117}\mbox{\hyperlink{classcl__px4__mr_1_1CpMicroRosAgent_add7dac82b912a25832616ad27c15bb7d}{00117}}\ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{classcl__px4__mr_1_1CpMicroRosAgent_add7dac82b912a25832616ad27c15bb7d}{CpMicroRosAgent::shutdown}}()}
+\DoxyCodeLine{\Hypertarget{cp__micro__ros__agent_8cpp_source_l00118}00118\ \{}
+\DoxyCodeLine{\Hypertarget{cp__micro__ros__agent_8cpp_source_l00119}00119\ \ \ std::lock\_guard<std::mutex>\ lock(\mbox{\hyperlink{classcl__px4__mr_1_1CpMicroRosAgent_a5b425a5b7d0769f86b7c5241c5a04478}{mutex\_}});}
+\DoxyCodeLine{\Hypertarget{cp__micro__ros__agent_8cpp_source_l00120}00120\ }
+\DoxyCodeLine{\Hypertarget{cp__micro__ros__agent_8cpp_source_l00121}00121\ \ \ \textcolor{keywordflow}{if}\ (\mbox{\hyperlink{classcl__px4__mr_1_1CpMicroRosAgent_afcae667e0404dffebb23992af5667814}{agentPid\_}}\ <=\ 0)}
+\DoxyCodeLine{\Hypertarget{cp__micro__ros__agent_8cpp_source_l00122}00122\ \ \ \{}
+\DoxyCodeLine{\Hypertarget{cp__micro__ros__agent_8cpp_source_l00123}00123\ \ \ \ \ \textcolor{keywordflow}{return};}
+\DoxyCodeLine{\Hypertarget{cp__micro__ros__agent_8cpp_source_l00124}00124\ \ \ \}}
+\DoxyCodeLine{\Hypertarget{cp__micro__ros__agent_8cpp_source_l00125}00125\ }
+\DoxyCodeLine{\Hypertarget{cp__micro__ros__agent_8cpp_source_l00126}00126\ \ \ RCLCPP\_INFO(\mbox{\hyperlink{classsmacc2_1_1ISmaccComponent_a77ee85823bab8d84edcdf5d28782b728}{getLogger}}(),\ \textcolor{stringliteral}{"{}CpMicroRosAgent:\ shutting\ down\ agent\ (PID\ \%d)"{}},\ \mbox{\hyperlink{classcl__px4__mr_1_1CpMicroRosAgent_afcae667e0404dffebb23992af5667814}{agentPid\_}});}
+\DoxyCodeLine{\Hypertarget{cp__micro__ros__agent_8cpp_source_l00127}00127\ }
+\DoxyCodeLine{\Hypertarget{cp__micro__ros__agent_8cpp_source_l00128}00128\ \ \ \mbox{\hyperlink{classcl__px4__mr_1_1CpMicroRosAgent_a7e11b8a5374a3e9686a1783e4548b002}{shutdownRequested\_}}\ =\ \textcolor{keyword}{true};}
+\DoxyCodeLine{\Hypertarget{cp__micro__ros__agent_8cpp_source_l00129}00129\ }
+\DoxyCodeLine{\Hypertarget{cp__micro__ros__agent_8cpp_source_l00130}00130\ \ \ \textcolor{comment}{//\ Kill\ process\ tree\ recursively}}
+\DoxyCodeLine{\Hypertarget{cp__micro__ros__agent_8cpp_source_l00131}00131\ \ \ \mbox{\hyperlink{classcl__px4__mr_1_1CpMicroRosAgent_afec60a790888ac7698eb9519a6187ad3}{killProcessesRecursive}}(\mbox{\hyperlink{classcl__px4__mr_1_1CpMicroRosAgent_afcae667e0404dffebb23992af5667814}{agentPid\_}});}
+\DoxyCodeLine{\Hypertarget{cp__micro__ros__agent_8cpp_source_l00132}00132\ }
+\DoxyCodeLine{\Hypertarget{cp__micro__ros__agent_8cpp_source_l00133}00133\ \ \ \textcolor{comment}{//\ Reap\ zombie\ with\ brief\ retry\ loop}}
+\DoxyCodeLine{\Hypertarget{cp__micro__ros__agent_8cpp_source_l00134}00134\ \ \ \textcolor{keywordflow}{for}\ (\textcolor{keywordtype}{int}\ i\ =\ 0;\ i\ <\ 10;\ i++)}
+\DoxyCodeLine{\Hypertarget{cp__micro__ros__agent_8cpp_source_l00135}00135\ \ \ \{}
+\DoxyCodeLine{\Hypertarget{cp__micro__ros__agent_8cpp_source_l00136}00136\ \ \ \ \ \textcolor{keywordtype}{int}\ status;}
+\DoxyCodeLine{\Hypertarget{cp__micro__ros__agent_8cpp_source_l00137}00137\ \ \ \ \ pid\_t\ result\ =\ waitpid(\mbox{\hyperlink{classcl__px4__mr_1_1CpMicroRosAgent_afcae667e0404dffebb23992af5667814}{agentPid\_}},\ \&status,\ WNOHANG);}
+\DoxyCodeLine{\Hypertarget{cp__micro__ros__agent_8cpp_source_l00138}00138\ \ \ \ \ \textcolor{keywordflow}{if}\ (result\ ==\ \mbox{\hyperlink{classcl__px4__mr_1_1CpMicroRosAgent_afcae667e0404dffebb23992af5667814}{agentPid\_}}\ ||\ result\ ==\ -\/1)}
+\DoxyCodeLine{\Hypertarget{cp__micro__ros__agent_8cpp_source_l00139}00139\ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{cp__micro__ros__agent_8cpp_source_l00140}00140\ \ \ \ \ \ \ \textcolor{keywordflow}{break};}
+\DoxyCodeLine{\Hypertarget{cp__micro__ros__agent_8cpp_source_l00141}00141\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{cp__micro__ros__agent_8cpp_source_l00142}00142\ \ \ \ \ std::this\_thread::sleep\_for(std::chrono::milliseconds(100));}
+\DoxyCodeLine{\Hypertarget{cp__micro__ros__agent_8cpp_source_l00143}00143\ \ \ \}}
+\DoxyCodeLine{\Hypertarget{cp__micro__ros__agent_8cpp_source_l00144}00144\ }
+\DoxyCodeLine{\Hypertarget{cp__micro__ros__agent_8cpp_source_l00145}00145\ \ \ \textcolor{comment}{//\ Close\ pipe}}
+\DoxyCodeLine{\Hypertarget{cp__micro__ros__agent_8cpp_source_l00146}00146\ \ \ \textcolor{keywordflow}{if}\ (\mbox{\hyperlink{classcl__px4__mr_1_1CpMicroRosAgent_ab0bc3dc67d87513f4a451e2f5754f482}{pipeFd\_}}\ >=\ 0)}
+\DoxyCodeLine{\Hypertarget{cp__micro__ros__agent_8cpp_source_l00147}00147\ \ \ \{}
+\DoxyCodeLine{\Hypertarget{cp__micro__ros__agent_8cpp_source_l00148}00148\ \ \ \ \ close(\mbox{\hyperlink{classcl__px4__mr_1_1CpMicroRosAgent_ab0bc3dc67d87513f4a451e2f5754f482}{pipeFd\_}});}
+\DoxyCodeLine{\Hypertarget{cp__micro__ros__agent_8cpp_source_l00149}00149\ \ \ \ \ \mbox{\hyperlink{classcl__px4__mr_1_1CpMicroRosAgent_ab0bc3dc67d87513f4a451e2f5754f482}{pipeFd\_}}\ =\ -\/1;}
+\DoxyCodeLine{\Hypertarget{cp__micro__ros__agent_8cpp_source_l00150}00150\ \ \ \}}
+\DoxyCodeLine{\Hypertarget{cp__micro__ros__agent_8cpp_source_l00151}00151\ }
+\DoxyCodeLine{\Hypertarget{cp__micro__ros__agent_8cpp_source_l00152}00152\ \ \ \mbox{\hyperlink{classcl__px4__mr_1_1CpMicroRosAgent_afcae667e0404dffebb23992af5667814}{agentPid\_}}\ =\ -\/1;}
+\DoxyCodeLine{\Hypertarget{cp__micro__ros__agent_8cpp_source_l00153}00153\ \ \ \mbox{\hyperlink{classcl__px4__mr_1_1CpMicroRosAgent_aef475f4bc372beecaae8df7b19c79153}{launched\_}}\ =\ \textcolor{keyword}{false};}
+\DoxyCodeLine{\Hypertarget{cp__micro__ros__agent_8cpp_source_l00154}00154\ }
+\DoxyCodeLine{\Hypertarget{cp__micro__ros__agent_8cpp_source_l00155}00155\ \ \ RCLCPP\_INFO(\mbox{\hyperlink{classsmacc2_1_1ISmaccComponent_a77ee85823bab8d84edcdf5d28782b728}{getLogger}}(),\ \textcolor{stringliteral}{"{}CpMicroRosAgent:\ shutdown\ complete"{}});}
+\DoxyCodeLine{\Hypertarget{cp__micro__ros__agent_8cpp_source_l00156}00156\ \}}
+\DoxyCodeLine{\Hypertarget{cp__micro__ros__agent_8cpp_source_l00157}00157\ }
+\DoxyCodeLine{\Hypertarget{cp__micro__ros__agent_8cpp_source_l00158}\mbox{\hyperlink{classcl__px4__mr_1_1CpMicroRosAgent_a99bc6b0e65be40436f9fc42bb6f7cba5}{00158}}\ \textcolor{keywordtype}{bool}\ \mbox{\hyperlink{classcl__px4__mr_1_1CpMicroRosAgent_a99bc6b0e65be40436f9fc42bb6f7cba5}{CpMicroRosAgent::isLaunched}}()\textcolor{keyword}{\ const\ }\{\ \textcolor{keywordflow}{return}\ \mbox{\hyperlink{classcl__px4__mr_1_1CpMicroRosAgent_aef475f4bc372beecaae8df7b19c79153}{launched\_}};\ \}}
+\DoxyCodeLine{\Hypertarget{cp__micro__ros__agent_8cpp_source_l00159}00159\ }
+\DoxyCodeLine{\Hypertarget{cp__micro__ros__agent_8cpp_source_l00160}\mbox{\hyperlink{classcl__px4__mr_1_1CpMicroRosAgent_a9ad16bcbf6328d20292feef618518675}{00160}}\ pid\_t\ \mbox{\hyperlink{classcl__px4__mr_1_1CpMicroRosAgent_a9ad16bcbf6328d20292feef618518675}{CpMicroRosAgent::getPid}}()\textcolor{keyword}{\ const}}
+\DoxyCodeLine{\Hypertarget{cp__micro__ros__agent_8cpp_source_l00161}00161\ \textcolor{keyword}{}\{}
+\DoxyCodeLine{\Hypertarget{cp__micro__ros__agent_8cpp_source_l00162}00162\ \ \ std::lock\_guard<std::mutex>\ lock(\mbox{\hyperlink{classcl__px4__mr_1_1CpMicroRosAgent_a5b425a5b7d0769f86b7c5241c5a04478}{mutex\_}});}
+\DoxyCodeLine{\Hypertarget{cp__micro__ros__agent_8cpp_source_l00163}00163\ \ \ \textcolor{keywordflow}{return}\ \mbox{\hyperlink{classcl__px4__mr_1_1CpMicroRosAgent_afcae667e0404dffebb23992af5667814}{agentPid\_}};}
+\DoxyCodeLine{\Hypertarget{cp__micro__ros__agent_8cpp_source_l00164}00164\ \}}
+\DoxyCodeLine{\Hypertarget{cp__micro__ros__agent_8cpp_source_l00165}00165\ }
+\DoxyCodeLine{\Hypertarget{cp__micro__ros__agent_8cpp_source_l00166}\mbox{\hyperlink{classcl__px4__mr_1_1CpMicroRosAgent_a7b3316983da24fa3f1aa5f244ce0fd65}{00166}}\ std::string\ \mbox{\hyperlink{classcl__px4__mr_1_1CpMicroRosAgent_a7b3316983da24fa3f1aa5f244ce0fd65}{CpMicroRosAgent::getNodeName}}()\textcolor{keyword}{\ const\ }\{\ \textcolor{keywordflow}{return}\ \mbox{\hyperlink{classcl__px4__mr_1_1CpMicroRosAgent_a2e4296f1186b063ca497a7d7fcee85c2}{nodeName\_}};\ \}}
+\DoxyCodeLine{\Hypertarget{cp__micro__ros__agent_8cpp_source_l00167}00167\ }
+\DoxyCodeLine{\Hypertarget{cp__micro__ros__agent_8cpp_source_l00168}\mbox{\hyperlink{classcl__px4__mr_1_1CpMicroRosAgent_afec60a790888ac7698eb9519a6187ad3}{00168}}\ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{classcl__px4__mr_1_1CpMicroRosAgent_afec60a790888ac7698eb9519a6187ad3}{CpMicroRosAgent::killProcessesRecursive}}(pid\_t\ pid)}
+\DoxyCodeLine{\Hypertarget{cp__micro__ros__agent_8cpp_source_l00169}00169\ \{}
+\DoxyCodeLine{\Hypertarget{cp__micro__ros__agent_8cpp_source_l00170}00170\ \ \ std::string\ command\ =\ \textcolor{stringliteral}{"{}pgrep\ -\/P\ "{}}\ +\ std::to\_string(pid);}
+\DoxyCodeLine{\Hypertarget{cp__micro__ros__agent_8cpp_source_l00171}00171\ \ \ FILE\ *\ pipe\ =\ popen(command.c\_str(),\ \textcolor{stringliteral}{"{}r"{}});}
+\DoxyCodeLine{\Hypertarget{cp__micro__ros__agent_8cpp_source_l00172}00172\ }
+\DoxyCodeLine{\Hypertarget{cp__micro__ros__agent_8cpp_source_l00173}00173\ \ \ \textcolor{keywordflow}{if}\ (!pipe)}
+\DoxyCodeLine{\Hypertarget{cp__micro__ros__agent_8cpp_source_l00174}00174\ \ \ \{}
+\DoxyCodeLine{\Hypertarget{cp__micro__ros__agent_8cpp_source_l00175}00175\ \ \ \ \ \textcolor{keywordflow}{return};}
+\DoxyCodeLine{\Hypertarget{cp__micro__ros__agent_8cpp_source_l00176}00176\ \ \ \}}
+\DoxyCodeLine{\Hypertarget{cp__micro__ros__agent_8cpp_source_l00177}00177\ }
+\DoxyCodeLine{\Hypertarget{cp__micro__ros__agent_8cpp_source_l00178}00178\ \ \ \textcolor{keywordtype}{char}\ buffer[128];}
+\DoxyCodeLine{\Hypertarget{cp__micro__ros__agent_8cpp_source_l00179}00179\ \ \ std::string\ result;}
+\DoxyCodeLine{\Hypertarget{cp__micro__ros__agent_8cpp_source_l00180}00180\ }
+\DoxyCodeLine{\Hypertarget{cp__micro__ros__agent_8cpp_source_l00181}00181\ \ \ \textcolor{keywordflow}{while}\ (fgets(buffer,\ \textcolor{keyword}{sizeof}(buffer),\ pipe)\ !=\ NULL)}
+\DoxyCodeLine{\Hypertarget{cp__micro__ros__agent_8cpp_source_l00182}00182\ \ \ \{}
+\DoxyCodeLine{\Hypertarget{cp__micro__ros__agent_8cpp_source_l00183}00183\ \ \ \ \ result\ +=\ buffer;}
+\DoxyCodeLine{\Hypertarget{cp__micro__ros__agent_8cpp_source_l00184}00184\ \ \ \}}
+\DoxyCodeLine{\Hypertarget{cp__micro__ros__agent_8cpp_source_l00185}00185\ }
+\DoxyCodeLine{\Hypertarget{cp__micro__ros__agent_8cpp_source_l00186}00186\ \ \ pclose(pipe);}
+\DoxyCodeLine{\Hypertarget{cp__micro__ros__agent_8cpp_source_l00187}00187\ }
+\DoxyCodeLine{\Hypertarget{cp__micro__ros__agent_8cpp_source_l00188}00188\ \ \ std::istringstream\ iss(result);}
+\DoxyCodeLine{\Hypertarget{cp__micro__ros__agent_8cpp_source_l00189}00189\ \ \ pid\_t\ childPid;}
+\DoxyCodeLine{\Hypertarget{cp__micro__ros__agent_8cpp_source_l00190}00190\ \ \ std::vector<pid\_t>\ childPids;}
+\DoxyCodeLine{\Hypertarget{cp__micro__ros__agent_8cpp_source_l00191}00191\ }
+\DoxyCodeLine{\Hypertarget{cp__micro__ros__agent_8cpp_source_l00192}00192\ \ \ \textcolor{keywordflow}{while}\ (iss\ >>\ childPid)}
+\DoxyCodeLine{\Hypertarget{cp__micro__ros__agent_8cpp_source_l00193}00193\ \ \ \{}
+\DoxyCodeLine{\Hypertarget{cp__micro__ros__agent_8cpp_source_l00194}00194\ \ \ \ \ childPids.push\_back(childPid);}
+\DoxyCodeLine{\Hypertarget{cp__micro__ros__agent_8cpp_source_l00195}00195\ \ \ \}}
+\DoxyCodeLine{\Hypertarget{cp__micro__ros__agent_8cpp_source_l00196}00196\ }
+\DoxyCodeLine{\Hypertarget{cp__micro__ros__agent_8cpp_source_l00197}00197\ \ \ \textcolor{comment}{//\ Kill\ child\ processes\ before\ killing\ the\ parent\ process}}
+\DoxyCodeLine{\Hypertarget{cp__micro__ros__agent_8cpp_source_l00198}00198\ \ \ \textcolor{keywordflow}{for}\ (\textcolor{keyword}{const}\ pid\_t\ \&\ child\ :\ childPids)}
+\DoxyCodeLine{\Hypertarget{cp__micro__ros__agent_8cpp_source_l00199}00199\ \ \ \{}
+\DoxyCodeLine{\Hypertarget{cp__micro__ros__agent_8cpp_source_l00200}00200\ \ \ \ \ \mbox{\hyperlink{classcl__px4__mr_1_1CpMicroRosAgent_afec60a790888ac7698eb9519a6187ad3}{killProcessesRecursive}}(child);}
+\DoxyCodeLine{\Hypertarget{cp__micro__ros__agent_8cpp_source_l00201}00201\ \ \ \}}
+\DoxyCodeLine{\Hypertarget{cp__micro__ros__agent_8cpp_source_l00202}00202\ }
+\DoxyCodeLine{\Hypertarget{cp__micro__ros__agent_8cpp_source_l00203}00203\ \ \ \textcolor{comment}{//\ After\ killing\ all\ children,\ kill\ the\ parent\ process}}
+\DoxyCodeLine{\Hypertarget{cp__micro__ros__agent_8cpp_source_l00204}00204\ \ \ \textcolor{keywordtype}{int}\ res\ =\ kill(pid,\ SIGTERM);}
+\DoxyCodeLine{\Hypertarget{cp__micro__ros__agent_8cpp_source_l00205}00205\ \ \ \textcolor{keywordflow}{if}\ (res\ ==\ 0)}
+\DoxyCodeLine{\Hypertarget{cp__micro__ros__agent_8cpp_source_l00206}00206\ \ \ \{}
+\DoxyCodeLine{\Hypertarget{cp__micro__ros__agent_8cpp_source_l00207}00207\ \ \ \ \ RCLCPP\_FATAL(rclcpp::get\_logger(\textcolor{stringliteral}{"{}CpMicroRosAgent"{}}),\ \textcolor{stringliteral}{"{}Killed\ process\ \%d"{}},\ pid);}
+\DoxyCodeLine{\Hypertarget{cp__micro__ros__agent_8cpp_source_l00208}00208\ \ \ \}}
+\DoxyCodeLine{\Hypertarget{cp__micro__ros__agent_8cpp_source_l00209}00209\ \}}
+\DoxyCodeLine{\Hypertarget{cp__micro__ros__agent_8cpp_source_l00210}00210\ }
+\DoxyCodeLine{\Hypertarget{cp__micro__ros__agent_8cpp_source_l00211}00211\ \}\ \ \textcolor{comment}{//\ namespace\ cl\_px4\_mr}}
+
+\end{DoxyCode}
