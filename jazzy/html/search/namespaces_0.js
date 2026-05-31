@@ -22,6 +22,5 @@ var searchData=
   ['cl_5fnav2z_3a_3apure_5fspinning_5flocal_5fplanner_19',['pure_spinning_local_planner',['../namespacecl__nav2z_1_1pure__spinning__local__planner.html',1,'cl_nav2z']]],
   ['cl_5fnav2z_3a_3aundo_5fpath_5fglobal_5fplanner_20',['undo_path_global_planner',['../namespacecl__nav2z_1_1undo__path__global__planner.html',1,'cl_nav2z']]],
   ['cl_5fpx4_5fmr_21',['cl_px4_mr',['../namespacecl__px4__mr.html',1,'']]],
-  ['cl_5fros2_5ftimer_22',['cl_ros2_timer',['../namespacecl__ros2__timer.html',1,'']]],
-  ['cl_5fros2_5ftimer_3a_3acomponents_23',['components',['../namespacecl__ros2__timer_1_1components.html',1,'cl_ros2_timer']]]
+  ['cl_5fros2_5ftimer_22',['cl_ros2_timer',['../namespacecl__ros2__timer.html',1,'']]]
 ];

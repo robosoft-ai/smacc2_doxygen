@@ -47,5 +47,6 @@ var searchData=
   ['logstatestring_44',['logStateString',['../classcl__nav2z_1_1odom__tracker_1_1CpOdomTracker.html#afb5b67139e3f4299d4f002f07feb7d12',1,'cl_nav2z::odom_tracker::CpOdomTracker']]],
   ['lookatpose_5f_45',['lookAtPose_',['../classcl__nav2z_1_1CbRotateLookAt.html#a637c0fdfff1076efa36ac1e8cf57819c',1,'cl_nav2z::CbRotateLookAt']]],
   ['lookuptransform_46',['lookupTransform',['../classcl__moveit2z_1_1CpTfListener.html#a797fb92a0161f5c927c3c7fa9ab6bc24',1,'cl_moveit2z::CpTfListener']]],
-  ['loop_5frate_5fhz_47',['loop_rate_hz',['../classsmacc2_1_1SignalDetector.html#ac67b27bde2d30322b6792bafa0522274',1,'smacc2::SignalDetector']]]
+  ['loop_5frate_5fhz_47',['loop_rate_hz',['../classsmacc2_1_1SignalDetector.html#ac67b27bde2d30322b6792bafa0522274',1,'smacc2::SignalDetector']]],
+  ['loopduration_5f_48',['loopDuration_',['../classcl__ros2__timer_1_1CbTimerCountdownLoop.html#a55d04fa3601aa90325f1db528e806172',1,'cl_ros2_timer::CbTimerCountdownLoop']]]
 ];

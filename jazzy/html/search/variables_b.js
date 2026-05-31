@@ -33,5 +33,6 @@ var searchData=
   ['location_30',['location',['../structcl__gcalcli_1_1CalendarEvent.html#a3bd8c70e9b32a7d18c57651ed89617b2',1,'cl_gcalcli::CalendarEvent']]],
   ['logger_5f_31',['logger_',['../classsmacc2_1_1ISmaccState.html#a05d1116e83e537fa5686660bd4a9cc0e',1,'smacc2::ISmaccState']]],
   ['lookatpose_5f_32',['lookAtPose_',['../classcl__nav2z_1_1CbRotateLookAt.html#a637c0fdfff1076efa36ac1e8cf57819c',1,'cl_nav2z::CbRotateLookAt']]],
-  ['loop_5frate_5fhz_33',['loop_rate_hz',['../classsmacc2_1_1SignalDetector.html#ac67b27bde2d30322b6792bafa0522274',1,'smacc2::SignalDetector']]]
+  ['loop_5frate_5fhz_33',['loop_rate_hz',['../classsmacc2_1_1SignalDetector.html#ac67b27bde2d30322b6792bafa0522274',1,'smacc2::SignalDetector']]],
+  ['loopduration_5f_34',['loopDuration_',['../classcl__ros2__timer_1_1CbTimerCountdownLoop.html#a55d04fa3601aa90325f1db528e806172',1,'cl_ros2_timer::CbTimerCountdownLoop']]]
 ];
