@@ -490,61 +490,59 @@ Additional Inherited Members</h2></td></tr>
 <div class="line"><span class="lineno">  112</span>        }</div>
 <div class="line"><span class="lineno">  113</span>        <span class="keywordflow">else</span> <span class="keywordflow">if</span> (bytesRead == 0)</div>
 <div class="line"><span class="lineno">  114</span>        {</div>
-<div class="line"><span class="lineno">  115</span>          <span class="comment">// No se han leído más datos</span></div>
-<div class="line"><span class="lineno">  116</span>          std::this_thread::sleep_for(</div>
-<div class="line"><span class="lineno">  117</span>            std::chrono::milliseconds(100));  <span class="comment">// Espera antes de intentar nuevamente</span></div>
-<div class="line"><span class="lineno">  118</span>        }</div>
-<div class="line"><span class="lineno">  119</span>        <span class="keywordflow">else</span></div>
-<div class="line"><span class="lineno">  120</span>        {</div>
-<div class="line"><span class="lineno">  121</span>          <span class="comment">// Error de lectura</span></div>
-<div class="line"><span class="lineno">  122</span>          RCLCPP_ERROR(rclcpp::get_logger(<span class="stringliteral">&quot;smacc2&quot;</span>), <span class="stringliteral">&quot;Error de lectura en pipe&quot;</span>);</div>
-<div class="line"><span class="lineno">  123</span>          <span class="keywordflow">break</span>;</div>
-<div class="line"><span class="lineno">  124</span>        }</div>
-<div class="line"><span class="lineno">  125</span>      }</div>
-<div class="line"><span class="lineno">  126</span> </div>
-<div class="line"><span class="lineno">  127</span>      rclcpp::sleep_for(2s);</div>
-<div class="line"><span class="lineno">  128</span>      <span class="keywordflow">if</span> (child.pid &gt; 0)</div>
-<div class="line"><span class="lineno">  129</span>      {</div>
-<div class="line"><span class="lineno">  130</span>        <a class="code hl_function" href="namespacesmacc2_1_1client__bases.html#a1a82d22a82ec20a6c8ae7a2c679e49b8">killGrandchildren</a>(child.pid);</div>
-<div class="line"><span class="lineno">  131</span>        rclcpp::sleep_for(2s);</div>
-<div class="line"><span class="lineno">  132</span>      }</div>
-<div class="line"><span class="lineno">  133</span> </div>
-<div class="line"><span class="lineno">  134</span>      <span class="keywordtype">int</span> status;</div>
-<div class="line"><span class="lineno">  135</span>      pid_t child_pid = child.pid;</div>
-<div class="line"><span class="lineno">  136</span>      <span class="keywordflow">if</span> (waitpid(child_pid, &amp;status, 0) != -1)</div>
-<div class="line"><span class="lineno">  137</span>      {</div>
-<div class="line"><span class="lineno">  138</span>        <span class="keywordflow">if</span> (WIFEXITED(status))</div>
-<div class="line"><span class="lineno">  139</span>        {</div>
-<div class="line"><span class="lineno">  140</span>          <span class="keywordtype">int</span> exit_status = WEXITSTATUS(status);</div>
-<div class="line"><span class="lineno">  141</span>          RCLCPP_INFO(</div>
-<div class="line"><span class="lineno">  142</span>            rclcpp::get_logger(<span class="stringliteral">&quot;smacc2&quot;</span>), <span class="stringliteral">&quot;Child process exited with status: %d&quot;</span>, exit_status);</div>
-<div class="line"><span class="lineno">  143</span>        }</div>
-<div class="line"><span class="lineno">  144</span>        <span class="keywordflow">else</span> <span class="keywordflow">if</span> (WIFSIGNALED(status))</div>
-<div class="line"><span class="lineno">  145</span>        {</div>
-<div class="line"><span class="lineno">  146</span>          <span class="keywordtype">int</span> term_signal = WTERMSIG(status);</div>
-<div class="line"><span class="lineno">  147</span>          RCLCPP_WARN(</div>
-<div class="line"><span class="lineno">  148</span>            rclcpp::get_logger(<span class="stringliteral">&quot;smacc2&quot;</span>), <span class="stringliteral">&quot;Child process terminated by signal: %d&quot;</span>, term_signal);</div>
-<div class="line"><span class="lineno">  149</span>        }</div>
-<div class="line"><span class="lineno">  150</span>      }</div>
-<div class="line"><span class="lineno">  151</span>      <span class="keywordflow">else</span></div>
-<div class="line"><span class="lineno">  152</span>      {</div>
-<div class="line"><span class="lineno">  153</span>        RCLCPP_ERROR(rclcpp::get_logger(<span class="stringliteral">&quot;smacc2&quot;</span>), <span class="stringliteral">&quot;Error waiting for child process.&quot;</span>);</div>
-<div class="line"><span class="lineno">  154</span>      }</div>
-<div class="line"><span class="lineno">  155</span> </div>
-<div class="line"><span class="lineno">  156</span>      pclose(child.pipe);</div>
-<div class="line"><span class="lineno">  157</span>      close(child.pipe-&gt;_fileno);  <span class="comment">// Close pipe file descriptor but not processes</span></div>
-<div class="line"><span class="lineno">  158</span> </div>
-<div class="line"><span class="lineno">  159</span>      RCLCPP_WARN_STREAM(rclcpp::get_logger(<span class="stringliteral">&quot;smacc2&quot;</span>), <span class="stringliteral">&quot;[ClRosLaunch2] RESULT:\n&quot;</span> &lt;&lt; result);</div>
-<div class="line"><span class="lineno">  160</span> </div>
-<div class="line"><span class="lineno">  161</span>      <span class="comment">// Devuelve una std::future con el resultado</span></div>
-<div class="line"><span class="lineno">  162</span>      <span class="comment">// return std::async(std::launch::async, [result]() { return result; });</span></div>
-<div class="line"><span class="lineno">  163</span>      <span class="keywordflow">return</span> result;</div>
-<div class="line"><span class="lineno">  164</span>    });</div>
-<div class="line"><span class="lineno">  165</span>}</div>
-<div class="ttc" id="anamespacesmacc2_1_1client__bases_html_a1a82d22a82ec20a6c8ae7a2c679e49b8"><div class="ttname"><a href="namespacesmacc2_1_1client__bases.html#a1a82d22a82ec20a6c8ae7a2c679e49b8">smacc2::client_bases::killGrandchildren</a></div><div class="ttdeci">void killGrandchildren(pid_t originalPid)</div><div class="ttdef"><b>Definition</b> <a href="smacc__ros__launch__client__2_8cpp_source.html#l00258">smacc_ros_launch_client_2.cpp:258</a></div></div>
-<div class="ttc" id="anamespacesmacc2_1_1client__bases_html_ac16659e65311f6c4fe5caa96a808a7cc"><div class="ttname"><a href="namespacesmacc2_1_1client__bases.html#ac16659e65311f6c4fe5caa96a808a7cc">smacc2::client_bases::runProcess</a></div><div class="ttdeci">ProcessInfo runProcess(const char *command)</div><div class="ttdef"><b>Definition</b> <a href="smacc__ros__launch__client__2_8cpp_source.html#l00170">smacc_ros_launch_client_2.cpp:170</a></div></div>
+<div class="line"><span class="lineno">  115</span>          <span class="comment">// No data available yet</span></div>
+<div class="line"><span class="lineno">  116</span>          std::this_thread::sleep_for(std::chrono::milliseconds(100));  <span class="comment">// Wait before retrying</span></div>
+<div class="line"><span class="lineno">  117</span>        }</div>
+<div class="line"><span class="lineno">  118</span>        <span class="keywordflow">else</span></div>
+<div class="line"><span class="lineno">  119</span>        {</div>
+<div class="line"><span class="lineno">  120</span>          <span class="comment">// Read error</span></div>
+<div class="line"><span class="lineno">  121</span>          RCLCPP_ERROR(rclcpp::get_logger(<span class="stringliteral">&quot;smacc2&quot;</span>), <span class="stringliteral">&quot;Error reading from pipe&quot;</span>);</div>
+<div class="line"><span class="lineno">  122</span>          <span class="keywordflow">break</span>;</div>
+<div class="line"><span class="lineno">  123</span>        }</div>
+<div class="line"><span class="lineno">  124</span>      }</div>
+<div class="line"><span class="lineno">  125</span> </div>
+<div class="line"><span class="lineno">  126</span>      rclcpp::sleep_for(2s);</div>
+<div class="line"><span class="lineno">  127</span>      <span class="keywordflow">if</span> (child.pid &gt; 0)</div>
+<div class="line"><span class="lineno">  128</span>      {</div>
+<div class="line"><span class="lineno">  129</span>        <a class="code hl_function" href="namespacesmacc2_1_1client__bases.html#a1a82d22a82ec20a6c8ae7a2c679e49b8">killGrandchildren</a>(child.pid);</div>
+<div class="line"><span class="lineno">  130</span>        rclcpp::sleep_for(2s);</div>
+<div class="line"><span class="lineno">  131</span>      }</div>
+<div class="line"><span class="lineno">  132</span> </div>
+<div class="line"><span class="lineno">  133</span>      <span class="keywordtype">int</span> status;</div>
+<div class="line"><span class="lineno">  134</span>      pid_t child_pid = child.pid;</div>
+<div class="line"><span class="lineno">  135</span>      <span class="keywordflow">if</span> (waitpid(child_pid, &amp;status, 0) != -1)</div>
+<div class="line"><span class="lineno">  136</span>      {</div>
+<div class="line"><span class="lineno">  137</span>        <span class="keywordflow">if</span> (WIFEXITED(status))</div>
+<div class="line"><span class="lineno">  138</span>        {</div>
+<div class="line"><span class="lineno">  139</span>          <span class="keywordtype">int</span> exit_status = WEXITSTATUS(status);</div>
+<div class="line"><span class="lineno">  140</span>          RCLCPP_INFO(</div>
+<div class="line"><span class="lineno">  141</span>            rclcpp::get_logger(<span class="stringliteral">&quot;smacc2&quot;</span>), <span class="stringliteral">&quot;Child process exited with status: %d&quot;</span>, exit_status);</div>
+<div class="line"><span class="lineno">  142</span>        }</div>
+<div class="line"><span class="lineno">  143</span>        <span class="keywordflow">else</span> <span class="keywordflow">if</span> (WIFSIGNALED(status))</div>
+<div class="line"><span class="lineno">  144</span>        {</div>
+<div class="line"><span class="lineno">  145</span>          <span class="keywordtype">int</span> term_signal = WTERMSIG(status);</div>
+<div class="line"><span class="lineno">  146</span>          RCLCPP_WARN(</div>
+<div class="line"><span class="lineno">  147</span>            rclcpp::get_logger(<span class="stringliteral">&quot;smacc2&quot;</span>), <span class="stringliteral">&quot;Child process terminated by signal: %d&quot;</span>, term_signal);</div>
+<div class="line"><span class="lineno">  148</span>        }</div>
+<div class="line"><span class="lineno">  149</span>      }</div>
+<div class="line"><span class="lineno">  150</span>      <span class="keywordflow">else</span></div>
+<div class="line"><span class="lineno">  151</span>      {</div>
+<div class="line"><span class="lineno">  152</span>        RCLCPP_ERROR(rclcpp::get_logger(<span class="stringliteral">&quot;smacc2&quot;</span>), <span class="stringliteral">&quot;Error waiting for child process.&quot;</span>);</div>
+<div class="line"><span class="lineno">  153</span>      }</div>
+<div class="line"><span class="lineno">  154</span> </div>
+<div class="line"><span class="lineno">  155</span>      pclose(child.pipe);</div>
+<div class="line"><span class="lineno">  156</span>      close(child.pipe-&gt;_fileno);  <span class="comment">// Close pipe file descriptor but not processes</span></div>
+<div class="line"><span class="lineno">  157</span> </div>
+<div class="line"><span class="lineno">  158</span>      RCLCPP_WARN_STREAM(rclcpp::get_logger(<span class="stringliteral">&quot;smacc2&quot;</span>), <span class="stringliteral">&quot;[ClRosLaunch2] RESULT:\n&quot;</span> &lt;&lt; result);</div>
+<div class="line"><span class="lineno">  159</span> </div>
+<div class="line"><span class="lineno">  160</span>      <span class="comment">// return std::async(std::launch::async, [result]() { return result; });</span></div>
+<div class="line"><span class="lineno">  161</span>      <span class="keywordflow">return</span> result;</div>
+<div class="line"><span class="lineno">  162</span>    });</div>
+<div class="line"><span class="lineno">  163</span>}</div>
+<div class="ttc" id="anamespacesmacc2_1_1client__bases_html_a1a82d22a82ec20a6c8ae7a2c679e49b8"><div class="ttname"><a href="namespacesmacc2_1_1client__bases.html#a1a82d22a82ec20a6c8ae7a2c679e49b8">smacc2::client_bases::killGrandchildren</a></div><div class="ttdeci">void killGrandchildren(pid_t originalPid)</div><div class="ttdef"><b>Definition</b> <a href="smacc__ros__launch__client__2_8cpp_source.html#l00256">smacc_ros_launch_client_2.cpp:256</a></div></div>
+<div class="ttc" id="anamespacesmacc2_1_1client__bases_html_ac16659e65311f6c4fe5caa96a808a7cc"><div class="ttname"><a href="namespacesmacc2_1_1client__bases.html#ac16659e65311f6c4fe5caa96a808a7cc">smacc2::client_bases::runProcess</a></div><div class="ttdeci">ProcessInfo runProcess(const char *command)</div><div class="ttdef"><b>Definition</b> <a href="smacc__ros__launch__client__2_8cpp_source.html#l00168">smacc_ros_launch_client_2.cpp:168</a></div></div>
 </div><!-- fragment -->
-<p class="reference">References <a class="el" href="smacc__ros__launch__client__2_8cpp_source.html#l00258">smacc2::client_bases::killGrandchildren()</a>, <a class="el" href="smacc__ros__launch__client__2_8hpp_source.html#l00067">launchPid_</a>, and <a class="el" href="smacc__ros__launch__client__2_8cpp_source.html#l00170">smacc2::client_bases::runProcess()</a>.</p>
+<p class="reference">References <a class="el" href="smacc__ros__launch__client__2_8cpp_source.html#l00256">smacc2::client_bases::killGrandchildren()</a>, <a class="el" href="smacc__ros__launch__client__2_8hpp_source.html#l00067">launchPid_</a>, and <a class="el" href="smacc__ros__launch__client__2_8cpp_source.html#l00168">smacc2::client_bases::runProcess()</a>.</p>
 
 <p class="reference">Referenced by <a class="el" href="smacc__ros__launch__client__2_8cpp_source.html#l00053">launch()</a>, and <a class="el" href="cb__ros__launch__2_8cpp_source.html#l00049">smacc2::client_behaviors::CbRosLaunch2::onEntry()</a>.</p>
 <div class="dynheader">
@@ -596,7 +594,7 @@ Here is the caller graph for this function:</div>
 <p class="definition">Definition at line <a class="el" href="smacc__ros__launch__client__2_8cpp_source.html#l00053">53</a> of file <a class="el" href="smacc__ros__launch__client__2_8cpp_source.html">smacc_ros_launch_client_2.cpp</a>.</p>
 <div class="fragment"><div class="line"><span class="lineno">   54</span>{</div>
 <div class="line"><span class="lineno">   55</span>  <a class="code hl_variable" href="#a07a1b9c6c517acbfc0b54b8d1c117411">cancellationToken_</a>.store(<span class="keyword">false</span>);</div>
-<div class="line"><span class="lineno">   56</span>  <span class="comment">// Iniciar el hilo para la ejecución del lanzamiento</span></div>
+<div class="line"><span class="lineno">   56</span>  <span class="comment">// Start the launch execution thread</span></div>
 <div class="line"><span class="lineno">   57</span>  this-&gt;<a class="code hl_variable" href="#ac3dc84e4f5832da05ab1199f6b9bee2c">result_</a> = <span class="comment">/*std::async([this]()*/</span></div>
 <div class="line"><span class="lineno">   58</span>                  <span class="comment">// {</span></div>
 <div class="line"><span class="lineno">   59</span>    <a class="code hl_function" href="#add94fb3db19383675f3c48fe3a6f1424">executeRosLaunch</a>(<a class="code hl_variable" href="#ae408e0a7c14de98748c3b2f94b467af4">packageName_</a>, <a class="code hl_variable" href="#a911dc86a027437c17a16cf7ae4b6af9f">launchFileName_</a>, [<span class="keyword">this</span>]() { <span class="keywordflow">return</span> <a class="code hl_variable" href="#a07a1b9c6c517acbfc0b54b8d1c117411">cancellationToken_</a>.load(); });</div>
@@ -655,7 +653,7 @@ Here is the caller graph for this function:</div>
 
 <p class="definition">Definition at line <a class="el" href="smacc__ros__launch__client__2_8cpp_source.html#l00063">63</a> of file <a class="el" href="smacc__ros__launch__client__2_8cpp_source.html">smacc_ros_launch_client_2.cpp</a>.</p>
 <div class="fragment"><div class="line"><span class="lineno">   64</span>{</div>
-<div class="line"><span class="lineno">   65</span>  <span class="comment">// Establecer la bandera de cancelación</span></div>
+<div class="line"><span class="lineno">   65</span>  <span class="comment">// Set the cancellation flag</span></div>
 <div class="line"><span class="lineno">   66</span>  <a class="code hl_variable" href="#a07a1b9c6c517acbfc0b54b8d1c117411">cancellationToken_</a>.store(<span class="keyword">true</span>);</div>
 <div class="line"><span class="lineno">   67</span>}</div>
 </div><!-- fragment -->
