@@ -135,37 +135,37 @@ Functions</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="forward__local__planner_8cpp_source.html#l00281">281</a> of file <a class="el" href="forward__local__planner_8cpp_source.html">forward_local_planner.cpp</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">  284</span>{</div>
-<div class="line"><span class="lineno">  285</span>  <span class="keywordflow">if</span> (max_angular_z_speed_ == 0 || max_linear_x_speed_ == 0) <span class="keywordflow">return</span>;</div>
+<p class="definition">Definition at line <a class="el" href="forward__local__planner_8cpp_source.html#l00273">273</a> of file <a class="el" href="forward__local__planner_8cpp_source.html">forward_local_planner.cpp</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">  276</span>{</div>
+<div class="line"><span class="lineno">  277</span>  <span class="keywordflow">if</span> (max_angular_z_speed_ == 0 || max_linear_x_speed_ == 0) <span class="keywordflow">return</span>;</div>
+<div class="line"><span class="lineno">  278</span> </div>
+<div class="line"><span class="lineno">  279</span>  <span class="keywordflow">if</span> (cmd_vel.angular.z == 0)</div>
+<div class="line"><span class="lineno">  280</span>  {</div>
+<div class="line"><span class="lineno">  281</span>    cmd_vel.linear.x = max_linear_x_speed_;</div>
+<div class="line"><span class="lineno">  282</span>  }</div>
+<div class="line"><span class="lineno">  283</span>  <span class="keywordflow">else</span></div>
+<div class="line"><span class="lineno">  284</span>  {</div>
+<div class="line"><span class="lineno">  285</span>    <span class="keywordtype">double</span> kurvature = cmd_vel.linear.x / cmd_vel.angular.z;</div>
 <div class="line"><span class="lineno">  286</span> </div>
-<div class="line"><span class="lineno">  287</span>  <span class="keywordflow">if</span> (cmd_vel.angular.z == 0)</div>
-<div class="line"><span class="lineno">  288</span>  {</div>
-<div class="line"><span class="lineno">  289</span>    cmd_vel.linear.x = max_linear_x_speed_;</div>
-<div class="line"><span class="lineno">  290</span>  }</div>
-<div class="line"><span class="lineno">  291</span>  <span class="keywordflow">else</span></div>
-<div class="line"><span class="lineno">  292</span>  {</div>
-<div class="line"><span class="lineno">  293</span>    <span class="keywordtype">double</span> kurvature = cmd_vel.linear.x / cmd_vel.angular.z;</div>
-<div class="line"><span class="lineno">  294</span> </div>
-<div class="line"><span class="lineno">  295</span>    <span class="keywordtype">double</span> linearAuthority = fabs(cmd_vel.linear.x / max_linear_x_speed_);</div>
-<div class="line"><span class="lineno">  296</span>    <span class="keywordtype">double</span> angularAuthority = fabs(cmd_vel.angular.z / max_angular_z_speed_);</div>
-<div class="line"><span class="lineno">  297</span>    <span class="keywordflow">if</span> (linearAuthority &lt; angularAuthority)</div>
+<div class="line"><span class="lineno">  287</span>    <span class="keywordtype">double</span> linearAuthority = fabs(cmd_vel.linear.x / max_linear_x_speed_);</div>
+<div class="line"><span class="lineno">  288</span>    <span class="keywordtype">double</span> angularAuthority = fabs(cmd_vel.angular.z / max_angular_z_speed_);</div>
+<div class="line"><span class="lineno">  289</span>    <span class="keywordflow">if</span> (linearAuthority &lt; angularAuthority)</div>
+<div class="line"><span class="lineno">  290</span>    {</div>
+<div class="line"><span class="lineno">  291</span>      <span class="comment">// lets go to maximum linear speed</span></div>
+<div class="line"><span class="lineno">  292</span>      cmd_vel.linear.x = max_linear_x_speed_;</div>
+<div class="line"><span class="lineno">  293</span>      cmd_vel.angular.z = kurvature / max_linear_x_speed_;</div>
+<div class="line"><span class="lineno">  294</span>      RCLCPP_WARN_STREAM(</div>
+<div class="line"><span class="lineno">  295</span>        nh_-&gt;get_logger(), <span class="stringliteral">&quot;k=&quot;</span> &lt;&lt; kurvature &lt;&lt; <span class="stringliteral">&quot;lets go to maximum linear capacity: &quot;</span> &lt;&lt; cmd_vel);</div>
+<div class="line"><span class="lineno">  296</span>    }</div>
+<div class="line"><span class="lineno">  297</span>    <span class="keywordflow">else</span></div>
 <div class="line"><span class="lineno">  298</span>    {</div>
-<div class="line"><span class="lineno">  299</span>      <span class="comment">// lets go to maximum linear speed</span></div>
-<div class="line"><span class="lineno">  300</span>      cmd_vel.linear.x = max_linear_x_speed_;</div>
-<div class="line"><span class="lineno">  301</span>      cmd_vel.angular.z = kurvature / max_linear_x_speed_;</div>
-<div class="line"><span class="lineno">  302</span>      RCLCPP_WARN_STREAM(</div>
-<div class="line"><span class="lineno">  303</span>        nh_-&gt;get_logger(), <span class="stringliteral">&quot;k=&quot;</span> &lt;&lt; kurvature &lt;&lt; <span class="stringliteral">&quot;lets go to maximum linear capacity: &quot;</span> &lt;&lt; cmd_vel);</div>
-<div class="line"><span class="lineno">  304</span>    }</div>
-<div class="line"><span class="lineno">  305</span>    <span class="keywordflow">else</span></div>
-<div class="line"><span class="lineno">  306</span>    {</div>
-<div class="line"><span class="lineno">  307</span>      <span class="comment">// lets go with maximum angular speed</span></div>
-<div class="line"><span class="lineno">  308</span>      cmd_vel.angular.x = max_angular_z_speed_;</div>
-<div class="line"><span class="lineno">  309</span>      cmd_vel.linear.x = kurvature * max_angular_z_speed_;</div>
-<div class="line"><span class="lineno">  310</span>      RCLCPP_WARN_STREAM(nh_-&gt;get_logger(), <span class="stringliteral">&quot;lets go to maximum angular capacity: &quot;</span> &lt;&lt; cmd_vel);</div>
-<div class="line"><span class="lineno">  311</span>    }</div>
-<div class="line"><span class="lineno">  312</span>  }</div>
-<div class="line"><span class="lineno">  313</span>}</div>
+<div class="line"><span class="lineno">  299</span>      <span class="comment">// lets go with maximum angular speed</span></div>
+<div class="line"><span class="lineno">  300</span>      cmd_vel.angular.x = max_angular_z_speed_;</div>
+<div class="line"><span class="lineno">  301</span>      cmd_vel.linear.x = kurvature * max_angular_z_speed_;</div>
+<div class="line"><span class="lineno">  302</span>      RCLCPP_WARN_STREAM(nh_-&gt;get_logger(), <span class="stringliteral">&quot;lets go to maximum angular capacity: &quot;</span> &lt;&lt; cmd_vel);</div>
+<div class="line"><span class="lineno">  303</span>    }</div>
+<div class="line"><span class="lineno">  304</span>  }</div>
+<div class="line"><span class="lineno">  305</span>}</div>
 </div><!-- fragment -->
 </div>
 </div>

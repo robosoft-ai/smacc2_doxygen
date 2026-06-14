@@ -376,67 +376,67 @@ geometry\+\_\+msgs\+::msg\+::\+Pose\+Stamped cl\+\_\+nav2z\+::make\+Pure\+Spinni
 
 
 
-Definition at line \mbox{\hyperlink{client__library_2cl__nav2z_2custom__planners_2nav2z__planners__common_2src_2nav2z__planners__common_2common_8cpp_source_l00037}{37}} of file \mbox{\hyperlink{client__library_2cl__nav2z_2custom__planners_2nav2z__planners__common_2src_2nav2z__planners__common_2common_8cpp_source}{common.\+cpp}}.
+Definition at line \mbox{\hyperlink{client__library_2cl__nav2z_2custom__planners_2nav2z__planners__common_2src_2nav2z__planners__common_2common_8cpp_source_l00036}{36}} of file \mbox{\hyperlink{client__library_2cl__nav2z_2custom__planners_2nav2z__planners__common_2src_2nav2z__planners__common_2common_8cpp_source}{common.\+cpp}}.
 
 
 \begin{DoxyCode}{0}
-\DoxyCodeLine{00040\ \{}
-\DoxyCodeLine{00041\ \ \ \textcolor{keywordtype}{double}\ startYaw\ =\ tf2::getYaw(start.pose.orientation);}
-\DoxyCodeLine{00042\ \ \ \textcolor{comment}{//\ RCLCPP\_INFO(getLogger(),"{}pure\ spinning\ start\ yaw:\ \%lf"{},\ startYaw);}}
-\DoxyCodeLine{00043\ \ \ \textcolor{comment}{//\ RCLCPP\_INFO(getLogger(),"{}pure\ spinning\ goal\ yaw:\ \%lf"{},\ dstRads);}}
-\DoxyCodeLine{00044\ \ \ \textcolor{comment}{//\ RCLCPP\_WARN\_STREAM(getLogger(),"{}pure\ spinning\ start\ pose:\ "{}\ <<\ start);}}
-\DoxyCodeLine{00045\ }
-\DoxyCodeLine{00046\ \ \ \textcolor{keywordtype}{double}\ goalAngleOffset\ =\ angles::shortest\_angular\_distance(startYaw,\ dstRads);}
-\DoxyCodeLine{00047\ \ \ \textcolor{comment}{//\ RCLCPP\_INFO(getLogger(),"{}shortest\ angle:\ \%lf"{},\ goalAngleOffset);}}
-\DoxyCodeLine{00048\ }
-\DoxyCodeLine{00049\ \ \ \textcolor{keywordflow}{if}\ (goalAngleOffset\ >=\ 0)}
-\DoxyCodeLine{00050\ \ \ \{}
-\DoxyCodeLine{00051\ \ \ \ \ \textcolor{comment}{//\ angle\ positive\ turn\ counterclockwise}}
-\DoxyCodeLine{00052\ \ \ \ \ \textcolor{comment}{//\ RCLCPP\_INFO(getLogger(),"{}pure\ spinning\ counterclockwise"{});}}
-\DoxyCodeLine{00053\ \ \ \ \ \textcolor{keywordflow}{for}\ (\textcolor{keywordtype}{double}\ dangle\ =\ 0;\ dangle\ <=\ goalAngleOffset;\ dangle\ +=\ radstep)}
-\DoxyCodeLine{00054\ \ \ \ \ \{}
-\DoxyCodeLine{00055\ \ \ \ \ \ \ geometry\_msgs::msg::PoseStamped\ p\ =\ start;}
-\DoxyCodeLine{00056\ \ \ \ \ \ \ \textcolor{keywordtype}{double}\ yaw\ =\ startYaw\ +\ dangle;}
-\DoxyCodeLine{00057\ \ \ \ \ \ \ \textcolor{comment}{//\ RCLCPP\_INFO(getLogger(),"{}pure\ spinning\ counterclockwise,\ current\ path\ yaw:\ \%lf,\ dangle:\ \%lf,}}
-\DoxyCodeLine{00058\ \ \ \ \ \ \ \textcolor{comment}{//\ angleoffset\ \%lf,\ radstep\ \%lf\ pathsize(\%ld)"{},\ yaw,\ dangle,\ goalAngleOffset,\ radstep,\ plan.size());}}
-\DoxyCodeLine{00059\ \ \ \ \ \ \ tf2::Quaternion\ q;}
-\DoxyCodeLine{00060\ \ \ \ \ \ \ q.setRPY(0,\ 0,\ yaw);}
-\DoxyCodeLine{00061\ \ \ \ \ \ \ p.pose.orientation\ =\ tf2::toMsg(q);}
-\DoxyCodeLine{00062\ \ \ \ \ \ \ plan.push\_back(p);}
-\DoxyCodeLine{00063\ \ \ \ \ \}}
-\DoxyCodeLine{00064\ \ \ \}}
-\DoxyCodeLine{00065\ \ \ \textcolor{keywordflow}{else}}
-\DoxyCodeLine{00066\ \ \ \{}
-\DoxyCodeLine{00067\ \ \ \ \ \textcolor{comment}{//\ angle\ positive\ turn\ clockwise}}
-\DoxyCodeLine{00068\ \ \ \ \ \textcolor{comment}{//\ RCLCPP\_INFO(getLogger(),"{}pure\ spinning\ clockwise"{});}}
-\DoxyCodeLine{00069\ \ \ \ \ \textcolor{keywordflow}{for}\ (\textcolor{keywordtype}{double}\ dangle\ =\ 0;\ dangle\ >=\ goalAngleOffset;\ dangle\ -\/=\ radstep)}
-\DoxyCodeLine{00070\ \ \ \ \ \{}
-\DoxyCodeLine{00071\ \ \ \ \ \ \ \textcolor{comment}{//\ RCLCPP\_INFO(getLogger(),"{}dangle:\ \%lf"{},\ dangle);}}
-\DoxyCodeLine{00072\ \ \ \ \ \ \ geometry\_msgs::msg::PoseStamped\ p\ =\ start;}
-\DoxyCodeLine{00073\ \ \ \ \ \ \ \textcolor{keywordtype}{double}\ yaw\ =\ startYaw\ +\ dangle;}
-\DoxyCodeLine{00074\ \ \ \ \ \ \ \textcolor{comment}{//\ RCLCPP\_INFO(getLogger(),"{}pure\ spinning\ clockwise,\ yaw:\ \%lf,\ dangle:\ \%lf,\ angleoffset\ \%lf\ radstep}}
-\DoxyCodeLine{00075\ \ \ \ \ \ \ \textcolor{comment}{//\ \%lf"{},\ yaw,\ dangle,\ goalAngleOffset,radstep);}}
-\DoxyCodeLine{00076\ \ \ \ \ \ \ tf2::Quaternion\ q;}
-\DoxyCodeLine{00077\ \ \ \ \ \ \ q.setRPY(0,\ 0,\ yaw);}
-\DoxyCodeLine{00078\ \ \ \ \ \ \ p.pose.orientation\ =\ tf2::toMsg(q);}
-\DoxyCodeLine{00079\ \ \ \ \ \ \ plan.push\_back(p);}
-\DoxyCodeLine{00080\ \ \ \ \ \}}
-\DoxyCodeLine{00081\ \ \ \}}
-\DoxyCodeLine{00082\ }
-\DoxyCodeLine{00083\ \ \ \textcolor{comment}{//\ RCLCPP\_INFO(getLogger(),"{}pure\ spinning\ end\ yaw:\ \%lf"{},\ dstRads);}}
-\DoxyCodeLine{00084\ \ \ geometry\_msgs::msg::PoseStamped\ end\ =\ start;}
-\DoxyCodeLine{00085\ \ \ tf2::Quaternion\ q;}
-\DoxyCodeLine{00086\ \ \ q.setRPY(0,\ 0,\ dstRads);}
-\DoxyCodeLine{00087\ \ \ end.pose.orientation\ =\ tf2::toMsg(q);}
-\DoxyCodeLine{00088\ \ \ plan.push\_back(end);}
-\DoxyCodeLine{00089\ }
-\DoxyCodeLine{00090\ \ \ \textcolor{keywordflow}{return}\ end;}
-\DoxyCodeLine{00091\ \}}
+\DoxyCodeLine{00039\ \{}
+\DoxyCodeLine{00040\ \ \ \textcolor{keywordtype}{double}\ startYaw\ =\ tf2::getYaw(start.pose.orientation);}
+\DoxyCodeLine{00041\ \ \ \textcolor{comment}{//\ RCLCPP\_INFO(getLogger(),"{}pure\ spinning\ start\ yaw:\ \%lf"{},\ startYaw);}}
+\DoxyCodeLine{00042\ \ \ \textcolor{comment}{//\ RCLCPP\_INFO(getLogger(),"{}pure\ spinning\ goal\ yaw:\ \%lf"{},\ dstRads);}}
+\DoxyCodeLine{00043\ \ \ \textcolor{comment}{//\ RCLCPP\_WARN\_STREAM(getLogger(),"{}pure\ spinning\ start\ pose:\ "{}\ <<\ start);}}
+\DoxyCodeLine{00044\ }
+\DoxyCodeLine{00045\ \ \ \textcolor{keywordtype}{double}\ goalAngleOffset\ =\ angles::shortest\_angular\_distance(startYaw,\ dstRads);}
+\DoxyCodeLine{00046\ \ \ \textcolor{comment}{//\ RCLCPP\_INFO(getLogger(),"{}shortest\ angle:\ \%lf"{},\ goalAngleOffset);}}
+\DoxyCodeLine{00047\ }
+\DoxyCodeLine{00048\ \ \ \textcolor{keywordflow}{if}\ (goalAngleOffset\ >=\ 0)}
+\DoxyCodeLine{00049\ \ \ \{}
+\DoxyCodeLine{00050\ \ \ \ \ \textcolor{comment}{//\ angle\ positive\ turn\ counterclockwise}}
+\DoxyCodeLine{00051\ \ \ \ \ \textcolor{comment}{//\ RCLCPP\_INFO(getLogger(),"{}pure\ spinning\ counterclockwise"{});}}
+\DoxyCodeLine{00052\ \ \ \ \ \textcolor{keywordflow}{for}\ (\textcolor{keywordtype}{double}\ dangle\ =\ 0;\ dangle\ <=\ goalAngleOffset;\ dangle\ +=\ radstep)}
+\DoxyCodeLine{00053\ \ \ \ \ \{}
+\DoxyCodeLine{00054\ \ \ \ \ \ \ geometry\_msgs::msg::PoseStamped\ p\ =\ start;}
+\DoxyCodeLine{00055\ \ \ \ \ \ \ \textcolor{keywordtype}{double}\ yaw\ =\ startYaw\ +\ dangle;}
+\DoxyCodeLine{00056\ \ \ \ \ \ \ \textcolor{comment}{//\ RCLCPP\_INFO(getLogger(),"{}pure\ spinning\ counterclockwise,\ current\ path\ yaw:\ \%lf,\ dangle:\ \%lf,}}
+\DoxyCodeLine{00057\ \ \ \ \ \ \ \textcolor{comment}{//\ angleoffset\ \%lf,\ radstep\ \%lf\ pathsize(\%ld)"{},\ yaw,\ dangle,\ goalAngleOffset,\ radstep,\ plan.size());}}
+\DoxyCodeLine{00058\ \ \ \ \ \ \ tf2::Quaternion\ q;}
+\DoxyCodeLine{00059\ \ \ \ \ \ \ q.setRPY(0,\ 0,\ yaw);}
+\DoxyCodeLine{00060\ \ \ \ \ \ \ p.pose.orientation\ =\ tf2::toMsg(q);}
+\DoxyCodeLine{00061\ \ \ \ \ \ \ plan.push\_back(p);}
+\DoxyCodeLine{00062\ \ \ \ \ \}}
+\DoxyCodeLine{00063\ \ \ \}}
+\DoxyCodeLine{00064\ \ \ \textcolor{keywordflow}{else}}
+\DoxyCodeLine{00065\ \ \ \{}
+\DoxyCodeLine{00066\ \ \ \ \ \textcolor{comment}{//\ angle\ positive\ turn\ clockwise}}
+\DoxyCodeLine{00067\ \ \ \ \ \textcolor{comment}{//\ RCLCPP\_INFO(getLogger(),"{}pure\ spinning\ clockwise"{});}}
+\DoxyCodeLine{00068\ \ \ \ \ \textcolor{keywordflow}{for}\ (\textcolor{keywordtype}{double}\ dangle\ =\ 0;\ dangle\ >=\ goalAngleOffset;\ dangle\ -\/=\ radstep)}
+\DoxyCodeLine{00069\ \ \ \ \ \{}
+\DoxyCodeLine{00070\ \ \ \ \ \ \ \textcolor{comment}{//\ RCLCPP\_INFO(getLogger(),"{}dangle:\ \%lf"{},\ dangle);}}
+\DoxyCodeLine{00071\ \ \ \ \ \ \ geometry\_msgs::msg::PoseStamped\ p\ =\ start;}
+\DoxyCodeLine{00072\ \ \ \ \ \ \ \textcolor{keywordtype}{double}\ yaw\ =\ startYaw\ +\ dangle;}
+\DoxyCodeLine{00073\ \ \ \ \ \ \ \textcolor{comment}{//\ RCLCPP\_INFO(getLogger(),"{}pure\ spinning\ clockwise,\ yaw:\ \%lf,\ dangle:\ \%lf,\ angleoffset\ \%lf\ radstep}}
+\DoxyCodeLine{00074\ \ \ \ \ \ \ \textcolor{comment}{//\ \%lf"{},\ yaw,\ dangle,\ goalAngleOffset,radstep);}}
+\DoxyCodeLine{00075\ \ \ \ \ \ \ tf2::Quaternion\ q;}
+\DoxyCodeLine{00076\ \ \ \ \ \ \ q.setRPY(0,\ 0,\ yaw);}
+\DoxyCodeLine{00077\ \ \ \ \ \ \ p.pose.orientation\ =\ tf2::toMsg(q);}
+\DoxyCodeLine{00078\ \ \ \ \ \ \ plan.push\_back(p);}
+\DoxyCodeLine{00079\ \ \ \ \ \}}
+\DoxyCodeLine{00080\ \ \ \}}
+\DoxyCodeLine{00081\ }
+\DoxyCodeLine{00082\ \ \ \textcolor{comment}{//\ RCLCPP\_INFO(getLogger(),"{}pure\ spinning\ end\ yaw:\ \%lf"{},\ dstRads);}}
+\DoxyCodeLine{00083\ \ \ geometry\_msgs::msg::PoseStamped\ end\ =\ start;}
+\DoxyCodeLine{00084\ \ \ tf2::Quaternion\ q;}
+\DoxyCodeLine{00085\ \ \ q.setRPY(0,\ 0,\ dstRads);}
+\DoxyCodeLine{00086\ \ \ end.pose.orientation\ =\ tf2::toMsg(q);}
+\DoxyCodeLine{00087\ \ \ plan.push\_back(end);}
+\DoxyCodeLine{00088\ }
+\DoxyCodeLine{00089\ \ \ \textcolor{keywordflow}{return}\ end;}
+\DoxyCodeLine{00090\ \}}
 
 \end{DoxyCode}
 
 
-Referenced by \mbox{\hyperlink{backward__global__planner_8cpp_source_l00182}{cl\+\_\+nav2z\+::backward\+\_\+global\+\_\+planner\+::\+Backward\+Global\+Planner\+::create\+Default\+Backward\+Path()}}, and \mbox{\hyperlink{forward__global__planner_8cpp_source_l00079}{cl\+\_\+nav2z\+::forward\+\_\+global\+\_\+planner\+::\+Forward\+Global\+Planner\+::create\+Plan()}}.
+Referenced by \mbox{\hyperlink{backward__global__planner_8cpp_source_l00182}{cl\+\_\+nav2z\+::backward\+\_\+global\+\_\+planner\+::\+Backward\+Global\+Planner\+::create\+Default\+Backward\+Path()}}, and \mbox{\hyperlink{forward__global__planner_8cpp_source_l00078}{cl\+\_\+nav2z\+::forward\+\_\+global\+\_\+planner\+::\+Forward\+Global\+Planner\+::create\+Plan()}}.
 
 Here is the caller graph for this function\+:
 \nopagebreak
@@ -454,35 +454,35 @@ geometry\+\_\+msgs\+::msg\+::\+Pose\+Stamped cl\+\_\+nav2z\+::make\+Pure\+Straig
 
 
 
-Definition at line \mbox{\hyperlink{client__library_2cl__nav2z_2custom__planners_2nav2z__planners__common_2src_2nav2z__planners__common_2common_8cpp_source_l00093}{93}} of file \mbox{\hyperlink{client__library_2cl__nav2z_2custom__planners_2nav2z__planners__common_2src_2nav2z__planners__common_2common_8cpp_source}{common.\+cpp}}.
+Definition at line \mbox{\hyperlink{client__library_2cl__nav2z_2custom__planners_2nav2z__planners__common_2src_2nav2z__planners__common_2common_8cpp_source_l00092}{92}} of file \mbox{\hyperlink{client__library_2cl__nav2z_2custom__planners_2nav2z__planners__common_2src_2nav2z__planners__common_2common_8cpp_source}{common.\+cpp}}.
 
 
 \begin{DoxyCode}{0}
-\DoxyCodeLine{00096\ \{}
-\DoxyCodeLine{00097\ \ \ \textcolor{keywordtype}{double}\ dx\ =\ 0.01;\ \ \textcolor{comment}{//\ 1\ cm}}
-\DoxyCodeLine{00098\ \ \ \textcolor{keywordtype}{double}\ steps\ =\ length\ /\ dx;}
-\DoxyCodeLine{00099\ \ \ \textcolor{keywordtype}{double}\ dt\ =\ 1.0\ /\ steps;}
-\DoxyCodeLine{00100\ }
-\DoxyCodeLine{00101\ \ \ plan.push\_back(startOrientedPose);}
-\DoxyCodeLine{00102\ }
-\DoxyCodeLine{00103\ \ \ \textcolor{keywordflow}{for}\ (\textcolor{keywordtype}{double}\ t\ =\ 0;\ t\ <=\ 1.0;\ t\ +=\ dt)}
-\DoxyCodeLine{00104\ \ \ \{}
-\DoxyCodeLine{00105\ \ \ \ \ geometry\_msgs::msg::PoseStamped\ p\ =\ startOrientedPose;}
-\DoxyCodeLine{00106\ }
-\DoxyCodeLine{00107\ \ \ \ \ p.pose.position.x\ =\ startOrientedPose.pose.position.x\ *\ (1\ -\/\ t)\ +\ goal.x\ *\ t;}
-\DoxyCodeLine{00108\ \ \ \ \ p.pose.position.y\ =\ startOrientedPose.pose.position.y\ *\ (1\ -\/\ t)\ +\ goal.y\ *\ t;}
-\DoxyCodeLine{00109\ \ \ \ \ p.pose.orientation\ =\ startOrientedPose.pose.orientation;}
-\DoxyCodeLine{00110\ }
-\DoxyCodeLine{00111\ \ \ \ \ plan.push\_back(p);}
-\DoxyCodeLine{00112\ \ \ \}}
-\DoxyCodeLine{00113\ }
-\DoxyCodeLine{00114\ \ \ \textcolor{keywordflow}{return}\ plan.back();}
-\DoxyCodeLine{00115\ \}}
+\DoxyCodeLine{00095\ \{}
+\DoxyCodeLine{00096\ \ \ \textcolor{keywordtype}{double}\ dx\ =\ 0.01;\ \ \textcolor{comment}{//\ 1\ cm}}
+\DoxyCodeLine{00097\ \ \ \textcolor{keywordtype}{double}\ steps\ =\ length\ /\ dx;}
+\DoxyCodeLine{00098\ \ \ \textcolor{keywordtype}{double}\ dt\ =\ 1.0\ /\ steps;}
+\DoxyCodeLine{00099\ }
+\DoxyCodeLine{00100\ \ \ plan.push\_back(startOrientedPose);}
+\DoxyCodeLine{00101\ }
+\DoxyCodeLine{00102\ \ \ \textcolor{keywordflow}{for}\ (\textcolor{keywordtype}{double}\ t\ =\ 0;\ t\ <=\ 1.0;\ t\ +=\ dt)}
+\DoxyCodeLine{00103\ \ \ \{}
+\DoxyCodeLine{00104\ \ \ \ \ geometry\_msgs::msg::PoseStamped\ p\ =\ startOrientedPose;}
+\DoxyCodeLine{00105\ }
+\DoxyCodeLine{00106\ \ \ \ \ p.pose.position.x\ =\ startOrientedPose.pose.position.x\ *\ (1\ -\/\ t)\ +\ goal.x\ *\ t;}
+\DoxyCodeLine{00107\ \ \ \ \ p.pose.position.y\ =\ startOrientedPose.pose.position.y\ *\ (1\ -\/\ t)\ +\ goal.y\ *\ t;}
+\DoxyCodeLine{00108\ \ \ \ \ p.pose.orientation\ =\ startOrientedPose.pose.orientation;}
+\DoxyCodeLine{00109\ }
+\DoxyCodeLine{00110\ \ \ \ \ plan.push\_back(p);}
+\DoxyCodeLine{00111\ \ \ \}}
+\DoxyCodeLine{00112\ }
+\DoxyCodeLine{00113\ \ \ \textcolor{keywordflow}{return}\ plan.back();}
+\DoxyCodeLine{00114\ \}}
 
 \end{DoxyCode}
 
 
-Referenced by \mbox{\hyperlink{backward__global__planner_8cpp_source_l00182}{cl\+\_\+nav2z\+::backward\+\_\+global\+\_\+planner\+::\+Backward\+Global\+Planner\+::create\+Default\+Backward\+Path()}}, and \mbox{\hyperlink{forward__global__planner_8cpp_source_l00079}{cl\+\_\+nav2z\+::forward\+\_\+global\+\_\+planner\+::\+Forward\+Global\+Planner\+::create\+Plan()}}.
+Referenced by \mbox{\hyperlink{backward__global__planner_8cpp_source_l00182}{cl\+\_\+nav2z\+::backward\+\_\+global\+\_\+planner\+::\+Backward\+Global\+Planner\+::create\+Default\+Backward\+Path()}}, and \mbox{\hyperlink{forward__global__planner_8cpp_source_l00078}{cl\+\_\+nav2z\+::forward\+\_\+global\+\_\+planner\+::\+Forward\+Global\+Planner\+::create\+Plan()}}.
 
 Here is the caller graph for this function\+:
 \nopagebreak

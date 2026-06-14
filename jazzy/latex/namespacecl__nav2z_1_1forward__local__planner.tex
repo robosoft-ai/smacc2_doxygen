@@ -21,39 +21,39 @@ void cl\+\_\+nav2z\+::forward\+\_\+local\+\_\+planner\+::clamp (\begin{DoxyParam
 
 
 
-Definition at line \mbox{\hyperlink{forward__local__planner_8cpp_source_l00281}{281}} of file \mbox{\hyperlink{forward__local__planner_8cpp_source}{forward\+\_\+local\+\_\+planner.\+cpp}}.
+Definition at line \mbox{\hyperlink{forward__local__planner_8cpp_source_l00273}{273}} of file \mbox{\hyperlink{forward__local__planner_8cpp_source}{forward\+\_\+local\+\_\+planner.\+cpp}}.
 
 
 \begin{DoxyCode}{0}
-\DoxyCodeLine{00284\ \{}
-\DoxyCodeLine{00285\ \ \ \textcolor{keywordflow}{if}\ (max\_angular\_z\_speed\_\ ==\ 0\ ||\ max\_linear\_x\_speed\_\ ==\ 0)\ \textcolor{keywordflow}{return};}
+\DoxyCodeLine{00276\ \{}
+\DoxyCodeLine{00277\ \ \ \textcolor{keywordflow}{if}\ (max\_angular\_z\_speed\_\ ==\ 0\ ||\ max\_linear\_x\_speed\_\ ==\ 0)\ \textcolor{keywordflow}{return};}
+\DoxyCodeLine{00278\ }
+\DoxyCodeLine{00279\ \ \ \textcolor{keywordflow}{if}\ (cmd\_vel.angular.z\ ==\ 0)}
+\DoxyCodeLine{00280\ \ \ \{}
+\DoxyCodeLine{00281\ \ \ \ \ cmd\_vel.linear.x\ =\ max\_linear\_x\_speed\_;}
+\DoxyCodeLine{00282\ \ \ \}}
+\DoxyCodeLine{00283\ \ \ \textcolor{keywordflow}{else}}
+\DoxyCodeLine{00284\ \ \ \{}
+\DoxyCodeLine{00285\ \ \ \ \ \textcolor{keywordtype}{double}\ kurvature\ =\ cmd\_vel.linear.x\ /\ cmd\_vel.angular.z;}
 \DoxyCodeLine{00286\ }
-\DoxyCodeLine{00287\ \ \ \textcolor{keywordflow}{if}\ (cmd\_vel.angular.z\ ==\ 0)}
-\DoxyCodeLine{00288\ \ \ \{}
-\DoxyCodeLine{00289\ \ \ \ \ cmd\_vel.linear.x\ =\ max\_linear\_x\_speed\_;}
-\DoxyCodeLine{00290\ \ \ \}}
-\DoxyCodeLine{00291\ \ \ \textcolor{keywordflow}{else}}
-\DoxyCodeLine{00292\ \ \ \{}
-\DoxyCodeLine{00293\ \ \ \ \ \textcolor{keywordtype}{double}\ kurvature\ =\ cmd\_vel.linear.x\ /\ cmd\_vel.angular.z;}
-\DoxyCodeLine{00294\ }
-\DoxyCodeLine{00295\ \ \ \ \ \textcolor{keywordtype}{double}\ linearAuthority\ =\ fabs(cmd\_vel.linear.x\ /\ max\_linear\_x\_speed\_);}
-\DoxyCodeLine{00296\ \ \ \ \ \textcolor{keywordtype}{double}\ angularAuthority\ =\ fabs(cmd\_vel.angular.z\ /\ max\_angular\_z\_speed\_);}
-\DoxyCodeLine{00297\ \ \ \ \ \textcolor{keywordflow}{if}\ (linearAuthority\ <\ angularAuthority)}
+\DoxyCodeLine{00287\ \ \ \ \ \textcolor{keywordtype}{double}\ linearAuthority\ =\ fabs(cmd\_vel.linear.x\ /\ max\_linear\_x\_speed\_);}
+\DoxyCodeLine{00288\ \ \ \ \ \textcolor{keywordtype}{double}\ angularAuthority\ =\ fabs(cmd\_vel.angular.z\ /\ max\_angular\_z\_speed\_);}
+\DoxyCodeLine{00289\ \ \ \ \ \textcolor{keywordflow}{if}\ (linearAuthority\ <\ angularAuthority)}
+\DoxyCodeLine{00290\ \ \ \ \ \{}
+\DoxyCodeLine{00291\ \ \ \ \ \ \ \textcolor{comment}{//\ lets\ go\ to\ maximum\ linear\ speed}}
+\DoxyCodeLine{00292\ \ \ \ \ \ \ cmd\_vel.linear.x\ =\ max\_linear\_x\_speed\_;}
+\DoxyCodeLine{00293\ \ \ \ \ \ \ cmd\_vel.angular.z\ =\ kurvature\ /\ max\_linear\_x\_speed\_;}
+\DoxyCodeLine{00294\ \ \ \ \ \ \ RCLCPP\_WARN\_STREAM(}
+\DoxyCodeLine{00295\ \ \ \ \ \ \ \ \ nh\_-\/>get\_logger(),\ \textcolor{stringliteral}{"{}k="{}}\ <<\ kurvature\ <<\ \textcolor{stringliteral}{"{}lets\ go\ to\ maximum\ linear\ capacity:\ "{}}\ <<\ cmd\_vel);}
+\DoxyCodeLine{00296\ \ \ \ \ \}}
+\DoxyCodeLine{00297\ \ \ \ \ \textcolor{keywordflow}{else}}
 \DoxyCodeLine{00298\ \ \ \ \ \{}
-\DoxyCodeLine{00299\ \ \ \ \ \ \ \textcolor{comment}{//\ lets\ go\ to\ maximum\ linear\ speed}}
-\DoxyCodeLine{00300\ \ \ \ \ \ \ cmd\_vel.linear.x\ =\ max\_linear\_x\_speed\_;}
-\DoxyCodeLine{00301\ \ \ \ \ \ \ cmd\_vel.angular.z\ =\ kurvature\ /\ max\_linear\_x\_speed\_;}
-\DoxyCodeLine{00302\ \ \ \ \ \ \ RCLCPP\_WARN\_STREAM(}
-\DoxyCodeLine{00303\ \ \ \ \ \ \ \ \ nh\_-\/>get\_logger(),\ \textcolor{stringliteral}{"{}k="{}}\ <<\ kurvature\ <<\ \textcolor{stringliteral}{"{}lets\ go\ to\ maximum\ linear\ capacity:\ "{}}\ <<\ cmd\_vel);}
-\DoxyCodeLine{00304\ \ \ \ \ \}}
-\DoxyCodeLine{00305\ \ \ \ \ \textcolor{keywordflow}{else}}
-\DoxyCodeLine{00306\ \ \ \ \ \{}
-\DoxyCodeLine{00307\ \ \ \ \ \ \ \textcolor{comment}{//\ lets\ go\ with\ maximum\ angular\ speed}}
-\DoxyCodeLine{00308\ \ \ \ \ \ \ cmd\_vel.angular.x\ =\ max\_angular\_z\_speed\_;}
-\DoxyCodeLine{00309\ \ \ \ \ \ \ cmd\_vel.linear.x\ =\ kurvature\ *\ max\_angular\_z\_speed\_;}
-\DoxyCodeLine{00310\ \ \ \ \ \ \ RCLCPP\_WARN\_STREAM(nh\_-\/>get\_logger(),\ \textcolor{stringliteral}{"{}lets\ go\ to\ maximum\ angular\ capacity:\ "{}}\ <<\ cmd\_vel);}
-\DoxyCodeLine{00311\ \ \ \ \ \}}
-\DoxyCodeLine{00312\ \ \ \}}
-\DoxyCodeLine{00313\ \}}
+\DoxyCodeLine{00299\ \ \ \ \ \ \ \textcolor{comment}{//\ lets\ go\ with\ maximum\ angular\ speed}}
+\DoxyCodeLine{00300\ \ \ \ \ \ \ cmd\_vel.angular.x\ =\ max\_angular\_z\_speed\_;}
+\DoxyCodeLine{00301\ \ \ \ \ \ \ cmd\_vel.linear.x\ =\ kurvature\ *\ max\_angular\_z\_speed\_;}
+\DoxyCodeLine{00302\ \ \ \ \ \ \ RCLCPP\_WARN\_STREAM(nh\_-\/>get\_logger(),\ \textcolor{stringliteral}{"{}lets\ go\ to\ maximum\ angular\ capacity:\ "{}}\ <<\ cmd\_vel);}
+\DoxyCodeLine{00303\ \ \ \ \ \}}
+\DoxyCodeLine{00304\ \ \ \}}
+\DoxyCodeLine{00305\ \}}
 
 \end{DoxyCode}
