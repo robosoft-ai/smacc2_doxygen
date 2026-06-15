@@ -395,238 +395,237 @@
 \DoxyCodeLine{\Hypertarget{forward__local__planner_8cpp_source_l00407}00407\ \ \ \ \ \ \ \textcolor{comment}{//\ RCLCPP\_INFO(nh\_-\/>get\_logger(),\ "{}End\ Local\ planner"{});}}
 \DoxyCodeLine{\Hypertarget{forward__local__planner_8cpp_source_l00408}00408\ \ \ \ \ \ \ ok\ =\ \textcolor{keyword}{true};}
 \DoxyCodeLine{\Hypertarget{forward__local__planner_8cpp_source_l00409}00409\ \ \ \ \ \ \ \mbox{\hyperlink{classcl__nav2z_1_1forward__local__planner_1_1ForwardLocalPlanner_a8374f9d7b79675ef1fad46e6f1580626}{currentPoseIndex\_}}\ =\ (int)\mbox{\hyperlink{classcl__nav2z_1_1forward__local__planner_1_1ForwardLocalPlanner_a1010de8002914ba854370c2a1a8fdf75}{plan\_}}.size()\ -\/\ 1;}
-\DoxyCodeLine{\Hypertarget{forward__local__planner_8cpp_source_l00410}00410\ \ \ \ \ \ \ \textcolor{comment}{//\ return\ true;}}
-\DoxyCodeLine{\Hypertarget{forward__local__planner_8cpp_source_l00411}00411\ \ \ \ \ \}}
-\DoxyCodeLine{\Hypertarget{forward__local__planner_8cpp_source_l00412}00412\ \ \ \}}
-\DoxyCodeLine{\Hypertarget{forward__local__planner_8cpp_source_l00413}00413\ }
-\DoxyCodeLine{\Hypertarget{forward__local__planner_8cpp_source_l00414}00414\ \ \ \textcolor{comment}{//\ RCLCPP\_INFO(nh\_-\/>get\_logger(),\ "{}pose\ control\ algorithm"{});}}
-\DoxyCodeLine{\Hypertarget{forward__local__planner_8cpp_source_l00415}00415\ }
-\DoxyCodeLine{\Hypertarget{forward__local__planner_8cpp_source_l00416}00416\ \ \ \textcolor{keyword}{const}\ geometry\_msgs::msg::PoseStamped\ \&\ finalgoalpose\ =\ \mbox{\hyperlink{classcl__nav2z_1_1forward__local__planner_1_1ForwardLocalPlanner_a1010de8002914ba854370c2a1a8fdf75}{plan\_}}.back();}
-\DoxyCodeLine{\Hypertarget{forward__local__planner_8cpp_source_l00417}00417\ \ \ \textcolor{keyword}{const}\ geometry\_msgs::msg::PoseStamped\ \&\ carrot\_goalpose\ =\ \mbox{\hyperlink{classcl__nav2z_1_1forward__local__planner_1_1ForwardLocalPlanner_a1010de8002914ba854370c2a1a8fdf75}{plan\_}}[\mbox{\hyperlink{classcl__nav2z_1_1forward__local__planner_1_1ForwardLocalPlanner_a8374f9d7b79675ef1fad46e6f1580626}{currentPoseIndex\_}}];}
-\DoxyCodeLine{\Hypertarget{forward__local__planner_8cpp_source_l00418}00418\ \ \ \textcolor{keyword}{const}\ geometry\_msgs::msg::Point\ \&\ goalposition\ =\ carrot\_goalpose.pose.position;}
-\DoxyCodeLine{\Hypertarget{forward__local__planner_8cpp_source_l00419}00419\ }
-\DoxyCodeLine{\Hypertarget{forward__local__planner_8cpp_source_l00420}00420\ \ \ tf2::Quaternion\ carrotGoalQ;}
-\DoxyCodeLine{\Hypertarget{forward__local__planner_8cpp_source_l00421}00421\ \ \ tf2::fromMsg(carrot\_goalpose.pose.orientation,\ carrotGoalQ);}
-\DoxyCodeLine{\Hypertarget{forward__local__planner_8cpp_source_l00422}00422\ \ \ \textcolor{comment}{//\ RCLCPP\_INFO\_STREAM(nh\_-\/>get\_logger(),\ "{}Plan\ goal\ quaternion\ at\ "{}<<\ carrot\_goalpose.pose.orientation);}}
-\DoxyCodeLine{\Hypertarget{forward__local__planner_8cpp_source_l00423}00423\ }
-\DoxyCodeLine{\Hypertarget{forward__local__planner_8cpp_source_l00424}00424\ \ \ \textcolor{comment}{//\ goal\ orientation\ (global\ frame)}}
-\DoxyCodeLine{\Hypertarget{forward__local__planner_8cpp_source_l00425}00425\ \ \ \textcolor{keywordtype}{double}\ betta\ =\ tf2::getYaw(carrot\_goalpose.pose.orientation)\ +\ \mbox{\hyperlink{classcl__nav2z_1_1forward__local__planner_1_1ForwardLocalPlanner_a9e248ce282482ddd010ed405286da4bc}{betta\_offset\_}};}
-\DoxyCodeLine{\Hypertarget{forward__local__planner_8cpp_source_l00426}00426\ \ \ \textcolor{keywordtype}{double}\ dx\ =\ goalposition.x\ -\/\ currentPose.pose.position.x;}
-\DoxyCodeLine{\Hypertarget{forward__local__planner_8cpp_source_l00427}00427\ \ \ \textcolor{keywordtype}{double}\ dy\ =\ goalposition.y\ -\/\ currentPose.pose.position.y;}
-\DoxyCodeLine{\Hypertarget{forward__local__planner_8cpp_source_l00428}00428\ }
-\DoxyCodeLine{\Hypertarget{forward__local__planner_8cpp_source_l00429}00429\ \ \ \textcolor{comment}{//\ distance\ error\ to\ the\ targetpoint}}
-\DoxyCodeLine{\Hypertarget{forward__local__planner_8cpp_source_l00430}00430\ \ \ \textcolor{keywordtype}{double}\ rho\_error\ =\ sqrt(dx\ *\ dx\ +\ dy\ *\ dy);}
-\DoxyCodeLine{\Hypertarget{forward__local__planner_8cpp_source_l00431}00431\ }
-\DoxyCodeLine{\Hypertarget{forward__local__planner_8cpp_source_l00432}00432\ \ \ tf2::Quaternion\ currentOrientation;}
-\DoxyCodeLine{\Hypertarget{forward__local__planner_8cpp_source_l00433}00433\ \ \ tf2::convert(currentPose.pose.orientation,\ currentOrientation);}
-\DoxyCodeLine{\Hypertarget{forward__local__planner_8cpp_source_l00434}00434\ }
-\DoxyCodeLine{\Hypertarget{forward__local__planner_8cpp_source_l00435}00435\ \ \ \textcolor{comment}{//\ current\ angle}}
-\DoxyCodeLine{\Hypertarget{forward__local__planner_8cpp_source_l00436}00436\ \ \ \textcolor{keywordtype}{double}\ theta\ =\ tf2::getYaw(currentOrientation);}
-\DoxyCodeLine{\Hypertarget{forward__local__planner_8cpp_source_l00437}00437\ \ \ \textcolor{keywordtype}{double}\ alpha\ =\ atan2(dy,\ dx);}
-\DoxyCodeLine{\Hypertarget{forward__local__planner_8cpp_source_l00438}00438\ \ \ alpha\ =\ alpha\ +\ \mbox{\hyperlink{classcl__nav2z_1_1forward__local__planner_1_1ForwardLocalPlanner_a8277013c50d23d75be2ec92c8d12aefc}{alpha\_offset\_}};}
-\DoxyCodeLine{\Hypertarget{forward__local__planner_8cpp_source_l00439}00439\ }
-\DoxyCodeLine{\Hypertarget{forward__local__planner_8cpp_source_l00440}00440\ \ \ \textcolor{keywordtype}{double}\ alpha\_error\ =\ angles::shortest\_angular\_distance(alpha,\ theta);}
-\DoxyCodeLine{\Hypertarget{forward__local__planner_8cpp_source_l00441}00441\ \ \ \textcolor{keywordtype}{double}\ betta\_error\ =\ angles::shortest\_angular\_distance(betta,\ theta);}
-\DoxyCodeLine{\Hypertarget{forward__local__planner_8cpp_source_l00442}00442\ }
-\DoxyCodeLine{\Hypertarget{forward__local__planner_8cpp_source_l00443}00443\ \ \ \textcolor{keywordtype}{double}\ vetta\ =\ 0;\ \ \textcolor{comment}{//\ =\ k\_rho\_\ *\ rho\_error;}}
-\DoxyCodeLine{\Hypertarget{forward__local__planner_8cpp_source_l00444}00444\ \ \ \textcolor{keywordtype}{double}\ gamma\ =\ 0;\ \ \textcolor{comment}{//=\ k\_alpha\_\ *\ alpha\_error\ +\ k\_betta\_\ *\ betta\_error;}}
-\DoxyCodeLine{\Hypertarget{forward__local__planner_8cpp_source_l00445}00445\ }
-\DoxyCodeLine{\Hypertarget{forward__local__planner_8cpp_source_l00446}00446\ \ \ \textcolor{keywordflow}{if}\ (}
-\DoxyCodeLine{\Hypertarget{forward__local__planner_8cpp_source_l00447}00447\ \ \ \ \ rho\_error\ >}
-\DoxyCodeLine{\Hypertarget{forward__local__planner_8cpp_source_l00448}00448\ \ \ \ \ \mbox{\hyperlink{classcl__nav2z_1_1forward__local__planner_1_1ForwardLocalPlanner_a3d2049bd5e38f71d6602f26ccd66f389}{xy\_goal\_tolerance\_}})\ \ \textcolor{comment}{//\ regular\ control\ rule,\ be\ careful,\ rho\ error\ is\ with\ the\ carrot\ not\ with\ the}}
-\DoxyCodeLine{\Hypertarget{forward__local__planner_8cpp_source_l00449}00449\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ final\ goal\ (this\ is\ something\ to\ improve\ like\ the\ backwards\ planner)}}
-\DoxyCodeLine{\Hypertarget{forward__local__planner_8cpp_source_l00450}00450\ \ \ \{}
-\DoxyCodeLine{\Hypertarget{forward__local__planner_8cpp_source_l00451}00451\ \ \ \ \ vetta\ =\ \mbox{\hyperlink{classcl__nav2z_1_1forward__local__planner_1_1ForwardLocalPlanner_a96950782b9ff556eb721153c0f0d57ea}{k\_rho\_}}\ *\ rho\_error;}
-\DoxyCodeLine{\Hypertarget{forward__local__planner_8cpp_source_l00452}00452\ \ \ \ \ gamma\ =\ \mbox{\hyperlink{classcl__nav2z_1_1forward__local__planner_1_1ForwardLocalPlanner_a6c6f836c8147be302a42fc8df69d0c1d}{k\_alpha\_}}\ *\ alpha\_error;}
-\DoxyCodeLine{\Hypertarget{forward__local__planner_8cpp_source_l00453}00453\ \ \ \}}
-\DoxyCodeLine{\Hypertarget{forward__local__planner_8cpp_source_l00454}00454\ \ \ \textcolor{keywordflow}{else}\ \textcolor{keywordflow}{if}\ (fabs(betta\_error)\ >=\ \mbox{\hyperlink{classcl__nav2z_1_1forward__local__planner_1_1ForwardLocalPlanner_ad6caa0703d3dcd166b583faf5a6bcc5f}{yaw\_goal\_tolerance\_}})\ \ \textcolor{comment}{//\ pureSpining}}
-\DoxyCodeLine{\Hypertarget{forward__local__planner_8cpp_source_l00455}00455\ \ \ \{}
-\DoxyCodeLine{\Hypertarget{forward__local__planner_8cpp_source_l00456}00456\ \ \ \ \ vetta\ =\ 0;}
-\DoxyCodeLine{\Hypertarget{forward__local__planner_8cpp_source_l00457}00457\ \ \ \ \ gamma\ =\ \mbox{\hyperlink{classcl__nav2z_1_1forward__local__planner_1_1ForwardLocalPlanner_a14d9cb6402cfb21aa7bf4ed77b3e2870}{k\_betta\_}}\ *\ betta\_error;}
-\DoxyCodeLine{\Hypertarget{forward__local__planner_8cpp_source_l00458}00458\ \ \ \}}
-\DoxyCodeLine{\Hypertarget{forward__local__planner_8cpp_source_l00459}00459\ \ \ \textcolor{keywordflow}{else}\ \ \textcolor{comment}{//\ goal\ reached}}
-\DoxyCodeLine{\Hypertarget{forward__local__planner_8cpp_source_l00460}00460\ \ \ \{}
-\DoxyCodeLine{\Hypertarget{forward__local__planner_8cpp_source_l00461}00461\ \ \ \ \ RCLCPP\_DEBUG(\mbox{\hyperlink{classcl__nav2z_1_1forward__local__planner_1_1ForwardLocalPlanner_a6a638645ef4e01710f4bbfb1eb1fc20d}{nh\_}}-\/>get\_logger(),\ \textcolor{stringliteral}{"{}GOAL\ REACHED"{}});}
-\DoxyCodeLine{\Hypertarget{forward__local__planner_8cpp_source_l00462}00462\ \ \ \ \ vetta\ =\ 0;}
-\DoxyCodeLine{\Hypertarget{forward__local__planner_8cpp_source_l00463}00463\ \ \ \ \ gamma\ =\ 0;}
-\DoxyCodeLine{\Hypertarget{forward__local__planner_8cpp_source_l00464}00464\ \ \ \ \ \mbox{\hyperlink{classcl__nav2z_1_1forward__local__planner_1_1ForwardLocalPlanner_a95ed0c8ee80db1541bc1621327cc5809}{goalReached\_}}\ =\ \textcolor{keyword}{true};}
-\DoxyCodeLine{\Hypertarget{forward__local__planner_8cpp_source_l00465}00465\ \ \ \}}
-\DoxyCodeLine{\Hypertarget{forward__local__planner_8cpp_source_l00466}00466\ }
-\DoxyCodeLine{\Hypertarget{forward__local__planner_8cpp_source_l00467}00467\ \ \ \textcolor{comment}{//\ linear\ speed\ clamp}}
-\DoxyCodeLine{\Hypertarget{forward__local__planner_8cpp_source_l00468}00468\ \ \ \textcolor{keywordflow}{if}\ (vetta\ >\ \mbox{\hyperlink{classcl__nav2z_1_1forward__local__planner_1_1ForwardLocalPlanner_a1f16f277c26cb02acd30eb9007fcc8e6}{max\_linear\_x\_speed\_}})}
-\DoxyCodeLine{\Hypertarget{forward__local__planner_8cpp_source_l00469}00469\ \ \ \{}
-\DoxyCodeLine{\Hypertarget{forward__local__planner_8cpp_source_l00470}00470\ \ \ \ \ vetta\ =\ \mbox{\hyperlink{classcl__nav2z_1_1forward__local__planner_1_1ForwardLocalPlanner_a1f16f277c26cb02acd30eb9007fcc8e6}{max\_linear\_x\_speed\_}};}
-\DoxyCodeLine{\Hypertarget{forward__local__planner_8cpp_source_l00471}00471\ \ \ \}}
-\DoxyCodeLine{\Hypertarget{forward__local__planner_8cpp_source_l00472}00472\ \ \ \textcolor{keywordflow}{else}\ \textcolor{keywordflow}{if}\ (vetta\ <\ -\/\mbox{\hyperlink{classcl__nav2z_1_1forward__local__planner_1_1ForwardLocalPlanner_a1f16f277c26cb02acd30eb9007fcc8e6}{max\_linear\_x\_speed\_}})}
-\DoxyCodeLine{\Hypertarget{forward__local__planner_8cpp_source_l00473}00473\ \ \ \{}
-\DoxyCodeLine{\Hypertarget{forward__local__planner_8cpp_source_l00474}00474\ \ \ \ \ vetta\ =\ -\/\mbox{\hyperlink{classcl__nav2z_1_1forward__local__planner_1_1ForwardLocalPlanner_a1f16f277c26cb02acd30eb9007fcc8e6}{max\_linear\_x\_speed\_}};}
-\DoxyCodeLine{\Hypertarget{forward__local__planner_8cpp_source_l00475}00475\ \ \ \}}
-\DoxyCodeLine{\Hypertarget{forward__local__planner_8cpp_source_l00476}00476\ }
-\DoxyCodeLine{\Hypertarget{forward__local__planner_8cpp_source_l00477}00477\ \ \ \textcolor{comment}{//\ angular\ speed\ clamp}}
-\DoxyCodeLine{\Hypertarget{forward__local__planner_8cpp_source_l00478}00478\ \ \ \textcolor{keywordflow}{if}\ (gamma\ >\ \mbox{\hyperlink{classcl__nav2z_1_1forward__local__planner_1_1ForwardLocalPlanner_a8bb76acb10bdf95576fa38f9345441c8}{max\_angular\_z\_speed\_}})}
-\DoxyCodeLine{\Hypertarget{forward__local__planner_8cpp_source_l00479}00479\ \ \ \{}
-\DoxyCodeLine{\Hypertarget{forward__local__planner_8cpp_source_l00480}00480\ \ \ \ \ gamma\ =\ \mbox{\hyperlink{classcl__nav2z_1_1forward__local__planner_1_1ForwardLocalPlanner_a8bb76acb10bdf95576fa38f9345441c8}{max\_angular\_z\_speed\_}};}
-\DoxyCodeLine{\Hypertarget{forward__local__planner_8cpp_source_l00481}00481\ \ \ \}}
-\DoxyCodeLine{\Hypertarget{forward__local__planner_8cpp_source_l00482}00482\ \ \ \textcolor{keywordflow}{else}\ \textcolor{keywordflow}{if}\ (gamma\ <\ -\/\mbox{\hyperlink{classcl__nav2z_1_1forward__local__planner_1_1ForwardLocalPlanner_a8bb76acb10bdf95576fa38f9345441c8}{max\_angular\_z\_speed\_}})}
-\DoxyCodeLine{\Hypertarget{forward__local__planner_8cpp_source_l00483}00483\ \ \ \{}
-\DoxyCodeLine{\Hypertarget{forward__local__planner_8cpp_source_l00484}00484\ \ \ \ \ gamma\ =\ -\/\mbox{\hyperlink{classcl__nav2z_1_1forward__local__planner_1_1ForwardLocalPlanner_a8bb76acb10bdf95576fa38f9345441c8}{max\_angular\_z\_speed\_}};}
-\DoxyCodeLine{\Hypertarget{forward__local__planner_8cpp_source_l00485}00485\ \ \ \}}
-\DoxyCodeLine{\Hypertarget{forward__local__planner_8cpp_source_l00486}00486\ }
-\DoxyCodeLine{\Hypertarget{forward__local__planner_8cpp_source_l00487}00487\ \ \ cmd\_vel.twist.linear.x\ =\ vetta;}
-\DoxyCodeLine{\Hypertarget{forward__local__planner_8cpp_source_l00488}00488\ \ \ cmd\_vel.twist.angular.z\ =\ gamma;}
-\DoxyCodeLine{\Hypertarget{forward__local__planner_8cpp_source_l00489}00489\ }
-\DoxyCodeLine{\Hypertarget{forward__local__planner_8cpp_source_l00490}00490\ \ \ \mbox{\hyperlink{classcl__nav2z_1_1forward__local__planner_1_1ForwardLocalPlanner_a943f609224a31ec2f00fe201b41d926c}{publishGoalMarker}}(goalposition.x,\ goalposition.y,\ betta);}
-\DoxyCodeLine{\Hypertarget{forward__local__planner_8cpp_source_l00491}00491\ }
-\DoxyCodeLine{\Hypertarget{forward__local__planner_8cpp_source_l00492}00492\ \ \ RCLCPP\_DEBUG\_STREAM(}
-\DoxyCodeLine{\Hypertarget{forward__local__planner_8cpp_source_l00493}00493\ \ \ \ \ \mbox{\hyperlink{classcl__nav2z_1_1forward__local__planner_1_1ForwardLocalPlanner_a6a638645ef4e01710f4bbfb1eb1fc20d}{nh\_}}-\/>get\_logger(),\ \textcolor{stringliteral}{"{}Forward\ local\ planner,"{}}}
-\DoxyCodeLine{\Hypertarget{forward__local__planner_8cpp_source_l00494}00494\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ <<\ std::endl}
-\DoxyCodeLine{\Hypertarget{forward__local__planner_8cpp_source_l00495}00495\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ <<\ \textcolor{stringliteral}{"{}\ theta:\ "{}}\ <<\ theta\ <<\ std::endl}
-\DoxyCodeLine{\Hypertarget{forward__local__planner_8cpp_source_l00496}00496\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ <<\ \textcolor{stringliteral}{"{}\ betta:\ "{}}\ <<\ betta\ <<\ std::endl}
-\DoxyCodeLine{\Hypertarget{forward__local__planner_8cpp_source_l00497}00497\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ <<\ \textcolor{stringliteral}{"{}\ err\_x:\ "{}}\ <<\ dx\ <<\ std::endl}
-\DoxyCodeLine{\Hypertarget{forward__local__planner_8cpp_source_l00498}00498\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ <<\ \textcolor{stringliteral}{"{}\ err\_y:"{}}\ <<\ dy\ <<\ std::endl}
-\DoxyCodeLine{\Hypertarget{forward__local__planner_8cpp_source_l00499}00499\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ <<\ \textcolor{stringliteral}{"{}\ rho\_error:"{}}\ <<\ rho\_error\ <<\ std::endl}
-\DoxyCodeLine{\Hypertarget{forward__local__planner_8cpp_source_l00500}00500\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ <<\ \textcolor{stringliteral}{"{}\ alpha\_error:"{}}\ <<\ alpha\_error\ <<\ std::endl}
-\DoxyCodeLine{\Hypertarget{forward__local__planner_8cpp_source_l00501}00501\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ <<\ \textcolor{stringliteral}{"{}\ betta\_error:"{}}\ <<\ betta\_error\ <<\ std::endl}
-\DoxyCodeLine{\Hypertarget{forward__local__planner_8cpp_source_l00502}00502\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ <<\ \textcolor{stringliteral}{"{}\ vetta:"{}}\ <<\ vetta\ <<\ std::endl}
-\DoxyCodeLine{\Hypertarget{forward__local__planner_8cpp_source_l00503}00503\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ <<\ \textcolor{stringliteral}{"{}\ gamma:"{}}\ <<\ gamma\ <<\ std::endl}
-\DoxyCodeLine{\Hypertarget{forward__local__planner_8cpp_source_l00504}00504\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ <<\ \textcolor{stringliteral}{"{}\ xy\_goal\_tolerance:"{}}\ <<\ \mbox{\hyperlink{classcl__nav2z_1_1forward__local__planner_1_1ForwardLocalPlanner_a3d2049bd5e38f71d6602f26ccd66f389}{xy\_goal\_tolerance\_}}\ <<\ std::endl}
-\DoxyCodeLine{\Hypertarget{forward__local__planner_8cpp_source_l00505}00505\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ <<\ \textcolor{stringliteral}{"{}\ yaw\_goal\_tolerance:"{}}\ <<\ \mbox{\hyperlink{classcl__nav2z_1_1forward__local__planner_1_1ForwardLocalPlanner_ad6caa0703d3dcd166b583faf5a6bcc5f}{yaw\_goal\_tolerance\_}}\ <<\ std::endl);}
-\DoxyCodeLine{\Hypertarget{forward__local__planner_8cpp_source_l00506}00506\ }
-\DoxyCodeLine{\Hypertarget{forward__local__planner_8cpp_source_l00507}00507\ \ \ \textcolor{comment}{//\ integrate\ trajectory\ and\ check\ collision}}
-\DoxyCodeLine{\Hypertarget{forward__local__planner_8cpp_source_l00508}00508\ }
-\DoxyCodeLine{\Hypertarget{forward__local__planner_8cpp_source_l00509}00509\ \ \ assert(currentPose.header.frame\_id\ ==\ \textcolor{stringliteral}{"{}odom"{}}\ ||\ currentPose.header.frame\_id\ ==\ \textcolor{stringliteral}{"{}map"{}});}
-\DoxyCodeLine{\Hypertarget{forward__local__planner_8cpp_source_l00510}00510\ \ \ \textcolor{keyword}{auto}\ global\_pose\ =\ currentPose;}
-\DoxyCodeLine{\Hypertarget{forward__local__planner_8cpp_source_l00511}00511\ }
-\DoxyCodeLine{\Hypertarget{forward__local__planner_8cpp_source_l00512}00512\ \ \ \textcolor{keyword}{auto}\ *\ costmap2d\ =\ \mbox{\hyperlink{classcl__nav2z_1_1forward__local__planner_1_1ForwardLocalPlanner_a248f16f548485a5829c70f14c1e5ef85}{costmapRos\_}}-\/>getCostmap();}
-\DoxyCodeLine{\Hypertarget{forward__local__planner_8cpp_source_l00513}00513\ \ \ \textcolor{keyword}{auto}\ yaw\ =\ tf2::getYaw(global\_pose.pose.orientation);}
-\DoxyCodeLine{\Hypertarget{forward__local__planner_8cpp_source_l00514}00514\ }
-\DoxyCodeLine{\Hypertarget{forward__local__planner_8cpp_source_l00515}00515\ \ \ \textcolor{keyword}{auto}\ \&\ pos\ =\ global\_pose.pose.position;}
-\DoxyCodeLine{\Hypertarget{forward__local__planner_8cpp_source_l00516}00516\ }
-\DoxyCodeLine{\Hypertarget{forward__local__planner_8cpp_source_l00517}00517\ \ \ Eigen::Vector3f\ currentpose(pos.x,\ pos.y,\ yaw);}
-\DoxyCodeLine{\Hypertarget{forward__local__planner_8cpp_source_l00518}00518\ \ \ Eigen::Vector3f\ currentvel(}
-\DoxyCodeLine{\Hypertarget{forward__local__planner_8cpp_source_l00519}00519\ \ \ \ \ cmd\_vel.twist.linear.x,\ cmd\_vel.twist.linear.y,\ cmd\_vel.twist.angular.z);}
-\DoxyCodeLine{\Hypertarget{forward__local__planner_8cpp_source_l00520}00520\ }
-\DoxyCodeLine{\Hypertarget{forward__local__planner_8cpp_source_l00521}00521\ \ \ std::vector<Eigen::Vector3f>\ trajectory;}
-\DoxyCodeLine{\Hypertarget{forward__local__planner_8cpp_source_l00522}00522\ \ \ this-\/>\mbox{\hyperlink{classcl__nav2z_1_1forward__local__planner_1_1ForwardLocalPlanner_a686a387784b5271d30897fc23ab1958d}{generateTrajectory}}(}
-\DoxyCodeLine{\Hypertarget{forward__local__planner_8cpp_source_l00523}00523\ \ \ \ \ currentpose,\ currentvel,\ 0.8\ \textcolor{comment}{/*meters*/},\ M\_PI\ /\ 8\ \textcolor{comment}{/*rads*/},\ 3.0\ \textcolor{comment}{/*seconds*/},\ 0.05\ \textcolor{comment}{/*seconds*/},}
-\DoxyCodeLine{\Hypertarget{forward__local__planner_8cpp_source_l00524}00524\ \ \ \ \ trajectory);}
-\DoxyCodeLine{\Hypertarget{forward__local__planner_8cpp_source_l00525}00525\ }
-\DoxyCodeLine{\Hypertarget{forward__local__planner_8cpp_source_l00526}00526\ \ \ \textcolor{comment}{//\ check\ plan\ rejection}}
-\DoxyCodeLine{\Hypertarget{forward__local__planner_8cpp_source_l00527}00527\ \ \ \textcolor{keywordtype}{bool}\ aceptedplan\ =\ \textcolor{keyword}{true};}
-\DoxyCodeLine{\Hypertarget{forward__local__planner_8cpp_source_l00528}00528\ }
-\DoxyCodeLine{\Hypertarget{forward__local__planner_8cpp_source_l00529}00529\ \ \ \textcolor{keywordtype}{unsigned}\ \textcolor{keywordtype}{int}\ mx,\ my;}
-\DoxyCodeLine{\Hypertarget{forward__local__planner_8cpp_source_l00530}00530\ }
-\DoxyCodeLine{\Hypertarget{forward__local__planner_8cpp_source_l00531}00531\ \ \ \textcolor{keywordtype}{int}\ i\ =\ 0;}
-\DoxyCodeLine{\Hypertarget{forward__local__planner_8cpp_source_l00532}00532\ \ \ \textcolor{comment}{//\ RCLCPP\_INFO\_STREAM(nh\_-\/>get\_logger(),\ "{}lplanner\ goal:\ "{}\ <<\ finalgoalpose.pose.position);}}
-\DoxyCodeLine{\Hypertarget{forward__local__planner_8cpp_source_l00533}00533\ \ \ \textcolor{keywordflow}{for}\ (\textcolor{keyword}{auto}\ \&\ p\ :\ trajectory)}
-\DoxyCodeLine{\Hypertarget{forward__local__planner_8cpp_source_l00534}00534\ \ \ \{}
-\DoxyCodeLine{\Hypertarget{forward__local__planner_8cpp_source_l00535}00535\ \ \ \ \ \textcolor{keywordtype}{float}\ dx\ =\ p[0]\ -\/\ finalgoalpose.pose.position.x;}
-\DoxyCodeLine{\Hypertarget{forward__local__planner_8cpp_source_l00536}00536\ \ \ \ \ \textcolor{keywordtype}{float}\ dy\ =\ p[1]\ -\/\ finalgoalpose.pose.position.y;}
-\DoxyCodeLine{\Hypertarget{forward__local__planner_8cpp_source_l00537}00537\ }
-\DoxyCodeLine{\Hypertarget{forward__local__planner_8cpp_source_l00538}00538\ \ \ \ \ \textcolor{keywordtype}{float}\ dst\ =\ sqrt(dx\ *\ dx\ +\ dy\ *\ dy);}
-\DoxyCodeLine{\Hypertarget{forward__local__planner_8cpp_source_l00539}00539\ \ \ \ \ \textcolor{keywordflow}{if}\ (dst\ <\ \mbox{\hyperlink{classcl__nav2z_1_1forward__local__planner_1_1ForwardLocalPlanner_a3d2049bd5e38f71d6602f26ccd66f389}{xy\_goal\_tolerance\_}})}
-\DoxyCodeLine{\Hypertarget{forward__local__planner_8cpp_source_l00540}00540\ \ \ \ \ \{}
-\DoxyCodeLine{\Hypertarget{forward__local__planner_8cpp_source_l00541}00541\ \ \ \ \ \ \ \textcolor{comment}{//\ \ RCLCPP\_INFO(nh\_-\/>get\_logger(),\ "{}trajectory\ checking\ skipped,\ goal\ reached"{});}}
-\DoxyCodeLine{\Hypertarget{forward__local__planner_8cpp_source_l00542}00542\ \ \ \ \ \ \ \textcolor{keywordflow}{break};}
-\DoxyCodeLine{\Hypertarget{forward__local__planner_8cpp_source_l00543}00543\ \ \ \ \ \}}
-\DoxyCodeLine{\Hypertarget{forward__local__planner_8cpp_source_l00544}00544\ }
-\DoxyCodeLine{\Hypertarget{forward__local__planner_8cpp_source_l00545}00545\ \ \ \ \ costmap2d-\/>worldToMap(p[0],\ p[1],\ mx,\ my);}
-\DoxyCodeLine{\Hypertarget{forward__local__planner_8cpp_source_l00546}00546\ }
-\DoxyCodeLine{\Hypertarget{forward__local__planner_8cpp_source_l00547}00547\ \ \ \ \ \textcolor{comment}{//\ RCLCPP\_INFO(nh\_-\/>get\_logger(),\ "{}checking\ cost\ pt\ \%d\ [\%lf,\ \%lf]\ cell[\%d,\%d]\ =\ \%d"{},\ i,\ p[0],\ p[1],\ mx,\ my,\ cost);}}
-\DoxyCodeLine{\Hypertarget{forward__local__planner_8cpp_source_l00548}00548\ \ \ \ \ \textcolor{comment}{//\ RCLCPP\_INFO\_STREAM(nh\_-\/>get\_logger(),\ "{}cost:\ "{}\ <<\ cost);}}
-\DoxyCodeLine{\Hypertarget{forward__local__planner_8cpp_source_l00549}00549\ }
-\DoxyCodeLine{\Hypertarget{forward__local__planner_8cpp_source_l00550}00550\ \ \ \ \ \textcolor{comment}{//\ static\ const\ unsigned\ char\ NO\_INFORMATION\ =\ 255;}}
-\DoxyCodeLine{\Hypertarget{forward__local__planner_8cpp_source_l00551}00551\ \ \ \ \ \textcolor{comment}{//\ static\ const\ unsigned\ char\ LETHAL\_OBSTACLE\ =\ 254;}}
-\DoxyCodeLine{\Hypertarget{forward__local__planner_8cpp_source_l00552}00552\ \ \ \ \ \textcolor{comment}{//\ static\ const\ unsigned\ char\ INSCRIBED\_INFLATED\_OBSTACLE\ =\ 253;}}
-\DoxyCodeLine{\Hypertarget{forward__local__planner_8cpp_source_l00553}00553\ \ \ \ \ \textcolor{comment}{//\ static\ const\ unsigned\ char\ FREE\_SPACE\ =\ 0;}}
-\DoxyCodeLine{\Hypertarget{forward__local__planner_8cpp_source_l00554}00554\ }
-\DoxyCodeLine{\Hypertarget{forward__local__planner_8cpp_source_l00555}00555\ \ \ \ \ \textcolor{keywordflow}{if}\ (costmap2d-\/>getCost(mx,\ my)\ >=\ nav2\_costmap\_2d::INSCRIBED\_INFLATED\_OBSTACLE)}
-\DoxyCodeLine{\Hypertarget{forward__local__planner_8cpp_source_l00556}00556\ \ \ \ \ \{}
-\DoxyCodeLine{\Hypertarget{forward__local__planner_8cpp_source_l00557}00557\ \ \ \ \ \ \ aceptedplan\ =\ \textcolor{keyword}{false};}
-\DoxyCodeLine{\Hypertarget{forward__local__planner_8cpp_source_l00558}00558\ \ \ \ \ \ \ \textcolor{comment}{//\ RCLCPP\_WARN(nh\_-\/>get\_logger(),\ "{}ABORTED\ LOCAL\ PLAN\ BECAUSE\ OBSTACLE\ DETEDTED"{});}}
-\DoxyCodeLine{\Hypertarget{forward__local__planner_8cpp_source_l00559}00559\ \ \ \ \ \ \ \textcolor{keywordflow}{break};}
-\DoxyCodeLine{\Hypertarget{forward__local__planner_8cpp_source_l00560}00560\ \ \ \ \ \}}
-\DoxyCodeLine{\Hypertarget{forward__local__planner_8cpp_source_l00561}00561\ \ \ \ \ i++;}
-\DoxyCodeLine{\Hypertarget{forward__local__planner_8cpp_source_l00562}00562\ \ \ \}}
-\DoxyCodeLine{\Hypertarget{forward__local__planner_8cpp_source_l00563}00563\ }
-\DoxyCodeLine{\Hypertarget{forward__local__planner_8cpp_source_l00564}00564\ \ \ \textcolor{keywordtype}{bool}\ success\ =\ \textcolor{keyword}{false};}
-\DoxyCodeLine{\Hypertarget{forward__local__planner_8cpp_source_l00565}00565\ \ \ \textcolor{keywordflow}{if}\ (aceptedplan)}
-\DoxyCodeLine{\Hypertarget{forward__local__planner_8cpp_source_l00566}00566\ \ \ \{}
-\DoxyCodeLine{\Hypertarget{forward__local__planner_8cpp_source_l00567}00567\ \ \ \ \ \mbox{\hyperlink{classcl__nav2z_1_1forward__local__planner_1_1ForwardLocalPlanner_a004ab5be898c9580bb1d6d50a0b06823}{waiting\_}}\ =\ \textcolor{keyword}{false};}
-\DoxyCodeLine{\Hypertarget{forward__local__planner_8cpp_source_l00568}00568\ \ \ \ \ success\ =\ \textcolor{keyword}{true};}
-\DoxyCodeLine{\Hypertarget{forward__local__planner_8cpp_source_l00569}00569\ \ \ \ \ RCLCPP\_DEBUG(\mbox{\hyperlink{classcl__nav2z_1_1forward__local__planner_1_1ForwardLocalPlanner_a6a638645ef4e01710f4bbfb1eb1fc20d}{nh\_}}-\/>get\_logger(),\ \textcolor{stringliteral}{"{}simulated\ trajectory\ is\ accepted."{}});}
-\DoxyCodeLine{\Hypertarget{forward__local__planner_8cpp_source_l00570}00570\ \ \ \}}
-\DoxyCodeLine{\Hypertarget{forward__local__planner_8cpp_source_l00571}00571\ \ \ \textcolor{keywordflow}{else}}
-\DoxyCodeLine{\Hypertarget{forward__local__planner_8cpp_source_l00572}00572\ \ \ \{}
-\DoxyCodeLine{\Hypertarget{forward__local__planner_8cpp_source_l00573}00573\ \ \ \ \ RCLCPP\_DEBUG(\mbox{\hyperlink{classcl__nav2z_1_1forward__local__planner_1_1ForwardLocalPlanner_a6a638645ef4e01710f4bbfb1eb1fc20d}{nh\_}}-\/>get\_logger(),\ \textcolor{stringliteral}{"{}simulated\ trajectory\ is\ not\ accepted.\ Stop\ command."{}});}
-\DoxyCodeLine{\Hypertarget{forward__local__planner_8cpp_source_l00574}00574\ }
-\DoxyCodeLine{\Hypertarget{forward__local__planner_8cpp_source_l00575}00575\ \ \ \ \ \textcolor{comment}{//\ stop\ and\ wait}}
-\DoxyCodeLine{\Hypertarget{forward__local__planner_8cpp_source_l00576}00576\ \ \ \ \ cmd\_vel.twist.linear.x\ =\ 0;}
-\DoxyCodeLine{\Hypertarget{forward__local__planner_8cpp_source_l00577}00577\ \ \ \ \ cmd\_vel.twist.angular.z\ =\ 0;}
-\DoxyCodeLine{\Hypertarget{forward__local__planner_8cpp_source_l00578}00578\ }
-\DoxyCodeLine{\Hypertarget{forward__local__planner_8cpp_source_l00579}00579\ \ \ \ \ \textcolor{keywordflow}{if}\ (!\mbox{\hyperlink{classcl__nav2z_1_1forward__local__planner_1_1ForwardLocalPlanner_a004ab5be898c9580bb1d6d50a0b06823}{waiting\_}})}
-\DoxyCodeLine{\Hypertarget{forward__local__planner_8cpp_source_l00580}00580\ \ \ \ \ \{}
-\DoxyCodeLine{\Hypertarget{forward__local__planner_8cpp_source_l00581}00581\ \ \ \ \ \ \ RCLCPP\_DEBUG(\mbox{\hyperlink{classcl__nav2z_1_1forward__local__planner_1_1ForwardLocalPlanner_a6a638645ef4e01710f4bbfb1eb1fc20d}{nh\_}}-\/>get\_logger(),\ \textcolor{stringliteral}{"{}Start\ waiting\ obstacle\ disappear"{}});}
-\DoxyCodeLine{\Hypertarget{forward__local__planner_8cpp_source_l00582}00582\ \ \ \ \ \ \ \mbox{\hyperlink{classcl__nav2z_1_1forward__local__planner_1_1ForwardLocalPlanner_a004ab5be898c9580bb1d6d50a0b06823}{waiting\_}}\ =\ \textcolor{keyword}{true};}
-\DoxyCodeLine{\Hypertarget{forward__local__planner_8cpp_source_l00583}00583\ \ \ \ \ \ \ \mbox{\hyperlink{classcl__nav2z_1_1forward__local__planner_1_1ForwardLocalPlanner_a7b1b94fba3274f51e6b46de591f00359}{waitingStamp\_}}\ =\ \mbox{\hyperlink{classcl__nav2z_1_1forward__local__planner_1_1ForwardLocalPlanner_a6a638645ef4e01710f4bbfb1eb1fc20d}{nh\_}}-\/>now();}
-\DoxyCodeLine{\Hypertarget{forward__local__planner_8cpp_source_l00584}00584\ \ \ \ \ \}}
-\DoxyCodeLine{\Hypertarget{forward__local__planner_8cpp_source_l00585}00585\ \ \ \ \ \textcolor{keywordflow}{else}}
-\DoxyCodeLine{\Hypertarget{forward__local__planner_8cpp_source_l00586}00586\ \ \ \ \ \{}
-\DoxyCodeLine{\Hypertarget{forward__local__planner_8cpp_source_l00587}00587\ \ \ \ \ \ \ \textcolor{keyword}{auto}\ waitingduration\ =\ \mbox{\hyperlink{classcl__nav2z_1_1forward__local__planner_1_1ForwardLocalPlanner_a6a638645ef4e01710f4bbfb1eb1fc20d}{nh\_}}-\/>now()\ -\/\ \mbox{\hyperlink{classcl__nav2z_1_1forward__local__planner_1_1ForwardLocalPlanner_a7b1b94fba3274f51e6b46de591f00359}{waitingStamp\_}};}
-\DoxyCodeLine{\Hypertarget{forward__local__planner_8cpp_source_l00588}00588\ \ \ \ \ \ \ RCLCPP\_DEBUG(}
-\DoxyCodeLine{\Hypertarget{forward__local__planner_8cpp_source_l00589}00589\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{classcl__nav2z_1_1forward__local__planner_1_1ForwardLocalPlanner_a6a638645ef4e01710f4bbfb1eb1fc20d}{nh\_}}-\/>get\_logger(),\ \textcolor{stringliteral}{"{}waiting\ obstacle\ disappear,\ elapsed:\ \%lf\ seconds"{}},}
-\DoxyCodeLine{\Hypertarget{forward__local__planner_8cpp_source_l00590}00590\ \ \ \ \ \ \ \ \ waitingduration.seconds());}
-\DoxyCodeLine{\Hypertarget{forward__local__planner_8cpp_source_l00591}00591\ }
-\DoxyCodeLine{\Hypertarget{forward__local__planner_8cpp_source_l00592}00592\ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (waitingduration\ >\ this-\/>\mbox{\hyperlink{classcl__nav2z_1_1forward__local__planner_1_1ForwardLocalPlanner_a3c037da8260733314c2f43a3522a0ff2}{waitingTimeout\_}})}
-\DoxyCodeLine{\Hypertarget{forward__local__planner_8cpp_source_l00593}00593\ \ \ \ \ \ \ \{}
-\DoxyCodeLine{\Hypertarget{forward__local__planner_8cpp_source_l00594}00594\ \ \ \ \ \ \ \ \ RCLCPP\_WARN(}
-\DoxyCodeLine{\Hypertarget{forward__local__planner_8cpp_source_l00595}00595\ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{classcl__nav2z_1_1forward__local__planner_1_1ForwardLocalPlanner_a6a638645ef4e01710f4bbfb1eb1fc20d}{nh\_}}-\/>get\_logger(),\ \textcolor{stringliteral}{"{}TIMEOUT\ waiting\ obstacle\ disappear,\ elapsed:\ \%lf\ seconds"{}},}
-\DoxyCodeLine{\Hypertarget{forward__local__planner_8cpp_source_l00596}00596\ \ \ \ \ \ \ \ \ \ \ waitingduration.seconds());}
-\DoxyCodeLine{\Hypertarget{forward__local__planner_8cpp_source_l00597}00597\ \ \ \ \ \ \ \ \ success\ =\ \textcolor{keyword}{false};}
-\DoxyCodeLine{\Hypertarget{forward__local__planner_8cpp_source_l00598}00598\ \ \ \ \ \ \ \}}
-\DoxyCodeLine{\Hypertarget{forward__local__planner_8cpp_source_l00599}00599\ \ \ \ \ \}}
-\DoxyCodeLine{\Hypertarget{forward__local__planner_8cpp_source_l00600}00600\ \ \ \}}
-\DoxyCodeLine{\Hypertarget{forward__local__planner_8cpp_source_l00601}00601\ }
-\DoxyCodeLine{\Hypertarget{forward__local__planner_8cpp_source_l00602}00602\ \ \ \textcolor{keywordflow}{if}\ (!success)}
-\DoxyCodeLine{\Hypertarget{forward__local__planner_8cpp_source_l00603}00603\ \ \ \{}
-\DoxyCodeLine{\Hypertarget{forward__local__planner_8cpp_source_l00604}00604\ \ \ \ \ RCLCPP\_DEBUG(}
-\DoxyCodeLine{\Hypertarget{forward__local__planner_8cpp_source_l00605}00605\ \ \ \ \ \ \ \mbox{\hyperlink{classcl__nav2z_1_1forward__local__planner_1_1ForwardLocalPlanner_a6a638645ef4e01710f4bbfb1eb1fc20d}{nh\_}}-\/>get\_logger(),}
-\DoxyCodeLine{\Hypertarget{forward__local__planner_8cpp_source_l00606}00606\ \ \ \ \ \ \ \textcolor{stringliteral}{"{}[ForwardLocalPlanner]\ object\ detected\ waiting\ stopped\ until\ it\ disappears."{}});}
-\DoxyCodeLine{\Hypertarget{forward__local__planner_8cpp_source_l00607}00607\ \ \ \}}
-\DoxyCodeLine{\Hypertarget{forward__local__planner_8cpp_source_l00608}00608\ }
-\DoxyCodeLine{\Hypertarget{forward__local__planner_8cpp_source_l00609}00609\ \ \ cmd\_vel.header.stamp\ =\ \mbox{\hyperlink{classcl__nav2z_1_1forward__local__planner_1_1ForwardLocalPlanner_a6a638645ef4e01710f4bbfb1eb1fc20d}{nh\_}}-\/>now();}
-\DoxyCodeLine{\Hypertarget{forward__local__planner_8cpp_source_l00610}00610\ \ \ \textcolor{keywordflow}{return}\ cmd\_vel;}
-\DoxyCodeLine{\Hypertarget{forward__local__planner_8cpp_source_l00611}00611\ \}}
-\DoxyCodeLine{\Hypertarget{forward__local__planner_8cpp_source_l00612}00612\ }
-\DoxyCodeLine{\Hypertarget{forward__local__planner_8cpp_source_l00613}\mbox{\hyperlink{classcl__nav2z_1_1forward__local__planner_1_1ForwardLocalPlanner_a69bfb44c49c49b24c6221b23a4207303}{00613}}\ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{classcl__nav2z_1_1forward__local__planner_1_1ForwardLocalPlanner_a69bfb44c49c49b24c6221b23a4207303}{ForwardLocalPlanner::setSpeedLimit}}(\textcolor{keyword}{const}\ \textcolor{keywordtype}{double}\ \&\ \textcolor{comment}{/*speed\_limit*/},\ \textcolor{keyword}{const}\ \textcolor{keywordtype}{bool}\ \&\ \textcolor{comment}{/*percentage*/})}
-\DoxyCodeLine{\Hypertarget{forward__local__planner_8cpp_source_l00614}00614\ \{}
-\DoxyCodeLine{\Hypertarget{forward__local__planner_8cpp_source_l00615}00615\ \ \ RCLCPP\_WARN\_STREAM(}
-\DoxyCodeLine{\Hypertarget{forward__local__planner_8cpp_source_l00616}00616\ \ \ \ \ \mbox{\hyperlink{classcl__nav2z_1_1forward__local__planner_1_1ForwardLocalPlanner_a6a638645ef4e01710f4bbfb1eb1fc20d}{nh\_}}-\/>get\_logger(),}
-\DoxyCodeLine{\Hypertarget{forward__local__planner_8cpp_source_l00617}00617\ \ \ \ \ \textcolor{stringliteral}{"{}ForwardLocalPlanner::setSpeedLimit\ invoked.\ Ignored,\ functionality\ not\ "{}}}
-\DoxyCodeLine{\Hypertarget{forward__local__planner_8cpp_source_l00618}00618\ \ \ \ \ \textcolor{stringliteral}{"{}implemented."{}});}
-\DoxyCodeLine{\Hypertarget{forward__local__planner_8cpp_source_l00619}00619\ \}}
-\DoxyCodeLine{\Hypertarget{forward__local__planner_8cpp_source_l00620}00620\ }
-\DoxyCodeLine{\Hypertarget{forward__local__planner_8cpp_source_l00626}\mbox{\hyperlink{classcl__nav2z_1_1forward__local__planner_1_1ForwardLocalPlanner_ad007da01ae8c6a07135e4ffa9c546ca7}{00626}}\ \textcolor{keywordtype}{bool}\ \mbox{\hyperlink{classcl__nav2z_1_1forward__local__planner_1_1ForwardLocalPlanner_ad007da01ae8c6a07135e4ffa9c546ca7}{ForwardLocalPlanner::isGoalReached}}()\ \{\ \textcolor{keywordflow}{return}\ \mbox{\hyperlink{classcl__nav2z_1_1forward__local__planner_1_1ForwardLocalPlanner_a95ed0c8ee80db1541bc1621327cc5809}{goalReached\_}};\ \}}
-\DoxyCodeLine{\Hypertarget{forward__local__planner_8cpp_source_l00627}00627\ }
-\DoxyCodeLine{\Hypertarget{forward__local__planner_8cpp_source_l00633}\mbox{\hyperlink{classcl__nav2z_1_1forward__local__planner_1_1ForwardLocalPlanner_adbb84839b6ef639bc3585f403e08a270}{00633}}\ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{classcl__nav2z_1_1forward__local__planner_1_1ForwardLocalPlanner_adbb84839b6ef639bc3585f403e08a270}{ForwardLocalPlanner::setPlan}}(\textcolor{keyword}{const}\ nav\_msgs::msg::Path\ \&\ plan)}
-\DoxyCodeLine{\Hypertarget{forward__local__planner_8cpp_source_l00634}00634\ \{}
-\DoxyCodeLine{\Hypertarget{forward__local__planner_8cpp_source_l00635}00635\ \ \ nav\_msgs::msg::Path\ transformedPlan;}
-\DoxyCodeLine{\Hypertarget{forward__local__planner_8cpp_source_l00636}00636\ }
-\DoxyCodeLine{\Hypertarget{forward__local__planner_8cpp_source_l00637}00637\ \ \ rclcpp::Duration\ ttol\ =\ rclcpp::Duration::from\_seconds(\mbox{\hyperlink{classcl__nav2z_1_1forward__local__planner_1_1ForwardLocalPlanner_a2ddf819f6ee5c9795627c6de288043b1}{transform\_tolerance\_}});}
-\DoxyCodeLine{\Hypertarget{forward__local__planner_8cpp_source_l00638}00638\ \ \ \textcolor{comment}{//\ transform\ global\ plan}}
-\DoxyCodeLine{\Hypertarget{forward__local__planner_8cpp_source_l00639}00639\ \ \ \textcolor{keywordflow}{for}\ (\textcolor{keyword}{auto}\ \&\ p\ :\ plan.poses)}
-\DoxyCodeLine{\Hypertarget{forward__local__planner_8cpp_source_l00640}00640\ \ \ \{}
-\DoxyCodeLine{\Hypertarget{forward__local__planner_8cpp_source_l00641}00641\ \ \ \ \ geometry\_msgs::msg::PoseStamped\ transformedPose;}
-\DoxyCodeLine{\Hypertarget{forward__local__planner_8cpp_source_l00642}00642\ \ \ \ \ nav\_2d\_utils::transformPose(\mbox{\hyperlink{classcl__nav2z_1_1forward__local__planner_1_1ForwardLocalPlanner_a2ddf96c951d83e61d60b5544b8ae9237}{tf\_}},\ \mbox{\hyperlink{classcl__nav2z_1_1forward__local__planner_1_1ForwardLocalPlanner_a248f16f548485a5829c70f14c1e5ef85}{costmapRos\_}}-\/>getGlobalFrameID(),\ p,\ transformedPose,\ ttol);}
-\DoxyCodeLine{\Hypertarget{forward__local__planner_8cpp_source_l00643}00643\ \ \ \ \ transformedPose.header.frame\_id\ =\ \mbox{\hyperlink{classcl__nav2z_1_1forward__local__planner_1_1ForwardLocalPlanner_a248f16f548485a5829c70f14c1e5ef85}{costmapRos\_}}-\/>getGlobalFrameID();}
-\DoxyCodeLine{\Hypertarget{forward__local__planner_8cpp_source_l00644}00644\ \ \ \ \ transformedPlan.poses.push\_back(transformedPose);}
-\DoxyCodeLine{\Hypertarget{forward__local__planner_8cpp_source_l00645}00645\ \ \ \}}
-\DoxyCodeLine{\Hypertarget{forward__local__planner_8cpp_source_l00646}00646\ }
-\DoxyCodeLine{\Hypertarget{forward__local__planner_8cpp_source_l00647}00647\ \ \ \mbox{\hyperlink{classcl__nav2z_1_1forward__local__planner_1_1ForwardLocalPlanner_a1010de8002914ba854370c2a1a8fdf75}{plan\_}}\ =\ transformedPlan.poses;}
-\DoxyCodeLine{\Hypertarget{forward__local__planner_8cpp_source_l00648}00648\ \ \ \mbox{\hyperlink{classcl__nav2z_1_1forward__local__planner_1_1ForwardLocalPlanner_a95ed0c8ee80db1541bc1621327cc5809}{goalReached\_}}\ =\ \textcolor{keyword}{false};}
-\DoxyCodeLine{\Hypertarget{forward__local__planner_8cpp_source_l00649}00649\ \}}
-\DoxyCodeLine{\Hypertarget{forward__local__planner_8cpp_source_l00650}00650\ \}\ \ \textcolor{comment}{//\ namespace\ forward\_local\_planner}}
-\DoxyCodeLine{\Hypertarget{forward__local__planner_8cpp_source_l00651}00651\ \}\ \ \textcolor{comment}{//\ namespace\ cl\_nav2z}}
-\DoxyCodeLine{\Hypertarget{forward__local__planner_8cpp_source_l00652}00652\ PLUGINLIB\_EXPORT\_CLASS(\mbox{\hyperlink{classcl__nav2z_1_1forward__local__planner_1_1ForwardLocalPlanner}{cl\_nav2z::forward\_local\_planner::ForwardLocalPlanner}},\ nav2\_core::Controller)}
+\DoxyCodeLine{\Hypertarget{forward__local__planner_8cpp_source_l00410}00410\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{forward__local__planner_8cpp_source_l00411}00411\ \ \ \}}
+\DoxyCodeLine{\Hypertarget{forward__local__planner_8cpp_source_l00412}00412\ }
+\DoxyCodeLine{\Hypertarget{forward__local__planner_8cpp_source_l00413}00413\ \ \ \textcolor{comment}{//\ RCLCPP\_INFO(nh\_-\/>get\_logger(),\ "{}pose\ control\ algorithm"{});}}
+\DoxyCodeLine{\Hypertarget{forward__local__planner_8cpp_source_l00414}00414\ }
+\DoxyCodeLine{\Hypertarget{forward__local__planner_8cpp_source_l00415}00415\ \ \ \textcolor{keyword}{const}\ geometry\_msgs::msg::PoseStamped\ \&\ finalgoalpose\ =\ \mbox{\hyperlink{classcl__nav2z_1_1forward__local__planner_1_1ForwardLocalPlanner_a1010de8002914ba854370c2a1a8fdf75}{plan\_}}.back();}
+\DoxyCodeLine{\Hypertarget{forward__local__planner_8cpp_source_l00416}00416\ \ \ \textcolor{keyword}{const}\ geometry\_msgs::msg::PoseStamped\ \&\ carrot\_goalpose\ =\ \mbox{\hyperlink{classcl__nav2z_1_1forward__local__planner_1_1ForwardLocalPlanner_a1010de8002914ba854370c2a1a8fdf75}{plan\_}}[\mbox{\hyperlink{classcl__nav2z_1_1forward__local__planner_1_1ForwardLocalPlanner_a8374f9d7b79675ef1fad46e6f1580626}{currentPoseIndex\_}}];}
+\DoxyCodeLine{\Hypertarget{forward__local__planner_8cpp_source_l00417}00417\ \ \ \textcolor{keyword}{const}\ geometry\_msgs::msg::Point\ \&\ goalposition\ =\ carrot\_goalpose.pose.position;}
+\DoxyCodeLine{\Hypertarget{forward__local__planner_8cpp_source_l00418}00418\ }
+\DoxyCodeLine{\Hypertarget{forward__local__planner_8cpp_source_l00419}00419\ \ \ tf2::Quaternion\ carrotGoalQ;}
+\DoxyCodeLine{\Hypertarget{forward__local__planner_8cpp_source_l00420}00420\ \ \ tf2::fromMsg(carrot\_goalpose.pose.orientation,\ carrotGoalQ);}
+\DoxyCodeLine{\Hypertarget{forward__local__planner_8cpp_source_l00421}00421\ \ \ \textcolor{comment}{//\ RCLCPP\_INFO\_STREAM(nh\_-\/>get\_logger(),\ "{}Plan\ goal\ quaternion\ at\ "{}<<\ carrot\_goalpose.pose.orientation);}}
+\DoxyCodeLine{\Hypertarget{forward__local__planner_8cpp_source_l00422}00422\ }
+\DoxyCodeLine{\Hypertarget{forward__local__planner_8cpp_source_l00423}00423\ \ \ \textcolor{comment}{//\ goal\ orientation\ (global\ frame)}}
+\DoxyCodeLine{\Hypertarget{forward__local__planner_8cpp_source_l00424}00424\ \ \ \textcolor{keywordtype}{double}\ betta\ =\ tf2::getYaw(carrot\_goalpose.pose.orientation)\ +\ \mbox{\hyperlink{classcl__nav2z_1_1forward__local__planner_1_1ForwardLocalPlanner_a9e248ce282482ddd010ed405286da4bc}{betta\_offset\_}};}
+\DoxyCodeLine{\Hypertarget{forward__local__planner_8cpp_source_l00425}00425\ \ \ \textcolor{keywordtype}{double}\ dx\ =\ goalposition.x\ -\/\ currentPose.pose.position.x;}
+\DoxyCodeLine{\Hypertarget{forward__local__planner_8cpp_source_l00426}00426\ \ \ \textcolor{keywordtype}{double}\ dy\ =\ goalposition.y\ -\/\ currentPose.pose.position.y;}
+\DoxyCodeLine{\Hypertarget{forward__local__planner_8cpp_source_l00427}00427\ }
+\DoxyCodeLine{\Hypertarget{forward__local__planner_8cpp_source_l00428}00428\ \ \ \textcolor{comment}{//\ distance\ error\ to\ the\ targetpoint}}
+\DoxyCodeLine{\Hypertarget{forward__local__planner_8cpp_source_l00429}00429\ \ \ \textcolor{keywordtype}{double}\ rho\_error\ =\ sqrt(dx\ *\ dx\ +\ dy\ *\ dy);}
+\DoxyCodeLine{\Hypertarget{forward__local__planner_8cpp_source_l00430}00430\ }
+\DoxyCodeLine{\Hypertarget{forward__local__planner_8cpp_source_l00431}00431\ \ \ tf2::Quaternion\ currentOrientation;}
+\DoxyCodeLine{\Hypertarget{forward__local__planner_8cpp_source_l00432}00432\ \ \ tf2::convert(currentPose.pose.orientation,\ currentOrientation);}
+\DoxyCodeLine{\Hypertarget{forward__local__planner_8cpp_source_l00433}00433\ }
+\DoxyCodeLine{\Hypertarget{forward__local__planner_8cpp_source_l00434}00434\ \ \ \textcolor{comment}{//\ current\ angle}}
+\DoxyCodeLine{\Hypertarget{forward__local__planner_8cpp_source_l00435}00435\ \ \ \textcolor{keywordtype}{double}\ theta\ =\ tf2::getYaw(currentOrientation);}
+\DoxyCodeLine{\Hypertarget{forward__local__planner_8cpp_source_l00436}00436\ \ \ \textcolor{keywordtype}{double}\ alpha\ =\ atan2(dy,\ dx);}
+\DoxyCodeLine{\Hypertarget{forward__local__planner_8cpp_source_l00437}00437\ \ \ alpha\ =\ alpha\ +\ \mbox{\hyperlink{classcl__nav2z_1_1forward__local__planner_1_1ForwardLocalPlanner_a8277013c50d23d75be2ec92c8d12aefc}{alpha\_offset\_}};}
+\DoxyCodeLine{\Hypertarget{forward__local__planner_8cpp_source_l00438}00438\ }
+\DoxyCodeLine{\Hypertarget{forward__local__planner_8cpp_source_l00439}00439\ \ \ \textcolor{keywordtype}{double}\ alpha\_error\ =\ angles::shortest\_angular\_distance(alpha,\ theta);}
+\DoxyCodeLine{\Hypertarget{forward__local__planner_8cpp_source_l00440}00440\ \ \ \textcolor{keywordtype}{double}\ betta\_error\ =\ angles::shortest\_angular\_distance(betta,\ theta);}
+\DoxyCodeLine{\Hypertarget{forward__local__planner_8cpp_source_l00441}00441\ }
+\DoxyCodeLine{\Hypertarget{forward__local__planner_8cpp_source_l00442}00442\ \ \ \textcolor{keywordtype}{double}\ vetta\ =\ 0;\ \ \textcolor{comment}{//\ =\ k\_rho\_\ *\ rho\_error;}}
+\DoxyCodeLine{\Hypertarget{forward__local__planner_8cpp_source_l00443}00443\ \ \ \textcolor{keywordtype}{double}\ gamma\ =\ 0;\ \ \textcolor{comment}{//=\ k\_alpha\_\ *\ alpha\_error\ +\ k\_betta\_\ *\ betta\_error;}}
+\DoxyCodeLine{\Hypertarget{forward__local__planner_8cpp_source_l00444}00444\ }
+\DoxyCodeLine{\Hypertarget{forward__local__planner_8cpp_source_l00445}00445\ \ \ \textcolor{keywordflow}{if}\ (}
+\DoxyCodeLine{\Hypertarget{forward__local__planner_8cpp_source_l00446}00446\ \ \ \ \ rho\_error\ >}
+\DoxyCodeLine{\Hypertarget{forward__local__planner_8cpp_source_l00447}00447\ \ \ \ \ \mbox{\hyperlink{classcl__nav2z_1_1forward__local__planner_1_1ForwardLocalPlanner_a3d2049bd5e38f71d6602f26ccd66f389}{xy\_goal\_tolerance\_}})\ \ \textcolor{comment}{//\ regular\ control\ rule,\ be\ careful,\ rho\ error\ is\ with\ the\ carrot\ not\ with\ the}}
+\DoxyCodeLine{\Hypertarget{forward__local__planner_8cpp_source_l00448}00448\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ final\ goal\ (this\ is\ something\ to\ improve\ like\ the\ backwards\ planner)}}
+\DoxyCodeLine{\Hypertarget{forward__local__planner_8cpp_source_l00449}00449\ \ \ \{}
+\DoxyCodeLine{\Hypertarget{forward__local__planner_8cpp_source_l00450}00450\ \ \ \ \ vetta\ =\ \mbox{\hyperlink{classcl__nav2z_1_1forward__local__planner_1_1ForwardLocalPlanner_a96950782b9ff556eb721153c0f0d57ea}{k\_rho\_}}\ *\ rho\_error;}
+\DoxyCodeLine{\Hypertarget{forward__local__planner_8cpp_source_l00451}00451\ \ \ \ \ gamma\ =\ \mbox{\hyperlink{classcl__nav2z_1_1forward__local__planner_1_1ForwardLocalPlanner_a6c6f836c8147be302a42fc8df69d0c1d}{k\_alpha\_}}\ *\ alpha\_error;}
+\DoxyCodeLine{\Hypertarget{forward__local__planner_8cpp_source_l00452}00452\ \ \ \}}
+\DoxyCodeLine{\Hypertarget{forward__local__planner_8cpp_source_l00453}00453\ \ \ \textcolor{keywordflow}{else}\ \textcolor{keywordflow}{if}\ (fabs(betta\_error)\ >=\ \mbox{\hyperlink{classcl__nav2z_1_1forward__local__planner_1_1ForwardLocalPlanner_ad6caa0703d3dcd166b583faf5a6bcc5f}{yaw\_goal\_tolerance\_}})\ \ \textcolor{comment}{//\ pureSpining}}
+\DoxyCodeLine{\Hypertarget{forward__local__planner_8cpp_source_l00454}00454\ \ \ \{}
+\DoxyCodeLine{\Hypertarget{forward__local__planner_8cpp_source_l00455}00455\ \ \ \ \ vetta\ =\ 0;}
+\DoxyCodeLine{\Hypertarget{forward__local__planner_8cpp_source_l00456}00456\ \ \ \ \ gamma\ =\ \mbox{\hyperlink{classcl__nav2z_1_1forward__local__planner_1_1ForwardLocalPlanner_a14d9cb6402cfb21aa7bf4ed77b3e2870}{k\_betta\_}}\ *\ betta\_error;}
+\DoxyCodeLine{\Hypertarget{forward__local__planner_8cpp_source_l00457}00457\ \ \ \}}
+\DoxyCodeLine{\Hypertarget{forward__local__planner_8cpp_source_l00458}00458\ \ \ \textcolor{keywordflow}{else}\ \ \textcolor{comment}{//\ goal\ reached}}
+\DoxyCodeLine{\Hypertarget{forward__local__planner_8cpp_source_l00459}00459\ \ \ \{}
+\DoxyCodeLine{\Hypertarget{forward__local__planner_8cpp_source_l00460}00460\ \ \ \ \ RCLCPP\_DEBUG(\mbox{\hyperlink{classcl__nav2z_1_1forward__local__planner_1_1ForwardLocalPlanner_a6a638645ef4e01710f4bbfb1eb1fc20d}{nh\_}}-\/>get\_logger(),\ \textcolor{stringliteral}{"{}GOAL\ REACHED"{}});}
+\DoxyCodeLine{\Hypertarget{forward__local__planner_8cpp_source_l00461}00461\ \ \ \ \ vetta\ =\ 0;}
+\DoxyCodeLine{\Hypertarget{forward__local__planner_8cpp_source_l00462}00462\ \ \ \ \ gamma\ =\ 0;}
+\DoxyCodeLine{\Hypertarget{forward__local__planner_8cpp_source_l00463}00463\ \ \ \ \ \mbox{\hyperlink{classcl__nav2z_1_1forward__local__planner_1_1ForwardLocalPlanner_a95ed0c8ee80db1541bc1621327cc5809}{goalReached\_}}\ =\ \textcolor{keyword}{true};}
+\DoxyCodeLine{\Hypertarget{forward__local__planner_8cpp_source_l00464}00464\ \ \ \}}
+\DoxyCodeLine{\Hypertarget{forward__local__planner_8cpp_source_l00465}00465\ }
+\DoxyCodeLine{\Hypertarget{forward__local__planner_8cpp_source_l00466}00466\ \ \ \textcolor{comment}{//\ linear\ speed\ clamp}}
+\DoxyCodeLine{\Hypertarget{forward__local__planner_8cpp_source_l00467}00467\ \ \ \textcolor{keywordflow}{if}\ (vetta\ >\ \mbox{\hyperlink{classcl__nav2z_1_1forward__local__planner_1_1ForwardLocalPlanner_a1f16f277c26cb02acd30eb9007fcc8e6}{max\_linear\_x\_speed\_}})}
+\DoxyCodeLine{\Hypertarget{forward__local__planner_8cpp_source_l00468}00468\ \ \ \{}
+\DoxyCodeLine{\Hypertarget{forward__local__planner_8cpp_source_l00469}00469\ \ \ \ \ vetta\ =\ \mbox{\hyperlink{classcl__nav2z_1_1forward__local__planner_1_1ForwardLocalPlanner_a1f16f277c26cb02acd30eb9007fcc8e6}{max\_linear\_x\_speed\_}};}
+\DoxyCodeLine{\Hypertarget{forward__local__planner_8cpp_source_l00470}00470\ \ \ \}}
+\DoxyCodeLine{\Hypertarget{forward__local__planner_8cpp_source_l00471}00471\ \ \ \textcolor{keywordflow}{else}\ \textcolor{keywordflow}{if}\ (vetta\ <\ -\/\mbox{\hyperlink{classcl__nav2z_1_1forward__local__planner_1_1ForwardLocalPlanner_a1f16f277c26cb02acd30eb9007fcc8e6}{max\_linear\_x\_speed\_}})}
+\DoxyCodeLine{\Hypertarget{forward__local__planner_8cpp_source_l00472}00472\ \ \ \{}
+\DoxyCodeLine{\Hypertarget{forward__local__planner_8cpp_source_l00473}00473\ \ \ \ \ vetta\ =\ -\/\mbox{\hyperlink{classcl__nav2z_1_1forward__local__planner_1_1ForwardLocalPlanner_a1f16f277c26cb02acd30eb9007fcc8e6}{max\_linear\_x\_speed\_}};}
+\DoxyCodeLine{\Hypertarget{forward__local__planner_8cpp_source_l00474}00474\ \ \ \}}
+\DoxyCodeLine{\Hypertarget{forward__local__planner_8cpp_source_l00475}00475\ }
+\DoxyCodeLine{\Hypertarget{forward__local__planner_8cpp_source_l00476}00476\ \ \ \textcolor{comment}{//\ angular\ speed\ clamp}}
+\DoxyCodeLine{\Hypertarget{forward__local__planner_8cpp_source_l00477}00477\ \ \ \textcolor{keywordflow}{if}\ (gamma\ >\ \mbox{\hyperlink{classcl__nav2z_1_1forward__local__planner_1_1ForwardLocalPlanner_a8bb76acb10bdf95576fa38f9345441c8}{max\_angular\_z\_speed\_}})}
+\DoxyCodeLine{\Hypertarget{forward__local__planner_8cpp_source_l00478}00478\ \ \ \{}
+\DoxyCodeLine{\Hypertarget{forward__local__planner_8cpp_source_l00479}00479\ \ \ \ \ gamma\ =\ \mbox{\hyperlink{classcl__nav2z_1_1forward__local__planner_1_1ForwardLocalPlanner_a8bb76acb10bdf95576fa38f9345441c8}{max\_angular\_z\_speed\_}};}
+\DoxyCodeLine{\Hypertarget{forward__local__planner_8cpp_source_l00480}00480\ \ \ \}}
+\DoxyCodeLine{\Hypertarget{forward__local__planner_8cpp_source_l00481}00481\ \ \ \textcolor{keywordflow}{else}\ \textcolor{keywordflow}{if}\ (gamma\ <\ -\/\mbox{\hyperlink{classcl__nav2z_1_1forward__local__planner_1_1ForwardLocalPlanner_a8bb76acb10bdf95576fa38f9345441c8}{max\_angular\_z\_speed\_}})}
+\DoxyCodeLine{\Hypertarget{forward__local__planner_8cpp_source_l00482}00482\ \ \ \{}
+\DoxyCodeLine{\Hypertarget{forward__local__planner_8cpp_source_l00483}00483\ \ \ \ \ gamma\ =\ -\/\mbox{\hyperlink{classcl__nav2z_1_1forward__local__planner_1_1ForwardLocalPlanner_a8bb76acb10bdf95576fa38f9345441c8}{max\_angular\_z\_speed\_}};}
+\DoxyCodeLine{\Hypertarget{forward__local__planner_8cpp_source_l00484}00484\ \ \ \}}
+\DoxyCodeLine{\Hypertarget{forward__local__planner_8cpp_source_l00485}00485\ }
+\DoxyCodeLine{\Hypertarget{forward__local__planner_8cpp_source_l00486}00486\ \ \ cmd\_vel.twist.linear.x\ =\ vetta;}
+\DoxyCodeLine{\Hypertarget{forward__local__planner_8cpp_source_l00487}00487\ \ \ cmd\_vel.twist.angular.z\ =\ gamma;}
+\DoxyCodeLine{\Hypertarget{forward__local__planner_8cpp_source_l00488}00488\ }
+\DoxyCodeLine{\Hypertarget{forward__local__planner_8cpp_source_l00489}00489\ \ \ \mbox{\hyperlink{classcl__nav2z_1_1forward__local__planner_1_1ForwardLocalPlanner_a943f609224a31ec2f00fe201b41d926c}{publishGoalMarker}}(goalposition.x,\ goalposition.y,\ betta);}
+\DoxyCodeLine{\Hypertarget{forward__local__planner_8cpp_source_l00490}00490\ }
+\DoxyCodeLine{\Hypertarget{forward__local__planner_8cpp_source_l00491}00491\ \ \ RCLCPP\_DEBUG\_STREAM(}
+\DoxyCodeLine{\Hypertarget{forward__local__planner_8cpp_source_l00492}00492\ \ \ \ \ \mbox{\hyperlink{classcl__nav2z_1_1forward__local__planner_1_1ForwardLocalPlanner_a6a638645ef4e01710f4bbfb1eb1fc20d}{nh\_}}-\/>get\_logger(),\ \textcolor{stringliteral}{"{}Forward\ local\ planner,"{}}}
+\DoxyCodeLine{\Hypertarget{forward__local__planner_8cpp_source_l00493}00493\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ <<\ std::endl}
+\DoxyCodeLine{\Hypertarget{forward__local__planner_8cpp_source_l00494}00494\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ <<\ \textcolor{stringliteral}{"{}\ theta:\ "{}}\ <<\ theta\ <<\ std::endl}
+\DoxyCodeLine{\Hypertarget{forward__local__planner_8cpp_source_l00495}00495\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ <<\ \textcolor{stringliteral}{"{}\ betta:\ "{}}\ <<\ betta\ <<\ std::endl}
+\DoxyCodeLine{\Hypertarget{forward__local__planner_8cpp_source_l00496}00496\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ <<\ \textcolor{stringliteral}{"{}\ err\_x:\ "{}}\ <<\ dx\ <<\ std::endl}
+\DoxyCodeLine{\Hypertarget{forward__local__planner_8cpp_source_l00497}00497\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ <<\ \textcolor{stringliteral}{"{}\ err\_y:"{}}\ <<\ dy\ <<\ std::endl}
+\DoxyCodeLine{\Hypertarget{forward__local__planner_8cpp_source_l00498}00498\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ <<\ \textcolor{stringliteral}{"{}\ rho\_error:"{}}\ <<\ rho\_error\ <<\ std::endl}
+\DoxyCodeLine{\Hypertarget{forward__local__planner_8cpp_source_l00499}00499\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ <<\ \textcolor{stringliteral}{"{}\ alpha\_error:"{}}\ <<\ alpha\_error\ <<\ std::endl}
+\DoxyCodeLine{\Hypertarget{forward__local__planner_8cpp_source_l00500}00500\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ <<\ \textcolor{stringliteral}{"{}\ betta\_error:"{}}\ <<\ betta\_error\ <<\ std::endl}
+\DoxyCodeLine{\Hypertarget{forward__local__planner_8cpp_source_l00501}00501\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ <<\ \textcolor{stringliteral}{"{}\ vetta:"{}}\ <<\ vetta\ <<\ std::endl}
+\DoxyCodeLine{\Hypertarget{forward__local__planner_8cpp_source_l00502}00502\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ <<\ \textcolor{stringliteral}{"{}\ gamma:"{}}\ <<\ gamma\ <<\ std::endl}
+\DoxyCodeLine{\Hypertarget{forward__local__planner_8cpp_source_l00503}00503\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ <<\ \textcolor{stringliteral}{"{}\ xy\_goal\_tolerance:"{}}\ <<\ \mbox{\hyperlink{classcl__nav2z_1_1forward__local__planner_1_1ForwardLocalPlanner_a3d2049bd5e38f71d6602f26ccd66f389}{xy\_goal\_tolerance\_}}\ <<\ std::endl}
+\DoxyCodeLine{\Hypertarget{forward__local__planner_8cpp_source_l00504}00504\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ <<\ \textcolor{stringliteral}{"{}\ yaw\_goal\_tolerance:"{}}\ <<\ \mbox{\hyperlink{classcl__nav2z_1_1forward__local__planner_1_1ForwardLocalPlanner_ad6caa0703d3dcd166b583faf5a6bcc5f}{yaw\_goal\_tolerance\_}}\ <<\ std::endl);}
+\DoxyCodeLine{\Hypertarget{forward__local__planner_8cpp_source_l00505}00505\ }
+\DoxyCodeLine{\Hypertarget{forward__local__planner_8cpp_source_l00506}00506\ \ \ \textcolor{comment}{//\ integrate\ trajectory\ and\ check\ collision}}
+\DoxyCodeLine{\Hypertarget{forward__local__planner_8cpp_source_l00507}00507\ }
+\DoxyCodeLine{\Hypertarget{forward__local__planner_8cpp_source_l00508}00508\ \ \ assert(currentPose.header.frame\_id\ ==\ \textcolor{stringliteral}{"{}odom"{}}\ ||\ currentPose.header.frame\_id\ ==\ \textcolor{stringliteral}{"{}map"{}});}
+\DoxyCodeLine{\Hypertarget{forward__local__planner_8cpp_source_l00509}00509\ \ \ \textcolor{keyword}{auto}\ global\_pose\ =\ currentPose;}
+\DoxyCodeLine{\Hypertarget{forward__local__planner_8cpp_source_l00510}00510\ }
+\DoxyCodeLine{\Hypertarget{forward__local__planner_8cpp_source_l00511}00511\ \ \ \textcolor{keyword}{auto}\ *\ costmap2d\ =\ \mbox{\hyperlink{classcl__nav2z_1_1forward__local__planner_1_1ForwardLocalPlanner_a248f16f548485a5829c70f14c1e5ef85}{costmapRos\_}}-\/>getCostmap();}
+\DoxyCodeLine{\Hypertarget{forward__local__planner_8cpp_source_l00512}00512\ \ \ \textcolor{keyword}{auto}\ yaw\ =\ tf2::getYaw(global\_pose.pose.orientation);}
+\DoxyCodeLine{\Hypertarget{forward__local__planner_8cpp_source_l00513}00513\ }
+\DoxyCodeLine{\Hypertarget{forward__local__planner_8cpp_source_l00514}00514\ \ \ \textcolor{keyword}{auto}\ \&\ pos\ =\ global\_pose.pose.position;}
+\DoxyCodeLine{\Hypertarget{forward__local__planner_8cpp_source_l00515}00515\ }
+\DoxyCodeLine{\Hypertarget{forward__local__planner_8cpp_source_l00516}00516\ \ \ Eigen::Vector3f\ currentpose(pos.x,\ pos.y,\ yaw);}
+\DoxyCodeLine{\Hypertarget{forward__local__planner_8cpp_source_l00517}00517\ \ \ Eigen::Vector3f\ currentvel(}
+\DoxyCodeLine{\Hypertarget{forward__local__planner_8cpp_source_l00518}00518\ \ \ \ \ cmd\_vel.twist.linear.x,\ cmd\_vel.twist.linear.y,\ cmd\_vel.twist.angular.z);}
+\DoxyCodeLine{\Hypertarget{forward__local__planner_8cpp_source_l00519}00519\ }
+\DoxyCodeLine{\Hypertarget{forward__local__planner_8cpp_source_l00520}00520\ \ \ std::vector<Eigen::Vector3f>\ trajectory;}
+\DoxyCodeLine{\Hypertarget{forward__local__planner_8cpp_source_l00521}00521\ \ \ this-\/>\mbox{\hyperlink{classcl__nav2z_1_1forward__local__planner_1_1ForwardLocalPlanner_a686a387784b5271d30897fc23ab1958d}{generateTrajectory}}(}
+\DoxyCodeLine{\Hypertarget{forward__local__planner_8cpp_source_l00522}00522\ \ \ \ \ currentpose,\ currentvel,\ 0.8\ \textcolor{comment}{/*meters*/},\ M\_PI\ /\ 8\ \textcolor{comment}{/*rads*/},\ 3.0\ \textcolor{comment}{/*seconds*/},\ 0.05\ \textcolor{comment}{/*seconds*/},}
+\DoxyCodeLine{\Hypertarget{forward__local__planner_8cpp_source_l00523}00523\ \ \ \ \ trajectory);}
+\DoxyCodeLine{\Hypertarget{forward__local__planner_8cpp_source_l00524}00524\ }
+\DoxyCodeLine{\Hypertarget{forward__local__planner_8cpp_source_l00525}00525\ \ \ \textcolor{comment}{//\ check\ plan\ rejection}}
+\DoxyCodeLine{\Hypertarget{forward__local__planner_8cpp_source_l00526}00526\ \ \ \textcolor{keywordtype}{bool}\ aceptedplan\ =\ \textcolor{keyword}{true};}
+\DoxyCodeLine{\Hypertarget{forward__local__planner_8cpp_source_l00527}00527\ }
+\DoxyCodeLine{\Hypertarget{forward__local__planner_8cpp_source_l00528}00528\ \ \ \textcolor{keywordtype}{unsigned}\ \textcolor{keywordtype}{int}\ mx,\ my;}
+\DoxyCodeLine{\Hypertarget{forward__local__planner_8cpp_source_l00529}00529\ }
+\DoxyCodeLine{\Hypertarget{forward__local__planner_8cpp_source_l00530}00530\ \ \ \textcolor{keywordtype}{int}\ i\ =\ 0;}
+\DoxyCodeLine{\Hypertarget{forward__local__planner_8cpp_source_l00531}00531\ \ \ \textcolor{comment}{//\ RCLCPP\_INFO\_STREAM(nh\_-\/>get\_logger(),\ "{}lplanner\ goal:\ "{}\ <<\ finalgoalpose.pose.position);}}
+\DoxyCodeLine{\Hypertarget{forward__local__planner_8cpp_source_l00532}00532\ \ \ \textcolor{keywordflow}{for}\ (\textcolor{keyword}{auto}\ \&\ p\ :\ trajectory)}
+\DoxyCodeLine{\Hypertarget{forward__local__planner_8cpp_source_l00533}00533\ \ \ \{}
+\DoxyCodeLine{\Hypertarget{forward__local__planner_8cpp_source_l00534}00534\ \ \ \ \ \textcolor{keywordtype}{float}\ dx\ =\ p[0]\ -\/\ finalgoalpose.pose.position.x;}
+\DoxyCodeLine{\Hypertarget{forward__local__planner_8cpp_source_l00535}00535\ \ \ \ \ \textcolor{keywordtype}{float}\ dy\ =\ p[1]\ -\/\ finalgoalpose.pose.position.y;}
+\DoxyCodeLine{\Hypertarget{forward__local__planner_8cpp_source_l00536}00536\ }
+\DoxyCodeLine{\Hypertarget{forward__local__planner_8cpp_source_l00537}00537\ \ \ \ \ \textcolor{keywordtype}{float}\ dst\ =\ sqrt(dx\ *\ dx\ +\ dy\ *\ dy);}
+\DoxyCodeLine{\Hypertarget{forward__local__planner_8cpp_source_l00538}00538\ \ \ \ \ \textcolor{keywordflow}{if}\ (dst\ <\ \mbox{\hyperlink{classcl__nav2z_1_1forward__local__planner_1_1ForwardLocalPlanner_a3d2049bd5e38f71d6602f26ccd66f389}{xy\_goal\_tolerance\_}})}
+\DoxyCodeLine{\Hypertarget{forward__local__planner_8cpp_source_l00539}00539\ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{forward__local__planner_8cpp_source_l00540}00540\ \ \ \ \ \ \ \textcolor{comment}{//\ \ RCLCPP\_INFO(nh\_-\/>get\_logger(),\ "{}trajectory\ checking\ skipped,\ goal\ reached"{});}}
+\DoxyCodeLine{\Hypertarget{forward__local__planner_8cpp_source_l00541}00541\ \ \ \ \ \ \ \textcolor{keywordflow}{break};}
+\DoxyCodeLine{\Hypertarget{forward__local__planner_8cpp_source_l00542}00542\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{forward__local__planner_8cpp_source_l00543}00543\ }
+\DoxyCodeLine{\Hypertarget{forward__local__planner_8cpp_source_l00544}00544\ \ \ \ \ costmap2d-\/>worldToMap(p[0],\ p[1],\ mx,\ my);}
+\DoxyCodeLine{\Hypertarget{forward__local__planner_8cpp_source_l00545}00545\ }
+\DoxyCodeLine{\Hypertarget{forward__local__planner_8cpp_source_l00546}00546\ \ \ \ \ \textcolor{comment}{//\ RCLCPP\_INFO(nh\_-\/>get\_logger(),\ "{}checking\ cost\ pt\ \%d\ [\%lf,\ \%lf]\ cell[\%d,\%d]\ =\ \%d"{},\ i,\ p[0],\ p[1],\ mx,\ my,\ cost);}}
+\DoxyCodeLine{\Hypertarget{forward__local__planner_8cpp_source_l00547}00547\ \ \ \ \ \textcolor{comment}{//\ RCLCPP\_INFO\_STREAM(nh\_-\/>get\_logger(),\ "{}cost:\ "{}\ <<\ cost);}}
+\DoxyCodeLine{\Hypertarget{forward__local__planner_8cpp_source_l00548}00548\ }
+\DoxyCodeLine{\Hypertarget{forward__local__planner_8cpp_source_l00549}00549\ \ \ \ \ \textcolor{comment}{//\ static\ const\ unsigned\ char\ NO\_INFORMATION\ =\ 255;}}
+\DoxyCodeLine{\Hypertarget{forward__local__planner_8cpp_source_l00550}00550\ \ \ \ \ \textcolor{comment}{//\ static\ const\ unsigned\ char\ LETHAL\_OBSTACLE\ =\ 254;}}
+\DoxyCodeLine{\Hypertarget{forward__local__planner_8cpp_source_l00551}00551\ \ \ \ \ \textcolor{comment}{//\ static\ const\ unsigned\ char\ INSCRIBED\_INFLATED\_OBSTACLE\ =\ 253;}}
+\DoxyCodeLine{\Hypertarget{forward__local__planner_8cpp_source_l00552}00552\ \ \ \ \ \textcolor{comment}{//\ static\ const\ unsigned\ char\ FREE\_SPACE\ =\ 0;}}
+\DoxyCodeLine{\Hypertarget{forward__local__planner_8cpp_source_l00553}00553\ }
+\DoxyCodeLine{\Hypertarget{forward__local__planner_8cpp_source_l00554}00554\ \ \ \ \ \textcolor{keywordflow}{if}\ (costmap2d-\/>getCost(mx,\ my)\ >=\ nav2\_costmap\_2d::INSCRIBED\_INFLATED\_OBSTACLE)}
+\DoxyCodeLine{\Hypertarget{forward__local__planner_8cpp_source_l00555}00555\ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{forward__local__planner_8cpp_source_l00556}00556\ \ \ \ \ \ \ aceptedplan\ =\ \textcolor{keyword}{false};}
+\DoxyCodeLine{\Hypertarget{forward__local__planner_8cpp_source_l00557}00557\ \ \ \ \ \ \ \textcolor{comment}{//\ RCLCPP\_WARN(nh\_-\/>get\_logger(),\ "{}ABORTED\ LOCAL\ PLAN\ BECAUSE\ OBSTACLE\ DETEDTED"{});}}
+\DoxyCodeLine{\Hypertarget{forward__local__planner_8cpp_source_l00558}00558\ \ \ \ \ \ \ \textcolor{keywordflow}{break};}
+\DoxyCodeLine{\Hypertarget{forward__local__planner_8cpp_source_l00559}00559\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{forward__local__planner_8cpp_source_l00560}00560\ \ \ \ \ i++;}
+\DoxyCodeLine{\Hypertarget{forward__local__planner_8cpp_source_l00561}00561\ \ \ \}}
+\DoxyCodeLine{\Hypertarget{forward__local__planner_8cpp_source_l00562}00562\ }
+\DoxyCodeLine{\Hypertarget{forward__local__planner_8cpp_source_l00563}00563\ \ \ \textcolor{keywordtype}{bool}\ success\ =\ \textcolor{keyword}{false};}
+\DoxyCodeLine{\Hypertarget{forward__local__planner_8cpp_source_l00564}00564\ \ \ \textcolor{keywordflow}{if}\ (aceptedplan)}
+\DoxyCodeLine{\Hypertarget{forward__local__planner_8cpp_source_l00565}00565\ \ \ \{}
+\DoxyCodeLine{\Hypertarget{forward__local__planner_8cpp_source_l00566}00566\ \ \ \ \ \mbox{\hyperlink{classcl__nav2z_1_1forward__local__planner_1_1ForwardLocalPlanner_a004ab5be898c9580bb1d6d50a0b06823}{waiting\_}}\ =\ \textcolor{keyword}{false};}
+\DoxyCodeLine{\Hypertarget{forward__local__planner_8cpp_source_l00567}00567\ \ \ \ \ success\ =\ \textcolor{keyword}{true};}
+\DoxyCodeLine{\Hypertarget{forward__local__planner_8cpp_source_l00568}00568\ \ \ \ \ RCLCPP\_DEBUG(\mbox{\hyperlink{classcl__nav2z_1_1forward__local__planner_1_1ForwardLocalPlanner_a6a638645ef4e01710f4bbfb1eb1fc20d}{nh\_}}-\/>get\_logger(),\ \textcolor{stringliteral}{"{}simulated\ trajectory\ is\ accepted."{}});}
+\DoxyCodeLine{\Hypertarget{forward__local__planner_8cpp_source_l00569}00569\ \ \ \}}
+\DoxyCodeLine{\Hypertarget{forward__local__planner_8cpp_source_l00570}00570\ \ \ \textcolor{keywordflow}{else}}
+\DoxyCodeLine{\Hypertarget{forward__local__planner_8cpp_source_l00571}00571\ \ \ \{}
+\DoxyCodeLine{\Hypertarget{forward__local__planner_8cpp_source_l00572}00572\ \ \ \ \ RCLCPP\_DEBUG(\mbox{\hyperlink{classcl__nav2z_1_1forward__local__planner_1_1ForwardLocalPlanner_a6a638645ef4e01710f4bbfb1eb1fc20d}{nh\_}}-\/>get\_logger(),\ \textcolor{stringliteral}{"{}simulated\ trajectory\ is\ not\ accepted.\ Stop\ command."{}});}
+\DoxyCodeLine{\Hypertarget{forward__local__planner_8cpp_source_l00573}00573\ }
+\DoxyCodeLine{\Hypertarget{forward__local__planner_8cpp_source_l00574}00574\ \ \ \ \ \textcolor{comment}{//\ stop\ and\ wait}}
+\DoxyCodeLine{\Hypertarget{forward__local__planner_8cpp_source_l00575}00575\ \ \ \ \ cmd\_vel.twist.linear.x\ =\ 0;}
+\DoxyCodeLine{\Hypertarget{forward__local__planner_8cpp_source_l00576}00576\ \ \ \ \ cmd\_vel.twist.angular.z\ =\ 0;}
+\DoxyCodeLine{\Hypertarget{forward__local__planner_8cpp_source_l00577}00577\ }
+\DoxyCodeLine{\Hypertarget{forward__local__planner_8cpp_source_l00578}00578\ \ \ \ \ \textcolor{keywordflow}{if}\ (!\mbox{\hyperlink{classcl__nav2z_1_1forward__local__planner_1_1ForwardLocalPlanner_a004ab5be898c9580bb1d6d50a0b06823}{waiting\_}})}
+\DoxyCodeLine{\Hypertarget{forward__local__planner_8cpp_source_l00579}00579\ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{forward__local__planner_8cpp_source_l00580}00580\ \ \ \ \ \ \ RCLCPP\_DEBUG(\mbox{\hyperlink{classcl__nav2z_1_1forward__local__planner_1_1ForwardLocalPlanner_a6a638645ef4e01710f4bbfb1eb1fc20d}{nh\_}}-\/>get\_logger(),\ \textcolor{stringliteral}{"{}Start\ waiting\ obstacle\ disappear"{}});}
+\DoxyCodeLine{\Hypertarget{forward__local__planner_8cpp_source_l00581}00581\ \ \ \ \ \ \ \mbox{\hyperlink{classcl__nav2z_1_1forward__local__planner_1_1ForwardLocalPlanner_a004ab5be898c9580bb1d6d50a0b06823}{waiting\_}}\ =\ \textcolor{keyword}{true};}
+\DoxyCodeLine{\Hypertarget{forward__local__planner_8cpp_source_l00582}00582\ \ \ \ \ \ \ \mbox{\hyperlink{classcl__nav2z_1_1forward__local__planner_1_1ForwardLocalPlanner_a7b1b94fba3274f51e6b46de591f00359}{waitingStamp\_}}\ =\ \mbox{\hyperlink{classcl__nav2z_1_1forward__local__planner_1_1ForwardLocalPlanner_a6a638645ef4e01710f4bbfb1eb1fc20d}{nh\_}}-\/>now();}
+\DoxyCodeLine{\Hypertarget{forward__local__planner_8cpp_source_l00583}00583\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{forward__local__planner_8cpp_source_l00584}00584\ \ \ \ \ \textcolor{keywordflow}{else}}
+\DoxyCodeLine{\Hypertarget{forward__local__planner_8cpp_source_l00585}00585\ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{forward__local__planner_8cpp_source_l00586}00586\ \ \ \ \ \ \ \textcolor{keyword}{auto}\ waitingduration\ =\ \mbox{\hyperlink{classcl__nav2z_1_1forward__local__planner_1_1ForwardLocalPlanner_a6a638645ef4e01710f4bbfb1eb1fc20d}{nh\_}}-\/>now()\ -\/\ \mbox{\hyperlink{classcl__nav2z_1_1forward__local__planner_1_1ForwardLocalPlanner_a7b1b94fba3274f51e6b46de591f00359}{waitingStamp\_}};}
+\DoxyCodeLine{\Hypertarget{forward__local__planner_8cpp_source_l00587}00587\ \ \ \ \ \ \ RCLCPP\_DEBUG(}
+\DoxyCodeLine{\Hypertarget{forward__local__planner_8cpp_source_l00588}00588\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{classcl__nav2z_1_1forward__local__planner_1_1ForwardLocalPlanner_a6a638645ef4e01710f4bbfb1eb1fc20d}{nh\_}}-\/>get\_logger(),\ \textcolor{stringliteral}{"{}waiting\ obstacle\ disappear,\ elapsed:\ \%lf\ seconds"{}},}
+\DoxyCodeLine{\Hypertarget{forward__local__planner_8cpp_source_l00589}00589\ \ \ \ \ \ \ \ \ waitingduration.seconds());}
+\DoxyCodeLine{\Hypertarget{forward__local__planner_8cpp_source_l00590}00590\ }
+\DoxyCodeLine{\Hypertarget{forward__local__planner_8cpp_source_l00591}00591\ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (waitingduration\ >\ this-\/>\mbox{\hyperlink{classcl__nav2z_1_1forward__local__planner_1_1ForwardLocalPlanner_a3c037da8260733314c2f43a3522a0ff2}{waitingTimeout\_}})}
+\DoxyCodeLine{\Hypertarget{forward__local__planner_8cpp_source_l00592}00592\ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{forward__local__planner_8cpp_source_l00593}00593\ \ \ \ \ \ \ \ \ RCLCPP\_WARN(}
+\DoxyCodeLine{\Hypertarget{forward__local__planner_8cpp_source_l00594}00594\ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{classcl__nav2z_1_1forward__local__planner_1_1ForwardLocalPlanner_a6a638645ef4e01710f4bbfb1eb1fc20d}{nh\_}}-\/>get\_logger(),\ \textcolor{stringliteral}{"{}TIMEOUT\ waiting\ obstacle\ disappear,\ elapsed:\ \%lf\ seconds"{}},}
+\DoxyCodeLine{\Hypertarget{forward__local__planner_8cpp_source_l00595}00595\ \ \ \ \ \ \ \ \ \ \ waitingduration.seconds());}
+\DoxyCodeLine{\Hypertarget{forward__local__planner_8cpp_source_l00596}00596\ \ \ \ \ \ \ \ \ success\ =\ \textcolor{keyword}{false};}
+\DoxyCodeLine{\Hypertarget{forward__local__planner_8cpp_source_l00597}00597\ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{forward__local__planner_8cpp_source_l00598}00598\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{forward__local__planner_8cpp_source_l00599}00599\ \ \ \}}
+\DoxyCodeLine{\Hypertarget{forward__local__planner_8cpp_source_l00600}00600\ }
+\DoxyCodeLine{\Hypertarget{forward__local__planner_8cpp_source_l00601}00601\ \ \ \textcolor{keywordflow}{if}\ (!success)}
+\DoxyCodeLine{\Hypertarget{forward__local__planner_8cpp_source_l00602}00602\ \ \ \{}
+\DoxyCodeLine{\Hypertarget{forward__local__planner_8cpp_source_l00603}00603\ \ \ \ \ RCLCPP\_DEBUG(}
+\DoxyCodeLine{\Hypertarget{forward__local__planner_8cpp_source_l00604}00604\ \ \ \ \ \ \ \mbox{\hyperlink{classcl__nav2z_1_1forward__local__planner_1_1ForwardLocalPlanner_a6a638645ef4e01710f4bbfb1eb1fc20d}{nh\_}}-\/>get\_logger(),}
+\DoxyCodeLine{\Hypertarget{forward__local__planner_8cpp_source_l00605}00605\ \ \ \ \ \ \ \textcolor{stringliteral}{"{}[ForwardLocalPlanner]\ object\ detected\ waiting\ stopped\ until\ it\ disappears."{}});}
+\DoxyCodeLine{\Hypertarget{forward__local__planner_8cpp_source_l00606}00606\ \ \ \}}
+\DoxyCodeLine{\Hypertarget{forward__local__planner_8cpp_source_l00607}00607\ }
+\DoxyCodeLine{\Hypertarget{forward__local__planner_8cpp_source_l00608}00608\ \ \ cmd\_vel.header.stamp\ =\ \mbox{\hyperlink{classcl__nav2z_1_1forward__local__planner_1_1ForwardLocalPlanner_a6a638645ef4e01710f4bbfb1eb1fc20d}{nh\_}}-\/>now();}
+\DoxyCodeLine{\Hypertarget{forward__local__planner_8cpp_source_l00609}00609\ \ \ \textcolor{keywordflow}{return}\ cmd\_vel;}
+\DoxyCodeLine{\Hypertarget{forward__local__planner_8cpp_source_l00610}00610\ \}}
+\DoxyCodeLine{\Hypertarget{forward__local__planner_8cpp_source_l00611}00611\ }
+\DoxyCodeLine{\Hypertarget{forward__local__planner_8cpp_source_l00612}\mbox{\hyperlink{classcl__nav2z_1_1forward__local__planner_1_1ForwardLocalPlanner_a69bfb44c49c49b24c6221b23a4207303}{00612}}\ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{classcl__nav2z_1_1forward__local__planner_1_1ForwardLocalPlanner_a69bfb44c49c49b24c6221b23a4207303}{ForwardLocalPlanner::setSpeedLimit}}(\textcolor{keyword}{const}\ \textcolor{keywordtype}{double}\ \&\ \textcolor{comment}{/*speed\_limit*/},\ \textcolor{keyword}{const}\ \textcolor{keywordtype}{bool}\ \&\ \textcolor{comment}{/*percentage*/})}
+\DoxyCodeLine{\Hypertarget{forward__local__planner_8cpp_source_l00613}00613\ \{}
+\DoxyCodeLine{\Hypertarget{forward__local__planner_8cpp_source_l00614}00614\ \ \ RCLCPP\_WARN\_STREAM(}
+\DoxyCodeLine{\Hypertarget{forward__local__planner_8cpp_source_l00615}00615\ \ \ \ \ \mbox{\hyperlink{classcl__nav2z_1_1forward__local__planner_1_1ForwardLocalPlanner_a6a638645ef4e01710f4bbfb1eb1fc20d}{nh\_}}-\/>get\_logger(),}
+\DoxyCodeLine{\Hypertarget{forward__local__planner_8cpp_source_l00616}00616\ \ \ \ \ \textcolor{stringliteral}{"{}ForwardLocalPlanner::setSpeedLimit\ invoked.\ Ignored,\ functionality\ not\ "{}}}
+\DoxyCodeLine{\Hypertarget{forward__local__planner_8cpp_source_l00617}00617\ \ \ \ \ \textcolor{stringliteral}{"{}implemented."{}});}
+\DoxyCodeLine{\Hypertarget{forward__local__planner_8cpp_source_l00618}00618\ \}}
+\DoxyCodeLine{\Hypertarget{forward__local__planner_8cpp_source_l00619}00619\ }
+\DoxyCodeLine{\Hypertarget{forward__local__planner_8cpp_source_l00625}\mbox{\hyperlink{classcl__nav2z_1_1forward__local__planner_1_1ForwardLocalPlanner_ad007da01ae8c6a07135e4ffa9c546ca7}{00625}}\ \textcolor{keywordtype}{bool}\ \mbox{\hyperlink{classcl__nav2z_1_1forward__local__planner_1_1ForwardLocalPlanner_ad007da01ae8c6a07135e4ffa9c546ca7}{ForwardLocalPlanner::isGoalReached}}()\ \{\ \textcolor{keywordflow}{return}\ \mbox{\hyperlink{classcl__nav2z_1_1forward__local__planner_1_1ForwardLocalPlanner_a95ed0c8ee80db1541bc1621327cc5809}{goalReached\_}};\ \}}
+\DoxyCodeLine{\Hypertarget{forward__local__planner_8cpp_source_l00626}00626\ }
+\DoxyCodeLine{\Hypertarget{forward__local__planner_8cpp_source_l00632}\mbox{\hyperlink{classcl__nav2z_1_1forward__local__planner_1_1ForwardLocalPlanner_adbb84839b6ef639bc3585f403e08a270}{00632}}\ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{classcl__nav2z_1_1forward__local__planner_1_1ForwardLocalPlanner_adbb84839b6ef639bc3585f403e08a270}{ForwardLocalPlanner::setPlan}}(\textcolor{keyword}{const}\ nav\_msgs::msg::Path\ \&\ plan)}
+\DoxyCodeLine{\Hypertarget{forward__local__planner_8cpp_source_l00633}00633\ \{}
+\DoxyCodeLine{\Hypertarget{forward__local__planner_8cpp_source_l00634}00634\ \ \ nav\_msgs::msg::Path\ transformedPlan;}
+\DoxyCodeLine{\Hypertarget{forward__local__planner_8cpp_source_l00635}00635\ }
+\DoxyCodeLine{\Hypertarget{forward__local__planner_8cpp_source_l00636}00636\ \ \ rclcpp::Duration\ ttol\ =\ rclcpp::Duration::from\_seconds(\mbox{\hyperlink{classcl__nav2z_1_1forward__local__planner_1_1ForwardLocalPlanner_a2ddf819f6ee5c9795627c6de288043b1}{transform\_tolerance\_}});}
+\DoxyCodeLine{\Hypertarget{forward__local__planner_8cpp_source_l00637}00637\ \ \ \textcolor{comment}{//\ transform\ global\ plan}}
+\DoxyCodeLine{\Hypertarget{forward__local__planner_8cpp_source_l00638}00638\ \ \ \textcolor{keywordflow}{for}\ (\textcolor{keyword}{auto}\ \&\ p\ :\ plan.poses)}
+\DoxyCodeLine{\Hypertarget{forward__local__planner_8cpp_source_l00639}00639\ \ \ \{}
+\DoxyCodeLine{\Hypertarget{forward__local__planner_8cpp_source_l00640}00640\ \ \ \ \ geometry\_msgs::msg::PoseStamped\ transformedPose;}
+\DoxyCodeLine{\Hypertarget{forward__local__planner_8cpp_source_l00641}00641\ \ \ \ \ nav\_2d\_utils::transformPose(\mbox{\hyperlink{classcl__nav2z_1_1forward__local__planner_1_1ForwardLocalPlanner_a2ddf96c951d83e61d60b5544b8ae9237}{tf\_}},\ \mbox{\hyperlink{classcl__nav2z_1_1forward__local__planner_1_1ForwardLocalPlanner_a248f16f548485a5829c70f14c1e5ef85}{costmapRos\_}}-\/>getGlobalFrameID(),\ p,\ transformedPose,\ ttol);}
+\DoxyCodeLine{\Hypertarget{forward__local__planner_8cpp_source_l00642}00642\ \ \ \ \ transformedPose.header.frame\_id\ =\ \mbox{\hyperlink{classcl__nav2z_1_1forward__local__planner_1_1ForwardLocalPlanner_a248f16f548485a5829c70f14c1e5ef85}{costmapRos\_}}-\/>getGlobalFrameID();}
+\DoxyCodeLine{\Hypertarget{forward__local__planner_8cpp_source_l00643}00643\ \ \ \ \ transformedPlan.poses.push\_back(transformedPose);}
+\DoxyCodeLine{\Hypertarget{forward__local__planner_8cpp_source_l00644}00644\ \ \ \}}
+\DoxyCodeLine{\Hypertarget{forward__local__planner_8cpp_source_l00645}00645\ }
+\DoxyCodeLine{\Hypertarget{forward__local__planner_8cpp_source_l00646}00646\ \ \ \mbox{\hyperlink{classcl__nav2z_1_1forward__local__planner_1_1ForwardLocalPlanner_a1010de8002914ba854370c2a1a8fdf75}{plan\_}}\ =\ transformedPlan.poses;}
+\DoxyCodeLine{\Hypertarget{forward__local__planner_8cpp_source_l00647}00647\ \ \ \mbox{\hyperlink{classcl__nav2z_1_1forward__local__planner_1_1ForwardLocalPlanner_a95ed0c8ee80db1541bc1621327cc5809}{goalReached\_}}\ =\ \textcolor{keyword}{false};}
+\DoxyCodeLine{\Hypertarget{forward__local__planner_8cpp_source_l00648}00648\ \}}
+\DoxyCodeLine{\Hypertarget{forward__local__planner_8cpp_source_l00649}00649\ \}\ \ \textcolor{comment}{//\ namespace\ forward\_local\_planner}}
+\DoxyCodeLine{\Hypertarget{forward__local__planner_8cpp_source_l00650}00650\ \}\ \ \textcolor{comment}{//\ namespace\ cl\_nav2z}}
+\DoxyCodeLine{\Hypertarget{forward__local__planner_8cpp_source_l00651}00651\ PLUGINLIB\_EXPORT\_CLASS(\mbox{\hyperlink{classcl__nav2z_1_1forward__local__planner_1_1ForwardLocalPlanner}{cl\_nav2z::forward\_local\_planner::ForwardLocalPlanner}},\ nav2\_core::Controller)}
 
 \end{DoxyCode}

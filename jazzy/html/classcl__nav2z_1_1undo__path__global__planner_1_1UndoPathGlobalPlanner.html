@@ -677,43 +677,41 @@ Here is the call graph for this function:</div>
 <div class="line"><span class="lineno">  335</span>  <span class="comment">// REVERSE FORWARD PASS</span></div>
 <div class="line"><span class="lineno">  336</span>  <span class="keywordflow">if</span> (mindistindex != -1)</div>
 <div class="line"><span class="lineno">  337</span>  {</div>
-<div class="line"><span class="lineno">  338</span>    <span class="comment">// plan.push_back(start);</span></div>
-<div class="line"><span class="lineno">  339</span> </div>
-<div class="line"><span class="lineno">  340</span>    RCLCPP_WARN_STREAM(</div>
-<div class="line"><span class="lineno">  341</span>      <a class="code hl_variable" href="#a11c8e01e2cceb5e1b7aab44c4ae6364a">nh_</a>-&gt;get_logger(),</div>
-<div class="line"><span class="lineno">  342</span>      <span class="stringliteral">&quot;[UndoPathGlobalPlanner] Creating the backwards plan from odom tracker path (, &quot;</span></div>
-<div class="line"><span class="lineno">  343</span>        &lt;&lt; transformedPlan.poses.size() &lt;&lt; <span class="stringliteral">&quot;) poses&quot;</span>);</div>
-<div class="line"><span class="lineno">  344</span> </div>
-<div class="line"><span class="lineno">  345</span>    RCLCPP_WARN_STREAM(</div>
-<div class="line"><span class="lineno">  346</span>      <a class="code hl_variable" href="#a11c8e01e2cceb5e1b7aab44c4ae6364a">nh_</a>-&gt;get_logger(), <span class="stringliteral">&quot;[UndoPathGlobalPlanner] closer point to goal i=&quot;</span></div>
-<div class="line"><span class="lineno">  347</span>                           &lt;&lt; mindistindex &lt;&lt; <span class="stringliteral">&quot; (linear min dist &quot;</span> &lt;&lt; linear_mindist &lt;&lt; <span class="stringliteral">&quot;)&quot;</span>);</div>
-<div class="line"><span class="lineno">  348</span> </div>
-<div class="line"><span class="lineno">  349</span>    <span class="comment">// copy the path at the inverse direction, but only up to the closest point to the goal in the path  (for partial undoing)</span></div>
-<div class="line"><span class="lineno">  350</span>    <span class="keywordflow">for</span> (<span class="keywordtype">int</span> i = transformedPlan.poses.size() - 1; i &gt;= mindistindex; i--)</div>
-<div class="line"><span class="lineno">  351</span>    {</div>
-<div class="line"><span class="lineno">  352</span>      <span class="keyword">auto</span> &amp; pose = transformedPlan.poses[i];</div>
+<div class="line"><span class="lineno">  338</span>    RCLCPP_WARN_STREAM(</div>
+<div class="line"><span class="lineno">  339</span>      <a class="code hl_variable" href="#a11c8e01e2cceb5e1b7aab44c4ae6364a">nh_</a>-&gt;get_logger(),</div>
+<div class="line"><span class="lineno">  340</span>      <span class="stringliteral">&quot;[UndoPathGlobalPlanner] Creating the backwards plan from odom tracker path (, &quot;</span></div>
+<div class="line"><span class="lineno">  341</span>        &lt;&lt; transformedPlan.poses.size() &lt;&lt; <span class="stringliteral">&quot;) poses&quot;</span>);</div>
+<div class="line"><span class="lineno">  342</span> </div>
+<div class="line"><span class="lineno">  343</span>    RCLCPP_WARN_STREAM(</div>
+<div class="line"><span class="lineno">  344</span>      <a class="code hl_variable" href="#a11c8e01e2cceb5e1b7aab44c4ae6364a">nh_</a>-&gt;get_logger(), <span class="stringliteral">&quot;[UndoPathGlobalPlanner] closer point to goal i=&quot;</span></div>
+<div class="line"><span class="lineno">  345</span>                           &lt;&lt; mindistindex &lt;&lt; <span class="stringliteral">&quot; (linear min dist &quot;</span> &lt;&lt; linear_mindist &lt;&lt; <span class="stringliteral">&quot;)&quot;</span>);</div>
+<div class="line"><span class="lineno">  346</span> </div>
+<div class="line"><span class="lineno">  347</span>    <span class="comment">// copy the path at the inverse direction, but only up to the closest point to the goal in the path  (for partial undoing)</span></div>
+<div class="line"><span class="lineno">  348</span>    <span class="keywordflow">for</span> (<span class="keywordtype">int</span> i = transformedPlan.poses.size() - 1; i &gt;= mindistindex; i--)</div>
+<div class="line"><span class="lineno">  349</span>    {</div>
+<div class="line"><span class="lineno">  350</span>      <span class="keyword">auto</span> &amp; pose = transformedPlan.poses[i];</div>
+<div class="line"><span class="lineno">  351</span> </div>
+<div class="line"><span class="lineno">  352</span>      rclcpp::Time t(pose.header.stamp);</div>
 <div class="line"><span class="lineno">  353</span> </div>
-<div class="line"><span class="lineno">  354</span>      rclcpp::Time t(pose.header.stamp);</div>
-<div class="line"><span class="lineno">  355</span> </div>
-<div class="line"><span class="lineno">  356</span>      RCLCPP_INFO_STREAM(</div>
-<div class="line"><span class="lineno">  357</span>        <a class="code hl_variable" href="#a11c8e01e2cceb5e1b7aab44c4ae6364a">nh_</a>-&gt;get_logger(),</div>
-<div class="line"><span class="lineno">  358</span>        <span class="stringliteral">&quot;[UndoPathGlobalPlanner] adding to plan i = &quot;</span> &lt;&lt; i &lt;&lt; <span class="stringliteral">&quot; stamp:&quot;</span> &lt;&lt; t.seconds());</div>
-<div class="line"><span class="lineno">  359</span>      plan.push_back(pose);</div>
-<div class="line"><span class="lineno">  360</span>    }</div>
-<div class="line"><span class="lineno">  361</span>    RCLCPP_WARN_STREAM(</div>
-<div class="line"><span class="lineno">  362</span>      <a class="code hl_variable" href="#a11c8e01e2cceb5e1b7aab44c4ae6364a">nh_</a>-&gt;get_logger(), <span class="stringliteral">&quot;[UndoPathGlobalPlanner] refined plan has &quot;</span> &lt;&lt; plan.size() &lt;&lt; <span class="stringliteral">&quot;  points&quot;</span>);</div>
-<div class="line"><span class="lineno">  363</span>  }</div>
-<div class="line"><span class="lineno">  364</span>  <span class="keywordflow">else</span></div>
-<div class="line"><span class="lineno">  365</span>  {</div>
-<div class="line"><span class="lineno">  366</span>    RCLCPP_ERROR_STREAM(</div>
-<div class="line"><span class="lineno">  367</span>      <a class="code hl_variable" href="#a11c8e01e2cceb5e1b7aab44c4ae6364a">nh_</a>-&gt;get_logger(), <span class="stringliteral">&quot;[UndoPathGlobalPlanner ] undo global plan size:  &quot;</span> &lt;&lt; plan.size());</div>
-<div class="line"><span class="lineno">  368</span>  }</div>
-<div class="line"><span class="lineno">  369</span>}</div>
+<div class="line"><span class="lineno">  354</span>      RCLCPP_INFO_STREAM(</div>
+<div class="line"><span class="lineno">  355</span>        <a class="code hl_variable" href="#a11c8e01e2cceb5e1b7aab44c4ae6364a">nh_</a>-&gt;get_logger(),</div>
+<div class="line"><span class="lineno">  356</span>        <span class="stringliteral">&quot;[UndoPathGlobalPlanner] adding to plan i = &quot;</span> &lt;&lt; i &lt;&lt; <span class="stringliteral">&quot; stamp:&quot;</span> &lt;&lt; t.seconds());</div>
+<div class="line"><span class="lineno">  357</span>      plan.push_back(pose);</div>
+<div class="line"><span class="lineno">  358</span>    }</div>
+<div class="line"><span class="lineno">  359</span>    RCLCPP_WARN_STREAM(</div>
+<div class="line"><span class="lineno">  360</span>      <a class="code hl_variable" href="#a11c8e01e2cceb5e1b7aab44c4ae6364a">nh_</a>-&gt;get_logger(), <span class="stringliteral">&quot;[UndoPathGlobalPlanner] refined plan has &quot;</span> &lt;&lt; plan.size() &lt;&lt; <span class="stringliteral">&quot;  points&quot;</span>);</div>
+<div class="line"><span class="lineno">  361</span>  }</div>
+<div class="line"><span class="lineno">  362</span>  <span class="keywordflow">else</span></div>
+<div class="line"><span class="lineno">  363</span>  {</div>
+<div class="line"><span class="lineno">  364</span>    RCLCPP_ERROR_STREAM(</div>
+<div class="line"><span class="lineno">  365</span>      <a class="code hl_variable" href="#a11c8e01e2cceb5e1b7aab44c4ae6364a">nh_</a>-&gt;get_logger(), <span class="stringliteral">&quot;[UndoPathGlobalPlanner ] undo global plan size:  &quot;</span> &lt;&lt; plan.size());</div>
+<div class="line"><span class="lineno">  366</span>  }</div>
+<div class="line"><span class="lineno">  367</span>}</div>
 <div class="ttc" id="aclasscl__nav2z_1_1undo__path__global__planner_1_1UndoPathGlobalPlanner_html_afd14404ff3a850f57dc0942fa26b2507"><div class="ttname"><a href="#afd14404ff3a850f57dc0942fa26b2507">cl_nav2z::undo_path_global_planner::UndoPathGlobalPlanner::lastForwardPathMsg_</a></div><div class="ttdeci">nav_msgs::msg::Path lastForwardPathMsg_</div><div class="ttdef"><b>Definition</b> <a href="undo__path__global__planner_8hpp_source.html#l00089">undo_path_global_planner.hpp:89</a></div></div>
 </div><!-- fragment -->
 <p class="reference">References <a class="el" href="undo__path__global__planner_8hpp_source.html#l00092">costmap_ros_</a>, <a class="el" href="undo__path__global__planner_8hpp_source.html#l00089">lastForwardPathMsg_</a>, <a class="el" href="undo__path__global__planner_8hpp_source.html#l00082">nh_</a>, <a class="el" href="undo__path__global__planner_8hpp_source.html#l00112">tf_</a>, and <a class="el" href="undo__path__global__planner_8hpp_source.html#l00108">transform_tolerance_</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="undo__path__global__planner_8cpp_source.html#l00376">createPlan()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="undo__path__global__planner_8cpp_source.html#l00374">createPlan()</a>.</p>
 <div class="dynheader">
 Here is the caller graph for this function:</div>
 <div class="dyncontent">
@@ -771,95 +769,95 @@ Here is the caller graph for this function:</div>
 <dl class="section return"><dt>Returns</dt><dd>The sequence of poses to get from start to goal, if any</dd></dl>
 <p>makePlan() </p>
 
-<p class="definition">Definition at line <a class="el" href="undo__path__global__planner_8cpp_source.html#l00376">376</a> of file <a class="el" href="undo__path__global__planner_8cpp_source.html">undo_path_global_planner.cpp</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">  379</span>{</div>
-<div class="line"><span class="lineno">  380</span>  <span class="comment">// -------------- BASIC CHECKS ---------------------</span></div>
-<div class="line"><span class="lineno">  381</span> </div>
-<div class="line"><span class="lineno">  382</span>  RCLCPP_INFO_STREAM(<a class="code hl_variable" href="#a11c8e01e2cceb5e1b7aab44c4ae6364a">nh_</a>-&gt;get_logger(), <span class="stringliteral">&quot;[UndoPathGlobalPlanner] Undo global plan start &quot;</span>);</div>
-<div class="line"><span class="lineno">  383</span>  nav_msgs::msg::Path planMsg;</div>
-<div class="line"><span class="lineno">  384</span>  std::vector&lt;geometry_msgs::msg::PoseStamped&gt; &amp; plan = planMsg.poses;</div>
-<div class="line"><span class="lineno">  385</span> </div>
-<div class="line"><span class="lineno">  386</span>  RCLCPP_INFO_STREAM(</div>
-<div class="line"><span class="lineno">  387</span>    <a class="code hl_variable" href="#a11c8e01e2cceb5e1b7aab44c4ae6364a">nh_</a>-&gt;get_logger(),</div>
-<div class="line"><span class="lineno">  388</span>    <span class="stringliteral">&quot;[UndoPathGlobalPlanner] last forward path msg size: &quot;</span> &lt;&lt; <a class="code hl_variable" href="#afd14404ff3a850f57dc0942fa26b2507">lastForwardPathMsg_</a>.poses.size());</div>
-<div class="line"><span class="lineno">  389</span> </div>
-<div class="line"><span class="lineno">  390</span>  RCLCPP_INFO_STREAM(</div>
-<div class="line"><span class="lineno">  391</span>    <a class="code hl_variable" href="#a11c8e01e2cceb5e1b7aab44c4ae6364a">nh_</a>-&gt;get_logger(), <span class="stringliteral">&quot;[UndoPathGlobalPlanner] last forward path frame id: &quot;</span></div>
-<div class="line"><span class="lineno">  392</span>                         &lt;&lt; <a class="code hl_variable" href="#afd14404ff3a850f57dc0942fa26b2507">lastForwardPathMsg_</a>.poses.front().header.frame_id);</div>
+<p class="definition">Definition at line <a class="el" href="undo__path__global__planner_8cpp_source.html#l00374">374</a> of file <a class="el" href="undo__path__global__planner_8cpp_source.html">undo_path_global_planner.cpp</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">  377</span>{</div>
+<div class="line"><span class="lineno">  378</span>  <span class="comment">// -------------- BASIC CHECKS ---------------------</span></div>
+<div class="line"><span class="lineno">  379</span> </div>
+<div class="line"><span class="lineno">  380</span>  RCLCPP_INFO_STREAM(<a class="code hl_variable" href="#a11c8e01e2cceb5e1b7aab44c4ae6364a">nh_</a>-&gt;get_logger(), <span class="stringliteral">&quot;[UndoPathGlobalPlanner] Undo global plan start &quot;</span>);</div>
+<div class="line"><span class="lineno">  381</span>  nav_msgs::msg::Path planMsg;</div>
+<div class="line"><span class="lineno">  382</span>  std::vector&lt;geometry_msgs::msg::PoseStamped&gt; &amp; plan = planMsg.poses;</div>
+<div class="line"><span class="lineno">  383</span> </div>
+<div class="line"><span class="lineno">  384</span>  RCLCPP_INFO_STREAM(</div>
+<div class="line"><span class="lineno">  385</span>    <a class="code hl_variable" href="#a11c8e01e2cceb5e1b7aab44c4ae6364a">nh_</a>-&gt;get_logger(),</div>
+<div class="line"><span class="lineno">  386</span>    <span class="stringliteral">&quot;[UndoPathGlobalPlanner] last forward path msg size: &quot;</span> &lt;&lt; <a class="code hl_variable" href="#afd14404ff3a850f57dc0942fa26b2507">lastForwardPathMsg_</a>.poses.size());</div>
+<div class="line"><span class="lineno">  387</span> </div>
+<div class="line"><span class="lineno">  388</span>  RCLCPP_INFO_STREAM(</div>
+<div class="line"><span class="lineno">  389</span>    <a class="code hl_variable" href="#a11c8e01e2cceb5e1b7aab44c4ae6364a">nh_</a>-&gt;get_logger(), <span class="stringliteral">&quot;[UndoPathGlobalPlanner] last forward path frame id: &quot;</span></div>
+<div class="line"><span class="lineno">  390</span>                         &lt;&lt; <a class="code hl_variable" href="#afd14404ff3a850f57dc0942fa26b2507">lastForwardPathMsg_</a>.poses.front().header.frame_id);</div>
+<div class="line"><span class="lineno">  391</span>  RCLCPP_INFO_STREAM(</div>
+<div class="line"><span class="lineno">  392</span>    <a class="code hl_variable" href="#a11c8e01e2cceb5e1b7aab44c4ae6364a">nh_</a>-&gt;get_logger(), <span class="stringliteral">&quot;[UndoPathGlobalPlanner] start pose frame id: &quot;</span> &lt;&lt; start.header.frame_id);</div>
 <div class="line"><span class="lineno">  393</span>  RCLCPP_INFO_STREAM(</div>
-<div class="line"><span class="lineno">  394</span>    <a class="code hl_variable" href="#a11c8e01e2cceb5e1b7aab44c4ae6364a">nh_</a>-&gt;get_logger(), <span class="stringliteral">&quot;[UndoPathGlobalPlanner] start pose frame id: &quot;</span> &lt;&lt; start.header.frame_id);</div>
-<div class="line"><span class="lineno">  395</span>  RCLCPP_INFO_STREAM(</div>
-<div class="line"><span class="lineno">  396</span>    <a class="code hl_variable" href="#a11c8e01e2cceb5e1b7aab44c4ae6364a">nh_</a>-&gt;get_logger(), <span class="stringliteral">&quot;[UndoPathGlobalPlanner] goal pose frame id: &quot;</span> &lt;&lt; goal.header.frame_id);</div>
-<div class="line"><span class="lineno">  397</span> </div>
-<div class="line"><span class="lineno">  398</span>  <span class="keywordflow">if</span> (<a class="code hl_variable" href="#afd14404ff3a850f57dc0942fa26b2507">lastForwardPathMsg_</a>.poses.size() == 0)</div>
-<div class="line"><span class="lineno">  399</span>  {</div>
-<div class="line"><span class="lineno">  400</span>    <span class="keywordflow">return</span> planMsg;</div>
-<div class="line"><span class="lineno">  401</span>  }</div>
-<div class="line"><span class="lineno">  402</span> </div>
-<div class="line"><span class="lineno">  403</span>  <span class="comment">// ---------- INPUTS ACCOMMODATION -------------------</span></div>
-<div class="line"><span class="lineno">  404</span>  RCLCPP_INFO_STREAM(<a class="code hl_variable" href="#a11c8e01e2cceb5e1b7aab44c4ae6364a">nh_</a>-&gt;get_logger(), <span class="stringliteral">&quot;[UndoPathGlobalPlanner] Inputs accommodation&quot;</span>);</div>
-<div class="line"><span class="lineno">  405</span>  geometry_msgs::msg::PoseStamped transformedStart, transformedGoal;</div>
-<div class="line"><span class="lineno">  406</span>  {</div>
-<div class="line"><span class="lineno">  407</span>    rclcpp::Duration ttol = rclcpp::Duration::from_seconds(<a class="code hl_variable" href="#af47d76faa366d83bbd44597807d4f21f">transform_tolerance_</a>);</div>
-<div class="line"><span class="lineno">  408</span> </div>
-<div class="line"><span class="lineno">  409</span>    geometry_msgs::msg::PoseStamped pstart = start;</div>
-<div class="line"><span class="lineno">  410</span>    pstart.header.stamp = <a class="code hl_variable" href="#a11c8e01e2cceb5e1b7aab44c4ae6364a">nh_</a>-&gt;now();</div>
-<div class="line"><span class="lineno">  411</span>    nav_2d_utils::transformPose(</div>
-<div class="line"><span class="lineno">  412</span>      <a class="code hl_variable" href="#aaa460cdbc694722d4ea9be84f538976d">tf_</a>, <a class="code hl_variable" href="#aa4d8bc7514a60c5b8a636cd1bd977fc7">costmap_ros_</a>-&gt;getGlobalFrameID(), pstart, transformedStart, ttol);</div>
-<div class="line"><span class="lineno">  413</span>    transformedStart.header.frame_id = <a class="code hl_variable" href="#aa4d8bc7514a60c5b8a636cd1bd977fc7">costmap_ros_</a>-&gt;getGlobalFrameID();</div>
-<div class="line"><span class="lineno">  414</span> </div>
-<div class="line"><span class="lineno">  415</span>    <span class="comment">//--------------- FORCE GOAL POSE----------------------------</span></div>
-<div class="line"><span class="lineno">  416</span>    RCLCPP_INFO_STREAM(<a class="code hl_variable" href="#a11c8e01e2cceb5e1b7aab44c4ae6364a">nh_</a>-&gt;get_logger(), <span class="stringliteral">&quot;[UndoPathGlobalPlanner] Forced goal&quot;</span>);</div>
-<div class="line"><span class="lineno">  417</span>    <span class="keyword">auto</span> forcedGoal =</div>
-<div class="line"><span class="lineno">  418</span>      <a class="code hl_variable" href="#afd14404ff3a850f57dc0942fa26b2507">lastForwardPathMsg_</a>.poses[<a class="code hl_variable" href="#afd14404ff3a850f57dc0942fa26b2507">lastForwardPathMsg_</a>.poses.size() - 1];  <span class="comment">// FORCE LAST POSE</span></div>
-<div class="line"><span class="lineno">  419</span>    forcedGoal.header.stamp = <a class="code hl_variable" href="#a11c8e01e2cceb5e1b7aab44c4ae6364a">nh_</a>-&gt;now();</div>
-<div class="line"><span class="lineno">  420</span>    nav_2d_utils::transformPose(</div>
-<div class="line"><span class="lineno">  421</span>      <a class="code hl_variable" href="#aaa460cdbc694722d4ea9be84f538976d">tf_</a>, <a class="code hl_variable" href="#aa4d8bc7514a60c5b8a636cd1bd977fc7">costmap_ros_</a>-&gt;getGlobalFrameID(), forcedGoal, transformedGoal, ttol);</div>
-<div class="line"><span class="lineno">  422</span>    transformedGoal.header.frame_id = <a class="code hl_variable" href="#aa4d8bc7514a60c5b8a636cd1bd977fc7">costmap_ros_</a>-&gt;getGlobalFrameID();</div>
-<div class="line"><span class="lineno">  423</span>  }</div>
-<div class="line"><span class="lineno">  424</span> </div>
-<div class="line"><span class="lineno">  425</span>  <span class="comment">//------------- CREATING GLOBAL PLAN -----------------------------------------------</span></div>
-<div class="line"><span class="lineno">  426</span>  RCLCPP_INFO_STREAM(<a class="code hl_variable" href="#a11c8e01e2cceb5e1b7aab44c4ae6364a">nh_</a>-&gt;get_logger(), <span class="stringliteral">&quot;[UndoPathGlobalPlanner] Creating undo plan&quot;</span>);</div>
-<div class="line"><span class="lineno">  427</span>  this-&gt;<a class="code hl_function" href="#af774df0be2afccd65e1877c95ff20530">createDefaultUndoPathPlan</a>(transformedStart, transformedGoal, plan);</div>
-<div class="line"><span class="lineno">  428</span>  planMsg.header.frame_id = this-&gt;<a class="code hl_variable" href="#aa4d8bc7514a60c5b8a636cd1bd977fc7">costmap_ros_</a>-&gt;getGlobalFrameID();</div>
-<div class="line"><span class="lineno">  429</span> </div>
-<div class="line"><span class="lineno">  430</span>  RCLCPP_INFO_STREAM(<a class="code hl_variable" href="#a11c8e01e2cceb5e1b7aab44c4ae6364a">nh_</a>-&gt;get_logger(), <span class="stringliteral">&quot;[UndoPathGlobalPlanner] publishing goal markers&quot;</span>);</div>
-<div class="line"><span class="lineno">  431</span>  <a class="code hl_function" href="#ae5f4a5ee07a887898b5649b72b71d0e1">publishGoalMarker</a>(plan.back().pose, 1.0, 0, 1.0 <span class="comment">/*purple color*/</span>);</div>
-<div class="line"><span class="lineno">  432</span> </div>
-<div class="line"><span class="lineno">  433</span>  <span class="comment">//--------  CHECKING VALID PLAN ------------------------------------</span></div>
-<div class="line"><span class="lineno">  434</span>  <span class="keywordtype">bool</span> acceptedGlobalPlan = <span class="keyword">true</span>;</div>
-<div class="line"><span class="lineno">  435</span>  RCLCPP_INFO_STREAM(<a class="code hl_variable" href="#a11c8e01e2cceb5e1b7aab44c4ae6364a">nh_</a>-&gt;get_logger(), <span class="stringliteral">&quot;[UndoPathGlobalPlanner] valid plan checking&quot;</span>);</div>
-<div class="line"><span class="lineno">  436</span> </div>
-<div class="line"><span class="lineno">  437</span>  <span class="keyword">auto</span> costmap2d = this-&gt;<a class="code hl_variable" href="#aa4d8bc7514a60c5b8a636cd1bd977fc7">costmap_ros_</a>-&gt;getCostmap();</div>
-<div class="line"><span class="lineno">  438</span>  <span class="keywordflow">for</span> (<span class="keyword">auto</span> &amp; p : plan)</div>
-<div class="line"><span class="lineno">  439</span>  {</div>
-<div class="line"><span class="lineno">  440</span>    <span class="keywordtype">unsigned</span> <span class="keywordtype">int</span> mx, my;</div>
-<div class="line"><span class="lineno">  441</span>    costmap2d-&gt;worldToMap(p.pose.position.x, p.pose.position.y, mx, my);</div>
-<div class="line"><span class="lineno">  442</span>    <span class="keyword">auto</span> cost = costmap2d-&gt;getCost(mx, my);</div>
-<div class="line"><span class="lineno">  443</span> </div>
-<div class="line"><span class="lineno">  444</span>    <span class="keywordflow">if</span> (cost &gt;= nav2_costmap_2d::INSCRIBED_INFLATED_OBSTACLE)</div>
-<div class="line"><span class="lineno">  445</span>    {</div>
-<div class="line"><span class="lineno">  446</span>      acceptedGlobalPlan = <span class="keyword">false</span>;</div>
-<div class="line"><span class="lineno">  447</span>      <span class="keywordflow">break</span>;</div>
-<div class="line"><span class="lineno">  448</span>    }</div>
-<div class="line"><span class="lineno">  449</span>  }</div>
-<div class="line"><span class="lineno">  450</span> </div>
-<div class="line"><span class="lineno">  451</span>  <span class="comment">//--------  PUBLISHING RESULTS ---------------------------------------</span></div>
-<div class="line"><span class="lineno">  452</span>  RCLCPP_INFO_STREAM(</div>
-<div class="line"><span class="lineno">  453</span>    <a class="code hl_variable" href="#a11c8e01e2cceb5e1b7aab44c4ae6364a">nh_</a>-&gt;get_logger(), <span class="stringliteral">&quot;[UndoPathGlobalPlanner] plan publishing. size: &quot;</span> &lt;&lt; plan.size());</div>
-<div class="line"><span class="lineno">  454</span>  <a class="code hl_variable" href="#aaa7998da2792dc9329ba8bd4f41b1378">planPub_</a>-&gt;publish(planMsg);</div>
-<div class="line"><span class="lineno">  455</span>  <span class="keywordflow">if</span> (!acceptedGlobalPlan)</div>
-<div class="line"><span class="lineno">  456</span>  {</div>
-<div class="line"><span class="lineno">  457</span>    RCLCPP_INFO(</div>
-<div class="line"><span class="lineno">  458</span>      <a class="code hl_variable" href="#a11c8e01e2cceb5e1b7aab44c4ae6364a">nh_</a>-&gt;get_logger(),</div>
-<div class="line"><span class="lineno">  459</span>      <span class="stringliteral">&quot;[UndoPathGlobalPlanner] not accepted global plan because of possible collision&quot;</span>);</div>
-<div class="line"><span class="lineno">  460</span>  }</div>
-<div class="line"><span class="lineno">  461</span> </div>
-<div class="line"><span class="lineno">  462</span>  RCLCPP_INFO_STREAM(</div>
-<div class="line"><span class="lineno">  463</span>    <a class="code hl_variable" href="#a11c8e01e2cceb5e1b7aab44c4ae6364a">nh_</a>-&gt;get_logger(), <span class="stringliteral">&quot;[UndoPathGlobalPlanner] plan publishing. size: &quot;</span> &lt;&lt; planMsg.poses.size());</div>
-<div class="line"><span class="lineno">  464</span> </div>
-<div class="line"><span class="lineno">  465</span>  <span class="keywordflow">return</span> planMsg;</div>
-<div class="line"><span class="lineno">  466</span>}</div>
+<div class="line"><span class="lineno">  394</span>    <a class="code hl_variable" href="#a11c8e01e2cceb5e1b7aab44c4ae6364a">nh_</a>-&gt;get_logger(), <span class="stringliteral">&quot;[UndoPathGlobalPlanner] goal pose frame id: &quot;</span> &lt;&lt; goal.header.frame_id);</div>
+<div class="line"><span class="lineno">  395</span> </div>
+<div class="line"><span class="lineno">  396</span>  <span class="keywordflow">if</span> (<a class="code hl_variable" href="#afd14404ff3a850f57dc0942fa26b2507">lastForwardPathMsg_</a>.poses.size() == 0)</div>
+<div class="line"><span class="lineno">  397</span>  {</div>
+<div class="line"><span class="lineno">  398</span>    <span class="keywordflow">return</span> planMsg;</div>
+<div class="line"><span class="lineno">  399</span>  }</div>
+<div class="line"><span class="lineno">  400</span> </div>
+<div class="line"><span class="lineno">  401</span>  <span class="comment">// ---------- INPUTS ACCOMMODATION -------------------</span></div>
+<div class="line"><span class="lineno">  402</span>  RCLCPP_INFO_STREAM(<a class="code hl_variable" href="#a11c8e01e2cceb5e1b7aab44c4ae6364a">nh_</a>-&gt;get_logger(), <span class="stringliteral">&quot;[UndoPathGlobalPlanner] Inputs accommodation&quot;</span>);</div>
+<div class="line"><span class="lineno">  403</span>  geometry_msgs::msg::PoseStamped transformedStart, transformedGoal;</div>
+<div class="line"><span class="lineno">  404</span>  {</div>
+<div class="line"><span class="lineno">  405</span>    rclcpp::Duration ttol = rclcpp::Duration::from_seconds(<a class="code hl_variable" href="#af47d76faa366d83bbd44597807d4f21f">transform_tolerance_</a>);</div>
+<div class="line"><span class="lineno">  406</span> </div>
+<div class="line"><span class="lineno">  407</span>    geometry_msgs::msg::PoseStamped pstart = start;</div>
+<div class="line"><span class="lineno">  408</span>    pstart.header.stamp = <a class="code hl_variable" href="#a11c8e01e2cceb5e1b7aab44c4ae6364a">nh_</a>-&gt;now();</div>
+<div class="line"><span class="lineno">  409</span>    nav_2d_utils::transformPose(</div>
+<div class="line"><span class="lineno">  410</span>      <a class="code hl_variable" href="#aaa460cdbc694722d4ea9be84f538976d">tf_</a>, <a class="code hl_variable" href="#aa4d8bc7514a60c5b8a636cd1bd977fc7">costmap_ros_</a>-&gt;getGlobalFrameID(), pstart, transformedStart, ttol);</div>
+<div class="line"><span class="lineno">  411</span>    transformedStart.header.frame_id = <a class="code hl_variable" href="#aa4d8bc7514a60c5b8a636cd1bd977fc7">costmap_ros_</a>-&gt;getGlobalFrameID();</div>
+<div class="line"><span class="lineno">  412</span> </div>
+<div class="line"><span class="lineno">  413</span>    <span class="comment">//--------------- FORCE GOAL POSE----------------------------</span></div>
+<div class="line"><span class="lineno">  414</span>    RCLCPP_INFO_STREAM(<a class="code hl_variable" href="#a11c8e01e2cceb5e1b7aab44c4ae6364a">nh_</a>-&gt;get_logger(), <span class="stringliteral">&quot;[UndoPathGlobalPlanner] Forced goal&quot;</span>);</div>
+<div class="line"><span class="lineno">  415</span>    <span class="keyword">auto</span> forcedGoal =</div>
+<div class="line"><span class="lineno">  416</span>      <a class="code hl_variable" href="#afd14404ff3a850f57dc0942fa26b2507">lastForwardPathMsg_</a>.poses[<a class="code hl_variable" href="#afd14404ff3a850f57dc0942fa26b2507">lastForwardPathMsg_</a>.poses.size() - 1];  <span class="comment">// FORCE LAST POSE</span></div>
+<div class="line"><span class="lineno">  417</span>    forcedGoal.header.stamp = <a class="code hl_variable" href="#a11c8e01e2cceb5e1b7aab44c4ae6364a">nh_</a>-&gt;now();</div>
+<div class="line"><span class="lineno">  418</span>    nav_2d_utils::transformPose(</div>
+<div class="line"><span class="lineno">  419</span>      <a class="code hl_variable" href="#aaa460cdbc694722d4ea9be84f538976d">tf_</a>, <a class="code hl_variable" href="#aa4d8bc7514a60c5b8a636cd1bd977fc7">costmap_ros_</a>-&gt;getGlobalFrameID(), forcedGoal, transformedGoal, ttol);</div>
+<div class="line"><span class="lineno">  420</span>    transformedGoal.header.frame_id = <a class="code hl_variable" href="#aa4d8bc7514a60c5b8a636cd1bd977fc7">costmap_ros_</a>-&gt;getGlobalFrameID();</div>
+<div class="line"><span class="lineno">  421</span>  }</div>
+<div class="line"><span class="lineno">  422</span> </div>
+<div class="line"><span class="lineno">  423</span>  <span class="comment">//------------- CREATING GLOBAL PLAN -----------------------------------------------</span></div>
+<div class="line"><span class="lineno">  424</span>  RCLCPP_INFO_STREAM(<a class="code hl_variable" href="#a11c8e01e2cceb5e1b7aab44c4ae6364a">nh_</a>-&gt;get_logger(), <span class="stringliteral">&quot;[UndoPathGlobalPlanner] Creating undo plan&quot;</span>);</div>
+<div class="line"><span class="lineno">  425</span>  this-&gt;<a class="code hl_function" href="#af774df0be2afccd65e1877c95ff20530">createDefaultUndoPathPlan</a>(transformedStart, transformedGoal, plan);</div>
+<div class="line"><span class="lineno">  426</span>  planMsg.header.frame_id = this-&gt;<a class="code hl_variable" href="#aa4d8bc7514a60c5b8a636cd1bd977fc7">costmap_ros_</a>-&gt;getGlobalFrameID();</div>
+<div class="line"><span class="lineno">  427</span> </div>
+<div class="line"><span class="lineno">  428</span>  RCLCPP_INFO_STREAM(<a class="code hl_variable" href="#a11c8e01e2cceb5e1b7aab44c4ae6364a">nh_</a>-&gt;get_logger(), <span class="stringliteral">&quot;[UndoPathGlobalPlanner] publishing goal markers&quot;</span>);</div>
+<div class="line"><span class="lineno">  429</span>  <a class="code hl_function" href="#ae5f4a5ee07a887898b5649b72b71d0e1">publishGoalMarker</a>(plan.back().pose, 1.0, 0, 1.0 <span class="comment">/*purple color*/</span>);</div>
+<div class="line"><span class="lineno">  430</span> </div>
+<div class="line"><span class="lineno">  431</span>  <span class="comment">//--------  CHECKING VALID PLAN ------------------------------------</span></div>
+<div class="line"><span class="lineno">  432</span>  <span class="keywordtype">bool</span> acceptedGlobalPlan = <span class="keyword">true</span>;</div>
+<div class="line"><span class="lineno">  433</span>  RCLCPP_INFO_STREAM(<a class="code hl_variable" href="#a11c8e01e2cceb5e1b7aab44c4ae6364a">nh_</a>-&gt;get_logger(), <span class="stringliteral">&quot;[UndoPathGlobalPlanner] valid plan checking&quot;</span>);</div>
+<div class="line"><span class="lineno">  434</span> </div>
+<div class="line"><span class="lineno">  435</span>  <span class="keyword">auto</span> costmap2d = this-&gt;<a class="code hl_variable" href="#aa4d8bc7514a60c5b8a636cd1bd977fc7">costmap_ros_</a>-&gt;getCostmap();</div>
+<div class="line"><span class="lineno">  436</span>  <span class="keywordflow">for</span> (<span class="keyword">auto</span> &amp; p : plan)</div>
+<div class="line"><span class="lineno">  437</span>  {</div>
+<div class="line"><span class="lineno">  438</span>    <span class="keywordtype">unsigned</span> <span class="keywordtype">int</span> mx, my;</div>
+<div class="line"><span class="lineno">  439</span>    costmap2d-&gt;worldToMap(p.pose.position.x, p.pose.position.y, mx, my);</div>
+<div class="line"><span class="lineno">  440</span>    <span class="keyword">auto</span> cost = costmap2d-&gt;getCost(mx, my);</div>
+<div class="line"><span class="lineno">  441</span> </div>
+<div class="line"><span class="lineno">  442</span>    <span class="keywordflow">if</span> (cost &gt;= nav2_costmap_2d::INSCRIBED_INFLATED_OBSTACLE)</div>
+<div class="line"><span class="lineno">  443</span>    {</div>
+<div class="line"><span class="lineno">  444</span>      acceptedGlobalPlan = <span class="keyword">false</span>;</div>
+<div class="line"><span class="lineno">  445</span>      <span class="keywordflow">break</span>;</div>
+<div class="line"><span class="lineno">  446</span>    }</div>
+<div class="line"><span class="lineno">  447</span>  }</div>
+<div class="line"><span class="lineno">  448</span> </div>
+<div class="line"><span class="lineno">  449</span>  <span class="comment">//--------  PUBLISHING RESULTS ---------------------------------------</span></div>
+<div class="line"><span class="lineno">  450</span>  RCLCPP_INFO_STREAM(</div>
+<div class="line"><span class="lineno">  451</span>    <a class="code hl_variable" href="#a11c8e01e2cceb5e1b7aab44c4ae6364a">nh_</a>-&gt;get_logger(), <span class="stringliteral">&quot;[UndoPathGlobalPlanner] plan publishing. size: &quot;</span> &lt;&lt; plan.size());</div>
+<div class="line"><span class="lineno">  452</span>  <a class="code hl_variable" href="#aaa7998da2792dc9329ba8bd4f41b1378">planPub_</a>-&gt;publish(planMsg);</div>
+<div class="line"><span class="lineno">  453</span>  <span class="keywordflow">if</span> (!acceptedGlobalPlan)</div>
+<div class="line"><span class="lineno">  454</span>  {</div>
+<div class="line"><span class="lineno">  455</span>    RCLCPP_INFO(</div>
+<div class="line"><span class="lineno">  456</span>      <a class="code hl_variable" href="#a11c8e01e2cceb5e1b7aab44c4ae6364a">nh_</a>-&gt;get_logger(),</div>
+<div class="line"><span class="lineno">  457</span>      <span class="stringliteral">&quot;[UndoPathGlobalPlanner] not accepted global plan because of possible collision&quot;</span>);</div>
+<div class="line"><span class="lineno">  458</span>  }</div>
+<div class="line"><span class="lineno">  459</span> </div>
+<div class="line"><span class="lineno">  460</span>  RCLCPP_INFO_STREAM(</div>
+<div class="line"><span class="lineno">  461</span>    <a class="code hl_variable" href="#a11c8e01e2cceb5e1b7aab44c4ae6364a">nh_</a>-&gt;get_logger(), <span class="stringliteral">&quot;[UndoPathGlobalPlanner] plan publishing. size: &quot;</span> &lt;&lt; planMsg.poses.size());</div>
+<div class="line"><span class="lineno">  462</span> </div>
+<div class="line"><span class="lineno">  463</span>  <span class="keywordflow">return</span> planMsg;</div>
+<div class="line"><span class="lineno">  464</span>}</div>
 <div class="ttc" id="aclasscl__nav2z_1_1undo__path__global__planner_1_1UndoPathGlobalPlanner_html_ae5f4a5ee07a887898b5649b72b71d0e1"><div class="ttname"><a href="#ae5f4a5ee07a887898b5649b72b71d0e1">cl_nav2z::undo_path_global_planner::UndoPathGlobalPlanner::publishGoalMarker</a></div><div class="ttdeci">void publishGoalMarker(const geometry_msgs::msg::Pose &amp;pose, double r, double g, double b)</div><div class="ttdef"><b>Definition</b> <a href="undo__path__global__planner_8cpp_source.html#l00145">undo_path_global_planner.cpp:145</a></div></div>
 <div class="ttc" id="aclasscl__nav2z_1_1undo__path__global__planner_1_1UndoPathGlobalPlanner_html_af774df0be2afccd65e1877c95ff20530"><div class="ttname"><a href="#af774df0be2afccd65e1877c95ff20530">cl_nav2z::undo_path_global_planner::UndoPathGlobalPlanner::createDefaultUndoPathPlan</a></div><div class="ttdeci">virtual void createDefaultUndoPathPlan(const geometry_msgs::msg::PoseStamped &amp;start, const geometry_msgs::msg::PoseStamped &amp;goal, std::vector&lt; geometry_msgs::msg::PoseStamped &gt; &amp;plan)</div><div class="ttdef"><b>Definition</b> <a href="undo__path__global__planner_8cpp_source.html#l00188">undo_path_global_planner.cpp:188</a></div></div>
 </div><!-- fragment -->
@@ -1053,7 +1051,7 @@ Here is the caller graph for this function:</div>
 </div><!-- fragment -->
 <p class="reference">References <a class="el" href="undo__path__global__planner_8hpp_source.html#l00092">costmap_ros_</a>, <a class="el" href="undo__path__global__planner_8hpp_source.html#l00087">markersPub_</a>, and <a class="el" href="undo__path__global__planner_8hpp_source.html#l00082">nh_</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="undo__path__global__planner_8cpp_source.html#l00376">createPlan()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="undo__path__global__planner_8cpp_source.html#l00374">createPlan()</a>.</p>
 <div class="dynheader">
 Here is the caller graph for this function:</div>
 <div class="dyncontent">
@@ -1092,7 +1090,7 @@ Here is the caller graph for this function:</div>
 
 <p class="definition">Definition at line <a class="el" href="undo__path__global__planner_8hpp_source.html#l00092">92</a> of file <a class="el" href="undo__path__global__planner_8hpp_source.html">undo_path_global_planner.hpp</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="undo__path__global__planner_8cpp_source.html#l00126">clearGoalMarker()</a>, <a class="el" href="undo__path__global__planner_8cpp_source.html#l00083">configure()</a>, <a class="el" href="undo__path__global__planner_8cpp_source.html#l00188">createDefaultUndoPathPlan()</a>, <a class="el" href="undo__path__global__planner_8cpp_source.html#l00376">createPlan()</a>, and <a class="el" href="undo__path__global__planner_8cpp_source.html#l00145">publishGoalMarker()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="undo__path__global__planner_8cpp_source.html#l00126">clearGoalMarker()</a>, <a class="el" href="undo__path__global__planner_8cpp_source.html#l00083">configure()</a>, <a class="el" href="undo__path__global__planner_8cpp_source.html#l00188">createDefaultUndoPathPlan()</a>, <a class="el" href="undo__path__global__planner_8cpp_source.html#l00374">createPlan()</a>, and <a class="el" href="undo__path__global__planner_8cpp_source.html#l00145">publishGoalMarker()</a>.</p>
 
 </div>
 </div>
@@ -1144,7 +1142,7 @@ Here is the caller graph for this function:</div>
 
 <p class="definition">Definition at line <a class="el" href="undo__path__global__planner_8hpp_source.html#l00089">89</a> of file <a class="el" href="undo__path__global__planner_8hpp_source.html">undo_path_global_planner.hpp</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="undo__path__global__planner_8cpp_source.html#l00188">createDefaultUndoPathPlan()</a>, <a class="el" href="undo__path__global__planner_8cpp_source.html#l00376">createPlan()</a>, and <a class="el" href="undo__path__global__planner_8cpp_source.html#l00112">onForwardTrailMsg()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="undo__path__global__planner_8cpp_source.html#l00188">createDefaultUndoPathPlan()</a>, <a class="el" href="undo__path__global__planner_8cpp_source.html#l00374">createPlan()</a>, and <a class="el" href="undo__path__global__planner_8cpp_source.html#l00112">onForwardTrailMsg()</a>.</p>
 
 </div>
 </div>
@@ -1222,7 +1220,7 @@ Here is the caller graph for this function:</div>
 
 <p class="definition">Definition at line <a class="el" href="undo__path__global__planner_8hpp_source.html#l00082">82</a> of file <a class="el" href="undo__path__global__planner_8hpp_source.html">undo_path_global_planner.hpp</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="undo__path__global__planner_8cpp_source.html#l00063">activate()</a>, <a class="el" href="undo__path__global__planner_8cpp_source.html#l00126">clearGoalMarker()</a>, <a class="el" href="undo__path__global__planner_8cpp_source.html#l00083">configure()</a>, <a class="el" href="undo__path__global__planner_8cpp_source.html#l00188">createDefaultUndoPathPlan()</a>, <a class="el" href="undo__path__global__planner_8cpp_source.html#l00376">createPlan()</a>, <a class="el" href="undo__path__global__planner_8cpp_source.html#l00070">deactivate()</a>, <a class="el" href="undo__path__global__planner_8cpp_source.html#l00112">onForwardTrailMsg()</a>, <a class="el" href="undo__path__global__planner_8cpp_source.html#l00145">publishGoalMarker()</a>, and <a class="el" href="undo__path__global__planner_8cpp_source.html#l00053">~UndoPathGlobalPlanner()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="undo__path__global__planner_8cpp_source.html#l00063">activate()</a>, <a class="el" href="undo__path__global__planner_8cpp_source.html#l00126">clearGoalMarker()</a>, <a class="el" href="undo__path__global__planner_8cpp_source.html#l00083">configure()</a>, <a class="el" href="undo__path__global__planner_8cpp_source.html#l00188">createDefaultUndoPathPlan()</a>, <a class="el" href="undo__path__global__planner_8cpp_source.html#l00374">createPlan()</a>, <a class="el" href="undo__path__global__planner_8cpp_source.html#l00070">deactivate()</a>, <a class="el" href="undo__path__global__planner_8cpp_source.html#l00112">onForwardTrailMsg()</a>, <a class="el" href="undo__path__global__planner_8cpp_source.html#l00145">publishGoalMarker()</a>, and <a class="el" href="undo__path__global__planner_8cpp_source.html#l00053">~UndoPathGlobalPlanner()</a>.</p>
 
 </div>
 </div>
@@ -1248,7 +1246,7 @@ Here is the caller graph for this function:</div>
 
 <p class="definition">Definition at line <a class="el" href="undo__path__global__planner_8hpp_source.html#l00085">85</a> of file <a class="el" href="undo__path__global__planner_8hpp_source.html">undo_path_global_planner.hpp</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="undo__path__global__planner_8cpp_source.html#l00063">activate()</a>, <a class="el" href="undo__path__global__planner_8cpp_source.html#l00083">configure()</a>, <a class="el" href="undo__path__global__planner_8cpp_source.html#l00376">createPlan()</a>, <a class="el" href="undo__path__global__planner_8cpp_source.html#l00070">deactivate()</a>, and <a class="el" href="undo__path__global__planner_8cpp_source.html#l00053">~UndoPathGlobalPlanner()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="undo__path__global__planner_8cpp_source.html#l00063">activate()</a>, <a class="el" href="undo__path__global__planner_8cpp_source.html#l00083">configure()</a>, <a class="el" href="undo__path__global__planner_8cpp_source.html#l00374">createPlan()</a>, <a class="el" href="undo__path__global__planner_8cpp_source.html#l00070">deactivate()</a>, and <a class="el" href="undo__path__global__planner_8cpp_source.html#l00053">~UndoPathGlobalPlanner()</a>.</p>
 
 </div>
 </div>
@@ -1324,7 +1322,7 @@ Here is the caller graph for this function:</div>
 
 <p class="definition">Definition at line <a class="el" href="undo__path__global__planner_8hpp_source.html#l00112">112</a> of file <a class="el" href="undo__path__global__planner_8hpp_source.html">undo_path_global_planner.hpp</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="undo__path__global__planner_8cpp_source.html#l00083">configure()</a>, <a class="el" href="undo__path__global__planner_8cpp_source.html#l00188">createDefaultUndoPathPlan()</a>, and <a class="el" href="undo__path__global__planner_8cpp_source.html#l00376">createPlan()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="undo__path__global__planner_8cpp_source.html#l00083">configure()</a>, <a class="el" href="undo__path__global__planner_8cpp_source.html#l00188">createDefaultUndoPathPlan()</a>, and <a class="el" href="undo__path__global__planner_8cpp_source.html#l00374">createPlan()</a>.</p>
 
 </div>
 </div>
@@ -1350,7 +1348,7 @@ Here is the caller graph for this function:</div>
 
 <p class="definition">Definition at line <a class="el" href="undo__path__global__planner_8hpp_source.html#l00108">108</a> of file <a class="el" href="undo__path__global__planner_8hpp_source.html">undo_path_global_planner.hpp</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="undo__path__global__planner_8cpp_source.html#l00083">configure()</a>, <a class="el" href="undo__path__global__planner_8cpp_source.html#l00188">createDefaultUndoPathPlan()</a>, <a class="el" href="undo__path__global__planner_8cpp_source.html#l00376">createPlan()</a>, and <a class="el" href="undo__path__global__planner_8cpp_source.html#l00047">UndoPathGlobalPlanner()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="undo__path__global__planner_8cpp_source.html#l00083">configure()</a>, <a class="el" href="undo__path__global__planner_8cpp_source.html#l00188">createDefaultUndoPathPlan()</a>, <a class="el" href="undo__path__global__planner_8cpp_source.html#l00374">createPlan()</a>, and <a class="el" href="undo__path__global__planner_8cpp_source.html#l00047">UndoPathGlobalPlanner()</a>.</p>
 
 </div>
 </div>

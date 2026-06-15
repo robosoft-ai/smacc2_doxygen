@@ -168,93 +168,80 @@ Definition at line \mbox{\hyperlink{cb__spiral__motion_8cpp_source_l00043}{43}} 
 
 \begin{DoxyCode}{0}
 \DoxyCodeLine{00044\ \{}
-\DoxyCodeLine{00045\ \ \ \textcolor{comment}{/*}}
-\DoxyCodeLine{00046\ \textcolor{comment}{\ struct\ CbSpiralMotionOptions}}
-\DoxyCodeLine{00047\ \textcolor{comment}{\{}}
-\DoxyCodeLine{00048\ \textcolor{comment}{\ \ std::optional<float>\ linearVelocity\ =\ 0.0f;}}
-\DoxyCodeLine{00049\ \textcolor{comment}{\ \ std::optional<float>\ maxLinearVelocity\ =\ 1.0f;}}
-\DoxyCodeLine{00050\ \textcolor{comment}{\ \ std::optional<float>\ initialAngularVelocity\ =\ 1.0f;}}
-\DoxyCodeLine{00051\ \textcolor{comment}{\ \ std::optional<rclcpp::Duration>\ spiralMotionDuration\ =\ rclcpp::Duration::from\_seconds(120);}}
-\DoxyCodeLine{00052\ \textcolor{comment}{\ \ std::optional\ <float>\ finalRadius=10.0f;//meters}}
-\DoxyCodeLine{00053\ \textcolor{comment}{\};}}
-\DoxyCodeLine{00054\ \textcolor{comment}{\ \ \ */}}
-\DoxyCodeLine{00055\ }
-\DoxyCodeLine{00056\ \ \ \textcolor{keyword}{auto}\ linearVelocity\ =\ *(\mbox{\hyperlink{structcl__nav2z_1_1CbSpiralMotion_a3865932e8a96e312296e85306bbd956e}{options\_}}.\mbox{\hyperlink{structcl__nav2z_1_1CbSpiralMotionOptions_a3656e314a95cfdf0b54326203645cca3}{linearVelocity}});}
-\DoxyCodeLine{00057\ \ \ \textcolor{keyword}{auto}\ maxLinearVelocity\ =\ *(\mbox{\hyperlink{structcl__nav2z_1_1CbSpiralMotion_a3865932e8a96e312296e85306bbd956e}{options\_}}.\mbox{\hyperlink{structcl__nav2z_1_1CbSpiralMotionOptions_a6187ce93b59e3e879e002c69e272e8df}{maxLinearVelocity}});}
-\DoxyCodeLine{00058\ \ \ \textcolor{keyword}{auto}\ initialAngularVelocity\ =\ *(\mbox{\hyperlink{structcl__nav2z_1_1CbSpiralMotion_a3865932e8a96e312296e85306bbd956e}{options\_}}.\mbox{\hyperlink{structcl__nav2z_1_1CbSpiralMotionOptions_a28e87f028a2c4135a7f0054a90dfb5c6}{initialAngularVelocity}});}
-\DoxyCodeLine{00059\ \ \ \textcolor{keyword}{auto}\ spiralMotionDuration\ =\ *(\mbox{\hyperlink{structcl__nav2z_1_1CbSpiralMotion_a3865932e8a96e312296e85306bbd956e}{options\_}}.\mbox{\hyperlink{structcl__nav2z_1_1CbSpiralMotionOptions_a4bd855235bc576d5d95b070a61197255}{spiralMotionDuration}});}
-\DoxyCodeLine{00060\ \ \ \textcolor{keyword}{auto}\ finalRadius\ =\ *(\mbox{\hyperlink{structcl__nav2z_1_1CbSpiralMotion_a3865932e8a96e312296e85306bbd956e}{options\_}}.\mbox{\hyperlink{structcl__nav2z_1_1CbSpiralMotionOptions_a7aa6860e5dfe86c0c5d6a35e99fd1675}{finalRadius}});}
+\DoxyCodeLine{00045\ \ \ \textcolor{keyword}{auto}\ linearVelocity\ =\ *(\mbox{\hyperlink{structcl__nav2z_1_1CbSpiralMotion_a3865932e8a96e312296e85306bbd956e}{options\_}}.\mbox{\hyperlink{structcl__nav2z_1_1CbSpiralMotionOptions_a3656e314a95cfdf0b54326203645cca3}{linearVelocity}});}
+\DoxyCodeLine{00046\ \ \ \textcolor{keyword}{auto}\ maxLinearVelocity\ =\ *(\mbox{\hyperlink{structcl__nav2z_1_1CbSpiralMotion_a3865932e8a96e312296e85306bbd956e}{options\_}}.\mbox{\hyperlink{structcl__nav2z_1_1CbSpiralMotionOptions_a6187ce93b59e3e879e002c69e272e8df}{maxLinearVelocity}});}
+\DoxyCodeLine{00047\ \ \ \textcolor{keyword}{auto}\ initialAngularVelocity\ =\ *(\mbox{\hyperlink{structcl__nav2z_1_1CbSpiralMotion_a3865932e8a96e312296e85306bbd956e}{options\_}}.\mbox{\hyperlink{structcl__nav2z_1_1CbSpiralMotionOptions_a28e87f028a2c4135a7f0054a90dfb5c6}{initialAngularVelocity}});}
+\DoxyCodeLine{00048\ \ \ \textcolor{keyword}{auto}\ spiralMotionDuration\ =\ *(\mbox{\hyperlink{structcl__nav2z_1_1CbSpiralMotion_a3865932e8a96e312296e85306bbd956e}{options\_}}.\mbox{\hyperlink{structcl__nav2z_1_1CbSpiralMotionOptions_a4bd855235bc576d5d95b070a61197255}{spiralMotionDuration}});}
+\DoxyCodeLine{00049\ \ \ \textcolor{keyword}{auto}\ finalRadius\ =\ *(\mbox{\hyperlink{structcl__nav2z_1_1CbSpiralMotion_a3865932e8a96e312296e85306bbd956e}{options\_}}.\mbox{\hyperlink{structcl__nav2z_1_1CbSpiralMotionOptions_a7aa6860e5dfe86c0c5d6a35e99fd1675}{finalRadius}});}
+\DoxyCodeLine{00050\ }
+\DoxyCodeLine{00051\ \ \ \textcolor{keywordtype}{float}\ rate\ =\ 20.0f;}
+\DoxyCodeLine{00052\ \ \ rclcpp::Rate\ r(rate);}
+\DoxyCodeLine{00053\ \ \ \mbox{\hyperlink{structcl__nav2z_1_1CbSpiralMotion_aba0aef68031450b456d7b1f28d6960ed}{cmdVelPub\_}}\ =\ \mbox{\hyperlink{classsmacc2_1_1ISmaccClientBehavior_aa1b28d5e8a5208fff8160f9df9a89dc6}{getNode}}()-\/>create\_publisher<geometry\_msgs::msg::Twist>(\textcolor{stringliteral}{"{}/cmd\_vel"{}},\ rclcpp::QoS(1));}
+\DoxyCodeLine{00054\ }
+\DoxyCodeLine{00055\ \ \ rclcpp::Duration\ linearRamp\ =\ rclcpp::Duration::from\_seconds(spiralMotionDuration.seconds());}
+\DoxyCodeLine{00056\ \ \ \textcolor{keywordtype}{float}\ linearAceleration\ =\ (maxLinearVelocity\ -\/\ linearVelocity)\ /\ linearRamp.seconds();}
+\DoxyCodeLine{00057\ \ \ \textcolor{keywordtype}{float}\ dt\ =\ 1.0f\ /\ rate;}
+\DoxyCodeLine{00058\ }
+\DoxyCodeLine{00059\ \ \ \textcolor{comment}{//\ we\ know\ final\ radious\ and\ the\ constant\ linear\ velocity}}
+\DoxyCodeLine{00060\ \ \ \textcolor{keywordtype}{float}\ finalAngularVelocity\ =\ maxLinearVelocity\ /\ finalRadius;}
 \DoxyCodeLine{00061\ }
-\DoxyCodeLine{00062\ \ \ \textcolor{keywordtype}{float}\ rate\ =\ 20.0f;}
-\DoxyCodeLine{00063\ \ \ rclcpp::Rate\ r(rate);}
-\DoxyCodeLine{00064\ \ \ \mbox{\hyperlink{structcl__nav2z_1_1CbSpiralMotion_aba0aef68031450b456d7b1f28d6960ed}{cmdVelPub\_}}\ =\ \mbox{\hyperlink{classsmacc2_1_1ISmaccClientBehavior_aa1b28d5e8a5208fff8160f9df9a89dc6}{getNode}}()-\/>create\_publisher<geometry\_msgs::msg::Twist>(\textcolor{stringliteral}{"{}/cmd\_vel"{}},\ rclcpp::QoS(1));}
-\DoxyCodeLine{00065\ }
-\DoxyCodeLine{00066\ \ \ rclcpp::Duration\ linearRamp\ =\ rclcpp::Duration::from\_seconds(spiralMotionDuration.seconds());}
-\DoxyCodeLine{00067\ \ \ \textcolor{keywordtype}{float}\ linearAceleration\ =\ (maxLinearVelocity\ -\/\ linearVelocity)\ /\ linearRamp.seconds();}
-\DoxyCodeLine{00068\ \ \ \textcolor{keywordtype}{float}\ dt\ =\ 1.0f\ /\ rate;}
-\DoxyCodeLine{00069\ }
-\DoxyCodeLine{00070\ \ \ \textcolor{comment}{//\ we\ know\ final\ radious\ and\ the\ constant\ linear\ velocity}}
-\DoxyCodeLine{00071\ \ \ \textcolor{keywordtype}{float}\ finalAngularVelocity\ =\ maxLinearVelocity\ /\ finalRadius;}
-\DoxyCodeLine{00072\ }
-\DoxyCodeLine{00073\ \ \ \textcolor{keywordtype}{float}\ angularAcceleration\ =}
-\DoxyCodeLine{00074\ \ \ \ \ (initialAngularVelocity\ -\/\ finalAngularVelocity)\ /\ spiralMotionDuration.seconds();}
-\DoxyCodeLine{00075\ }
-\DoxyCodeLine{00076\ \ \ geometry\_msgs::msg::Twist\ cmd\_vel;}
-\DoxyCodeLine{00077\ }
-\DoxyCodeLine{00078\ \ \ cmd\_vel.linear.x\ =\ linearVelocity;}
-\DoxyCodeLine{00079\ \ \ cmd\_vel.angular.z\ =\ initialAngularVelocity;}
-\DoxyCodeLine{00080\ \ \ \textcolor{keyword}{auto}\ start\_time\ =\ \mbox{\hyperlink{classsmacc2_1_1ISmaccClientBehavior_aa1b28d5e8a5208fff8160f9df9a89dc6}{getNode}}()-\/>now();}
-\DoxyCodeLine{00081\ }
-\DoxyCodeLine{00082\ \ \ RCLCPP\_INFO\_STREAM(}
-\DoxyCodeLine{00083\ \ \ \ \ \mbox{\hyperlink{classsmacc2_1_1ISmaccClientBehavior_a9c3d82542c800e2ba5207c5cff0e63e8}{getLogger}}(),\ \textcolor{stringliteral}{"{}[CbSpiralMotion]:\ initialAngularVelocity:\ "{}}}
-\DoxyCodeLine{00084\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ <<\ initialAngularVelocity\ <<\ \textcolor{stringliteral}{"{},\ finalAngularVelocity:\ "{}}\ <<\ finalAngularVelocity}
-\DoxyCodeLine{00085\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ <<\ \textcolor{stringliteral}{"{},\ angularAcceleration:\ "{}}\ <<\ angularAcceleration);}
-\DoxyCodeLine{00086\ \ \ RCLCPP\_INFO\_STREAM(}
-\DoxyCodeLine{00087\ \ \ \ \ \mbox{\hyperlink{classsmacc2_1_1ISmaccClientBehavior_a9c3d82542c800e2ba5207c5cff0e63e8}{getLogger}}(),\ \textcolor{stringliteral}{"{}[CbSpiralMotion]:\ linearAceleration:\ "{}}}
-\DoxyCodeLine{00088\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ <<\ linearAceleration\ <<\ \textcolor{stringliteral}{"{},\ maxLinearVelocity:\ "{}}\ <<\ maxLinearVelocity);}
-\DoxyCodeLine{00089\ }
-\DoxyCodeLine{00090\ \ \ \textcolor{keywordtype}{bool}\ end\_condition\ =\ \textcolor{keyword}{false};}
-\DoxyCodeLine{00091\ }
-\DoxyCodeLine{00092\ \ \ \textcolor{keywordflow}{while}\ (!end\_condition)}
-\DoxyCodeLine{00093\ \ \ \{}
-\DoxyCodeLine{00094\ \ \ \ \ \textcolor{keyword}{auto}\ current\_time\ =\ \mbox{\hyperlink{classsmacc2_1_1ISmaccClientBehavior_aa1b28d5e8a5208fff8160f9df9a89dc6}{getNode}}()-\/>now()\ -\/\ start\_time;}
-\DoxyCodeLine{00095\ }
-\DoxyCodeLine{00096\ \ \ \ \ cmd\_vel.linear.x\ +=\ \textcolor{keyword}{static\_cast<}\textcolor{keywordtype}{double}\textcolor{keyword}{>}(linearAceleration)\ *\ dt;}
-\DoxyCodeLine{00097\ \ \ \ \ \textcolor{keywordflow}{if}\ (cmd\_vel.linear.x\ >\ maxLinearVelocity)}
-\DoxyCodeLine{00098\ \ \ \ \ \{}
-\DoxyCodeLine{00099\ \ \ \ \ \ \ cmd\_vel.linear.x\ =\ maxLinearVelocity;}
-\DoxyCodeLine{00100\ \ \ \ \ \}}
+\DoxyCodeLine{00062\ \ \ \textcolor{keywordtype}{float}\ angularAcceleration\ =}
+\DoxyCodeLine{00063\ \ \ \ \ (initialAngularVelocity\ -\/\ finalAngularVelocity)\ /\ spiralMotionDuration.seconds();}
+\DoxyCodeLine{00064\ }
+\DoxyCodeLine{00065\ \ \ geometry\_msgs::msg::Twist\ cmd\_vel;}
+\DoxyCodeLine{00066\ }
+\DoxyCodeLine{00067\ \ \ cmd\_vel.linear.x\ =\ linearVelocity;}
+\DoxyCodeLine{00068\ \ \ cmd\_vel.angular.z\ =\ initialAngularVelocity;}
+\DoxyCodeLine{00069\ \ \ \textcolor{keyword}{auto}\ start\_time\ =\ \mbox{\hyperlink{classsmacc2_1_1ISmaccClientBehavior_aa1b28d5e8a5208fff8160f9df9a89dc6}{getNode}}()-\/>now();}
+\DoxyCodeLine{00070\ }
+\DoxyCodeLine{00071\ \ \ RCLCPP\_INFO\_STREAM(}
+\DoxyCodeLine{00072\ \ \ \ \ \mbox{\hyperlink{classsmacc2_1_1ISmaccClientBehavior_a9c3d82542c800e2ba5207c5cff0e63e8}{getLogger}}(),\ \textcolor{stringliteral}{"{}[CbSpiralMotion]:\ initialAngularVelocity:\ "{}}}
+\DoxyCodeLine{00073\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ <<\ initialAngularVelocity\ <<\ \textcolor{stringliteral}{"{},\ finalAngularVelocity:\ "{}}\ <<\ finalAngularVelocity}
+\DoxyCodeLine{00074\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ <<\ \textcolor{stringliteral}{"{},\ angularAcceleration:\ "{}}\ <<\ angularAcceleration);}
+\DoxyCodeLine{00075\ \ \ RCLCPP\_INFO\_STREAM(}
+\DoxyCodeLine{00076\ \ \ \ \ \mbox{\hyperlink{classsmacc2_1_1ISmaccClientBehavior_a9c3d82542c800e2ba5207c5cff0e63e8}{getLogger}}(),\ \textcolor{stringliteral}{"{}[CbSpiralMotion]:\ linearAceleration:\ "{}}}
+\DoxyCodeLine{00077\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ <<\ linearAceleration\ <<\ \textcolor{stringliteral}{"{},\ maxLinearVelocity:\ "{}}\ <<\ maxLinearVelocity);}
+\DoxyCodeLine{00078\ }
+\DoxyCodeLine{00079\ \ \ \textcolor{keywordtype}{bool}\ end\_condition\ =\ \textcolor{keyword}{false};}
+\DoxyCodeLine{00080\ }
+\DoxyCodeLine{00081\ \ \ \textcolor{keywordflow}{while}\ (!end\_condition)}
+\DoxyCodeLine{00082\ \ \ \{}
+\DoxyCodeLine{00083\ \ \ \ \ \textcolor{keyword}{auto}\ current\_time\ =\ \mbox{\hyperlink{classsmacc2_1_1ISmaccClientBehavior_aa1b28d5e8a5208fff8160f9df9a89dc6}{getNode}}()-\/>now()\ -\/\ start\_time;}
+\DoxyCodeLine{00084\ }
+\DoxyCodeLine{00085\ \ \ \ \ cmd\_vel.linear.x\ +=\ \textcolor{keyword}{static\_cast<}\textcolor{keywordtype}{double}\textcolor{keyword}{>}(linearAceleration)\ *\ dt;}
+\DoxyCodeLine{00086\ \ \ \ \ \textcolor{keywordflow}{if}\ (cmd\_vel.linear.x\ >\ maxLinearVelocity)}
+\DoxyCodeLine{00087\ \ \ \ \ \{}
+\DoxyCodeLine{00088\ \ \ \ \ \ \ cmd\_vel.linear.x\ =\ maxLinearVelocity;}
+\DoxyCodeLine{00089\ \ \ \ \ \}}
+\DoxyCodeLine{00090\ }
+\DoxyCodeLine{00091\ \ \ \ \ \textcolor{keywordtype}{float}\ elapsedTimeFactor\ =\ current\_time.seconds()\ /\ spiralMotionDuration.seconds();}
+\DoxyCodeLine{00092\ \ \ \ \ cmd\_vel.angular.z\ =\ initialAngularVelocity\ *\ (1.0f\ -\/\ elapsedTimeFactor)\ +}
+\DoxyCodeLine{00093\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ finalAngularVelocity\ *\ elapsedTimeFactor;}
+\DoxyCodeLine{00094\ }
+\DoxyCodeLine{00095\ \ \ \ \ RCLCPP\_INFO(}
+\DoxyCodeLine{00096\ \ \ \ \ \ \ \mbox{\hyperlink{classsmacc2_1_1ISmaccClientBehavior_a9c3d82542c800e2ba5207c5cff0e63e8}{getLogger}}(),\ \textcolor{stringliteral}{"{}[CbSpiralMotion]\ cmd\_vel.linear.x\ =\ \%f,\ cmd\_vel.angular.z\ =\ \%f"{}},}
+\DoxyCodeLine{00097\ \ \ \ \ \ \ cmd\_vel.linear.x,\ cmd\_vel.angular.z);}
+\DoxyCodeLine{00098\ }
+\DoxyCodeLine{00099\ \ \ \ \ \mbox{\hyperlink{structcl__nav2z_1_1CbSpiralMotion_aba0aef68031450b456d7b1f28d6960ed}{cmdVelPub\_}}-\/>publish(cmd\_vel);}
+\DoxyCodeLine{00100\ \ \ \ \ r.sleep();}
 \DoxyCodeLine{00101\ }
-\DoxyCodeLine{00102\ \ \ \ \ \textcolor{comment}{//\ cmd\_vel.angular.z\ -\/=\ signVal\ *\ angularAcceleration\ *\ dt;}}
+\DoxyCodeLine{00102\ \ \ \ \ \textcolor{keyword}{auto}\ now\ =\ \mbox{\hyperlink{classsmacc2_1_1ISmaccClientBehavior_aa1b28d5e8a5208fff8160f9df9a89dc6}{getNode}}()-\/>now();}
 \DoxyCodeLine{00103\ }
-\DoxyCodeLine{00104\ \ \ \ \ \textcolor{keywordtype}{float}\ elapsedTimeFactor\ =\ current\_time.seconds()\ /\ spiralMotionDuration.seconds();}
-\DoxyCodeLine{00105\ \ \ \ \ cmd\_vel.angular.z\ =\ initialAngularVelocity\ *\ (1.0f\ -\/\ elapsedTimeFactor)\ +}
-\DoxyCodeLine{00106\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ finalAngularVelocity\ *\ elapsedTimeFactor;}
-\DoxyCodeLine{00107\ }
-\DoxyCodeLine{00108\ \ \ \ \ RCLCPP\_INFO(}
-\DoxyCodeLine{00109\ \ \ \ \ \ \ \mbox{\hyperlink{classsmacc2_1_1ISmaccClientBehavior_a9c3d82542c800e2ba5207c5cff0e63e8}{getLogger}}(),\ \textcolor{stringliteral}{"{}[CbSpiralMotion]\ cmd\_vel.linear.x\ =\ \%f,\ cmd\_vel.angular.z\ =\ \%f"{}},}
-\DoxyCodeLine{00110\ \ \ \ \ \ \ cmd\_vel.linear.x,\ cmd\_vel.angular.z);}
-\DoxyCodeLine{00111\ }
-\DoxyCodeLine{00112\ \ \ \ \ \mbox{\hyperlink{structcl__nav2z_1_1CbSpiralMotion_aba0aef68031450b456d7b1f28d6960ed}{cmdVelPub\_}}-\/>publish(cmd\_vel);}
-\DoxyCodeLine{00113\ \ \ \ \ r.sleep();}
+\DoxyCodeLine{00104\ \ \ \ \ rclcpp::Duration\ elapsed\ =\ now\ -\/\ start\_time;}
+\DoxyCodeLine{00105\ \ \ \ \ RCLCPP\_INFO\_STREAM(}
+\DoxyCodeLine{00106\ \ \ \ \ \ \ \mbox{\hyperlink{classsmacc2_1_1ISmaccClientBehavior_a9c3d82542c800e2ba5207c5cff0e63e8}{getLogger}}(),\ \textcolor{stringliteral}{"{}[CbSpiralMotion]\ elapsed\ time:\ "{}}\ <<\ elapsed.seconds()\ <<\ \textcolor{stringliteral}{"{},\ total\ duration:\ "{}}}
+\DoxyCodeLine{00107\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ <<\ spiralMotionDuration.seconds());}
+\DoxyCodeLine{00108\ \ \ \ \ \textcolor{keywordflow}{if}\ (elapsed\ >\ spiralMotionDuration)}
+\DoxyCodeLine{00109\ \ \ \ \ \{}
+\DoxyCodeLine{00110\ \ \ \ \ \ \ RCLCPP\_INFO\_STREAM(\mbox{\hyperlink{classsmacc2_1_1ISmaccClientBehavior_a9c3d82542c800e2ba5207c5cff0e63e8}{getLogger}}(),\ \textcolor{stringliteral}{"{}[CbSpiralMotion]\ spiralMotionDuration\ reached"{}});}
+\DoxyCodeLine{00111\ \ \ \ \ \ \ end\_condition\ =\ \textcolor{keyword}{true};}
+\DoxyCodeLine{00112\ \ \ \ \ \}}
+\DoxyCodeLine{00113\ \ \ \}}
 \DoxyCodeLine{00114\ }
-\DoxyCodeLine{00115\ \ \ \ \ \textcolor{keyword}{auto}\ now\ =\ \mbox{\hyperlink{classsmacc2_1_1ISmaccClientBehavior_aa1b28d5e8a5208fff8160f9df9a89dc6}{getNode}}()-\/>now();}
-\DoxyCodeLine{00116\ }
-\DoxyCodeLine{00117\ \ \ \ \ rclcpp::Duration\ elapsed\ =\ now\ -\/\ start\_time;}
-\DoxyCodeLine{00118\ \ \ \ \ RCLCPP\_INFO\_STREAM(}
-\DoxyCodeLine{00119\ \ \ \ \ \ \ \mbox{\hyperlink{classsmacc2_1_1ISmaccClientBehavior_a9c3d82542c800e2ba5207c5cff0e63e8}{getLogger}}(),\ \textcolor{stringliteral}{"{}[CbSpiralMotion]\ elapsed\ time:\ "{}}\ <<\ elapsed.seconds()\ <<\ \textcolor{stringliteral}{"{},\ total\ duration:\ "{}}}
-\DoxyCodeLine{00120\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ <<\ spiralMotionDuration.seconds());}
-\DoxyCodeLine{00121\ \ \ \ \ \textcolor{keywordflow}{if}\ (elapsed\ >\ spiralMotionDuration)}
-\DoxyCodeLine{00122\ \ \ \ \ \{}
-\DoxyCodeLine{00123\ \ \ \ \ \ \ RCLCPP\_INFO\_STREAM(\mbox{\hyperlink{classsmacc2_1_1ISmaccClientBehavior_a9c3d82542c800e2ba5207c5cff0e63e8}{getLogger}}(),\ \textcolor{stringliteral}{"{}[CbSpiralMotion]\ spiralMotionDuration\ reached"{}});}
-\DoxyCodeLine{00124\ \ \ \ \ \ \ end\_condition\ =\ \textcolor{keyword}{true};}
-\DoxyCodeLine{00125\ \ \ \ \ \}}
-\DoxyCodeLine{00126\ \ \ \}}
-\DoxyCodeLine{00127\ }
-\DoxyCodeLine{00128\ \ \ \textcolor{comment}{//\ asynchronous\ client\ behaviors\ usually\ post\ a\ success\ event\ when\ they\ are\ done}}
-\DoxyCodeLine{00129\ \ \ \textcolor{comment}{//\ that\ is\ used\ in\ states\ to\ transition\ to\ the\ next\ state}}
-\DoxyCodeLine{00130\ \ \ this-\/>\mbox{\hyperlink{classsmacc2_1_1SmaccAsyncClientBehavior_a2fb4de26d011fbbb55bc1bbaed2e6f5b}{postSuccessEvent}}();}
-\DoxyCodeLine{00131\ \}}
+\DoxyCodeLine{00115\ \ \ \textcolor{comment}{//\ asynchronous\ client\ behaviors\ usually\ post\ a\ success\ event\ when\ they\ are\ done}}
+\DoxyCodeLine{00116\ \ \ \textcolor{comment}{//\ that\ is\ used\ in\ states\ to\ transition\ to\ the\ next\ state}}
+\DoxyCodeLine{00117\ \ \ this-\/>\mbox{\hyperlink{classsmacc2_1_1SmaccAsyncClientBehavior_a2fb4de26d011fbbb55bc1bbaed2e6f5b}{postSuccessEvent}}();}
+\DoxyCodeLine{00118\ \}}
 
 \end{DoxyCode}
 
@@ -281,11 +268,11 @@ Reimplemented from \mbox{\hyperlink{classsmacc2_1_1ISmaccClientBehavior_a52b767b
 
 
 
-Definition at line \mbox{\hyperlink{cb__spiral__motion_8cpp_source_l00133}{133}} of file \mbox{\hyperlink{cb__spiral__motion_8cpp_source}{cb\+\_\+spiral\+\_\+motion.\+cpp}}.
+Definition at line \mbox{\hyperlink{cb__spiral__motion_8cpp_source_l00120}{120}} of file \mbox{\hyperlink{cb__spiral__motion_8cpp_source}{cb\+\_\+spiral\+\_\+motion.\+cpp}}.
 
 
 \begin{DoxyCode}{0}
-\DoxyCodeLine{00133\ \{\}}
+\DoxyCodeLine{00120\ \{\}}
 
 \end{DoxyCode}
 
