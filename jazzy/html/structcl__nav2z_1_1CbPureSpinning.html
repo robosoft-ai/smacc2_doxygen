@@ -419,7 +419,7 @@ Additional Inherited Members</h2></td></tr>
 <div class="line"><span class="lineno">   52</span>  rclcpp::Rate loop_rate(10);</div>
 <div class="line"><span class="lineno">   53</span>  <span class="keywordtype">double</span> countAngle = 0;</div>
 <div class="line"><span class="lineno">   54</span>  <span class="keyword">auto</span> prevyaw = tf2::getYaw(currentPose.orientation);</div>
-<div class="line"><span class="lineno">   55</span>  <span class="keywordflow">while</span> (rclcpp::ok() &amp;&amp; !<a class="code hl_variable" href="#ae0f7d43fffa102b47c79256a4b1aea7a">goalReached_</a>)</div>
+<div class="line"><span class="lineno">   55</span>  <span class="keywordflow">while</span> (rclcpp::ok() &amp;&amp; !<a class="code hl_variable" href="#ae0f7d43fffa102b47c79256a4b1aea7a">goalReached_</a> &amp;&amp; !this-&gt;<a class="code hl_function" href="classsmacc2_1_1SmaccAsyncClientBehavior.html#a3fdbe8ec497fef82e2441e8e87899955">isShutdownRequested</a>())</div>
 <div class="line"><span class="lineno">   56</span>  {</div>
 <div class="line"><span class="lineno">   57</span>    tf2::Quaternion q;</div>
 <div class="line"><span class="lineno">   58</span>    currentPose = pose-&gt;toPoseMsg();</div>
@@ -452,56 +452,63 @@ Additional Inherited Members</h2></td></tr>
 <div class="line"><span class="lineno">   85</span>    {</div>
 <div class="line"><span class="lineno">   86</span>      RCLCPP_INFO_STREAM(<a class="code hl_function" href="classsmacc2_1_1ISmaccClientBehavior.html#a9c3d82542c800e2ba5207c5cff0e63e8">getLogger</a>(), <span class="stringliteral">&quot;[&quot;</span> &lt;&lt; <a class="code hl_function" href="classsmacc2_1_1ISmaccClientBehavior.html#a3feaa9c382a7d376b7ba0017a63e294e">getName</a>() &lt;&lt; <span class="stringliteral">&quot;] GOAL REACHED. Sending stop command.&quot;</span>);</div>
 <div class="line"><span class="lineno">   87</span>      <a class="code hl_variable" href="#ae0f7d43fffa102b47c79256a4b1aea7a">goalReached_</a> = <span class="keyword">true</span>;</div>
-<div class="line"><span class="lineno">   88</span>      cmd_vel.linear.x = 0;</div>
-<div class="line"><span class="lineno">   89</span>      cmd_vel.angular.z = 0;</div>
-<div class="line"><span class="lineno">   90</span>      <span class="keywordflow">break</span>;</div>
-<div class="line"><span class="lineno">   91</span>    }</div>
+<div class="line"><span class="lineno">   88</span>      <span class="keywordflow">break</span>;</div>
+<div class="line"><span class="lineno">   89</span>    }</div>
+<div class="line"><span class="lineno">   90</span> </div>
+<div class="line"><span class="lineno">   91</span>    this-&gt;<a class="code hl_variable" href="#aebb320a87e6df6e120f586863dc58ce3">cmd_vel_pub_</a>-&gt;publish(cmd_vel);</div>
 <div class="line"><span class="lineno">   92</span> </div>
-<div class="line"><span class="lineno">   93</span>    this-&gt;<a class="code hl_variable" href="#aebb320a87e6df6e120f586863dc58ce3">cmd_vel_pub_</a>-&gt;publish(cmd_vel);</div>
-<div class="line"><span class="lineno">   94</span> </div>
-<div class="line"><span class="lineno">   95</span>    loop_rate.sleep();</div>
-<div class="line"><span class="lineno">   96</span>  }</div>
-<div class="line"><span class="lineno">   97</span> </div>
-<div class="line"><span class="lineno">   98</span>  this-&gt;<a class="code hl_function" href="classsmacc2_1_1SmaccAsyncClientBehavior.html#a2fb4de26d011fbbb55bc1bbaed2e6f5b">postSuccessEvent</a>();</div>
-<div class="line"><span class="lineno">   99</span>}</div>
+<div class="line"><span class="lineno">   93</span>    loop_rate.sleep();</div>
+<div class="line"><span class="lineno">   94</span>  }</div>
+<div class="line"><span class="lineno">   95</span> </div>
+<div class="line"><span class="lineno">   96</span>  <span class="comment">// Always leave the robot stopped: on goal reached the loop above breaks BEFORE</span></div>
+<div class="line"><span class="lineno">   97</span>  <span class="comment">// publishing (the last sent command was still spinning), and on an early state</span></div>
+<div class="line"><span class="lineno">   98</span>  <span class="comment">// exit (isShutdownRequested) the last command must be cancelled too</span></div>
+<div class="line"><span class="lineno">   99</span>  geometry_msgs::msg::Twist stop_cmd;</div>
+<div class="line"><span class="lineno">  100</span>  this-&gt;<a class="code hl_variable" href="#aebb320a87e6df6e120f586863dc58ce3">cmd_vel_pub_</a>-&gt;publish(stop_cmd);</div>
+<div class="line"><span class="lineno">  101</span> </div>
+<div class="line"><span class="lineno">  102</span>  this-&gt;<a class="code hl_function" href="classsmacc2_1_1SmaccAsyncClientBehavior.html#a2fb4de26d011fbbb55bc1bbaed2e6f5b">postSuccessEvent</a>();</div>
+<div class="line"><span class="lineno">  103</span>}</div>
 <div class="ttc" id="aclasscl__nav2z_1_1CpPose_html"><div class="ttname"><a href="classcl__nav2z_1_1CpPose.html">cl_nav2z::CpPose</a></div><div class="ttdef"><b>Definition</b> <a href="cp__pose_8hpp_source.html#l00043">cp_pose.hpp:44</a></div></div>
 <div class="ttc" id="aclasssmacc2_1_1ISmaccClientBehavior_html_a3feaa9c382a7d376b7ba0017a63e294e"><div class="ttname"><a href="classsmacc2_1_1ISmaccClientBehavior.html#a3feaa9c382a7d376b7ba0017a63e294e">smacc2::ISmaccClientBehavior::getName</a></div><div class="ttdeci">std::string getName() const</div><div class="ttdef"><b>Definition</b> <a href="smacc__client__behavior__base_8cpp_source.html#l00036">smacc_client_behavior_base.cpp:36</a></div></div>
 <div class="ttc" id="aclasssmacc2_1_1ISmaccClientBehavior_html_a9c3d82542c800e2ba5207c5cff0e63e8"><div class="ttname"><a href="classsmacc2_1_1ISmaccClientBehavior.html#a9c3d82542c800e2ba5207c5cff0e63e8">smacc2::ISmaccClientBehavior::getLogger</a></div><div class="ttdeci">virtual rclcpp::Logger getLogger() const</div><div class="ttdef"><b>Definition</b> <a href="smacc__client__behavior__base_8cpp_source.html#l00043">smacc_client_behavior_base.cpp:43</a></div></div>
 <div class="ttc" id="aclasssmacc2_1_1ISmaccClientBehavior_html_aa1b28d5e8a5208fff8160f9df9a89dc6"><div class="ttname"><a href="classsmacc2_1_1ISmaccClientBehavior.html#aa1b28d5e8a5208fff8160f9df9a89dc6">smacc2::ISmaccClientBehavior::getNode</a></div><div class="ttdeci">virtual rclcpp::Node::SharedPtr getNode() const</div><div class="ttdef"><b>Definition</b> <a href="smacc__client__behavior__base_8cpp_source.html#l00038">smacc_client_behavior_base.cpp:38</a></div></div>
 <div class="ttc" id="aclasssmacc2_1_1ISmaccClientBehavior_html_aeb76b10b9bb3925244da9d484739a5a9"><div class="ttname"><a href="classsmacc2_1_1ISmaccClientBehavior.html#aeb76b10b9bb3925244da9d484739a5a9">smacc2::ISmaccClientBehavior::requiresComponent</a></div><div class="ttdeci">void requiresComponent(SmaccComponentType *&amp;storage, ComponentRequirement requirementType=ComponentRequirement::SOFT)</div><div class="ttdef"><b>Definition</b> <a href="smacc__client__behavior__impl_8hpp_source.html#l00073">smacc_client_behavior_impl.hpp:73</a></div></div>
 <div class="ttc" id="aclasssmacc2_1_1SmaccAsyncClientBehavior_html_a2fb4de26d011fbbb55bc1bbaed2e6f5b"><div class="ttname"><a href="classsmacc2_1_1SmaccAsyncClientBehavior.html#a2fb4de26d011fbbb55bc1bbaed2e6f5b">smacc2::SmaccAsyncClientBehavior::postSuccessEvent</a></div><div class="ttdeci">void postSuccessEvent()</div><div class="ttdef"><b>Definition</b> <a href="smacc__client__async__behavior_8cpp_source.html#l00145">smacc_client_async_behavior.cpp:145</a></div></div>
+<div class="ttc" id="aclasssmacc2_1_1SmaccAsyncClientBehavior_html_a3fdbe8ec497fef82e2441e8e87899955"><div class="ttname"><a href="classsmacc2_1_1SmaccAsyncClientBehavior.html#a3fdbe8ec497fef82e2441e8e87899955">smacc2::SmaccAsyncClientBehavior::isShutdownRequested</a></div><div class="ttdeci">bool isShutdownRequested()</div><div class="ttdoc">onEntry is executed in a new thread. However the current state cannot be left until the onEntry threa...</div><div class="ttdef"><b>Definition</b> <a href="smacc__client__async__behavior_8cpp_source.html#l00157">smacc_client_async_behavior.cpp:157</a></div></div>
 <div class="ttc" id="astructcl__nav2z_1_1CbPureSpinning_html_ae0f7d43fffa102b47c79256a4b1aea7a"><div class="ttname"><a href="#ae0f7d43fffa102b47c79256a4b1aea7a">cl_nav2z::CbPureSpinning::goalReached_</a></div><div class="ttdeci">bool goalReached_</div><div class="ttdef"><b>Definition</b> <a href="cb__pure__spinning_8hpp_source.html#l00032">cb_pure_spinning.hpp:32</a></div></div>
 <div class="ttc" id="astructcl__nav2z_1_1CbPureSpinning_html_aebb320a87e6df6e120f586863dc58ce3"><div class="ttname"><a href="#aebb320a87e6df6e120f586863dc58ce3">cl_nav2z::CbPureSpinning::cmd_vel_pub_</a></div><div class="ttdeci">rclcpp::Publisher&lt; geometry_msgs::msg::Twist &gt;::SharedPtr cmd_vel_pub_</div><div class="ttdef"><b>Definition</b> <a href="cb__pure__spinning_8hpp_source.html#l00036">cb_pure_spinning.hpp:36</a></div></div>
 </div><!-- fragment -->
-<p class="reference">References <a class="el" href="cb__pure__spinning_8hpp_source.html#l00036">cmd_vel_pub_</a>, <a class="el" href="smacc__client__behavior__base_8cpp_source.html#l00043">smacc2::ISmaccClientBehavior::getLogger()</a>, <a class="el" href="smacc__client__behavior__base_8cpp_source.html#l00036">smacc2::ISmaccClientBehavior::getName()</a>, <a class="el" href="smacc__client__behavior__base_8cpp_source.html#l00038">smacc2::ISmaccClientBehavior::getNode()</a>, <a class="el" href="cb__pure__spinning_8hpp_source.html#l00032">goalReached_</a>, <a class="el" href="cb__pure__spinning_8hpp_source.html#l00033">k_betta_</a>, <a class="el" href="cb__pure__spinning_8hpp_source.html#l00034">max_angular_yaw_speed_</a>, <a class="el" href="smacc__client__async__behavior_8cpp_source.html#l00145">smacc2::SmaccAsyncClientBehavior::postSuccessEvent()</a>, <a class="el" href="smacc__client__behavior__impl_8hpp_source.html#l00073">smacc2::ISmaccClientBehavior::requiresComponent()</a>, <a class="el" href="cb__pure__spinning_8hpp_source.html#l00031">targetYaw__rads</a>, and <a class="el" href="cb__pure__spinning_8hpp_source.html#l00039">yaw_goal_tolerance_rads_</a>.</p>
+<p class="reference">References <a class="el" href="cb__pure__spinning_8hpp_source.html#l00036">cmd_vel_pub_</a>, <a class="el" href="smacc__client__behavior__base_8cpp_source.html#l00043">smacc2::ISmaccClientBehavior::getLogger()</a>, <a class="el" href="smacc__client__behavior__base_8cpp_source.html#l00036">smacc2::ISmaccClientBehavior::getName()</a>, <a class="el" href="smacc__client__behavior__base_8cpp_source.html#l00038">smacc2::ISmaccClientBehavior::getNode()</a>, <a class="el" href="cb__pure__spinning_8hpp_source.html#l00032">goalReached_</a>, <a class="el" href="smacc__client__async__behavior_8cpp_source.html#l00157">smacc2::SmaccAsyncClientBehavior::isShutdownRequested()</a>, <a class="el" href="cb__pure__spinning_8hpp_source.html#l00033">k_betta_</a>, <a class="el" href="cb__pure__spinning_8hpp_source.html#l00034">max_angular_yaw_speed_</a>, <a class="el" href="smacc__client__async__behavior_8cpp_source.html#l00145">smacc2::SmaccAsyncClientBehavior::postSuccessEvent()</a>, <a class="el" href="smacc__client__behavior__impl_8hpp_source.html#l00073">smacc2::ISmaccClientBehavior::requiresComponent()</a>, <a class="el" href="cb__pure__spinning_8hpp_source.html#l00031">targetYaw__rads</a>, and <a class="el" href="cb__pure__spinning_8hpp_source.html#l00039">yaw_goal_tolerance_rads_</a>.</p>
 <div class="dynheader">
 Here is the call graph for this function:</div>
 <div class="dyncontent">
 <div class="center"><img src="structcl__nav2z_1_1CbPureSpinning_a6a606ea062bb0040f54f91b9a4a4aed8_cgraph.png" border="0" usemap="#astructcl__nav2z_1_1CbPureSpinning_a6a606ea062bb0040f54f91b9a4a4aed8_cgraph" alt=""/></div>
 <map name="astructcl__nav2z_1_1CbPureSpinning_a6a606ea062bb0040f54f91b9a4a4aed8_cgraph" id="astructcl__nav2z_1_1CbPureSpinning_a6a606ea062bb0040f54f91b9a4a4aed8_cgraph">
-<area shape="rect" title=" " alt="" coords="5,84,177,125"/>
-<area shape="rect" href="classsmacc2_1_1ISmaccClientBehavior.html#a9c3d82542c800e2ba5207c5cff0e63e8" title=" " alt="" coords="475,33,677,74"/>
-<area shape="poly" title=" " alt="" coords="168,81,224,70,345,57,459,52,459,57,346,62,225,75,169,86"/>
-<area shape="rect" href="classsmacc2_1_1ISmaccClientBehavior.html#aa1b28d5e8a5208fff8160f9df9a89dc6" title=" " alt="" coords="725,5,928,46"/>
-<area shape="poly" title=" " alt="" coords="129,81,174,60,224,43,287,29,352,19,483,8,605,7,710,12,710,17,605,13,483,13,353,24,288,34,225,48,176,65,132,86"/>
-<area shape="rect" href="classsmacc2_1_1ISmaccClientBehavior.html#a3feaa9c382a7d376b7ba0017a63e294e" title=" " alt="" coords="475,204,677,245"/>
-<area shape="poly" title=" " alt="" coords="114,123,162,164,193,184,226,199,284,216,344,225,404,230,459,230,459,236,404,235,344,231,283,221,224,204,190,188,159,168,111,127"/>
-<area shape="rect" href="classsmacc2_1_1SmaccAsyncClientBehavior.html#a2fb4de26d011fbbb55bc1bbaed2e6f5b" title=" " alt="" coords="232,149,420,190"/>
-<area shape="poly" title=" " alt="" coords="167,123,236,142,235,147,166,128"/>
-<area shape="rect" href="classsmacc2_1_1ISmaccClientBehavior.html#aeb76b10b9bb3925244da9d484739a5a9" title=" " alt="" coords="225,84,427,125"/>
-<area shape="poly" title=" " alt="" coords="177,102,209,102,209,107,177,107"/>
-<area shape="poly" title=" " alt="" coords="678,40,710,36,710,41,678,45"/>
-<area shape="rect" href="classsmacc2_1_1ISmaccStateMachine.html#a2cf8b817f7e137fc648e373ae4614a2f" title=" " alt="" coords="976,5,1174,46"/>
-<area shape="poly" title=" " alt="" coords="928,23,960,23,960,28,928,28"/>
-<area shape="rect" href="namespacesmacc2_1_1introspection.html#aba19132e50f25adee919c2504ae6a3a2" title=" " alt="" coords="753,195,900,235"/>
-<area shape="poly" title=" " alt="" coords="678,218,737,216,737,221,678,223"/>
-<area shape="poly" title=" " alt="" coords="780,195,778,185,785,176,802,170,827,168,853,170,869,177,867,182,852,176,826,173,803,175,788,180,783,186,785,193"/>
-<area shape="poly" title=" " alt="" coords="427,81,459,75,461,80,428,86"/>
-<area shape="rect" href="classsmacc2_1_1ISmaccStateMachine.html#a37c10cc3ff9e4dffc9f75e3f32fe35f2" title=" " alt="" coords="477,101,675,142"/>
-<area shape="poly" title=" " alt="" coords="428,109,462,111,461,116,427,114"/>
-<area shape="poly" title=" " alt="" coords="634,140,756,186,754,191,632,145"/>
-<area shape="rect" href="classsmacc2_1_1ISmaccStateMachine.html#acc4b310700e4256383d28f56217c3ce1" title=" " alt="" coords="727,101,926,142"/>
-<area shape="poly" title=" " alt="" coords="676,119,712,119,712,124,676,124"/>
+<area shape="rect" title=" " alt="" coords="5,132,177,173"/>
+<area shape="rect" href="classsmacc2_1_1ISmaccClientBehavior.html#a9c3d82542c800e2ba5207c5cff0e63e8" title=" " alt="" coords="481,45,683,86"/>
+<area shape="poly" title=" " alt="" coords="127,129,172,107,224,88,285,76,348,67,465,61,466,66,348,73,286,81,225,94,174,112,129,134"/>
+<area shape="rect" href="classsmacc2_1_1ISmaccClientBehavior.html#aa1b28d5e8a5208fff8160f9df9a89dc6" title=" " alt="" coords="731,5,934,46"/>
+<area shape="poly" title=" " alt="" coords="112,129,161,91,191,72,224,57,287,37,352,22,418,12,484,6,609,4,716,9,715,15,609,9,484,12,419,18,353,27,288,42,226,61,194,76,164,95,116,134"/>
+<area shape="rect" href="classsmacc2_1_1ISmaccClientBehavior.html#a3feaa9c382a7d376b7ba0017a63e294e" title=" " alt="" coords="481,176,683,217"/>
+<area shape="poly" title=" " alt="" coords="177,157,466,183,465,189,177,163"/>
+<area shape="rect" href="classsmacc2_1_1SmaccAsyncClientBehavior.html#a3fdbe8ec497fef82e2441e8e87899955" title="onEntry is executed in a new thread. However the current state cannot be left until the onEntry threa..." alt="" coords="225,217,433,258"/>
+<area shape="poly" title=" " alt="" coords="151,171,257,209,255,214,149,176"/>
+<area shape="rect" href="classsmacc2_1_1SmaccAsyncClientBehavior.html#a2fb4de26d011fbbb55bc1bbaed2e6f5b" title=" " alt="" coords="235,283,422,323"/>
+<area shape="poly" title=" " alt="" coords="112,171,161,219,192,245,226,267,238,274,236,278,223,272,189,249,157,223,109,175"/>
+<area shape="rect" href="classsmacc2_1_1ISmaccClientBehavior.html#aeb76b10b9bb3925244da9d484739a5a9" title=" " alt="" coords="228,103,430,143"/>
+<area shape="poly" title=" " alt="" coords="177,139,212,135,213,140,178,144"/>
+<area shape="poly" title=" " alt="" coords="683,47,716,42,716,47,684,52"/>
+<area shape="rect" href="classsmacc2_1_1ISmaccStateMachine.html#a2cf8b817f7e137fc648e373ae4614a2f" title=" " alt="" coords="982,5,1180,46"/>
+<area shape="poly" title=" " alt="" coords="934,23,966,23,966,28,934,28"/>
+<area shape="rect" href="namespacesmacc2_1_1introspection.html#aba19132e50f25adee919c2504ae6a3a2" title=" " alt="" coords="759,176,906,217"/>
+<area shape="poly" title=" " alt="" coords="684,194,743,194,743,199,684,199"/>
+<area shape="poly" title=" " alt="" coords="786,176,784,166,791,157,808,151,833,149,859,152,875,158,873,163,858,157,832,155,809,157,794,161,789,167,791,175"/>
+<area shape="poly" title=" " alt="" coords="421,99,474,87,475,93,422,105"/>
+<area shape="rect" href="classsmacc2_1_1ISmaccStateMachine.html#a37c10cc3ff9e4dffc9f75e3f32fe35f2" title=" " alt="" coords="483,111,681,151"/>
+<area shape="poly" title=" " alt="" coords="430,124,468,125,467,130,430,129"/>
+<area shape="poly" title=" " alt="" coords="664,149,744,171,743,176,662,155"/>
+<area shape="rect" href="classsmacc2_1_1ISmaccStateMachine.html#acc4b310700e4256383d28f56217c3ce1" title=" " alt="" coords="733,87,932,127"/>
+<area shape="poly" title=" " alt="" coords="681,119,718,115,718,121,682,124"/>
 </map>
 </div>
 
@@ -532,8 +539,8 @@ Here is the call graph for this function:</div>
 
 <p>Reimplemented from <a class="el" href="classsmacc2_1_1ISmaccClientBehavior.html#a52b767b7cbb438aa23ea0f6cfda2a3db">smacc2::ISmaccClientBehavior</a>.</p>
 
-<p class="definition">Definition at line <a class="el" href="cb__pure__spinning_8cpp_source.html#l00101">101</a> of file <a class="el" href="cb__pure__spinning_8cpp_source.html">cb_pure_spinning.cpp</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">  101</span>{}</div>
+<p class="definition">Definition at line <a class="el" href="cb__pure__spinning_8cpp_source.html#l00105">105</a> of file <a class="el" href="cb__pure__spinning_8cpp_source.html">cb_pure_spinning.cpp</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">  105</span>{}</div>
 </div><!-- fragment -->
 </div>
 </div>
