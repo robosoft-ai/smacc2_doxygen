@@ -18,7 +18,10 @@ var searchData=
   ['discontinuityindexes_15',['discontinuityIndexes',['../structcl__moveit2z_1_1JointTrajectoryResult.html#a19ffd47c73d41ef9a92cdf9574f6aeca',1,'cl_moveit2z::JointTrajectoryResult']]],
   ['distance_5f_16',['distance_',['../classcl__nav2z_1_1CbBackUp.html#a107dd5867d3c45d43b8f46e5e5fafc90',1,'cl_nav2z::CbBackUp::distance_'],['../classcl__nav2z_1_1CbDriveOnHeading.html#ab35cbaec8693f75694ad5c2b8e9ba868',1,'cl_nav2z::CbDriveOnHeading::distance_']]],
   ['divergencedetectionlastcarrotlineardistance_5f_17',['divergenceDetectionLastCarrotLinearDistance_',['../classcl__nav2z_1_1backward__local__planner_1_1BackwardLocalPlanner.html#a173474714240068e283c6d4533fd5826',1,'cl_nav2z::backward_local_planner::BackwardLocalPlanner']]],
-  ['durability_18',['durability',['../classsmacc2_1_1client__bases_1_1SmaccPublisherClient.html#a7ccddec2d0b932ed7fd3a8370abfce02',1,'smacc2::client_bases::SmaccPublisherClient::durability'],['../classsmacc2_1_1client__core__components_1_1CpTopicPublisher.html#a01d9ec2bd5e0d074809937f8ac4e78a7',1,'smacc2::client_core_components::CpTopicPublisher::durability']]],
-  ['duration_5f_19',['duration_',['../classsmacc2_1_1client__core__components_1_1CpRos2Timer.html#aceaee48714f8b9465a6c00cec24fef25',1,'smacc2::client_core_components::CpRos2Timer']]],
-  ['durationseconds_5f_20',['durationSeconds_',['../classcl__px4__mr_1_1CbHoldPosition.html#a44519917d8ee95bee9d958f10e37b949',1,'cl_px4_mr::CbHoldPosition']]]
+  ['dockid_5f_18',['dockId_',['../classcl__nav2z_1_1CbDockRobot.html#af11a4d201a48ca281b4a85fb2fbcedda',1,'cl_nav2z::CbDockRobot']]],
+  ['dockpose_5f_19',['dockPose_',['../classcl__nav2z_1_1CbDockRobot.html#a0afef0bf8f3fb870c1f63e631e7fc3aa',1,'cl_nav2z::CbDockRobot']]],
+  ['docktype_5f_20',['dockType_',['../classcl__nav2z_1_1CbDockRobot.html#aa1deafd072be7796bd7fb8858c05680e',1,'cl_nav2z::CbDockRobot::dockType_'],['../classcl__nav2z_1_1CbUndockRobot.html#ab9b923c9cc4b0a8ede8984aeff04a271',1,'cl_nav2z::CbUndockRobot::dockType_']]],
+  ['durability_21',['durability',['../classsmacc2_1_1client__bases_1_1SmaccPublisherClient.html#a7ccddec2d0b932ed7fd3a8370abfce02',1,'smacc2::client_bases::SmaccPublisherClient::durability'],['../classsmacc2_1_1client__core__components_1_1CpTopicPublisher.html#a01d9ec2bd5e0d074809937f8ac4e78a7',1,'smacc2::client_core_components::CpTopicPublisher::durability']]],
+  ['duration_5f_22',['duration_',['../classsmacc2_1_1client__core__components_1_1CpRos2Timer.html#aceaee48714f8b9465a6c00cec24fef25',1,'smacc2::client_core_components::CpRos2Timer']]],
+  ['durationseconds_5f_23',['durationSeconds_',['../classcl__px4__mr_1_1CbHoldPosition.html#a44519917d8ee95bee9d958f10e37b949',1,'cl_px4_mr::CbHoldPosition']]]
 ];
