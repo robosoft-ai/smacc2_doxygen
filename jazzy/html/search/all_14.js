@@ -97,11 +97,12 @@ var searchData=
   ['trygetorset_94',['tryGetOrSet',['../namespacecl__nav2z_1_1backward__local__planner.html#a432d8eb2168129213955575a2da12e19',1,'cl_nav2z::backward_local_planner::tryGetOrSet()'],['../namespacecl__nav2z_1_1pure__spinning__local__planner.html#ae259356343718184bed39cb2a384ce45',1,'cl_nav2z::pure_spinning_local_planner::tryGetOrSet()']]],
   ['tservicerequest_95',['TServiceRequest',['../classsmacc2_1_1client__bases_1_1SmaccServiceServerClient.html#a5a86fcd5972c3bb52efd18e676912ed6',1,'smacc2::client_bases::SmaccServiceServerClient']]],
   ['tserviceresponse_96',['TServiceResponse',['../classsmacc2_1_1client__bases_1_1SmaccServiceServerClient.html#a2e895925e176efc6584da5fecbd5d49e',1,'smacc2::client_bases::SmaccServiceServerClient']]],
-  ['type_97',['type',['../structsmacc2_1_1introspection_1_1type__.html#a9e75dd8d4bd256d4eae74fad74524ec8',1,'smacc2::introspection::type_::type'],['../structsmacc2_1_1introspection_1_1add__type__wrapper.html#a9bd3fabf0a5d5eb941eac4322781f767',1,'smacc2::introspection::add_type_wrapper::type'],['../classsmacc2_1_1HasSpecificNamedOnExit.html#a01dd5cc4f88e0bf863658a9698513f80',1,'smacc2::HasSpecificNamedOnExit::type'],['../classsmacc2_1_1HasStandardOnExit.html#ab881d77668688cff51f4255bd2466351',1,'smacc2::HasStandardOnExit::type']]],
-  ['type_5f_98',['type_',['../structsmacc2_1_1introspection_1_1type__.html',1,'smacc2::introspection']]],
-  ['typeinfo_99',['TypeInfo',['../classsmacc2_1_1introspection_1_1TypeInfo.html',1,'smacc2::introspection::TypeInfo'],['../classsmacc2_1_1introspection_1_1TypeInfo.html#abc281e8d027d7b3fde9393a7e154edbc',1,'smacc2::introspection::TypeInfo::TypeInfo()']]],
-  ['typeinfo_100',['typeinfo',['../structsmacc2_1_1ComponentKey.html#a3f24aa44694ac722e6dcc53a3bd799b5',1,'smacc2::ComponentKey']]],
-  ['typeinfodatabase_101',['typeInfoDatabase',['../classsmacc2_1_1introspection_1_1TypeInfo.html#aaf9136c5cc970c23bfaf3a32f1683b17',1,'smacc2::introspection::TypeInfo']]],
-  ['typelist_102',['typelist',['../structsmacc2_1_1introspection_1_1typelist.html',1,'smacc2::introspection']]],
-  ['types_2ehpp_103',['types.hpp',['../types_8hpp.html',1,'']]]
+  ['twistpublisher_5f_97',['twistPublisher_',['../classcl__keyboard_1_1CbKeyboardTwistTeleop.html#aa7e27af6ca061bfb1378892d4106f1d0',1,'cl_keyboard::CbKeyboardTwistTeleop']]],
+  ['type_98',['type',['../structsmacc2_1_1introspection_1_1type__.html#a9e75dd8d4bd256d4eae74fad74524ec8',1,'smacc2::introspection::type_::type'],['../structsmacc2_1_1introspection_1_1add__type__wrapper.html#a9bd3fabf0a5d5eb941eac4322781f767',1,'smacc2::introspection::add_type_wrapper::type'],['../classsmacc2_1_1HasSpecificNamedOnExit.html#a01dd5cc4f88e0bf863658a9698513f80',1,'smacc2::HasSpecificNamedOnExit::type'],['../classsmacc2_1_1HasStandardOnExit.html#ab881d77668688cff51f4255bd2466351',1,'smacc2::HasStandardOnExit::type']]],
+  ['type_5f_99',['type_',['../structsmacc2_1_1introspection_1_1type__.html',1,'smacc2::introspection']]],
+  ['typeinfo_100',['TypeInfo',['../classsmacc2_1_1introspection_1_1TypeInfo.html',1,'smacc2::introspection::TypeInfo'],['../classsmacc2_1_1introspection_1_1TypeInfo.html#abc281e8d027d7b3fde9393a7e154edbc',1,'smacc2::introspection::TypeInfo::TypeInfo()']]],
+  ['typeinfo_101',['typeinfo',['../structsmacc2_1_1ComponentKey.html#a3f24aa44694ac722e6dcc53a3bd799b5',1,'smacc2::ComponentKey']]],
+  ['typeinfodatabase_102',['typeInfoDatabase',['../classsmacc2_1_1introspection_1_1TypeInfo.html#aaf9136c5cc970c23bfaf3a32f1683b17',1,'smacc2::introspection::TypeInfo']]],
+  ['typelist_103',['typelist',['../structsmacc2_1_1introspection_1_1typelist.html',1,'smacc2::introspection']]],
+  ['types_2ehpp_104',['types.hpp',['../types_8hpp.html',1,'']]]
 ];

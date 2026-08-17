@@ -1,0 +1,154 @@
+\doxysection{cb\+\_\+keyboard\+\_\+twist\+\_\+teleop.\+hpp}
+\hypertarget{cb__keyboard__twist__teleop_8hpp_source}{}\label{cb__keyboard__twist__teleop_8hpp_source}\index{smacc2\_client\_library/cl\_keyboard/include/cl\_keyboard/client\_behaviors/cb\_keyboard\_twist\_teleop.hpp@{smacc2\_client\_library/cl\_keyboard/include/cl\_keyboard/client\_behaviors/cb\_keyboard\_twist\_teleop.hpp}}
+\mbox{\hyperlink{cb__keyboard__twist__teleop_8hpp}{Go to the documentation of this file.}}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\Hypertarget{cb__keyboard__twist__teleop_8hpp_source_l00001}00001\ \textcolor{comment}{//\ Copyright\ 2026\ RobosoftAI\ Inc.}}
+\DoxyCodeLine{\Hypertarget{cb__keyboard__twist__teleop_8hpp_source_l00002}00002\ \textcolor{comment}{//}}
+\DoxyCodeLine{\Hypertarget{cb__keyboard__twist__teleop_8hpp_source_l00003}00003\ \textcolor{comment}{//\ Licensed\ under\ the\ Apache\ License,\ Version\ 2.0\ (the\ "{}License"{});}}
+\DoxyCodeLine{\Hypertarget{cb__keyboard__twist__teleop_8hpp_source_l00004}00004\ \textcolor{comment}{//\ you\ may\ not\ use\ this\ file\ except\ in\ compliance\ with\ the\ License.}}
+\DoxyCodeLine{\Hypertarget{cb__keyboard__twist__teleop_8hpp_source_l00005}00005\ \textcolor{comment}{//\ You\ may\ obtain\ a\ copy\ of\ the\ License\ at}}
+\DoxyCodeLine{\Hypertarget{cb__keyboard__twist__teleop_8hpp_source_l00006}00006\ \textcolor{comment}{//}}
+\DoxyCodeLine{\Hypertarget{cb__keyboard__twist__teleop_8hpp_source_l00007}00007\ \textcolor{comment}{//\ \ \ \ \ http://www.apache.org/licenses/LICENSE-\/2.0}}
+\DoxyCodeLine{\Hypertarget{cb__keyboard__twist__teleop_8hpp_source_l00008}00008\ \textcolor{comment}{//}}
+\DoxyCodeLine{\Hypertarget{cb__keyboard__twist__teleop_8hpp_source_l00009}00009\ \textcolor{comment}{//\ Unless\ required\ by\ applicable\ law\ or\ agreed\ to\ in\ writing,\ software}}
+\DoxyCodeLine{\Hypertarget{cb__keyboard__twist__teleop_8hpp_source_l00010}00010\ \textcolor{comment}{//\ distributed\ under\ the\ License\ is\ distributed\ on\ an\ "{}AS\ IS"{}\ BASIS,}}
+\DoxyCodeLine{\Hypertarget{cb__keyboard__twist__teleop_8hpp_source_l00011}00011\ \textcolor{comment}{//\ WITHOUT\ WARRANTIES\ OR\ CONDITIONS\ OF\ ANY\ KIND,\ either\ express\ or\ implied.}}
+\DoxyCodeLine{\Hypertarget{cb__keyboard__twist__teleop_8hpp_source_l00012}00012\ \textcolor{comment}{//\ See\ the\ License\ for\ the\ specific\ language\ governing\ permissions\ and}}
+\DoxyCodeLine{\Hypertarget{cb__keyboard__twist__teleop_8hpp_source_l00013}00013\ \textcolor{comment}{//\ limitations\ under\ the\ License.}}
+\DoxyCodeLine{\Hypertarget{cb__keyboard__twist__teleop_8hpp_source_l00014}00014\ }
+\DoxyCodeLine{\Hypertarget{cb__keyboard__twist__teleop_8hpp_source_l00015}00015\ \textcolor{preprocessor}{\#pragma\ once}}
+\DoxyCodeLine{\Hypertarget{cb__keyboard__twist__teleop_8hpp_source_l00016}00016\ }
+\DoxyCodeLine{\Hypertarget{cb__keyboard__twist__teleop_8hpp_source_l00017}00017\ \textcolor{preprocessor}{\#include\ <chrono>}}
+\DoxyCodeLine{\Hypertarget{cb__keyboard__twist__teleop_8hpp_source_l00018}00018\ \textcolor{preprocessor}{\#include\ <mutex>}}
+\DoxyCodeLine{\Hypertarget{cb__keyboard__twist__teleop_8hpp_source_l00019}00019\ }
+\DoxyCodeLine{\Hypertarget{cb__keyboard__twist__teleop_8hpp_source_l00020}00020\ \textcolor{preprocessor}{\#include\ <\mbox{\hyperlink{cp__keyboard__listener__1_8hpp}{cl\_keyboard/components/cp\_keyboard\_listener\_1.hpp}}>}}
+\DoxyCodeLine{\Hypertarget{cb__keyboard__twist__teleop_8hpp_source_l00021}00021\ \textcolor{preprocessor}{\#include\ <geometry\_msgs/msg/twist.hpp>}}
+\DoxyCodeLine{\Hypertarget{cb__keyboard__twist__teleop_8hpp_source_l00022}00022\ \textcolor{preprocessor}{\#include\ <\mbox{\hyperlink{cp__topic__publisher_8hpp}{smacc2/client\_core\_components/cp\_topic\_publisher.hpp}}>}}
+\DoxyCodeLine{\Hypertarget{cb__keyboard__twist__teleop_8hpp_source_l00023}00023\ \textcolor{preprocessor}{\#include\ <\mbox{\hyperlink{smacc_8hpp}{smacc2/smacc.hpp}}>}}
+\DoxyCodeLine{\Hypertarget{cb__keyboard__twist__teleop_8hpp_source_l00024}00024\ \textcolor{preprocessor}{\#include\ <\mbox{\hyperlink{smacc__client__behavior_8hpp}{smacc2/smacc\_client\_behavior.hpp}}>}}
+\DoxyCodeLine{\Hypertarget{cb__keyboard__twist__teleop_8hpp_source_l00025}00025\ }
+\DoxyCodeLine{\Hypertarget{cb__keyboard__twist__teleop_8hpp_source_l00026}00026\ \textcolor{keyword}{namespace\ }\mbox{\hyperlink{namespacecl__keyboard}{cl\_keyboard}}}
+\DoxyCodeLine{\Hypertarget{cb__keyboard__twist__teleop_8hpp_source_l00027}00027\ \{}
+\DoxyCodeLine{\Hypertarget{cb__keyboard__twist__teleop_8hpp_source_l00028}00028\ }
+\DoxyCodeLine{\Hypertarget{cb__keyboard__twist__teleop_8hpp_source_l00029}00029\ \textcolor{comment}{//\ Drives\ a\ Twist\ topic\ from\ the\ arrow\ keys\ (decoded\ by\ the\ keyboard\ server):}}
+\DoxyCodeLine{\Hypertarget{cb__keyboard__twist__teleop_8hpp_source_l00030}00030\ \textcolor{comment}{//\ Up/Down\ =\ +-\/linear\ step,\ Left/Right\ =\ +-\/angular\ step.\ Each\ arrow\ sets\ a\ pure}}
+\DoxyCodeLine{\Hypertarget{cb__keyboard__twist__teleop_8hpp_source_l00031}00031\ \textcolor{comment}{//\ motion\ (no\ combining);\ keyboard\ autorepeat\ keeps\ it\ alive\ while\ the\ key\ is}}
+\DoxyCodeLine{\Hypertarget{cb__keyboard__twist__teleop_8hpp_source_l00032}00032\ \textcolor{comment}{//\ held,\ and\ a\ deadman\ zeroes\ it\ on\ release.\ While\ no\ key\ is\ fresh,\ the}}
+\DoxyCodeLine{\Hypertarget{cb__keyboard__twist__teleop_8hpp_source_l00033}00033\ \textcolor{comment}{//\ configured\ idle\ twist\ is\ published\ instead\ -\/\ zero\ by\ default,\ or\ a\ constant}}
+\DoxyCodeLine{\Hypertarget{cb__keyboard__twist__teleop_8hpp_source_l00034}00034\ \textcolor{comment}{//\ "{}synthetic\ operator"{}\ push\ for\ unattended\ missions\ (e.g.\ driving\ the\ Nav2}}
+\DoxyCodeLine{\Hypertarget{cb__keyboard__twist__teleop_8hpp_source_l00035}00035\ \textcolor{comment}{//\ assisted\_teleop\ collision\ guard\ without\ a\ human).}}
+\DoxyCodeLine{\Hypertarget{cb__keyboard__twist__teleop_8hpp_source_l00036}00036\ \textcolor{comment}{//}}
+\DoxyCodeLine{\Hypertarget{cb__keyboard__twist__teleop_8hpp_source_l00037}00037\ \textcolor{comment}{//\ The\ state\ machine's\ orthogonal\ must\ create\ the\ output\ topic\ component,\ e.g.}}
+\DoxyCodeLine{\Hypertarget{cb__keyboard__twist__teleop_8hpp_source_l00038}00038\ \textcolor{comment}{//\ createComponent<CpTopicPublisher<geometry\_msgs::msg::Twist>>("{}/cmd\_vel\_teleop"{}).}}
+\DoxyCodeLine{\Hypertarget{cb__keyboard__twist__teleop_8hpp_source_l00039}\mbox{\hyperlink{classcl__keyboard_1_1CbKeyboardTwistTeleop}{00039}}\ \textcolor{keyword}{class\ }\mbox{\hyperlink{classcl__keyboard_1_1CbKeyboardTwistTeleop}{CbKeyboardTwistTeleop}}\ :\ \textcolor{keyword}{public}\ \mbox{\hyperlink{classsmacc2_1_1SmaccClientBehavior}{smacc2::SmaccClientBehavior}},\ \textcolor{keyword}{public}\ \mbox{\hyperlink{classsmacc2_1_1ISmaccUpdatable}{smacc2::ISmaccUpdatable}}}
+\DoxyCodeLine{\Hypertarget{cb__keyboard__twist__teleop_8hpp_source_l00040}00040\ \{}
+\DoxyCodeLine{\Hypertarget{cb__keyboard__twist__teleop_8hpp_source_l00041}00041\ \textcolor{keyword}{public}:}
+\DoxyCodeLine{\Hypertarget{cb__keyboard__twist__teleop_8hpp_source_l00042}\mbox{\hyperlink{classcl__keyboard_1_1CbKeyboardTwistTeleop_a07612b1eaa8dcd9e7797681df67f4451}{00042}}\ \ \ \mbox{\hyperlink{classcl__keyboard_1_1CbKeyboardTwistTeleop_a07612b1eaa8dcd9e7797681df67f4451}{CbKeyboardTwistTeleop}}(}
+\DoxyCodeLine{\Hypertarget{cb__keyboard__twist__teleop_8hpp_source_l00043}00043\ \ \ \ \ \textcolor{keywordtype}{float}\ linearStep\ =\ 0.15f,\ \textcolor{keywordtype}{float}\ angularStep\ =\ 0.4f,}
+\DoxyCodeLine{\Hypertarget{cb__keyboard__twist__teleop_8hpp_source_l00044}00044\ \ \ \ \ geometry\_msgs::msg::Twist\ idleTwist\ =\ geometry\_msgs::msg::Twist())}
+\DoxyCodeLine{\Hypertarget{cb__keyboard__twist__teleop_8hpp_source_l00045}00045\ \ \ :\ \mbox{\hyperlink{classcl__keyboard_1_1CbKeyboardTwistTeleop_a8c38b5b51ddde54815763babe5823e29}{linearStep\_}}(linearStep),\ \mbox{\hyperlink{classcl__keyboard_1_1CbKeyboardTwistTeleop_a5ce2d88b62a94915f093d6d448588f20}{angularStep\_}}(angularStep),\ \mbox{\hyperlink{classcl__keyboard_1_1CbKeyboardTwistTeleop_ae30a0b87c674d009ccf43107268068c7}{idleTwist\_}}(idleTwist)}
+\DoxyCodeLine{\Hypertarget{cb__keyboard__twist__teleop_8hpp_source_l00046}00046\ \ \ \{}
+\DoxyCodeLine{\Hypertarget{cb__keyboard__twist__teleop_8hpp_source_l00047}00047\ \ \ \}}
+\DoxyCodeLine{\Hypertarget{cb__keyboard__twist__teleop_8hpp_source_l00048}00048\ }
+\DoxyCodeLine{\Hypertarget{cb__keyboard__twist__teleop_8hpp_source_l00049}\mbox{\hyperlink{classcl__keyboard_1_1CbKeyboardTwistTeleop_aca7747c63618c0aa6b77c36658131d63}{00049}}\ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{classcl__keyboard_1_1CbKeyboardTwistTeleop_aca7747c63618c0aa6b77c36658131d63}{onEntry}}()\textcolor{keyword}{\ override}}
+\DoxyCodeLine{\Hypertarget{cb__keyboard__twist__teleop_8hpp_source_l00050}00050\ \textcolor{keyword}{\ \ }\{}
+\DoxyCodeLine{\Hypertarget{cb__keyboard__twist__teleop_8hpp_source_l00051}00051\ \ \ \ \ \textcolor{comment}{//\ sync\ behavior:\ onEntry\ runs\ on\ the\ state\ machine\ thread,\ so\ component}}
+\DoxyCodeLine{\Hypertarget{cb__keyboard__twist__teleop_8hpp_source_l00052}00052\ \ \ \ \ \textcolor{comment}{//\ resolution\ and\ signal\ wiring\ are\ safe\ here}}
+\DoxyCodeLine{\Hypertarget{cb__keyboard__twist__teleop_8hpp_source_l00053}00053\ \ \ \ \ this-\/>\mbox{\hyperlink{classsmacc2_1_1ISmaccClientBehavior_aeb76b10b9bb3925244da9d484739a5a9}{requiresComponent}}(\mbox{\hyperlink{classcl__keyboard_1_1CbKeyboardTwistTeleop_aebcd877a02e84022200daa1be56338f1}{keyboardListener\_}});}
+\DoxyCodeLine{\Hypertarget{cb__keyboard__twist__teleop_8hpp_source_l00054}00054\ \ \ \ \ this-\/>\mbox{\hyperlink{classsmacc2_1_1ISmaccClientBehavior_aeb76b10b9bb3925244da9d484739a5a9}{requiresComponent}}(\mbox{\hyperlink{classcl__keyboard_1_1CbKeyboardTwistTeleop_aa7e27af6ca061bfb1378892d4106f1d0}{twistPublisher\_}});}
+\DoxyCodeLine{\Hypertarget{cb__keyboard__twist__teleop_8hpp_source_l00055}00055\ }
+\DoxyCodeLine{\Hypertarget{cb__keyboard__twist__teleop_8hpp_source_l00056}00056\ \ \ \ \ \textcolor{keywordflow}{if}\ (\mbox{\hyperlink{classcl__keyboard_1_1CbKeyboardTwistTeleop_aebcd877a02e84022200daa1be56338f1}{keyboardListener\_}}\ !=\ \textcolor{keyword}{nullptr})}
+\DoxyCodeLine{\Hypertarget{cb__keyboard__twist__teleop_8hpp_source_l00057}00057\ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{cb__keyboard__twist__teleop_8hpp_source_l00058}00058\ \ \ \ \ \ \ \mbox{\hyperlink{classcl__keyboard_1_1CbKeyboardTwistTeleop_aebcd877a02e84022200daa1be56338f1}{keyboardListener\_}}-\/>\mbox{\hyperlink{classcl__keyboard_1_1components_1_1CpKeyboardListener1_a22bf9f01ab38ddb9f231568a1534567c}{OnArrowPress}}(\&\mbox{\hyperlink{classcl__keyboard_1_1CbKeyboardTwistTeleop_a5a3473bd50079eac05d88201f8681dd1}{CbKeyboardTwistTeleop::onArrowPress}},\ \textcolor{keyword}{this});}
+\DoxyCodeLine{\Hypertarget{cb__keyboard__twist__teleop_8hpp_source_l00059}00059\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{cb__keyboard__twist__teleop_8hpp_source_l00060}00060\ \ \ \ \ \textcolor{keywordflow}{else}}
+\DoxyCodeLine{\Hypertarget{cb__keyboard__twist__teleop_8hpp_source_l00061}00061\ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{cb__keyboard__twist__teleop_8hpp_source_l00062}00062\ \ \ \ \ \ \ RCLCPP\_ERROR(\mbox{\hyperlink{classsmacc2_1_1ISmaccClientBehavior_a9c3d82542c800e2ba5207c5cff0e63e8}{getLogger}}(),\ \textcolor{stringliteral}{"{}[\%s]\ CpKeyboardListener1\ not\ found"{}},\ \mbox{\hyperlink{classsmacc2_1_1ISmaccClientBehavior_a3feaa9c382a7d376b7ba0017a63e294e}{getName}}().c\_str());}
+\DoxyCodeLine{\Hypertarget{cb__keyboard__twist__teleop_8hpp_source_l00063}00063\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{cb__keyboard__twist__teleop_8hpp_source_l00064}00064\ }
+\DoxyCodeLine{\Hypertarget{cb__keyboard__twist__teleop_8hpp_source_l00065}00065\ \ \ \ \ \textcolor{keywordflow}{if}\ (\mbox{\hyperlink{classcl__keyboard_1_1CbKeyboardTwistTeleop_aa7e27af6ca061bfb1378892d4106f1d0}{twistPublisher\_}}\ ==\ \textcolor{keyword}{nullptr})}
+\DoxyCodeLine{\Hypertarget{cb__keyboard__twist__teleop_8hpp_source_l00066}00066\ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{cb__keyboard__twist__teleop_8hpp_source_l00067}00067\ \ \ \ \ \ \ RCLCPP\_ERROR(}
+\DoxyCodeLine{\Hypertarget{cb__keyboard__twist__teleop_8hpp_source_l00068}00068\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{classsmacc2_1_1ISmaccClientBehavior_a9c3d82542c800e2ba5207c5cff0e63e8}{getLogger}}(),\ \textcolor{stringliteral}{"{}[\%s]\ CpTopicPublisher<Twist>\ not\ found\ -\/\ create\ it\ in\ the\ orthogonal"{}},}
+\DoxyCodeLine{\Hypertarget{cb__keyboard__twist__teleop_8hpp_source_l00069}00069\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{classsmacc2_1_1ISmaccClientBehavior_a3feaa9c382a7d376b7ba0017a63e294e}{getName}}().c\_str());}
+\DoxyCodeLine{\Hypertarget{cb__keyboard__twist__teleop_8hpp_source_l00070}00070\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{cb__keyboard__twist__teleop_8hpp_source_l00071}00071\ \ \ \}}
+\DoxyCodeLine{\Hypertarget{cb__keyboard__twist__teleop_8hpp_source_l00072}00072\ }
+\DoxyCodeLine{\Hypertarget{cb__keyboard__twist__teleop_8hpp_source_l00073}\mbox{\hyperlink{classcl__keyboard_1_1CbKeyboardTwistTeleop_a6a95a5d486c1905ee38e36f0f44ae9b9}{00073}}\ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{classcl__keyboard_1_1CbKeyboardTwistTeleop_a6a95a5d486c1905ee38e36f0f44ae9b9}{onExit}}()\textcolor{keyword}{\ override}}
+\DoxyCodeLine{\Hypertarget{cb__keyboard__twist__teleop_8hpp_source_l00074}00074\ \textcolor{keyword}{\ \ }\{}
+\DoxyCodeLine{\Hypertarget{cb__keyboard__twist__teleop_8hpp_source_l00075}00075\ \ \ \ \ \textcolor{comment}{//\ stop\ pushing:\ leave\ the\ topic\ at\ zero\ for\ whatever\ runs\ next}}
+\DoxyCodeLine{\Hypertarget{cb__keyboard__twist__teleop_8hpp_source_l00076}00076\ \ \ \ \ \textcolor{keywordflow}{if}\ (\mbox{\hyperlink{classcl__keyboard_1_1CbKeyboardTwistTeleop_aa7e27af6ca061bfb1378892d4106f1d0}{twistPublisher\_}}\ !=\ \textcolor{keyword}{nullptr})}
+\DoxyCodeLine{\Hypertarget{cb__keyboard__twist__teleop_8hpp_source_l00077}00077\ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{cb__keyboard__twist__teleop_8hpp_source_l00078}00078\ \ \ \ \ \ \ \mbox{\hyperlink{classcl__keyboard_1_1CbKeyboardTwistTeleop_aa7e27af6ca061bfb1378892d4106f1d0}{twistPublisher\_}}-\/>\mbox{\hyperlink{classsmacc2_1_1client__core__components_1_1CpTopicPublisher_ad63f8699623588e30fe87768be0f6be6}{publish}}(geometry\_msgs::msg::Twist());}
+\DoxyCodeLine{\Hypertarget{cb__keyboard__twist__teleop_8hpp_source_l00079}00079\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{cb__keyboard__twist__teleop_8hpp_source_l00080}00080\ \ \ \}}
+\DoxyCodeLine{\Hypertarget{cb__keyboard__twist__teleop_8hpp_source_l00081}00081\ }
+\DoxyCodeLine{\Hypertarget{cb__keyboard__twist__teleop_8hpp_source_l00082}\mbox{\hyperlink{classcl__keyboard_1_1CbKeyboardTwistTeleop_abff64d45aa576309f4301beb04a05015}{00082}}\ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{classcl__keyboard_1_1CbKeyboardTwistTeleop_abff64d45aa576309f4301beb04a05015}{update}}()\textcolor{keyword}{\ override}}
+\DoxyCodeLine{\Hypertarget{cb__keyboard__twist__teleop_8hpp_source_l00083}00083\ \textcolor{keyword}{\ \ }\{}
+\DoxyCodeLine{\Hypertarget{cb__keyboard__twist__teleop_8hpp_source_l00084}00084\ \ \ \ \ \textcolor{keywordflow}{if}\ (\mbox{\hyperlink{classcl__keyboard_1_1CbKeyboardTwistTeleop_aa7e27af6ca061bfb1378892d4106f1d0}{twistPublisher\_}}\ ==\ \textcolor{keyword}{nullptr})}
+\DoxyCodeLine{\Hypertarget{cb__keyboard__twist__teleop_8hpp_source_l00085}00085\ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{cb__keyboard__twist__teleop_8hpp_source_l00086}00086\ \ \ \ \ \ \ \textcolor{keywordflow}{return};}
+\DoxyCodeLine{\Hypertarget{cb__keyboard__twist__teleop_8hpp_source_l00087}00087\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{cb__keyboard__twist__teleop_8hpp_source_l00088}00088\ }
+\DoxyCodeLine{\Hypertarget{cb__keyboard__twist__teleop_8hpp_source_l00089}00089\ \ \ \ \ geometry\_msgs::msg::Twist\ out;}
+\DoxyCodeLine{\Hypertarget{cb__keyboard__twist__teleop_8hpp_source_l00090}00090\ \ \ \ \ \textcolor{keywordtype}{bool}\ held;}
+\DoxyCodeLine{\Hypertarget{cb__keyboard__twist__teleop_8hpp_source_l00091}00091\ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{cb__keyboard__twist__teleop_8hpp_source_l00092}00092\ \ \ \ \ \ \ std::lock\_guard<std::mutex>\ lock(\mbox{\hyperlink{classcl__keyboard_1_1CbKeyboardTwistTeleop_a0ce25cfc83bab5e0119bb6734cf997ac}{mutex\_}});}
+\DoxyCodeLine{\Hypertarget{cb__keyboard__twist__teleop_8hpp_source_l00093}00093\ \ \ \ \ \ \ \textcolor{keyword}{auto}\ now\ =\ std::chrono::steady\_clock::now();}
+\DoxyCodeLine{\Hypertarget{cb__keyboard__twist__teleop_8hpp_source_l00094}00094\ \ \ \ \ \ \ held\ =\ \mbox{\hyperlink{classcl__keyboard_1_1CbKeyboardTwistTeleop_a694fab65b1237f1b2d4befa8de4d0785}{lastArrowTime\_}}\ \&\&\ (now\ -\/\ *\mbox{\hyperlink{classcl__keyboard_1_1CbKeyboardTwistTeleop_a694fab65b1237f1b2d4befa8de4d0785}{lastArrowTime\_}})\ <\ \mbox{\hyperlink{classcl__keyboard_1_1CbKeyboardTwistTeleop_abbc0ce3c8b110c09e6b39988753aac2d}{deadman\_}};}
+\DoxyCodeLine{\Hypertarget{cb__keyboard__twist__teleop_8hpp_source_l00095}00095\ \ \ \ \ \ \ out\ =\ held\ ?\ \mbox{\hyperlink{classcl__keyboard_1_1CbKeyboardTwistTeleop_a53663b1fefe4cf57627d0af3ca9ba3aa}{heldTwist\_}}\ :\ \mbox{\hyperlink{classcl__keyboard_1_1CbKeyboardTwistTeleop_ae30a0b87c674d009ccf43107268068c7}{idleTwist\_}};}
+\DoxyCodeLine{\Hypertarget{cb__keyboard__twist__teleop_8hpp_source_l00096}00096\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{cb__keyboard__twist__teleop_8hpp_source_l00097}00097\ \ \ \ \ \mbox{\hyperlink{classcl__keyboard_1_1CbKeyboardTwistTeleop_aa7e27af6ca061bfb1378892d4106f1d0}{twistPublisher\_}}-\/>\mbox{\hyperlink{classsmacc2_1_1client__core__components_1_1CpTopicPublisher_ad63f8699623588e30fe87768be0f6be6}{publish}}(out);}
+\DoxyCodeLine{\Hypertarget{cb__keyboard__twist__teleop_8hpp_source_l00098}00098\ }
+\DoxyCodeLine{\Hypertarget{cb__keyboard__twist__teleop_8hpp_source_l00099}00099\ \ \ \ \ RCLCPP\_INFO\_THROTTLE(}
+\DoxyCodeLine{\Hypertarget{cb__keyboard__twist__teleop_8hpp_source_l00100}00100\ \ \ \ \ \ \ \mbox{\hyperlink{classsmacc2_1_1ISmaccClientBehavior_a9c3d82542c800e2ba5207c5cff0e63e8}{getLogger}}(),\ *\mbox{\hyperlink{classsmacc2_1_1ISmaccClientBehavior_aa1b28d5e8a5208fff8160f9df9a89dc6}{getNode}}()-\/>get\_clock(),\ 2000,}
+\DoxyCodeLine{\Hypertarget{cb__keyboard__twist__teleop_8hpp_source_l00101}00101\ \ \ \ \ \ \ \textcolor{stringliteral}{"{}[\%s]\ publishing\ \%s\ twist:\ linear=\%.2f\ angular=\%.2f"{}},\ \mbox{\hyperlink{classsmacc2_1_1ISmaccClientBehavior_a3feaa9c382a7d376b7ba0017a63e294e}{getName}}().c\_str(),}
+\DoxyCodeLine{\Hypertarget{cb__keyboard__twist__teleop_8hpp_source_l00102}00102\ \ \ \ \ \ \ held\ ?\ \textcolor{stringliteral}{"{}held"{}}\ :\ \textcolor{stringliteral}{"{}idle"{}},\ out.linear.x,\ out.angular.z);}
+\DoxyCodeLine{\Hypertarget{cb__keyboard__twist__teleop_8hpp_source_l00103}00103\ \ \ \}}
+\DoxyCodeLine{\Hypertarget{cb__keyboard__twist__teleop_8hpp_source_l00104}00104\ }
+\DoxyCodeLine{\Hypertarget{cb__keyboard__twist__teleop_8hpp_source_l00105}00105\ \textcolor{keyword}{private}:}
+\DoxyCodeLine{\Hypertarget{cb__keyboard__twist__teleop_8hpp_source_l00106}\mbox{\hyperlink{classcl__keyboard_1_1CbKeyboardTwistTeleop_a5a3473bd50079eac05d88201f8681dd1}{00106}}\ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{classcl__keyboard_1_1CbKeyboardTwistTeleop_a5a3473bd50079eac05d88201f8681dd1}{onArrowPress}}(\mbox{\hyperlink{namespacecl__keyboard_a415c207ca70d5111b65987250642eaea}{ArrowKey}}\ arrow)}
+\DoxyCodeLine{\Hypertarget{cb__keyboard__twist__teleop_8hpp_source_l00107}00107\ \ \ \{}
+\DoxyCodeLine{\Hypertarget{cb__keyboard__twist__teleop_8hpp_source_l00108}00108\ \ \ \ \ std::lock\_guard<std::mutex>\ lock(\mbox{\hyperlink{classcl__keyboard_1_1CbKeyboardTwistTeleop_a0ce25cfc83bab5e0119bb6734cf997ac}{mutex\_}});}
+\DoxyCodeLine{\Hypertarget{cb__keyboard__twist__teleop_8hpp_source_l00109}00109\ \ \ \ \ \mbox{\hyperlink{classcl__keyboard_1_1CbKeyboardTwistTeleop_a53663b1fefe4cf57627d0af3ca9ba3aa}{heldTwist\_}}\ =\ geometry\_msgs::msg::Twist();}
+\DoxyCodeLine{\Hypertarget{cb__keyboard__twist__teleop_8hpp_source_l00110}00110\ \ \ \ \ \textcolor{keywordflow}{switch}\ (arrow)}
+\DoxyCodeLine{\Hypertarget{cb__keyboard__twist__teleop_8hpp_source_l00111}00111\ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{cb__keyboard__twist__teleop_8hpp_source_l00112}00112\ \ \ \ \ \ \ \textcolor{keywordflow}{case}\ \mbox{\hyperlink{namespacecl__keyboard_a415c207ca70d5111b65987250642eaeaa258f49887ef8d14ac268c92b02503aaa}{ArrowKey::Up}}:}
+\DoxyCodeLine{\Hypertarget{cb__keyboard__twist__teleop_8hpp_source_l00113}00113\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{classcl__keyboard_1_1CbKeyboardTwistTeleop_a53663b1fefe4cf57627d0af3ca9ba3aa}{heldTwist\_}}.linear.x\ =\ \mbox{\hyperlink{classcl__keyboard_1_1CbKeyboardTwistTeleop_a8c38b5b51ddde54815763babe5823e29}{linearStep\_}};}
+\DoxyCodeLine{\Hypertarget{cb__keyboard__twist__teleop_8hpp_source_l00114}00114\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{break};}
+\DoxyCodeLine{\Hypertarget{cb__keyboard__twist__teleop_8hpp_source_l00115}00115\ \ \ \ \ \ \ \textcolor{keywordflow}{case}\ \mbox{\hyperlink{namespacecl__keyboard_a415c207ca70d5111b65987250642eaeaa08a38277b0309070706f6652eeae9a53}{ArrowKey::Down}}:}
+\DoxyCodeLine{\Hypertarget{cb__keyboard__twist__teleop_8hpp_source_l00116}00116\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{classcl__keyboard_1_1CbKeyboardTwistTeleop_a53663b1fefe4cf57627d0af3ca9ba3aa}{heldTwist\_}}.linear.x\ =\ -\/\mbox{\hyperlink{classcl__keyboard_1_1CbKeyboardTwistTeleop_a8c38b5b51ddde54815763babe5823e29}{linearStep\_}};}
+\DoxyCodeLine{\Hypertarget{cb__keyboard__twist__teleop_8hpp_source_l00117}00117\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{break};}
+\DoxyCodeLine{\Hypertarget{cb__keyboard__twist__teleop_8hpp_source_l00118}00118\ \ \ \ \ \ \ \textcolor{keywordflow}{case}\ \mbox{\hyperlink{namespacecl__keyboard_a415c207ca70d5111b65987250642eaeaa945d5e233cf7d6240f6b783b36a374ff}{ArrowKey::Left}}:}
+\DoxyCodeLine{\Hypertarget{cb__keyboard__twist__teleop_8hpp_source_l00119}00119\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{classcl__keyboard_1_1CbKeyboardTwistTeleop_a53663b1fefe4cf57627d0af3ca9ba3aa}{heldTwist\_}}.angular.z\ =\ \mbox{\hyperlink{classcl__keyboard_1_1CbKeyboardTwistTeleop_a5ce2d88b62a94915f093d6d448588f20}{angularStep\_}};}
+\DoxyCodeLine{\Hypertarget{cb__keyboard__twist__teleop_8hpp_source_l00120}00120\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{break};}
+\DoxyCodeLine{\Hypertarget{cb__keyboard__twist__teleop_8hpp_source_l00121}00121\ \ \ \ \ \ \ \textcolor{keywordflow}{case}\ \mbox{\hyperlink{namespacecl__keyboard_a415c207ca70d5111b65987250642eaeaa92b09c7c48c520c3c55e497875da437c}{ArrowKey::Right}}:}
+\DoxyCodeLine{\Hypertarget{cb__keyboard__twist__teleop_8hpp_source_l00122}00122\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{classcl__keyboard_1_1CbKeyboardTwistTeleop_a53663b1fefe4cf57627d0af3ca9ba3aa}{heldTwist\_}}.angular.z\ =\ -\/\mbox{\hyperlink{classcl__keyboard_1_1CbKeyboardTwistTeleop_a5ce2d88b62a94915f093d6d448588f20}{angularStep\_}};}
+\DoxyCodeLine{\Hypertarget{cb__keyboard__twist__teleop_8hpp_source_l00123}00123\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{break};}
+\DoxyCodeLine{\Hypertarget{cb__keyboard__twist__teleop_8hpp_source_l00124}00124\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{cb__keyboard__twist__teleop_8hpp_source_l00125}00125\ \ \ \ \ \mbox{\hyperlink{classcl__keyboard_1_1CbKeyboardTwistTeleop_a694fab65b1237f1b2d4befa8de4d0785}{lastArrowTime\_}}\ =\ std::chrono::steady\_clock::now();}
+\DoxyCodeLine{\Hypertarget{cb__keyboard__twist__teleop_8hpp_source_l00126}00126\ \ \ \}}
+\DoxyCodeLine{\Hypertarget{cb__keyboard__twist__teleop_8hpp_source_l00127}00127\ }
+\DoxyCodeLine{\Hypertarget{cb__keyboard__twist__teleop_8hpp_source_l00128}\mbox{\hyperlink{classcl__keyboard_1_1CbKeyboardTwistTeleop_aebcd877a02e84022200daa1be56338f1}{00128}}\ \ \ \mbox{\hyperlink{classcl__keyboard_1_1components_1_1CpKeyboardListener1}{components::CpKeyboardListener1}}\ *\ \mbox{\hyperlink{classcl__keyboard_1_1CbKeyboardTwistTeleop_aebcd877a02e84022200daa1be56338f1}{keyboardListener\_}}\ =\ \textcolor{keyword}{nullptr};}
+\DoxyCodeLine{\Hypertarget{cb__keyboard__twist__teleop_8hpp_source_l00129}\mbox{\hyperlink{classcl__keyboard_1_1CbKeyboardTwistTeleop_aa7e27af6ca061bfb1378892d4106f1d0}{00129}}\ \ \ \mbox{\hyperlink{classsmacc2_1_1client__core__components_1_1CpTopicPublisher}{smacc2::client\_core\_components::CpTopicPublisher<geometry\_msgs::msg::Twist>}}\ *\ \mbox{\hyperlink{classcl__keyboard_1_1CbKeyboardTwistTeleop_aa7e27af6ca061bfb1378892d4106f1d0}{twistPublisher\_}}\ =}
+\DoxyCodeLine{\Hypertarget{cb__keyboard__twist__teleop_8hpp_source_l00130}00130\ \ \ \ \ \textcolor{keyword}{nullptr};}
+\DoxyCodeLine{\Hypertarget{cb__keyboard__twist__teleop_8hpp_source_l00131}00131\ }
+\DoxyCodeLine{\Hypertarget{cb__keyboard__twist__teleop_8hpp_source_l00132}\mbox{\hyperlink{classcl__keyboard_1_1CbKeyboardTwistTeleop_a8c38b5b51ddde54815763babe5823e29}{00132}}\ \ \ \textcolor{keywordtype}{float}\ \mbox{\hyperlink{classcl__keyboard_1_1CbKeyboardTwistTeleop_a8c38b5b51ddde54815763babe5823e29}{linearStep\_}};}
+\DoxyCodeLine{\Hypertarget{cb__keyboard__twist__teleop_8hpp_source_l00133}\mbox{\hyperlink{classcl__keyboard_1_1CbKeyboardTwistTeleop_a5ce2d88b62a94915f093d6d448588f20}{00133}}\ \ \ \textcolor{keywordtype}{float}\ \mbox{\hyperlink{classcl__keyboard_1_1CbKeyboardTwistTeleop_a5ce2d88b62a94915f093d6d448588f20}{angularStep\_}};}
+\DoxyCodeLine{\Hypertarget{cb__keyboard__twist__teleop_8hpp_source_l00134}\mbox{\hyperlink{classcl__keyboard_1_1CbKeyboardTwistTeleop_ae30a0b87c674d009ccf43107268068c7}{00134}}\ \ \ geometry\_msgs::msg::Twist\ \mbox{\hyperlink{classcl__keyboard_1_1CbKeyboardTwistTeleop_ae30a0b87c674d009ccf43107268068c7}{idleTwist\_}};}
+\DoxyCodeLine{\Hypertarget{cb__keyboard__twist__teleop_8hpp_source_l00135}00135\ }
+\DoxyCodeLine{\Hypertarget{cb__keyboard__twist__teleop_8hpp_source_l00136}\mbox{\hyperlink{classcl__keyboard_1_1CbKeyboardTwistTeleop_a0ce25cfc83bab5e0119bb6734cf997ac}{00136}}\ \ \ std::mutex\ \mbox{\hyperlink{classcl__keyboard_1_1CbKeyboardTwistTeleop_a0ce25cfc83bab5e0119bb6734cf997ac}{mutex\_}};}
+\DoxyCodeLine{\Hypertarget{cb__keyboard__twist__teleop_8hpp_source_l00137}\mbox{\hyperlink{classcl__keyboard_1_1CbKeyboardTwistTeleop_a53663b1fefe4cf57627d0af3ca9ba3aa}{00137}}\ \ \ geometry\_msgs::msg::Twist\ \mbox{\hyperlink{classcl__keyboard_1_1CbKeyboardTwistTeleop_a53663b1fefe4cf57627d0af3ca9ba3aa}{heldTwist\_}};}
+\DoxyCodeLine{\Hypertarget{cb__keyboard__twist__teleop_8hpp_source_l00138}\mbox{\hyperlink{classcl__keyboard_1_1CbKeyboardTwistTeleop_a694fab65b1237f1b2d4befa8de4d0785}{00138}}\ \ \ std::optional<std::chrono::steady\_clock::time\_point>\ \mbox{\hyperlink{classcl__keyboard_1_1CbKeyboardTwistTeleop_a694fab65b1237f1b2d4befa8de4d0785}{lastArrowTime\_}};}
+\DoxyCodeLine{\Hypertarget{cb__keyboard__twist__teleop_8hpp_source_l00139}00139\ }
+\DoxyCodeLine{\Hypertarget{cb__keyboard__twist__teleop_8hpp_source_l00140}00140\ \ \ \textcolor{comment}{//\ keyboard\ autorepeat\ (typically\ \string~30\ Hz\ after\ the\ initial\ delay)\ refreshes}}
+\DoxyCodeLine{\Hypertarget{cb__keyboard__twist__teleop_8hpp_source_l00141}00141\ \ \ \textcolor{comment}{//\ lastArrowTime\_\ while\ a\ key\ is\ held;\ on\ release\ the\ twist\ dies\ within\ this}}
+\DoxyCodeLine{\Hypertarget{cb__keyboard__twist__teleop_8hpp_source_l00142}00142\ \ \ \textcolor{comment}{//\ window.\ Long\ enough\ to\ bridge\ the\ repeat-\/start\ delay\ stutter\ is\ NOT}}
+\DoxyCodeLine{\Hypertarget{cb__keyboard__twist__teleop_8hpp_source_l00143}00143\ \ \ \textcolor{comment}{//\ possible\ (that\ delay\ is\ \string~500\ ms)\ -\/\ accept\ one\ idle\ blip\ after\ the\ first}}
+\DoxyCodeLine{\Hypertarget{cb__keyboard__twist__teleop_8hpp_source_l00144}00144\ \ \ \textcolor{comment}{//\ press\ or\ hold\ through\ it\ with\ the\ repeat\ stream}}
+\DoxyCodeLine{\Hypertarget{cb__keyboard__twist__teleop_8hpp_source_l00145}\mbox{\hyperlink{classcl__keyboard_1_1CbKeyboardTwistTeleop_abbc0ce3c8b110c09e6b39988753aac2d}{00145}}\ \ \ std::chrono::milliseconds\ \mbox{\hyperlink{classcl__keyboard_1_1CbKeyboardTwistTeleop_abbc0ce3c8b110c09e6b39988753aac2d}{deadman\_}}\{350\};}
+\DoxyCodeLine{\Hypertarget{cb__keyboard__twist__teleop_8hpp_source_l00146}00146\ \};}
+\DoxyCodeLine{\Hypertarget{cb__keyboard__twist__teleop_8hpp_source_l00147}00147\ }
+\DoxyCodeLine{\Hypertarget{cb__keyboard__twist__teleop_8hpp_source_l00148}00148\ \}\ \ \textcolor{comment}{//\ namespace\ cl\_keyboard}}
+
+\end{DoxyCode}
