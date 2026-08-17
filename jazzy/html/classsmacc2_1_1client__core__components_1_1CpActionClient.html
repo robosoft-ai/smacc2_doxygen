@@ -685,32 +685,34 @@ template&lt;typename ActionType &gt; </div>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="cp__action__client_8hpp_source.html#l00122">122</a> of file <a class="el" href="cp__action__client_8hpp_source.html">cp_action_client.hpp</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">  123</span>  {</div>
-<div class="line"><span class="lineno">  124</span>    std::lock_guard&lt;std::mutex&gt; lock(<a class="code hl_variable" href="#a806cfb164cf4bd9c87ff5e95ba95a042">actionMutex_</a>);</div>
-<div class="line"><span class="lineno">  125</span> </div>
-<div class="line"><span class="lineno">  126</span>    <span class="keywordflow">if</span> (<a class="code hl_variable" href="#a30be4b55466ed0e7416af7342fe27532">lastRequest_</a> &amp;&amp; <a class="code hl_variable" href="#a30be4b55466ed0e7416af7342fe27532">lastRequest_</a>-&gt;valid())</div>
-<div class="line"><span class="lineno">  127</span>    {</div>
-<div class="line"><span class="lineno">  128</span>      RCLCPP_INFO_STREAM(<a class="code hl_function" href="classsmacc2_1_1ISmaccComponent.html#a77ee85823bab8d84edcdf5d28782b728">getLogger</a>(), <span class="stringliteral">&quot;[&quot;</span> &lt;&lt; this-&gt;<a class="code hl_function" href="classsmacc2_1_1ISmaccComponent.html#a6fea938740f0c9ffc082b2ff076c900b">getName</a>() &lt;&lt; <span class="stringliteral">&quot;] Cancelling current goal&quot;</span>);</div>
-<div class="line"><span class="lineno">  129</span> </div>
-<div class="line"><span class="lineno">  130</span>      <span class="keyword">auto</span> cancelFuture = <a class="code hl_variable" href="#acb7dcdf359483f1cab4990cdad727bd9">client_</a>-&gt;async_cancel_all_goals();</div>
-<div class="line"><span class="lineno">  131</span>      <a class="code hl_variable" href="#afb8623b9e60d19126902246ce42c062f">lastCancelResponse_</a> = cancelFuture;</div>
-<div class="line"><span class="lineno">  132</span>      <span class="keywordflow">return</span> <span class="keyword">true</span>;</div>
-<div class="line"><span class="lineno">  133</span>    }</div>
-<div class="line"><span class="lineno">  134</span>    <span class="keywordflow">else</span></div>
-<div class="line"><span class="lineno">  135</span>    {</div>
-<div class="line"><span class="lineno">  136</span>      RCLCPP_WARN_STREAM(<a class="code hl_function" href="classsmacc2_1_1ISmaccComponent.html#a77ee85823bab8d84edcdf5d28782b728">getLogger</a>(), <span class="stringliteral">&quot;[&quot;</span> &lt;&lt; this-&gt;<a class="code hl_function" href="classsmacc2_1_1ISmaccComponent.html#a6fea938740f0c9ffc082b2ff076c900b">getName</a>() &lt;&lt; <span class="stringliteral">&quot;] No active goal to cancel&quot;</span>);</div>
-<div class="line"><span class="lineno">  137</span>      <span class="keywordflow">return</span> <span class="keyword">false</span>;</div>
-<div class="line"><span class="lineno">  138</span>    }</div>
-<div class="line"><span class="lineno">  139</span>  }</div>
+<p class="definition">Definition at line <a class="el" href="cp__action__client_8hpp_source.html#l00147">147</a> of file <a class="el" href="cp__action__client_8hpp_source.html">cp_action_client.hpp</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">  148</span>  {</div>
+<div class="line"><span class="lineno">  149</span>    std::lock_guard&lt;std::mutex&gt; lock(<a class="code hl_variable" href="#a806cfb164cf4bd9c87ff5e95ba95a042">actionMutex_</a>);</div>
+<div class="line"><span class="lineno">  150</span> </div>
+<div class="line"><span class="lineno">  151</span>    <span class="keywordflow">if</span> (<a class="code hl_variable" href="#acb7dcdf359483f1cab4990cdad727bd9">client_</a> != <span class="keyword">nullptr</span> &amp;&amp; <a class="code hl_variable" href="#a30be4b55466ed0e7416af7342fe27532">lastRequest_</a> &amp;&amp; <a class="code hl_variable" href="#a30be4b55466ed0e7416af7342fe27532">lastRequest_</a>-&gt;valid())</div>
+<div class="line"><span class="lineno">  152</span>    {</div>
+<div class="line"><span class="lineno">  153</span>      RCLCPP_INFO_STREAM(<a class="code hl_function" href="classsmacc2_1_1ISmaccComponent.html#a77ee85823bab8d84edcdf5d28782b728">getLogger</a>(), <span class="stringliteral">&quot;[&quot;</span> &lt;&lt; this-&gt;<a class="code hl_function" href="classsmacc2_1_1ISmaccComponent.html#a6fea938740f0c9ffc082b2ff076c900b">getName</a>() &lt;&lt; <span class="stringliteral">&quot;] Cancelling current goal&quot;</span>);</div>
+<div class="line"><span class="lineno">  154</span> </div>
+<div class="line"><span class="lineno">  155</span>      <span class="keyword">auto</span> cancelFuture = <a class="code hl_variable" href="#acb7dcdf359483f1cab4990cdad727bd9">client_</a>-&gt;async_cancel_all_goals();</div>
+<div class="line"><span class="lineno">  156</span>      <a class="code hl_variable" href="#afb8623b9e60d19126902246ce42c062f">lastCancelResponse_</a> = cancelFuture;</div>
+<div class="line"><span class="lineno">  157</span>      <span class="keywordflow">return</span> <span class="keyword">true</span>;</div>
+<div class="line"><span class="lineno">  158</span>    }</div>
+<div class="line"><span class="lineno">  159</span>    <span class="keywordflow">else</span></div>
+<div class="line"><span class="lineno">  160</span>    {</div>
+<div class="line"><span class="lineno">  161</span>      RCLCPP_WARN_STREAM(<a class="code hl_function" href="classsmacc2_1_1ISmaccComponent.html#a77ee85823bab8d84edcdf5d28782b728">getLogger</a>(), <span class="stringliteral">&quot;[&quot;</span> &lt;&lt; this-&gt;<a class="code hl_function" href="classsmacc2_1_1ISmaccComponent.html#a6fea938740f0c9ffc082b2ff076c900b">getName</a>() &lt;&lt; <span class="stringliteral">&quot;] No active goal to cancel&quot;</span>);</div>
+<div class="line"><span class="lineno">  162</span>      <span class="keywordflow">return</span> <span class="keyword">false</span>;</div>
+<div class="line"><span class="lineno">  163</span>    }</div>
+<div class="line"><span class="lineno">  164</span>  }</div>
 <div class="ttc" id="aclasssmacc2_1_1ISmaccComponent_html_a6fea938740f0c9ffc082b2ff076c900b"><div class="ttname"><a href="classsmacc2_1_1ISmaccComponent.html#a6fea938740f0c9ffc082b2ff076c900b">smacc2::ISmaccComponent::getName</a></div><div class="ttdeci">virtual std::string getName() const</div><div class="ttdef"><b>Definition</b> <a href="smacc__component_8cpp_source.html#l00046">smacc_component.cpp:46</a></div></div>
 <div class="ttc" id="aclasssmacc2_1_1ISmaccComponent_html_a77ee85823bab8d84edcdf5d28782b728"><div class="ttname"><a href="classsmacc2_1_1ISmaccComponent.html#a77ee85823bab8d84edcdf5d28782b728">smacc2::ISmaccComponent::getLogger</a></div><div class="ttdeci">rclcpp::Logger getLogger() const</div><div class="ttdef"><b>Definition</b> <a href="smacc__component_8cpp_source.html#l00044">smacc_component.cpp:44</a></div></div>
-<div class="ttc" id="aclasssmacc2_1_1client__core__components_1_1CpActionClient_html_a30be4b55466ed0e7416af7342fe27532"><div class="ttname"><a href="#a30be4b55466ed0e7416af7342fe27532">smacc2::client_core_components::CpActionClient::lastRequest_</a></div><div class="ttdeci">std::optional&lt; std::shared_future&lt; typename GoalHandle::SharedPtr &gt; &gt; lastRequest_</div><div class="ttdef"><b>Definition</b> <a href="cp__action__client_8hpp_source.html#l00229">cp_action_client.hpp:229</a></div></div>
-<div class="ttc" id="aclasssmacc2_1_1client__core__components_1_1CpActionClient_html_a806cfb164cf4bd9c87ff5e95ba95a042"><div class="ttname"><a href="#a806cfb164cf4bd9c87ff5e95ba95a042">smacc2::client_core_components::CpActionClient::actionMutex_</a></div><div class="ttdeci">std::mutex actionMutex_</div><div class="ttdef"><b>Definition</b> <a href="cp__action__client_8hpp_source.html#l00234">cp_action_client.hpp:234</a></div></div>
-<div class="ttc" id="aclasssmacc2_1_1client__core__components_1_1CpActionClient_html_acb7dcdf359483f1cab4990cdad727bd9"><div class="ttname"><a href="#acb7dcdf359483f1cab4990cdad727bd9">smacc2::client_core_components::CpActionClient::client_</a></div><div class="ttdeci">std::shared_ptr&lt; ActionClient &gt; client_</div><div class="ttdef"><b>Definition</b> <a href="cp__action__client_8hpp_source.html#l00228">cp_action_client.hpp:228</a></div></div>
-<div class="ttc" id="aclasssmacc2_1_1client__core__components_1_1CpActionClient_html_afb8623b9e60d19126902246ce42c062f"><div class="ttname"><a href="#afb8623b9e60d19126902246ce42c062f">smacc2::client_core_components::CpActionClient::lastCancelResponse_</a></div><div class="ttdeci">std::optional&lt; std::shared_future&lt; typename rclcpp_action::Client&lt; ActionType &gt;::CancelResponse::SharedPtr &gt; &gt; lastCancelResponse_</div><div class="ttdef"><b>Definition</b> <a href="cp__action__client_8hpp_source.html#l00232">cp_action_client.hpp:232</a></div></div>
+<div class="ttc" id="aclasssmacc2_1_1client__core__components_1_1CpActionClient_html_a30be4b55466ed0e7416af7342fe27532"><div class="ttname"><a href="#a30be4b55466ed0e7416af7342fe27532">smacc2::client_core_components::CpActionClient::lastRequest_</a></div><div class="ttdeci">std::optional&lt; std::shared_future&lt; typename GoalHandle::SharedPtr &gt; &gt; lastRequest_</div><div class="ttdef"><b>Definition</b> <a href="cp__action__client_8hpp_source.html#l00259">cp_action_client.hpp:259</a></div></div>
+<div class="ttc" id="aclasssmacc2_1_1client__core__components_1_1CpActionClient_html_a806cfb164cf4bd9c87ff5e95ba95a042"><div class="ttname"><a href="#a806cfb164cf4bd9c87ff5e95ba95a042">smacc2::client_core_components::CpActionClient::actionMutex_</a></div><div class="ttdeci">std::mutex actionMutex_</div><div class="ttdef"><b>Definition</b> <a href="cp__action__client_8hpp_source.html#l00264">cp_action_client.hpp:264</a></div></div>
+<div class="ttc" id="aclasssmacc2_1_1client__core__components_1_1CpActionClient_html_acb7dcdf359483f1cab4990cdad727bd9"><div class="ttname"><a href="#acb7dcdf359483f1cab4990cdad727bd9">smacc2::client_core_components::CpActionClient::client_</a></div><div class="ttdeci">std::shared_ptr&lt; ActionClient &gt; client_</div><div class="ttdef"><b>Definition</b> <a href="cp__action__client_8hpp_source.html#l00258">cp_action_client.hpp:258</a></div></div>
+<div class="ttc" id="aclasssmacc2_1_1client__core__components_1_1CpActionClient_html_afb8623b9e60d19126902246ce42c062f"><div class="ttname"><a href="#afb8623b9e60d19126902246ce42c062f">smacc2::client_core_components::CpActionClient::lastCancelResponse_</a></div><div class="ttdeci">std::optional&lt; std::shared_future&lt; typename rclcpp_action::Client&lt; ActionType &gt;::CancelResponse::SharedPtr &gt; &gt; lastCancelResponse_</div><div class="ttdef"><b>Definition</b> <a href="cp__action__client_8hpp_source.html#l00262">cp_action_client.hpp:262</a></div></div>
 </div><!-- fragment -->
-<p class="reference">References <a class="el" href="cp__action__client_8hpp_source.html#l00234">smacc2::client_core_components::CpActionClient&lt; ActionType &gt;::actionMutex_</a>, <a class="el" href="cp__action__client_8hpp_source.html#l00228">smacc2::client_core_components::CpActionClient&lt; ActionType &gt;::client_</a>, <a class="el" href="smacc__component_8cpp_source.html#l00044">smacc2::ISmaccComponent::getLogger()</a>, <a class="el" href="smacc__component_8cpp_source.html#l00046">smacc2::ISmaccComponent::getName()</a>, <a class="el" href="cp__action__client_8hpp_source.html#l00232">smacc2::client_core_components::CpActionClient&lt; ActionType &gt;::lastCancelResponse_</a>, and <a class="el" href="cp__action__client_8hpp_source.html#l00229">smacc2::client_core_components::CpActionClient&lt; ActionType &gt;::lastRequest_</a>.</p>
+<p class="reference">References <a class="el" href="cp__action__client_8hpp_source.html#l00264">smacc2::client_core_components::CpActionClient&lt; ActionType &gt;::actionMutex_</a>, <a class="el" href="cp__action__client_8hpp_source.html#l00258">smacc2::client_core_components::CpActionClient&lt; ActionType &gt;::client_</a>, <a class="el" href="smacc__component_8cpp_source.html#l00044">smacc2::ISmaccComponent::getLogger()</a>, <a class="el" href="smacc__component_8cpp_source.html#l00046">smacc2::ISmaccComponent::getName()</a>, <a class="el" href="cp__action__client_8hpp_source.html#l00262">smacc2::client_core_components::CpActionClient&lt; ActionType &gt;::lastCancelResponse_</a>, and <a class="el" href="cp__action__client_8hpp_source.html#l00259">smacc2::client_core_components::CpActionClient&lt; ActionType &gt;::lastRequest_</a>.</p>
+
+<p class="reference">Referenced by <a class="el" href="cb__action__client__behavior__base_8hpp_source.html#l00143">smacc2::client_behavior_bases::CbActionClientBehaviorBase&lt; TAction &gt;::cancelGoal()</a>.</p>
 <div class="dynheader">
 Here is the call graph for this function:</div>
 <div class="dyncontent">
@@ -732,6 +734,18 @@ Here is the call graph for this function:</div>
 <area shape="rect" href="namespacesmacc2_1_1introspection.html#aba19132e50f25adee919c2504ae6a3a2" title=" " alt="" coords="479,128,626,169"/>
 <area shape="poly" title=" " alt="" coords="429,139,464,141,463,146,429,144"/>
 <area shape="poly" title=" " alt="" coords="515,128,513,118,519,109,533,103,553,101,574,104,587,110,585,115,573,109,553,107,534,109,522,113,518,119,520,127"/>
+</map>
+</div>
+<div class="dynheader">
+Here is the caller graph for this function:</div>
+<div class="dyncontent">
+<div class="center"><img src="classsmacc2_1_1client__core__components_1_1CpActionClient_a6b6ec60d935f3ab26e7b4ae379060788_icgraph.png" border="0" usemap="#aclasssmacc2_1_1client__core__components_1_1CpActionClient_a6b6ec60d935f3ab26e7b4ae379060788_icgraph" alt=""/></div>
+<map name="aclasssmacc2_1_1client__core__components_1_1CpActionClient_a6b6ec60d935f3ab26e7b4ae379060788_icgraph" id="aclasssmacc2_1_1client__core__components_1_1CpActionClient_a6b6ec60d935f3ab26e7b4ae379060788_icgraph">
+<area shape="rect" title=" " alt="" coords="514,5,705,61"/>
+<area shape="rect" href="classsmacc2_1_1client__behavior__bases_1_1CbActionClientBehaviorBase.html#af4f3d031f3eba48fde5160015562f9d4" title=" " alt="" coords="260,5,466,61"/>
+<area shape="poly" title=" " alt="" coords="498,36,467,36,467,30,498,30"/>
+<area shape="rect" href="classsmacc2_1_1client__behavior__bases_1_1CbActionClientBehaviorBase.html#a301bdb74e8754ed66c502e81f8c78020" title=" " alt="" coords="5,5,212,61"/>
+<area shape="poly" title=" " alt="" coords="244,36,212,36,212,30,244,30"/>
 </map>
 </div>
 
@@ -762,10 +776,10 @@ template&lt;typename ActionType &gt; </div>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="cp__action__client_8hpp_source.html#l00225">225</a> of file <a class="el" href="cp__action__client_8hpp_source.html">cp_action_client.hpp</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">  225</span>{ <span class="keywordflow">return</span> <a class="code hl_variable" href="#acb7dcdf359483f1cab4990cdad727bd9">client_</a>; }</div>
+<p class="definition">Definition at line <a class="el" href="cp__action__client_8hpp_source.html#l00255">255</a> of file <a class="el" href="cp__action__client_8hpp_source.html">cp_action_client.hpp</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">  255</span>{ <span class="keywordflow">return</span> <a class="code hl_variable" href="#acb7dcdf359483f1cab4990cdad727bd9">client_</a>; }</div>
 </div><!-- fragment -->
-<p class="reference">References <a class="el" href="cp__action__client_8hpp_source.html#l00228">smacc2::client_core_components::CpActionClient&lt; ActionType &gt;::client_</a>.</p>
+<p class="reference">References <a class="el" href="cp__action__client_8hpp_source.html#l00258">smacc2::client_core_components::CpActionClient&lt; ActionType &gt;::client_</a>.</p>
 
 <p class="reference">Referenced by <a class="el" href="cb__wait__action__server__2_8hpp_source.html#l00051">smacc2::client_behaviors::CbWaitActionServer2&lt; ActionT &gt;::onEntry()</a>.</p>
 <div class="dynheader">
@@ -806,10 +820,22 @@ template&lt;typename ActionType &gt; </div>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="cp__action__client_8hpp_source.html#l00141">141</a> of file <a class="el" href="cp__action__client_8hpp_source.html">cp_action_client.hpp</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">  141</span>{ <span class="keywordflow">return</span> <a class="code hl_variable" href="#acb7dcdf359483f1cab4990cdad727bd9">client_</a> &amp;&amp; <a class="code hl_variable" href="#acb7dcdf359483f1cab4990cdad727bd9">client_</a>-&gt;action_server_is_ready(); }</div>
+<p class="definition">Definition at line <a class="el" href="cp__action__client_8hpp_source.html#l00166">166</a> of file <a class="el" href="cp__action__client_8hpp_source.html">cp_action_client.hpp</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">  166</span>{ <span class="keywordflow">return</span> <a class="code hl_variable" href="#acb7dcdf359483f1cab4990cdad727bd9">client_</a> &amp;&amp; <a class="code hl_variable" href="#acb7dcdf359483f1cab4990cdad727bd9">client_</a>-&gt;action_server_is_ready(); }</div>
 </div><!-- fragment -->
-<p class="reference">References <a class="el" href="cp__action__client_8hpp_source.html#l00228">smacc2::client_core_components::CpActionClient&lt; ActionType &gt;::client_</a>.</p>
+<p class="reference">References <a class="el" href="cp__action__client_8hpp_source.html#l00258">smacc2::client_core_components::CpActionClient&lt; ActionType &gt;::client_</a>.</p>
+
+<p class="reference">Referenced by <a class="el" href="cb__action__client__behavior__base_8hpp_source.html#l00103">smacc2::client_behavior_bases::CbActionClientBehaviorBase&lt; TAction &gt;::sendGoal()</a>.</p>
+<div class="dynheader">
+Here is the caller graph for this function:</div>
+<div class="dyncontent">
+<div class="center"><img src="classsmacc2_1_1client__core__components_1_1CpActionClient_acf4fe4452c6e1cacc89219e81a6dda94_icgraph.png" border="0" usemap="#aclasssmacc2_1_1client__core__components_1_1CpActionClient_acf4fe4452c6e1cacc89219e81a6dda94_icgraph" alt=""/></div>
+<map name="aclasssmacc2_1_1client__core__components_1_1CpActionClient_acf4fe4452c6e1cacc89219e81a6dda94_icgraph" id="aclasssmacc2_1_1client__core__components_1_1CpActionClient_acf4fe4452c6e1cacc89219e81a6dda94_icgraph">
+<area shape="rect" title=" " alt="" coords="260,5,451,61"/>
+<area shape="rect" href="classsmacc2_1_1client__behavior__bases_1_1CbActionClientBehaviorBase.html#af95b6ac1d7edb4c676798ee7c00b16a4" title=" " alt="" coords="5,5,212,61"/>
+<area shape="poly" title=" " alt="" coords="244,36,212,36,212,30,244,30"/>
+</map>
+</div>
 
 </div>
 </div>
@@ -844,15 +870,17 @@ template&lt;typename T &gt; </div>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="cp__action__client_8hpp_source.html#l00207">207</a> of file <a class="el" href="cp__action__client_8hpp_source.html">cp_action_client.hpp</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">  208</span>  {</div>
-<div class="line"><span class="lineno">  209</span>    <span class="keywordflow">return</span> this-&gt;<a class="code hl_function" href="classsmacc2_1_1ISmaccComponent.html#a420ef07087efcdc74fb233f11ae3a517">getStateMachine</a>()-&gt;<a class="code hl_function" href="classsmacc2_1_1ISmaccStateMachine.html#a5a7796e13095b776bdd9a112d018e0f0">createSignalConnection</a>(<a class="code hl_variable" href="#ae73410f338febd82abc1ee25c37247d8">onActionAborted_</a>, callback, <span class="keywordtype">object</span>);</div>
-<div class="line"><span class="lineno">  210</span>  }</div>
+<p class="definition">Definition at line <a class="el" href="cp__action__client_8hpp_source.html#l00237">237</a> of file <a class="el" href="cp__action__client_8hpp_source.html">cp_action_client.hpp</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">  238</span>  {</div>
+<div class="line"><span class="lineno">  239</span>    <span class="keywordflow">return</span> this-&gt;<a class="code hl_function" href="classsmacc2_1_1ISmaccComponent.html#a420ef07087efcdc74fb233f11ae3a517">getStateMachine</a>()-&gt;<a class="code hl_function" href="classsmacc2_1_1ISmaccStateMachine.html#a5a7796e13095b776bdd9a112d018e0f0">createSignalConnection</a>(<a class="code hl_variable" href="#ae73410f338febd82abc1ee25c37247d8">onActionAborted_</a>, callback, <span class="keywordtype">object</span>);</div>
+<div class="line"><span class="lineno">  240</span>  }</div>
 <div class="ttc" id="aclasssmacc2_1_1ISmaccComponent_html_a420ef07087efcdc74fb233f11ae3a517"><div class="ttname"><a href="classsmacc2_1_1ISmaccComponent.html#a420ef07087efcdc74fb233f11ae3a517">smacc2::ISmaccComponent::getStateMachine</a></div><div class="ttdeci">ISmaccStateMachine * getStateMachine()</div><div class="ttdef"><b>Definition</b> <a href="smacc__component_8cpp_source.html#l00052">smacc_component.cpp:52</a></div></div>
 <div class="ttc" id="aclasssmacc2_1_1ISmaccStateMachine_html_a5a7796e13095b776bdd9a112d018e0f0"><div class="ttname"><a href="classsmacc2_1_1ISmaccStateMachine.html#a5a7796e13095b776bdd9a112d018e0f0">smacc2::ISmaccStateMachine::createSignalConnection</a></div><div class="ttdeci">smacc2::SmaccSignalConnection createSignalConnection(TSmaccSignal &amp;signal, TMemberFunctionPrototype callback, TSmaccObjectType *object)</div><div class="ttdef"><b>Definition</b> <a href="smacc__state__machine__impl_8hpp_source.html#l00376">smacc_state_machine_impl.hpp:376</a></div></div>
 <div class="ttc" id="aclasssmacc2_1_1client__core__components_1_1CpActionClient_html_ae73410f338febd82abc1ee25c37247d8"><div class="ttname"><a href="#ae73410f338febd82abc1ee25c37247d8">smacc2::client_core_components::CpActionClient::onActionAborted_</a></div><div class="ttdeci">smacc2::SmaccSignal&lt; void(const WrappedResult &amp;)&gt; onActionAborted_</div><div class="ttdef"><b>Definition</b> <a href="cp__action__client_8hpp_source.html#l00058">cp_action_client.hpp:58</a></div></div>
 </div><!-- fragment -->
 <p class="reference">References <a class="el" href="smacc__state__machine__impl_8hpp_source.html#l00376">smacc2::ISmaccStateMachine::createSignalConnection()</a>, and <a class="el" href="smacc__component_8cpp_source.html#l00052">smacc2::ISmaccComponent::getStateMachine()</a>.</p>
+
+<p class="reference">Referenced by <a class="el" href="cb__action__client__behavior__base_8hpp_source.html#l00061">smacc2::client_behavior_bases::CbActionClientBehaviorBase&lt; TAction &gt;::onStateOrthogonalAllocation()</a>.</p>
 <div class="dynheader">
 Here is the call graph for this function:</div>
 <div class="dyncontent">
@@ -871,6 +899,16 @@ Here is the call graph for this function:</div>
 <area shape="poly" title=" " alt="" coords="435,101,486,113,484,118,434,107"/>
 <area shape="poly" title=" " alt="" coords="668,33,722,41,721,46,667,38"/>
 <area shape="poly" title=" " alt="" coords="769,35,767,25,774,16,789,10,811,8,835,10,849,17,847,22,834,16,811,13,790,15,777,20,772,26,774,33"/>
+</map>
+</div>
+<div class="dynheader">
+Here is the caller graph for this function:</div>
+<div class="dyncontent">
+<div class="center"><img src="classsmacc2_1_1client__core__components_1_1CpActionClient_a9cdc37bb59f88285afb77ce38bc7e47a_icgraph.png" border="0" usemap="#aclasssmacc2_1_1client__core__components_1_1CpActionClient_a9cdc37bb59f88285afb77ce38bc7e47a_icgraph" alt=""/></div>
+<map name="aclasssmacc2_1_1client__core__components_1_1CpActionClient_a9cdc37bb59f88285afb77ce38bc7e47a_icgraph" id="aclasssmacc2_1_1client__core__components_1_1CpActionClient_a9cdc37bb59f88285afb77ce38bc7e47a_icgraph">
+<area shape="rect" title=" " alt="" coords="276,5,467,61"/>
+<area shape="rect" href="classsmacc2_1_1client__behavior__bases_1_1CbActionClientBehaviorBase.html#a10aa6e8fa2ece89b91e0b0bf949a15f1" title=" " alt="" coords="5,5,228,61"/>
+<area shape="poly" title=" " alt="" coords="260,36,228,36,228,30,260,30"/>
 </map>
 </div>
 
@@ -907,13 +945,15 @@ template&lt;typename T &gt; </div>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="cp__action__client_8hpp_source.html#l00213">213</a> of file <a class="el" href="cp__action__client_8hpp_source.html">cp_action_client.hpp</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">  214</span>  {</div>
-<div class="line"><span class="lineno">  215</span>    <span class="keywordflow">return</span> this-&gt;<a class="code hl_function" href="classsmacc2_1_1ISmaccComponent.html#a420ef07087efcdc74fb233f11ae3a517">getStateMachine</a>()-&gt;<a class="code hl_function" href="classsmacc2_1_1ISmaccStateMachine.html#a5a7796e13095b776bdd9a112d018e0f0">createSignalConnection</a>(<a class="code hl_variable" href="#a573e2509ab90b8817e902d7f932193e0">onActionCancelled_</a>, callback, <span class="keywordtype">object</span>);</div>
-<div class="line"><span class="lineno">  216</span>  }</div>
+<p class="definition">Definition at line <a class="el" href="cp__action__client_8hpp_source.html#l00243">243</a> of file <a class="el" href="cp__action__client_8hpp_source.html">cp_action_client.hpp</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">  244</span>  {</div>
+<div class="line"><span class="lineno">  245</span>    <span class="keywordflow">return</span> this-&gt;<a class="code hl_function" href="classsmacc2_1_1ISmaccComponent.html#a420ef07087efcdc74fb233f11ae3a517">getStateMachine</a>()-&gt;<a class="code hl_function" href="classsmacc2_1_1ISmaccStateMachine.html#a5a7796e13095b776bdd9a112d018e0f0">createSignalConnection</a>(<a class="code hl_variable" href="#a573e2509ab90b8817e902d7f932193e0">onActionCancelled_</a>, callback, <span class="keywordtype">object</span>);</div>
+<div class="line"><span class="lineno">  246</span>  }</div>
 <div class="ttc" id="aclasssmacc2_1_1client__core__components_1_1CpActionClient_html_a573e2509ab90b8817e902d7f932193e0"><div class="ttname"><a href="#a573e2509ab90b8817e902d7f932193e0">smacc2::client_core_components::CpActionClient::onActionCancelled_</a></div><div class="ttdeci">smacc2::SmaccSignal&lt; void(const WrappedResult &amp;)&gt; onActionCancelled_</div><div class="ttdef"><b>Definition</b> <a href="cp__action__client_8hpp_source.html#l00059">cp_action_client.hpp:59</a></div></div>
 </div><!-- fragment -->
 <p class="reference">References <a class="el" href="smacc__state__machine__impl_8hpp_source.html#l00376">smacc2::ISmaccStateMachine::createSignalConnection()</a>, and <a class="el" href="smacc__component_8cpp_source.html#l00052">smacc2::ISmaccComponent::getStateMachine()</a>.</p>
+
+<p class="reference">Referenced by <a class="el" href="cb__action__client__behavior__base_8hpp_source.html#l00061">smacc2::client_behavior_bases::CbActionClientBehaviorBase&lt; TAction &gt;::onStateOrthogonalAllocation()</a>.</p>
 <div class="dynheader">
 Here is the call graph for this function:</div>
 <div class="dyncontent">
@@ -932,6 +972,16 @@ Here is the call graph for this function:</div>
 <area shape="poly" title=" " alt="" coords="435,101,486,113,484,118,434,107"/>
 <area shape="poly" title=" " alt="" coords="668,33,722,41,721,46,667,38"/>
 <area shape="poly" title=" " alt="" coords="769,35,767,25,774,16,789,10,811,8,835,10,849,17,847,22,834,16,811,13,790,15,777,20,772,26,774,33"/>
+</map>
+</div>
+<div class="dynheader">
+Here is the caller graph for this function:</div>
+<div class="dyncontent">
+<div class="center"><img src="classsmacc2_1_1client__core__components_1_1CpActionClient_abc4cdd97a3fe4b36196ef5cad24aec61_icgraph.png" border="0" usemap="#aclasssmacc2_1_1client__core__components_1_1CpActionClient_abc4cdd97a3fe4b36196ef5cad24aec61_icgraph" alt=""/></div>
+<map name="aclasssmacc2_1_1client__core__components_1_1CpActionClient_abc4cdd97a3fe4b36196ef5cad24aec61_icgraph" id="aclasssmacc2_1_1client__core__components_1_1CpActionClient_abc4cdd97a3fe4b36196ef5cad24aec61_icgraph">
+<area shape="rect" title=" " alt="" coords="276,5,467,61"/>
+<area shape="rect" href="classsmacc2_1_1client__behavior__bases_1_1CbActionClientBehaviorBase.html#a10aa6e8fa2ece89b91e0b0bf949a15f1" title=" " alt="" coords="5,5,228,61"/>
+<area shape="poly" title=" " alt="" coords="260,36,228,36,228,30,260,30"/>
 </map>
 </div>
 
@@ -964,35 +1014,40 @@ template&lt;typename TOrthogonal , typename TSourceObject &gt; </div>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="cp__action__client_8hpp_source.html#l00178">178</a> of file <a class="el" href="cp__action__client_8hpp_source.html">cp_action_client.hpp</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">  179</span>  {</div>
-<div class="line"><span class="lineno">  180</span>    <span class="comment">// Set up event posting functions with proper template parameters</span></div>
-<div class="line"><span class="lineno">  181</span>    <a class="code hl_variable" href="#a7e764141a3f8848a5cd0b575003a2342">postSuccessEvent</a> = [<span class="keyword">this</span>](<span class="keyword">const</span> WrappedResult &amp; result)</div>
-<div class="line"><span class="lineno">  182</span>    { this-&gt;<a class="code hl_function" href="#a8238b4c629433e62f302de2cd12c6213">postResultEvent&lt;EvActionSucceeded&lt;TSourceObject, TOrthogonal&gt;</a>&gt;(result); };</div>
-<div class="line"><span class="lineno">  183</span> </div>
-<div class="line"><span class="lineno">  184</span>    <a class="code hl_variable" href="#ad4fa3603798fce22a3f2cc8a5cab21bb">postAbortedEvent</a> = [<span class="keyword">this</span>](<span class="keyword">const</span> WrappedResult &amp; result)</div>
-<div class="line"><span class="lineno">  185</span>    { this-&gt;<a class="code hl_function" href="#a8238b4c629433e62f302de2cd12c6213">postResultEvent&lt;EvActionAborted&lt;TSourceObject, TOrthogonal&gt;</a>&gt;(result); };</div>
-<div class="line"><span class="lineno">  186</span> </div>
-<div class="line"><span class="lineno">  187</span>    <a class="code hl_variable" href="#a0174b96e7ae1e10aafb274fed7d5f925">postCancelledEvent</a> = [<span class="keyword">this</span>](<span class="keyword">const</span> WrappedResult &amp; result)</div>
-<div class="line"><span class="lineno">  188</span>    { this-&gt;<a class="code hl_function" href="#a8238b4c629433e62f302de2cd12c6213">postResultEvent&lt;EvActionCancelled&lt;TSourceObject, TOrthogonal&gt;</a>&gt;(result); };</div>
-<div class="line"><span class="lineno">  189</span> </div>
-<div class="line"><span class="lineno">  190</span>    <a class="code hl_variable" href="#ae907291c7d81a611e22d620c2f422089">postFeedbackEvent</a> = [<span class="keyword">this</span>](<span class="keyword">const</span> <a class="code hl_typedef" href="#a5ea235a7fad45ca941b594bdfba581fb">Feedback</a> &amp; feedback)</div>
-<div class="line"><span class="lineno">  191</span>    {</div>
-<div class="line"><span class="lineno">  192</span>      <span class="keyword">auto</span> actionFeedbackEvent = <span class="keyword">new</span> EvActionFeedback&lt;Feedback, TOrthogonal&gt;();</div>
-<div class="line"><span class="lineno">  193</span>      actionFeedbackEvent-&gt;feedbackMessage = feedback;</div>
-<div class="line"><span class="lineno">  194</span>      this-&gt;<a class="code hl_function" href="classsmacc2_1_1ISmaccComponent.html#a03dd302448a2e186b1059822cff8c669">postEvent</a>(actionFeedbackEvent);</div>
-<div class="line"><span class="lineno">  195</span>      RCLCPP_DEBUG(<a class="code hl_function" href="classsmacc2_1_1ISmaccComponent.html#a77ee85823bab8d84edcdf5d28782b728">getLogger</a>(), <span class="stringliteral">&quot;[%s] FEEDBACK EVENT&quot;</span>, this-&gt;<a class="code hl_function" href="classsmacc2_1_1ISmaccComponent.html#a6fea938740f0c9ffc082b2ff076c900b">getName</a>().c_str());</div>
-<div class="line"><span class="lineno">  196</span>    };</div>
-<div class="line"><span class="lineno">  197</span>  }</div>
+<p class="definition">Definition at line <a class="el" href="cp__action__client_8hpp_source.html#l00203">203</a> of file <a class="el" href="cp__action__client_8hpp_source.html">cp_action_client.hpp</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">  204</span>  {</div>
+<div class="line"><span class="lineno">  205</span>    <span class="comment">// Event source type is THIS COMPONENT, not the owning client: the event</span></div>
+<div class="line"><span class="lineno">  206</span>    <span class="comment">// payload type is TSource::WrappedResult, and typing it on the client would</span></div>
+<div class="line"><span class="lineno">  207</span>    <span class="comment">// wrongly assume the client&#39;s WrappedResult typedef matches this component&#39;s</span></div>
+<div class="line"><span class="lineno">  208</span>    <span class="comment">// action - which breaks as soon as a client owns action clients of more than</span></div>
+<div class="line"><span class="lineno">  209</span>    <span class="comment">// one action type. Nothing in-tree listens to client-typed events from this</span></div>
+<div class="line"><span class="lineno">  210</span>    <span class="comment">// component (domain interfaces like CpNav2ActionInterface post those).</span></div>
+<div class="line"><span class="lineno">  211</span>    <a class="code hl_variable" href="#a7e764141a3f8848a5cd0b575003a2342">postSuccessEvent</a> = [<span class="keyword">this</span>](<span class="keyword">const</span> WrappedResult &amp; result)</div>
+<div class="line"><span class="lineno">  212</span>    { this-&gt;<a class="code hl_function" href="#a8238b4c629433e62f302de2cd12c6213">postResultEvent&lt;EvActionSucceeded&lt;CpActionClient&lt;ActionType&gt;</a>, TOrthogonal&gt;&gt;(result); };</div>
+<div class="line"><span class="lineno">  213</span> </div>
+<div class="line"><span class="lineno">  214</span>    <a class="code hl_variable" href="#ad4fa3603798fce22a3f2cc8a5cab21bb">postAbortedEvent</a> = [<span class="keyword">this</span>](<span class="keyword">const</span> WrappedResult &amp; result)</div>
+<div class="line"><span class="lineno">  215</span>    { this-&gt;<a class="code hl_function" href="#a8238b4c629433e62f302de2cd12c6213">postResultEvent&lt;EvActionAborted&lt;CpActionClient&lt;ActionType&gt;</a>, TOrthogonal&gt;&gt;(result); };</div>
+<div class="line"><span class="lineno">  216</span> </div>
+<div class="line"><span class="lineno">  217</span>    <a class="code hl_variable" href="#a0174b96e7ae1e10aafb274fed7d5f925">postCancelledEvent</a> = [<span class="keyword">this</span>](<span class="keyword">const</span> WrappedResult &amp; result)</div>
+<div class="line"><span class="lineno">  218</span>    { this-&gt;<a class="code hl_function" href="#a8238b4c629433e62f302de2cd12c6213">postResultEvent&lt;EvActionCancelled&lt;CpActionClient&lt;ActionType&gt;</a>, TOrthogonal&gt;&gt;(result); };</div>
+<div class="line"><span class="lineno">  219</span> </div>
+<div class="line"><span class="lineno">  220</span>    <a class="code hl_variable" href="#ae907291c7d81a611e22d620c2f422089">postFeedbackEvent</a> = [<span class="keyword">this</span>](<span class="keyword">const</span> <a class="code hl_typedef" href="#a5ea235a7fad45ca941b594bdfba581fb">Feedback</a> &amp; feedback)</div>
+<div class="line"><span class="lineno">  221</span>    {</div>
+<div class="line"><span class="lineno">  222</span>      <span class="keyword">auto</span> actionFeedbackEvent = <span class="keyword">new</span> EvActionFeedback&lt;Feedback, TOrthogonal&gt;();</div>
+<div class="line"><span class="lineno">  223</span>      actionFeedbackEvent-&gt;feedbackMessage = feedback;</div>
+<div class="line"><span class="lineno">  224</span>      this-&gt;<a class="code hl_function" href="classsmacc2_1_1ISmaccComponent.html#a03dd302448a2e186b1059822cff8c669">postEvent</a>(actionFeedbackEvent);</div>
+<div class="line"><span class="lineno">  225</span>      RCLCPP_DEBUG(<a class="code hl_function" href="classsmacc2_1_1ISmaccComponent.html#a77ee85823bab8d84edcdf5d28782b728">getLogger</a>(), <span class="stringliteral">&quot;[%s] FEEDBACK EVENT&quot;</span>, this-&gt;<a class="code hl_function" href="classsmacc2_1_1ISmaccComponent.html#a6fea938740f0c9ffc082b2ff076c900b">getName</a>().c_str());</div>
+<div class="line"><span class="lineno">  226</span>    };</div>
+<div class="line"><span class="lineno">  227</span>  }</div>
 <div class="ttc" id="aclasssmacc2_1_1ISmaccComponent_html_a03dd302448a2e186b1059822cff8c669"><div class="ttname"><a href="classsmacc2_1_1ISmaccComponent.html#a03dd302448a2e186b1059822cff8c669">smacc2::ISmaccComponent::postEvent</a></div><div class="ttdeci">void postEvent()</div><div class="ttdef"><b>Definition</b> <a href="smacc__component__impl_8hpp_source.html#l00037">smacc_component_impl.hpp:37</a></div></div>
 <div class="ttc" id="aclasssmacc2_1_1client__core__components_1_1CpActionClient_html_a0174b96e7ae1e10aafb274fed7d5f925"><div class="ttname"><a href="#a0174b96e7ae1e10aafb274fed7d5f925">smacc2::client_core_components::CpActionClient::postCancelledEvent</a></div><div class="ttdeci">std::function&lt; void(const WrappedResult &amp;)&gt; postCancelledEvent</div><div class="ttdef"><b>Definition</b> <a href="cp__action__client_8hpp_source.html#l00067">cp_action_client.hpp:67</a></div></div>
 <div class="ttc" id="aclasssmacc2_1_1client__core__components_1_1CpActionClient_html_a5ea235a7fad45ca941b594bdfba581fb"><div class="ttname"><a href="#a5ea235a7fad45ca941b594bdfba581fb">smacc2::client_core_components::CpActionClient::Feedback</a></div><div class="ttdeci">typename ActionType::Feedback Feedback</div><div class="ttdef"><b>Definition</b> <a href="cp__action__client_8hpp_source.html#l00042">cp_action_client.hpp:42</a></div></div>
 <div class="ttc" id="aclasssmacc2_1_1client__core__components_1_1CpActionClient_html_a7e764141a3f8848a5cd0b575003a2342"><div class="ttname"><a href="#a7e764141a3f8848a5cd0b575003a2342">smacc2::client_core_components::CpActionClient::postSuccessEvent</a></div><div class="ttdeci">std::function&lt; void(const WrappedResult &amp;)&gt; postSuccessEvent</div><div class="ttdef"><b>Definition</b> <a href="cp__action__client_8hpp_source.html#l00065">cp_action_client.hpp:65</a></div></div>
-<div class="ttc" id="aclasssmacc2_1_1client__core__components_1_1CpActionClient_html_a8238b4c629433e62f302de2cd12c6213"><div class="ttname"><a href="#a8238b4c629433e62f302de2cd12c6213">smacc2::client_core_components::CpActionClient::postResultEvent</a></div><div class="ttdeci">void postResultEvent(const WrappedResult &amp;result)</div><div class="ttdef"><b>Definition</b> <a href="cp__action__client_8hpp_source.html#l00279">cp_action_client.hpp:279</a></div></div>
+<div class="ttc" id="aclasssmacc2_1_1client__core__components_1_1CpActionClient_html_a8238b4c629433e62f302de2cd12c6213"><div class="ttname"><a href="#a8238b4c629433e62f302de2cd12c6213">smacc2::client_core_components::CpActionClient::postResultEvent</a></div><div class="ttdeci">void postResultEvent(const WrappedResult &amp;result)</div><div class="ttdef"><b>Definition</b> <a href="cp__action__client_8hpp_source.html#l00309">cp_action_client.hpp:309</a></div></div>
 <div class="ttc" id="aclasssmacc2_1_1client__core__components_1_1CpActionClient_html_ad4fa3603798fce22a3f2cc8a5cab21bb"><div class="ttname"><a href="#ad4fa3603798fce22a3f2cc8a5cab21bb">smacc2::client_core_components::CpActionClient::postAbortedEvent</a></div><div class="ttdeci">std::function&lt; void(const WrappedResult &amp;)&gt; postAbortedEvent</div><div class="ttdef"><b>Definition</b> <a href="cp__action__client_8hpp_source.html#l00066">cp_action_client.hpp:66</a></div></div>
 <div class="ttc" id="aclasssmacc2_1_1client__core__components_1_1CpActionClient_html_ae907291c7d81a611e22d620c2f422089"><div class="ttname"><a href="#ae907291c7d81a611e22d620c2f422089">smacc2::client_core_components::CpActionClient::postFeedbackEvent</a></div><div class="ttdeci">std::function&lt; void(const Feedback &amp;)&gt; postFeedbackEvent</div><div class="ttdef"><b>Definition</b> <a href="cp__action__client_8hpp_source.html#l00068">cp_action_client.hpp:68</a></div></div>
 </div><!-- fragment -->
-<p class="reference">References <a class="el" href="smacc__component_8cpp_source.html#l00044">smacc2::ISmaccComponent::getLogger()</a>, <a class="el" href="smacc__component_8cpp_source.html#l00046">smacc2::ISmaccComponent::getName()</a>, <a class="el" href="cp__action__client_8hpp_source.html#l00066">smacc2::client_core_components::CpActionClient&lt; ActionType &gt;::postAbortedEvent</a>, <a class="el" href="cp__action__client_8hpp_source.html#l00067">smacc2::client_core_components::CpActionClient&lt; ActionType &gt;::postCancelledEvent</a>, <a class="el" href="smacc__component__impl_8hpp_source.html#l00037">smacc2::ISmaccComponent::postEvent()</a>, <a class="el" href="cp__action__client_8hpp_source.html#l00068">smacc2::client_core_components::CpActionClient&lt; ActionType &gt;::postFeedbackEvent</a>, <a class="el" href="cp__action__client_8hpp_source.html#l00279">smacc2::client_core_components::CpActionClient&lt; ActionType &gt;::postResultEvent()</a>, and <a class="el" href="cp__action__client_8hpp_source.html#l00065">smacc2::client_core_components::CpActionClient&lt; ActionType &gt;::postSuccessEvent</a>.</p>
+<p class="reference">References <a class="el" href="smacc__component_8cpp_source.html#l00044">smacc2::ISmaccComponent::getLogger()</a>, <a class="el" href="smacc__component_8cpp_source.html#l00046">smacc2::ISmaccComponent::getName()</a>, <a class="el" href="cp__action__client_8hpp_source.html#l00066">smacc2::client_core_components::CpActionClient&lt; ActionType &gt;::postAbortedEvent</a>, <a class="el" href="cp__action__client_8hpp_source.html#l00067">smacc2::client_core_components::CpActionClient&lt; ActionType &gt;::postCancelledEvent</a>, <a class="el" href="smacc__component__impl_8hpp_source.html#l00037">smacc2::ISmaccComponent::postEvent()</a>, <a class="el" href="cp__action__client_8hpp_source.html#l00068">smacc2::client_core_components::CpActionClient&lt; ActionType &gt;::postFeedbackEvent</a>, <a class="el" href="cp__action__client_8hpp_source.html#l00309">smacc2::client_core_components::CpActionClient&lt; ActionType &gt;::postResultEvent()</a>, and <a class="el" href="cp__action__client_8hpp_source.html#l00065">smacc2::client_core_components::CpActionClient&lt; ActionType &gt;::postSuccessEvent</a>.</p>
 <div class="dynheader">
 Here is the call graph for this function:</div>
 <div class="dyncontent">
@@ -1088,11 +1143,11 @@ template&lt;typename ActionType &gt; </div>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="cp__action__client_8hpp_source.html#l00236">236</a> of file <a class="el" href="cp__action__client_8hpp_source.html">cp_action_client.hpp</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">  239</span>  {</div>
-<div class="line"><span class="lineno">  240</span>    <a class="code hl_variable" href="#a5d2b32a381c049cdf47f8c1046d07d4b">onActionFeedback_</a>(*feedback_msg);</div>
-<div class="line"><span class="lineno">  241</span>    <a class="code hl_variable" href="#ae907291c7d81a611e22d620c2f422089">postFeedbackEvent</a>(*feedback_msg);</div>
-<div class="line"><span class="lineno">  242</span>  }</div>
+<p class="definition">Definition at line <a class="el" href="cp__action__client_8hpp_source.html#l00266">266</a> of file <a class="el" href="cp__action__client_8hpp_source.html">cp_action_client.hpp</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">  269</span>  {</div>
+<div class="line"><span class="lineno">  270</span>    <a class="code hl_variable" href="#a5d2b32a381c049cdf47f8c1046d07d4b">onActionFeedback_</a>(*feedback_msg);</div>
+<div class="line"><span class="lineno">  271</span>    <a class="code hl_variable" href="#ae907291c7d81a611e22d620c2f422089">postFeedbackEvent</a>(*feedback_msg);</div>
+<div class="line"><span class="lineno">  272</span>  }</div>
 <div class="ttc" id="aclasssmacc2_1_1client__core__components_1_1CpActionClient_html_a5d2b32a381c049cdf47f8c1046d07d4b"><div class="ttname"><a href="#a5d2b32a381c049cdf47f8c1046d07d4b">smacc2::client_core_components::CpActionClient::onActionFeedback_</a></div><div class="ttdeci">smacc2::SmaccSignal&lt; void(const Feedback &amp;)&gt; onActionFeedback_</div><div class="ttdef"><b>Definition</b> <a href="cp__action__client_8hpp_source.html#l00060">cp_action_client.hpp:60</a></div></div>
 </div><!-- fragment -->
 <p class="reference">References <a class="el" href="cp__action__client_8hpp_source.html#l00060">smacc2::client_core_components::CpActionClient&lt; ActionType &gt;::onActionFeedback_</a>, and <a class="el" href="cp__action__client_8hpp_source.html#l00068">smacc2::client_core_components::CpActionClient&lt; ActionType &gt;::postFeedbackEvent</a>.</p>
@@ -1130,14 +1185,14 @@ template&lt;typename T &gt; </div>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="cp__action__client_8hpp_source.html#l00219">219</a> of file <a class="el" href="cp__action__client_8hpp_source.html">cp_action_client.hpp</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">  220</span>  {</div>
-<div class="line"><span class="lineno">  221</span>    <span class="keywordflow">return</span> this-&gt;<a class="code hl_function" href="classsmacc2_1_1ISmaccComponent.html#a420ef07087efcdc74fb233f11ae3a517">getStateMachine</a>()-&gt;<a class="code hl_function" href="classsmacc2_1_1ISmaccStateMachine.html#a5a7796e13095b776bdd9a112d018e0f0">createSignalConnection</a>(<a class="code hl_variable" href="#a5d2b32a381c049cdf47f8c1046d07d4b">onActionFeedback_</a>, callback, <span class="keywordtype">object</span>);</div>
-<div class="line"><span class="lineno">  222</span>  }</div>
+<p class="definition">Definition at line <a class="el" href="cp__action__client_8hpp_source.html#l00249">249</a> of file <a class="el" href="cp__action__client_8hpp_source.html">cp_action_client.hpp</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">  250</span>  {</div>
+<div class="line"><span class="lineno">  251</span>    <span class="keywordflow">return</span> this-&gt;<a class="code hl_function" href="classsmacc2_1_1ISmaccComponent.html#a420ef07087efcdc74fb233f11ae3a517">getStateMachine</a>()-&gt;<a class="code hl_function" href="classsmacc2_1_1ISmaccStateMachine.html#a5a7796e13095b776bdd9a112d018e0f0">createSignalConnection</a>(<a class="code hl_variable" href="#a5d2b32a381c049cdf47f8c1046d07d4b">onActionFeedback_</a>, callback, <span class="keywordtype">object</span>);</div>
+<div class="line"><span class="lineno">  252</span>  }</div>
 </div><!-- fragment -->
 <p class="reference">References <a class="el" href="smacc__state__machine__impl_8hpp_source.html#l00376">smacc2::ISmaccStateMachine::createSignalConnection()</a>, and <a class="el" href="smacc__component_8cpp_source.html#l00052">smacc2::ISmaccComponent::getStateMachine()</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="cp__action__client_8hpp_source.html#l00155">smacc2::client_core_components::CpActionClient&lt; ActionType &gt;::onInitialize()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="cp__action__client_8hpp_source.html#l00180">smacc2::client_core_components::CpActionClient&lt; ActionType &gt;::onInitialize()</a>, and <a class="el" href="cb__action__client__behavior__base_8hpp_source.html#l00061">smacc2::client_behavior_bases::CbActionClientBehaviorBase&lt; TAction &gt;::onStateOrthogonalAllocation()</a>.</p>
 <div class="dynheader">
 Here is the call graph for this function:</div>
 <div class="dyncontent">
@@ -1163,9 +1218,11 @@ Here is the caller graph for this function:</div>
 <div class="dyncontent">
 <div class="center"><img src="classsmacc2_1_1client__core__components_1_1CpActionClient_a5117b959a754381785dbcc1075e52193_icgraph.png" border="0" usemap="#aclasssmacc2_1_1client__core__components_1_1CpActionClient_a5117b959a754381785dbcc1075e52193_icgraph" alt=""/></div>
 <map name="aclasssmacc2_1_1client__core__components_1_1CpActionClient_a5117b959a754381785dbcc1075e52193_icgraph" id="aclasssmacc2_1_1client__core__components_1_1CpActionClient_a5117b959a754381785dbcc1075e52193_icgraph">
-<area shape="rect" title=" " alt="" coords="245,5,436,61"/>
-<area shape="rect" href="classsmacc2_1_1client__core__components_1_1CpActionClient.html#aa6678e766eea6914967dc6686219f24a" title=" " alt="" coords="5,5,197,61"/>
-<area shape="poly" title=" " alt="" coords="229,36,197,36,197,30,229,30"/>
+<area shape="rect" title=" " alt="" coords="276,45,467,101"/>
+<area shape="rect" href="classsmacc2_1_1client__core__components_1_1CpActionClient.html#aa6678e766eea6914967dc6686219f24a" title=" " alt="" coords="21,5,212,61"/>
+<area shape="poly" title=" " alt="" coords="260,58,212,51,213,46,260,53"/>
+<area shape="rect" href="classsmacc2_1_1client__behavior__bases_1_1CbActionClientBehaviorBase.html#a10aa6e8fa2ece89b91e0b0bf949a15f1" title=" " alt="" coords="5,85,228,141"/>
+<area shape="poly" title=" " alt="" coords="261,93,228,98,228,93,260,88"/>
 </map>
 </div>
 
@@ -1198,32 +1255,32 @@ template&lt;typename ActionType &gt; </div>
 
 <p>Reimplemented from <a class="el" href="classsmacc2_1_1ISmaccComponent.html#a59033044cd66f29c3bce34fbacd90f4f">smacc2::ISmaccComponent</a>.</p>
 
-<p class="definition">Definition at line <a class="el" href="cp__action__client_8hpp_source.html#l00155">155</a> of file <a class="el" href="cp__action__client_8hpp_source.html">cp_action_client.hpp</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">  156</span>  {</div>
-<div class="line"><span class="lineno">  157</span>    <span class="keywordflow">if</span> (!<a class="code hl_variable" href="#a0cbd335fa72b603f0f06257b3beed17d">actionServerName</a>)</div>
-<div class="line"><span class="lineno">  158</span>    {</div>
-<div class="line"><span class="lineno">  159</span>      RCLCPP_ERROR_STREAM(<a class="code hl_function" href="classsmacc2_1_1ISmaccComponent.html#a77ee85823bab8d84edcdf5d28782b728">getLogger</a>(), <span class="stringliteral">&quot;[&quot;</span> &lt;&lt; this-&gt;<a class="code hl_function" href="classsmacc2_1_1ISmaccComponent.html#a6fea938740f0c9ffc082b2ff076c900b">getName</a>() &lt;&lt; <span class="stringliteral">&quot;] Action server name not set!&quot;</span>);</div>
-<div class="line"><span class="lineno">  160</span>      <span class="keywordflow">return</span>;</div>
-<div class="line"><span class="lineno">  161</span>    }</div>
-<div class="line"><span class="lineno">  162</span> </div>
-<div class="line"><span class="lineno">  163</span>    RCLCPP_INFO_STREAM(</div>
-<div class="line"><span class="lineno">  164</span>      <a class="code hl_function" href="classsmacc2_1_1ISmaccComponent.html#a77ee85823bab8d84edcdf5d28782b728">getLogger</a>(),</div>
-<div class="line"><span class="lineno">  165</span>      <span class="stringliteral">&quot;[&quot;</span> &lt;&lt; this-&gt;<a class="code hl_function" href="classsmacc2_1_1ISmaccComponent.html#a6fea938740f0c9ffc082b2ff076c900b">getName</a>() &lt;&lt; <span class="stringliteral">&quot;] Initializing action client for: &quot;</span> &lt;&lt; *<a class="code hl_variable" href="#a0cbd335fa72b603f0f06257b3beed17d">actionServerName</a>);</div>
-<div class="line"><span class="lineno">  166</span> </div>
-<div class="line"><span class="lineno">  167</span>    <a class="code hl_variable" href="#acb7dcdf359483f1cab4990cdad727bd9">client_</a> = rclcpp_action::create_client&lt;ActionType&gt;(<a class="code hl_function" href="classsmacc2_1_1ISmaccComponent.html#aaac68614687bed658c59f8f15746ab91">getNode</a>(), *<a class="code hl_variable" href="#a0cbd335fa72b603f0f06257b3beed17d">actionServerName</a>);</div>
-<div class="line"><span class="lineno">  168</span>    RCLCPP_INFO_STREAM(</div>
-<div class="line"><span class="lineno">  169</span>      <a class="code hl_function" href="classsmacc2_1_1ISmaccComponent.html#a77ee85823bab8d84edcdf5d28782b728">getLogger</a>(),</div>
-<div class="line"><span class="lineno">  170</span>      <span class="stringliteral">&quot;[&quot;</span> &lt;&lt; this-&gt;<a class="code hl_function" href="classsmacc2_1_1ISmaccComponent.html#a6fea938740f0c9ffc082b2ff076c900b">getName</a>() &lt;&lt; <span class="stringliteral">&quot;] DONE Initializing action client for: &quot;</span> &lt;&lt; *<a class="code hl_variable" href="#a0cbd335fa72b603f0f06257b3beed17d">actionServerName</a>);</div>
-<div class="line"><span class="lineno">  171</span> </div>
-<div class="line"><span class="lineno">  172</span>    <span class="comment">// Set up feedback callback</span></div>
-<div class="line"><span class="lineno">  173</span>    <a class="code hl_variable" href="#a53f323d92f865155adb867fbe0547435">feedbackCallback_</a> = [<span class="keyword">this</span>](<span class="keyword">auto</span> goalHandle, <span class="keyword">auto</span> feedback)</div>
-<div class="line"><span class="lineno">  174</span>    { this-&gt;<a class="code hl_function" href="#a5117b959a754381785dbcc1075e52193">onFeedback</a>(goalHandle, feedback); };</div>
-<div class="line"><span class="lineno">  175</span>  }</div>
+<p class="definition">Definition at line <a class="el" href="cp__action__client_8hpp_source.html#l00180">180</a> of file <a class="el" href="cp__action__client_8hpp_source.html">cp_action_client.hpp</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">  181</span>  {</div>
+<div class="line"><span class="lineno">  182</span>    <span class="keywordflow">if</span> (!<a class="code hl_variable" href="#a0cbd335fa72b603f0f06257b3beed17d">actionServerName</a>)</div>
+<div class="line"><span class="lineno">  183</span>    {</div>
+<div class="line"><span class="lineno">  184</span>      RCLCPP_ERROR_STREAM(<a class="code hl_function" href="classsmacc2_1_1ISmaccComponent.html#a77ee85823bab8d84edcdf5d28782b728">getLogger</a>(), <span class="stringliteral">&quot;[&quot;</span> &lt;&lt; this-&gt;<a class="code hl_function" href="classsmacc2_1_1ISmaccComponent.html#a6fea938740f0c9ffc082b2ff076c900b">getName</a>() &lt;&lt; <span class="stringliteral">&quot;] Action server name not set!&quot;</span>);</div>
+<div class="line"><span class="lineno">  185</span>      <span class="keywordflow">return</span>;</div>
+<div class="line"><span class="lineno">  186</span>    }</div>
+<div class="line"><span class="lineno">  187</span> </div>
+<div class="line"><span class="lineno">  188</span>    RCLCPP_INFO_STREAM(</div>
+<div class="line"><span class="lineno">  189</span>      <a class="code hl_function" href="classsmacc2_1_1ISmaccComponent.html#a77ee85823bab8d84edcdf5d28782b728">getLogger</a>(),</div>
+<div class="line"><span class="lineno">  190</span>      <span class="stringliteral">&quot;[&quot;</span> &lt;&lt; this-&gt;<a class="code hl_function" href="classsmacc2_1_1ISmaccComponent.html#a6fea938740f0c9ffc082b2ff076c900b">getName</a>() &lt;&lt; <span class="stringliteral">&quot;] Initializing action client for: &quot;</span> &lt;&lt; *<a class="code hl_variable" href="#a0cbd335fa72b603f0f06257b3beed17d">actionServerName</a>);</div>
+<div class="line"><span class="lineno">  191</span> </div>
+<div class="line"><span class="lineno">  192</span>    <a class="code hl_variable" href="#acb7dcdf359483f1cab4990cdad727bd9">client_</a> = rclcpp_action::create_client&lt;ActionType&gt;(<a class="code hl_function" href="classsmacc2_1_1ISmaccComponent.html#aaac68614687bed658c59f8f15746ab91">getNode</a>(), *<a class="code hl_variable" href="#a0cbd335fa72b603f0f06257b3beed17d">actionServerName</a>);</div>
+<div class="line"><span class="lineno">  193</span>    RCLCPP_INFO_STREAM(</div>
+<div class="line"><span class="lineno">  194</span>      <a class="code hl_function" href="classsmacc2_1_1ISmaccComponent.html#a77ee85823bab8d84edcdf5d28782b728">getLogger</a>(),</div>
+<div class="line"><span class="lineno">  195</span>      <span class="stringliteral">&quot;[&quot;</span> &lt;&lt; this-&gt;<a class="code hl_function" href="classsmacc2_1_1ISmaccComponent.html#a6fea938740f0c9ffc082b2ff076c900b">getName</a>() &lt;&lt; <span class="stringliteral">&quot;] DONE Initializing action client for: &quot;</span> &lt;&lt; *<a class="code hl_variable" href="#a0cbd335fa72b603f0f06257b3beed17d">actionServerName</a>);</div>
+<div class="line"><span class="lineno">  196</span> </div>
+<div class="line"><span class="lineno">  197</span>    <span class="comment">// Set up feedback callback</span></div>
+<div class="line"><span class="lineno">  198</span>    <a class="code hl_variable" href="#a53f323d92f865155adb867fbe0547435">feedbackCallback_</a> = [<span class="keyword">this</span>](<span class="keyword">auto</span> goalHandle, <span class="keyword">auto</span> feedback)</div>
+<div class="line"><span class="lineno">  199</span>    { this-&gt;<a class="code hl_function" href="#a5117b959a754381785dbcc1075e52193">onFeedback</a>(goalHandle, feedback); };</div>
+<div class="line"><span class="lineno">  200</span>  }</div>
 <div class="ttc" id="aclasssmacc2_1_1ISmaccComponent_html_aaac68614687bed658c59f8f15746ab91"><div class="ttname"><a href="classsmacc2_1_1ISmaccComponent.html#aaac68614687bed658c59f8f15746ab91">smacc2::ISmaccComponent::getNode</a></div><div class="ttdeci">rclcpp::Node::SharedPtr getNode()</div><div class="ttdef"><b>Definition</b> <a href="smacc__component_8cpp_source.html#l00042">smacc_component.cpp:42</a></div></div>
-<div class="ttc" id="aclasssmacc2_1_1client__core__components_1_1CpActionClient_html_a5117b959a754381785dbcc1075e52193"><div class="ttname"><a href="#a5117b959a754381785dbcc1075e52193">smacc2::client_core_components::CpActionClient::onFeedback</a></div><div class="ttdeci">smacc2::SmaccSignalConnection onFeedback(void(T::*callback)(const Feedback &amp;), T *object)</div><div class="ttdef"><b>Definition</b> <a href="cp__action__client_8hpp_source.html#l00219">cp_action_client.hpp:219</a></div></div>
-<div class="ttc" id="aclasssmacc2_1_1client__core__components_1_1CpActionClient_html_a53f323d92f865155adb867fbe0547435"><div class="ttname"><a href="#a53f323d92f865155adb867fbe0547435">smacc2::client_core_components::CpActionClient::feedbackCallback_</a></div><div class="ttdeci">FeedbackCallback feedbackCallback_</div><div class="ttdef"><b>Definition</b> <a href="cp__action__client_8hpp_source.html#l00233">cp_action_client.hpp:233</a></div></div>
+<div class="ttc" id="aclasssmacc2_1_1client__core__components_1_1CpActionClient_html_a5117b959a754381785dbcc1075e52193"><div class="ttname"><a href="#a5117b959a754381785dbcc1075e52193">smacc2::client_core_components::CpActionClient::onFeedback</a></div><div class="ttdeci">smacc2::SmaccSignalConnection onFeedback(void(T::*callback)(const Feedback &amp;), T *object)</div><div class="ttdef"><b>Definition</b> <a href="cp__action__client_8hpp_source.html#l00249">cp_action_client.hpp:249</a></div></div>
+<div class="ttc" id="aclasssmacc2_1_1client__core__components_1_1CpActionClient_html_a53f323d92f865155adb867fbe0547435"><div class="ttname"><a href="#a53f323d92f865155adb867fbe0547435">smacc2::client_core_components::CpActionClient::feedbackCallback_</a></div><div class="ttdeci">FeedbackCallback feedbackCallback_</div><div class="ttdef"><b>Definition</b> <a href="cp__action__client_8hpp_source.html#l00263">cp_action_client.hpp:263</a></div></div>
 </div><!-- fragment -->
-<p class="reference">References <a class="el" href="cp__action__client_8hpp_source.html#l00053">smacc2::client_core_components::CpActionClient&lt; ActionType &gt;::actionServerName</a>, <a class="el" href="cp__action__client_8hpp_source.html#l00228">smacc2::client_core_components::CpActionClient&lt; ActionType &gt;::client_</a>, <a class="el" href="cp__action__client_8hpp_source.html#l00233">smacc2::client_core_components::CpActionClient&lt; ActionType &gt;::feedbackCallback_</a>, <a class="el" href="smacc__component_8cpp_source.html#l00044">smacc2::ISmaccComponent::getLogger()</a>, <a class="el" href="smacc__component_8cpp_source.html#l00046">smacc2::ISmaccComponent::getName()</a>, <a class="el" href="smacc__component_8cpp_source.html#l00042">smacc2::ISmaccComponent::getNode()</a>, and <a class="el" href="cp__action__client_8hpp_source.html#l00219">smacc2::client_core_components::CpActionClient&lt; ActionType &gt;::onFeedback()</a>.</p>
+<p class="reference">References <a class="el" href="cp__action__client_8hpp_source.html#l00053">smacc2::client_core_components::CpActionClient&lt; ActionType &gt;::actionServerName</a>, <a class="el" href="cp__action__client_8hpp_source.html#l00258">smacc2::client_core_components::CpActionClient&lt; ActionType &gt;::client_</a>, <a class="el" href="cp__action__client_8hpp_source.html#l00263">smacc2::client_core_components::CpActionClient&lt; ActionType &gt;::feedbackCallback_</a>, <a class="el" href="smacc__component_8cpp_source.html#l00044">smacc2::ISmaccComponent::getLogger()</a>, <a class="el" href="smacc__component_8cpp_source.html#l00046">smacc2::ISmaccComponent::getName()</a>, <a class="el" href="smacc__component_8cpp_source.html#l00042">smacc2::ISmaccComponent::getNode()</a>, and <a class="el" href="cp__action__client_8hpp_source.html#l00249">smacc2::client_core_components::CpActionClient&lt; ActionType &gt;::onFeedback()</a>.</p>
 <div class="dynheader">
 Here is the call graph for this function:</div>
 <div class="dyncontent">
@@ -1290,39 +1347,39 @@ template&lt;typename ActionType &gt; </div>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="cp__action__client_8hpp_source.html#l00244">244</a> of file <a class="el" href="cp__action__client_8hpp_source.html">cp_action_client.hpp</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">  245</span>  {</div>
-<div class="line"><span class="lineno">  246</span>    <span class="keyword">const</span> <span class="keyword">auto</span> &amp; resultType = result_msg.code;</div>
-<div class="line"><span class="lineno">  247</span> </div>
-<div class="line"><span class="lineno">  248</span>    RCLCPP_INFO_STREAM(</div>
-<div class="line"><span class="lineno">  249</span>      <a class="code hl_function" href="classsmacc2_1_1ISmaccComponent.html#a77ee85823bab8d84edcdf5d28782b728">getLogger</a>(), <span class="stringliteral">&quot;[&quot;</span> &lt;&lt; this-&gt;<a class="code hl_function" href="classsmacc2_1_1ISmaccComponent.html#a6fea938740f0c9ffc082b2ff076c900b">getName</a>() &lt;&lt; <span class="stringliteral">&quot;] Action result [&quot;</span></div>
-<div class="line"><span class="lineno">  250</span>                       &lt;&lt; rclcpp_action::to_string(result_msg.goal_id) &lt;&lt; <span class="stringliteral">&quot;]: &quot;</span> &lt;&lt; (<span class="keywordtype">int</span>)resultType);</div>
-<div class="line"><span class="lineno">  251</span> </div>
-<div class="line"><span class="lineno">  252</span>    <span class="keywordflow">if</span> (resultType == rclcpp_action::ResultCode::SUCCEEDED)</div>
-<div class="line"><span class="lineno">  253</span>    {</div>
-<div class="line"><span class="lineno">  254</span>      RCLCPP_INFO(<a class="code hl_function" href="classsmacc2_1_1ISmaccComponent.html#a77ee85823bab8d84edcdf5d28782b728">getLogger</a>(), <span class="stringliteral">&quot;[%s] Action result: Success&quot;</span>, this-&gt;<a class="code hl_function" href="classsmacc2_1_1ISmaccComponent.html#a6fea938740f0c9ffc082b2ff076c900b">getName</a>().c_str());</div>
-<div class="line"><span class="lineno">  255</span>      <a class="code hl_variable" href="#ac81c82bc455201adc6ac0128e23df4a4">onActionSucceeded_</a>(result_msg);</div>
-<div class="line"><span class="lineno">  256</span>      <a class="code hl_variable" href="#a7e764141a3f8848a5cd0b575003a2342">postSuccessEvent</a>(result_msg);</div>
-<div class="line"><span class="lineno">  257</span>    }</div>
-<div class="line"><span class="lineno">  258</span>    <span class="keywordflow">else</span> <span class="keywordflow">if</span> (resultType == rclcpp_action::ResultCode::ABORTED)</div>
-<div class="line"><span class="lineno">  259</span>    {</div>
-<div class="line"><span class="lineno">  260</span>      RCLCPP_INFO(<a class="code hl_function" href="classsmacc2_1_1ISmaccComponent.html#a77ee85823bab8d84edcdf5d28782b728">getLogger</a>(), <span class="stringliteral">&quot;[%s] Action result: Aborted&quot;</span>, this-&gt;<a class="code hl_function" href="classsmacc2_1_1ISmaccComponent.html#a6fea938740f0c9ffc082b2ff076c900b">getName</a>().c_str());</div>
-<div class="line"><span class="lineno">  261</span>      <a class="code hl_variable" href="#ae73410f338febd82abc1ee25c37247d8">onActionAborted_</a>(result_msg);</div>
-<div class="line"><span class="lineno">  262</span>      <a class="code hl_variable" href="#ad4fa3603798fce22a3f2cc8a5cab21bb">postAbortedEvent</a>(result_msg);</div>
-<div class="line"><span class="lineno">  263</span>    }</div>
-<div class="line"><span class="lineno">  264</span>    <span class="keywordflow">else</span> <span class="keywordflow">if</span> (resultType == rclcpp_action::ResultCode::CANCELED)</div>
-<div class="line"><span class="lineno">  265</span>    {</div>
-<div class="line"><span class="lineno">  266</span>      RCLCPP_INFO(<a class="code hl_function" href="classsmacc2_1_1ISmaccComponent.html#a77ee85823bab8d84edcdf5d28782b728">getLogger</a>(), <span class="stringliteral">&quot;[%s] Action result: Cancelled&quot;</span>, this-&gt;<a class="code hl_function" href="classsmacc2_1_1ISmaccComponent.html#a6fea938740f0c9ffc082b2ff076c900b">getName</a>().c_str());</div>
-<div class="line"><span class="lineno">  267</span>      <a class="code hl_variable" href="#a573e2509ab90b8817e902d7f932193e0">onActionCancelled_</a>(result_msg);</div>
-<div class="line"><span class="lineno">  268</span>      <a class="code hl_variable" href="#a0174b96e7ae1e10aafb274fed7d5f925">postCancelledEvent</a>(result_msg);</div>
-<div class="line"><span class="lineno">  269</span>    }</div>
-<div class="line"><span class="lineno">  270</span>    <span class="keywordflow">else</span></div>
-<div class="line"><span class="lineno">  271</span>    {</div>
-<div class="line"><span class="lineno">  272</span>      RCLCPP_WARN(</div>
-<div class="line"><span class="lineno">  273</span>        <a class="code hl_function" href="classsmacc2_1_1ISmaccComponent.html#a77ee85823bab8d84edcdf5d28782b728">getLogger</a>(), <span class="stringliteral">&quot;[%s] Action result: Unhandled type: %d&quot;</span>, this-&gt;<a class="code hl_function" href="classsmacc2_1_1ISmaccComponent.html#a6fea938740f0c9ffc082b2ff076c900b">getName</a>().c_str(),</div>
-<div class="line"><span class="lineno">  274</span>        (<span class="keywordtype">int</span>)resultType);</div>
-<div class="line"><span class="lineno">  275</span>    }</div>
-<div class="line"><span class="lineno">  276</span>  }</div>
+<p class="definition">Definition at line <a class="el" href="cp__action__client_8hpp_source.html#l00274">274</a> of file <a class="el" href="cp__action__client_8hpp_source.html">cp_action_client.hpp</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">  275</span>  {</div>
+<div class="line"><span class="lineno">  276</span>    <span class="keyword">const</span> <span class="keyword">auto</span> &amp; resultType = result_msg.code;</div>
+<div class="line"><span class="lineno">  277</span> </div>
+<div class="line"><span class="lineno">  278</span>    RCLCPP_INFO_STREAM(</div>
+<div class="line"><span class="lineno">  279</span>      <a class="code hl_function" href="classsmacc2_1_1ISmaccComponent.html#a77ee85823bab8d84edcdf5d28782b728">getLogger</a>(), <span class="stringliteral">&quot;[&quot;</span> &lt;&lt; this-&gt;<a class="code hl_function" href="classsmacc2_1_1ISmaccComponent.html#a6fea938740f0c9ffc082b2ff076c900b">getName</a>() &lt;&lt; <span class="stringliteral">&quot;] Action result [&quot;</span></div>
+<div class="line"><span class="lineno">  280</span>                       &lt;&lt; rclcpp_action::to_string(result_msg.goal_id) &lt;&lt; <span class="stringliteral">&quot;]: &quot;</span> &lt;&lt; (<span class="keywordtype">int</span>)resultType);</div>
+<div class="line"><span class="lineno">  281</span> </div>
+<div class="line"><span class="lineno">  282</span>    <span class="keywordflow">if</span> (resultType == rclcpp_action::ResultCode::SUCCEEDED)</div>
+<div class="line"><span class="lineno">  283</span>    {</div>
+<div class="line"><span class="lineno">  284</span>      RCLCPP_INFO(<a class="code hl_function" href="classsmacc2_1_1ISmaccComponent.html#a77ee85823bab8d84edcdf5d28782b728">getLogger</a>(), <span class="stringliteral">&quot;[%s] Action result: Success&quot;</span>, this-&gt;<a class="code hl_function" href="classsmacc2_1_1ISmaccComponent.html#a6fea938740f0c9ffc082b2ff076c900b">getName</a>().c_str());</div>
+<div class="line"><span class="lineno">  285</span>      <a class="code hl_variable" href="#ac81c82bc455201adc6ac0128e23df4a4">onActionSucceeded_</a>(result_msg);</div>
+<div class="line"><span class="lineno">  286</span>      <a class="code hl_variable" href="#a7e764141a3f8848a5cd0b575003a2342">postSuccessEvent</a>(result_msg);</div>
+<div class="line"><span class="lineno">  287</span>    }</div>
+<div class="line"><span class="lineno">  288</span>    <span class="keywordflow">else</span> <span class="keywordflow">if</span> (resultType == rclcpp_action::ResultCode::ABORTED)</div>
+<div class="line"><span class="lineno">  289</span>    {</div>
+<div class="line"><span class="lineno">  290</span>      RCLCPP_INFO(<a class="code hl_function" href="classsmacc2_1_1ISmaccComponent.html#a77ee85823bab8d84edcdf5d28782b728">getLogger</a>(), <span class="stringliteral">&quot;[%s] Action result: Aborted&quot;</span>, this-&gt;<a class="code hl_function" href="classsmacc2_1_1ISmaccComponent.html#a6fea938740f0c9ffc082b2ff076c900b">getName</a>().c_str());</div>
+<div class="line"><span class="lineno">  291</span>      <a class="code hl_variable" href="#ae73410f338febd82abc1ee25c37247d8">onActionAborted_</a>(result_msg);</div>
+<div class="line"><span class="lineno">  292</span>      <a class="code hl_variable" href="#ad4fa3603798fce22a3f2cc8a5cab21bb">postAbortedEvent</a>(result_msg);</div>
+<div class="line"><span class="lineno">  293</span>    }</div>
+<div class="line"><span class="lineno">  294</span>    <span class="keywordflow">else</span> <span class="keywordflow">if</span> (resultType == rclcpp_action::ResultCode::CANCELED)</div>
+<div class="line"><span class="lineno">  295</span>    {</div>
+<div class="line"><span class="lineno">  296</span>      RCLCPP_INFO(<a class="code hl_function" href="classsmacc2_1_1ISmaccComponent.html#a77ee85823bab8d84edcdf5d28782b728">getLogger</a>(), <span class="stringliteral">&quot;[%s] Action result: Cancelled&quot;</span>, this-&gt;<a class="code hl_function" href="classsmacc2_1_1ISmaccComponent.html#a6fea938740f0c9ffc082b2ff076c900b">getName</a>().c_str());</div>
+<div class="line"><span class="lineno">  297</span>      <a class="code hl_variable" href="#a573e2509ab90b8817e902d7f932193e0">onActionCancelled_</a>(result_msg);</div>
+<div class="line"><span class="lineno">  298</span>      <a class="code hl_variable" href="#a0174b96e7ae1e10aafb274fed7d5f925">postCancelledEvent</a>(result_msg);</div>
+<div class="line"><span class="lineno">  299</span>    }</div>
+<div class="line"><span class="lineno">  300</span>    <span class="keywordflow">else</span></div>
+<div class="line"><span class="lineno">  301</span>    {</div>
+<div class="line"><span class="lineno">  302</span>      RCLCPP_WARN(</div>
+<div class="line"><span class="lineno">  303</span>        <a class="code hl_function" href="classsmacc2_1_1ISmaccComponent.html#a77ee85823bab8d84edcdf5d28782b728">getLogger</a>(), <span class="stringliteral">&quot;[%s] Action result: Unhandled type: %d&quot;</span>, this-&gt;<a class="code hl_function" href="classsmacc2_1_1ISmaccComponent.html#a6fea938740f0c9ffc082b2ff076c900b">getName</a>().c_str(),</div>
+<div class="line"><span class="lineno">  304</span>        (<span class="keywordtype">int</span>)resultType);</div>
+<div class="line"><span class="lineno">  305</span>    }</div>
+<div class="line"><span class="lineno">  306</span>  }</div>
 <div class="ttc" id="aclasssmacc2_1_1client__core__components_1_1CpActionClient_html_ac81c82bc455201adc6ac0128e23df4a4"><div class="ttname"><a href="#ac81c82bc455201adc6ac0128e23df4a4">smacc2::client_core_components::CpActionClient::onActionSucceeded_</a></div><div class="ttdeci">smacc2::SmaccSignal&lt; void(const WrappedResult &amp;)&gt; onActionSucceeded_</div><div class="ttdef"><b>Definition</b> <a href="cp__action__client_8hpp_source.html#l00057">cp_action_client.hpp:57</a></div></div>
 </div><!-- fragment -->
 <p class="reference">References <a class="el" href="smacc__component_8cpp_source.html#l00044">smacc2::ISmaccComponent::getLogger()</a>, <a class="el" href="smacc__component_8cpp_source.html#l00046">smacc2::ISmaccComponent::getName()</a>, <a class="el" href="cp__action__client_8hpp_source.html#l00058">smacc2::client_core_components::CpActionClient&lt; ActionType &gt;::onActionAborted_</a>, <a class="el" href="cp__action__client_8hpp_source.html#l00059">smacc2::client_core_components::CpActionClient&lt; ActionType &gt;::onActionCancelled_</a>, <a class="el" href="cp__action__client_8hpp_source.html#l00057">smacc2::client_core_components::CpActionClient&lt; ActionType &gt;::onActionSucceeded_</a>, <a class="el" href="cp__action__client_8hpp_source.html#l00066">smacc2::client_core_components::CpActionClient&lt; ActionType &gt;::postAbortedEvent</a>, <a class="el" href="cp__action__client_8hpp_source.html#l00067">smacc2::client_core_components::CpActionClient&lt; ActionType &gt;::postCancelledEvent</a>, and <a class="el" href="cp__action__client_8hpp_source.html#l00065">smacc2::client_core_components::CpActionClient&lt; ActionType &gt;::postSuccessEvent</a>.</p>
@@ -1356,9 +1413,11 @@ Here is the caller graph for this function:</div>
 <div class="dyncontent">
 <div class="center"><img src="classsmacc2_1_1client__core__components_1_1CpActionClient_a336b68e5ea465fa9e8b90a7c03392c95_icgraph.png" border="0" usemap="#aclasssmacc2_1_1client__core__components_1_1CpActionClient_a336b68e5ea465fa9e8b90a7c03392c95_icgraph" alt=""/></div>
 <map name="aclasssmacc2_1_1client__core__components_1_1CpActionClient_a336b68e5ea465fa9e8b90a7c03392c95_icgraph" id="aclasssmacc2_1_1client__core__components_1_1CpActionClient_a336b68e5ea465fa9e8b90a7c03392c95_icgraph">
-<area shape="rect" title=" " alt="" coords="245,5,436,61"/>
-<area shape="rect" href="classsmacc2_1_1client__core__components_1_1CpActionClient.html#a4a24697096edc712d52de7dea5b0f9c0" title=" " alt="" coords="5,5,197,61"/>
-<area shape="poly" title=" " alt="" coords="229,36,197,36,197,30,229,30"/>
+<area shape="rect" title=" " alt="" coords="499,5,690,61"/>
+<area shape="rect" href="classsmacc2_1_1client__core__components_1_1CpActionClient.html#a4a24697096edc712d52de7dea5b0f9c0" title=" " alt="" coords="260,5,451,61"/>
+<area shape="poly" title=" " alt="" coords="483,36,452,36,452,30,483,30"/>
+<area shape="rect" href="classsmacc2_1_1client__behavior__bases_1_1CbActionClientBehaviorBase.html#af95b6ac1d7edb4c676798ee7c00b16a4" title=" " alt="" coords="5,5,212,61"/>
+<area shape="poly" title=" " alt="" coords="244,36,212,36,212,30,244,30"/>
 </map>
 </div>
 
@@ -1395,12 +1454,14 @@ template&lt;typename T &gt; </div>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="cp__action__client_8hpp_source.html#l00201">201</a> of file <a class="el" href="cp__action__client_8hpp_source.html">cp_action_client.hpp</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">  202</span>  {</div>
-<div class="line"><span class="lineno">  203</span>    <span class="keywordflow">return</span> this-&gt;<a class="code hl_function" href="classsmacc2_1_1ISmaccComponent.html#a420ef07087efcdc74fb233f11ae3a517">getStateMachine</a>()-&gt;<a class="code hl_function" href="classsmacc2_1_1ISmaccStateMachine.html#a5a7796e13095b776bdd9a112d018e0f0">createSignalConnection</a>(<a class="code hl_variable" href="#ac81c82bc455201adc6ac0128e23df4a4">onActionSucceeded_</a>, callback, <span class="keywordtype">object</span>);</div>
-<div class="line"><span class="lineno">  204</span>  }</div>
+<p class="definition">Definition at line <a class="el" href="cp__action__client_8hpp_source.html#l00231">231</a> of file <a class="el" href="cp__action__client_8hpp_source.html">cp_action_client.hpp</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">  232</span>  {</div>
+<div class="line"><span class="lineno">  233</span>    <span class="keywordflow">return</span> this-&gt;<a class="code hl_function" href="classsmacc2_1_1ISmaccComponent.html#a420ef07087efcdc74fb233f11ae3a517">getStateMachine</a>()-&gt;<a class="code hl_function" href="classsmacc2_1_1ISmaccStateMachine.html#a5a7796e13095b776bdd9a112d018e0f0">createSignalConnection</a>(<a class="code hl_variable" href="#ac81c82bc455201adc6ac0128e23df4a4">onActionSucceeded_</a>, callback, <span class="keywordtype">object</span>);</div>
+<div class="line"><span class="lineno">  234</span>  }</div>
 </div><!-- fragment -->
 <p class="reference">References <a class="el" href="smacc__state__machine__impl_8hpp_source.html#l00376">smacc2::ISmaccStateMachine::createSignalConnection()</a>, and <a class="el" href="smacc__component_8cpp_source.html#l00052">smacc2::ISmaccComponent::getStateMachine()</a>.</p>
+
+<p class="reference">Referenced by <a class="el" href="cb__action__client__behavior__base_8hpp_source.html#l00061">smacc2::client_behavior_bases::CbActionClientBehaviorBase&lt; TAction &gt;::onStateOrthogonalAllocation()</a>.</p>
 <div class="dynheader">
 Here is the call graph for this function:</div>
 <div class="dyncontent">
@@ -1419,6 +1480,16 @@ Here is the call graph for this function:</div>
 <area shape="poly" title=" " alt="" coords="435,101,486,113,484,118,434,107"/>
 <area shape="poly" title=" " alt="" coords="668,33,722,41,721,46,667,38"/>
 <area shape="poly" title=" " alt="" coords="769,35,767,25,774,16,789,10,811,8,835,10,849,17,847,22,834,16,811,13,790,15,777,20,772,26,774,33"/>
+</map>
+</div>
+<div class="dynheader">
+Here is the caller graph for this function:</div>
+<div class="dyncontent">
+<div class="center"><img src="classsmacc2_1_1client__core__components_1_1CpActionClient_a3bf70751326e9ceb15886ff19cdad900_icgraph.png" border="0" usemap="#aclasssmacc2_1_1client__core__components_1_1CpActionClient_a3bf70751326e9ceb15886ff19cdad900_icgraph" alt=""/></div>
+<map name="aclasssmacc2_1_1client__core__components_1_1CpActionClient_a3bf70751326e9ceb15886ff19cdad900_icgraph" id="aclasssmacc2_1_1client__core__components_1_1CpActionClient_a3bf70751326e9ceb15886ff19cdad900_icgraph">
+<area shape="rect" title=" " alt="" coords="276,5,467,61"/>
+<area shape="rect" href="classsmacc2_1_1client__behavior__bases_1_1CbActionClientBehaviorBase.html#a10aa6e8fa2ece89b91e0b0bf949a15f1" title=" " alt="" coords="5,5,228,61"/>
+<area shape="poly" title=" " alt="" coords="260,36,228,36,228,30,260,30"/>
 </map>
 </div>
 
@@ -1451,20 +1522,20 @@ template&lt;typename EvType &gt; </div>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="cp__action__client_8hpp_source.html#l00279">279</a> of file <a class="el" href="cp__action__client_8hpp_source.html">cp_action_client.hpp</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">  280</span>  {</div>
-<div class="line"><span class="lineno">  281</span>    <span class="keyword">auto</span> * ev = <span class="keyword">new</span> EvType();</div>
-<div class="line"><span class="lineno">  282</span>    ev-&gt;resultMessage = result;</div>
-<div class="line"><span class="lineno">  283</span>    RCLCPP_INFO(</div>
-<div class="line"><span class="lineno">  284</span>      <a class="code hl_function" href="classsmacc2_1_1ISmaccComponent.html#a77ee85823bab8d84edcdf5d28782b728">getLogger</a>(), <span class="stringliteral">&quot;[%s] Posting event: %s&quot;</span>, this-&gt;<a class="code hl_function" href="classsmacc2_1_1ISmaccComponent.html#a6fea938740f0c9ffc082b2ff076c900b">getName</a>().c_str(),</div>
-<div class="line"><span class="lineno">  285</span>      <a class="code hl_function" href="namespacesmacc2_1_1introspection.html#aba19132e50f25adee919c2504ae6a3a2">smacc2::demangleSymbol</a>(<span class="keyword">typeid</span>(ev).name()).c_str());</div>
-<div class="line"><span class="lineno">  286</span>    this-&gt;<a class="code hl_function" href="classsmacc2_1_1ISmaccComponent.html#a03dd302448a2e186b1059822cff8c669">postEvent</a>(ev);</div>
-<div class="line"><span class="lineno">  287</span>  }</div>
+<p class="definition">Definition at line <a class="el" href="cp__action__client_8hpp_source.html#l00309">309</a> of file <a class="el" href="cp__action__client_8hpp_source.html">cp_action_client.hpp</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">  310</span>  {</div>
+<div class="line"><span class="lineno">  311</span>    <span class="keyword">auto</span> * ev = <span class="keyword">new</span> EvType();</div>
+<div class="line"><span class="lineno">  312</span>    ev-&gt;resultMessage = result;</div>
+<div class="line"><span class="lineno">  313</span>    RCLCPP_INFO(</div>
+<div class="line"><span class="lineno">  314</span>      <a class="code hl_function" href="classsmacc2_1_1ISmaccComponent.html#a77ee85823bab8d84edcdf5d28782b728">getLogger</a>(), <span class="stringliteral">&quot;[%s] Posting event: %s&quot;</span>, this-&gt;<a class="code hl_function" href="classsmacc2_1_1ISmaccComponent.html#a6fea938740f0c9ffc082b2ff076c900b">getName</a>().c_str(),</div>
+<div class="line"><span class="lineno">  315</span>      <a class="code hl_function" href="namespacesmacc2_1_1introspection.html#aba19132e50f25adee919c2504ae6a3a2">smacc2::demangleSymbol</a>(<span class="keyword">typeid</span>(ev).name()).c_str());</div>
+<div class="line"><span class="lineno">  316</span>    this-&gt;<a class="code hl_function" href="classsmacc2_1_1ISmaccComponent.html#a03dd302448a2e186b1059822cff8c669">postEvent</a>(ev);</div>
+<div class="line"><span class="lineno">  317</span>  }</div>
 <div class="ttc" id="anamespacesmacc2_1_1introspection_html_aba19132e50f25adee919c2504ae6a3a2"><div class="ttname"><a href="namespacesmacc2_1_1introspection.html#aba19132e50f25adee919c2504ae6a3a2">smacc2::introspection::demangleSymbol</a></div><div class="ttdeci">std::string demangleSymbol()</div><div class="ttdef"><b>Definition</b> <a href="introspection_8hpp_source.html#l00093">introspection.hpp:93</a></div></div>
 </div><!-- fragment -->
 <p class="reference">References <a class="el" href="introspection_8hpp_source.html#l00093">smacc2::introspection::demangleSymbol()</a>, <a class="el" href="smacc__component_8cpp_source.html#l00044">smacc2::ISmaccComponent::getLogger()</a>, <a class="el" href="smacc__component_8cpp_source.html#l00046">smacc2::ISmaccComponent::getName()</a>, and <a class="el" href="smacc__component__impl_8hpp_source.html#l00037">smacc2::ISmaccComponent::postEvent()</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="cp__action__client_8hpp_source.html#l00178">smacc2::client_core_components::CpActionClient&lt; ActionType &gt;::onComponentInitialization()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="cp__action__client_8hpp_source.html#l00203">smacc2::client_core_components::CpActionClient&lt; ActionType &gt;::onComponentInitialization()</a>.</p>
 <div class="dynheader">
 Here is the call graph for this function:</div>
 <div class="dyncontent">
@@ -1569,47 +1640,76 @@ template&lt;typename ActionType &gt; </div>
 <div class="fragment"><div class="line"><span class="lineno">   81</span>  {</div>
 <div class="line"><span class="lineno">   82</span>    std::lock_guard&lt;std::mutex&gt; lock(<a class="code hl_variable" href="#a806cfb164cf4bd9c87ff5e95ba95a042">actionMutex_</a>);</div>
 <div class="line"><span class="lineno">   83</span> </div>
-<div class="line"><span class="lineno">   84</span>    <a class="code hl_typedef" href="#a00c48744ce78f59e500a9b9e19353e4d">SendGoalOptions</a> options;</div>
-<div class="line"><span class="lineno">   85</span> </div>
-<div class="line"><span class="lineno">   86</span>    <span class="comment">// Set up feedback callback</span></div>
-<div class="line"><span class="lineno">   87</span>    options.feedback_callback = <a class="code hl_variable" href="#a53f323d92f865155adb867fbe0547435">feedbackCallback_</a>;</div>
-<div class="line"><span class="lineno">   88</span> </div>
-<div class="line"><span class="lineno">   89</span>    <span class="comment">// Set up result callback</span></div>
-<div class="line"><span class="lineno">   90</span>    options.result_callback = [<span class="keyword">this</span>, resultCallback](<span class="keyword">const</span> WrappedResult &amp; result)</div>
-<div class="line"><span class="lineno">   91</span>    {</div>
-<div class="line"><span class="lineno">   92</span>      std::lock_guard&lt;std::mutex&gt; lock(<a class="code hl_variable" href="#a806cfb164cf4bd9c87ff5e95ba95a042">actionMutex_</a>);</div>
-<div class="line"><span class="lineno">   93</span> </div>
-<div class="line"><span class="lineno">   94</span>      RCLCPP_INFO_STREAM(</div>
-<div class="line"><span class="lineno">   95</span>        <a class="code hl_function" href="classsmacc2_1_1ISmaccComponent.html#a77ee85823bab8d84edcdf5d28782b728">getLogger</a>(), <span class="stringliteral">&quot;[&quot;</span> &lt;&lt; this-&gt;<a class="code hl_function" href="classsmacc2_1_1ISmaccComponent.html#a6fea938740f0c9ffc082b2ff076c900b">getName</a>() &lt;&lt; <span class="stringliteral">&quot;] Action result callback, goal id: &quot;</span></div>
-<div class="line"><span class="lineno">   96</span>                         &lt;&lt; rclcpp_action::to_string(result.goal_id));</div>
+<div class="line"><span class="lineno">   84</span>    <span class="keywordflow">if</span> (<a class="code hl_variable" href="#acb7dcdf359483f1cab4990cdad727bd9">client_</a> == <span class="keyword">nullptr</span>)</div>
+<div class="line"><span class="lineno">   85</span>    {</div>
+<div class="line"><span class="lineno">   86</span>      RCLCPP_ERROR_STREAM(</div>
+<div class="line"><span class="lineno">   87</span>        <a class="code hl_function" href="classsmacc2_1_1ISmaccComponent.html#a77ee85823bab8d84edcdf5d28782b728">getLogger</a>(), <span class="stringliteral">&quot;[&quot;</span> &lt;&lt; this-&gt;<a class="code hl_function" href="classsmacc2_1_1ISmaccComponent.html#a6fea938740f0c9ffc082b2ff076c900b">getName</a>()</div>
+<div class="line"><span class="lineno">   88</span>                         &lt;&lt; <span class="stringliteral">&quot;] Cannot send goal: action client not initialized (was the &quot;</span></div>
+<div class="line"><span class="lineno">   89</span>                            <span class="stringliteral">&quot;component created with an action server name?)&quot;</span>);</div>
+<div class="line"><span class="lineno">   90</span>      <span class="keywordflow">return</span> std::shared_future&lt;typename GoalHandle::SharedPtr&gt;();</div>
+<div class="line"><span class="lineno">   91</span>    }</div>
+<div class="line"><span class="lineno">   92</span> </div>
+<div class="line"><span class="lineno">   93</span>    <a class="code hl_typedef" href="#a00c48744ce78f59e500a9b9e19353e4d">SendGoalOptions</a> options;</div>
+<div class="line"><span class="lineno">   94</span> </div>
+<div class="line"><span class="lineno">   95</span>    <span class="comment">// Set up feedback callback</span></div>
+<div class="line"><span class="lineno">   96</span>    options.feedback_callback = <a class="code hl_variable" href="#a53f323d92f865155adb867fbe0547435">feedbackCallback_</a>;</div>
 <div class="line"><span class="lineno">   97</span> </div>
-<div class="line"><span class="lineno">   98</span>      <span class="keyword">auto</span> resultCallbackPtr = resultCallback.lock();</div>
-<div class="line"><span class="lineno">   99</span>      <span class="keywordflow">if</span> (resultCallbackPtr != <span class="keyword">nullptr</span>)</div>
-<div class="line"><span class="lineno">  100</span>      {</div>
-<div class="line"><span class="lineno">  101</span>        RCLCPP_INFO_STREAM(<a class="code hl_function" href="classsmacc2_1_1ISmaccComponent.html#a77ee85823bab8d84edcdf5d28782b728">getLogger</a>(), <span class="stringliteral">&quot;[&quot;</span> &lt;&lt; this-&gt;<a class="code hl_function" href="classsmacc2_1_1ISmaccComponent.html#a6fea938740f0c9ffc082b2ff076c900b">getName</a>() &lt;&lt; <span class="stringliteral">&quot;] Calling user result callback&quot;</span>);</div>
-<div class="line"><span class="lineno">  102</span>        (*resultCallbackPtr)(result);</div>
-<div class="line"><span class="lineno">  103</span>      }</div>
-<div class="line"><span class="lineno">  104</span>      <span class="keywordflow">else</span></div>
-<div class="line"><span class="lineno">  105</span>      {</div>
-<div class="line"><span class="lineno">  106</span>        RCLCPP_INFO_STREAM(</div>
-<div class="line"><span class="lineno">  107</span>          <a class="code hl_function" href="classsmacc2_1_1ISmaccComponent.html#a77ee85823bab8d84edcdf5d28782b728">getLogger</a>(), <span class="stringliteral">&quot;[&quot;</span> &lt;&lt; this-&gt;<a class="code hl_function" href="classsmacc2_1_1ISmaccComponent.html#a6fea938740f0c9ffc082b2ff076c900b">getName</a>() &lt;&lt; <span class="stringliteral">&quot;] Using default result handling&quot;</span>);</div>
-<div class="line"><span class="lineno">  108</span>        this-&gt;<a class="code hl_function" href="#a336b68e5ea465fa9e8b90a7c03392c95">onResult</a>(result);</div>
-<div class="line"><span class="lineno">  109</span>      }</div>
-<div class="line"><span class="lineno">  110</span>    };</div>
-<div class="line"><span class="lineno">  111</span> </div>
-<div class="line"><span class="lineno">  112</span>    RCLCPP_INFO_STREAM(</div>
-<div class="line"><span class="lineno">  113</span>      <a class="code hl_function" href="classsmacc2_1_1ISmaccComponent.html#a77ee85823bab8d84edcdf5d28782b728">getLogger</a>(),</div>
-<div class="line"><span class="lineno">  114</span>      <span class="stringliteral">&quot;[&quot;</span> &lt;&lt; this-&gt;<a class="code hl_function" href="classsmacc2_1_1ISmaccComponent.html#a6fea938740f0c9ffc082b2ff076c900b">getName</a>() &lt;&lt; <span class="stringliteral">&quot;] Sending goal to action server: &quot;</span> &lt;&lt; (<span class="keywordtype">long</span>)<a class="code hl_variable" href="#acb7dcdf359483f1cab4990cdad727bd9">client_</a>.get());</div>
-<div class="line"><span class="lineno">  115</span> </div>
-<div class="line"><span class="lineno">  116</span>    <span class="keyword">auto</span> goalFuture = <a class="code hl_variable" href="#acb7dcdf359483f1cab4990cdad727bd9">client_</a>-&gt;async_send_goal(goal, options);</div>
-<div class="line"><span class="lineno">  117</span>    <a class="code hl_variable" href="#a30be4b55466ed0e7416af7342fe27532">lastRequest_</a> = goalFuture;</div>
+<div class="line"><span class="lineno">   98</span>    <span class="comment">// Goal acceptance/rejection notification. Without this a rejected goal is</span></div>
+<div class="line"><span class="lineno">   99</span>    <span class="comment">// silent: the result callback never fires and no signal is emitted.</span></div>
+<div class="line"><span class="lineno">  100</span>    options.goal_response_callback = [<span class="keyword">this</span>](<span class="keyword">typename</span> GoalHandle::SharedPtr goalHandle)</div>
+<div class="line"><span class="lineno">  101</span>    {</div>
+<div class="line"><span class="lineno">  102</span>      <span class="keywordflow">if</span> (goalHandle != <span class="keyword">nullptr</span>)</div>
+<div class="line"><span class="lineno">  103</span>      {</div>
+<div class="line"><span class="lineno">  104</span>        RCLCPP_INFO_STREAM(<a class="code hl_function" href="classsmacc2_1_1ISmaccComponent.html#a77ee85823bab8d84edcdf5d28782b728">getLogger</a>(), <span class="stringliteral">&quot;[&quot;</span> &lt;&lt; this-&gt;<a class="code hl_function" href="classsmacc2_1_1ISmaccComponent.html#a6fea938740f0c9ffc082b2ff076c900b">getName</a>() &lt;&lt; <span class="stringliteral">&quot;] Goal accepted by server&quot;</span>);</div>
+<div class="line"><span class="lineno">  105</span>        <a class="code hl_variable" href="#a2597c8cf2e6e2ad669f2382aface41d5">onGoalAccepted_</a>();</div>
+<div class="line"><span class="lineno">  106</span>      }</div>
+<div class="line"><span class="lineno">  107</span>      <span class="keywordflow">else</span></div>
+<div class="line"><span class="lineno">  108</span>      {</div>
+<div class="line"><span class="lineno">  109</span>        RCLCPP_ERROR_STREAM(<a class="code hl_function" href="classsmacc2_1_1ISmaccComponent.html#a77ee85823bab8d84edcdf5d28782b728">getLogger</a>(), <span class="stringliteral">&quot;[&quot;</span> &lt;&lt; this-&gt;<a class="code hl_function" href="classsmacc2_1_1ISmaccComponent.html#a6fea938740f0c9ffc082b2ff076c900b">getName</a>() &lt;&lt; <span class="stringliteral">&quot;] Goal rejected by server&quot;</span>);</div>
+<div class="line"><span class="lineno">  110</span>        <a class="code hl_variable" href="#a7974bc62c9a2776884a7f859be0cfb80">onGoalRejected_</a>();</div>
+<div class="line"><span class="lineno">  111</span>      }</div>
+<div class="line"><span class="lineno">  112</span>    };</div>
+<div class="line"><span class="lineno">  113</span> </div>
+<div class="line"><span class="lineno">  114</span>    <span class="comment">// Set up result callback</span></div>
+<div class="line"><span class="lineno">  115</span>    options.result_callback = [<span class="keyword">this</span>, resultCallback](<span class="keyword">const</span> WrappedResult &amp; result)</div>
+<div class="line"><span class="lineno">  116</span>    {</div>
+<div class="line"><span class="lineno">  117</span>      std::lock_guard&lt;std::mutex&gt; lock(<a class="code hl_variable" href="#a806cfb164cf4bd9c87ff5e95ba95a042">actionMutex_</a>);</div>
 <div class="line"><span class="lineno">  118</span> </div>
-<div class="line"><span class="lineno">  119</span>    <span class="keywordflow">return</span> goalFuture;</div>
-<div class="line"><span class="lineno">  120</span>  }</div>
+<div class="line"><span class="lineno">  119</span>      RCLCPP_INFO_STREAM(</div>
+<div class="line"><span class="lineno">  120</span>        <a class="code hl_function" href="classsmacc2_1_1ISmaccComponent.html#a77ee85823bab8d84edcdf5d28782b728">getLogger</a>(), <span class="stringliteral">&quot;[&quot;</span> &lt;&lt; this-&gt;<a class="code hl_function" href="classsmacc2_1_1ISmaccComponent.html#a6fea938740f0c9ffc082b2ff076c900b">getName</a>() &lt;&lt; <span class="stringliteral">&quot;] Action result callback, goal id: &quot;</span></div>
+<div class="line"><span class="lineno">  121</span>                         &lt;&lt; rclcpp_action::to_string(result.goal_id));</div>
+<div class="line"><span class="lineno">  122</span> </div>
+<div class="line"><span class="lineno">  123</span>      <span class="keyword">auto</span> resultCallbackPtr = resultCallback.lock();</div>
+<div class="line"><span class="lineno">  124</span>      <span class="keywordflow">if</span> (resultCallbackPtr != <span class="keyword">nullptr</span>)</div>
+<div class="line"><span class="lineno">  125</span>      {</div>
+<div class="line"><span class="lineno">  126</span>        RCLCPP_INFO_STREAM(<a class="code hl_function" href="classsmacc2_1_1ISmaccComponent.html#a77ee85823bab8d84edcdf5d28782b728">getLogger</a>(), <span class="stringliteral">&quot;[&quot;</span> &lt;&lt; this-&gt;<a class="code hl_function" href="classsmacc2_1_1ISmaccComponent.html#a6fea938740f0c9ffc082b2ff076c900b">getName</a>() &lt;&lt; <span class="stringliteral">&quot;] Calling user result callback&quot;</span>);</div>
+<div class="line"><span class="lineno">  127</span>        (*resultCallbackPtr)(result);</div>
+<div class="line"><span class="lineno">  128</span>      }</div>
+<div class="line"><span class="lineno">  129</span>      <span class="keywordflow">else</span></div>
+<div class="line"><span class="lineno">  130</span>      {</div>
+<div class="line"><span class="lineno">  131</span>        RCLCPP_INFO_STREAM(</div>
+<div class="line"><span class="lineno">  132</span>          <a class="code hl_function" href="classsmacc2_1_1ISmaccComponent.html#a77ee85823bab8d84edcdf5d28782b728">getLogger</a>(), <span class="stringliteral">&quot;[&quot;</span> &lt;&lt; this-&gt;<a class="code hl_function" href="classsmacc2_1_1ISmaccComponent.html#a6fea938740f0c9ffc082b2ff076c900b">getName</a>() &lt;&lt; <span class="stringliteral">&quot;] Using default result handling&quot;</span>);</div>
+<div class="line"><span class="lineno">  133</span>        this-&gt;<a class="code hl_function" href="#a336b68e5ea465fa9e8b90a7c03392c95">onResult</a>(result);</div>
+<div class="line"><span class="lineno">  134</span>      }</div>
+<div class="line"><span class="lineno">  135</span>    };</div>
+<div class="line"><span class="lineno">  136</span> </div>
+<div class="line"><span class="lineno">  137</span>    RCLCPP_INFO_STREAM(</div>
+<div class="line"><span class="lineno">  138</span>      <a class="code hl_function" href="classsmacc2_1_1ISmaccComponent.html#a77ee85823bab8d84edcdf5d28782b728">getLogger</a>(),</div>
+<div class="line"><span class="lineno">  139</span>      <span class="stringliteral">&quot;[&quot;</span> &lt;&lt; this-&gt;<a class="code hl_function" href="classsmacc2_1_1ISmaccComponent.html#a6fea938740f0c9ffc082b2ff076c900b">getName</a>() &lt;&lt; <span class="stringliteral">&quot;] Sending goal to action server: &quot;</span> &lt;&lt; (<span class="keywordtype">long</span>)<a class="code hl_variable" href="#acb7dcdf359483f1cab4990cdad727bd9">client_</a>.get());</div>
+<div class="line"><span class="lineno">  140</span> </div>
+<div class="line"><span class="lineno">  141</span>    <span class="keyword">auto</span> goalFuture = <a class="code hl_variable" href="#acb7dcdf359483f1cab4990cdad727bd9">client_</a>-&gt;async_send_goal(goal, options);</div>
+<div class="line"><span class="lineno">  142</span>    <a class="code hl_variable" href="#a30be4b55466ed0e7416af7342fe27532">lastRequest_</a> = goalFuture;</div>
+<div class="line"><span class="lineno">  143</span> </div>
+<div class="line"><span class="lineno">  144</span>    <span class="keywordflow">return</span> goalFuture;</div>
+<div class="line"><span class="lineno">  145</span>  }</div>
 <div class="ttc" id="aclasssmacc2_1_1client__core__components_1_1CpActionClient_html_a00c48744ce78f59e500a9b9e19353e4d"><div class="ttname"><a href="#a00c48744ce78f59e500a9b9e19353e4d">smacc2::client_core_components::CpActionClient::SendGoalOptions</a></div><div class="ttdeci">typename ActionClient::SendGoalOptions SendGoalOptions</div><div class="ttdef"><b>Definition</b> <a href="cp__action__client_8hpp_source.html#l00046">cp_action_client.hpp:46</a></div></div>
-<div class="ttc" id="aclasssmacc2_1_1client__core__components_1_1CpActionClient_html_a336b68e5ea465fa9e8b90a7c03392c95"><div class="ttname"><a href="#a336b68e5ea465fa9e8b90a7c03392c95">smacc2::client_core_components::CpActionClient::onResult</a></div><div class="ttdeci">void onResult(const WrappedResult &amp;result_msg)</div><div class="ttdef"><b>Definition</b> <a href="cp__action__client_8hpp_source.html#l00244">cp_action_client.hpp:244</a></div></div>
+<div class="ttc" id="aclasssmacc2_1_1client__core__components_1_1CpActionClient_html_a2597c8cf2e6e2ad669f2382aface41d5"><div class="ttname"><a href="#a2597c8cf2e6e2ad669f2382aface41d5">smacc2::client_core_components::CpActionClient::onGoalAccepted_</a></div><div class="ttdeci">smacc2::SmaccSignal&lt; void()&gt; onGoalAccepted_</div><div class="ttdef"><b>Definition</b> <a href="cp__action__client_8hpp_source.html#l00061">cp_action_client.hpp:61</a></div></div>
+<div class="ttc" id="aclasssmacc2_1_1client__core__components_1_1CpActionClient_html_a336b68e5ea465fa9e8b90a7c03392c95"><div class="ttname"><a href="#a336b68e5ea465fa9e8b90a7c03392c95">smacc2::client_core_components::CpActionClient::onResult</a></div><div class="ttdeci">void onResult(const WrappedResult &amp;result_msg)</div><div class="ttdef"><b>Definition</b> <a href="cp__action__client_8hpp_source.html#l00274">cp_action_client.hpp:274</a></div></div>
+<div class="ttc" id="aclasssmacc2_1_1client__core__components_1_1CpActionClient_html_a7974bc62c9a2776884a7f859be0cfb80"><div class="ttname"><a href="#a7974bc62c9a2776884a7f859be0cfb80">smacc2::client_core_components::CpActionClient::onGoalRejected_</a></div><div class="ttdeci">smacc2::SmaccSignal&lt; void()&gt; onGoalRejected_</div><div class="ttdef"><b>Definition</b> <a href="cp__action__client_8hpp_source.html#l00062">cp_action_client.hpp:62</a></div></div>
 </div><!-- fragment -->
-<p class="reference">References <a class="el" href="cp__action__client_8hpp_source.html#l00234">smacc2::client_core_components::CpActionClient&lt; ActionType &gt;::actionMutex_</a>, <a class="el" href="cp__action__client_8hpp_source.html#l00228">smacc2::client_core_components::CpActionClient&lt; ActionType &gt;::client_</a>, <a class="el" href="cp__action__client_8hpp_source.html#l00233">smacc2::client_core_components::CpActionClient&lt; ActionType &gt;::feedbackCallback_</a>, <a class="el" href="smacc__component_8cpp_source.html#l00044">smacc2::ISmaccComponent::getLogger()</a>, <a class="el" href="smacc__component_8cpp_source.html#l00046">smacc2::ISmaccComponent::getName()</a>, <a class="el" href="cp__action__client_8hpp_source.html#l00229">smacc2::client_core_components::CpActionClient&lt; ActionType &gt;::lastRequest_</a>, and <a class="el" href="cp__action__client_8hpp_source.html#l00244">smacc2::client_core_components::CpActionClient&lt; ActionType &gt;::onResult()</a>.</p>
+<p class="reference">References <a class="el" href="cp__action__client_8hpp_source.html#l00264">smacc2::client_core_components::CpActionClient&lt; ActionType &gt;::actionMutex_</a>, <a class="el" href="cp__action__client_8hpp_source.html#l00258">smacc2::client_core_components::CpActionClient&lt; ActionType &gt;::client_</a>, <a class="el" href="cp__action__client_8hpp_source.html#l00263">smacc2::client_core_components::CpActionClient&lt; ActionType &gt;::feedbackCallback_</a>, <a class="el" href="smacc__component_8cpp_source.html#l00044">smacc2::ISmaccComponent::getLogger()</a>, <a class="el" href="smacc__component_8cpp_source.html#l00046">smacc2::ISmaccComponent::getName()</a>, <a class="el" href="cp__action__client_8hpp_source.html#l00259">smacc2::client_core_components::CpActionClient&lt; ActionType &gt;::lastRequest_</a>, <a class="el" href="cp__action__client_8hpp_source.html#l00061">smacc2::client_core_components::CpActionClient&lt; ActionType &gt;::onGoalAccepted_</a>, <a class="el" href="cp__action__client_8hpp_source.html#l00062">smacc2::client_core_components::CpActionClient&lt; ActionType &gt;::onGoalRejected_</a>, and <a class="el" href="cp__action__client_8hpp_source.html#l00274">smacc2::client_core_components::CpActionClient&lt; ActionType &gt;::onResult()</a>.</p>
+
+<p class="reference">Referenced by <a class="el" href="cb__action__client__behavior__base_8hpp_source.html#l00103">smacc2::client_behavior_bases::CbActionClientBehaviorBase&lt; TAction &gt;::sendGoal()</a>.</p>
 <div class="dynheader">
 Here is the call graph for this function:</div>
 <div class="dyncontent">
@@ -1635,6 +1735,16 @@ Here is the call graph for this function:</div>
 <area shape="poly" title=" " alt="" coords="754,139,752,129,758,120,772,114,792,112,814,114,827,121,824,125,812,120,792,117,773,119,762,124,757,130,759,137"/>
 <area shape="poly" title=" " alt="" coords="436,89,470,81,471,86,437,94"/>
 <area shape="poly" title=" " alt="" coords="437,129,469,136,468,141,436,135"/>
+</map>
+</div>
+<div class="dynheader">
+Here is the caller graph for this function:</div>
+<div class="dyncontent">
+<div class="center"><img src="classsmacc2_1_1client__core__components_1_1CpActionClient_a4a24697096edc712d52de7dea5b0f9c0_icgraph.png" border="0" usemap="#aclasssmacc2_1_1client__core__components_1_1CpActionClient_a4a24697096edc712d52de7dea5b0f9c0_icgraph" alt=""/></div>
+<map name="aclasssmacc2_1_1client__core__components_1_1CpActionClient_a4a24697096edc712d52de7dea5b0f9c0_icgraph" id="aclasssmacc2_1_1client__core__components_1_1CpActionClient_a4a24697096edc712d52de7dea5b0f9c0_icgraph">
+<area shape="rect" title=" " alt="" coords="260,5,451,61"/>
+<area shape="rect" href="classsmacc2_1_1client__behavior__bases_1_1CbActionClientBehaviorBase.html#af95b6ac1d7edb4c676798ee7c00b16a4" title=" " alt="" coords="5,5,212,61"/>
+<area shape="poly" title=" " alt="" coords="244,36,212,36,212,30,244,30"/>
 </map>
 </div>
 
@@ -1665,18 +1775,18 @@ template&lt;typename ActionType &gt; </div>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="cp__action__client_8hpp_source.html#l00143">143</a> of file <a class="el" href="cp__action__client_8hpp_source.html">cp_action_client.hpp</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">  144</span>  {</div>
-<div class="line"><span class="lineno">  145</span>    <span class="keywordflow">if</span> (<a class="code hl_variable" href="#acb7dcdf359483f1cab4990cdad727bd9">client_</a>)</div>
-<div class="line"><span class="lineno">  146</span>    {</div>
-<div class="line"><span class="lineno">  147</span>      RCLCPP_INFO_STREAM(</div>
-<div class="line"><span class="lineno">  148</span>        <a class="code hl_function" href="classsmacc2_1_1ISmaccComponent.html#a77ee85823bab8d84edcdf5d28782b728">getLogger</a>(),</div>
-<div class="line"><span class="lineno">  149</span>        <span class="stringliteral">&quot;[&quot;</span> &lt;&lt; this-&gt;<a class="code hl_function" href="classsmacc2_1_1ISmaccComponent.html#a6fea938740f0c9ffc082b2ff076c900b">getName</a>() &lt;&lt; <span class="stringliteral">&quot;] Waiting for action server: &quot;</span> &lt;&lt; *<a class="code hl_variable" href="#a0cbd335fa72b603f0f06257b3beed17d">actionServerName</a>);</div>
-<div class="line"><span class="lineno">  150</span>      <a class="code hl_variable" href="#acb7dcdf359483f1cab4990cdad727bd9">client_</a>-&gt;wait_for_action_server();</div>
-<div class="line"><span class="lineno">  151</span>    }</div>
-<div class="line"><span class="lineno">  152</span>  }</div>
+<p class="definition">Definition at line <a class="el" href="cp__action__client_8hpp_source.html#l00168">168</a> of file <a class="el" href="cp__action__client_8hpp_source.html">cp_action_client.hpp</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">  169</span>  {</div>
+<div class="line"><span class="lineno">  170</span>    <span class="keywordflow">if</span> (<a class="code hl_variable" href="#acb7dcdf359483f1cab4990cdad727bd9">client_</a>)</div>
+<div class="line"><span class="lineno">  171</span>    {</div>
+<div class="line"><span class="lineno">  172</span>      RCLCPP_INFO_STREAM(</div>
+<div class="line"><span class="lineno">  173</span>        <a class="code hl_function" href="classsmacc2_1_1ISmaccComponent.html#a77ee85823bab8d84edcdf5d28782b728">getLogger</a>(),</div>
+<div class="line"><span class="lineno">  174</span>        <span class="stringliteral">&quot;[&quot;</span> &lt;&lt; this-&gt;<a class="code hl_function" href="classsmacc2_1_1ISmaccComponent.html#a6fea938740f0c9ffc082b2ff076c900b">getName</a>() &lt;&lt; <span class="stringliteral">&quot;] Waiting for action server: &quot;</span> &lt;&lt; *<a class="code hl_variable" href="#a0cbd335fa72b603f0f06257b3beed17d">actionServerName</a>);</div>
+<div class="line"><span class="lineno">  175</span>      <a class="code hl_variable" href="#acb7dcdf359483f1cab4990cdad727bd9">client_</a>-&gt;wait_for_action_server();</div>
+<div class="line"><span class="lineno">  176</span>    }</div>
+<div class="line"><span class="lineno">  177</span>  }</div>
 </div><!-- fragment -->
-<p class="reference">References <a class="el" href="cp__action__client_8hpp_source.html#l00228">smacc2::client_core_components::CpActionClient&lt; ActionType &gt;::client_</a>, <a class="el" href="smacc__component_8cpp_source.html#l00044">smacc2::ISmaccComponent::getLogger()</a>, and <a class="el" href="smacc__component_8cpp_source.html#l00046">smacc2::ISmaccComponent::getName()</a>.</p>
+<p class="reference">References <a class="el" href="cp__action__client_8hpp_source.html#l00258">smacc2::client_core_components::CpActionClient&lt; ActionType &gt;::client_</a>, <a class="el" href="smacc__component_8cpp_source.html#l00044">smacc2::ISmaccComponent::getLogger()</a>, and <a class="el" href="smacc__component_8cpp_source.html#l00046">smacc2::ISmaccComponent::getName()</a>.</p>
 <div class="dynheader">
 Here is the call graph for this function:</div>
 <div class="dyncontent">
@@ -1726,9 +1836,9 @@ template&lt;typename ActionType &gt; </div>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="cp__action__client_8hpp_source.html#l00234">234</a> of file <a class="el" href="cp__action__client_8hpp_source.html">cp_action_client.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="cp__action__client_8hpp_source.html#l00264">264</a> of file <a class="el" href="cp__action__client_8hpp_source.html">cp_action_client.hpp</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="cp__action__client_8hpp_source.html#l00122">smacc2::client_core_components::CpActionClient&lt; ActionType &gt;::cancelGoal()</a>, and <a class="el" href="cp__action__client_8hpp_source.html#l00078">smacc2::client_core_components::CpActionClient&lt; ActionType &gt;::sendGoal()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="cp__action__client_8hpp_source.html#l00147">smacc2::client_core_components::CpActionClient&lt; ActionType &gt;::cancelGoal()</a>, and <a class="el" href="cp__action__client_8hpp_source.html#l00078">smacc2::client_core_components::CpActionClient&lt; ActionType &gt;::sendGoal()</a>.</p>
 
 </div>
 </div>
@@ -1748,7 +1858,7 @@ template&lt;typename ActionType &gt; </div>
 
 <p class="definition">Definition at line <a class="el" href="cp__action__client_8hpp_source.html#l00053">53</a> of file <a class="el" href="cp__action__client_8hpp_source.html">cp_action_client.hpp</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="cp__action__client_8hpp_source.html#l00155">smacc2::client_core_components::CpActionClient&lt; ActionType &gt;::onInitialize()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="cp__action__client_8hpp_source.html#l00180">smacc2::client_core_components::CpActionClient&lt; ActionType &gt;::onInitialize()</a>.</p>
 
 </div>
 </div>
@@ -1774,9 +1884,9 @@ template&lt;typename ActionType &gt; </div>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="cp__action__client_8hpp_source.html#l00228">228</a> of file <a class="el" href="cp__action__client_8hpp_source.html">cp_action_client.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="cp__action__client_8hpp_source.html#l00258">258</a> of file <a class="el" href="cp__action__client_8hpp_source.html">cp_action_client.hpp</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="cp__action__client_8hpp_source.html#l00122">smacc2::client_core_components::CpActionClient&lt; ActionType &gt;::cancelGoal()</a>, <a class="el" href="cp__action__client_8hpp_source.html#l00225">smacc2::client_core_components::CpActionClient&lt; ActionType &gt;::getActionClient()</a>, <a class="el" href="cp__action__client_8hpp_source.html#l00141">smacc2::client_core_components::CpActionClient&lt; ActionType &gt;::isServerReady()</a>, <a class="el" href="cp__action__client_8hpp_source.html#l00155">smacc2::client_core_components::CpActionClient&lt; ActionType &gt;::onInitialize()</a>, <a class="el" href="cp__action__client_8hpp_source.html#l00078">smacc2::client_core_components::CpActionClient&lt; ActionType &gt;::sendGoal()</a>, and <a class="el" href="cp__action__client_8hpp_source.html#l00143">smacc2::client_core_components::CpActionClient&lt; ActionType &gt;::waitForServer()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="cp__action__client_8hpp_source.html#l00147">smacc2::client_core_components::CpActionClient&lt; ActionType &gt;::cancelGoal()</a>, <a class="el" href="cp__action__client_8hpp_source.html#l00255">smacc2::client_core_components::CpActionClient&lt; ActionType &gt;::getActionClient()</a>, <a class="el" href="cp__action__client_8hpp_source.html#l00166">smacc2::client_core_components::CpActionClient&lt; ActionType &gt;::isServerReady()</a>, <a class="el" href="cp__action__client_8hpp_source.html#l00180">smacc2::client_core_components::CpActionClient&lt; ActionType &gt;::onInitialize()</a>, <a class="el" href="cp__action__client_8hpp_source.html#l00078">smacc2::client_core_components::CpActionClient&lt; ActionType &gt;::sendGoal()</a>, and <a class="el" href="cp__action__client_8hpp_source.html#l00168">smacc2::client_core_components::CpActionClient&lt; ActionType &gt;::waitForServer()</a>.</p>
 
 </div>
 </div>
@@ -1802,9 +1912,9 @@ template&lt;typename ActionType &gt; </div>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="cp__action__client_8hpp_source.html#l00233">233</a> of file <a class="el" href="cp__action__client_8hpp_source.html">cp_action_client.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="cp__action__client_8hpp_source.html#l00263">263</a> of file <a class="el" href="cp__action__client_8hpp_source.html">cp_action_client.hpp</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="cp__action__client_8hpp_source.html#l00155">smacc2::client_core_components::CpActionClient&lt; ActionType &gt;::onInitialize()</a>, and <a class="el" href="cp__action__client_8hpp_source.html#l00078">smacc2::client_core_components::CpActionClient&lt; ActionType &gt;::sendGoal()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="cp__action__client_8hpp_source.html#l00180">smacc2::client_core_components::CpActionClient&lt; ActionType &gt;::onInitialize()</a>, and <a class="el" href="cp__action__client_8hpp_source.html#l00078">smacc2::client_core_components::CpActionClient&lt; ActionType &gt;::sendGoal()</a>.</p>
 
 </div>
 </div>
@@ -1830,9 +1940,9 @@ template&lt;typename ActionType &gt; </div>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="cp__action__client_8hpp_source.html#l00232">232</a> of file <a class="el" href="cp__action__client_8hpp_source.html">cp_action_client.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="cp__action__client_8hpp_source.html#l00262">262</a> of file <a class="el" href="cp__action__client_8hpp_source.html">cp_action_client.hpp</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="cp__action__client_8hpp_source.html#l00122">smacc2::client_core_components::CpActionClient&lt; ActionType &gt;::cancelGoal()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="cp__action__client_8hpp_source.html#l00147">smacc2::client_core_components::CpActionClient&lt; ActionType &gt;::cancelGoal()</a>.</p>
 
 </div>
 </div>
@@ -1858,9 +1968,9 @@ template&lt;typename ActionType &gt; </div>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="cp__action__client_8hpp_source.html#l00229">229</a> of file <a class="el" href="cp__action__client_8hpp_source.html">cp_action_client.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="cp__action__client_8hpp_source.html#l00259">259</a> of file <a class="el" href="cp__action__client_8hpp_source.html">cp_action_client.hpp</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="cp__action__client_8hpp_source.html#l00122">smacc2::client_core_components::CpActionClient&lt; ActionType &gt;::cancelGoal()</a>, and <a class="el" href="cp__action__client_8hpp_source.html#l00078">smacc2::client_core_components::CpActionClient&lt; ActionType &gt;::sendGoal()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="cp__action__client_8hpp_source.html#l00147">smacc2::client_core_components::CpActionClient&lt; ActionType &gt;::cancelGoal()</a>, and <a class="el" href="cp__action__client_8hpp_source.html#l00078">smacc2::client_core_components::CpActionClient&lt; ActionType &gt;::sendGoal()</a>.</p>
 
 </div>
 </div>
@@ -1880,7 +1990,7 @@ template&lt;typename ActionType &gt; </div>
 
 <p class="definition">Definition at line <a class="el" href="cp__action__client_8hpp_source.html#l00058">58</a> of file <a class="el" href="cp__action__client_8hpp_source.html">cp_action_client.hpp</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="cp__action__client_8hpp_source.html#l00244">smacc2::client_core_components::CpActionClient&lt; ActionType &gt;::onResult()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="cp__action__client_8hpp_source.html#l00274">smacc2::client_core_components::CpActionClient&lt; ActionType &gt;::onResult()</a>.</p>
 
 </div>
 </div>
@@ -1900,7 +2010,7 @@ template&lt;typename ActionType &gt; </div>
 
 <p class="definition">Definition at line <a class="el" href="cp__action__client_8hpp_source.html#l00059">59</a> of file <a class="el" href="cp__action__client_8hpp_source.html">cp_action_client.hpp</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="cp__action__client_8hpp_source.html#l00244">smacc2::client_core_components::CpActionClient&lt; ActionType &gt;::onResult()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="cp__action__client_8hpp_source.html#l00274">smacc2::client_core_components::CpActionClient&lt; ActionType &gt;::onResult()</a>.</p>
 
 </div>
 </div>
@@ -1920,7 +2030,7 @@ template&lt;typename ActionType &gt; </div>
 
 <p class="definition">Definition at line <a class="el" href="cp__action__client_8hpp_source.html#l00060">60</a> of file <a class="el" href="cp__action__client_8hpp_source.html">cp_action_client.hpp</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="cp__action__client_8hpp_source.html#l00236">smacc2::client_core_components::CpActionClient&lt; ActionType &gt;::onFeedback()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="cp__action__client_8hpp_source.html#l00266">smacc2::client_core_components::CpActionClient&lt; ActionType &gt;::onFeedback()</a>.</p>
 
 </div>
 </div>
@@ -1940,7 +2050,7 @@ template&lt;typename ActionType &gt; </div>
 
 <p class="definition">Definition at line <a class="el" href="cp__action__client_8hpp_source.html#l00057">57</a> of file <a class="el" href="cp__action__client_8hpp_source.html">cp_action_client.hpp</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="cp__action__client_8hpp_source.html#l00244">smacc2::client_core_components::CpActionClient&lt; ActionType &gt;::onResult()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="cp__action__client_8hpp_source.html#l00274">smacc2::client_core_components::CpActionClient&lt; ActionType &gt;::onResult()</a>.</p>
 
 </div>
 </div>
@@ -1960,6 +2070,8 @@ template&lt;typename ActionType &gt; </div>
 
 <p class="definition">Definition at line <a class="el" href="cp__action__client_8hpp_source.html#l00061">61</a> of file <a class="el" href="cp__action__client_8hpp_source.html">cp_action_client.hpp</a>.</p>
 
+<p class="reference">Referenced by <a class="el" href="cp__action__client_8hpp_source.html#l00078">smacc2::client_core_components::CpActionClient&lt; ActionType &gt;::sendGoal()</a>.</p>
+
 </div>
 </div>
 <a id="a7974bc62c9a2776884a7f859be0cfb80" name="a7974bc62c9a2776884a7f859be0cfb80"></a>
@@ -1977,6 +2089,8 @@ template&lt;typename ActionType &gt; </div>
 </div><div class="memdoc">
 
 <p class="definition">Definition at line <a class="el" href="cp__action__client_8hpp_source.html#l00062">62</a> of file <a class="el" href="cp__action__client_8hpp_source.html">cp_action_client.hpp</a>.</p>
+
+<p class="reference">Referenced by <a class="el" href="cp__action__client_8hpp_source.html#l00078">smacc2::client_core_components::CpActionClient&lt; ActionType &gt;::sendGoal()</a>.</p>
 
 </div>
 </div>
@@ -1996,7 +2110,7 @@ template&lt;typename ActionType &gt; </div>
 
 <p class="definition">Definition at line <a class="el" href="cp__action__client_8hpp_source.html#l00066">66</a> of file <a class="el" href="cp__action__client_8hpp_source.html">cp_action_client.hpp</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="cp__action__client_8hpp_source.html#l00178">smacc2::client_core_components::CpActionClient&lt; ActionType &gt;::onComponentInitialization()</a>, and <a class="el" href="cp__action__client_8hpp_source.html#l00244">smacc2::client_core_components::CpActionClient&lt; ActionType &gt;::onResult()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="cp__action__client_8hpp_source.html#l00203">smacc2::client_core_components::CpActionClient&lt; ActionType &gt;::onComponentInitialization()</a>, and <a class="el" href="cp__action__client_8hpp_source.html#l00274">smacc2::client_core_components::CpActionClient&lt; ActionType &gt;::onResult()</a>.</p>
 
 </div>
 </div>
@@ -2016,7 +2130,7 @@ template&lt;typename ActionType &gt; </div>
 
 <p class="definition">Definition at line <a class="el" href="cp__action__client_8hpp_source.html#l00067">67</a> of file <a class="el" href="cp__action__client_8hpp_source.html">cp_action_client.hpp</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="cp__action__client_8hpp_source.html#l00178">smacc2::client_core_components::CpActionClient&lt; ActionType &gt;::onComponentInitialization()</a>, and <a class="el" href="cp__action__client_8hpp_source.html#l00244">smacc2::client_core_components::CpActionClient&lt; ActionType &gt;::onResult()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="cp__action__client_8hpp_source.html#l00203">smacc2::client_core_components::CpActionClient&lt; ActionType &gt;::onComponentInitialization()</a>, and <a class="el" href="cp__action__client_8hpp_source.html#l00274">smacc2::client_core_components::CpActionClient&lt; ActionType &gt;::onResult()</a>.</p>
 
 </div>
 </div>
@@ -2036,7 +2150,7 @@ template&lt;typename ActionType &gt; </div>
 
 <p class="definition">Definition at line <a class="el" href="cp__action__client_8hpp_source.html#l00068">68</a> of file <a class="el" href="cp__action__client_8hpp_source.html">cp_action_client.hpp</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="cp__action__client_8hpp_source.html#l00178">smacc2::client_core_components::CpActionClient&lt; ActionType &gt;::onComponentInitialization()</a>, and <a class="el" href="cp__action__client_8hpp_source.html#l00236">smacc2::client_core_components::CpActionClient&lt; ActionType &gt;::onFeedback()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="cp__action__client_8hpp_source.html#l00203">smacc2::client_core_components::CpActionClient&lt; ActionType &gt;::onComponentInitialization()</a>, and <a class="el" href="cp__action__client_8hpp_source.html#l00266">smacc2::client_core_components::CpActionClient&lt; ActionType &gt;::onFeedback()</a>.</p>
 
 </div>
 </div>
@@ -2056,7 +2170,7 @@ template&lt;typename ActionType &gt; </div>
 
 <p class="definition">Definition at line <a class="el" href="cp__action__client_8hpp_source.html#l00065">65</a> of file <a class="el" href="cp__action__client_8hpp_source.html">cp_action_client.hpp</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="cp__action__client_8hpp_source.html#l00178">smacc2::client_core_components::CpActionClient&lt; ActionType &gt;::onComponentInitialization()</a>, and <a class="el" href="cp__action__client_8hpp_source.html#l00244">smacc2::client_core_components::CpActionClient&lt; ActionType &gt;::onResult()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="cp__action__client_8hpp_source.html#l00203">smacc2::client_core_components::CpActionClient&lt; ActionType &gt;::onComponentInitialization()</a>, and <a class="el" href="cp__action__client_8hpp_source.html#l00274">smacc2::client_core_components::CpActionClient&lt; ActionType &gt;::onResult()</a>.</p>
 
 </div>
 </div>
