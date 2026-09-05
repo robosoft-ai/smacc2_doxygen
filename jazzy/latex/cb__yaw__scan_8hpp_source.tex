@@ -1,0 +1,66 @@
+\doxysection{cb\+\_\+yaw\+\_\+scan.\+hpp}
+\hypertarget{cb__yaw__scan_8hpp_source}{}\label{cb__yaw__scan_8hpp_source}\index{smacc2\_client\_library/cl\_px4\_mr/include/cl\_px4\_mr/client\_behaviors/cb\_yaw\_scan.hpp@{smacc2\_client\_library/cl\_px4\_mr/include/cl\_px4\_mr/client\_behaviors/cb\_yaw\_scan.hpp}}
+\mbox{\hyperlink{cb__yaw__scan_8hpp}{Go to the documentation of this file.}}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\Hypertarget{cb__yaw__scan_8hpp_source_l00001}00001\ \textcolor{comment}{//\ Copyright\ 2026\ RobosoftAI\ Inc.}}
+\DoxyCodeLine{\Hypertarget{cb__yaw__scan_8hpp_source_l00002}00002\ \textcolor{comment}{//}}
+\DoxyCodeLine{\Hypertarget{cb__yaw__scan_8hpp_source_l00003}00003\ \textcolor{comment}{//\ Licensed\ under\ the\ Apache\ License,\ Version\ 2.0\ (the\ "{}License"{});}}
+\DoxyCodeLine{\Hypertarget{cb__yaw__scan_8hpp_source_l00004}00004\ \textcolor{comment}{//\ you\ may\ not\ use\ this\ file\ except\ in\ compliance\ with\ the\ License.}}
+\DoxyCodeLine{\Hypertarget{cb__yaw__scan_8hpp_source_l00005}00005\ \textcolor{comment}{//\ You\ may\ obtain\ a\ copy\ of\ the\ License\ at}}
+\DoxyCodeLine{\Hypertarget{cb__yaw__scan_8hpp_source_l00006}00006\ \textcolor{comment}{//}}
+\DoxyCodeLine{\Hypertarget{cb__yaw__scan_8hpp_source_l00007}00007\ \textcolor{comment}{//\ \ \ \ \ http://www.apache.org/licenses/LICENSE-\/2.0}}
+\DoxyCodeLine{\Hypertarget{cb__yaw__scan_8hpp_source_l00008}00008\ \textcolor{comment}{//}}
+\DoxyCodeLine{\Hypertarget{cb__yaw__scan_8hpp_source_l00009}00009\ \textcolor{comment}{//\ Unless\ required\ by\ applicable\ law\ or\ agreed\ to\ in\ writing,\ software}}
+\DoxyCodeLine{\Hypertarget{cb__yaw__scan_8hpp_source_l00010}00010\ \textcolor{comment}{//\ distributed\ under\ the\ License\ is\ distributed\ on\ an\ "{}AS\ IS"{}\ BASIS,}}
+\DoxyCodeLine{\Hypertarget{cb__yaw__scan_8hpp_source_l00011}00011\ \textcolor{comment}{//\ WITHOUT\ WARRANTIES\ OR\ CONDITIONS\ OF\ ANY\ KIND,\ either\ express\ or\ implied.}}
+\DoxyCodeLine{\Hypertarget{cb__yaw__scan_8hpp_source_l00012}00012\ \textcolor{comment}{//\ See\ the\ License\ for\ the\ specific\ language\ governing\ permissions\ and}}
+\DoxyCodeLine{\Hypertarget{cb__yaw__scan_8hpp_source_l00013}00013\ \textcolor{comment}{//\ limitations\ under\ the\ License.}}
+\DoxyCodeLine{\Hypertarget{cb__yaw__scan_8hpp_source_l00014}00014\ }
+\DoxyCodeLine{\Hypertarget{cb__yaw__scan_8hpp_source_l00015}00015\ \textcolor{preprocessor}{\#pragma\ once}}
+\DoxyCodeLine{\Hypertarget{cb__yaw__scan_8hpp_source_l00016}00016\ }
+\DoxyCodeLine{\Hypertarget{cb__yaw__scan_8hpp_source_l00017}00017\ \textcolor{preprocessor}{\#include\ <\mbox{\hyperlink{cb__px4__client__behavior__base_8hpp}{cl\_px4\_mr/client\_behaviors/cb\_px4\_client\_behavior\_base.hpp}}>}}
+\DoxyCodeLine{\Hypertarget{cb__yaw__scan_8hpp_source_l00018}00018\ }
+\DoxyCodeLine{\Hypertarget{cb__yaw__scan_8hpp_source_l00019}00019\ \textcolor{preprocessor}{\#include\ <atomic>}}
+\DoxyCodeLine{\Hypertarget{cb__yaw__scan_8hpp_source_l00020}00020\ \textcolor{preprocessor}{\#include\ <chrono>}}
+\DoxyCodeLine{\Hypertarget{cb__yaw__scan_8hpp_source_l00021}00021\ \textcolor{preprocessor}{\#include\ <cmath>}}
+\DoxyCodeLine{\Hypertarget{cb__yaw__scan_8hpp_source_l00022}00022\ \textcolor{preprocessor}{\#include\ <\mbox{\hyperlink{smacc_8hpp}{smacc2/smacc.hpp}}>}}
+\DoxyCodeLine{\Hypertarget{cb__yaw__scan_8hpp_source_l00023}00023\ }
+\DoxyCodeLine{\Hypertarget{cb__yaw__scan_8hpp_source_l00024}00024\ \textcolor{keyword}{namespace\ }\mbox{\hyperlink{namespacecl__px4__mr}{cl\_px4\_mr}}}
+\DoxyCodeLine{\Hypertarget{cb__yaw__scan_8hpp_source_l00025}00025\ \{}
+\DoxyCodeLine{\Hypertarget{cb__yaw__scan_8hpp_source_l00026}00026\ }
+\DoxyCodeLine{\Hypertarget{cb__yaw__scan_8hpp_source_l00027}00027\ \textcolor{keyword}{class\ }CpTrajectorySetpoint;}
+\DoxyCodeLine{\Hypertarget{cb__yaw__scan_8hpp_source_l00028}00028\ \textcolor{keyword}{class\ }CpVehicleLocalPosition;}
+\DoxyCodeLine{\Hypertarget{cb__yaw__scan_8hpp_source_l00029}00029\ }
+\DoxyCodeLine{\Hypertarget{cb__yaw__scan_8hpp_source_l00030}00030\ \textcolor{comment}{//\ Continuous\ behavior:\ hold\ the\ entry\ position\ while\ the\ heading\ sweeps}}
+\DoxyCodeLine{\Hypertarget{cb__yaw__scan_8hpp_source_l00031}00031\ \textcolor{comment}{//\ sinusoidally\ around\ a\ base\ heading.\ Never\ posts\ success\ -\/\ the\ state\ machine}}
+\DoxyCodeLine{\Hypertarget{cb__yaw__scan_8hpp_source_l00032}00032\ \textcolor{comment}{//\ must\ provide\ the\ exit\ event\ (timer\ orthogonal,\ mission\ event,\ keyboard).}}
+\DoxyCodeLine{\Hypertarget{cb__yaw__scan_8hpp_source_l00033}00033\ \textcolor{comment}{//\ On\ exit,\ one\ final\ setpoint\ restores\ the\ base\ heading,\ so\ the\ vehicle\ always}}
+\DoxyCodeLine{\Hypertarget{cb__yaw__scan_8hpp_source_l00034}00034\ \textcolor{comment}{//\ returns\ to\ it\ regardless\ of\ where\ in\ the\ sweep\ the\ state\ change\ lands.}}
+\DoxyCodeLine{\Hypertarget{cb__yaw__scan_8hpp_source_l00035}00035\ \textcolor{comment}{//\ Posts\ failure\ only\ if\ local\ position\ is\ invalid\ at\ entry.}}
+\DoxyCodeLine{\Hypertarget{cb__yaw__scan_8hpp_source_l00036}\mbox{\hyperlink{classcl__px4__mr_1_1CbYawScan}{00036}}\ \textcolor{keyword}{class\ }\mbox{\hyperlink{classcl__px4__mr_1_1CbYawScan}{CbYawScan}}\ :\ \textcolor{keyword}{public}\ \mbox{\hyperlink{classcl__px4__mr_1_1CbPx4ClientBehaviorBase}{CbPx4ClientBehaviorBase}}}
+\DoxyCodeLine{\Hypertarget{cb__yaw__scan_8hpp_source_l00037}00037\ \{}
+\DoxyCodeLine{\Hypertarget{cb__yaw__scan_8hpp_source_l00038}00038\ \textcolor{keyword}{public}:}
+\DoxyCodeLine{\Hypertarget{cb__yaw__scan_8hpp_source_l00039}00039\ \ \ \mbox{\hyperlink{classcl__px4__mr_1_1CbYawScan_aa890740f5a2cc7f0fed7994bb3b7dc63}{CbYawScan}}(}
+\DoxyCodeLine{\Hypertarget{cb__yaw__scan_8hpp_source_l00040}00040\ \ \ \ \ \textcolor{keywordtype}{float}\ amplitude\ =\ 0.6f,\ \textcolor{keywordtype}{float}\ period\ =\ 6.0f,}
+\DoxyCodeLine{\Hypertarget{cb__yaw__scan_8hpp_source_l00041}00041\ \ \ \ \ \textcolor{keywordtype}{float}\ baseHeading\ =\ std::numeric\_limits<float>::quiet\_NaN());}
+\DoxyCodeLine{\Hypertarget{cb__yaw__scan_8hpp_source_l00042}00042\ }
+\DoxyCodeLine{\Hypertarget{cb__yaw__scan_8hpp_source_l00043}00043\ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{classcl__px4__mr_1_1CbYawScan_a285ff2f8caf56de82b8601bece1d62b3}{onEntry}}()\ \textcolor{keyword}{override};}
+\DoxyCodeLine{\Hypertarget{cb__yaw__scan_8hpp_source_l00044}00044\ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{classcl__px4__mr_1_1CbYawScan_a8550186fdf15e0e0a928e832d32a0a0d}{onExit}}()\ \textcolor{keyword}{override};}
+\DoxyCodeLine{\Hypertarget{cb__yaw__scan_8hpp_source_l00045}00045\ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{classcl__px4__mr_1_1CbYawScan_a4e0853eff7c14511b77cc22118826671}{update}}()\ \textcolor{keyword}{override};}
+\DoxyCodeLine{\Hypertarget{cb__yaw__scan_8hpp_source_l00046}00046\ }
+\DoxyCodeLine{\Hypertarget{cb__yaw__scan_8hpp_source_l00047}00047\ \textcolor{keyword}{private}:}
+\DoxyCodeLine{\Hypertarget{cb__yaw__scan_8hpp_source_l00048}\mbox{\hyperlink{classcl__px4__mr_1_1CbYawScan_abd36bfba3a6b3e63a8a36c7402fbf959}{00048}}\ \ \ \textcolor{keywordtype}{float}\ \mbox{\hyperlink{classcl__px4__mr_1_1CbYawScan_abd36bfba3a6b3e63a8a36c7402fbf959}{amplitude\_}};}
+\DoxyCodeLine{\Hypertarget{cb__yaw__scan_8hpp_source_l00049}\mbox{\hyperlink{classcl__px4__mr_1_1CbYawScan_abf18770f9127c2ca3e648ed56de2f840}{00049}}\ \ \ \textcolor{keywordtype}{float}\ \mbox{\hyperlink{classcl__px4__mr_1_1CbYawScan_abf18770f9127c2ca3e648ed56de2f840}{period\_}};}
+\DoxyCodeLine{\Hypertarget{cb__yaw__scan_8hpp_source_l00050}\mbox{\hyperlink{classcl__px4__mr_1_1CbYawScan_a24ef49baeb28692b5f47185b5efbd79a}{00050}}\ \ \ \textcolor{keywordtype}{float}\ \mbox{\hyperlink{classcl__px4__mr_1_1CbYawScan_a24ef49baeb28692b5f47185b5efbd79a}{baseHeading\_}};}
+\DoxyCodeLine{\Hypertarget{cb__yaw__scan_8hpp_source_l00051}00051\ }
+\DoxyCodeLine{\Hypertarget{cb__yaw__scan_8hpp_source_l00052}\mbox{\hyperlink{classcl__px4__mr_1_1CbYawScan_a34beebe30b5056236ddd668d7a019cb2}{00052}}\ \ \ \textcolor{keywordtype}{float}\ \mbox{\hyperlink{classcl__px4__mr_1_1CbYawScan_a34beebe30b5056236ddd668d7a019cb2}{holdX\_}}\ =\ 0.0f;}
+\DoxyCodeLine{\Hypertarget{cb__yaw__scan_8hpp_source_l00053}\mbox{\hyperlink{classcl__px4__mr_1_1CbYawScan_a9b6eee87702fbae16243caf773bbba02}{00053}}\ \ \ \textcolor{keywordtype}{float}\ \mbox{\hyperlink{classcl__px4__mr_1_1CbYawScan_a9b6eee87702fbae16243caf773bbba02}{holdY\_}}\ =\ 0.0f;}
+\DoxyCodeLine{\Hypertarget{cb__yaw__scan_8hpp_source_l00054}\mbox{\hyperlink{classcl__px4__mr_1_1CbYawScan_a155a8ff9ea407a73efbc80e63295440b}{00054}}\ \ \ \textcolor{keywordtype}{float}\ \mbox{\hyperlink{classcl__px4__mr_1_1CbYawScan_a155a8ff9ea407a73efbc80e63295440b}{holdZ\_}}\ =\ 0.0f;}
+\DoxyCodeLine{\Hypertarget{cb__yaw__scan_8hpp_source_l00055}\mbox{\hyperlink{classcl__px4__mr_1_1CbYawScan_a6870b7f7c90fe9ee5e211be6144cd64b}{00055}}\ \ \ \textcolor{keywordtype}{float}\ \mbox{\hyperlink{classcl__px4__mr_1_1CbYawScan_a6870b7f7c90fe9ee5e211be6144cd64b}{elapsed\_}}\ =\ 0.0f;}
+\DoxyCodeLine{\Hypertarget{cb__yaw__scan_8hpp_source_l00056}\mbox{\hyperlink{classcl__px4__mr_1_1CbYawScan_af3db86df0a5f3d5aee7d3b228d2f74ea}{00056}}\ \ \ std::atomic<bool>\ \mbox{\hyperlink{classcl__px4__mr_1_1CbYawScan_af3db86df0a5f3d5aee7d3b228d2f74ea}{active\_}}\{\textcolor{keyword}{false}\};}
+\DoxyCodeLine{\Hypertarget{cb__yaw__scan_8hpp_source_l00057}\mbox{\hyperlink{classcl__px4__mr_1_1CbYawScan_a13d8a343d570e1be55a9695473b6af4d}{00057}}\ \ \ std::chrono::steady\_clock::time\_point\ \mbox{\hyperlink{classcl__px4__mr_1_1CbYawScan_a13d8a343d570e1be55a9695473b6af4d}{lastUpdateTime\_}};}
+\DoxyCodeLine{\Hypertarget{cb__yaw__scan_8hpp_source_l00058}00058\ \};}
+\DoxyCodeLine{\Hypertarget{cb__yaw__scan_8hpp_source_l00059}00059\ }
+\DoxyCodeLine{\Hypertarget{cb__yaw__scan_8hpp_source_l00060}00060\ \}\ \ \textcolor{comment}{//\ namespace\ cl\_px4\_mr}}
+
+\end{DoxyCode}

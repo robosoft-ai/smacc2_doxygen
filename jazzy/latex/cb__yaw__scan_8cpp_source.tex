@@ -1,0 +1,112 @@
+\doxysection{cb\+\_\+yaw\+\_\+scan.\+cpp}
+\hypertarget{cb__yaw__scan_8cpp_source}{}\label{cb__yaw__scan_8cpp_source}\index{smacc2\_client\_library/cl\_px4\_mr/src/cl\_px4\_mr/client\_behaviors/cb\_yaw\_scan.cpp@{smacc2\_client\_library/cl\_px4\_mr/src/cl\_px4\_mr/client\_behaviors/cb\_yaw\_scan.cpp}}
+\mbox{\hyperlink{cb__yaw__scan_8cpp}{Go to the documentation of this file.}}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\Hypertarget{cb__yaw__scan_8cpp_source_l00001}00001\ \textcolor{comment}{//\ Copyright\ 2026\ RobosoftAI\ Inc.}}
+\DoxyCodeLine{\Hypertarget{cb__yaw__scan_8cpp_source_l00002}00002\ \textcolor{comment}{//}}
+\DoxyCodeLine{\Hypertarget{cb__yaw__scan_8cpp_source_l00003}00003\ \textcolor{comment}{//\ Licensed\ under\ the\ Apache\ License,\ Version\ 2.0\ (the\ "{}License"{});}}
+\DoxyCodeLine{\Hypertarget{cb__yaw__scan_8cpp_source_l00004}00004\ \textcolor{comment}{//\ you\ may\ not\ use\ this\ file\ except\ in\ compliance\ with\ the\ License.}}
+\DoxyCodeLine{\Hypertarget{cb__yaw__scan_8cpp_source_l00005}00005\ \textcolor{comment}{//\ You\ may\ obtain\ a\ copy\ of\ the\ License\ at}}
+\DoxyCodeLine{\Hypertarget{cb__yaw__scan_8cpp_source_l00006}00006\ \textcolor{comment}{//}}
+\DoxyCodeLine{\Hypertarget{cb__yaw__scan_8cpp_source_l00007}00007\ \textcolor{comment}{//\ \ \ \ \ http://www.apache.org/licenses/LICENSE-\/2.0}}
+\DoxyCodeLine{\Hypertarget{cb__yaw__scan_8cpp_source_l00008}00008\ \textcolor{comment}{//}}
+\DoxyCodeLine{\Hypertarget{cb__yaw__scan_8cpp_source_l00009}00009\ \textcolor{comment}{//\ Unless\ required\ by\ applicable\ law\ or\ agreed\ to\ in\ writing,\ software}}
+\DoxyCodeLine{\Hypertarget{cb__yaw__scan_8cpp_source_l00010}00010\ \textcolor{comment}{//\ distributed\ under\ the\ License\ is\ distributed\ on\ an\ "{}AS\ IS"{}\ BASIS,}}
+\DoxyCodeLine{\Hypertarget{cb__yaw__scan_8cpp_source_l00011}00011\ \textcolor{comment}{//\ WITHOUT\ WARRANTIES\ OR\ CONDITIONS\ OF\ ANY\ KIND,\ either\ express\ or\ implied.}}
+\DoxyCodeLine{\Hypertarget{cb__yaw__scan_8cpp_source_l00012}00012\ \textcolor{comment}{//\ See\ the\ License\ for\ the\ specific\ language\ governing\ permissions\ and}}
+\DoxyCodeLine{\Hypertarget{cb__yaw__scan_8cpp_source_l00013}00013\ \textcolor{comment}{//\ limitations\ under\ the\ License.}}
+\DoxyCodeLine{\Hypertarget{cb__yaw__scan_8cpp_source_l00014}00014\ }
+\DoxyCodeLine{\Hypertarget{cb__yaw__scan_8cpp_source_l00015}00015\ \textcolor{preprocessor}{\#include\ <\mbox{\hyperlink{cb__yaw__scan_8hpp}{cl\_px4\_mr/client\_behaviors/cb\_yaw\_scan.hpp}}>}}
+\DoxyCodeLine{\Hypertarget{cb__yaw__scan_8cpp_source_l00016}00016\ \textcolor{preprocessor}{\#include\ <\mbox{\hyperlink{cp__trajectory__setpoint_8hpp}{cl\_px4\_mr/components/cp\_trajectory\_setpoint.hpp}}>}}
+\DoxyCodeLine{\Hypertarget{cb__yaw__scan_8cpp_source_l00017}00017\ \textcolor{preprocessor}{\#include\ <\mbox{\hyperlink{cp__vehicle__local__position_8hpp}{cl\_px4\_mr/components/cp\_vehicle\_local\_position.hpp}}>}}
+\DoxyCodeLine{\Hypertarget{cb__yaw__scan_8cpp_source_l00018}00018\ \textcolor{preprocessor}{\#include\ <\mbox{\hyperlink{angle__utils_8hpp}{cl\_px4\_mr/utils/angle\_utils.hpp}}>}}
+\DoxyCodeLine{\Hypertarget{cb__yaw__scan_8cpp_source_l00019}00019\ }
+\DoxyCodeLine{\Hypertarget{cb__yaw__scan_8cpp_source_l00020}00020\ \textcolor{preprocessor}{\#include\ <algorithm>}}
+\DoxyCodeLine{\Hypertarget{cb__yaw__scan_8cpp_source_l00021}00021\ }
+\DoxyCodeLine{\Hypertarget{cb__yaw__scan_8cpp_source_l00022}00022\ \textcolor{keyword}{namespace\ }\mbox{\hyperlink{namespacecl__px4__mr}{cl\_px4\_mr}}}
+\DoxyCodeLine{\Hypertarget{cb__yaw__scan_8cpp_source_l00023}00023\ \{}
+\DoxyCodeLine{\Hypertarget{cb__yaw__scan_8cpp_source_l00024}00024\ }
+\DoxyCodeLine{\Hypertarget{cb__yaw__scan_8cpp_source_l00025}\mbox{\hyperlink{classcl__px4__mr_1_1CbYawScan_aa890740f5a2cc7f0fed7994bb3b7dc63}{00025}}\ \mbox{\hyperlink{classcl__px4__mr_1_1CbYawScan_aa890740f5a2cc7f0fed7994bb3b7dc63}{CbYawScan::CbYawScan}}(\textcolor{keywordtype}{float}\ amplitude,\ \textcolor{keywordtype}{float}\ period,\ \textcolor{keywordtype}{float}\ baseHeading)}
+\DoxyCodeLine{\Hypertarget{cb__yaw__scan_8cpp_source_l00026}00026\ :\ amplitude\_(amplitude),\ period\_(std::max(period,\ 0.1f)),\ baseHeading\_(baseHeading)}
+\DoxyCodeLine{\Hypertarget{cb__yaw__scan_8cpp_source_l00027}00027\ \{}
+\DoxyCodeLine{\Hypertarget{cb__yaw__scan_8cpp_source_l00028}00028\ \}}
+\DoxyCodeLine{\Hypertarget{cb__yaw__scan_8cpp_source_l00029}00029\ }
+\DoxyCodeLine{\Hypertarget{cb__yaw__scan_8cpp_source_l00030}\mbox{\hyperlink{classcl__px4__mr_1_1CbYawScan_a285ff2f8caf56de82b8601bece1d62b3}{00030}}\ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{classcl__px4__mr_1_1CbYawScan_a285ff2f8caf56de82b8601bece1d62b3}{CbYawScan::onEntry}}()}
+\DoxyCodeLine{\Hypertarget{cb__yaw__scan_8cpp_source_l00031}00031\ \{}
+\DoxyCodeLine{\Hypertarget{cb__yaw__scan_8cpp_source_l00032}00032\ \ \ \textcolor{keywordflow}{if}\ (\mbox{\hyperlink{classcl__px4__mr_1_1CbPx4ClientBehaviorBase_aac08e96640e94aff591f4a9a5af93453}{localPosition\_}}\ ==\ \textcolor{keyword}{nullptr}\ ||\ !\mbox{\hyperlink{classcl__px4__mr_1_1CbPx4ClientBehaviorBase_aac08e96640e94aff591f4a9a5af93453}{localPosition\_}}-\/>\mbox{\hyperlink{classcl__px4__mr_1_1CpVehicleLocalPosition_aca9a6689fa1e120b77feff35ab064b5c}{isValid}}())}
+\DoxyCodeLine{\Hypertarget{cb__yaw__scan_8cpp_source_l00033}00033\ \ \ \{}
+\DoxyCodeLine{\Hypertarget{cb__yaw__scan_8cpp_source_l00034}00034\ \ \ \ \ RCLCPP\_ERROR(\mbox{\hyperlink{classsmacc2_1_1ISmaccClientBehavior_a9c3d82542c800e2ba5207c5cff0e63e8}{getLogger}}(),\ \textcolor{stringliteral}{"{}CbYawScan:\ no\ valid\ local\ position\ at\ entry\ -\/\ posting\ failure"{}});}
+\DoxyCodeLine{\Hypertarget{cb__yaw__scan_8cpp_source_l00035}00035\ \ \ \ \ this-\/>\mbox{\hyperlink{classcl__px4__mr_1_1CbPx4ClientBehaviorBase_adec6c9edb3f9fa1e8d3028155f880379}{postPx4Failure}}();}
+\DoxyCodeLine{\Hypertarget{cb__yaw__scan_8cpp_source_l00036}00036\ \ \ \ \ \textcolor{keywordflow}{return};}
+\DoxyCodeLine{\Hypertarget{cb__yaw__scan_8cpp_source_l00037}00037\ \ \ \}}
+\DoxyCodeLine{\Hypertarget{cb__yaw__scan_8cpp_source_l00038}00038\ }
+\DoxyCodeLine{\Hypertarget{cb__yaw__scan_8cpp_source_l00039}00039\ \ \ \mbox{\hyperlink{classcl__px4__mr_1_1CbYawScan_a34beebe30b5056236ddd668d7a019cb2}{holdX\_}}\ =\ \mbox{\hyperlink{classcl__px4__mr_1_1CbPx4ClientBehaviorBase_aac08e96640e94aff591f4a9a5af93453}{localPosition\_}}-\/>\mbox{\hyperlink{classcl__px4__mr_1_1CpVehicleLocalPosition_a90fd0ca926c0eba124d97f04cbc64880}{getX}}();}
+\DoxyCodeLine{\Hypertarget{cb__yaw__scan_8cpp_source_l00040}00040\ \ \ \mbox{\hyperlink{classcl__px4__mr_1_1CbYawScan_a9b6eee87702fbae16243caf773bbba02}{holdY\_}}\ =\ \mbox{\hyperlink{classcl__px4__mr_1_1CbPx4ClientBehaviorBase_aac08e96640e94aff591f4a9a5af93453}{localPosition\_}}-\/>\mbox{\hyperlink{classcl__px4__mr_1_1CpVehicleLocalPosition_a1d9536e60ab3709dec4876f3c650f964}{getY}}();}
+\DoxyCodeLine{\Hypertarget{cb__yaw__scan_8cpp_source_l00041}00041\ \ \ \mbox{\hyperlink{classcl__px4__mr_1_1CbYawScan_a155a8ff9ea407a73efbc80e63295440b}{holdZ\_}}\ =\ \mbox{\hyperlink{classcl__px4__mr_1_1CbPx4ClientBehaviorBase_aac08e96640e94aff591f4a9a5af93453}{localPosition\_}}-\/>\mbox{\hyperlink{classcl__px4__mr_1_1CpVehicleLocalPosition_aff646820b46d38aff061d40e8cdfd76b}{getZ}}();}
+\DoxyCodeLine{\Hypertarget{cb__yaw__scan_8cpp_source_l00042}00042\ }
+\DoxyCodeLine{\Hypertarget{cb__yaw__scan_8cpp_source_l00043}00043\ \ \ \textcolor{keywordflow}{if}\ (std::isnan(\mbox{\hyperlink{classcl__px4__mr_1_1CbYawScan_a24ef49baeb28692b5f47185b5efbd79a}{baseHeading\_}}))}
+\DoxyCodeLine{\Hypertarget{cb__yaw__scan_8cpp_source_l00044}00044\ \ \ \{}
+\DoxyCodeLine{\Hypertarget{cb__yaw__scan_8cpp_source_l00045}00045\ \ \ \ \ \mbox{\hyperlink{classcl__px4__mr_1_1CbYawScan_a24ef49baeb28692b5f47185b5efbd79a}{baseHeading\_}}\ =\ \mbox{\hyperlink{classcl__px4__mr_1_1CbPx4ClientBehaviorBase_aac08e96640e94aff591f4a9a5af93453}{localPosition\_}}-\/>\mbox{\hyperlink{classcl__px4__mr_1_1CpVehicleLocalPosition_ad20d2706ccb883910ec694f4c8587fd4}{getHeading}}();}
+\DoxyCodeLine{\Hypertarget{cb__yaw__scan_8cpp_source_l00046}00046\ \ \ \}}
+\DoxyCodeLine{\Hypertarget{cb__yaw__scan_8cpp_source_l00047}00047\ \ \ \mbox{\hyperlink{classcl__px4__mr_1_1CbYawScan_a24ef49baeb28692b5f47185b5efbd79a}{baseHeading\_}}\ =\ \mbox{\hyperlink{namespacecl__px4__mr_aa6a2289a8a3bb0e1ab6913fd251c3dd0}{wrapPi}}(\mbox{\hyperlink{classcl__px4__mr_1_1CbYawScan_a24ef49baeb28692b5f47185b5efbd79a}{baseHeading\_}});}
+\DoxyCodeLine{\Hypertarget{cb__yaw__scan_8cpp_source_l00048}00048\ }
+\DoxyCodeLine{\Hypertarget{cb__yaw__scan_8cpp_source_l00049}00049\ \ \ \textcolor{comment}{//\ Peak\ yaw\ rate\ of\ the\ commanded\ sweep;\ PX4's\ autonomous\ yaw\ rate\ limit\ is}}
+\DoxyCodeLine{\Hypertarget{cb__yaw__scan_8cpp_source_l00050}00050\ \ \ \textcolor{comment}{//\ \string~0.8\ rad/s\ by\ default\ and\ the\ flown\ sweep\ clips\ beyond\ it.}}
+\DoxyCodeLine{\Hypertarget{cb__yaw__scan_8cpp_source_l00051}00051\ \ \ \textcolor{keywordtype}{float}\ peakYawRate\ =\ \mbox{\hyperlink{classcl__px4__mr_1_1CbYawScan_abd36bfba3a6b3e63a8a36c7402fbf959}{amplitude\_}}\ *\ 2.0f\ *\ \textcolor{keyword}{static\_cast<}\textcolor{keywordtype}{float}\textcolor{keyword}{>}(M\_PI)\ /\ \mbox{\hyperlink{classcl__px4__mr_1_1CbYawScan_abf18770f9127c2ca3e648ed56de2f840}{period\_}};}
+\DoxyCodeLine{\Hypertarget{cb__yaw__scan_8cpp_source_l00052}00052\ \ \ \textcolor{keywordflow}{if}\ (peakYawRate\ >\ 0.8f)}
+\DoxyCodeLine{\Hypertarget{cb__yaw__scan_8cpp_source_l00053}00053\ \ \ \{}
+\DoxyCodeLine{\Hypertarget{cb__yaw__scan_8cpp_source_l00054}00054\ \ \ \ \ RCLCPP\_WARN(}
+\DoxyCodeLine{\Hypertarget{cb__yaw__scan_8cpp_source_l00055}00055\ \ \ \ \ \ \ \mbox{\hyperlink{classsmacc2_1_1ISmaccClientBehavior_a9c3d82542c800e2ba5207c5cff0e63e8}{getLogger}}(),}
+\DoxyCodeLine{\Hypertarget{cb__yaw__scan_8cpp_source_l00056}00056\ \ \ \ \ \ \ \textcolor{stringliteral}{"{}CbYawScan:\ commanded\ peak\ yaw\ rate\ \%.2f\ rad/s\ exceeds\ typical\ PX4\ limits\ -\/\ the\ flown\ "{}}}
+\DoxyCodeLine{\Hypertarget{cb__yaw__scan_8cpp_source_l00057}00057\ \ \ \ \ \ \ \textcolor{stringliteral}{"{}sweep\ will\ clip"{}},}
+\DoxyCodeLine{\Hypertarget{cb__yaw__scan_8cpp_source_l00058}00058\ \ \ \ \ \ \ peakYawRate);}
+\DoxyCodeLine{\Hypertarget{cb__yaw__scan_8cpp_source_l00059}00059\ \ \ \}}
+\DoxyCodeLine{\Hypertarget{cb__yaw__scan_8cpp_source_l00060}00060\ }
+\DoxyCodeLine{\Hypertarget{cb__yaw__scan_8cpp_source_l00061}00061\ \ \ \mbox{\hyperlink{classcl__px4__mr_1_1CbYawScan_a6870b7f7c90fe9ee5e211be6144cd64b}{elapsed\_}}\ =\ 0.0f;}
+\DoxyCodeLine{\Hypertarget{cb__yaw__scan_8cpp_source_l00062}00062\ \ \ \mbox{\hyperlink{classcl__px4__mr_1_1CbYawScan_a13d8a343d570e1be55a9695473b6af4d}{lastUpdateTime\_}}\ =\ std::chrono::steady\_clock::now();}
+\DoxyCodeLine{\Hypertarget{cb__yaw__scan_8cpp_source_l00063}00063\ }
+\DoxyCodeLine{\Hypertarget{cb__yaw__scan_8cpp_source_l00064}00064\ \ \ RCLCPP\_INFO(}
+\DoxyCodeLine{\Hypertarget{cb__yaw__scan_8cpp_source_l00065}00065\ \ \ \ \ \mbox{\hyperlink{classsmacc2_1_1ISmaccClientBehavior_a9c3d82542c800e2ba5207c5cff0e63e8}{getLogger}}(),}
+\DoxyCodeLine{\Hypertarget{cb__yaw__scan_8cpp_source_l00066}00066\ \ \ \ \ \textcolor{stringliteral}{"{}CbYawScan:\ scanning\ around\ heading=\%.2f\ rad\ A=\%.2f\ rad\ T=\%.2f\ s\ "{}}}
+\DoxyCodeLine{\Hypertarget{cb__yaw__scan_8cpp_source_l00067}00067\ \ \ \ \ \textcolor{stringliteral}{"{}(continuous\ -\/\ exits\ only\ on\ state\ change)"{}},}
+\DoxyCodeLine{\Hypertarget{cb__yaw__scan_8cpp_source_l00068}00068\ \ \ \ \ \mbox{\hyperlink{classcl__px4__mr_1_1CbYawScan_a24ef49baeb28692b5f47185b5efbd79a}{baseHeading\_}},\ \mbox{\hyperlink{classcl__px4__mr_1_1CbYawScan_abd36bfba3a6b3e63a8a36c7402fbf959}{amplitude\_}},\ \mbox{\hyperlink{classcl__px4__mr_1_1CbYawScan_abf18770f9127c2ca3e648ed56de2f840}{period\_}});}
+\DoxyCodeLine{\Hypertarget{cb__yaw__scan_8cpp_source_l00069}00069\ }
+\DoxyCodeLine{\Hypertarget{cb__yaw__scan_8cpp_source_l00070}00070\ \ \ \mbox{\hyperlink{classcl__px4__mr_1_1CbPx4ClientBehaviorBase_aba8f7b7dfed092fd23bf30445921a7e3}{trajectorySetpoint\_}}-\/>\mbox{\hyperlink{classcl__px4__mr_1_1CpTrajectorySetpoint_ad05cf6bdc5f1bc48e305ddec619e7322}{setPositionNED}}(\mbox{\hyperlink{classcl__px4__mr_1_1CbYawScan_a34beebe30b5056236ddd668d7a019cb2}{holdX\_}},\ \mbox{\hyperlink{classcl__px4__mr_1_1CbYawScan_a9b6eee87702fbae16243caf773bbba02}{holdY\_}},\ \mbox{\hyperlink{classcl__px4__mr_1_1CbYawScan_a155a8ff9ea407a73efbc80e63295440b}{holdZ\_}},\ \mbox{\hyperlink{classcl__px4__mr_1_1CbYawScan_a24ef49baeb28692b5f47185b5efbd79a}{baseHeading\_}});}
+\DoxyCodeLine{\Hypertarget{cb__yaw__scan_8cpp_source_l00071}00071\ \ \ \mbox{\hyperlink{classcl__px4__mr_1_1CbYawScan_af3db86df0a5f3d5aee7d3b228d2f74ea}{active\_}}\ =\ \textcolor{keyword}{true};}
+\DoxyCodeLine{\Hypertarget{cb__yaw__scan_8cpp_source_l00072}00072\ \}}
+\DoxyCodeLine{\Hypertarget{cb__yaw__scan_8cpp_source_l00073}00073\ }
+\DoxyCodeLine{\Hypertarget{cb__yaw__scan_8cpp_source_l00074}\mbox{\hyperlink{classcl__px4__mr_1_1CbYawScan_a8550186fdf15e0e0a928e832d32a0a0d}{00074}}\ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{classcl__px4__mr_1_1CbYawScan_a8550186fdf15e0e0a928e832d32a0a0d}{CbYawScan::onExit}}()}
+\DoxyCodeLine{\Hypertarget{cb__yaw__scan_8cpp_source_l00075}00075\ \{}
+\DoxyCodeLine{\Hypertarget{cb__yaw__scan_8cpp_source_l00076}00076\ \ \ \textcolor{keywordflow}{if}\ (\mbox{\hyperlink{classcl__px4__mr_1_1CbYawScan_af3db86df0a5f3d5aee7d3b228d2f74ea}{active\_}}.exchange(\textcolor{keyword}{false}))}
+\DoxyCodeLine{\Hypertarget{cb__yaw__scan_8cpp_source_l00077}00077\ \ \ \{}
+\DoxyCodeLine{\Hypertarget{cb__yaw__scan_8cpp_source_l00078}00078\ \ \ \ \ \textcolor{comment}{//\ Restore\ the\ base\ heading;\ the\ offboard\ keep-\/alive\ republishes\ this\ until}}
+\DoxyCodeLine{\Hypertarget{cb__yaw__scan_8cpp_source_l00079}00079\ \ \ \ \ \textcolor{comment}{//\ the\ next\ state\ commands\ otherwise.}}
+\DoxyCodeLine{\Hypertarget{cb__yaw__scan_8cpp_source_l00080}00080\ \ \ \ \ \mbox{\hyperlink{classcl__px4__mr_1_1CbPx4ClientBehaviorBase_aba8f7b7dfed092fd23bf30445921a7e3}{trajectorySetpoint\_}}-\/>\mbox{\hyperlink{classcl__px4__mr_1_1CpTrajectorySetpoint_ad05cf6bdc5f1bc48e305ddec619e7322}{setPositionNED}}(\mbox{\hyperlink{classcl__px4__mr_1_1CbYawScan_a34beebe30b5056236ddd668d7a019cb2}{holdX\_}},\ \mbox{\hyperlink{classcl__px4__mr_1_1CbYawScan_a9b6eee87702fbae16243caf773bbba02}{holdY\_}},\ \mbox{\hyperlink{classcl__px4__mr_1_1CbYawScan_a155a8ff9ea407a73efbc80e63295440b}{holdZ\_}},\ \mbox{\hyperlink{classcl__px4__mr_1_1CbYawScan_a24ef49baeb28692b5f47185b5efbd79a}{baseHeading\_}});}
+\DoxyCodeLine{\Hypertarget{cb__yaw__scan_8cpp_source_l00081}00081\ \ \ \ \ RCLCPP\_INFO(\mbox{\hyperlink{classsmacc2_1_1ISmaccClientBehavior_a9c3d82542c800e2ba5207c5cff0e63e8}{getLogger}}(),\ \textcolor{stringliteral}{"{}CbYawScan:\ exiting\ -\/\ restoring\ base\ heading\ \%.2f\ rad"{}},\ \mbox{\hyperlink{classcl__px4__mr_1_1CbYawScan_a24ef49baeb28692b5f47185b5efbd79a}{baseHeading\_}});}
+\DoxyCodeLine{\Hypertarget{cb__yaw__scan_8cpp_source_l00082}00082\ \ \ \}}
+\DoxyCodeLine{\Hypertarget{cb__yaw__scan_8cpp_source_l00083}00083\ \}}
+\DoxyCodeLine{\Hypertarget{cb__yaw__scan_8cpp_source_l00084}00084\ }
+\DoxyCodeLine{\Hypertarget{cb__yaw__scan_8cpp_source_l00085}\mbox{\hyperlink{classcl__px4__mr_1_1CbYawScan_a4e0853eff7c14511b77cc22118826671}{00085}}\ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{classcl__px4__mr_1_1CbYawScan_a4e0853eff7c14511b77cc22118826671}{CbYawScan::update}}()}
+\DoxyCodeLine{\Hypertarget{cb__yaw__scan_8cpp_source_l00086}00086\ \{}
+\DoxyCodeLine{\Hypertarget{cb__yaw__scan_8cpp_source_l00087}00087\ \ \ \mbox{\hyperlink{classcl__px4__mr_1_1CbPx4ClientBehaviorBase_a2cd960ab47037f6037d0c12e4e1490cf}{CbPx4ClientBehaviorBase::update}}();}
+\DoxyCodeLine{\Hypertarget{cb__yaw__scan_8cpp_source_l00088}00088\ }
+\DoxyCodeLine{\Hypertarget{cb__yaw__scan_8cpp_source_l00089}00089\ \ \ \textcolor{keywordflow}{if}\ (!\mbox{\hyperlink{classcl__px4__mr_1_1CbYawScan_af3db86df0a5f3d5aee7d3b228d2f74ea}{active\_}})}
+\DoxyCodeLine{\Hypertarget{cb__yaw__scan_8cpp_source_l00090}00090\ \ \ \{}
+\DoxyCodeLine{\Hypertarget{cb__yaw__scan_8cpp_source_l00091}00091\ \ \ \ \ \textcolor{keywordflow}{return};}
+\DoxyCodeLine{\Hypertarget{cb__yaw__scan_8cpp_source_l00092}00092\ \ \ \}}
+\DoxyCodeLine{\Hypertarget{cb__yaw__scan_8cpp_source_l00093}00093\ }
+\DoxyCodeLine{\Hypertarget{cb__yaw__scan_8cpp_source_l00094}00094\ \ \ \textcolor{keyword}{auto}\ now\ =\ std::chrono::steady\_clock::now();}
+\DoxyCodeLine{\Hypertarget{cb__yaw__scan_8cpp_source_l00095}00095\ \ \ \textcolor{keywordtype}{double}\ dt\ =\ std::chrono::duration<double>(now\ -\/\ \mbox{\hyperlink{classcl__px4__mr_1_1CbYawScan_a13d8a343d570e1be55a9695473b6af4d}{lastUpdateTime\_}}).count();}
+\DoxyCodeLine{\Hypertarget{cb__yaw__scan_8cpp_source_l00096}00096\ \ \ \mbox{\hyperlink{classcl__px4__mr_1_1CbYawScan_a13d8a343d570e1be55a9695473b6af4d}{lastUpdateTime\_}}\ =\ now;}
+\DoxyCodeLine{\Hypertarget{cb__yaw__scan_8cpp_source_l00097}00097\ }
+\DoxyCodeLine{\Hypertarget{cb__yaw__scan_8cpp_source_l00098}00098\ \ \ \mbox{\hyperlink{classcl__px4__mr_1_1CbYawScan_a6870b7f7c90fe9ee5e211be6144cd64b}{elapsed\_}}\ +=\ \textcolor{keyword}{static\_cast<}\textcolor{keywordtype}{float}\textcolor{keyword}{>}(dt);}
+\DoxyCodeLine{\Hypertarget{cb__yaw__scan_8cpp_source_l00099}00099\ }
+\DoxyCodeLine{\Hypertarget{cb__yaw__scan_8cpp_source_l00100}00100\ \ \ \textcolor{keywordtype}{float}\ phase\ =\ 2.0f\ *\ \textcolor{keyword}{static\_cast<}\textcolor{keywordtype}{float}\textcolor{keyword}{>}(M\_PI)\ *\ \mbox{\hyperlink{classcl__px4__mr_1_1CbYawScan_a6870b7f7c90fe9ee5e211be6144cd64b}{elapsed\_}}\ /\ \mbox{\hyperlink{classcl__px4__mr_1_1CbYawScan_abf18770f9127c2ca3e648ed56de2f840}{period\_}};}
+\DoxyCodeLine{\Hypertarget{cb__yaw__scan_8cpp_source_l00101}00101\ \ \ \textcolor{keywordtype}{float}\ yaw\ =\ \mbox{\hyperlink{namespacecl__px4__mr_aa6a2289a8a3bb0e1ab6913fd251c3dd0}{wrapPi}}(\mbox{\hyperlink{classcl__px4__mr_1_1CbYawScan_a24ef49baeb28692b5f47185b5efbd79a}{baseHeading\_}}\ +\ \mbox{\hyperlink{classcl__px4__mr_1_1CbYawScan_abd36bfba3a6b3e63a8a36c7402fbf959}{amplitude\_}}\ *\ std::sin(phase));}
+\DoxyCodeLine{\Hypertarget{cb__yaw__scan_8cpp_source_l00102}00102\ }
+\DoxyCodeLine{\Hypertarget{cb__yaw__scan_8cpp_source_l00103}00103\ \ \ \mbox{\hyperlink{classcl__px4__mr_1_1CbPx4ClientBehaviorBase_aba8f7b7dfed092fd23bf30445921a7e3}{trajectorySetpoint\_}}-\/>\mbox{\hyperlink{classcl__px4__mr_1_1CpTrajectorySetpoint_ad05cf6bdc5f1bc48e305ddec619e7322}{setPositionNED}}(\mbox{\hyperlink{classcl__px4__mr_1_1CbYawScan_a34beebe30b5056236ddd668d7a019cb2}{holdX\_}},\ \mbox{\hyperlink{classcl__px4__mr_1_1CbYawScan_a9b6eee87702fbae16243caf773bbba02}{holdY\_}},\ \mbox{\hyperlink{classcl__px4__mr_1_1CbYawScan_a155a8ff9ea407a73efbc80e63295440b}{holdZ\_}},\ yaw);}
+\DoxyCodeLine{\Hypertarget{cb__yaw__scan_8cpp_source_l00104}00104\ \}}
+\DoxyCodeLine{\Hypertarget{cb__yaw__scan_8cpp_source_l00105}00105\ }
+\DoxyCodeLine{\Hypertarget{cb__yaw__scan_8cpp_source_l00106}00106\ \}\ \ \textcolor{comment}{//\ namespace\ cl\_px4\_mr}}
+
+\end{DoxyCode}
