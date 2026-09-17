@@ -12,6 +12,7 @@ var searchData=
   ['node_5fget_5fstate_5ftopic_9',['node_get_state_topic',['../classcl__lifecycle__node_1_1ClLifecycleNode.html#a9ea6b943acc7341a8614ca61815a40c0',1,'cl_lifecycle_node::ClLifecycleNode']]],
   ['nodename_5f_10',['nodeName_',['../classsmacc2_1_1client__behaviors_1_1CbWaitNode.html#a75be02ba6345aa56d1f8a656436acd6e',1,'smacc2::client_behaviors::CbWaitNode::nodeName_'],['../classcl__lifecycle__node_1_1ClLifecycleNode.html#a2c84920902cb98b6ab1cfa5447412008',1,'cl_lifecycle_node::ClLifecycleNode::nodeName_'],['../classcl__lifecycle__node_1_1CpLifecycleEventMonitor.html#a6afd1c1dadc5feccc694a264d30c2139',1,'cl_lifecycle_node::CpLifecycleEventMonitor::nodeName_'],['../classcl__px4__mr_1_1CpMicroRosAgent.html#a2e4296f1186b063ca497a7d7fcee85c2',1,'cl_px4_mr::CpMicroRosAgent::nodeName_']]],
   ['num_5fchannels_11',['NUM_CHANNELS',['../classcl__modbus__tcp__relay_1_1CpModbusRelay.html#ad2c40e5b134d93b5fe99d182b11366fb',1,'cl_modbus_tcp_relay::CpModbusRelay']]],
-  ['numloops_5f_12',['numLoops_',['../classcl__px4__mr_1_1CbFigureEight.html#a6c66eeac6019432fd1475b7abb59d2d2',1,'cl_px4_mr::CbFigureEight']]],
-  ['numorbits_5f_13',['numOrbits_',['../classcl__px4__mr_1_1CbOrbitLocation.html#aa63323a7836cec44a47fda0616868428',1,'cl_px4_mr::CbOrbitLocation']]]
+  ['numlegs_12',['numLegs',['../structcl__px4__mr_1_1FlightPatternSquareSpiralParams.html#a3e189b6b013f4ee7d1335cfafba096f8',1,'cl_px4_mr::FlightPatternSquareSpiralParams']]],
+  ['numloops_5f_13',['numLoops_',['../classcl__px4__mr_1_1CbFigureEight.html#a6c66eeac6019432fd1475b7abb59d2d2',1,'cl_px4_mr::CbFigureEight']]],
+  ['numorbits_5f_14',['numOrbits_',['../classcl__px4__mr_1_1CbOrbitLocation.html#aa63323a7836cec44a47fda0616868428',1,'cl_px4_mr::CbOrbitLocation']]]
 ];

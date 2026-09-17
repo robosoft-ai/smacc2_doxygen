@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['reactions_0',['reactions',['../structsmacc2_1_1Transition_1_1reactions.html',1,'smacc2::Transition']]]
+  ['orthogonal_0',['Orthogonal',['../classsmacc2_1_1Orthogonal.html',1,'smacc2']]]
 ];

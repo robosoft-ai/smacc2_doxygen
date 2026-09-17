@@ -4,5 +4,6 @@ var searchData=
   ['recoveriesserver_1',['RecoveriesServer',['../namespacecl__nav2z.html#aa12208395907fb9a49f6a8fa0c4462c4a86abb861770dc6a445bd241746512b3e',1,'cl_nav2z']]],
   ['release_2',['RELEASE',['../namespacesmacc2.html#a7322c034df3cc8d5a5d8f0fc7737fc2ea7d649ef069df9885e382417c79f3d5cd',1,'smacc2']]],
   ['resumed_3',['Resumed',['../classcl__nav2z_1_1CpSlamToolbox.html#ad3d52fa2801e9ac16f945704aaefb064ab2a21932ddc3b1e41c012d711c7bd238',1,'cl_nav2z::CpSlamToolbox']]],
-  ['right_4',['Right',['../namespacecl__keyboard.html#a415c207ca70d5111b65987250642eaeaa92b09c7c48c520c3c55e497875da437c',1,'cl_keyboard']]]
+  ['right_4',['RIGHT',['../namespacecl__px4__mr.html#ae9f3e8c799914d265561a1dc90687b41a21507b40c80068eda19865706fdc2403',1,'cl_px4_mr']]],
+  ['right_5',['Right',['../namespacecl__keyboard.html#a415c207ca70d5111b65987250642eaeaa92b09c7c48c520c3c55e497875da437c',1,'cl_keyboard']]]
 ];

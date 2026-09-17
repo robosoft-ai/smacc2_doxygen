@@ -1,0 +1,62 @@
+\doxysection{cb\+\_\+ascend\+\_\+to\+\_\+altitude.\+hpp}
+\hypertarget{cb__ascend__to__altitude_8hpp_source}{}\label{cb__ascend__to__altitude_8hpp_source}\index{smacc2\_client\_library/cl\_px4\_mr/include/cl\_px4\_mr/client\_behaviors/cb\_ascend\_to\_altitude.hpp@{smacc2\_client\_library/cl\_px4\_mr/include/cl\_px4\_mr/client\_behaviors/cb\_ascend\_to\_altitude.hpp}}
+\mbox{\hyperlink{cb__ascend__to__altitude_8hpp}{Go to the documentation of this file.}}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\Hypertarget{cb__ascend__to__altitude_8hpp_source_l00001}00001\ \textcolor{comment}{//\ Copyright\ 2026\ RobosoftAI\ Inc.}}
+\DoxyCodeLine{\Hypertarget{cb__ascend__to__altitude_8hpp_source_l00002}00002\ \textcolor{comment}{//}}
+\DoxyCodeLine{\Hypertarget{cb__ascend__to__altitude_8hpp_source_l00003}00003\ \textcolor{comment}{//\ Licensed\ under\ the\ Apache\ License,\ Version\ 2.0\ (the\ "{}License"{});}}
+\DoxyCodeLine{\Hypertarget{cb__ascend__to__altitude_8hpp_source_l00004}00004\ \textcolor{comment}{//\ you\ may\ not\ use\ this\ file\ except\ in\ compliance\ with\ the\ License.}}
+\DoxyCodeLine{\Hypertarget{cb__ascend__to__altitude_8hpp_source_l00005}00005\ \textcolor{comment}{//\ You\ may\ obtain\ a\ copy\ of\ the\ License\ at}}
+\DoxyCodeLine{\Hypertarget{cb__ascend__to__altitude_8hpp_source_l00006}00006\ \textcolor{comment}{//}}
+\DoxyCodeLine{\Hypertarget{cb__ascend__to__altitude_8hpp_source_l00007}00007\ \textcolor{comment}{//\ \ \ \ \ http://www.apache.org/licenses/LICENSE-\/2.0}}
+\DoxyCodeLine{\Hypertarget{cb__ascend__to__altitude_8hpp_source_l00008}00008\ \textcolor{comment}{//}}
+\DoxyCodeLine{\Hypertarget{cb__ascend__to__altitude_8hpp_source_l00009}00009\ \textcolor{comment}{//\ Unless\ required\ by\ applicable\ law\ or\ agreed\ to\ in\ writing,\ software}}
+\DoxyCodeLine{\Hypertarget{cb__ascend__to__altitude_8hpp_source_l00010}00010\ \textcolor{comment}{//\ distributed\ under\ the\ License\ is\ distributed\ on\ an\ "{}AS\ IS"{}\ BASIS,}}
+\DoxyCodeLine{\Hypertarget{cb__ascend__to__altitude_8hpp_source_l00011}00011\ \textcolor{comment}{//\ WITHOUT\ WARRANTIES\ OR\ CONDITIONS\ OF\ ANY\ KIND,\ either\ express\ or\ implied.}}
+\DoxyCodeLine{\Hypertarget{cb__ascend__to__altitude_8hpp_source_l00012}00012\ \textcolor{comment}{//\ See\ the\ License\ for\ the\ specific\ language\ governing\ permissions\ and}}
+\DoxyCodeLine{\Hypertarget{cb__ascend__to__altitude_8hpp_source_l00013}00013\ \textcolor{comment}{//\ limitations\ under\ the\ License.}}
+\DoxyCodeLine{\Hypertarget{cb__ascend__to__altitude_8hpp_source_l00014}00014\ }
+\DoxyCodeLine{\Hypertarget{cb__ascend__to__altitude_8hpp_source_l00015}00015\ \textcolor{comment}{/*****************************************************************************************************************}}
+\DoxyCodeLine{\Hypertarget{cb__ascend__to__altitude_8hpp_source_l00016}00016\ \textcolor{comment}{\ *}}
+\DoxyCodeLine{\Hypertarget{cb__ascend__to__altitude_8hpp_source_l00017}00017\ \textcolor{comment}{\ *\ \ \ Authors:\ Brett\ Aldrich}}
+\DoxyCodeLine{\Hypertarget{cb__ascend__to__altitude_8hpp_source_l00018}00018\ \textcolor{comment}{\ *}}
+\DoxyCodeLine{\Hypertarget{cb__ascend__to__altitude_8hpp_source_l00019}00019\ \textcolor{comment}{\ ******************************************************************************************************************/}}
+\DoxyCodeLine{\Hypertarget{cb__ascend__to__altitude_8hpp_source_l00020}00020\ }
+\DoxyCodeLine{\Hypertarget{cb__ascend__to__altitude_8hpp_source_l00021}00021\ \textcolor{preprocessor}{\#pragma\ once}}
+\DoxyCodeLine{\Hypertarget{cb__ascend__to__altitude_8hpp_source_l00022}00022\ }
+\DoxyCodeLine{\Hypertarget{cb__ascend__to__altitude_8hpp_source_l00023}00023\ \textcolor{preprocessor}{\#include\ <\mbox{\hyperlink{cb__px4__path__follower__base_8hpp}{cl\_px4\_mr/client\_behaviors/cb\_px4\_path\_follower\_base.hpp}}>}}
+\DoxyCodeLine{\Hypertarget{cb__ascend__to__altitude_8hpp_source_l00024}00024\ \textcolor{preprocessor}{\#include\ <\mbox{\hyperlink{pattern__generators_8hpp}{cl\_px4\_mr/utils/pattern\_generators.hpp}}>}}
+\DoxyCodeLine{\Hypertarget{cb__ascend__to__altitude_8hpp_source_l00025}00025\ }
+\DoxyCodeLine{\Hypertarget{cb__ascend__to__altitude_8hpp_source_l00026}00026\ \textcolor{keyword}{namespace\ }\mbox{\hyperlink{namespacecl__px4__mr}{cl\_px4\_mr}}}
+\DoxyCodeLine{\Hypertarget{cb__ascend__to__altitude_8hpp_source_l00027}00027\ \{}
+\DoxyCodeLine{\Hypertarget{cb__ascend__to__altitude_8hpp_source_l00028}00028\ }
+\DoxyCodeLine{\Hypertarget{cb__ascend__to__altitude_8hpp_source_l00029}00029\ \textcolor{comment}{//\ Rate-\/controlled\ climb\ (or\ descent)\ to\ an\ altitude\ at\ the\ current\ XY\ (or\ a}}
+\DoxyCodeLine{\Hypertarget{cb__ascend__to__altitude_8hpp_source_l00030}00030\ \textcolor{comment}{//\ target\ XY,\ for\ a\ precise\ pre-\/landing\ descent),\ heading\ held.\ Succeeds\ immediately\ if\ already\ within\ tolerance.\ Unlike}}
+\DoxyCodeLine{\Hypertarget{cb__ascend__to__altitude_8hpp_source_l00031}00031\ \textcolor{comment}{//\ CbChangeAltitude\ (single\ setpoint\ step\ +\ goal\ checker)\ the\ setpoint\ climbs}}
+\DoxyCodeLine{\Hypertarget{cb__ascend__to__altitude_8hpp_source_l00032}00032\ \textcolor{comment}{//\ at\ \`{}climbRate`\ and\ stays\ leashed\ to\ the\ vehicle.}}
+\DoxyCodeLine{\Hypertarget{cb__ascend__to__altitude_8hpp_source_l00033}\mbox{\hyperlink{classcl__px4__mr_1_1CbAscendToAltitude}{00033}}\ \textcolor{keyword}{class\ }\mbox{\hyperlink{classcl__px4__mr_1_1CbAscendToAltitude}{CbAscendToAltitude}}\ :\ \textcolor{keyword}{public}\ \mbox{\hyperlink{classcl__px4__mr_1_1CbPx4PathFollowerBase}{CbPx4PathFollowerBase}}}
+\DoxyCodeLine{\Hypertarget{cb__ascend__to__altitude_8hpp_source_l00034}00034\ \{}
+\DoxyCodeLine{\Hypertarget{cb__ascend__to__altitude_8hpp_source_l00035}00035\ \textcolor{keyword}{public}:}
+\DoxyCodeLine{\Hypertarget{cb__ascend__to__altitude_8hpp_source_l00036}00036\ \ \ \textcolor{keyword}{explicit}\ \mbox{\hyperlink{classcl__px4__mr_1_1CbAscendToAltitude_a67bce4873e8f80e8ab6e42f11a1db31b}{CbAscendToAltitude}}(}
+\DoxyCodeLine{\Hypertarget{cb__ascend__to__altitude_8hpp_source_l00037}00037\ \ \ \ \ \mbox{\hyperlink{structcl__px4__mr_1_1FlightPatternAscendParams}{FlightPatternAscendParams}}\ \mbox{\hyperlink{classcl__px4__mr_1_1CbAscendToAltitude_afd38e50328b2f48b0827639c6bd65941}{params}}\ =\ \{\},\ \mbox{\hyperlink{structcl__px4__mr_1_1PathFollowerParams}{PathFollowerParams}}\ follower\ =\ \{\});}
+\DoxyCodeLine{\Hypertarget{cb__ascend__to__altitude_8hpp_source_l00038}00038\ \ \ \textcolor{keyword}{explicit}\ \mbox{\hyperlink{classcl__px4__mr_1_1CbAscendToAltitude_a67bce4873e8f80e8ab6e42f11a1db31b}{CbAscendToAltitude}}(\textcolor{keywordtype}{float}\ altitudeAgl,\ \textcolor{keywordtype}{float}\ climbRate\ =\ 1.5f);}
+\DoxyCodeLine{\Hypertarget{cb__ascend__to__altitude_8hpp_source_l00039}00039\ }
+\DoxyCodeLine{\Hypertarget{cb__ascend__to__altitude_8hpp_source_l00040}\mbox{\hyperlink{classcl__px4__mr_1_1CbAscendToAltitude_a4fd1e616ddddef710f870382eae07317}{00040}}\ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{classcl__px4__mr_1_1CbAscendToAltitude_a4fd1e616ddddef710f870382eae07317}{setParams}}(\textcolor{keyword}{const}\ \mbox{\hyperlink{structcl__px4__mr_1_1FlightPatternAscendParams}{FlightPatternAscendParams}}\ \&\ \mbox{\hyperlink{classcl__px4__mr_1_1CbAscendToAltitude_afd38e50328b2f48b0827639c6bd65941}{params}})\ \{\ \mbox{\hyperlink{classcl__px4__mr_1_1CbAscendToAltitude_a717c30b03654025cdae66c92c91d8da3}{params\_}}\ =\ \mbox{\hyperlink{classcl__px4__mr_1_1CbAscendToAltitude_afd38e50328b2f48b0827639c6bd65941}{params}};\ \}}
+\DoxyCodeLine{\Hypertarget{cb__ascend__to__altitude_8hpp_source_l00041}\mbox{\hyperlink{classcl__px4__mr_1_1CbAscendToAltitude_a89a93098d9469a81b6291219446abd83}{00041}}\ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{classcl__px4__mr_1_1CbAscendToAltitude_a89a93098d9469a81b6291219446abd83}{setTargetXy}}(\textcolor{keywordtype}{float}\ x,\ \textcolor{keywordtype}{float}\ y)}
+\DoxyCodeLine{\Hypertarget{cb__ascend__to__altitude_8hpp_source_l00042}00042\ \ \ \{}
+\DoxyCodeLine{\Hypertarget{cb__ascend__to__altitude_8hpp_source_l00043}00043\ \ \ \ \ \mbox{\hyperlink{classcl__px4__mr_1_1CbAscendToAltitude_a717c30b03654025cdae66c92c91d8da3}{params\_}}.\mbox{\hyperlink{structcl__px4__mr_1_1FlightPatternAscendParams_a75e56ffc526ad3709fa565e0fc3db261}{targetX}}\ =\ x;}
+\DoxyCodeLine{\Hypertarget{cb__ascend__to__altitude_8hpp_source_l00044}00044\ \ \ \ \ \mbox{\hyperlink{classcl__px4__mr_1_1CbAscendToAltitude_a717c30b03654025cdae66c92c91d8da3}{params\_}}.\mbox{\hyperlink{structcl__px4__mr_1_1FlightPatternAscendParams_a5bc492fc6c67623a32bc9d02df7203bf}{targetY}}\ =\ y;}
+\DoxyCodeLine{\Hypertarget{cb__ascend__to__altitude_8hpp_source_l00045}00045\ \ \ \}}
+\DoxyCodeLine{\Hypertarget{cb__ascend__to__altitude_8hpp_source_l00046}\mbox{\hyperlink{classcl__px4__mr_1_1CbAscendToAltitude_afd38e50328b2f48b0827639c6bd65941}{00046}}\ \ \ \textcolor{keyword}{const}\ \mbox{\hyperlink{structcl__px4__mr_1_1FlightPatternAscendParams}{FlightPatternAscendParams}}\ \&\ \mbox{\hyperlink{classcl__px4__mr_1_1CbAscendToAltitude_afd38e50328b2f48b0827639c6bd65941}{params}}()\textcolor{keyword}{\ const\ }\{\ \textcolor{keywordflow}{return}\ \mbox{\hyperlink{classcl__px4__mr_1_1CbAscendToAltitude_a717c30b03654025cdae66c92c91d8da3}{params\_}};\ \}}
+\DoxyCodeLine{\Hypertarget{cb__ascend__to__altitude_8hpp_source_l00047}00047\ }
+\DoxyCodeLine{\Hypertarget{cb__ascend__to__altitude_8hpp_source_l00048}00048\ \textcolor{keyword}{protected}:}
+\DoxyCodeLine{\Hypertarget{cb__ascend__to__altitude_8hpp_source_l00049}00049\ \ \ std::vector<NedPoint>\ \mbox{\hyperlink{classcl__px4__mr_1_1CbAscendToAltitude_a6a4b6b7a2758a68c30b5087dcf6cdbb6}{buildPath}}(\textcolor{keyword}{const}\ \mbox{\hyperlink{structcl__px4__mr_1_1NedPoint}{NedPoint}}\ \&\ current)\ \textcolor{keyword}{override};}
+\DoxyCodeLine{\Hypertarget{cb__ascend__to__altitude_8hpp_source_l00050}\mbox{\hyperlink{classcl__px4__mr_1_1CbAscendToAltitude_ac1936a6eeceacad08f30c5effe4fab99}{00050}}\ \ \ \textcolor{keyword}{const}\ \textcolor{keywordtype}{char}\ *\ \mbox{\hyperlink{classcl__px4__mr_1_1CbAscendToAltitude_ac1936a6eeceacad08f30c5effe4fab99}{behaviorName}}()\textcolor{keyword}{\ const\ override\ }\{\ \textcolor{keywordflow}{return}\ \textcolor{stringliteral}{"{}CbAscendToAltitude"{}};\ \}}
+\DoxyCodeLine{\Hypertarget{cb__ascend__to__altitude_8hpp_source_l00051}00051\ }
+\DoxyCodeLine{\Hypertarget{cb__ascend__to__altitude_8hpp_source_l00052}00052\ \textcolor{keyword}{private}:}
+\DoxyCodeLine{\Hypertarget{cb__ascend__to__altitude_8hpp_source_l00053}\mbox{\hyperlink{classcl__px4__mr_1_1CbAscendToAltitude_a717c30b03654025cdae66c92c91d8da3}{00053}}\ \ \ \mbox{\hyperlink{structcl__px4__mr_1_1FlightPatternAscendParams}{FlightPatternAscendParams}}\ \mbox{\hyperlink{classcl__px4__mr_1_1CbAscendToAltitude_a717c30b03654025cdae66c92c91d8da3}{params\_}};}
+\DoxyCodeLine{\Hypertarget{cb__ascend__to__altitude_8hpp_source_l00054}00054\ \};}
+\DoxyCodeLine{\Hypertarget{cb__ascend__to__altitude_8hpp_source_l00055}00055\ }
+\DoxyCodeLine{\Hypertarget{cb__ascend__to__altitude_8hpp_source_l00056}00056\ \}\ \ \textcolor{comment}{//\ namespace\ cl\_px4\_mr}}
+
+\end{DoxyCode}

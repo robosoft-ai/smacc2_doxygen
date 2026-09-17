@@ -1,0 +1,83 @@
+\doxysection{cp\+\_\+kml\+\_\+mission\+\_\+loader.\+hpp}
+\hypertarget{cp__kml__mission__loader_8hpp_source}{}\label{cp__kml__mission__loader_8hpp_source}\index{smacc2\_client\_library/cl\_px4\_mr/include/cl\_px4\_mr/components/cp\_kml\_mission\_loader.hpp@{smacc2\_client\_library/cl\_px4\_mr/include/cl\_px4\_mr/components/cp\_kml\_mission\_loader.hpp}}
+\mbox{\hyperlink{cp__kml__mission__loader_8hpp}{Go to the documentation of this file.}}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\Hypertarget{cp__kml__mission__loader_8hpp_source_l00001}00001\ \textcolor{comment}{//\ Copyright\ 2026\ RobosoftAI\ Inc.}}
+\DoxyCodeLine{\Hypertarget{cp__kml__mission__loader_8hpp_source_l00002}00002\ \textcolor{comment}{//}}
+\DoxyCodeLine{\Hypertarget{cp__kml__mission__loader_8hpp_source_l00003}00003\ \textcolor{comment}{//\ Licensed\ under\ the\ Apache\ License,\ Version\ 2.0\ (the\ "{}License"{});}}
+\DoxyCodeLine{\Hypertarget{cp__kml__mission__loader_8hpp_source_l00004}00004\ \textcolor{comment}{//\ you\ may\ not\ use\ this\ file\ except\ in\ compliance\ with\ the\ License.}}
+\DoxyCodeLine{\Hypertarget{cp__kml__mission__loader_8hpp_source_l00005}00005\ \textcolor{comment}{//\ You\ may\ obtain\ a\ copy\ of\ the\ License\ at}}
+\DoxyCodeLine{\Hypertarget{cp__kml__mission__loader_8hpp_source_l00006}00006\ \textcolor{comment}{//}}
+\DoxyCodeLine{\Hypertarget{cp__kml__mission__loader_8hpp_source_l00007}00007\ \textcolor{comment}{//\ \ \ \ \ http://www.apache.org/licenses/LICENSE-\/2.0}}
+\DoxyCodeLine{\Hypertarget{cp__kml__mission__loader_8hpp_source_l00008}00008\ \textcolor{comment}{//}}
+\DoxyCodeLine{\Hypertarget{cp__kml__mission__loader_8hpp_source_l00009}00009\ \textcolor{comment}{//\ Unless\ required\ by\ applicable\ law\ or\ agreed\ to\ in\ writing,\ software}}
+\DoxyCodeLine{\Hypertarget{cp__kml__mission__loader_8hpp_source_l00010}00010\ \textcolor{comment}{//\ distributed\ under\ the\ License\ is\ distributed\ on\ an\ "{}AS\ IS"{}\ BASIS,}}
+\DoxyCodeLine{\Hypertarget{cp__kml__mission__loader_8hpp_source_l00011}00011\ \textcolor{comment}{//\ WITHOUT\ WARRANTIES\ OR\ CONDITIONS\ OF\ ANY\ KIND,\ either\ express\ or\ implied.}}
+\DoxyCodeLine{\Hypertarget{cp__kml__mission__loader_8hpp_source_l00012}00012\ \textcolor{comment}{//\ See\ the\ License\ for\ the\ specific\ language\ governing\ permissions\ and}}
+\DoxyCodeLine{\Hypertarget{cp__kml__mission__loader_8hpp_source_l00013}00013\ \textcolor{comment}{//\ limitations\ under\ the\ License.}}
+\DoxyCodeLine{\Hypertarget{cp__kml__mission__loader_8hpp_source_l00014}00014\ }
+\DoxyCodeLine{\Hypertarget{cp__kml__mission__loader_8hpp_source_l00015}00015\ \textcolor{comment}{/*****************************************************************************************************************}}
+\DoxyCodeLine{\Hypertarget{cp__kml__mission__loader_8hpp_source_l00016}00016\ \textcolor{comment}{\ *}}
+\DoxyCodeLine{\Hypertarget{cp__kml__mission__loader_8hpp_source_l00017}00017\ \textcolor{comment}{\ *\ \ \ Authors:\ Brett\ Aldrich}}
+\DoxyCodeLine{\Hypertarget{cp__kml__mission__loader_8hpp_source_l00018}00018\ \textcolor{comment}{\ *}}
+\DoxyCodeLine{\Hypertarget{cp__kml__mission__loader_8hpp_source_l00019}00019\ \textcolor{comment}{\ ******************************************************************************************************************/}}
+\DoxyCodeLine{\Hypertarget{cp__kml__mission__loader_8hpp_source_l00020}00020\ }
+\DoxyCodeLine{\Hypertarget{cp__kml__mission__loader_8hpp_source_l00021}00021\ \textcolor{preprocessor}{\#pragma\ once}}
+\DoxyCodeLine{\Hypertarget{cp__kml__mission__loader_8hpp_source_l00022}00022\ }
+\DoxyCodeLine{\Hypertarget{cp__kml__mission__loader_8hpp_source_l00023}00023\ \textcolor{preprocessor}{\#include\ <mutex>}}
+\DoxyCodeLine{\Hypertarget{cp__kml__mission__loader_8hpp_source_l00024}00024\ \textcolor{preprocessor}{\#include\ <\mbox{\hyperlink{smacc_8hpp}{smacc2/smacc.hpp}}>}}
+\DoxyCodeLine{\Hypertarget{cp__kml__mission__loader_8hpp_source_l00025}00025\ \textcolor{preprocessor}{\#include\ <string>}}
+\DoxyCodeLine{\Hypertarget{cp__kml__mission__loader_8hpp_source_l00026}00026\ \textcolor{preprocessor}{\#include\ <vector>}}
+\DoxyCodeLine{\Hypertarget{cp__kml__mission__loader_8hpp_source_l00027}00027\ }
+\DoxyCodeLine{\Hypertarget{cp__kml__mission__loader_8hpp_source_l00028}00028\ \textcolor{preprocessor}{\#include\ <\mbox{\hyperlink{geo__utils_8hpp}{cl\_px4\_mr/utils/geo\_utils.hpp}}>}}
+\DoxyCodeLine{\Hypertarget{cp__kml__mission__loader_8hpp_source_l00029}00029\ }
+\DoxyCodeLine{\Hypertarget{cp__kml__mission__loader_8hpp_source_l00030}00030\ \textcolor{keyword}{namespace\ }\mbox{\hyperlink{namespacecl__px4__mr}{cl\_px4\_mr}}}
+\DoxyCodeLine{\Hypertarget{cp__kml__mission__loader_8hpp_source_l00031}00031\ \{}
+\DoxyCodeLine{\Hypertarget{cp__kml__mission__loader_8hpp_source_l00032}00032\ }
+\DoxyCodeLine{\Hypertarget{cp__kml__mission__loader_8hpp_source_l00033}\mbox{\hyperlink{structcl__px4__mr_1_1KmlLoadResult}{00033}}\ \textcolor{keyword}{struct\ }\mbox{\hyperlink{structcl__px4__mr_1_1KmlLoadResult}{KmlLoadResult}}}
+\DoxyCodeLine{\Hypertarget{cp__kml__mission__loader_8hpp_source_l00034}00034\ \{}
+\DoxyCodeLine{\Hypertarget{cp__kml__mission__loader_8hpp_source_l00035}\mbox{\hyperlink{structcl__px4__mr_1_1KmlLoadResult_a96ac114c21f59d5826dce762e3ed8fbb}{00035}}\ \ \ \textcolor{keywordtype}{bool}\ \mbox{\hyperlink{structcl__px4__mr_1_1KmlLoadResult_a96ac114c21f59d5826dce762e3ed8fbb}{ok}}\ =\ \textcolor{keyword}{false};}
+\DoxyCodeLine{\Hypertarget{cp__kml__mission__loader_8hpp_source_l00036}\mbox{\hyperlink{structcl__px4__mr_1_1KmlLoadResult_ab9a805121735ed3a3cafa74d5a1a12b4}{00036}}\ \ \ std::string\ \mbox{\hyperlink{structcl__px4__mr_1_1KmlLoadResult_ab9a805121735ed3a3cafa74d5a1a12b4}{error}};}
+\DoxyCodeLine{\Hypertarget{cp__kml__mission__loader_8hpp_source_l00037}\mbox{\hyperlink{structcl__px4__mr_1_1KmlLoadResult_aff07ea00b115ea92233a2c4110fe1fc8}{00037}}\ \ \ \textcolor{keywordtype}{size\_t}\ \mbox{\hyperlink{structcl__px4__mr_1_1KmlLoadResult_aff07ea00b115ea92233a2c4110fe1fc8}{pointCount}}\ =\ 0;}
+\DoxyCodeLine{\Hypertarget{cp__kml__mission__loader_8hpp_source_l00038}00038\ \};}
+\DoxyCodeLine{\Hypertarget{cp__kml__mission__loader_8hpp_source_l00039}00039\ }
+\DoxyCodeLine{\Hypertarget{cp__kml__mission__loader_8hpp_source_l00040}00040\ \textcolor{comment}{//\ Holds\ the\ mission\ backbone:\ an\ ordered\ list\ of\ WGS84\ waypoints\ read\ from\ a}}
+\DoxyCodeLine{\Hypertarget{cp__kml__mission__loader_8hpp_source_l00041}00041\ \textcolor{comment}{//\ KML\ file.\ Scope\ (this\ build):\ the\ FIRST\ LineString\ found\ in\ the\ document,\ by}}
+\DoxyCodeLine{\Hypertarget{cp__kml__mission__loader_8hpp_source_l00042}00042\ \textcolor{comment}{//\ geometry\ type\ -\/\ Placemark\ names,\ Folders\ and\ counts\ are\ ignored.\ Polygons,}}
+\DoxyCodeLine{\Hypertarget{cp__kml__mission__loader_8hpp_source_l00043}00043\ \textcolor{comment}{//\ altitude\ semantics\ and\ the\ general\ KML\ parse\ contract\ are\ deferred.}}
+\DoxyCodeLine{\Hypertarget{cp__kml__mission__loader_8hpp_source_l00044}00044\ \textcolor{comment}{//}}
+\DoxyCodeLine{\Hypertarget{cp__kml__mission__loader_8hpp_source_l00045}00045\ \textcolor{comment}{//\ The\ loader\ is\ reference-\/agnostic:\ it\ stores\ lat/lon/alt\ only.\ Projection\ to}}
+\DoxyCodeLine{\Hypertarget{cp__kml__mission__loader_8hpp_source_l00046}00046\ \textcolor{comment}{//\ the\ local\ NED\ frame\ belongs\ to\ the\ consumer\ (CpVehicleLocalPosition::projectToNed).}}
+\DoxyCodeLine{\Hypertarget{cp__kml__mission__loader_8hpp_source_l00047}\mbox{\hyperlink{classcl__px4__mr_1_1CpKmlMissionLoader}{00047}}\ \textcolor{keyword}{class\ }\mbox{\hyperlink{classcl__px4__mr_1_1CpKmlMissionLoader}{CpKmlMissionLoader}}\ :\ \textcolor{keyword}{public}\ \mbox{\hyperlink{classsmacc2_1_1ISmaccComponent}{smacc2::ISmaccComponent}}}
+\DoxyCodeLine{\Hypertarget{cp__kml__mission__loader_8hpp_source_l00048}00048\ \{}
+\DoxyCodeLine{\Hypertarget{cp__kml__mission__loader_8hpp_source_l00049}00049\ \textcolor{keyword}{public}:}
+\DoxyCodeLine{\Hypertarget{cp__kml__mission__loader_8hpp_source_l00050}00050\ \ \ \mbox{\hyperlink{classcl__px4__mr_1_1CpKmlMissionLoader_aadd01056145e4f398822eff753768f79}{CpKmlMissionLoader}}();}
+\DoxyCodeLine{\Hypertarget{cp__kml__mission__loader_8hpp_source_l00051}00051\ \ \ \textcolor{keyword}{virtual}\ \mbox{\hyperlink{classcl__px4__mr_1_1CpKmlMissionLoader_aeca6b12db5b5e7e99a5eca003f4b1feb}{\string~CpKmlMissionLoader}}();}
+\DoxyCodeLine{\Hypertarget{cp__kml__mission__loader_8hpp_source_l00052}00052\ }
+\DoxyCodeLine{\Hypertarget{cp__kml__mission__loader_8hpp_source_l00053}00053\ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{classcl__px4__mr_1_1CpKmlMissionLoader_aca826573c5d3ab0d8023551ed34d34d4}{onInitialize}}()\ \textcolor{keyword}{override};}
+\DoxyCodeLine{\Hypertarget{cp__kml__mission__loader_8hpp_source_l00054}00054\ }
+\DoxyCodeLine{\Hypertarget{cp__kml__mission__loader_8hpp_source_l00055}00055\ \ \ \textcolor{comment}{//\ Parse\ the\ file;\ on\ success\ the\ parsed\ points\ replace\ the\ stored\ mission.}}
+\DoxyCodeLine{\Hypertarget{cp__kml__mission__loader_8hpp_source_l00056}00056\ \ \ \textcolor{comment}{//\ On\ failure\ the\ stored\ mission\ is\ left\ untouched.}}
+\DoxyCodeLine{\Hypertarget{cp__kml__mission__loader_8hpp_source_l00057}00057\ \ \ \mbox{\hyperlink{structcl__px4__mr_1_1KmlLoadResult}{KmlLoadResult}}\ \mbox{\hyperlink{classcl__px4__mr_1_1CpKmlMissionLoader_ad9b02c37b865e8d269b58cf24761ed01}{loadFile}}(\textcolor{keyword}{const}\ std::string\ \&\ absolutePath);}
+\DoxyCodeLine{\Hypertarget{cp__kml__mission__loader_8hpp_source_l00058}00058\ }
+\DoxyCodeLine{\Hypertarget{cp__kml__mission__loader_8hpp_source_l00059}00059\ \ \ \textcolor{comment}{//\ Replace\ the\ stored\ mission\ directly\ (used\ for\ compiled-\/in\ fallbacks).}}
+\DoxyCodeLine{\Hypertarget{cp__kml__mission__loader_8hpp_source_l00060}00060\ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{classcl__px4__mr_1_1CpKmlMissionLoader_a6041e9c1f6a7513068bd2c7cbdb06056}{setMission}}(std::vector<GeoPoint>\ points,\ \textcolor{keyword}{const}\ std::string\ \&\ source);}
+\DoxyCodeLine{\Hypertarget{cp__kml__mission__loader_8hpp_source_l00061}00061\ }
+\DoxyCodeLine{\Hypertarget{cp__kml__mission__loader_8hpp_source_l00062}00062\ \ \ \textcolor{keywordtype}{bool}\ \mbox{\hyperlink{classcl__px4__mr_1_1CpKmlMissionLoader_a6779064b6c16ca0785d63501df798e8b}{hasMission}}()\ \textcolor{keyword}{const};}
+\DoxyCodeLine{\Hypertarget{cp__kml__mission__loader_8hpp_source_l00063}00063\ \ \ std::vector<GeoPoint>\ \mbox{\hyperlink{classcl__px4__mr_1_1CpKmlMissionLoader_a405ecae368efcc740df826a5c4881921}{getMission}}()\ \textcolor{keyword}{const};\ \ \textcolor{comment}{//\ copy\ under\ mutex}}
+\DoxyCodeLine{\Hypertarget{cp__kml__mission__loader_8hpp_source_l00064}00064\ \ \ std::string\ \mbox{\hyperlink{classcl__px4__mr_1_1CpKmlMissionLoader_ac867e38b3a4f2810e4de5eeffe0cd31e}{getSource}}()\ \textcolor{keyword}{const};\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ file\ path,\ or\ "{}fallback:<label>"{}}}
+\DoxyCodeLine{\Hypertarget{cp__kml__mission__loader_8hpp_source_l00065}00065\ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{classcl__px4__mr_1_1CpKmlMissionLoader_a35efc6032a9e803f156862c3e1882c2b}{clear}}();}
+\DoxyCodeLine{\Hypertarget{cp__kml__mission__loader_8hpp_source_l00066}00066\ }
+\DoxyCodeLine{\Hypertarget{cp__kml__mission__loader_8hpp_source_l00067}00067\ \ \ \textcolor{comment}{//\ Pure\ parser\ (testable\ without\ ROS).\ Returns\ the\ first\ LineString's}}
+\DoxyCodeLine{\Hypertarget{cp__kml__mission__loader_8hpp_source_l00068}00068\ \ \ \textcolor{comment}{//\ coordinates;\ on\ error\ returns\ empty\ and\ fills\ \`{}error`.}}
+\DoxyCodeLine{\Hypertarget{cp__kml__mission__loader_8hpp_source_l00069}00069\ \ \ \textcolor{keyword}{static}\ std::vector<GeoPoint>\ \mbox{\hyperlink{classcl__px4__mr_1_1CpKmlMissionLoader_af89e474cdf58093d46136e40507dd6b0}{parseKmlString}}(\textcolor{keyword}{const}\ std::string\ \&\ xml,\ std::string\ \&\ error);}
+\DoxyCodeLine{\Hypertarget{cp__kml__mission__loader_8hpp_source_l00070}00070\ }
+\DoxyCodeLine{\Hypertarget{cp__kml__mission__loader_8hpp_source_l00071}00071\ \textcolor{keyword}{private}:}
+\DoxyCodeLine{\Hypertarget{cp__kml__mission__loader_8hpp_source_l00072}\mbox{\hyperlink{classcl__px4__mr_1_1CpKmlMissionLoader_a9ea507b7676f698f76e33aea1da3753e}{00072}}\ \ \ \textcolor{keyword}{mutable}\ std::mutex\ \mbox{\hyperlink{classcl__px4__mr_1_1CpKmlMissionLoader_a9ea507b7676f698f76e33aea1da3753e}{mutex\_}};}
+\DoxyCodeLine{\Hypertarget{cp__kml__mission__loader_8hpp_source_l00073}\mbox{\hyperlink{classcl__px4__mr_1_1CpKmlMissionLoader_af623aa6051c740d04b095cab7ea2bd27}{00073}}\ \ \ std::vector<GeoPoint>\ \mbox{\hyperlink{classcl__px4__mr_1_1CpKmlMissionLoader_af623aa6051c740d04b095cab7ea2bd27}{mission\_}};}
+\DoxyCodeLine{\Hypertarget{cp__kml__mission__loader_8hpp_source_l00074}\mbox{\hyperlink{classcl__px4__mr_1_1CpKmlMissionLoader_aa5e46decb9425eaf384c06330c0ccdc0}{00074}}\ \ \ std::string\ \mbox{\hyperlink{classcl__px4__mr_1_1CpKmlMissionLoader_aa5e46decb9425eaf384c06330c0ccdc0}{source\_}};}
+\DoxyCodeLine{\Hypertarget{cp__kml__mission__loader_8hpp_source_l00075}00075\ \};}
+\DoxyCodeLine{\Hypertarget{cp__kml__mission__loader_8hpp_source_l00076}00076\ }
+\DoxyCodeLine{\Hypertarget{cp__kml__mission__loader_8hpp_source_l00077}00077\ \}\ \ \textcolor{comment}{//\ namespace\ cl\_px4\_mr}}
+
+\end{DoxyCode}

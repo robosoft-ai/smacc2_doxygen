@@ -29,6 +29,10 @@ Collaboration diagram for cl\+\_\+px4\+\_\+mr\+::Cb\+Figure\+Eight\+:
 \item 
 \mbox{\hyperlink{classcl__px4__mr_1_1CbFigureEight_abefb9c3bcd91df8135ef82b79785a013}{Cb\+Figure\+Eight}} (float centerX, float centerY, float altitude, float size=5.\+0f, float speed=0.\+5f, int num\+Loops=1)
 \item 
+void \mbox{\hyperlink{classcl__px4__mr_1_1CbFigureEight_a16995aa790ce06b2724d202c24a3be9e}{set\+Center}} (float centerX, float centerY)
+\item 
+void \mbox{\hyperlink{classcl__px4__mr_1_1CbFigureEight_aaebe712f8c072cda138e4024c8bc9f45}{set\+Heading}} (float heading\+Rad)
+\item 
 void \mbox{\hyperlink{classcl__px4__mr_1_1CbFigureEight_af82706d45a1fe92a74d4aafd07e433b1}{on\+Entry}} () override
 \item 
 void \mbox{\hyperlink{classcl__px4__mr_1_1CbFigureEight_a8fe95d5fd31e05eacfdd343258f5a2a6}{on\+Exit}} () override
@@ -43,6 +47,8 @@ void \mbox{\hyperlink{classcl__px4__mr_1_1CbFigureEight_a5f704b0811a05db3b115521
 virtual \mbox{\hyperlink{classcl__px4__mr_1_1CbPx4ClientBehaviorBase_a989ffe4d65d1976c302b56f3799cb0cd}{\texorpdfstring{$\sim$}{\string~}\+Cb\+Px4\+Client\+Behavior\+Base}} ()
 \item 
 void \mbox{\hyperlink{classcl__px4__mr_1_1CbPx4ClientBehaviorBase_ae3a097aaa7446c3a51e85c2be3ce4833}{set\+Timeout}} (std\+::chrono\+::milliseconds timeout)
+\item 
+\mbox{\hyperlink{classbool}{bool}} \mbox{\hyperlink{classcl__px4__mr_1_1CbPx4ClientBehaviorBase_aac7a92f62b6bebf672f5a09311876bdd}{has\+Timeout}} () const
 \item 
 void \mbox{\hyperlink{classcl__px4__mr_1_1CbPx4ClientBehaviorBase_a2cd960ab47037f6037d0c12e4e1490cf}{update}} () override
 \end{DoxyCompactItemize}
@@ -115,6 +121,8 @@ float \mbox{\hyperlink{classcl__px4__mr_1_1CbFigureEight_a617d4e146886ee082b16a4
 float \mbox{\hyperlink{classcl__px4__mr_1_1CbFigureEight_a27c9d694305ca4292813217bcc8ecb48}{speed\+\_\+}}
 \item 
 int \mbox{\hyperlink{classcl__px4__mr_1_1CbFigureEight_a6c66eeac6019432fd1475b7abb59d2d2}{num\+Loops\+\_\+}}
+\item 
+float \mbox{\hyperlink{classcl__px4__mr_1_1CbFigureEight_a39d88a18fe682b5f834925549330df5a}{heading\+\_\+}} = 0.\+0f
 \item 
 float \mbox{\hyperlink{classcl__px4__mr_1_1CbFigureEight_affe93b71b08777c56cce8520d575caab}{t\+\_\+}} = 0.\+0f
 \item 
@@ -227,22 +235,24 @@ Definition at line \mbox{\hyperlink{cb__figure__eight_8cpp_source_l00032}{32}} o
 \DoxyCodeLine{00034\ \ \ \mbox{\hyperlink{classcl__px4__mr_1_1CbFigureEight_affe93b71b08777c56cce8520d575caab}{t\_}}\ =\ 0.0f;}
 \DoxyCodeLine{00035\ \ \ \mbox{\hyperlink{classcl__px4__mr_1_1CbFigureEight_aa76562381ee3799bd2a24d030a7f5275}{lastUpdateTime\_}}\ =\ std::chrono::steady\_clock::now();}
 \DoxyCodeLine{00036\ }
-\DoxyCodeLine{00037\ \ \ \textcolor{comment}{//\ Command\ initial\ position\ (t=0:\ x=size,\ y=0\ relative\ to\ center)}}
-\DoxyCodeLine{00038\ \ \ \textcolor{keywordtype}{float}\ x\ =\ \mbox{\hyperlink{classcl__px4__mr_1_1CbFigureEight_abc906f6d0b1058efd6bebf1540b2c1d6}{centerX\_}}\ +\ \mbox{\hyperlink{classcl__px4__mr_1_1CbFigureEight_a617d4e146886ee082b16a44de8e00df1}{size\_}};}
-\DoxyCodeLine{00039\ \ \ \textcolor{keywordtype}{float}\ y\ =\ \mbox{\hyperlink{classcl__px4__mr_1_1CbFigureEight_ac1f89922870a89d5736556abf88283f3}{centerY\_}};}
+\DoxyCodeLine{00037\ \ \ \textcolor{comment}{//\ Command\ initial\ position\ (t=0:\ x=size,\ y=0\ relative\ to\ center,\ rotated\ by\ heading\_)}}
+\DoxyCodeLine{00038\ \ \ \textcolor{keywordtype}{float}\ x\ =\ \mbox{\hyperlink{classcl__px4__mr_1_1CbFigureEight_abc906f6d0b1058efd6bebf1540b2c1d6}{centerX\_}}\ +\ \mbox{\hyperlink{classcl__px4__mr_1_1CbFigureEight_a617d4e146886ee082b16a44de8e00df1}{size\_}}\ *\ std::cos(\mbox{\hyperlink{classcl__px4__mr_1_1CbFigureEight_a39d88a18fe682b5f834925549330df5a}{heading\_}});}
+\DoxyCodeLine{00039\ \ \ \textcolor{keywordtype}{float}\ y\ =\ \mbox{\hyperlink{classcl__px4__mr_1_1CbFigureEight_ac1f89922870a89d5736556abf88283f3}{centerY\_}}\ +\ \mbox{\hyperlink{classcl__px4__mr_1_1CbFigureEight_a617d4e146886ee082b16a44de8e00df1}{size\_}}\ *\ std::sin(\mbox{\hyperlink{classcl__px4__mr_1_1CbFigureEight_a39d88a18fe682b5f834925549330df5a}{heading\_}});}
 \DoxyCodeLine{00040\ \ \ \textcolor{keywordtype}{float}\ z\ =\ -\/\mbox{\hyperlink{classcl__px4__mr_1_1CbFigureEight_a87b23e9134837eeb116782faccfb1879}{altitude\_}};\ \ \textcolor{comment}{//\ NED}}
 \DoxyCodeLine{00041\ }
 \DoxyCodeLine{00042\ \ \ RCLCPP\_INFO(}
-\DoxyCodeLine{00043\ \ \ \ \ \mbox{\hyperlink{classsmacc2_1_1ISmaccClientBehavior_a9c3d82542c800e2ba5207c5cff0e63e8}{getLogger}}(),\ \textcolor{stringliteral}{"{}CbFigureEight:\ starting\ figure-\/8\ center=[\%.2f,\ \%.2f]\ alt=\%.2f\ size=\%.2f\ loops=\%d"{}},}
-\DoxyCodeLine{00044\ \ \ \ \ \mbox{\hyperlink{classcl__px4__mr_1_1CbFigureEight_abc906f6d0b1058efd6bebf1540b2c1d6}{centerX\_}},\ \mbox{\hyperlink{classcl__px4__mr_1_1CbFigureEight_ac1f89922870a89d5736556abf88283f3}{centerY\_}},\ \mbox{\hyperlink{classcl__px4__mr_1_1CbFigureEight_a87b23e9134837eeb116782faccfb1879}{altitude\_}},\ \mbox{\hyperlink{classcl__px4__mr_1_1CbFigureEight_a617d4e146886ee082b16a44de8e00df1}{size\_}},\ \mbox{\hyperlink{classcl__px4__mr_1_1CbFigureEight_a6c66eeac6019432fd1475b7abb59d2d2}{numLoops\_}});}
-\DoxyCodeLine{00045\ }
-\DoxyCodeLine{00046\ \ \ \mbox{\hyperlink{classcl__px4__mr_1_1CbPx4ClientBehaviorBase_aba8f7b7dfed092fd23bf30445921a7e3}{trajectorySetpoint\_}}-\/>\mbox{\hyperlink{classcl__px4__mr_1_1CpTrajectorySetpoint_ad05cf6bdc5f1bc48e305ddec619e7322}{setPositionNED}}(x,\ y,\ z,\ 0.0f);}
-\DoxyCodeLine{00047\ \}}
+\DoxyCodeLine{00043\ \ \ \ \ \mbox{\hyperlink{classsmacc2_1_1ISmaccClientBehavior_a9c3d82542c800e2ba5207c5cff0e63e8}{getLogger}}(),}
+\DoxyCodeLine{00044\ \ \ \ \ \textcolor{stringliteral}{"{}CbFigureEight:\ starting\ figure-\/8\ center=[\%.2f,\ \%.2f]\ alt=\%.2f\ size=\%.2f\ axis=\%.2f\ rad\ "{}}}
+\DoxyCodeLine{00045\ \ \ \ \ \textcolor{stringliteral}{"{}loops=\%d"{}},}
+\DoxyCodeLine{00046\ \ \ \ \ \mbox{\hyperlink{classcl__px4__mr_1_1CbFigureEight_abc906f6d0b1058efd6bebf1540b2c1d6}{centerX\_}},\ \mbox{\hyperlink{classcl__px4__mr_1_1CbFigureEight_ac1f89922870a89d5736556abf88283f3}{centerY\_}},\ \mbox{\hyperlink{classcl__px4__mr_1_1CbFigureEight_a87b23e9134837eeb116782faccfb1879}{altitude\_}},\ \mbox{\hyperlink{classcl__px4__mr_1_1CbFigureEight_a617d4e146886ee082b16a44de8e00df1}{size\_}},\ \mbox{\hyperlink{classcl__px4__mr_1_1CbFigureEight_a39d88a18fe682b5f834925549330df5a}{heading\_}},\ \mbox{\hyperlink{classcl__px4__mr_1_1CbFigureEight_a6c66eeac6019432fd1475b7abb59d2d2}{numLoops\_}});}
+\DoxyCodeLine{00047\ }
+\DoxyCodeLine{00048\ \ \ \mbox{\hyperlink{classcl__px4__mr_1_1CbPx4ClientBehaviorBase_aba8f7b7dfed092fd23bf30445921a7e3}{trajectorySetpoint\_}}-\/>\mbox{\hyperlink{classcl__px4__mr_1_1CpTrajectorySetpoint_ad05cf6bdc5f1bc48e305ddec619e7322}{setPositionNED}}(x,\ y,\ z,\ \mbox{\hyperlink{classcl__px4__mr_1_1CbFigureEight_a39d88a18fe682b5f834925549330df5a}{heading\_}});}
+\DoxyCodeLine{00049\ \}}
 
 \end{DoxyCode}
 
 
-References \mbox{\hyperlink{cb__figure__eight_8hpp_source_l00041}{altitude\+\_\+}}, \mbox{\hyperlink{cb__figure__eight_8hpp_source_l00039}{center\+X\+\_\+}}, \mbox{\hyperlink{cb__figure__eight_8hpp_source_l00040}{center\+Y\+\_\+}}, \mbox{\hyperlink{smacc__client__behavior__base_8cpp_source_l00043}{smacc2\+::\+ISmacc\+Client\+Behavior\+::get\+Logger()}}, \mbox{\hyperlink{cb__figure__eight_8hpp_source_l00047}{last\+Update\+Time\+\_\+}}, \mbox{\hyperlink{cb__figure__eight_8hpp_source_l00044}{num\+Loops\+\_\+}}, \mbox{\hyperlink{cp__trajectory__setpoint_8cpp_source_l00046}{cl\+\_\+px4\+\_\+mr\+::\+Cp\+Trajectory\+Setpoint\+::set\+Position\+NED()}}, \mbox{\hyperlink{cb__figure__eight_8hpp_source_l00042}{size\+\_\+}}, \mbox{\hyperlink{cb__figure__eight_8hpp_source_l00046}{t\+\_\+}}, and \mbox{\hyperlink{cb__px4__client__behavior__base_8hpp_source_l00131}{cl\+\_\+px4\+\_\+mr\+::\+Cb\+Px4\+Client\+Behavior\+Base\+::trajectory\+Setpoint\+\_\+}}.
+References \mbox{\hyperlink{cb__figure__eight_8hpp_source_l00051}{altitude\+\_\+}}, \mbox{\hyperlink{cb__figure__eight_8hpp_source_l00049}{center\+X\+\_\+}}, \mbox{\hyperlink{cb__figure__eight_8hpp_source_l00050}{center\+Y\+\_\+}}, \mbox{\hyperlink{smacc__client__behavior__base_8cpp_source_l00043}{smacc2\+::\+ISmacc\+Client\+Behavior\+::get\+Logger()}}, \mbox{\hyperlink{cb__figure__eight_8hpp_source_l00055}{heading\+\_\+}}, \mbox{\hyperlink{cb__figure__eight_8hpp_source_l00058}{last\+Update\+Time\+\_\+}}, \mbox{\hyperlink{cb__figure__eight_8hpp_source_l00054}{num\+Loops\+\_\+}}, \mbox{\hyperlink{cp__trajectory__setpoint_8cpp_source_l00046}{cl\+\_\+px4\+\_\+mr\+::\+Cp\+Trajectory\+Setpoint\+::set\+Position\+NED()}}, \mbox{\hyperlink{cb__figure__eight_8hpp_source_l00052}{size\+\_\+}}, \mbox{\hyperlink{cb__figure__eight_8hpp_source_l00057}{t\+\_\+}}, and \mbox{\hyperlink{cb__px4__client__behavior__base_8hpp_source_l00139}{cl\+\_\+px4\+\_\+mr\+::\+Cb\+Px4\+Client\+Behavior\+Base\+::trajectory\+Setpoint\+\_\+}}.
 
 Here is the call graph for this function\+:
 \nopagebreak
@@ -264,13 +274,54 @@ Reimplemented from \mbox{\hyperlink{classsmacc2_1_1ISmaccClientBehavior_a52b767b
 
 
 
-Definition at line \mbox{\hyperlink{cb__figure__eight_8cpp_source_l00049}{49}} of file \mbox{\hyperlink{cb__figure__eight_8cpp_source}{cb\+\_\+figure\+\_\+eight.\+cpp}}.
+Definition at line \mbox{\hyperlink{cb__figure__eight_8cpp_source_l00051}{51}} of file \mbox{\hyperlink{cb__figure__eight_8cpp_source}{cb\+\_\+figure\+\_\+eight.\+cpp}}.
 
 
 \begin{DoxyCode}{0}
-\DoxyCodeLine{00049\ \{\}}
+\DoxyCodeLine{00051\ \{\}}
 
 \end{DoxyCode}
+\Hypertarget{classcl__px4__mr_1_1CbFigureEight_a16995aa790ce06b2724d202c24a3be9e}\index{cl\_px4\_mr::CbFigureEight@{cl\_px4\_mr::CbFigureEight}!setCenter@{setCenter}}
+\index{setCenter@{setCenter}!cl\_px4\_mr::CbFigureEight@{cl\_px4\_mr::CbFigureEight}}
+\doxysubsubsection{\texorpdfstring{setCenter()}{setCenter()}}
+{\footnotesize\ttfamily \label{classcl__px4__mr_1_1CbFigureEight_a16995aa790ce06b2724d202c24a3be9e} 
+void cl\+\_\+px4\+\_\+mr\+::\+Cb\+Figure\+Eight\+::set\+Center (\begin{DoxyParamCaption}\item[{float}]{centerX}{, }\item[{float}]{centerY}{}\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Definition at line \mbox{\hyperlink{cb__figure__eight_8hpp_source_l00036}{36}} of file \mbox{\hyperlink{cb__figure__eight_8hpp_source}{cb\+\_\+figure\+\_\+eight.\+hpp}}.
+
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00037\ \ \ \{}
+\DoxyCodeLine{00038\ \ \ \ \ \mbox{\hyperlink{classcl__px4__mr_1_1CbFigureEight_abc906f6d0b1058efd6bebf1540b2c1d6}{centerX\_}}\ =\ centerX;}
+\DoxyCodeLine{00039\ \ \ \ \ \mbox{\hyperlink{classcl__px4__mr_1_1CbFigureEight_ac1f89922870a89d5736556abf88283f3}{centerY\_}}\ =\ centerY;}
+\DoxyCodeLine{00040\ \ \ \}}
+
+\end{DoxyCode}
+
+
+References \mbox{\hyperlink{cb__figure__eight_8hpp_source_l00049}{center\+X\+\_\+}}, and \mbox{\hyperlink{cb__figure__eight_8hpp_source_l00050}{center\+Y\+\_\+}}.
+
+\Hypertarget{classcl__px4__mr_1_1CbFigureEight_aaebe712f8c072cda138e4024c8bc9f45}\index{cl\_px4\_mr::CbFigureEight@{cl\_px4\_mr::CbFigureEight}!setHeading@{setHeading}}
+\index{setHeading@{setHeading}!cl\_px4\_mr::CbFigureEight@{cl\_px4\_mr::CbFigureEight}}
+\doxysubsubsection{\texorpdfstring{setHeading()}{setHeading()}}
+{\footnotesize\ttfamily \label{classcl__px4__mr_1_1CbFigureEight_aaebe712f8c072cda138e4024c8bc9f45} 
+void cl\+\_\+px4\+\_\+mr\+::\+Cb\+Figure\+Eight\+::set\+Heading (\begin{DoxyParamCaption}\item[{float}]{heading\+Rad}{}\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Definition at line \mbox{\hyperlink{cb__figure__eight_8hpp_source_l00042}{42}} of file \mbox{\hyperlink{cb__figure__eight_8hpp_source}{cb\+\_\+figure\+\_\+eight.\+hpp}}.
+
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00042\ \{\ \mbox{\hyperlink{classcl__px4__mr_1_1CbFigureEight_a39d88a18fe682b5f834925549330df5a}{heading\_}}\ =\ headingRad;\ \}}
+
+\end{DoxyCode}
+
+
+References \mbox{\hyperlink{cb__figure__eight_8hpp_source_l00055}{heading\+\_\+}}.
+
 \Hypertarget{classcl__px4__mr_1_1CbFigureEight_a5f704b0811a05db3b1155215a386c3d0}\index{cl\_px4\_mr::CbFigureEight@{cl\_px4\_mr::CbFigureEight}!update@{update}}
 \index{update@{update}!cl\_px4\_mr::CbFigureEight@{cl\_px4\_mr::CbFigureEight}}
 \doxysubsubsection{\texorpdfstring{update()}{update()}}
@@ -283,55 +334,58 @@ Implements \mbox{\hyperlink{classsmacc2_1_1ISmaccUpdatable_a21158bb7ce0c72d8a827
 
 
 
-Definition at line \mbox{\hyperlink{cb__figure__eight_8cpp_source_l00051}{51}} of file \mbox{\hyperlink{cb__figure__eight_8cpp_source}{cb\+\_\+figure\+\_\+eight.\+cpp}}.
+Definition at line \mbox{\hyperlink{cb__figure__eight_8cpp_source_l00053}{53}} of file \mbox{\hyperlink{cb__figure__eight_8cpp_source}{cb\+\_\+figure\+\_\+eight.\+cpp}}.
 
 
 \begin{DoxyCode}{0}
-\DoxyCodeLine{00052\ \{}
-\DoxyCodeLine{00053\ \ \ \mbox{\hyperlink{classcl__px4__mr_1_1CbPx4ClientBehaviorBase_a2cd960ab47037f6037d0c12e4e1490cf}{CbPx4ClientBehaviorBase::update}}();}
-\DoxyCodeLine{00054\ }
-\DoxyCodeLine{00055\ \ \ \textcolor{keyword}{auto}\ now\ =\ std::chrono::steady\_clock::now();}
-\DoxyCodeLine{00056\ \ \ \textcolor{keywordtype}{double}\ dt\ =\ std::chrono::duration<double>(now\ -\/\ \mbox{\hyperlink{classcl__px4__mr_1_1CbFigureEight_aa76562381ee3799bd2a24d030a7f5275}{lastUpdateTime\_}}).count();}
-\DoxyCodeLine{00057\ \ \ \mbox{\hyperlink{classcl__px4__mr_1_1CbFigureEight_aa76562381ee3799bd2a24d030a7f5275}{lastUpdateTime\_}}\ =\ now;}
-\DoxyCodeLine{00058\ }
-\DoxyCodeLine{00059\ \ \ \mbox{\hyperlink{classcl__px4__mr_1_1CbFigureEight_affe93b71b08777c56cce8520d575caab}{t\_}}\ +=\ \mbox{\hyperlink{classcl__px4__mr_1_1CbFigureEight_a27c9d694305ca4292813217bcc8ecb48}{speed\_}}\ *\ dt;}
+\DoxyCodeLine{00054\ \{}
+\DoxyCodeLine{00055\ \ \ \mbox{\hyperlink{classcl__px4__mr_1_1CbPx4ClientBehaviorBase_a2cd960ab47037f6037d0c12e4e1490cf}{CbPx4ClientBehaviorBase::update}}();}
+\DoxyCodeLine{00056\ }
+\DoxyCodeLine{00057\ \ \ \textcolor{keyword}{auto}\ now\ =\ std::chrono::steady\_clock::now();}
+\DoxyCodeLine{00058\ \ \ \textcolor{keywordtype}{double}\ dt\ =\ std::chrono::duration<double>(now\ -\/\ \mbox{\hyperlink{classcl__px4__mr_1_1CbFigureEight_aa76562381ee3799bd2a24d030a7f5275}{lastUpdateTime\_}}).count();}
+\DoxyCodeLine{00059\ \ \ \mbox{\hyperlink{classcl__px4__mr_1_1CbFigureEight_aa76562381ee3799bd2a24d030a7f5275}{lastUpdateTime\_}}\ =\ now;}
 \DoxyCodeLine{00060\ }
-\DoxyCodeLine{00061\ \ \ \textcolor{comment}{//\ Lemniscate\ of\ Bernoulli\ parametric\ equations}}
-\DoxyCodeLine{00062\ \ \ \textcolor{keywordtype}{float}\ sinT\ =\ std::sin(\mbox{\hyperlink{classcl__px4__mr_1_1CbFigureEight_affe93b71b08777c56cce8520d575caab}{t\_}});}
-\DoxyCodeLine{00063\ \ \ \textcolor{keywordtype}{float}\ cosT\ =\ std::cos(\mbox{\hyperlink{classcl__px4__mr_1_1CbFigureEight_affe93b71b08777c56cce8520d575caab}{t\_}});}
-\DoxyCodeLine{00064\ \ \ \textcolor{keywordtype}{float}\ denom\ =\ 1.0f\ +\ sinT\ *\ sinT;}
-\DoxyCodeLine{00065\ }
-\DoxyCodeLine{00066\ \ \ \textcolor{keywordtype}{float}\ localX\ =\ \mbox{\hyperlink{classcl__px4__mr_1_1CbFigureEight_a617d4e146886ee082b16a44de8e00df1}{size\_}}\ *\ cosT\ /\ denom;}
-\DoxyCodeLine{00067\ \ \ \textcolor{keywordtype}{float}\ localY\ =\ \mbox{\hyperlink{classcl__px4__mr_1_1CbFigureEight_a617d4e146886ee082b16a44de8e00df1}{size\_}}\ *\ sinT\ *\ cosT\ /\ denom;}
-\DoxyCodeLine{00068\ }
-\DoxyCodeLine{00069\ \ \ \textcolor{keywordtype}{float}\ x\ =\ \mbox{\hyperlink{classcl__px4__mr_1_1CbFigureEight_abc906f6d0b1058efd6bebf1540b2c1d6}{centerX\_}}\ +\ localX;}
-\DoxyCodeLine{00070\ \ \ \textcolor{keywordtype}{float}\ y\ =\ \mbox{\hyperlink{classcl__px4__mr_1_1CbFigureEight_ac1f89922870a89d5736556abf88283f3}{centerY\_}}\ +\ localY;}
-\DoxyCodeLine{00071\ \ \ \textcolor{keywordtype}{float}\ z\ =\ -\/\mbox{\hyperlink{classcl__px4__mr_1_1CbFigureEight_a87b23e9134837eeb116782faccfb1879}{altitude\_}};\ \ \textcolor{comment}{//\ NED}}
-\DoxyCodeLine{00072\ }
-\DoxyCodeLine{00073\ \ \ \textcolor{comment}{//\ Compute\ derivatives\ for\ yaw\ (face\ direction\ of\ travel)}}
-\DoxyCodeLine{00074\ \ \ \textcolor{keywordtype}{float}\ sinT2\ =\ sinT\ *\ sinT;}
-\DoxyCodeLine{00075\ \ \ \textcolor{keywordtype}{float}\ cosT2\ =\ cosT\ *\ cosT;}
-\DoxyCodeLine{00076\ \ \ \textcolor{keywordtype}{float}\ denom2\ =\ denom\ *\ denom;}
-\DoxyCodeLine{00077\ \ \ \textcolor{keywordtype}{float}\ dxdt\ =\ \mbox{\hyperlink{classcl__px4__mr_1_1CbFigureEight_a617d4e146886ee082b16a44de8e00df1}{size\_}}\ *\ (-\/sinT\ *\ (1.0f\ +\ sinT2)\ -\/\ cosT\ *\ 2.0f\ *\ sinT\ *\ cosT)\ /\ denom2;}
-\DoxyCodeLine{00078\ \ \ \textcolor{keywordtype}{float}\ dydt\ =}
-\DoxyCodeLine{00079\ \ \ \ \ \mbox{\hyperlink{classcl__px4__mr_1_1CbFigureEight_a617d4e146886ee082b16a44de8e00df1}{size\_}}\ *\ ((cosT2\ -\/\ sinT2)\ *\ (1.0f\ +\ sinT2)\ -\/\ sinT\ *\ cosT\ *\ 2.0f\ *\ sinT\ *\ cosT)\ /\ denom2;}
-\DoxyCodeLine{00080\ \ \ \textcolor{keywordtype}{float}\ yaw\ =\ std::atan2(dydt,\ dxdt);}
-\DoxyCodeLine{00081\ }
-\DoxyCodeLine{00082\ \ \ \mbox{\hyperlink{classcl__px4__mr_1_1CbPx4ClientBehaviorBase_aba8f7b7dfed092fd23bf30445921a7e3}{trajectorySetpoint\_}}-\/>\mbox{\hyperlink{classcl__px4__mr_1_1CpTrajectorySetpoint_ad05cf6bdc5f1bc48e305ddec619e7322}{setPositionNED}}(x,\ y,\ z,\ yaw);}
-\DoxyCodeLine{00083\ }
-\DoxyCodeLine{00084\ \ \ \textcolor{comment}{//\ Check\ completion}}
-\DoxyCodeLine{00085\ \ \ \textcolor{keywordtype}{float}\ requiredT\ =\ \mbox{\hyperlink{classcl__px4__mr_1_1CbFigureEight_a6c66eeac6019432fd1475b7abb59d2d2}{numLoops\_}}\ *\ 2.0f\ *\ M\_PI;}
-\DoxyCodeLine{00086\ \ \ \textcolor{keywordflow}{if}\ (\mbox{\hyperlink{classcl__px4__mr_1_1CbFigureEight_affe93b71b08777c56cce8520d575caab}{t\_}}\ >=\ requiredT)}
-\DoxyCodeLine{00087\ \ \ \{}
-\DoxyCodeLine{00088\ \ \ \ \ RCLCPP\_INFO(\mbox{\hyperlink{classsmacc2_1_1ISmaccClientBehavior_a9c3d82542c800e2ba5207c5cff0e63e8}{getLogger}}(),\ \textcolor{stringliteral}{"{}CbFigureEight:\ \%d\ loops\ completed\ -\/\ posting\ success"{}},\ \mbox{\hyperlink{classcl__px4__mr_1_1CbFigureEight_a6c66eeac6019432fd1475b7abb59d2d2}{numLoops\_}});}
-\DoxyCodeLine{00089\ \ \ \ \ this-\/>\mbox{\hyperlink{classcl__px4__mr_1_1CbPx4ClientBehaviorBase_a4b000d4fc4644581dc26c7e8dc1d4ef1}{postPx4Success}}();}
-\DoxyCodeLine{00090\ \ \ \}}
-\DoxyCodeLine{00091\ \}}
+\DoxyCodeLine{00061\ \ \ \mbox{\hyperlink{classcl__px4__mr_1_1CbFigureEight_affe93b71b08777c56cce8520d575caab}{t\_}}\ +=\ \mbox{\hyperlink{classcl__px4__mr_1_1CbFigureEight_a27c9d694305ca4292813217bcc8ecb48}{speed\_}}\ *\ dt;}
+\DoxyCodeLine{00062\ }
+\DoxyCodeLine{00063\ \ \ \textcolor{comment}{//\ Lemniscate\ of\ Bernoulli\ parametric\ equations}}
+\DoxyCodeLine{00064\ \ \ \textcolor{keywordtype}{float}\ sinT\ =\ std::sin(\mbox{\hyperlink{classcl__px4__mr_1_1CbFigureEight_affe93b71b08777c56cce8520d575caab}{t\_}});}
+\DoxyCodeLine{00065\ \ \ \textcolor{keywordtype}{float}\ cosT\ =\ std::cos(\mbox{\hyperlink{classcl__px4__mr_1_1CbFigureEight_affe93b71b08777c56cce8520d575caab}{t\_}});}
+\DoxyCodeLine{00066\ \ \ \textcolor{keywordtype}{float}\ denom\ =\ 1.0f\ +\ sinT\ *\ sinT;}
+\DoxyCodeLine{00067\ }
+\DoxyCodeLine{00068\ \ \ \textcolor{keywordtype}{float}\ localX\ =\ \mbox{\hyperlink{classcl__px4__mr_1_1CbFigureEight_a617d4e146886ee082b16a44de8e00df1}{size\_}}\ *\ cosT\ /\ denom;}
+\DoxyCodeLine{00069\ \ \ \textcolor{keywordtype}{float}\ localY\ =\ \mbox{\hyperlink{classcl__px4__mr_1_1CbFigureEight_a617d4e146886ee082b16a44de8e00df1}{size\_}}\ *\ sinT\ *\ cosT\ /\ denom;}
+\DoxyCodeLine{00070\ }
+\DoxyCodeLine{00071\ \ \ \textcolor{comment}{//\ rotate\ the\ lemniscate\ so\ its\ lobe\ axis\ lies\ along\ heading\_}}
+\DoxyCodeLine{00072\ \ \ \textcolor{keyword}{const}\ \textcolor{keywordtype}{float}\ ch\ =\ std::cos(\mbox{\hyperlink{classcl__px4__mr_1_1CbFigureEight_a39d88a18fe682b5f834925549330df5a}{heading\_}});}
+\DoxyCodeLine{00073\ \ \ \textcolor{keyword}{const}\ \textcolor{keywordtype}{float}\ sh\ =\ std::sin(\mbox{\hyperlink{classcl__px4__mr_1_1CbFigureEight_a39d88a18fe682b5f834925549330df5a}{heading\_}});}
+\DoxyCodeLine{00074\ \ \ \textcolor{keywordtype}{float}\ x\ =\ \mbox{\hyperlink{classcl__px4__mr_1_1CbFigureEight_abc906f6d0b1058efd6bebf1540b2c1d6}{centerX\_}}\ +\ localX\ *\ ch\ -\/\ localY\ *\ sh;}
+\DoxyCodeLine{00075\ \ \ \textcolor{keywordtype}{float}\ y\ =\ \mbox{\hyperlink{classcl__px4__mr_1_1CbFigureEight_ac1f89922870a89d5736556abf88283f3}{centerY\_}}\ +\ localX\ *\ sh\ +\ localY\ *\ ch;}
+\DoxyCodeLine{00076\ \ \ \textcolor{keywordtype}{float}\ z\ =\ -\/\mbox{\hyperlink{classcl__px4__mr_1_1CbFigureEight_a87b23e9134837eeb116782faccfb1879}{altitude\_}};\ \ \textcolor{comment}{//\ NED}}
+\DoxyCodeLine{00077\ }
+\DoxyCodeLine{00078\ \ \ \textcolor{comment}{//\ Compute\ derivatives\ for\ yaw\ (face\ direction\ of\ travel)}}
+\DoxyCodeLine{00079\ \ \ \textcolor{keywordtype}{float}\ sinT2\ =\ sinT\ *\ sinT;}
+\DoxyCodeLine{00080\ \ \ \textcolor{keywordtype}{float}\ cosT2\ =\ cosT\ *\ cosT;}
+\DoxyCodeLine{00081\ \ \ \textcolor{keywordtype}{float}\ denom2\ =\ denom\ *\ denom;}
+\DoxyCodeLine{00082\ \ \ \textcolor{keywordtype}{float}\ dxdt\ =\ \mbox{\hyperlink{classcl__px4__mr_1_1CbFigureEight_a617d4e146886ee082b16a44de8e00df1}{size\_}}\ *\ (-\/sinT\ *\ (1.0f\ +\ sinT2)\ -\/\ cosT\ *\ 2.0f\ *\ sinT\ *\ cosT)\ /\ denom2;}
+\DoxyCodeLine{00083\ \ \ \textcolor{keywordtype}{float}\ dydt\ =}
+\DoxyCodeLine{00084\ \ \ \ \ \mbox{\hyperlink{classcl__px4__mr_1_1CbFigureEight_a617d4e146886ee082b16a44de8e00df1}{size\_}}\ *\ ((cosT2\ -\/\ sinT2)\ *\ (1.0f\ +\ sinT2)\ -\/\ sinT\ *\ cosT\ *\ 2.0f\ *\ sinT\ *\ cosT)\ /\ denom2;}
+\DoxyCodeLine{00085\ \ \ \textcolor{keywordtype}{float}\ yaw\ =\ std::atan2(dydt,\ dxdt)\ +\ \mbox{\hyperlink{classcl__px4__mr_1_1CbFigureEight_a39d88a18fe682b5f834925549330df5a}{heading\_}};}
+\DoxyCodeLine{00086\ }
+\DoxyCodeLine{00087\ \ \ \mbox{\hyperlink{classcl__px4__mr_1_1CbPx4ClientBehaviorBase_aba8f7b7dfed092fd23bf30445921a7e3}{trajectorySetpoint\_}}-\/>\mbox{\hyperlink{classcl__px4__mr_1_1CpTrajectorySetpoint_ad05cf6bdc5f1bc48e305ddec619e7322}{setPositionNED}}(x,\ y,\ z,\ yaw);}
+\DoxyCodeLine{00088\ }
+\DoxyCodeLine{00089\ \ \ \textcolor{comment}{//\ Check\ completion}}
+\DoxyCodeLine{00090\ \ \ \textcolor{keywordtype}{float}\ requiredT\ =\ \mbox{\hyperlink{classcl__px4__mr_1_1CbFigureEight_a6c66eeac6019432fd1475b7abb59d2d2}{numLoops\_}}\ *\ 2.0f\ *\ M\_PI;}
+\DoxyCodeLine{00091\ \ \ \textcolor{keywordflow}{if}\ (\mbox{\hyperlink{classcl__px4__mr_1_1CbFigureEight_affe93b71b08777c56cce8520d575caab}{t\_}}\ >=\ requiredT)}
+\DoxyCodeLine{00092\ \ \ \{}
+\DoxyCodeLine{00093\ \ \ \ \ RCLCPP\_INFO(\mbox{\hyperlink{classsmacc2_1_1ISmaccClientBehavior_a9c3d82542c800e2ba5207c5cff0e63e8}{getLogger}}(),\ \textcolor{stringliteral}{"{}CbFigureEight:\ \%d\ loops\ completed\ -\/\ posting\ success"{}},\ \mbox{\hyperlink{classcl__px4__mr_1_1CbFigureEight_a6c66eeac6019432fd1475b7abb59d2d2}{numLoops\_}});}
+\DoxyCodeLine{00094\ \ \ \ \ this-\/>\mbox{\hyperlink{classcl__px4__mr_1_1CbPx4ClientBehaviorBase_a4b000d4fc4644581dc26c7e8dc1d4ef1}{postPx4Success}}();}
+\DoxyCodeLine{00095\ \ \ \}}
+\DoxyCodeLine{00096\ \}}
 
 \end{DoxyCode}
 
 
-References \mbox{\hyperlink{cb__figure__eight_8hpp_source_l00041}{altitude\+\_\+}}, \mbox{\hyperlink{cb__figure__eight_8hpp_source_l00039}{center\+X\+\_\+}}, \mbox{\hyperlink{cb__figure__eight_8hpp_source_l00040}{center\+Y\+\_\+}}, \mbox{\hyperlink{smacc__client__behavior__base_8cpp_source_l00043}{smacc2\+::\+ISmacc\+Client\+Behavior\+::get\+Logger()}}, \mbox{\hyperlink{cb__figure__eight_8hpp_source_l00047}{last\+Update\+Time\+\_\+}}, \mbox{\hyperlink{cb__figure__eight_8hpp_source_l00044}{num\+Loops\+\_\+}}, \mbox{\hyperlink{cb__px4__client__behavior__base_8hpp_source_l00113}{cl\+\_\+px4\+\_\+mr\+::\+Cb\+Px4\+Client\+Behavior\+Base\+::post\+Px4\+Success()}}, \mbox{\hyperlink{cp__trajectory__setpoint_8cpp_source_l00046}{cl\+\_\+px4\+\_\+mr\+::\+Cp\+Trajectory\+Setpoint\+::set\+Position\+NED()}}, \mbox{\hyperlink{cb__figure__eight_8hpp_source_l00042}{size\+\_\+}}, \mbox{\hyperlink{cb__figure__eight_8hpp_source_l00043}{speed\+\_\+}}, \mbox{\hyperlink{cb__figure__eight_8hpp_source_l00046}{t\+\_\+}}, \mbox{\hyperlink{cb__px4__client__behavior__base_8hpp_source_l00131}{cl\+\_\+px4\+\_\+mr\+::\+Cb\+Px4\+Client\+Behavior\+Base\+::trajectory\+Setpoint\+\_\+}}, and \mbox{\hyperlink{cb__px4__client__behavior__base_8hpp_source_l00085}{cl\+\_\+px4\+\_\+mr\+::\+Cb\+Px4\+Client\+Behavior\+Base\+::update()}}.
+References \mbox{\hyperlink{cb__figure__eight_8hpp_source_l00051}{altitude\+\_\+}}, \mbox{\hyperlink{cb__figure__eight_8hpp_source_l00049}{center\+X\+\_\+}}, \mbox{\hyperlink{cb__figure__eight_8hpp_source_l00050}{center\+Y\+\_\+}}, \mbox{\hyperlink{smacc__client__behavior__base_8cpp_source_l00043}{smacc2\+::\+ISmacc\+Client\+Behavior\+::get\+Logger()}}, \mbox{\hyperlink{cb__figure__eight_8hpp_source_l00055}{heading\+\_\+}}, \mbox{\hyperlink{cb__figure__eight_8hpp_source_l00058}{last\+Update\+Time\+\_\+}}, \mbox{\hyperlink{cb__figure__eight_8hpp_source_l00054}{num\+Loops\+\_\+}}, \mbox{\hyperlink{cb__px4__client__behavior__base_8hpp_source_l00121}{cl\+\_\+px4\+\_\+mr\+::\+Cb\+Px4\+Client\+Behavior\+Base\+::post\+Px4\+Success()}}, \mbox{\hyperlink{cp__trajectory__setpoint_8cpp_source_l00046}{cl\+\_\+px4\+\_\+mr\+::\+Cp\+Trajectory\+Setpoint\+::set\+Position\+NED()}}, \mbox{\hyperlink{cb__figure__eight_8hpp_source_l00052}{size\+\_\+}}, \mbox{\hyperlink{cb__figure__eight_8hpp_source_l00053}{speed\+\_\+}}, \mbox{\hyperlink{cb__figure__eight_8hpp_source_l00057}{t\+\_\+}}, \mbox{\hyperlink{cb__px4__client__behavior__base_8hpp_source_l00139}{cl\+\_\+px4\+\_\+mr\+::\+Cb\+Px4\+Client\+Behavior\+Base\+::trajectory\+Setpoint\+\_\+}}, and \mbox{\hyperlink{cb__px4__client__behavior__base_8hpp_source_l00092}{cl\+\_\+px4\+\_\+mr\+::\+Cb\+Px4\+Client\+Behavior\+Base\+::update()}}.
 
 Here is the call graph for this function\+:
 \nopagebreak
@@ -352,11 +406,11 @@ float cl\+\_\+px4\+\_\+mr\+::\+Cb\+Figure\+Eight\+::altitude\+\_\+\hspace{0.3cm}
 
 
 
-Definition at line \mbox{\hyperlink{cb__figure__eight_8hpp_source_l00041}{41}} of file \mbox{\hyperlink{cb__figure__eight_8hpp_source}{cb\+\_\+figure\+\_\+eight.\+hpp}}.
+Definition at line \mbox{\hyperlink{cb__figure__eight_8hpp_source_l00051}{51}} of file \mbox{\hyperlink{cb__figure__eight_8hpp_source}{cb\+\_\+figure\+\_\+eight.\+hpp}}.
 
 
 
-Referenced by \mbox{\hyperlink{cb__figure__eight_8cpp_source_l00032}{on\+Entry()}}, and \mbox{\hyperlink{cb__figure__eight_8cpp_source_l00051}{update()}}.
+Referenced by \mbox{\hyperlink{cb__figure__eight_8cpp_source_l00032}{on\+Entry()}}, and \mbox{\hyperlink{cb__figure__eight_8cpp_source_l00053}{update()}}.
 
 \Hypertarget{classcl__px4__mr_1_1CbFigureEight_abc906f6d0b1058efd6bebf1540b2c1d6}\index{cl\_px4\_mr::CbFigureEight@{cl\_px4\_mr::CbFigureEight}!centerX\_@{centerX\_}}
 \index{centerX\_@{centerX\_}!cl\_px4\_mr::CbFigureEight@{cl\_px4\_mr::CbFigureEight}}
@@ -366,11 +420,11 @@ float cl\+\_\+px4\+\_\+mr\+::\+Cb\+Figure\+Eight\+::center\+X\+\_\+\hspace{0.3cm
 
 
 
-Definition at line \mbox{\hyperlink{cb__figure__eight_8hpp_source_l00039}{39}} of file \mbox{\hyperlink{cb__figure__eight_8hpp_source}{cb\+\_\+figure\+\_\+eight.\+hpp}}.
+Definition at line \mbox{\hyperlink{cb__figure__eight_8hpp_source_l00049}{49}} of file \mbox{\hyperlink{cb__figure__eight_8hpp_source}{cb\+\_\+figure\+\_\+eight.\+hpp}}.
 
 
 
-Referenced by \mbox{\hyperlink{cb__figure__eight_8cpp_source_l00032}{on\+Entry()}}, and \mbox{\hyperlink{cb__figure__eight_8cpp_source_l00051}{update()}}.
+Referenced by \mbox{\hyperlink{cb__figure__eight_8cpp_source_l00032}{on\+Entry()}}, \mbox{\hyperlink{cb__figure__eight_8hpp_source_l00036}{set\+Center()}}, and \mbox{\hyperlink{cb__figure__eight_8cpp_source_l00053}{update()}}.
 
 \Hypertarget{classcl__px4__mr_1_1CbFigureEight_ac1f89922870a89d5736556abf88283f3}\index{cl\_px4\_mr::CbFigureEight@{cl\_px4\_mr::CbFigureEight}!centerY\_@{centerY\_}}
 \index{centerY\_@{centerY\_}!cl\_px4\_mr::CbFigureEight@{cl\_px4\_mr::CbFigureEight}}
@@ -380,11 +434,25 @@ float cl\+\_\+px4\+\_\+mr\+::\+Cb\+Figure\+Eight\+::center\+Y\+\_\+\hspace{0.3cm
 
 
 
-Definition at line \mbox{\hyperlink{cb__figure__eight_8hpp_source_l00040}{40}} of file \mbox{\hyperlink{cb__figure__eight_8hpp_source}{cb\+\_\+figure\+\_\+eight.\+hpp}}.
+Definition at line \mbox{\hyperlink{cb__figure__eight_8hpp_source_l00050}{50}} of file \mbox{\hyperlink{cb__figure__eight_8hpp_source}{cb\+\_\+figure\+\_\+eight.\+hpp}}.
 
 
 
-Referenced by \mbox{\hyperlink{cb__figure__eight_8cpp_source_l00032}{on\+Entry()}}, and \mbox{\hyperlink{cb__figure__eight_8cpp_source_l00051}{update()}}.
+Referenced by \mbox{\hyperlink{cb__figure__eight_8cpp_source_l00032}{on\+Entry()}}, \mbox{\hyperlink{cb__figure__eight_8hpp_source_l00036}{set\+Center()}}, and \mbox{\hyperlink{cb__figure__eight_8cpp_source_l00053}{update()}}.
+
+\Hypertarget{classcl__px4__mr_1_1CbFigureEight_a39d88a18fe682b5f834925549330df5a}\index{cl\_px4\_mr::CbFigureEight@{cl\_px4\_mr::CbFigureEight}!heading\_@{heading\_}}
+\index{heading\_@{heading\_}!cl\_px4\_mr::CbFigureEight@{cl\_px4\_mr::CbFigureEight}}
+\doxysubsubsection{\texorpdfstring{heading\_}{heading\_}}
+{\footnotesize\ttfamily \label{classcl__px4__mr_1_1CbFigureEight_a39d88a18fe682b5f834925549330df5a} 
+float cl\+\_\+px4\+\_\+mr\+::\+Cb\+Figure\+Eight\+::heading\+\_\+ = 0.\+0f\hspace{0.3cm}{\ttfamily [private]}}
+
+
+
+Definition at line \mbox{\hyperlink{cb__figure__eight_8hpp_source_l00055}{55}} of file \mbox{\hyperlink{cb__figure__eight_8hpp_source}{cb\+\_\+figure\+\_\+eight.\+hpp}}.
+
+
+
+Referenced by \mbox{\hyperlink{cb__figure__eight_8cpp_source_l00032}{on\+Entry()}}, \mbox{\hyperlink{cb__figure__eight_8hpp_source_l00042}{set\+Heading()}}, and \mbox{\hyperlink{cb__figure__eight_8cpp_source_l00053}{update()}}.
 
 \Hypertarget{classcl__px4__mr_1_1CbFigureEight_aa76562381ee3799bd2a24d030a7f5275}\index{cl\_px4\_mr::CbFigureEight@{cl\_px4\_mr::CbFigureEight}!lastUpdateTime\_@{lastUpdateTime\_}}
 \index{lastUpdateTime\_@{lastUpdateTime\_}!cl\_px4\_mr::CbFigureEight@{cl\_px4\_mr::CbFigureEight}}
@@ -394,11 +462,11 @@ std\+::chrono\+::steady\+\_\+clock\+::time\+\_\+point cl\+\_\+px4\+\_\+mr\+::\+C
 
 
 
-Definition at line \mbox{\hyperlink{cb__figure__eight_8hpp_source_l00047}{47}} of file \mbox{\hyperlink{cb__figure__eight_8hpp_source}{cb\+\_\+figure\+\_\+eight.\+hpp}}.
+Definition at line \mbox{\hyperlink{cb__figure__eight_8hpp_source_l00058}{58}} of file \mbox{\hyperlink{cb__figure__eight_8hpp_source}{cb\+\_\+figure\+\_\+eight.\+hpp}}.
 
 
 
-Referenced by \mbox{\hyperlink{cb__figure__eight_8cpp_source_l00032}{on\+Entry()}}, and \mbox{\hyperlink{cb__figure__eight_8cpp_source_l00051}{update()}}.
+Referenced by \mbox{\hyperlink{cb__figure__eight_8cpp_source_l00032}{on\+Entry()}}, and \mbox{\hyperlink{cb__figure__eight_8cpp_source_l00053}{update()}}.
 
 \Hypertarget{classcl__px4__mr_1_1CbFigureEight_a6c66eeac6019432fd1475b7abb59d2d2}\index{cl\_px4\_mr::CbFigureEight@{cl\_px4\_mr::CbFigureEight}!numLoops\_@{numLoops\_}}
 \index{numLoops\_@{numLoops\_}!cl\_px4\_mr::CbFigureEight@{cl\_px4\_mr::CbFigureEight}}
@@ -408,11 +476,11 @@ int cl\+\_\+px4\+\_\+mr\+::\+Cb\+Figure\+Eight\+::num\+Loops\+\_\+\hspace{0.3cm}
 
 
 
-Definition at line \mbox{\hyperlink{cb__figure__eight_8hpp_source_l00044}{44}} of file \mbox{\hyperlink{cb__figure__eight_8hpp_source}{cb\+\_\+figure\+\_\+eight.\+hpp}}.
+Definition at line \mbox{\hyperlink{cb__figure__eight_8hpp_source_l00054}{54}} of file \mbox{\hyperlink{cb__figure__eight_8hpp_source}{cb\+\_\+figure\+\_\+eight.\+hpp}}.
 
 
 
-Referenced by \mbox{\hyperlink{cb__figure__eight_8cpp_source_l00032}{on\+Entry()}}, and \mbox{\hyperlink{cb__figure__eight_8cpp_source_l00051}{update()}}.
+Referenced by \mbox{\hyperlink{cb__figure__eight_8cpp_source_l00032}{on\+Entry()}}, and \mbox{\hyperlink{cb__figure__eight_8cpp_source_l00053}{update()}}.
 
 \Hypertarget{classcl__px4__mr_1_1CbFigureEight_a617d4e146886ee082b16a44de8e00df1}\index{cl\_px4\_mr::CbFigureEight@{cl\_px4\_mr::CbFigureEight}!size\_@{size\_}}
 \index{size\_@{size\_}!cl\_px4\_mr::CbFigureEight@{cl\_px4\_mr::CbFigureEight}}
@@ -422,11 +490,11 @@ float cl\+\_\+px4\+\_\+mr\+::\+Cb\+Figure\+Eight\+::size\+\_\+\hspace{0.3cm}{\tt
 
 
 
-Definition at line \mbox{\hyperlink{cb__figure__eight_8hpp_source_l00042}{42}} of file \mbox{\hyperlink{cb__figure__eight_8hpp_source}{cb\+\_\+figure\+\_\+eight.\+hpp}}.
+Definition at line \mbox{\hyperlink{cb__figure__eight_8hpp_source_l00052}{52}} of file \mbox{\hyperlink{cb__figure__eight_8hpp_source}{cb\+\_\+figure\+\_\+eight.\+hpp}}.
 
 
 
-Referenced by \mbox{\hyperlink{cb__figure__eight_8cpp_source_l00032}{on\+Entry()}}, and \mbox{\hyperlink{cb__figure__eight_8cpp_source_l00051}{update()}}.
+Referenced by \mbox{\hyperlink{cb__figure__eight_8cpp_source_l00032}{on\+Entry()}}, and \mbox{\hyperlink{cb__figure__eight_8cpp_source_l00053}{update()}}.
 
 \Hypertarget{classcl__px4__mr_1_1CbFigureEight_a27c9d694305ca4292813217bcc8ecb48}\index{cl\_px4\_mr::CbFigureEight@{cl\_px4\_mr::CbFigureEight}!speed\_@{speed\_}}
 \index{speed\_@{speed\_}!cl\_px4\_mr::CbFigureEight@{cl\_px4\_mr::CbFigureEight}}
@@ -436,11 +504,11 @@ float cl\+\_\+px4\+\_\+mr\+::\+Cb\+Figure\+Eight\+::speed\+\_\+\hspace{0.3cm}{\t
 
 
 
-Definition at line \mbox{\hyperlink{cb__figure__eight_8hpp_source_l00043}{43}} of file \mbox{\hyperlink{cb__figure__eight_8hpp_source}{cb\+\_\+figure\+\_\+eight.\+hpp}}.
+Definition at line \mbox{\hyperlink{cb__figure__eight_8hpp_source_l00053}{53}} of file \mbox{\hyperlink{cb__figure__eight_8hpp_source}{cb\+\_\+figure\+\_\+eight.\+hpp}}.
 
 
 
-Referenced by \mbox{\hyperlink{cb__figure__eight_8cpp_source_l00051}{update()}}.
+Referenced by \mbox{\hyperlink{cb__figure__eight_8cpp_source_l00053}{update()}}.
 
 \Hypertarget{classcl__px4__mr_1_1CbFigureEight_affe93b71b08777c56cce8520d575caab}\index{cl\_px4\_mr::CbFigureEight@{cl\_px4\_mr::CbFigureEight}!t\_@{t\_}}
 \index{t\_@{t\_}!cl\_px4\_mr::CbFigureEight@{cl\_px4\_mr::CbFigureEight}}
@@ -450,11 +518,11 @@ float cl\+\_\+px4\+\_\+mr\+::\+Cb\+Figure\+Eight\+::t\+\_\+ = 0.\+0f\hspace{0.3c
 
 
 
-Definition at line \mbox{\hyperlink{cb__figure__eight_8hpp_source_l00046}{46}} of file \mbox{\hyperlink{cb__figure__eight_8hpp_source}{cb\+\_\+figure\+\_\+eight.\+hpp}}.
+Definition at line \mbox{\hyperlink{cb__figure__eight_8hpp_source_l00057}{57}} of file \mbox{\hyperlink{cb__figure__eight_8hpp_source}{cb\+\_\+figure\+\_\+eight.\+hpp}}.
 
 
 
-Referenced by \mbox{\hyperlink{cb__figure__eight_8cpp_source_l00032}{on\+Entry()}}, and \mbox{\hyperlink{cb__figure__eight_8cpp_source_l00051}{update()}}.
+Referenced by \mbox{\hyperlink{cb__figure__eight_8cpp_source_l00032}{on\+Entry()}}, and \mbox{\hyperlink{cb__figure__eight_8cpp_source_l00053}{update()}}.
 
 
 

@@ -1,0 +1,60 @@
+\doxysection{cb\+\_\+spiral.\+hpp}
+\hypertarget{cb__spiral_8hpp_source}{}\label{cb__spiral_8hpp_source}\index{smacc2\_client\_library/cl\_px4\_mr/include/cl\_px4\_mr/client\_behaviors/cb\_spiral.hpp@{smacc2\_client\_library/cl\_px4\_mr/include/cl\_px4\_mr/client\_behaviors/cb\_spiral.hpp}}
+\mbox{\hyperlink{cb__spiral_8hpp}{Go to the documentation of this file.}}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\Hypertarget{cb__spiral_8hpp_source_l00001}00001\ \textcolor{comment}{//\ Copyright\ 2026\ RobosoftAI\ Inc.}}
+\DoxyCodeLine{\Hypertarget{cb__spiral_8hpp_source_l00002}00002\ \textcolor{comment}{//}}
+\DoxyCodeLine{\Hypertarget{cb__spiral_8hpp_source_l00003}00003\ \textcolor{comment}{//\ Licensed\ under\ the\ Apache\ License,\ Version\ 2.0\ (the\ "{}License"{});}}
+\DoxyCodeLine{\Hypertarget{cb__spiral_8hpp_source_l00004}00004\ \textcolor{comment}{//\ you\ may\ not\ use\ this\ file\ except\ in\ compliance\ with\ the\ License.}}
+\DoxyCodeLine{\Hypertarget{cb__spiral_8hpp_source_l00005}00005\ \textcolor{comment}{//\ You\ may\ obtain\ a\ copy\ of\ the\ License\ at}}
+\DoxyCodeLine{\Hypertarget{cb__spiral_8hpp_source_l00006}00006\ \textcolor{comment}{//}}
+\DoxyCodeLine{\Hypertarget{cb__spiral_8hpp_source_l00007}00007\ \textcolor{comment}{//\ \ \ \ \ http://www.apache.org/licenses/LICENSE-\/2.0}}
+\DoxyCodeLine{\Hypertarget{cb__spiral_8hpp_source_l00008}00008\ \textcolor{comment}{//}}
+\DoxyCodeLine{\Hypertarget{cb__spiral_8hpp_source_l00009}00009\ \textcolor{comment}{//\ Unless\ required\ by\ applicable\ law\ or\ agreed\ to\ in\ writing,\ software}}
+\DoxyCodeLine{\Hypertarget{cb__spiral_8hpp_source_l00010}00010\ \textcolor{comment}{//\ distributed\ under\ the\ License\ is\ distributed\ on\ an\ "{}AS\ IS"{}\ BASIS,}}
+\DoxyCodeLine{\Hypertarget{cb__spiral_8hpp_source_l00011}00011\ \textcolor{comment}{//\ WITHOUT\ WARRANTIES\ OR\ CONDITIONS\ OF\ ANY\ KIND,\ either\ express\ or\ implied.}}
+\DoxyCodeLine{\Hypertarget{cb__spiral_8hpp_source_l00012}00012\ \textcolor{comment}{//\ See\ the\ License\ for\ the\ specific\ language\ governing\ permissions\ and}}
+\DoxyCodeLine{\Hypertarget{cb__spiral_8hpp_source_l00013}00013\ \textcolor{comment}{//\ limitations\ under\ the\ License.}}
+\DoxyCodeLine{\Hypertarget{cb__spiral_8hpp_source_l00014}00014\ }
+\DoxyCodeLine{\Hypertarget{cb__spiral_8hpp_source_l00015}00015\ \textcolor{comment}{/*****************************************************************************************************************}}
+\DoxyCodeLine{\Hypertarget{cb__spiral_8hpp_source_l00016}00016\ \textcolor{comment}{\ *}}
+\DoxyCodeLine{\Hypertarget{cb__spiral_8hpp_source_l00017}00017\ \textcolor{comment}{\ *\ \ \ Authors:\ Brett\ Aldrich}}
+\DoxyCodeLine{\Hypertarget{cb__spiral_8hpp_source_l00018}00018\ \textcolor{comment}{\ *}}
+\DoxyCodeLine{\Hypertarget{cb__spiral_8hpp_source_l00019}00019\ \textcolor{comment}{\ ******************************************************************************************************************/}}
+\DoxyCodeLine{\Hypertarget{cb__spiral_8hpp_source_l00020}00020\ }
+\DoxyCodeLine{\Hypertarget{cb__spiral_8hpp_source_l00021}00021\ \textcolor{preprocessor}{\#pragma\ once}}
+\DoxyCodeLine{\Hypertarget{cb__spiral_8hpp_source_l00022}00022\ }
+\DoxyCodeLine{\Hypertarget{cb__spiral_8hpp_source_l00023}00023\ \textcolor{preprocessor}{\#include\ <\mbox{\hyperlink{cb__px4__path__follower__base_8hpp}{cl\_px4\_mr/client\_behaviors/cb\_px4\_path\_follower\_base.hpp}}>}}
+\DoxyCodeLine{\Hypertarget{cb__spiral_8hpp_source_l00024}00024\ \textcolor{preprocessor}{\#include\ <\mbox{\hyperlink{pattern__generators_8hpp}{cl\_px4\_mr/utils/pattern\_generators.hpp}}>}}
+\DoxyCodeLine{\Hypertarget{cb__spiral_8hpp_source_l00025}00025\ }
+\DoxyCodeLine{\Hypertarget{cb__spiral_8hpp_source_l00026}00026\ \textcolor{keyword}{namespace\ }\mbox{\hyperlink{namespacecl__px4__mr}{cl\_px4\_mr}}}
+\DoxyCodeLine{\Hypertarget{cb__spiral_8hpp_source_l00027}00027\ \{}
+\DoxyCodeLine{\Hypertarget{cb__spiral_8hpp_source_l00028}00028\ }
+\DoxyCodeLine{\Hypertarget{cb__spiral_8hpp_source_l00029}00029\ \textcolor{comment}{//\ Archimedean\ spiral\ about\ a\ centre\ (default:\ current\ position)\ between\ two}}
+\DoxyCodeLine{\Hypertarget{cb__spiral_8hpp_source_l00030}00030\ \textcolor{comment}{//\ radii,\ outward\ or\ inward,\ at\ constant\ altitude.\ Unlike\ CbSpiralPattern\ it}}
+\DoxyCodeLine{\Hypertarget{cb__spiral_8hpp_source_l00031}00031\ \textcolor{comment}{//\ follows\ the\ path\ at\ a\ commanded\ ground\ speed\ (leashed)\ and\ terminates\ on}}
+\DoxyCodeLine{\Hypertarget{cb__spiral_8hpp_source_l00032}00032\ \textcolor{comment}{//\ arrival\ at\ the\ last\ vertex.}}
+\DoxyCodeLine{\Hypertarget{cb__spiral_8hpp_source_l00033}\mbox{\hyperlink{classcl__px4__mr_1_1CbSpiral}{00033}}\ \textcolor{keyword}{class\ }\mbox{\hyperlink{classcl__px4__mr_1_1CbSpiral}{CbSpiral}}\ :\ \textcolor{keyword}{public}\ \mbox{\hyperlink{classcl__px4__mr_1_1CbPx4PathFollowerBase}{CbPx4PathFollowerBase}}}
+\DoxyCodeLine{\Hypertarget{cb__spiral_8hpp_source_l00034}00034\ \{}
+\DoxyCodeLine{\Hypertarget{cb__spiral_8hpp_source_l00035}00035\ \textcolor{keyword}{public}:}
+\DoxyCodeLine{\Hypertarget{cb__spiral_8hpp_source_l00036}00036\ \ \ \textcolor{keyword}{explicit}\ \mbox{\hyperlink{classcl__px4__mr_1_1CbSpiral_a57a25f763c43979f90339f77d1f8040e}{CbSpiral}}(\mbox{\hyperlink{structcl__px4__mr_1_1FlightPatternSpiralParams}{FlightPatternSpiralParams}}\ \mbox{\hyperlink{classcl__px4__mr_1_1CbSpiral_abd0e8402c9edb485802bb5eec8462bcb}{params}}\ =\ \{\},\ \mbox{\hyperlink{structcl__px4__mr_1_1PathFollowerParams}{PathFollowerParams}}\ follower\ =\ \{\});}
+\DoxyCodeLine{\Hypertarget{cb__spiral_8hpp_source_l00037}00037\ }
+\DoxyCodeLine{\Hypertarget{cb__spiral_8hpp_source_l00038}\mbox{\hyperlink{classcl__px4__mr_1_1CbSpiral_aedd922e873a5669385d0380b80a00346}{00038}}\ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{classcl__px4__mr_1_1CbSpiral_aedd922e873a5669385d0380b80a00346}{setParams}}(\textcolor{keyword}{const}\ \mbox{\hyperlink{structcl__px4__mr_1_1FlightPatternSpiralParams}{FlightPatternSpiralParams}}\ \&\ \mbox{\hyperlink{classcl__px4__mr_1_1CbSpiral_abd0e8402c9edb485802bb5eec8462bcb}{params}})\ \{\ \mbox{\hyperlink{classcl__px4__mr_1_1CbSpiral_a81d7ba8d8be1aa261080ddcd9ff652ff}{params\_}}\ =\ \mbox{\hyperlink{classcl__px4__mr_1_1CbSpiral_abd0e8402c9edb485802bb5eec8462bcb}{params}};\ \}}
+\DoxyCodeLine{\Hypertarget{cb__spiral_8hpp_source_l00039}\mbox{\hyperlink{classcl__px4__mr_1_1CbSpiral_abd0e8402c9edb485802bb5eec8462bcb}{00039}}\ \ \ \textcolor{keyword}{const}\ \mbox{\hyperlink{structcl__px4__mr_1_1FlightPatternSpiralParams}{FlightPatternSpiralParams}}\ \&\ \mbox{\hyperlink{classcl__px4__mr_1_1CbSpiral_abd0e8402c9edb485802bb5eec8462bcb}{params}}()\textcolor{keyword}{\ const\ }\{\ \textcolor{keywordflow}{return}\ \mbox{\hyperlink{classcl__px4__mr_1_1CbSpiral_a81d7ba8d8be1aa261080ddcd9ff652ff}{params\_}};\ \}}
+\DoxyCodeLine{\Hypertarget{cb__spiral_8hpp_source_l00040}\mbox{\hyperlink{classcl__px4__mr_1_1CbSpiral_a3d907a8c0a6686aa2b7cd983787827d2}{00040}}\ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{classcl__px4__mr_1_1CbSpiral_a3d907a8c0a6686aa2b7cd983787827d2}{setCenter}}(\textcolor{keywordtype}{float}\ x,\ \textcolor{keywordtype}{float}\ y)}
+\DoxyCodeLine{\Hypertarget{cb__spiral_8hpp_source_l00041}00041\ \ \ \{}
+\DoxyCodeLine{\Hypertarget{cb__spiral_8hpp_source_l00042}00042\ \ \ \ \ \mbox{\hyperlink{classcl__px4__mr_1_1CbSpiral_a81d7ba8d8be1aa261080ddcd9ff652ff}{params\_}}.\mbox{\hyperlink{structcl__px4__mr_1_1FlightPatternSpiralParams_af17e826b73bd32b4f5df320eba024847}{centerX}}\ =\ x;}
+\DoxyCodeLine{\Hypertarget{cb__spiral_8hpp_source_l00043}00043\ \ \ \ \ \mbox{\hyperlink{classcl__px4__mr_1_1CbSpiral_a81d7ba8d8be1aa261080ddcd9ff652ff}{params\_}}.\mbox{\hyperlink{structcl__px4__mr_1_1FlightPatternSpiralParams_aa8845eab2ea2860bcc8b5f1490000295}{centerY}}\ =\ y;}
+\DoxyCodeLine{\Hypertarget{cb__spiral_8hpp_source_l00044}00044\ \ \ \}}
+\DoxyCodeLine{\Hypertarget{cb__spiral_8hpp_source_l00045}00045\ }
+\DoxyCodeLine{\Hypertarget{cb__spiral_8hpp_source_l00046}00046\ \textcolor{keyword}{protected}:}
+\DoxyCodeLine{\Hypertarget{cb__spiral_8hpp_source_l00047}00047\ \ \ std::vector<NedPoint>\ \mbox{\hyperlink{classcl__px4__mr_1_1CbSpiral_a485c9b6a166b9d57ff0d92cd4e27d295}{buildPath}}(\textcolor{keyword}{const}\ \mbox{\hyperlink{structcl__px4__mr_1_1NedPoint}{NedPoint}}\ \&\ current)\ \textcolor{keyword}{override};}
+\DoxyCodeLine{\Hypertarget{cb__spiral_8hpp_source_l00048}\mbox{\hyperlink{classcl__px4__mr_1_1CbSpiral_a63e3b80b2cae3d3c9967e4f2a9326aff}{00048}}\ \ \ \textcolor{keyword}{const}\ \textcolor{keywordtype}{char}\ *\ \mbox{\hyperlink{classcl__px4__mr_1_1CbSpiral_a63e3b80b2cae3d3c9967e4f2a9326aff}{behaviorName}}()\textcolor{keyword}{\ const\ override\ }\{\ \textcolor{keywordflow}{return}\ \textcolor{stringliteral}{"{}CbSpiral"{}};\ \}}
+\DoxyCodeLine{\Hypertarget{cb__spiral_8hpp_source_l00049}00049\ }
+\DoxyCodeLine{\Hypertarget{cb__spiral_8hpp_source_l00050}00050\ \textcolor{keyword}{private}:}
+\DoxyCodeLine{\Hypertarget{cb__spiral_8hpp_source_l00051}\mbox{\hyperlink{classcl__px4__mr_1_1CbSpiral_a81d7ba8d8be1aa261080ddcd9ff652ff}{00051}}\ \ \ \mbox{\hyperlink{structcl__px4__mr_1_1FlightPatternSpiralParams}{FlightPatternSpiralParams}}\ \mbox{\hyperlink{classcl__px4__mr_1_1CbSpiral_a81d7ba8d8be1aa261080ddcd9ff652ff}{params\_}};}
+\DoxyCodeLine{\Hypertarget{cb__spiral_8hpp_source_l00052}00052\ \};}
+\DoxyCodeLine{\Hypertarget{cb__spiral_8hpp_source_l00053}00053\ }
+\DoxyCodeLine{\Hypertarget{cb__spiral_8hpp_source_l00054}00054\ \}\ \ \textcolor{comment}{//\ namespace\ cl\_px4\_mr}}
+
+\end{DoxyCode}

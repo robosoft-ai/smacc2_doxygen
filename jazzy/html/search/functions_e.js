@@ -1,17 +1,19 @@
 var searchData=
 [
-  ['nextdecision_0',['nextDecision',['../classcl__mission__tracker_1_1CpDecisionManager.html#ab6a4f872301413998bc9865a89ba09e9',1,'cl_mission_tracker::CpDecisionManager']]],
-  ['notifyevent_1',['notifyEvent',['../classsmacc2_1_1StateReactor.html#a627037e7e483d9a89089b18d5b941423',1,'smacc2::StateReactor']]],
-  ['notifygoalreached_2',['notifyGoalReached',['../classcl__nav2z_1_1CpWaypointNavigatorBase.html#aa98aa1c40fe6f2e10de07a1171456c86',1,'cl_nav2z::CpWaypointNavigatorBase']]],
-  ['notifyonruntimeconfigurationfinished_3',['notifyOnRuntimeConfigurationFinished',['../classsmacc2_1_1ISmaccStateMachine.html#a4f7ee7ef3de845c21d44c73a4e472826',1,'smacc2::ISmaccStateMachine']]],
-  ['notifyonruntimeconfigured_4',['notifyOnRuntimeConfigured',['../classsmacc2_1_1ISmaccStateMachine.html#acf60f5f164a8767b47394657971bd90d',1,'smacc2::ISmaccStateMachine']]],
-  ['notifyonstateentryend_5',['notifyOnStateEntryEnd',['../classsmacc2_1_1ISmaccStateMachine.html#a80d1d07569569bddd2f8fab8d5f82e58',1,'smacc2::ISmaccStateMachine']]],
-  ['notifyonstateentrystart_6',['notifyOnStateEntryStart',['../classsmacc2_1_1ISmaccStateMachine.html#afcf1bd46804d7e1b0784067b0f8339dd',1,'smacc2::ISmaccStateMachine']]],
-  ['notifyonstateexited_7',['notifyOnStateExited',['../classsmacc2_1_1ISmaccStateMachine.html#a73ee6bc299f74724ad5c734b55e544c5',1,'smacc2::ISmaccStateMachine']]],
-  ['notifyonstateexiting_8',['notifyOnStateExiting',['../classsmacc2_1_1ISmaccStateMachine.html#ac0fabeda812dbd41ef3ec29376632cb3',1,'smacc2::ISmaccStateMachine']]],
-  ['notifyrosinitialized_9',['notifyRosInitialized',['../classsmacc2_1_1SignalDetector.html#ad621cb54a515f0d8f4863f1e8a608c0b',1,'smacc2::SignalDetector']]],
-  ['notifystateconfigured_10',['notifyStateConfigured',['../classsmacc2_1_1SignalDetector.html#af9a0197754ac252b657a8785ac1ef84d',1,'smacc2::SignalDetector']]],
-  ['notifystateexited_11',['notifyStateExited',['../classsmacc2_1_1SignalDetector.html#a5bba754f0a9e2366034da17501a6b490',1,'smacc2::SignalDetector']]],
-  ['notifytransition_12',['notifyTransition',['../classsmacc2_1_1ISmaccState.html#ad5349c83f7a9455a07113e088ad295d3',1,'smacc2::ISmaccState']]],
-  ['notifytransitionfromtransitiontypeinfo_13',['notifyTransitionFromTransitionTypeInfo',['../classsmacc2_1_1ISmaccState.html#af07000235dbc0541fe4cd9cc08790dd1',1,'smacc2::ISmaccState']]]
+  ['neddistance_0',['nedDistance',['../namespacecl__px4__mr.html#a5cc5aeaa13238a0b7a22c071ca693a8d',1,'cl_px4_mr']]],
+  ['neddistancexy_1',['nedDistanceXY',['../namespacecl__px4__mr.html#a7df65cf893bb5e56f48924ac01411389',1,'cl_px4_mr']]],
+  ['nextdecision_2',['nextDecision',['../classcl__mission__tracker_1_1CpDecisionManager.html#ab6a4f872301413998bc9865a89ba09e9',1,'cl_mission_tracker::CpDecisionManager']]],
+  ['notifyevent_3',['notifyEvent',['../classsmacc2_1_1StateReactor.html#a627037e7e483d9a89089b18d5b941423',1,'smacc2::StateReactor']]],
+  ['notifygoalreached_4',['notifyGoalReached',['../classcl__nav2z_1_1CpWaypointNavigatorBase.html#aa98aa1c40fe6f2e10de07a1171456c86',1,'cl_nav2z::CpWaypointNavigatorBase']]],
+  ['notifyonruntimeconfigurationfinished_5',['notifyOnRuntimeConfigurationFinished',['../classsmacc2_1_1ISmaccStateMachine.html#a4f7ee7ef3de845c21d44c73a4e472826',1,'smacc2::ISmaccStateMachine']]],
+  ['notifyonruntimeconfigured_6',['notifyOnRuntimeConfigured',['../classsmacc2_1_1ISmaccStateMachine.html#acf60f5f164a8767b47394657971bd90d',1,'smacc2::ISmaccStateMachine']]],
+  ['notifyonstateentryend_7',['notifyOnStateEntryEnd',['../classsmacc2_1_1ISmaccStateMachine.html#a80d1d07569569bddd2f8fab8d5f82e58',1,'smacc2::ISmaccStateMachine']]],
+  ['notifyonstateentrystart_8',['notifyOnStateEntryStart',['../classsmacc2_1_1ISmaccStateMachine.html#afcf1bd46804d7e1b0784067b0f8339dd',1,'smacc2::ISmaccStateMachine']]],
+  ['notifyonstateexited_9',['notifyOnStateExited',['../classsmacc2_1_1ISmaccStateMachine.html#a73ee6bc299f74724ad5c734b55e544c5',1,'smacc2::ISmaccStateMachine']]],
+  ['notifyonstateexiting_10',['notifyOnStateExiting',['../classsmacc2_1_1ISmaccStateMachine.html#ac0fabeda812dbd41ef3ec29376632cb3',1,'smacc2::ISmaccStateMachine']]],
+  ['notifyrosinitialized_11',['notifyRosInitialized',['../classsmacc2_1_1SignalDetector.html#ad621cb54a515f0d8f4863f1e8a608c0b',1,'smacc2::SignalDetector']]],
+  ['notifystateconfigured_12',['notifyStateConfigured',['../classsmacc2_1_1SignalDetector.html#af9a0197754ac252b657a8785ac1ef84d',1,'smacc2::SignalDetector']]],
+  ['notifystateexited_13',['notifyStateExited',['../classsmacc2_1_1SignalDetector.html#a5bba754f0a9e2366034da17501a6b490',1,'smacc2::SignalDetector']]],
+  ['notifytransition_14',['notifyTransition',['../classsmacc2_1_1ISmaccState.html#ad5349c83f7a9455a07113e088ad295d3',1,'smacc2::ISmaccState']]],
+  ['notifytransitionfromtransitiontypeinfo_15',['notifyTransitionFromTransitionTypeInfo',['../classsmacc2_1_1ISmaccState.html#af07000235dbc0541fe4cd9cc08790dd1',1,'smacc2::ISmaccState']]]
 ];
