@@ -1,0 +1,66 @@
+\doxysection{cb\+\_\+follow\+\_\+ned\+\_\+path.\+hpp}
+\hypertarget{cb__follow__ned__path_8hpp_source}{}\label{cb__follow__ned__path_8hpp_source}\index{smacc2\_client\_library/cl\_px4\_mr/include/cl\_px4\_mr/client\_behaviors/cb\_follow\_ned\_path.hpp@{smacc2\_client\_library/cl\_px4\_mr/include/cl\_px4\_mr/client\_behaviors/cb\_follow\_ned\_path.hpp}}
+\mbox{\hyperlink{cb__follow__ned__path_8hpp}{Go to the documentation of this file.}}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\Hypertarget{cb__follow__ned__path_8hpp_source_l00001}00001\ \textcolor{comment}{//\ Copyright\ 2026\ RobosoftAI\ Inc.}}
+\DoxyCodeLine{\Hypertarget{cb__follow__ned__path_8hpp_source_l00002}00002\ \textcolor{comment}{//}}
+\DoxyCodeLine{\Hypertarget{cb__follow__ned__path_8hpp_source_l00003}00003\ \textcolor{comment}{//\ Licensed\ under\ the\ Apache\ License,\ Version\ 2.0\ (the\ "{}License"{});}}
+\DoxyCodeLine{\Hypertarget{cb__follow__ned__path_8hpp_source_l00004}00004\ \textcolor{comment}{//\ you\ may\ not\ use\ this\ file\ except\ in\ compliance\ with\ the\ License.}}
+\DoxyCodeLine{\Hypertarget{cb__follow__ned__path_8hpp_source_l00005}00005\ \textcolor{comment}{//\ You\ may\ obtain\ a\ copy\ of\ the\ License\ at}}
+\DoxyCodeLine{\Hypertarget{cb__follow__ned__path_8hpp_source_l00006}00006\ \textcolor{comment}{//}}
+\DoxyCodeLine{\Hypertarget{cb__follow__ned__path_8hpp_source_l00007}00007\ \textcolor{comment}{//\ \ \ \ \ http://www.apache.org/licenses/LICENSE-\/2.0}}
+\DoxyCodeLine{\Hypertarget{cb__follow__ned__path_8hpp_source_l00008}00008\ \textcolor{comment}{//}}
+\DoxyCodeLine{\Hypertarget{cb__follow__ned__path_8hpp_source_l00009}00009\ \textcolor{comment}{//\ Unless\ required\ by\ applicable\ law\ or\ agreed\ to\ in\ writing,\ software}}
+\DoxyCodeLine{\Hypertarget{cb__follow__ned__path_8hpp_source_l00010}00010\ \textcolor{comment}{//\ distributed\ under\ the\ License\ is\ distributed\ on\ an\ "{}AS\ IS"{}\ BASIS,}}
+\DoxyCodeLine{\Hypertarget{cb__follow__ned__path_8hpp_source_l00011}00011\ \textcolor{comment}{//\ WITHOUT\ WARRANTIES\ OR\ CONDITIONS\ OF\ ANY\ KIND,\ either\ express\ or\ implied.}}
+\DoxyCodeLine{\Hypertarget{cb__follow__ned__path_8hpp_source_l00012}00012\ \textcolor{comment}{//\ See\ the\ License\ for\ the\ specific\ language\ governing\ permissions\ and}}
+\DoxyCodeLine{\Hypertarget{cb__follow__ned__path_8hpp_source_l00013}00013\ \textcolor{comment}{//\ limitations\ under\ the\ License.}}
+\DoxyCodeLine{\Hypertarget{cb__follow__ned__path_8hpp_source_l00014}00014\ }
+\DoxyCodeLine{\Hypertarget{cb__follow__ned__path_8hpp_source_l00015}00015\ \textcolor{comment}{/*****************************************************************************************************************}}
+\DoxyCodeLine{\Hypertarget{cb__follow__ned__path_8hpp_source_l00016}00016\ \textcolor{comment}{\ *}}
+\DoxyCodeLine{\Hypertarget{cb__follow__ned__path_8hpp_source_l00017}00017\ \textcolor{comment}{\ *\ \ \ Authors:\ Brett\ Aldrich}}
+\DoxyCodeLine{\Hypertarget{cb__follow__ned__path_8hpp_source_l00018}00018\ \textcolor{comment}{\ *}}
+\DoxyCodeLine{\Hypertarget{cb__follow__ned__path_8hpp_source_l00019}00019\ \textcolor{comment}{\ ******************************************************************************************************************/}}
+\DoxyCodeLine{\Hypertarget{cb__follow__ned__path_8hpp_source_l00020}00020\ }
+\DoxyCodeLine{\Hypertarget{cb__follow__ned__path_8hpp_source_l00021}00021\ \textcolor{preprocessor}{\#pragma\ once}}
+\DoxyCodeLine{\Hypertarget{cb__follow__ned__path_8hpp_source_l00022}00022\ }
+\DoxyCodeLine{\Hypertarget{cb__follow__ned__path_8hpp_source_l00023}00023\ \textcolor{preprocessor}{\#include\ <\mbox{\hyperlink{cb__px4__path__follower__base_8hpp}{cl\_px4\_mr/client\_behaviors/cb\_px4\_path\_follower\_base.hpp}}>}}
+\DoxyCodeLine{\Hypertarget{cb__follow__ned__path_8hpp_source_l00024}00024\ }
+\DoxyCodeLine{\Hypertarget{cb__follow__ned__path_8hpp_source_l00025}00025\ \textcolor{preprocessor}{\#include\ <vector>}}
+\DoxyCodeLine{\Hypertarget{cb__follow__ned__path_8hpp_source_l00026}00026\ }
+\DoxyCodeLine{\Hypertarget{cb__follow__ned__path_8hpp_source_l00027}00027\ \textcolor{keyword}{namespace\ }\mbox{\hyperlink{namespacecl__px4__mr}{cl\_px4\_mr}}}
+\DoxyCodeLine{\Hypertarget{cb__follow__ned__path_8hpp_source_l00028}00028\ \{}
+\DoxyCodeLine{\Hypertarget{cb__follow__ned__path_8hpp_source_l00029}00029\ }
+\DoxyCodeLine{\Hypertarget{cb__follow__ned__path_8hpp_source_l00030}00030\ \textcolor{comment}{//\ Streams\ a\ caller-\/supplied\ NED\ polyline\ through\ the\ carrot\ follower:\ one}}
+\DoxyCodeLine{\Hypertarget{cb__follow__ned__path_8hpp_source_l00031}00031\ \textcolor{comment}{//\ continuous,\ leashed\ flight\ along\ a\ route\ of\ arbitrary\ vertices\ (a\ cave}}
+\DoxyCodeLine{\Hypertarget{cb__follow__ned__path_8hpp_source_l00032}00032\ \textcolor{comment}{//\ passage,\ a\ survey\ line,\ a\ retrace\ of\ an\ earlier\ route)\ instead\ of\ a\ chain}}
+\DoxyCodeLine{\Hypertarget{cb__follow__ned__path_8hpp_source_l00033}00033\ \textcolor{comment}{//\ of\ CbGoToLocation\ states\ or\ CbFollowWaypoints'\ setpoint\ jumps.}}
+\DoxyCodeLine{\Hypertarget{cb__follow__ned__path_8hpp_source_l00034}00034\ \textcolor{comment}{//}}
+\DoxyCodeLine{\Hypertarget{cb__follow__ned__path_8hpp_source_l00035}00035\ \textcolor{comment}{//\ The\ route\ is\ given\ at\ construction\ or\ via\ setPath()\ from\ the\ owning\ state's}}
+\DoxyCodeLine{\Hypertarget{cb__follow__ned__path_8hpp_source_l00036}00036\ \textcolor{comment}{//\ runtimeConfigure\ (state\ machine\ thread,\ before\ onEntry).\ reachedCount()\ is}}
+\DoxyCodeLine{\Hypertarget{cb__follow__ned__path_8hpp_source_l00037}00037\ \textcolor{comment}{//\ the\ number\ of\ route\ vertices\ the\ carrot\ has\ passed;\ a\ state\ reads\ it\ in\ its}}
+\DoxyCodeLine{\Hypertarget{cb__follow__ned__path_8hpp_source_l00038}00038\ \textcolor{comment}{//\ onExit\ (state\ machine\ thread,\ updates\ barred)\ to\ record\ how\ far\ the\ vehicle}}
+\DoxyCodeLine{\Hypertarget{cb__follow__ned__path_8hpp_source_l00039}00039\ \textcolor{comment}{//\ got,\ e.g.\ to\ retrace\ only\ the\ traversed\ prefix\ on\ an\ abort.}}
+\DoxyCodeLine{\Hypertarget{cb__follow__ned__path_8hpp_source_l00040}\mbox{\hyperlink{classcl__px4__mr_1_1CbFollowNedPath}{00040}}\ \textcolor{keyword}{class\ }\mbox{\hyperlink{classcl__px4__mr_1_1CbFollowNedPath}{CbFollowNedPath}}\ :\ \textcolor{keyword}{public}\ \mbox{\hyperlink{classcl__px4__mr_1_1CbPx4PathFollowerBase}{CbPx4PathFollowerBase}}}
+\DoxyCodeLine{\Hypertarget{cb__follow__ned__path_8hpp_source_l00041}00041\ \{}
+\DoxyCodeLine{\Hypertarget{cb__follow__ned__path_8hpp_source_l00042}00042\ \textcolor{keyword}{public}:}
+\DoxyCodeLine{\Hypertarget{cb__follow__ned__path_8hpp_source_l00043}00043\ \ \ \textcolor{keyword}{explicit}\ \mbox{\hyperlink{classcl__px4__mr_1_1CbFollowNedPath_a37efa36209936ba78ec70a4673b90dbf}{CbFollowNedPath}}(std::vector<NedPoint>\ \mbox{\hyperlink{classcl__px4__mr_1_1CbFollowNedPath_a708151cd9dbf6b25492c8facaca7c7eb}{path}}\ =\ \{\},\ \mbox{\hyperlink{structcl__px4__mr_1_1PathFollowerParams}{PathFollowerParams}}\ follower\ =\ \{\});}
+\DoxyCodeLine{\Hypertarget{cb__follow__ned__path_8hpp_source_l00044}00044\ }
+\DoxyCodeLine{\Hypertarget{cb__follow__ned__path_8hpp_source_l00045}00045\ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{classcl__px4__mr_1_1CbFollowNedPath_aca71958b7968637a569b6239d45cf922}{setPath}}(std::vector<NedPoint>\ \mbox{\hyperlink{classcl__px4__mr_1_1CbFollowNedPath_a708151cd9dbf6b25492c8facaca7c7eb}{path}});}
+\DoxyCodeLine{\Hypertarget{cb__follow__ned__path_8hpp_source_l00046}\mbox{\hyperlink{classcl__px4__mr_1_1CbFollowNedPath_a708151cd9dbf6b25492c8facaca7c7eb}{00046}}\ \ \ \textcolor{keyword}{const}\ std::vector<NedPoint>\ \&\ \mbox{\hyperlink{classcl__px4__mr_1_1CbFollowNedPath_a708151cd9dbf6b25492c8facaca7c7eb}{path}}()\textcolor{keyword}{\ const\ }\{\ \textcolor{keywordflow}{return}\ \mbox{\hyperlink{classcl__px4__mr_1_1CbFollowNedPath_adf5f22f0f7d34f0050f20ad09818b683}{path\_}};\ \}}
+\DoxyCodeLine{\Hypertarget{cb__follow__ned__path_8hpp_source_l00047}00047\ }
+\DoxyCodeLine{\Hypertarget{cb__follow__ned__path_8hpp_source_l00048}00048\ \ \ \textcolor{comment}{//\ route\ vertices\ passed\ by\ the\ carrot,\ 0..path().size();\ ==\ path().size()}}
+\DoxyCodeLine{\Hypertarget{cb__follow__ned__path_8hpp_source_l00049}00049\ \ \ \textcolor{comment}{//\ once\ the\ path\ completed}}
+\DoxyCodeLine{\Hypertarget{cb__follow__ned__path_8hpp_source_l00050}00050\ \ \ \textcolor{keywordtype}{size\_t}\ \mbox{\hyperlink{classcl__px4__mr_1_1CbFollowNedPath_a53fc9e0753f0eab2c3f6d690002ed4f3}{reachedCount}}()\ \textcolor{keyword}{const};}
+\DoxyCodeLine{\Hypertarget{cb__follow__ned__path_8hpp_source_l00051}00051\ }
+\DoxyCodeLine{\Hypertarget{cb__follow__ned__path_8hpp_source_l00052}00052\ \textcolor{keyword}{protected}:}
+\DoxyCodeLine{\Hypertarget{cb__follow__ned__path_8hpp_source_l00053}\mbox{\hyperlink{classcl__px4__mr_1_1CbFollowNedPath_afc6826f041bd303815462e61d76a6fdb}{00053}}\ \ \ std::vector<NedPoint>\ \mbox{\hyperlink{classcl__px4__mr_1_1CbFollowNedPath_afc6826f041bd303815462e61d76a6fdb}{buildPath}}(\textcolor{keyword}{const}\ \mbox{\hyperlink{structcl__px4__mr_1_1NedPoint}{NedPoint}}\ \&\ \textcolor{comment}{/*current*/})\textcolor{keyword}{\ override\ }\{\ \textcolor{keywordflow}{return}\ \mbox{\hyperlink{classcl__px4__mr_1_1CbFollowNedPath_adf5f22f0f7d34f0050f20ad09818b683}{path\_}};\ \}}
+\DoxyCodeLine{\Hypertarget{cb__follow__ned__path_8hpp_source_l00054}\mbox{\hyperlink{classcl__px4__mr_1_1CbFollowNedPath_ab6a0d1abc081d89d1325e6e8b94ef269}{00054}}\ \ \ \textcolor{keyword}{const}\ \textcolor{keywordtype}{char}\ *\ \mbox{\hyperlink{classcl__px4__mr_1_1CbFollowNedPath_ab6a0d1abc081d89d1325e6e8b94ef269}{behaviorName}}()\textcolor{keyword}{\ const\ override\ }\{\ \textcolor{keywordflow}{return}\ \textcolor{stringliteral}{"{}CbFollowNedPath"{}};\ \}}
+\DoxyCodeLine{\Hypertarget{cb__follow__ned__path_8hpp_source_l00055}00055\ }
+\DoxyCodeLine{\Hypertarget{cb__follow__ned__path_8hpp_source_l00056}00056\ \textcolor{keyword}{private}:}
+\DoxyCodeLine{\Hypertarget{cb__follow__ned__path_8hpp_source_l00057}\mbox{\hyperlink{classcl__px4__mr_1_1CbFollowNedPath_adf5f22f0f7d34f0050f20ad09818b683}{00057}}\ \ \ std::vector<NedPoint>\ \mbox{\hyperlink{classcl__px4__mr_1_1CbFollowNedPath_adf5f22f0f7d34f0050f20ad09818b683}{path\_}};}
+\DoxyCodeLine{\Hypertarget{cb__follow__ned__path_8hpp_source_l00058}00058\ \};}
+\DoxyCodeLine{\Hypertarget{cb__follow__ned__path_8hpp_source_l00059}00059\ }
+\DoxyCodeLine{\Hypertarget{cb__follow__ned__path_8hpp_source_l00060}00060\ \}\ \ \textcolor{comment}{//\ namespace\ cl\_px4\_mr}}
+
+\end{DoxyCode}

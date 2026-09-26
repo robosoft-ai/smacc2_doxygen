@@ -1,0 +1,76 @@
+\doxysection{cb\+\_\+spiral\+\_\+up.\+hpp}
+\hypertarget{cb__spiral__up_8hpp_source}{}\label{cb__spiral__up_8hpp_source}\index{smacc2\_client\_library/cl\_px4\_mr/include/cl\_px4\_mr/client\_behaviors/cb\_spiral\_up.hpp@{smacc2\_client\_library/cl\_px4\_mr/include/cl\_px4\_mr/client\_behaviors/cb\_spiral\_up.hpp}}
+\mbox{\hyperlink{cb__spiral__up_8hpp}{Go to the documentation of this file.}}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\Hypertarget{cb__spiral__up_8hpp_source_l00001}00001\ \textcolor{comment}{//\ Copyright\ 2026\ RobosoftAI\ Inc.}}
+\DoxyCodeLine{\Hypertarget{cb__spiral__up_8hpp_source_l00002}00002\ \textcolor{comment}{//}}
+\DoxyCodeLine{\Hypertarget{cb__spiral__up_8hpp_source_l00003}00003\ \textcolor{comment}{//\ Licensed\ under\ the\ Apache\ License,\ Version\ 2.0\ (the\ "{}License"{});}}
+\DoxyCodeLine{\Hypertarget{cb__spiral__up_8hpp_source_l00004}00004\ \textcolor{comment}{//\ you\ may\ not\ use\ this\ file\ except\ in\ compliance\ with\ the\ License.}}
+\DoxyCodeLine{\Hypertarget{cb__spiral__up_8hpp_source_l00005}00005\ \textcolor{comment}{//\ You\ may\ obtain\ a\ copy\ of\ the\ License\ at}}
+\DoxyCodeLine{\Hypertarget{cb__spiral__up_8hpp_source_l00006}00006\ \textcolor{comment}{//}}
+\DoxyCodeLine{\Hypertarget{cb__spiral__up_8hpp_source_l00007}00007\ \textcolor{comment}{//\ \ \ \ \ http://www.apache.org/licenses/LICENSE-\/2.0}}
+\DoxyCodeLine{\Hypertarget{cb__spiral__up_8hpp_source_l00008}00008\ \textcolor{comment}{//}}
+\DoxyCodeLine{\Hypertarget{cb__spiral__up_8hpp_source_l00009}00009\ \textcolor{comment}{//\ Unless\ required\ by\ applicable\ law\ or\ agreed\ to\ in\ writing,\ software}}
+\DoxyCodeLine{\Hypertarget{cb__spiral__up_8hpp_source_l00010}00010\ \textcolor{comment}{//\ distributed\ under\ the\ License\ is\ distributed\ on\ an\ "{}AS\ IS"{}\ BASIS,}}
+\DoxyCodeLine{\Hypertarget{cb__spiral__up_8hpp_source_l00011}00011\ \textcolor{comment}{//\ WITHOUT\ WARRANTIES\ OR\ CONDITIONS\ OF\ ANY\ KIND,\ either\ express\ or\ implied.}}
+\DoxyCodeLine{\Hypertarget{cb__spiral__up_8hpp_source_l00012}00012\ \textcolor{comment}{//\ See\ the\ License\ for\ the\ specific\ language\ governing\ permissions\ and}}
+\DoxyCodeLine{\Hypertarget{cb__spiral__up_8hpp_source_l00013}00013\ \textcolor{comment}{//\ limitations\ under\ the\ License.}}
+\DoxyCodeLine{\Hypertarget{cb__spiral__up_8hpp_source_l00014}00014\ }
+\DoxyCodeLine{\Hypertarget{cb__spiral__up_8hpp_source_l00015}00015\ \textcolor{preprocessor}{\#pragma\ once}}
+\DoxyCodeLine{\Hypertarget{cb__spiral__up_8hpp_source_l00016}00016\ }
+\DoxyCodeLine{\Hypertarget{cb__spiral__up_8hpp_source_l00017}00017\ \textcolor{preprocessor}{\#include\ <\mbox{\hyperlink{cb__px4__client__behavior__base_8hpp}{cl\_px4\_mr/client\_behaviors/cb\_px4\_client\_behavior\_base.hpp}}>}}
+\DoxyCodeLine{\Hypertarget{cb__spiral__up_8hpp_source_l00018}00018\ }
+\DoxyCodeLine{\Hypertarget{cb__spiral__up_8hpp_source_l00019}00019\ \textcolor{preprocessor}{\#include\ <chrono>}}
+\DoxyCodeLine{\Hypertarget{cb__spiral__up_8hpp_source_l00020}00020\ \textcolor{preprocessor}{\#include\ <cmath>}}
+\DoxyCodeLine{\Hypertarget{cb__spiral__up_8hpp_source_l00021}00021\ \textcolor{preprocessor}{\#include\ <limits>}}
+\DoxyCodeLine{\Hypertarget{cb__spiral__up_8hpp_source_l00022}00022\ \textcolor{preprocessor}{\#include\ <\mbox{\hyperlink{smacc_8hpp}{smacc2/smacc.hpp}}>}}
+\DoxyCodeLine{\Hypertarget{cb__spiral__up_8hpp_source_l00023}00023\ }
+\DoxyCodeLine{\Hypertarget{cb__spiral__up_8hpp_source_l00024}00024\ \textcolor{keyword}{namespace\ }\mbox{\hyperlink{namespacecl__px4__mr}{cl\_px4\_mr}}}
+\DoxyCodeLine{\Hypertarget{cb__spiral__up_8hpp_source_l00025}00025\ \{}
+\DoxyCodeLine{\Hypertarget{cb__spiral__up_8hpp_source_l00026}00026\ }
+\DoxyCodeLine{\Hypertarget{cb__spiral__up_8hpp_source_l00027}00027\ \textcolor{keyword}{class\ }CpTrajectorySetpoint;}
+\DoxyCodeLine{\Hypertarget{cb__spiral__up_8hpp_source_l00028}00028\ \textcolor{keyword}{class\ }CpVehicleLocalPosition;}
+\DoxyCodeLine{\Hypertarget{cb__spiral__up_8hpp_source_l00029}00029\ }
+\DoxyCodeLine{\Hypertarget{cb__spiral__up_8hpp_source_l00030}00030\ \textcolor{comment}{//\ Helix\ about\ a\ vertical\ axis:\ a\ constant-\/radius\ orbit\ that\ climbs}}
+\DoxyCodeLine{\Hypertarget{cb__spiral__up_8hpp_source_l00031}00031\ \textcolor{comment}{//\ climbPerOrbitM\ every\ revolution\ until\ climbTotalM\ has\ been\ gained,\ nose}}
+\DoxyCodeLine{\Hypertarget{cb__spiral__up_8hpp_source_l00032}00032\ \textcolor{comment}{//\ toward\ the\ axis.\ The\ orbit\ starts\ at\ the\ vehicle's\ current\ bearing\ from\ the}}
+\DoxyCodeLine{\Hypertarget{cb__spiral__up_8hpp_source_l00033}00033\ \textcolor{comment}{//\ centre\ (fly\ to\ a\ point\ on\ the\ circle\ first,\ e.g.\ with\ CbGoToLocation)\ and\ at}}
+\DoxyCodeLine{\Hypertarget{cb__spiral__up_8hpp_source_l00034}00034\ \textcolor{comment}{//\ startAltitudeM\ (NaN\ =\ the\ current\ altitude).\ Posts\ success\ at\ the\ top,\ where}}
+\DoxyCodeLine{\Hypertarget{cb__spiral__up_8hpp_source_l00035}00035\ \textcolor{comment}{//\ the\ vehicle\ is\ on\ the\ circle\ at\ startAltitude\ +\ climbTotal\ -\/\ hand\ over\ to}}
+\DoxyCodeLine{\Hypertarget{cb__spiral__up_8hpp_source_l00036}00036\ \textcolor{comment}{//\ CbOrbitLocation\ at\ that\ altitude\ for\ level\ laps.}}
+\DoxyCodeLine{\Hypertarget{cb__spiral__up_8hpp_source_l00037}\mbox{\hyperlink{structcl__px4__mr_1_1SpiralUpParams}{00037}}\ \textcolor{keyword}{struct\ }\mbox{\hyperlink{structcl__px4__mr_1_1SpiralUpParams}{SpiralUpParams}}}
+\DoxyCodeLine{\Hypertarget{cb__spiral__up_8hpp_source_l00038}00038\ \{}
+\DoxyCodeLine{\Hypertarget{cb__spiral__up_8hpp_source_l00039}\mbox{\hyperlink{structcl__px4__mr_1_1SpiralUpParams_a9529a9f14b424d8c423a76b65e8c6c99}{00039}}\ \ \ \textcolor{keywordtype}{float}\ \mbox{\hyperlink{structcl__px4__mr_1_1SpiralUpParams_a9529a9f14b424d8c423a76b65e8c6c99}{centerX}}\ =\ 0.0f;\ \ \textcolor{comment}{//\ NED\ north}}
+\DoxyCodeLine{\Hypertarget{cb__spiral__up_8hpp_source_l00040}\mbox{\hyperlink{structcl__px4__mr_1_1SpiralUpParams_a98af1c05fc46892d0dd2a01b67f8f3bb}{00040}}\ \ \ \textcolor{keywordtype}{float}\ \mbox{\hyperlink{structcl__px4__mr_1_1SpiralUpParams_a98af1c05fc46892d0dd2a01b67f8f3bb}{centerY}}\ =\ 0.0f;\ \ \textcolor{comment}{//\ NED\ east}}
+\DoxyCodeLine{\Hypertarget{cb__spiral__up_8hpp_source_l00041}\mbox{\hyperlink{structcl__px4__mr_1_1SpiralUpParams_a3f89bdfb44624dcd6879bdaa41527cda}{00041}}\ \ \ \textcolor{keywordtype}{float}\ \mbox{\hyperlink{structcl__px4__mr_1_1SpiralUpParams_a3f89bdfb44624dcd6879bdaa41527cda}{radiusM}}\ =\ 6.0f;}
+\DoxyCodeLine{\Hypertarget{cb__spiral__up_8hpp_source_l00042}\mbox{\hyperlink{structcl__px4__mr_1_1SpiralUpParams_a949cbabb8479dd7913d5c9006a9ede9b}{00042}}\ \ \ \textcolor{keywordtype}{float}\ \mbox{\hyperlink{structcl__px4__mr_1_1SpiralUpParams_a949cbabb8479dd7913d5c9006a9ede9b}{startAltitudeM}}\ =\ std::numeric\_limits<float>::quiet\_NaN();\ \ \textcolor{comment}{//\ above\ the\ NED\ origin}}
+\DoxyCodeLine{\Hypertarget{cb__spiral__up_8hpp_source_l00043}\mbox{\hyperlink{structcl__px4__mr_1_1SpiralUpParams_afc64533b9fc5435eefbfbd2a2d32e559}{00043}}\ \ \ \textcolor{keywordtype}{float}\ \mbox{\hyperlink{structcl__px4__mr_1_1SpiralUpParams_afc64533b9fc5435eefbfbd2a2d32e559}{climbTotalM}}\ =\ 24.0f;}
+\DoxyCodeLine{\Hypertarget{cb__spiral__up_8hpp_source_l00044}\mbox{\hyperlink{structcl__px4__mr_1_1SpiralUpParams_abf7cb588dee172a14b8c5a947cae8f91}{00044}}\ \ \ \textcolor{keywordtype}{float}\ \mbox{\hyperlink{structcl__px4__mr_1_1SpiralUpParams_abf7cb588dee172a14b8c5a947cae8f91}{climbPerOrbitM}}\ =\ 3.0f;}
+\DoxyCodeLine{\Hypertarget{cb__spiral__up_8hpp_source_l00045}\mbox{\hyperlink{structcl__px4__mr_1_1SpiralUpParams_af6d2d2a197cd11afd96355c04b97838e}{00045}}\ \ \ \textcolor{keywordtype}{float}\ \mbox{\hyperlink{structcl__px4__mr_1_1SpiralUpParams_af6d2d2a197cd11afd96355c04b97838e}{angularVelocityRadS}}\ =\ 0.3f;\ \ \textcolor{comment}{//\ +ve\ =\ clockwise\ seen\ from\ above\ (NED\ angle\ north\ -\/>\ east)}}
+\DoxyCodeLine{\Hypertarget{cb__spiral__up_8hpp_source_l00046}00046\ \};}
+\DoxyCodeLine{\Hypertarget{cb__spiral__up_8hpp_source_l00047}00047\ }
+\DoxyCodeLine{\Hypertarget{cb__spiral__up_8hpp_source_l00048}\mbox{\hyperlink{classcl__px4__mr_1_1CbSpiralUp}{00048}}\ \textcolor{keyword}{class\ }\mbox{\hyperlink{classcl__px4__mr_1_1CbSpiralUp}{CbSpiralUp}}\ :\ \textcolor{keyword}{public}\ \mbox{\hyperlink{classcl__px4__mr_1_1CbPx4ClientBehaviorBase}{CbPx4ClientBehaviorBase}}}
+\DoxyCodeLine{\Hypertarget{cb__spiral__up_8hpp_source_l00049}00049\ \{}
+\DoxyCodeLine{\Hypertarget{cb__spiral__up_8hpp_source_l00050}00050\ \textcolor{keyword}{public}:}
+\DoxyCodeLine{\Hypertarget{cb__spiral__up_8hpp_source_l00051}00051\ \ \ \textcolor{keyword}{explicit}\ \mbox{\hyperlink{classcl__px4__mr_1_1CbSpiralUp_accf13b209da03baa6c00b77d13a53cf4}{CbSpiralUp}}(\mbox{\hyperlink{structcl__px4__mr_1_1SpiralUpParams}{SpiralUpParams}}\ \mbox{\hyperlink{classcl__px4__mr_1_1CbSpiralUp_a7c50889bdbf2789a6fafd716271903b8}{params}}\ =\ \{\});}
+\DoxyCodeLine{\Hypertarget{cb__spiral__up_8hpp_source_l00052}00052\ }
+\DoxyCodeLine{\Hypertarget{cb__spiral__up_8hpp_source_l00053}00053\ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{classcl__px4__mr_1_1CbSpiralUp_a719cc007cc4b0829ee99216227bb5d23}{onEntry}}()\ \textcolor{keyword}{override};}
+\DoxyCodeLine{\Hypertarget{cb__spiral__up_8hpp_source_l00054}\mbox{\hyperlink{classcl__px4__mr_1_1CbSpiralUp_ae9367f30d7d92f31cd352479fbfacbaa}{00054}}\ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{classcl__px4__mr_1_1CbSpiralUp_ae9367f30d7d92f31cd352479fbfacbaa}{onExit}}()\textcolor{keyword}{\ override\ }\{\}}
+\DoxyCodeLine{\Hypertarget{cb__spiral__up_8hpp_source_l00055}00055\ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{classcl__px4__mr_1_1CbSpiralUp_af2746312cdc82ed05a732d5235283331}{update}}()\ \textcolor{keyword}{override};}
+\DoxyCodeLine{\Hypertarget{cb__spiral__up_8hpp_source_l00056}00056\ }
+\DoxyCodeLine{\Hypertarget{cb__spiral__up_8hpp_source_l00057}\mbox{\hyperlink{classcl__px4__mr_1_1CbSpiralUp_a7c50889bdbf2789a6fafd716271903b8}{00057}}\ \ \ \textcolor{keyword}{const}\ \mbox{\hyperlink{structcl__px4__mr_1_1SpiralUpParams}{SpiralUpParams}}\ \&\ \mbox{\hyperlink{classcl__px4__mr_1_1CbSpiralUp_a7c50889bdbf2789a6fafd716271903b8}{params}}()\textcolor{keyword}{\ const\ }\{\ \textcolor{keywordflow}{return}\ \mbox{\hyperlink{classcl__px4__mr_1_1CbSpiralUp_ad70b0c609b9687685029db11ce02c3c3}{params\_}};\ \}}
+\DoxyCodeLine{\Hypertarget{cb__spiral__up_8hpp_source_l00058}00058\ }
+\DoxyCodeLine{\Hypertarget{cb__spiral__up_8hpp_source_l00059}00059\ \textcolor{keyword}{private}:}
+\DoxyCodeLine{\Hypertarget{cb__spiral__up_8hpp_source_l00060}00060\ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{classcl__px4__mr_1_1CbSpiralUp_adbd4d32ed525c063157e4bc6e8b40610}{command}}();}
+\DoxyCodeLine{\Hypertarget{cb__spiral__up_8hpp_source_l00061}00061\ }
+\DoxyCodeLine{\Hypertarget{cb__spiral__up_8hpp_source_l00062}\mbox{\hyperlink{classcl__px4__mr_1_1CbSpiralUp_ad70b0c609b9687685029db11ce02c3c3}{00062}}\ \ \ \mbox{\hyperlink{structcl__px4__mr_1_1SpiralUpParams}{SpiralUpParams}}\ \mbox{\hyperlink{classcl__px4__mr_1_1CbSpiralUp_ad70b0c609b9687685029db11ce02c3c3}{params\_}};}
+\DoxyCodeLine{\Hypertarget{cb__spiral__up_8hpp_source_l00063}\mbox{\hyperlink{classcl__px4__mr_1_1CbSpiralUp_a80dc6b8d0dbd344f10ade6f9e0cf0969}{00063}}\ \ \ \textcolor{keywordtype}{float}\ \mbox{\hyperlink{classcl__px4__mr_1_1CbSpiralUp_a80dc6b8d0dbd344f10ade6f9e0cf0969}{startAltitude\_}}\ =\ 0.0f;}
+\DoxyCodeLine{\Hypertarget{cb__spiral__up_8hpp_source_l00064}\mbox{\hyperlink{classcl__px4__mr_1_1CbSpiralUp_a63dda481df3bde3ea16b39bc9ea01005}{00064}}\ \ \ \textcolor{keywordtype}{float}\ \mbox{\hyperlink{classcl__px4__mr_1_1CbSpiralUp_a63dda481df3bde3ea16b39bc9ea01005}{startAngle\_}}\ =\ 0.0f;}
+\DoxyCodeLine{\Hypertarget{cb__spiral__up_8hpp_source_l00065}\mbox{\hyperlink{classcl__px4__mr_1_1CbSpiralUp_a6f494f0c7054a5e3ceb243e5668a2a80}{00065}}\ \ \ \textcolor{keywordtype}{float}\ \mbox{\hyperlink{classcl__px4__mr_1_1CbSpiralUp_a6f494f0c7054a5e3ceb243e5668a2a80}{currentAngle\_}}\ =\ 0.0f;}
+\DoxyCodeLine{\Hypertarget{cb__spiral__up_8hpp_source_l00066}\mbox{\hyperlink{classcl__px4__mr_1_1CbSpiralUp_aa23ed074bf557f4d2f9aace5916a1cfb}{00066}}\ \ \ \textcolor{keywordtype}{int}\ \mbox{\hyperlink{classcl__px4__mr_1_1CbSpiralUp_aa23ed074bf557f4d2f9aace5916a1cfb}{lastReportedOrbit\_}}\ =\ -\/1;}
+\DoxyCodeLine{\Hypertarget{cb__spiral__up_8hpp_source_l00067}\mbox{\hyperlink{classcl__px4__mr_1_1CbSpiralUp_a3769024cb01f6df08bb81f816e60d586}{00067}}\ \ \ std::chrono::steady\_clock::time\_point\ \mbox{\hyperlink{classcl__px4__mr_1_1CbSpiralUp_a3769024cb01f6df08bb81f816e60d586}{lastUpdateTime\_}};}
+\DoxyCodeLine{\Hypertarget{cb__spiral__up_8hpp_source_l00068}00068\ \};}
+\DoxyCodeLine{\Hypertarget{cb__spiral__up_8hpp_source_l00069}00069\ }
+\DoxyCodeLine{\Hypertarget{cb__spiral__up_8hpp_source_l00070}00070\ \}\ \ \textcolor{comment}{//\ namespace\ cl\_px4\_mr}}
+
+\end{DoxyCode}

@@ -1,0 +1,260 @@
+\doxysection{cp\+\_\+tunnel\+\_\+centering.\+cpp}
+\hypertarget{cp__tunnel__centering_8cpp_source}{}\label{cp__tunnel__centering_8cpp_source}\index{smacc2\_client\_library/cl\_px4\_mr/src/cl\_px4\_mr/components/cp\_tunnel\_centering.cpp@{smacc2\_client\_library/cl\_px4\_mr/src/cl\_px4\_mr/components/cp\_tunnel\_centering.cpp}}
+\mbox{\hyperlink{cp__tunnel__centering_8cpp}{Go to the documentation of this file.}}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\Hypertarget{cp__tunnel__centering_8cpp_source_l00001}00001\ \textcolor{comment}{//\ Copyright\ 2026\ RobosoftAI\ Inc.}}
+\DoxyCodeLine{\Hypertarget{cp__tunnel__centering_8cpp_source_l00002}00002\ \textcolor{comment}{//}}
+\DoxyCodeLine{\Hypertarget{cp__tunnel__centering_8cpp_source_l00003}00003\ \textcolor{comment}{//\ Licensed\ under\ the\ Apache\ License,\ Version\ 2.0\ (the\ "{}License"{});}}
+\DoxyCodeLine{\Hypertarget{cp__tunnel__centering_8cpp_source_l00004}00004\ \textcolor{comment}{//\ you\ may\ not\ use\ this\ file\ except\ in\ compliance\ with\ the\ License.}}
+\DoxyCodeLine{\Hypertarget{cp__tunnel__centering_8cpp_source_l00005}00005\ \textcolor{comment}{//\ You\ may\ obtain\ a\ copy\ of\ the\ License\ at}}
+\DoxyCodeLine{\Hypertarget{cp__tunnel__centering_8cpp_source_l00006}00006\ \textcolor{comment}{//}}
+\DoxyCodeLine{\Hypertarget{cp__tunnel__centering_8cpp_source_l00007}00007\ \textcolor{comment}{//\ \ \ \ \ http://www.apache.org/licenses/LICENSE-\/2.0}}
+\DoxyCodeLine{\Hypertarget{cp__tunnel__centering_8cpp_source_l00008}00008\ \textcolor{comment}{//}}
+\DoxyCodeLine{\Hypertarget{cp__tunnel__centering_8cpp_source_l00009}00009\ \textcolor{comment}{//\ Unless\ required\ by\ applicable\ law\ or\ agreed\ to\ in\ writing,\ software}}
+\DoxyCodeLine{\Hypertarget{cp__tunnel__centering_8cpp_source_l00010}00010\ \textcolor{comment}{//\ distributed\ under\ the\ License\ is\ distributed\ on\ an\ "{}AS\ IS"{}\ BASIS,}}
+\DoxyCodeLine{\Hypertarget{cp__tunnel__centering_8cpp_source_l00011}00011\ \textcolor{comment}{//\ WITHOUT\ WARRANTIES\ OR\ CONDITIONS\ OF\ ANY\ KIND,\ either\ express\ or\ implied.}}
+\DoxyCodeLine{\Hypertarget{cp__tunnel__centering_8cpp_source_l00012}00012\ \textcolor{comment}{//\ See\ the\ License\ for\ the\ specific\ language\ governing\ permissions\ and}}
+\DoxyCodeLine{\Hypertarget{cp__tunnel__centering_8cpp_source_l00013}00013\ \textcolor{comment}{//\ limitations\ under\ the\ License.}}
+\DoxyCodeLine{\Hypertarget{cp__tunnel__centering_8cpp_source_l00014}00014\ }
+\DoxyCodeLine{\Hypertarget{cp__tunnel__centering_8cpp_source_l00015}00015\ \textcolor{comment}{/*****************************************************************************************************************}}
+\DoxyCodeLine{\Hypertarget{cp__tunnel__centering_8cpp_source_l00016}00016\ \textcolor{comment}{\ *}}
+\DoxyCodeLine{\Hypertarget{cp__tunnel__centering_8cpp_source_l00017}00017\ \textcolor{comment}{\ *\ \ \ Authors:\ Brett\ Aldrich}}
+\DoxyCodeLine{\Hypertarget{cp__tunnel__centering_8cpp_source_l00018}00018\ \textcolor{comment}{\ *}}
+\DoxyCodeLine{\Hypertarget{cp__tunnel__centering_8cpp_source_l00019}00019\ \textcolor{comment}{\ ******************************************************************************************************************/}}
+\DoxyCodeLine{\Hypertarget{cp__tunnel__centering_8cpp_source_l00020}00020\ }
+\DoxyCodeLine{\Hypertarget{cp__tunnel__centering_8cpp_source_l00021}00021\ \textcolor{preprocessor}{\#include\ <\mbox{\hyperlink{cp__tunnel__centering_8hpp}{cl\_px4\_mr/components/cp\_tunnel\_centering.hpp}}>}}
+\DoxyCodeLine{\Hypertarget{cp__tunnel__centering_8cpp_source_l00022}00022\ \textcolor{preprocessor}{\#include\ <\mbox{\hyperlink{level__frame_8hpp}{cl\_px4\_mr/utils/level\_frame.hpp}}>}}
+\DoxyCodeLine{\Hypertarget{cp__tunnel__centering_8cpp_source_l00023}00023\ }
+\DoxyCodeLine{\Hypertarget{cp__tunnel__centering_8cpp_source_l00024}00024\ \textcolor{preprocessor}{\#include\ <sensor\_msgs/point\_cloud2\_iterator.hpp>}}
+\DoxyCodeLine{\Hypertarget{cp__tunnel__centering_8cpp_source_l00025}00025\ }
+\DoxyCodeLine{\Hypertarget{cp__tunnel__centering_8cpp_source_l00026}00026\ \textcolor{preprocessor}{\#include\ <algorithm>}}
+\DoxyCodeLine{\Hypertarget{cp__tunnel__centering_8cpp_source_l00027}00027\ \textcolor{preprocessor}{\#include\ <cmath>}}
+\DoxyCodeLine{\Hypertarget{cp__tunnel__centering_8cpp_source_l00028}00028\ \textcolor{preprocessor}{\#include\ <limits>}}
+\DoxyCodeLine{\Hypertarget{cp__tunnel__centering_8cpp_source_l00029}00029\ \textcolor{preprocessor}{\#include\ <vector>}}
+\DoxyCodeLine{\Hypertarget{cp__tunnel__centering_8cpp_source_l00030}00030\ }
+\DoxyCodeLine{\Hypertarget{cp__tunnel__centering_8cpp_source_l00031}00031\ \textcolor{keyword}{namespace\ }\mbox{\hyperlink{namespacecl__px4__mr}{cl\_px4\_mr}}}
+\DoxyCodeLine{\Hypertarget{cp__tunnel__centering_8cpp_source_l00032}00032\ \{}
+\DoxyCodeLine{\Hypertarget{cp__tunnel__centering_8cpp_source_l00033}00033\ }
+\DoxyCodeLine{\Hypertarget{cp__tunnel__centering_8cpp_source_l00034}\mbox{\hyperlink{namespacecl__px4__mr_1_1anonymous__namespace_02cp__tunnel__centering_8cpp_03}{00034}}\ \textcolor{keyword}{namespace}}
+\DoxyCodeLine{\Hypertarget{cp__tunnel__centering_8cpp_source_l00035}00035\ \{}
+\DoxyCodeLine{\Hypertarget{cp__tunnel__centering_8cpp_source_l00036}\mbox{\hyperlink{namespacecl__px4__mr_1_1anonymous__namespace_02cp__tunnel__centering_8cpp_03_a2ef338fd1b7ca1b131d4f97f951581c3}{00036}}\ \textcolor{keyword}{constexpr}\ \textcolor{keywordtype}{float}\ \mbox{\hyperlink{namespacecl__px4__mr_1_1anonymous__namespace_02cp__tunnel__centering_8cpp_03_a2ef338fd1b7ca1b131d4f97f951581c3}{kInf}}\ =\ std::numeric\_limits<float>::infinity();}
+\DoxyCodeLine{\Hypertarget{cp__tunnel__centering_8cpp_source_l00037}00037\ }
+\DoxyCodeLine{\Hypertarget{cp__tunnel__centering_8cpp_source_l00038}00038\ \textcolor{comment}{//\ k-\/th\ smallest\ of\ v\ (v\ is\ modified);\ +inf\ when\ v\ has\ fewer\ than\ k\ elements}}
+\DoxyCodeLine{\Hypertarget{cp__tunnel__centering_8cpp_source_l00039}\mbox{\hyperlink{namespacecl__px4__mr_1_1anonymous__namespace_02cp__tunnel__centering_8cpp_03_ad79af635facd0f6577ee6282c6822241}{00039}}\ \textcolor{keywordtype}{float}\ \mbox{\hyperlink{namespacecl__px4__mr_1_1anonymous__namespace_02cp__tunnel__centering_8cpp_03_ad79af635facd0f6577ee6282c6822241}{kthSmallest}}(std::vector<float>\ \&\ v,\ \textcolor{keywordtype}{size\_t}\ k)}
+\DoxyCodeLine{\Hypertarget{cp__tunnel__centering_8cpp_source_l00040}00040\ \{}
+\DoxyCodeLine{\Hypertarget{cp__tunnel__centering_8cpp_source_l00041}00041\ \ \ \textcolor{keywordflow}{if}\ (v.size()\ <\ k\ ||\ k\ ==\ 0)}
+\DoxyCodeLine{\Hypertarget{cp__tunnel__centering_8cpp_source_l00042}00042\ \ \ \{}
+\DoxyCodeLine{\Hypertarget{cp__tunnel__centering_8cpp_source_l00043}00043\ \ \ \ \ \textcolor{keywordflow}{return}\ \mbox{\hyperlink{namespacecl__px4__mr_1_1anonymous__namespace_02cp__tunnel__centering_8cpp_03_a2ef338fd1b7ca1b131d4f97f951581c3}{kInf}};}
+\DoxyCodeLine{\Hypertarget{cp__tunnel__centering_8cpp_source_l00044}00044\ \ \ \}}
+\DoxyCodeLine{\Hypertarget{cp__tunnel__centering_8cpp_source_l00045}00045\ \ \ std::nth\_element(v.begin(),\ v.begin()\ +\ (k\ -\/\ 1),\ v.end());}
+\DoxyCodeLine{\Hypertarget{cp__tunnel__centering_8cpp_source_l00046}00046\ \ \ \textcolor{keywordflow}{return}\ v[k\ -\/\ 1];}
+\DoxyCodeLine{\Hypertarget{cp__tunnel__centering_8cpp_source_l00047}00047\ \}}
+\DoxyCodeLine{\Hypertarget{cp__tunnel__centering_8cpp_source_l00048}00048\ }
+\DoxyCodeLine{\Hypertarget{cp__tunnel__centering_8cpp_source_l00049}\mbox{\hyperlink{namespacecl__px4__mr_1_1anonymous__namespace_02cp__tunnel__centering_8cpp_03_ae8f62ea8a6380ca6d9ff65514bc19730}{00049}}\ int64\_t\ \mbox{\hyperlink{namespacecl__px4__mr_1_1anonymous__namespace_02cp__tunnel__centering_8cpp_03_ae8f62ea8a6380ca6d9ff65514bc19730}{nowNs}}()}
+\DoxyCodeLine{\Hypertarget{cp__tunnel__centering_8cpp_source_l00050}00050\ \{}
+\DoxyCodeLine{\Hypertarget{cp__tunnel__centering_8cpp_source_l00051}00051\ \ \ \textcolor{keywordflow}{return}\ std::chrono::duration\_cast<std::chrono::nanoseconds>(}
+\DoxyCodeLine{\Hypertarget{cp__tunnel__centering_8cpp_source_l00052}00052\ \ \ \ \ \ \ \ \ \ \ \ std::chrono::steady\_clock::now().time\_since\_epoch())}
+\DoxyCodeLine{\Hypertarget{cp__tunnel__centering_8cpp_source_l00053}00053\ \ \ \ \ .count();}
+\DoxyCodeLine{\Hypertarget{cp__tunnel__centering_8cpp_source_l00054}00054\ \}}
+\DoxyCodeLine{\Hypertarget{cp__tunnel__centering_8cpp_source_l00055}00055\ \}\ \ \textcolor{comment}{//\ namespace}}
+\DoxyCodeLine{\Hypertarget{cp__tunnel__centering_8cpp_source_l00056}00056\ }
+\DoxyCodeLine{\Hypertarget{cp__tunnel__centering_8cpp_source_l00057}\mbox{\hyperlink{classcl__px4__mr_1_1CpTunnelCentering_a753f658a556a657d0264facf2aab8264}{00057}}\ \mbox{\hyperlink{classcl__px4__mr_1_1CpTunnelCentering_a753f658a556a657d0264facf2aab8264}{CpTunnelCentering::CpTunnelCentering}}(\mbox{\hyperlink{structcl__px4__mr_1_1TunnelCenteringParams}{TunnelCenteringParams}}\ params)\ :\ params\_(params)\ \{\}}
+\DoxyCodeLine{\Hypertarget{cp__tunnel__centering_8cpp_source_l00058}00058\ }
+\DoxyCodeLine{\Hypertarget{cp__tunnel__centering_8cpp_source_l00059}\mbox{\hyperlink{classcl__px4__mr_1_1CpTunnelCentering_ae801b5262c740aba50ffedf699107e5b}{00059}}\ \mbox{\hyperlink{classcl__px4__mr_1_1CpTunnelCentering_ae801b5262c740aba50ffedf699107e5b}{CpTunnelCentering::\string~CpTunnelCentering}}()\ \{\}}
+\DoxyCodeLine{\Hypertarget{cp__tunnel__centering_8cpp_source_l00060}00060\ }
+\DoxyCodeLine{\Hypertarget{cp__tunnel__centering_8cpp_source_l00061}\mbox{\hyperlink{classcl__px4__mr_1_1CpTunnelCentering_a6b98cb53ed5326489cb37c4d36d13554}{00061}}\ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{classcl__px4__mr_1_1CpTunnelCentering_a6b98cb53ed5326489cb37c4d36d13554}{CpTunnelCentering::onInitialize}}()}
+\DoxyCodeLine{\Hypertarget{cp__tunnel__centering_8cpp_source_l00062}00062\ \{}
+\DoxyCodeLine{\Hypertarget{cp__tunnel__centering_8cpp_source_l00063}00063\ \ \ this-\/>\mbox{\hyperlink{classsmacc2_1_1ISmaccComponent_a9a7d49a43aacd065d6247c952ad2851f}{requiresComponent}}(\mbox{\hyperlink{classcl__px4__mr_1_1CpTunnelCentering_abb1b17758c4b7d6d0f89ee165f47da8d}{subscriber\_}});}
+\DoxyCodeLine{\Hypertarget{cp__tunnel__centering_8cpp_source_l00064}00064\ \ \ \textcolor{keywordflow}{if}\ (\mbox{\hyperlink{classcl__px4__mr_1_1CpTunnelCentering_abb1b17758c4b7d6d0f89ee165f47da8d}{subscriber\_}}\ ==\ \textcolor{keyword}{nullptr})}
+\DoxyCodeLine{\Hypertarget{cp__tunnel__centering_8cpp_source_l00065}00065\ \ \ \{}
+\DoxyCodeLine{\Hypertarget{cp__tunnel__centering_8cpp_source_l00066}00066\ \ \ \ \ RCLCPP\_ERROR(}
+\DoxyCodeLine{\Hypertarget{cp__tunnel__centering_8cpp_source_l00067}00067\ \ \ \ \ \ \ \mbox{\hyperlink{classsmacc2_1_1ISmaccComponent_a77ee85823bab8d84edcdf5d28782b728}{getLogger}}(),}
+\DoxyCodeLine{\Hypertarget{cp__tunnel__centering_8cpp_source_l00068}00068\ \ \ \ \ \ \ \textcolor{stringliteral}{"{}CpTunnelCentering:\ no\ CpTopicSubscriber<PointCloud2>\ on\ this\ client\ -\/\ centering\ inactive"{}});}
+\DoxyCodeLine{\Hypertarget{cp__tunnel__centering_8cpp_source_l00069}00069\ \ \ \ \ \textcolor{keywordflow}{return};}
+\DoxyCodeLine{\Hypertarget{cp__tunnel__centering_8cpp_source_l00070}00070\ \ \ \}}
+\DoxyCodeLine{\Hypertarget{cp__tunnel__centering_8cpp_source_l00071}00071\ \ \ \mbox{\hyperlink{classcl__px4__mr_1_1CpTunnelCentering_abb1b17758c4b7d6d0f89ee165f47da8d}{subscriber\_}}-\/>\mbox{\hyperlink{classsmacc2_1_1client__core__components_1_1CpTopicSubscriber_ac62bff4cda534d64014b168796ec4afd}{onMessageReceived}}(\&\mbox{\hyperlink{classcl__px4__mr_1_1CpTunnelCentering_a884f550480d8cca7a13cfe8fb63a9383}{CpTunnelCentering::onCloud}},\ \textcolor{keyword}{this});}
+\DoxyCodeLine{\Hypertarget{cp__tunnel__centering_8cpp_source_l00072}00072\ \ \ \textcolor{keywordflow}{if}\ (\mbox{\hyperlink{classcl__px4__mr_1_1CpTunnelCentering_a5e89325805cd723910dcc7f2e0e46691}{params\_}}.\mbox{\hyperlink{structcl__px4__mr_1_1TunnelCenteringParams_a3ad2c61f93a4ce1f6035479f37917653}{levelFrame}})}
+\DoxyCodeLine{\Hypertarget{cp__tunnel__centering_8cpp_source_l00073}00073\ \ \ \{}
+\DoxyCodeLine{\Hypertarget{cp__tunnel__centering_8cpp_source_l00074}00074\ \ \ \ \ \mbox{\hyperlink{classcl__px4__mr_1_1CpTunnelCentering_a82e0ba00c10ffa46426e818df6681fa3}{attitudeSub\_}}\ =\ this-\/>\mbox{\hyperlink{classsmacc2_1_1ISmaccComponent_aaac68614687bed658c59f8f15746ab91}{getNode}}()-\/>create\_subscription<px4\_msgs::msg::VehicleAttitude>(}
+\DoxyCodeLine{\Hypertarget{cp__tunnel__centering_8cpp_source_l00075}00075\ \ \ \ \ \ \ \textcolor{stringliteral}{"{}/fmu/out/vehicle\_attitude"{}},\ rclcpp::SensorDataQoS(),}
+\DoxyCodeLine{\Hypertarget{cp__tunnel__centering_8cpp_source_l00076}00076\ \ \ \ \ \ \ std::bind(\&\mbox{\hyperlink{classcl__px4__mr_1_1CpTunnelCentering_ab4a605d26e37a1b9d50f6a22a6ece7e5}{CpTunnelCentering::onAttitude}},\ \textcolor{keyword}{this},\ std::placeholders::\_1));}
+\DoxyCodeLine{\Hypertarget{cp__tunnel__centering_8cpp_source_l00077}00077\ \ \ \}}
+\DoxyCodeLine{\Hypertarget{cp__tunnel__centering_8cpp_source_l00078}00078\ \ \ \mbox{\hyperlink{classcl__px4__mr_1_1CpTunnelCentering_a1760aea5056b5350e9ff998269e542af}{lastLog\_}}\ =\ std::chrono::steady\_clock::now();}
+\DoxyCodeLine{\Hypertarget{cp__tunnel__centering_8cpp_source_l00079}00079\ \ \ RCLCPP\_INFO(}
+\DoxyCodeLine{\Hypertarget{cp__tunnel__centering_8cpp_source_l00080}00080\ \ \ \ \ \mbox{\hyperlink{classsmacc2_1_1ISmaccComponent_a77ee85823bab8d84edcdf5d28782b728}{getLogger}}(),}
+\DoxyCodeLine{\Hypertarget{cp__tunnel__centering_8cpp_source_l00081}00081\ \ \ \ \ \textcolor{stringliteral}{"{}CpTunnelCentering:\ subscribed\ -\/\ slab\ \%.1f..\%.1f\ m\ ahead,\ floor\ clearance\ \%.2f\ m\ (min\ \%.1f),\ "{}}}
+\DoxyCodeLine{\Hypertarget{cp__tunnel__centering_8cpp_source_l00082}00082\ \ \ \ \ \textcolor{stringliteral}{"{}ceiling\ clearance\ \%.1f\ m,\ max\ lateral\ \%.1f\ m,\ max\ vertical\ \%.1f\ m,\ wall\ fade\ \%.1f\ m"{}},}
+\DoxyCodeLine{\Hypertarget{cp__tunnel__centering_8cpp_source_l00083}00083\ \ \ \ \ \mbox{\hyperlink{classcl__px4__mr_1_1CpTunnelCentering_a5e89325805cd723910dcc7f2e0e46691}{params\_}}.\mbox{\hyperlink{structcl__px4__mr_1_1TunnelCenteringParams_a04d93e76f745c5c3ab678d1f39a35061}{lookAheadMinM}},\ \mbox{\hyperlink{classcl__px4__mr_1_1CpTunnelCentering_a5e89325805cd723910dcc7f2e0e46691}{params\_}}.\mbox{\hyperlink{structcl__px4__mr_1_1TunnelCenteringParams_a13c0cb8a9abcc447b6fb72d603ee5104}{lookAheadMaxM}},\ \mbox{\hyperlink{classcl__px4__mr_1_1CpTunnelCentering_a5e89325805cd723910dcc7f2e0e46691}{params\_}}.\mbox{\hyperlink{structcl__px4__mr_1_1TunnelCenteringParams_a9ab408a6c033a473d432a0cdbbc8af9d}{floorClearanceM}},}
+\DoxyCodeLine{\Hypertarget{cp__tunnel__centering_8cpp_source_l00084}00084\ \ \ \ \ \mbox{\hyperlink{classcl__px4__mr_1_1CpTunnelCentering_a5e89325805cd723910dcc7f2e0e46691}{params\_}}.\mbox{\hyperlink{structcl__px4__mr_1_1TunnelCenteringParams_ade056d5dc7ac2592569f4f5095e494b8}{minFloorClearanceM}},\ \mbox{\hyperlink{classcl__px4__mr_1_1CpTunnelCentering_a5e89325805cd723910dcc7f2e0e46691}{params\_}}.\mbox{\hyperlink{structcl__px4__mr_1_1TunnelCenteringParams_a54d5394fcd39c15a783bcb112a417aef}{ceilingClearanceM}},\ \mbox{\hyperlink{classcl__px4__mr_1_1CpTunnelCentering_a5e89325805cd723910dcc7f2e0e46691}{params\_}}.\mbox{\hyperlink{structcl__px4__mr_1_1TunnelCenteringParams_a0b03f5438ee5d1100353ebb2406b2ce5}{maxLateralM}},}
+\DoxyCodeLine{\Hypertarget{cp__tunnel__centering_8cpp_source_l00085}00085\ \ \ \ \ \mbox{\hyperlink{classcl__px4__mr_1_1CpTunnelCentering_a5e89325805cd723910dcc7f2e0e46691}{params\_}}.\mbox{\hyperlink{structcl__px4__mr_1_1TunnelCenteringParams_a5515460088c5024ec3cdfeeb6d4fa7d9}{maxVerticalM}},\ \mbox{\hyperlink{classcl__px4__mr_1_1CpTunnelCentering_a5e89325805cd723910dcc7f2e0e46691}{params\_}}.\mbox{\hyperlink{structcl__px4__mr_1_1TunnelCenteringParams_a81619d6678cc700e1276d8100b83f600}{wallFadeM}});}
+\DoxyCodeLine{\Hypertarget{cp__tunnel__centering_8cpp_source_l00086}00086\ \}}
+\DoxyCodeLine{\Hypertarget{cp__tunnel__centering_8cpp_source_l00087}00087\ }
+\DoxyCodeLine{\Hypertarget{cp__tunnel__centering_8cpp_source_l00088}\mbox{\hyperlink{classcl__px4__mr_1_1CpTunnelCentering_a654b060963327d2fca1df7228f61eed5}{00088}}\ \textcolor{keywordtype}{bool}\ \mbox{\hyperlink{classcl__px4__mr_1_1CpTunnelCentering_a654b060963327d2fca1df7228f61eed5}{CpTunnelCentering::valid}}()\textcolor{keyword}{\ const}}
+\DoxyCodeLine{\Hypertarget{cp__tunnel__centering_8cpp_source_l00089}00089\ \textcolor{keyword}{}\{}
+\DoxyCodeLine{\Hypertarget{cp__tunnel__centering_8cpp_source_l00090}00090\ \ \ \textcolor{keyword}{const}\ int64\_t\ last\ =\ \mbox{\hyperlink{classcl__px4__mr_1_1CpTunnelCentering_a47e98085c8f973740a5e120529366e6e}{lastCloudNs\_}}.load();}
+\DoxyCodeLine{\Hypertarget{cp__tunnel__centering_8cpp_source_l00091}00091\ \ \ \textcolor{keywordflow}{return}\ last\ >\ 0\ \&\&\ (nowNs()\ -\/\ last)\ <\ 1000000000LL;}
+\DoxyCodeLine{\Hypertarget{cp__tunnel__centering_8cpp_source_l00092}00092\ \}}
+\DoxyCodeLine{\Hypertarget{cp__tunnel__centering_8cpp_source_l00093}00093\ }
+\DoxyCodeLine{\Hypertarget{cp__tunnel__centering_8cpp_source_l00094}\mbox{\hyperlink{classcl__px4__mr_1_1CpTunnelCentering_ab4a605d26e37a1b9d50f6a22a6ece7e5}{00094}}\ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{classcl__px4__mr_1_1CpTunnelCentering_ab4a605d26e37a1b9d50f6a22a6ece7e5}{CpTunnelCentering::onAttitude}}(\textcolor{keyword}{const}\ px4\_msgs::msg::VehicleAttitude::SharedPtr\ msg)}
+\DoxyCodeLine{\Hypertarget{cp__tunnel__centering_8cpp_source_l00095}00095\ \{}
+\DoxyCodeLine{\Hypertarget{cp__tunnel__centering_8cpp_source_l00096}00096\ \ \ std::lock\_guard<std::mutex>\ lock(\mbox{\hyperlink{classcl__px4__mr_1_1CpTunnelCentering_a6b33f30910f8db361b6e0c2f23e100ee}{attitudeMutex\_}});}
+\DoxyCodeLine{\Hypertarget{cp__tunnel__centering_8cpp_source_l00097}00097\ \ \ \mbox{\hyperlink{classcl__px4__mr_1_1CpTunnelCentering_af4bfc3a2b805bb12c3628b774834e6a5}{attitudeQ\_}}\ =\ \{msg-\/>q[0],\ msg-\/>q[1],\ msg-\/>q[2],\ msg-\/>q[3]\};}
+\DoxyCodeLine{\Hypertarget{cp__tunnel__centering_8cpp_source_l00098}00098\ \ \ \mbox{\hyperlink{classcl__px4__mr_1_1CpTunnelCentering_a1fe7ca78db858031dc8d0e90956d084b}{haveAttitude\_}}\ =\ \textcolor{keyword}{true};}
+\DoxyCodeLine{\Hypertarget{cp__tunnel__centering_8cpp_source_l00099}00099\ \}}
+\DoxyCodeLine{\Hypertarget{cp__tunnel__centering_8cpp_source_l00100}00100\ }
+\DoxyCodeLine{\Hypertarget{cp__tunnel__centering_8cpp_source_l00101}\mbox{\hyperlink{classcl__px4__mr_1_1CpTunnelCentering_a884f550480d8cca7a13cfe8fb63a9383}{00101}}\ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{classcl__px4__mr_1_1CpTunnelCentering_a884f550480d8cca7a13cfe8fb63a9383}{CpTunnelCentering::onCloud}}(\textcolor{keyword}{const}\ sensor\_msgs::msg::PointCloud2\ \&\ msg)}
+\DoxyCodeLine{\Hypertarget{cp__tunnel__centering_8cpp_source_l00102}00102\ \{}
+\DoxyCodeLine{\Hypertarget{cp__tunnel__centering_8cpp_source_l00103}00103\ \ \ std::array<float,\ 9>\ r\{\};}
+\DoxyCodeLine{\Hypertarget{cp__tunnel__centering_8cpp_source_l00104}00104\ \ \ \textcolor{keywordtype}{bool}\ level\ =\ \textcolor{keyword}{false};}
+\DoxyCodeLine{\Hypertarget{cp__tunnel__centering_8cpp_source_l00105}00105\ \ \ \textcolor{keywordflow}{if}\ (\mbox{\hyperlink{classcl__px4__mr_1_1CpTunnelCentering_a5e89325805cd723910dcc7f2e0e46691}{params\_}}.\mbox{\hyperlink{structcl__px4__mr_1_1TunnelCenteringParams_a3ad2c61f93a4ce1f6035479f37917653}{levelFrame}})}
+\DoxyCodeLine{\Hypertarget{cp__tunnel__centering_8cpp_source_l00106}00106\ \ \ \{}
+\DoxyCodeLine{\Hypertarget{cp__tunnel__centering_8cpp_source_l00107}00107\ \ \ \ \ std::array<float,\ 4>\ q;}
+\DoxyCodeLine{\Hypertarget{cp__tunnel__centering_8cpp_source_l00108}00108\ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{cp__tunnel__centering_8cpp_source_l00109}00109\ \ \ \ \ \ \ std::lock\_guard<std::mutex>\ lock(\mbox{\hyperlink{classcl__px4__mr_1_1CpTunnelCentering_a6b33f30910f8db361b6e0c2f23e100ee}{attitudeMutex\_}});}
+\DoxyCodeLine{\Hypertarget{cp__tunnel__centering_8cpp_source_l00110}00110\ \ \ \ \ \ \ level\ =\ \mbox{\hyperlink{classcl__px4__mr_1_1CpTunnelCentering_a1fe7ca78db858031dc8d0e90956d084b}{haveAttitude\_}};}
+\DoxyCodeLine{\Hypertarget{cp__tunnel__centering_8cpp_source_l00111}00111\ \ \ \ \ \ \ q\ =\ \mbox{\hyperlink{classcl__px4__mr_1_1CpTunnelCentering_af4bfc3a2b805bb12c3628b774834e6a5}{attitudeQ\_}};}
+\DoxyCodeLine{\Hypertarget{cp__tunnel__centering_8cpp_source_l00112}00112\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{cp__tunnel__centering_8cpp_source_l00113}00113\ \ \ \ \ \textcolor{keywordflow}{if}\ (level)}
+\DoxyCodeLine{\Hypertarget{cp__tunnel__centering_8cpp_source_l00114}00114\ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{cp__tunnel__centering_8cpp_source_l00115}00115\ \ \ \ \ \ \ \mbox{\hyperlink{namespacecl__px4__mr_af007c8f0431105aef876a7ad969c4617}{levelRotationFromPx4Quaternion}}(q,\ r);}
+\DoxyCodeLine{\Hypertarget{cp__tunnel__centering_8cpp_source_l00116}00116\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{cp__tunnel__centering_8cpp_source_l00117}00117\ \ \ \}}
+\DoxyCodeLine{\Hypertarget{cp__tunnel__centering_8cpp_source_l00118}00118\ }
+\DoxyCodeLine{\Hypertarget{cp__tunnel__centering_8cpp_source_l00119}00119\ \ \ std::vector<float>\ leftY,\ rightY,\ floorZ,\ ceilZ;}
+\DoxyCodeLine{\Hypertarget{cp__tunnel__centering_8cpp_source_l00120}00120\ \ \ leftY.reserve(512);}
+\DoxyCodeLine{\Hypertarget{cp__tunnel__centering_8cpp_source_l00121}00121\ \ \ rightY.reserve(512);}
+\DoxyCodeLine{\Hypertarget{cp__tunnel__centering_8cpp_source_l00122}00122\ \ \ floorZ.reserve(512);}
+\DoxyCodeLine{\Hypertarget{cp__tunnel__centering_8cpp_source_l00123}00123\ \ \ ceilZ.reserve(512);}
+\DoxyCodeLine{\Hypertarget{cp__tunnel__centering_8cpp_source_l00124}00124\ }
+\DoxyCodeLine{\Hypertarget{cp__tunnel__centering_8cpp_source_l00125}00125\ \ \ \textcolor{keyword}{const}\ \textcolor{keywordtype}{float}\ minRangeSq\ =\ \mbox{\hyperlink{classcl__px4__mr_1_1CpTunnelCentering_a5e89325805cd723910dcc7f2e0e46691}{params\_}}.\mbox{\hyperlink{structcl__px4__mr_1_1TunnelCenteringParams_ad94549aeedec38cefd147421ba200b0b}{minRangeM}}\ *\ \mbox{\hyperlink{classcl__px4__mr_1_1CpTunnelCentering_a5e89325805cd723910dcc7f2e0e46691}{params\_}}.\mbox{\hyperlink{structcl__px4__mr_1_1TunnelCenteringParams_ad94549aeedec38cefd147421ba200b0b}{minRangeM}};}
+\DoxyCodeLine{\Hypertarget{cp__tunnel__centering_8cpp_source_l00126}00126\ \ \ sensor\_msgs::PointCloud2ConstIterator<float>\ ix(msg,\ \textcolor{stringliteral}{"{}x"{}});}
+\DoxyCodeLine{\Hypertarget{cp__tunnel__centering_8cpp_source_l00127}00127\ \ \ sensor\_msgs::PointCloud2ConstIterator<float>\ iy(msg,\ \textcolor{stringliteral}{"{}y"{}});}
+\DoxyCodeLine{\Hypertarget{cp__tunnel__centering_8cpp_source_l00128}00128\ \ \ sensor\_msgs::PointCloud2ConstIterator<float>\ iz(msg,\ \textcolor{stringliteral}{"{}z"{}});}
+\DoxyCodeLine{\Hypertarget{cp__tunnel__centering_8cpp_source_l00129}00129\ \ \ \textcolor{keywordflow}{for}\ (;\ ix\ !=\ ix.end();\ ++ix,\ ++iy,\ ++iz)}
+\DoxyCodeLine{\Hypertarget{cp__tunnel__centering_8cpp_source_l00130}00130\ \ \ \{}
+\DoxyCodeLine{\Hypertarget{cp__tunnel__centering_8cpp_source_l00131}00131\ \ \ \ \ \textcolor{keywordtype}{float}\ x\ =\ *ix;}
+\DoxyCodeLine{\Hypertarget{cp__tunnel__centering_8cpp_source_l00132}00132\ \ \ \ \ \textcolor{keywordtype}{float}\ y\ =\ *iy;}
+\DoxyCodeLine{\Hypertarget{cp__tunnel__centering_8cpp_source_l00133}00133\ \ \ \ \ \textcolor{keywordtype}{float}\ z\ =\ *iz;}
+\DoxyCodeLine{\Hypertarget{cp__tunnel__centering_8cpp_source_l00134}00134\ \ \ \ \ \textcolor{keywordflow}{if}\ (!std::isfinite(x)\ ||\ !std::isfinite(y)\ ||\ !std::isfinite(z))}
+\DoxyCodeLine{\Hypertarget{cp__tunnel__centering_8cpp_source_l00135}00135\ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{cp__tunnel__centering_8cpp_source_l00136}00136\ \ \ \ \ \ \ \textcolor{keywordflow}{continue};}
+\DoxyCodeLine{\Hypertarget{cp__tunnel__centering_8cpp_source_l00137}00137\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{cp__tunnel__centering_8cpp_source_l00138}00138\ \ \ \ \ \textcolor{keywordflow}{if}\ (x\ *\ x\ +\ y\ *\ y\ +\ z\ *\ z\ <\ minRangeSq)}
+\DoxyCodeLine{\Hypertarget{cp__tunnel__centering_8cpp_source_l00139}00139\ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{cp__tunnel__centering_8cpp_source_l00140}00140\ \ \ \ \ \ \ \textcolor{keywordflow}{continue};\ \ \textcolor{comment}{//\ own\ airframe}}
+\DoxyCodeLine{\Hypertarget{cp__tunnel__centering_8cpp_source_l00141}00141\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{cp__tunnel__centering_8cpp_source_l00142}00142\ \ \ \ \ \textcolor{keywordflow}{if}\ (level)}
+\DoxyCodeLine{\Hypertarget{cp__tunnel__centering_8cpp_source_l00143}00143\ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{cp__tunnel__centering_8cpp_source_l00144}00144\ \ \ \ \ \ \ \textcolor{keyword}{const}\ \textcolor{keywordtype}{float}\ lx\ =\ r[0]\ *\ x\ +\ r[1]\ *\ y\ +\ r[2]\ *\ z;}
+\DoxyCodeLine{\Hypertarget{cp__tunnel__centering_8cpp_source_l00145}00145\ \ \ \ \ \ \ \textcolor{keyword}{const}\ \textcolor{keywordtype}{float}\ ly\ =\ r[3]\ *\ x\ +\ r[4]\ *\ y\ +\ r[5]\ *\ z;}
+\DoxyCodeLine{\Hypertarget{cp__tunnel__centering_8cpp_source_l00146}00146\ \ \ \ \ \ \ \textcolor{keyword}{const}\ \textcolor{keywordtype}{float}\ lz\ =\ r[6]\ *\ x\ +\ r[7]\ *\ y\ +\ r[8]\ *\ z;}
+\DoxyCodeLine{\Hypertarget{cp__tunnel__centering_8cpp_source_l00147}00147\ \ \ \ \ \ \ x\ =\ lx;}
+\DoxyCodeLine{\Hypertarget{cp__tunnel__centering_8cpp_source_l00148}00148\ \ \ \ \ \ \ y\ =\ ly;}
+\DoxyCodeLine{\Hypertarget{cp__tunnel__centering_8cpp_source_l00149}00149\ \ \ \ \ \ \ z\ =\ lz;}
+\DoxyCodeLine{\Hypertarget{cp__tunnel__centering_8cpp_source_l00150}00150\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{cp__tunnel__centering_8cpp_source_l00151}00151\ \ \ \ \ \textcolor{keywordflow}{if}\ (x\ <\ -\/params\_.floorLookBackM\ ||\ x\ >\ \mbox{\hyperlink{classcl__px4__mr_1_1CpTunnelCentering_a5e89325805cd723910dcc7f2e0e46691}{params\_}}.\mbox{\hyperlink{structcl__px4__mr_1_1TunnelCenteringParams_a13c0cb8a9abcc447b6fb72d603ee5104}{lookAheadMaxM}})}
+\DoxyCodeLine{\Hypertarget{cp__tunnel__centering_8cpp_source_l00152}00152\ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{cp__tunnel__centering_8cpp_source_l00153}00153\ \ \ \ \ \ \ \textcolor{keywordflow}{continue};}
+\DoxyCodeLine{\Hypertarget{cp__tunnel__centering_8cpp_source_l00154}00154\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{cp__tunnel__centering_8cpp_source_l00155}00155\ \ \ \ \ \textcolor{keyword}{const}\ \textcolor{keywordtype}{bool}\ ahead\ =\ x\ >=\ \mbox{\hyperlink{classcl__px4__mr_1_1CpTunnelCentering_a5e89325805cd723910dcc7f2e0e46691}{params\_}}.\mbox{\hyperlink{structcl__px4__mr_1_1TunnelCenteringParams_a04d93e76f745c5c3ab678d1f39a35061}{lookAheadMinM}};}
+\DoxyCodeLine{\Hypertarget{cp__tunnel__centering_8cpp_source_l00156}00156\ \ \ \ \ \textcolor{comment}{//\ walls:\ the\ band\ at\ flight\ height,\ in\ the\ slab\ ahead}}
+\DoxyCodeLine{\Hypertarget{cp__tunnel__centering_8cpp_source_l00157}00157\ \ \ \ \ \textcolor{keywordflow}{if}\ (}
+\DoxyCodeLine{\Hypertarget{cp__tunnel__centering_8cpp_source_l00158}00158\ \ \ \ \ \ \ ahead\ \&\&\ std::fabs(z)\ <=\ \mbox{\hyperlink{classcl__px4__mr_1_1CpTunnelCentering_a5e89325805cd723910dcc7f2e0e46691}{params\_}}.\mbox{\hyperlink{structcl__px4__mr_1_1TunnelCenteringParams_a98b1ee25dbcd23ea1d7744f668fefd4f}{wallBandHalfHeightM}}\ \&\&}
+\DoxyCodeLine{\Hypertarget{cp__tunnel__centering_8cpp_source_l00159}00159\ \ \ \ \ \ \ std::fabs(y)\ <=\ \mbox{\hyperlink{classcl__px4__mr_1_1CpTunnelCentering_a5e89325805cd723910dcc7f2e0e46691}{params\_}}.\mbox{\hyperlink{structcl__px4__mr_1_1TunnelCenteringParams_a6bfd800aff2b05c22887f7f75f6d40ec}{lateralSearchM}})}
+\DoxyCodeLine{\Hypertarget{cp__tunnel__centering_8cpp_source_l00160}00160\ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{cp__tunnel__centering_8cpp_source_l00161}00161\ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (y\ >\ 0.0f)}
+\DoxyCodeLine{\Hypertarget{cp__tunnel__centering_8cpp_source_l00162}00162\ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{cp__tunnel__centering_8cpp_source_l00163}00163\ \ \ \ \ \ \ \ \ leftY.push\_back(y);}
+\DoxyCodeLine{\Hypertarget{cp__tunnel__centering_8cpp_source_l00164}00164\ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{cp__tunnel__centering_8cpp_source_l00165}00165\ \ \ \ \ \ \ \textcolor{keywordflow}{else}\ \textcolor{keywordflow}{if}\ (y\ <\ 0.0f)}
+\DoxyCodeLine{\Hypertarget{cp__tunnel__centering_8cpp_source_l00166}00166\ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{cp__tunnel__centering_8cpp_source_l00167}00167\ \ \ \ \ \ \ \ \ rightY.push\_back(-\/y);}
+\DoxyCodeLine{\Hypertarget{cp__tunnel__centering_8cpp_source_l00168}00168\ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{cp__tunnel__centering_8cpp_source_l00169}00169\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{cp__tunnel__centering_8cpp_source_l00170}00170\ \ \ \ \ \textcolor{comment}{//\ floor\ /\ ceiling:\ the\ column\ along\ the\ heading,\ EXCLUDING\ the\ wall\ band\ -\/}}
+\DoxyCodeLine{\Hypertarget{cp__tunnel__centering_8cpp_source_l00171}00171\ \ \ \ \ \textcolor{comment}{//\ rock\ beside\ the\ vehicle\ at\ sensor\ height\ is\ a\ wall\ (lateral\ channel),\ not}}
+\DoxyCodeLine{\Hypertarget{cp__tunnel__centering_8cpp_source_l00172}00172\ \ \ \ \ \textcolor{comment}{//\ a\ floor\ 0.1\ m\ below\ it\ (run\ 22:\ an\ arch\ wall\ read\ as\ "{}floor\ 0.1"{}\ forced\ a}}
+\DoxyCodeLine{\Hypertarget{cp__tunnel__centering_8cpp_source_l00173}00173\ \ \ \ \ \textcolor{comment}{//\ 1\ m\ climb\ into\ the\ ceiling)}}
+\DoxyCodeLine{\Hypertarget{cp__tunnel__centering_8cpp_source_l00174}00174\ \ \ \ \ \textcolor{keywordflow}{if}\ (}
+\DoxyCodeLine{\Hypertarget{cp__tunnel__centering_8cpp_source_l00175}00175\ \ \ \ \ \ \ std::fabs(y)\ <=\ \mbox{\hyperlink{classcl__px4__mr_1_1CpTunnelCentering_a5e89325805cd723910dcc7f2e0e46691}{params\_}}.\mbox{\hyperlink{structcl__px4__mr_1_1TunnelCenteringParams_a6bfba5bc7b09f87527fe680f3da127a0}{columnHalfWidthM}}\ \&\&\ std::fabs(z)\ >\ \mbox{\hyperlink{classcl__px4__mr_1_1CpTunnelCentering_a5e89325805cd723910dcc7f2e0e46691}{params\_}}.\mbox{\hyperlink{structcl__px4__mr_1_1TunnelCenteringParams_a98b1ee25dbcd23ea1d7744f668fefd4f}{wallBandHalfHeightM}}\ \&\&}
+\DoxyCodeLine{\Hypertarget{cp__tunnel__centering_8cpp_source_l00176}00176\ \ \ \ \ \ \ std::fabs(z)\ <=\ \mbox{\hyperlink{classcl__px4__mr_1_1CpTunnelCentering_a5e89325805cd723910dcc7f2e0e46691}{params\_}}.\mbox{\hyperlink{structcl__px4__mr_1_1TunnelCenteringParams_ada568e7badff75974cbb07ee4e5dd0a0}{verticalSearchM}})}
+\DoxyCodeLine{\Hypertarget{cp__tunnel__centering_8cpp_source_l00177}00177\ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{cp__tunnel__centering_8cpp_source_l00178}00178\ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (z\ <\ 0.0f)}
+\DoxyCodeLine{\Hypertarget{cp__tunnel__centering_8cpp_source_l00179}00179\ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{cp__tunnel__centering_8cpp_source_l00180}00180\ \ \ \ \ \ \ \ \ floorZ.push\_back(-\/z);}
+\DoxyCodeLine{\Hypertarget{cp__tunnel__centering_8cpp_source_l00181}00181\ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{cp__tunnel__centering_8cpp_source_l00182}00182\ \ \ \ \ \ \ \textcolor{keywordflow}{else}}
+\DoxyCodeLine{\Hypertarget{cp__tunnel__centering_8cpp_source_l00183}00183\ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{cp__tunnel__centering_8cpp_source_l00184}00184\ \ \ \ \ \ \ \ \ ceilZ.push\_back(z);}
+\DoxyCodeLine{\Hypertarget{cp__tunnel__centering_8cpp_source_l00185}00185\ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{cp__tunnel__centering_8cpp_source_l00186}00186\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{cp__tunnel__centering_8cpp_source_l00187}00187\ \ \ \}}
+\DoxyCodeLine{\Hypertarget{cp__tunnel__centering_8cpp_source_l00188}00188\ }
+\DoxyCodeLine{\Hypertarget{cp__tunnel__centering_8cpp_source_l00189}00189\ \ \ \textcolor{comment}{//\ nearest\ surfaces,\ robust\ to\ a\ few\ stray\ returns}}
+\DoxyCodeLine{\Hypertarget{cp__tunnel__centering_8cpp_source_l00190}00190\ \ \ \textcolor{keyword}{const}\ \textcolor{keywordtype}{size\_t}\ kw\ =\ \textcolor{keyword}{static\_cast<}\textcolor{keywordtype}{size\_t}\textcolor{keyword}{>}(std::max(\mbox{\hyperlink{classcl__px4__mr_1_1CpTunnelCentering_a5e89325805cd723910dcc7f2e0e46691}{params\_}}.\mbox{\hyperlink{structcl__px4__mr_1_1TunnelCenteringParams_a9499f9dea7eeee989e6cb3aa26953a8c}{minWallPoints}},\ 1));}
+\DoxyCodeLine{\Hypertarget{cp__tunnel__centering_8cpp_source_l00191}00191\ \ \ \textcolor{keyword}{const}\ \textcolor{keywordtype}{size\_t}\ kf\ =\ \textcolor{keyword}{static\_cast<}\textcolor{keywordtype}{size\_t}\textcolor{keyword}{>}(std::max(\mbox{\hyperlink{classcl__px4__mr_1_1CpTunnelCentering_a5e89325805cd723910dcc7f2e0e46691}{params\_}}.\mbox{\hyperlink{structcl__px4__mr_1_1TunnelCenteringParams_a001be5427966e40a1aafb1e661c6d795}{minFloorPoints}},\ 1));}
+\DoxyCodeLine{\Hypertarget{cp__tunnel__centering_8cpp_source_l00192}00192\ \ \ \textcolor{keyword}{const}\ \textcolor{keywordtype}{float}\ left\ =\ kthSmallest(leftY,\ kw);}
+\DoxyCodeLine{\Hypertarget{cp__tunnel__centering_8cpp_source_l00193}00193\ \ \ \textcolor{keyword}{const}\ \textcolor{keywordtype}{float}\ right\ =\ kthSmallest(rightY,\ kw);}
+\DoxyCodeLine{\Hypertarget{cp__tunnel__centering_8cpp_source_l00194}00194\ \ \ \textcolor{keyword}{const}\ \textcolor{keywordtype}{float}\ floorD\ =\ kthSmallest(floorZ,\ kf);}
+\DoxyCodeLine{\Hypertarget{cp__tunnel__centering_8cpp_source_l00195}00195\ \ \ \textcolor{keyword}{const}\ \textcolor{keywordtype}{float}\ ceilD\ =\ kthSmallest(ceilZ,\ kf);}
+\DoxyCodeLine{\Hypertarget{cp__tunnel__centering_8cpp_source_l00196}00196\ }
+\DoxyCodeLine{\Hypertarget{cp__tunnel__centering_8cpp_source_l00197}00197\ \ \ \textcolor{comment}{//\ lateral:\ toward\ the\ midpoint\ between\ the\ walls;\ needs\ both,\ fades\ when\ far}}
+\DoxyCodeLine{\Hypertarget{cp__tunnel__centering_8cpp_source_l00198}00198\ \ \ \textcolor{keywordtype}{float}\ lateral\ =\ 0.0f;}
+\DoxyCodeLine{\Hypertarget{cp__tunnel__centering_8cpp_source_l00199}00199\ \ \ \textcolor{keywordflow}{if}\ (std::isfinite(left)\ \&\&\ std::isfinite(right))}
+\DoxyCodeLine{\Hypertarget{cp__tunnel__centering_8cpp_source_l00200}00200\ \ \ \{}
+\DoxyCodeLine{\Hypertarget{cp__tunnel__centering_8cpp_source_l00201}00201\ \ \ \ \ lateral\ =\ 0.5f\ *\ (left\ -\/\ right);\ \ \textcolor{comment}{//\ >\ 0:\ more\ room\ on\ the\ left\ -\/>\ move\ left}}
+\DoxyCodeLine{\Hypertarget{cp__tunnel__centering_8cpp_source_l00202}00202\ \ \ \ \ \textcolor{keyword}{const}\ \textcolor{keywordtype}{float}\ nearer\ =\ std::min(left,\ right);}
+\DoxyCodeLine{\Hypertarget{cp__tunnel__centering_8cpp_source_l00203}00203\ \ \ \ \ \textcolor{keywordflow}{if}\ (nearer\ >\ \mbox{\hyperlink{classcl__px4__mr_1_1CpTunnelCentering_a5e89325805cd723910dcc7f2e0e46691}{params\_}}.\mbox{\hyperlink{structcl__px4__mr_1_1TunnelCenteringParams_a81619d6678cc700e1276d8100b83f600}{wallFadeM}})}
+\DoxyCodeLine{\Hypertarget{cp__tunnel__centering_8cpp_source_l00204}00204\ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{cp__tunnel__centering_8cpp_source_l00205}00205\ \ \ \ \ \ \ lateral\ =\ 0.0f;}
+\DoxyCodeLine{\Hypertarget{cp__tunnel__centering_8cpp_source_l00206}00206\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{cp__tunnel__centering_8cpp_source_l00207}00207\ \ \ \ \ \textcolor{keywordflow}{else}\ \textcolor{keywordflow}{if}\ (nearer\ >\ 0.5f\ *\ \mbox{\hyperlink{classcl__px4__mr_1_1CpTunnelCentering_a5e89325805cd723910dcc7f2e0e46691}{params\_}}.\mbox{\hyperlink{structcl__px4__mr_1_1TunnelCenteringParams_a81619d6678cc700e1276d8100b83f600}{wallFadeM}})}
+\DoxyCodeLine{\Hypertarget{cp__tunnel__centering_8cpp_source_l00208}00208\ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{cp__tunnel__centering_8cpp_source_l00209}00209\ \ \ \ \ \ \ lateral\ *=\ (\mbox{\hyperlink{classcl__px4__mr_1_1CpTunnelCentering_a5e89325805cd723910dcc7f2e0e46691}{params\_}}.\mbox{\hyperlink{structcl__px4__mr_1_1TunnelCenteringParams_a81619d6678cc700e1276d8100b83f600}{wallFadeM}}\ -\/\ nearer)\ /\ (0.5f\ *\ \mbox{\hyperlink{classcl__px4__mr_1_1CpTunnelCentering_a5e89325805cd723910dcc7f2e0e46691}{params\_}}.\mbox{\hyperlink{structcl__px4__mr_1_1TunnelCenteringParams_a81619d6678cc700e1276d8100b83f600}{wallFadeM}});}
+\DoxyCodeLine{\Hypertarget{cp__tunnel__centering_8cpp_source_l00210}00210\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{cp__tunnel__centering_8cpp_source_l00211}00211\ \ \ \}}
+\DoxyCodeLine{\Hypertarget{cp__tunnel__centering_8cpp_source_l00212}00212\ \ \ lateral\ =\ std::clamp(lateral,\ -\/\mbox{\hyperlink{classcl__px4__mr_1_1CpTunnelCentering_a5e89325805cd723910dcc7f2e0e46691}{params\_}}.\mbox{\hyperlink{structcl__px4__mr_1_1TunnelCenteringParams_a0b03f5438ee5d1100353ebb2406b2ce5}{maxLateralM}},\ \mbox{\hyperlink{classcl__px4__mr_1_1CpTunnelCentering_a5e89325805cd723910dcc7f2e0e46691}{params\_}}.\mbox{\hyperlink{structcl__px4__mr_1_1TunnelCenteringParams_a0b03f5438ee5d1100353ebb2406b2ce5}{maxLateralM}});}
+\DoxyCodeLine{\Hypertarget{cp__tunnel__centering_8cpp_source_l00213}00213\ }
+\DoxyCodeLine{\Hypertarget{cp__tunnel__centering_8cpp_source_l00214}00214\ \ \ \textcolor{comment}{//\ vertical:\ hold\ the\ floor\ clearance,\ but\ stay\ below\ the\ ceiling}}
+\DoxyCodeLine{\Hypertarget{cp__tunnel__centering_8cpp_source_l00215}00215\ \ \ \textcolor{keywordtype}{float}\ vertical\ =\ 0.0f;}
+\DoxyCodeLine{\Hypertarget{cp__tunnel__centering_8cpp_source_l00216}00216\ \ \ \textcolor{keywordflow}{if}\ (std::isfinite(floorD))}
+\DoxyCodeLine{\Hypertarget{cp__tunnel__centering_8cpp_source_l00217}00217\ \ \ \{}
+\DoxyCodeLine{\Hypertarget{cp__tunnel__centering_8cpp_source_l00218}00218\ \ \ \ \ vertical\ =\ \mbox{\hyperlink{classcl__px4__mr_1_1CpTunnelCentering_a5e89325805cd723910dcc7f2e0e46691}{params\_}}.\mbox{\hyperlink{structcl__px4__mr_1_1TunnelCenteringParams_a9ab408a6c033a473d432a0cdbbc8af9d}{floorClearanceM}}\ -\/\ floorD;\ \ \textcolor{comment}{//\ >\ 0:\ climb}}
+\DoxyCodeLine{\Hypertarget{cp__tunnel__centering_8cpp_source_l00219}00219\ \ \ \}}
+\DoxyCodeLine{\Hypertarget{cp__tunnel__centering_8cpp_source_l00220}00220\ \ \ \textcolor{keywordflow}{if}\ (std::isfinite(ceilD))}
+\DoxyCodeLine{\Hypertarget{cp__tunnel__centering_8cpp_source_l00221}00221\ \ \ \{}
+\DoxyCodeLine{\Hypertarget{cp__tunnel__centering_8cpp_source_l00222}00222\ \ \ \ \ vertical\ =\ std::min(vertical,\ ceilD\ -\/\ \mbox{\hyperlink{classcl__px4__mr_1_1CpTunnelCentering_a5e89325805cd723910dcc7f2e0e46691}{params\_}}.\mbox{\hyperlink{structcl__px4__mr_1_1TunnelCenteringParams_a54d5394fcd39c15a783bcb112a417aef}{ceilingClearanceM}});}
+\DoxyCodeLine{\Hypertarget{cp__tunnel__centering_8cpp_source_l00223}00223\ \ \ \}}
+\DoxyCodeLine{\Hypertarget{cp__tunnel__centering_8cpp_source_l00224}00224\ \ \ \textcolor{keywordflow}{if}\ (std::isfinite(floorD))}
+\DoxyCodeLine{\Hypertarget{cp__tunnel__centering_8cpp_source_l00225}00225\ \ \ \{}
+\DoxyCodeLine{\Hypertarget{cp__tunnel__centering_8cpp_source_l00226}00226\ \ \ \ \ \textcolor{comment}{//\ never\ below\ the\ minimum\ floor\ clearance,\ even\ when\ the\ overhead\ reading}}
+\DoxyCodeLine{\Hypertarget{cp__tunnel__centering_8cpp_source_l00227}00227\ \ \ \ \ \textcolor{comment}{//\ (possibly\ rising\ terrain\ ahead)\ asks\ for\ it}}
+\DoxyCodeLine{\Hypertarget{cp__tunnel__centering_8cpp_source_l00228}00228\ \ \ \ \ vertical\ =\ std::max(vertical,\ \mbox{\hyperlink{classcl__px4__mr_1_1CpTunnelCentering_a5e89325805cd723910dcc7f2e0e46691}{params\_}}.\mbox{\hyperlink{structcl__px4__mr_1_1TunnelCenteringParams_ade056d5dc7ac2592569f4f5095e494b8}{minFloorClearanceM}}\ -\/\ floorD);}
+\DoxyCodeLine{\Hypertarget{cp__tunnel__centering_8cpp_source_l00229}00229\ \ \ \}}
+\DoxyCodeLine{\Hypertarget{cp__tunnel__centering_8cpp_source_l00230}00230\ \ \ vertical\ =\ std::clamp(vertical,\ -\/\mbox{\hyperlink{classcl__px4__mr_1_1CpTunnelCentering_a5e89325805cd723910dcc7f2e0e46691}{params\_}}.\mbox{\hyperlink{structcl__px4__mr_1_1TunnelCenteringParams_a5515460088c5024ec3cdfeeb6d4fa7d9}{maxVerticalM}},\ \mbox{\hyperlink{classcl__px4__mr_1_1CpTunnelCentering_a5e89325805cd723910dcc7f2e0e46691}{params\_}}.\mbox{\hyperlink{structcl__px4__mr_1_1TunnelCenteringParams_a5515460088c5024ec3cdfeeb6d4fa7d9}{maxVerticalM}});}
+\DoxyCodeLine{\Hypertarget{cp__tunnel__centering_8cpp_source_l00231}00231\ }
+\DoxyCodeLine{\Hypertarget{cp__tunnel__centering_8cpp_source_l00232}00232\ \ \ \textcolor{keyword}{const}\ \textcolor{keywordtype}{float}\ a\ =\ std::clamp(\mbox{\hyperlink{classcl__px4__mr_1_1CpTunnelCentering_a5e89325805cd723910dcc7f2e0e46691}{params\_}}.\mbox{\hyperlink{structcl__px4__mr_1_1TunnelCenteringParams_ae1eacfd59b7875774e04bee4ecaae11d}{smoothing}},\ 0.0f,\ 0.95f);}
+\DoxyCodeLine{\Hypertarget{cp__tunnel__centering_8cpp_source_l00233}00233\ \ \ \textcolor{keyword}{const}\ \textcolor{keywordtype}{bool}\ first\ =\ \mbox{\hyperlink{classcl__px4__mr_1_1CpTunnelCentering_a47e98085c8f973740a5e120529366e6e}{lastCloudNs\_}}.load()\ ==\ 0;}
+\DoxyCodeLine{\Hypertarget{cp__tunnel__centering_8cpp_source_l00234}00234\ \ \ \mbox{\hyperlink{classcl__px4__mr_1_1CpTunnelCentering_add3cda14c5a5a0048fd3555390174df1}{lateral\_}}\ =\ first\ ?\ lateral\ :\ a\ *\ \mbox{\hyperlink{classcl__px4__mr_1_1CpTunnelCentering_add3cda14c5a5a0048fd3555390174df1}{lateral\_}}.load()\ +\ (1.0f\ -\/\ a)\ *\ lateral;}
+\DoxyCodeLine{\Hypertarget{cp__tunnel__centering_8cpp_source_l00235}00235\ \ \ \mbox{\hyperlink{classcl__px4__mr_1_1CpTunnelCentering_ad1ab1bcf48ddfff0712f5ff7b2567505}{vertical\_}}\ =\ first\ ?\ vertical\ :\ a\ *\ \mbox{\hyperlink{classcl__px4__mr_1_1CpTunnelCentering_ad1ab1bcf48ddfff0712f5ff7b2567505}{vertical\_}}.load()\ +\ (1.0f\ -\/\ a)\ *\ vertical;}
+\DoxyCodeLine{\Hypertarget{cp__tunnel__centering_8cpp_source_l00236}00236\ \ \ \mbox{\hyperlink{classcl__px4__mr_1_1CpTunnelCentering_a94b610e287614a626066c04ddee20803}{left\_}}\ =\ left;}
+\DoxyCodeLine{\Hypertarget{cp__tunnel__centering_8cpp_source_l00237}00237\ \ \ \mbox{\hyperlink{classcl__px4__mr_1_1CpTunnelCentering_a62c6d70d14749c14dddc3337a5bddd19}{right\_}}\ =\ right;}
+\DoxyCodeLine{\Hypertarget{cp__tunnel__centering_8cpp_source_l00238}00238\ \ \ \mbox{\hyperlink{classcl__px4__mr_1_1CpTunnelCentering_a3037481d8807f916d64bcc4b14f50d17}{floor\_}}\ =\ floorD;}
+\DoxyCodeLine{\Hypertarget{cp__tunnel__centering_8cpp_source_l00239}00239\ \ \ \mbox{\hyperlink{classcl__px4__mr_1_1CpTunnelCentering_aa9879164a852a9afa4fea2429d5e81b4}{ceiling\_}}\ =\ ceilD;}
+\DoxyCodeLine{\Hypertarget{cp__tunnel__centering_8cpp_source_l00240}00240\ \ \ \mbox{\hyperlink{classcl__px4__mr_1_1CpTunnelCentering_a47e98085c8f973740a5e120529366e6e}{lastCloudNs\_}}\ =\ nowNs();}
+\DoxyCodeLine{\Hypertarget{cp__tunnel__centering_8cpp_source_l00241}00241\ }
+\DoxyCodeLine{\Hypertarget{cp__tunnel__centering_8cpp_source_l00242}00242\ \ \ \textcolor{keyword}{const}\ \textcolor{keyword}{auto}\ now\ =\ std::chrono::steady\_clock::now();}
+\DoxyCodeLine{\Hypertarget{cp__tunnel__centering_8cpp_source_l00243}00243\ \ \ \textcolor{keywordflow}{if}\ (std::chrono::duration<double>(now\ -\/\ \mbox{\hyperlink{classcl__px4__mr_1_1CpTunnelCentering_a1760aea5056b5350e9ff998269e542af}{lastLog\_}}).count()\ >=\ 2.0)}
+\DoxyCodeLine{\Hypertarget{cp__tunnel__centering_8cpp_source_l00244}00244\ \ \ \{}
+\DoxyCodeLine{\Hypertarget{cp__tunnel__centering_8cpp_source_l00245}00245\ \ \ \ \ \mbox{\hyperlink{classcl__px4__mr_1_1CpTunnelCentering_a1760aea5056b5350e9ff998269e542af}{lastLog\_}}\ =\ now;}
+\DoxyCodeLine{\Hypertarget{cp__tunnel__centering_8cpp_source_l00246}00246\ \ \ \ \ RCLCPP\_INFO(}
+\DoxyCodeLine{\Hypertarget{cp__tunnel__centering_8cpp_source_l00247}00247\ \ \ \ \ \ \ \mbox{\hyperlink{classsmacc2_1_1ISmaccComponent_a77ee85823bab8d84edcdf5d28782b728}{getLogger}}(),}
+\DoxyCodeLine{\Hypertarget{cp__tunnel__centering_8cpp_source_l00248}00248\ \ \ \ \ \ \ \textcolor{stringliteral}{"{}CpTunnelCentering:\ walls\ L\ \%.1f\ R\ \%.1f,\ floor\ \%.1f,\ ceiling\ \%.1f\ m\ -\/>\ lateral\ \%+.2f,\ "{}}}
+\DoxyCodeLine{\Hypertarget{cp__tunnel__centering_8cpp_source_l00249}00249\ \ \ \ \ \ \ \textcolor{stringliteral}{"{}vertical\ \%+.2f\ m"{}},}
+\DoxyCodeLine{\Hypertarget{cp__tunnel__centering_8cpp_source_l00250}00250\ \ \ \ \ \ \ left,\ right,\ floorD,\ ceilD,\ \mbox{\hyperlink{classcl__px4__mr_1_1CpTunnelCentering_add3cda14c5a5a0048fd3555390174df1}{lateral\_}}.load(),\ \mbox{\hyperlink{classcl__px4__mr_1_1CpTunnelCentering_ad1ab1bcf48ddfff0712f5ff7b2567505}{vertical\_}}.load());}
+\DoxyCodeLine{\Hypertarget{cp__tunnel__centering_8cpp_source_l00251}00251\ \ \ \}}
+\DoxyCodeLine{\Hypertarget{cp__tunnel__centering_8cpp_source_l00252}00252\ \}}
+\DoxyCodeLine{\Hypertarget{cp__tunnel__centering_8cpp_source_l00253}00253\ }
+\DoxyCodeLine{\Hypertarget{cp__tunnel__centering_8cpp_source_l00254}00254\ \}\ \ \textcolor{comment}{//\ namespace\ cl\_px4\_mr}}
+
+\end{DoxyCode}

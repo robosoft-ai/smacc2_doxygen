@@ -1,0 +1,198 @@
+\doxysection{cp\+\_\+tf\+\_\+broadcaster.\+cpp}
+\hypertarget{cp__tf__broadcaster_8cpp_source}{}\label{cp__tf__broadcaster_8cpp_source}\index{smacc2\_client\_library/cl\_px4\_mr/src/cl\_px4\_mr/components/cp\_tf\_broadcaster.cpp@{smacc2\_client\_library/cl\_px4\_mr/src/cl\_px4\_mr/components/cp\_tf\_broadcaster.cpp}}
+\mbox{\hyperlink{cp__tf__broadcaster_8cpp}{Go to the documentation of this file.}}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\Hypertarget{cp__tf__broadcaster_8cpp_source_l00001}00001\ \textcolor{comment}{//\ Copyright\ 2026\ RobosoftAI\ Inc.}}
+\DoxyCodeLine{\Hypertarget{cp__tf__broadcaster_8cpp_source_l00002}00002\ \textcolor{comment}{//}}
+\DoxyCodeLine{\Hypertarget{cp__tf__broadcaster_8cpp_source_l00003}00003\ \textcolor{comment}{//\ Licensed\ under\ the\ Apache\ License,\ Version\ 2.0\ (the\ "{}License"{});}}
+\DoxyCodeLine{\Hypertarget{cp__tf__broadcaster_8cpp_source_l00004}00004\ \textcolor{comment}{//\ you\ may\ not\ use\ this\ file\ except\ in\ compliance\ with\ the\ License.}}
+\DoxyCodeLine{\Hypertarget{cp__tf__broadcaster_8cpp_source_l00005}00005\ \textcolor{comment}{//\ You\ may\ obtain\ a\ copy\ of\ the\ License\ at}}
+\DoxyCodeLine{\Hypertarget{cp__tf__broadcaster_8cpp_source_l00006}00006\ \textcolor{comment}{//}}
+\DoxyCodeLine{\Hypertarget{cp__tf__broadcaster_8cpp_source_l00007}00007\ \textcolor{comment}{//\ \ \ \ \ http://www.apache.org/licenses/LICENSE-\/2.0}}
+\DoxyCodeLine{\Hypertarget{cp__tf__broadcaster_8cpp_source_l00008}00008\ \textcolor{comment}{//}}
+\DoxyCodeLine{\Hypertarget{cp__tf__broadcaster_8cpp_source_l00009}00009\ \textcolor{comment}{//\ Unless\ required\ by\ applicable\ law\ or\ agreed\ to\ in\ writing,\ software}}
+\DoxyCodeLine{\Hypertarget{cp__tf__broadcaster_8cpp_source_l00010}00010\ \textcolor{comment}{//\ distributed\ under\ the\ License\ is\ distributed\ on\ an\ "{}AS\ IS"{}\ BASIS,}}
+\DoxyCodeLine{\Hypertarget{cp__tf__broadcaster_8cpp_source_l00011}00011\ \textcolor{comment}{//\ WITHOUT\ WARRANTIES\ OR\ CONDITIONS\ OF\ ANY\ KIND,\ either\ express\ or\ implied.}}
+\DoxyCodeLine{\Hypertarget{cp__tf__broadcaster_8cpp_source_l00012}00012\ \textcolor{comment}{//\ See\ the\ License\ for\ the\ specific\ language\ governing\ permissions\ and}}
+\DoxyCodeLine{\Hypertarget{cp__tf__broadcaster_8cpp_source_l00013}00013\ \textcolor{comment}{//\ limitations\ under\ the\ License.}}
+\DoxyCodeLine{\Hypertarget{cp__tf__broadcaster_8cpp_source_l00014}00014\ }
+\DoxyCodeLine{\Hypertarget{cp__tf__broadcaster_8cpp_source_l00015}00015\ \textcolor{comment}{/*****************************************************************************************************************}}
+\DoxyCodeLine{\Hypertarget{cp__tf__broadcaster_8cpp_source_l00016}00016\ \textcolor{comment}{\ *}}
+\DoxyCodeLine{\Hypertarget{cp__tf__broadcaster_8cpp_source_l00017}00017\ \textcolor{comment}{\ *\ \ \ Authors:\ Brett\ Aldrich}}
+\DoxyCodeLine{\Hypertarget{cp__tf__broadcaster_8cpp_source_l00018}00018\ \textcolor{comment}{\ *}}
+\DoxyCodeLine{\Hypertarget{cp__tf__broadcaster_8cpp_source_l00019}00019\ \textcolor{comment}{\ ******************************************************************************************************************/}}
+\DoxyCodeLine{\Hypertarget{cp__tf__broadcaster_8cpp_source_l00020}00020\ }
+\DoxyCodeLine{\Hypertarget{cp__tf__broadcaster_8cpp_source_l00021}00021\ \textcolor{preprocessor}{\#include\ <\mbox{\hyperlink{cp__tf__broadcaster_8hpp}{cl\_px4\_mr/components/cp\_tf\_broadcaster.hpp}}>}}
+\DoxyCodeLine{\Hypertarget{cp__tf__broadcaster_8cpp_source_l00022}00022\ \textcolor{preprocessor}{\#include\ <\mbox{\hyperlink{cp__vehicle__local__position_8hpp}{cl\_px4\_mr/components/cp\_vehicle\_local\_position.hpp}}>}}
+\DoxyCodeLine{\Hypertarget{cp__tf__broadcaster_8cpp_source_l00023}00023\ }
+\DoxyCodeLine{\Hypertarget{cp__tf__broadcaster_8cpp_source_l00024}00024\ \textcolor{preprocessor}{\#include\ <geometry\_msgs/msg/pose\_stamped.hpp>}}
+\DoxyCodeLine{\Hypertarget{cp__tf__broadcaster_8cpp_source_l00025}00025\ \textcolor{preprocessor}{\#include\ <geometry\_msgs/msg/transform\_stamped.hpp>}}
+\DoxyCodeLine{\Hypertarget{cp__tf__broadcaster_8cpp_source_l00026}00026\ }
+\DoxyCodeLine{\Hypertarget{cp__tf__broadcaster_8cpp_source_l00027}00027\ \textcolor{preprocessor}{\#include\ <tf2/LinearMath/Quaternion.h>}}
+\DoxyCodeLine{\Hypertarget{cp__tf__broadcaster_8cpp_source_l00028}00028\ \textcolor{preprocessor}{\#include\ <cmath>}}
+\DoxyCodeLine{\Hypertarget{cp__tf__broadcaster_8cpp_source_l00029}00029\ }
+\DoxyCodeLine{\Hypertarget{cp__tf__broadcaster_8cpp_source_l00030}00030\ \textcolor{preprocessor}{\#include\ <vector>}}
+\DoxyCodeLine{\Hypertarget{cp__tf__broadcaster_8cpp_source_l00031}00031\ }
+\DoxyCodeLine{\Hypertarget{cp__tf__broadcaster_8cpp_source_l00032}00032\ \textcolor{keyword}{namespace\ }\mbox{\hyperlink{namespacecl__px4__mr}{cl\_px4\_mr}}}
+\DoxyCodeLine{\Hypertarget{cp__tf__broadcaster_8cpp_source_l00033}00033\ \{}
+\DoxyCodeLine{\Hypertarget{cp__tf__broadcaster_8cpp_source_l00034}00034\ }
+\DoxyCodeLine{\Hypertarget{cp__tf__broadcaster_8cpp_source_l00035}\mbox{\hyperlink{namespacecl__px4__mr_1_1anonymous__namespace_02cp__tf__broadcaster_8cpp_03}{00035}}\ \textcolor{keyword}{namespace}}
+\DoxyCodeLine{\Hypertarget{cp__tf__broadcaster_8cpp_source_l00036}00036\ \{}
+\DoxyCodeLine{\Hypertarget{cp__tf__broadcaster_8cpp_source_l00037}00037\ \textcolor{comment}{//\ px4\_ros\_com\ frame\_transforms\ constants\ (tf2\ order\ x,\ y,\ z,\ w):}}
+\DoxyCodeLine{\Hypertarget{cp__tf__broadcaster_8cpp_source_l00038}00038\ \textcolor{comment}{//\ NED\ <-\/>\ ENU\ is\ RotZ(+90\ deg)\ *\ RotX(180\ deg),\ its\ own\ inverse.}}
+\DoxyCodeLine{\Hypertarget{cp__tf__broadcaster_8cpp_source_l00039}\mbox{\hyperlink{namespacecl__px4__mr_1_1anonymous__namespace_02cp__tf__broadcaster_8cpp_03_af5c6a92017f6155df7034b82193f7d10}{00039}}\ \textcolor{keyword}{const}\ tf2::Quaternion\ \mbox{\hyperlink{namespacecl__px4__mr_1_1anonymous__namespace_02cp__tf__broadcaster_8cpp_03_af5c6a92017f6155df7034b82193f7d10}{kNedEnuQ}}(0.70710678118654752,\ 0.70710678118654752,\ 0.0,\ 0.0);}
+\DoxyCodeLine{\Hypertarget{cp__tf__broadcaster_8cpp_source_l00040}00040\ \textcolor{comment}{//\ FRD\ <-\/>\ FLU\ is\ RotX(180\ deg),\ its\ own\ inverse.}}
+\DoxyCodeLine{\Hypertarget{cp__tf__broadcaster_8cpp_source_l00041}\mbox{\hyperlink{namespacecl__px4__mr_1_1anonymous__namespace_02cp__tf__broadcaster_8cpp_03_aefb4a6b8b510acf6eb6b97d06600cc7a}{00041}}\ \textcolor{keyword}{const}\ tf2::Quaternion\ \mbox{\hyperlink{namespacecl__px4__mr_1_1anonymous__namespace_02cp__tf__broadcaster_8cpp_03_aefb4a6b8b510acf6eb6b97d06600cc7a}{kFrdFluQ}}(1.0,\ 0.0,\ 0.0,\ 0.0);}
+\DoxyCodeLine{\Hypertarget{cp__tf__broadcaster_8cpp_source_l00042}00042\ \}\ \ \textcolor{comment}{//\ namespace}}
+\DoxyCodeLine{\Hypertarget{cp__tf__broadcaster_8cpp_source_l00043}00043\ }
+\DoxyCodeLine{\Hypertarget{cp__tf__broadcaster_8cpp_source_l00044}\mbox{\hyperlink{classcl__px4__mr_1_1CpTfBroadcaster_aeefb8c35d1f58869be7d37f8ec5071a0}{00044}}\ \mbox{\hyperlink{classcl__px4__mr_1_1CpTfBroadcaster_aeefb8c35d1f58869be7d37f8ec5071a0}{CpTfBroadcaster::CpTfBroadcaster}}(\mbox{\hyperlink{structcl__px4__mr_1_1TfBroadcasterParams}{TfBroadcasterParams}}\ params)\ :\ params\_(params)\ \{\}}
+\DoxyCodeLine{\Hypertarget{cp__tf__broadcaster_8cpp_source_l00045}00045\ }
+\DoxyCodeLine{\Hypertarget{cp__tf__broadcaster_8cpp_source_l00046}\mbox{\hyperlink{classcl__px4__mr_1_1CpTfBroadcaster_ae058107872daba4f3af442b695a40b8a}{00046}}\ \mbox{\hyperlink{classcl__px4__mr_1_1CpTfBroadcaster_ae058107872daba4f3af442b695a40b8a}{CpTfBroadcaster::\string~CpTfBroadcaster}}()\ \{\}}
+\DoxyCodeLine{\Hypertarget{cp__tf__broadcaster_8cpp_source_l00047}00047\ }
+\DoxyCodeLine{\Hypertarget{cp__tf__broadcaster_8cpp_source_l00048}\mbox{\hyperlink{classcl__px4__mr_1_1CpTfBroadcaster_a4e901580ce7d7fe6089d9174c3853225}{00048}}\ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{classcl__px4__mr_1_1CpTfBroadcaster_a4e901580ce7d7fe6089d9174c3853225}{CpTfBroadcaster::onInitialize}}()}
+\DoxyCodeLine{\Hypertarget{cp__tf__broadcaster_8cpp_source_l00049}00049\ \{}
+\DoxyCodeLine{\Hypertarget{cp__tf__broadcaster_8cpp_source_l00050}00050\ \ \ this-\/>\mbox{\hyperlink{classsmacc2_1_1ISmaccComponent_a9a7d49a43aacd065d6247c952ad2851f}{requiresComponent}}(\mbox{\hyperlink{classcl__px4__mr_1_1CpTfBroadcaster_ac50978dca87844180725f38a4fe1f841}{localPosition\_}});}
+\DoxyCodeLine{\Hypertarget{cp__tf__broadcaster_8cpp_source_l00051}00051\ \ \ \textcolor{keywordflow}{if}\ (\mbox{\hyperlink{classcl__px4__mr_1_1CpTfBroadcaster_ac50978dca87844180725f38a4fe1f841}{localPosition\_}}\ ==\ \textcolor{keyword}{nullptr})}
+\DoxyCodeLine{\Hypertarget{cp__tf__broadcaster_8cpp_source_l00052}00052\ \ \ \{}
+\DoxyCodeLine{\Hypertarget{cp__tf__broadcaster_8cpp_source_l00053}00053\ \ \ \ \ RCLCPP\_ERROR(}
+\DoxyCodeLine{\Hypertarget{cp__tf__broadcaster_8cpp_source_l00054}00054\ \ \ \ \ \ \ \mbox{\hyperlink{classsmacc2_1_1ISmaccComponent_a77ee85823bab8d84edcdf5d28782b728}{getLogger}}(),\ \textcolor{stringliteral}{"{}CpTfBroadcaster:\ CpVehicleLocalPosition\ not\ found\ -\/\ no\ TF\ will\ be\ published"{}});}
+\DoxyCodeLine{\Hypertarget{cp__tf__broadcaster_8cpp_source_l00055}00055\ \ \ \ \ \textcolor{keywordflow}{return};}
+\DoxyCodeLine{\Hypertarget{cp__tf__broadcaster_8cpp_source_l00056}00056\ \ \ \}}
+\DoxyCodeLine{\Hypertarget{cp__tf__broadcaster_8cpp_source_l00057}00057\ }
+\DoxyCodeLine{\Hypertarget{cp__tf__broadcaster_8cpp_source_l00058}00058\ \ \ \textcolor{keyword}{auto}\ node\ =\ this-\/>\mbox{\hyperlink{classsmacc2_1_1ISmaccComponent_aaac68614687bed658c59f8f15746ab91}{getNode}}();}
+\DoxyCodeLine{\Hypertarget{cp__tf__broadcaster_8cpp_source_l00059}00059\ \ \ \mbox{\hyperlink{classcl__px4__mr_1_1CpTfBroadcaster_ab30da3df3aa80af5d472838c0cea6e2b}{broadcaster\_}}\ =\ std::make\_shared<tf2\_ros::TransformBroadcaster>(node);}
+\DoxyCodeLine{\Hypertarget{cp__tf__broadcaster_8cpp_source_l00060}00060\ \ \ \mbox{\hyperlink{classcl__px4__mr_1_1CpTfBroadcaster_a8d3a05be554c992dbd90e2e3c6399167}{staticBroadcaster\_}}\ =\ std::make\_shared<tf2\_ros::StaticTransformBroadcaster>(node);}
+\DoxyCodeLine{\Hypertarget{cp__tf__broadcaster_8cpp_source_l00061}00061\ }
+\DoxyCodeLine{\Hypertarget{cp__tf__broadcaster_8cpp_source_l00062}00062\ \ \ \textcolor{keywordflow}{if}\ (\mbox{\hyperlink{classcl__px4__mr_1_1CpTfBroadcaster_a31e9fa2e6e97faf2bdbc1ac7fd77fe31}{params\_}}.\mbox{\hyperlink{structcl__px4__mr_1_1TfBroadcasterParams_ad6fc39254e6cf7d76521830eacfafae3}{publishSensorFrame}})}
+\DoxyCodeLine{\Hypertarget{cp__tf__broadcaster_8cpp_source_l00063}00063\ \ \ \{}
+\DoxyCodeLine{\Hypertarget{cp__tf__broadcaster_8cpp_source_l00064}00064\ \ \ \ \ geometry\_msgs::msg::TransformStamped\ t;}
+\DoxyCodeLine{\Hypertarget{cp__tf__broadcaster_8cpp_source_l00065}00065\ \ \ \ \ t.header.stamp\ =\ node-\/>now();}
+\DoxyCodeLine{\Hypertarget{cp__tf__broadcaster_8cpp_source_l00066}00066\ \ \ \ \ t.header.frame\_id\ =\ \mbox{\hyperlink{classcl__px4__mr_1_1CpTfBroadcaster_a31e9fa2e6e97faf2bdbc1ac7fd77fe31}{params\_}}.\mbox{\hyperlink{structcl__px4__mr_1_1TfBroadcasterParams_a529ac7cdee2ac9dfe5a6f492109fe964}{baseFrame}};}
+\DoxyCodeLine{\Hypertarget{cp__tf__broadcaster_8cpp_source_l00067}00067\ \ \ \ \ t.child\_frame\_id\ =\ \mbox{\hyperlink{classcl__px4__mr_1_1CpTfBroadcaster_a31e9fa2e6e97faf2bdbc1ac7fd77fe31}{params\_}}.\mbox{\hyperlink{structcl__px4__mr_1_1TfBroadcasterParams_a703ba8f66654cda48acf4d82f586e79b}{sensorFrame}};}
+\DoxyCodeLine{\Hypertarget{cp__tf__broadcaster_8cpp_source_l00068}00068\ \ \ \ \ t.transform.translation.x\ =\ \mbox{\hyperlink{classcl__px4__mr_1_1CpTfBroadcaster_a31e9fa2e6e97faf2bdbc1ac7fd77fe31}{params\_}}.\mbox{\hyperlink{structcl__px4__mr_1_1TfBroadcasterParams_ae793b7f77a1d56b7801186617e4c59b1}{sensorXyz}}[0];}
+\DoxyCodeLine{\Hypertarget{cp__tf__broadcaster_8cpp_source_l00069}00069\ \ \ \ \ t.transform.translation.y\ =\ \mbox{\hyperlink{classcl__px4__mr_1_1CpTfBroadcaster_a31e9fa2e6e97faf2bdbc1ac7fd77fe31}{params\_}}.\mbox{\hyperlink{structcl__px4__mr_1_1TfBroadcasterParams_ae793b7f77a1d56b7801186617e4c59b1}{sensorXyz}}[1];}
+\DoxyCodeLine{\Hypertarget{cp__tf__broadcaster_8cpp_source_l00070}00070\ \ \ \ \ t.transform.translation.z\ =\ \mbox{\hyperlink{classcl__px4__mr_1_1CpTfBroadcaster_a31e9fa2e6e97faf2bdbc1ac7fd77fe31}{params\_}}.\mbox{\hyperlink{structcl__px4__mr_1_1TfBroadcasterParams_ae793b7f77a1d56b7801186617e4c59b1}{sensorXyz}}[2];}
+\DoxyCodeLine{\Hypertarget{cp__tf__broadcaster_8cpp_source_l00071}00071\ \ \ \ \ tf2::Quaternion\ q;}
+\DoxyCodeLine{\Hypertarget{cp__tf__broadcaster_8cpp_source_l00072}00072\ \ \ \ \ q.setRPY(\mbox{\hyperlink{classcl__px4__mr_1_1CpTfBroadcaster_a31e9fa2e6e97faf2bdbc1ac7fd77fe31}{params\_}}.\mbox{\hyperlink{structcl__px4__mr_1_1TfBroadcasterParams_aae0b38ab837a6c10a554ec3bd6975cfa}{sensorRpy}}[0],\ \mbox{\hyperlink{classcl__px4__mr_1_1CpTfBroadcaster_a31e9fa2e6e97faf2bdbc1ac7fd77fe31}{params\_}}.\mbox{\hyperlink{structcl__px4__mr_1_1TfBroadcasterParams_aae0b38ab837a6c10a554ec3bd6975cfa}{sensorRpy}}[1],\ \mbox{\hyperlink{classcl__px4__mr_1_1CpTfBroadcaster_a31e9fa2e6e97faf2bdbc1ac7fd77fe31}{params\_}}.\mbox{\hyperlink{structcl__px4__mr_1_1TfBroadcasterParams_aae0b38ab837a6c10a554ec3bd6975cfa}{sensorRpy}}[2]);}
+\DoxyCodeLine{\Hypertarget{cp__tf__broadcaster_8cpp_source_l00073}00073\ \ \ \ \ t.transform.rotation.x\ =\ q.x();}
+\DoxyCodeLine{\Hypertarget{cp__tf__broadcaster_8cpp_source_l00074}00074\ \ \ \ \ t.transform.rotation.y\ =\ q.y();}
+\DoxyCodeLine{\Hypertarget{cp__tf__broadcaster_8cpp_source_l00075}00075\ \ \ \ \ t.transform.rotation.z\ =\ q.z();}
+\DoxyCodeLine{\Hypertarget{cp__tf__broadcaster_8cpp_source_l00076}00076\ \ \ \ \ t.transform.rotation.w\ =\ q.w();}
+\DoxyCodeLine{\Hypertarget{cp__tf__broadcaster_8cpp_source_l00077}00077\ \ \ \ \ \mbox{\hyperlink{classcl__px4__mr_1_1CpTfBroadcaster_a8d3a05be554c992dbd90e2e3c6399167}{staticBroadcaster\_}}-\/>sendTransform(t);}
+\DoxyCodeLine{\Hypertarget{cp__tf__broadcaster_8cpp_source_l00078}00078\ \ \ \ \ RCLCPP\_INFO(}
+\DoxyCodeLine{\Hypertarget{cp__tf__broadcaster_8cpp_source_l00079}00079\ \ \ \ \ \ \ \mbox{\hyperlink{classsmacc2_1_1ISmaccComponent_a77ee85823bab8d84edcdf5d28782b728}{getLogger}}(),\ \textcolor{stringliteral}{"{}CpTfBroadcaster:\ static\ \%s\ -\/>\ \%s\ at\ FLU\ (\%.3f,\ \%.3f,\ \%.3f)"{}},}
+\DoxyCodeLine{\Hypertarget{cp__tf__broadcaster_8cpp_source_l00080}00080\ \ \ \ \ \ \ \mbox{\hyperlink{classcl__px4__mr_1_1CpTfBroadcaster_a31e9fa2e6e97faf2bdbc1ac7fd77fe31}{params\_}}.\mbox{\hyperlink{structcl__px4__mr_1_1TfBroadcasterParams_a529ac7cdee2ac9dfe5a6f492109fe964}{baseFrame}}.c\_str(),\ \mbox{\hyperlink{classcl__px4__mr_1_1CpTfBroadcaster_a31e9fa2e6e97faf2bdbc1ac7fd77fe31}{params\_}}.\mbox{\hyperlink{structcl__px4__mr_1_1TfBroadcasterParams_a703ba8f66654cda48acf4d82f586e79b}{sensorFrame}}.c\_str(),\ \mbox{\hyperlink{classcl__px4__mr_1_1CpTfBroadcaster_a31e9fa2e6e97faf2bdbc1ac7fd77fe31}{params\_}}.\mbox{\hyperlink{structcl__px4__mr_1_1TfBroadcasterParams_ae793b7f77a1d56b7801186617e4c59b1}{sensorXyz}}[0],}
+\DoxyCodeLine{\Hypertarget{cp__tf__broadcaster_8cpp_source_l00081}00081\ \ \ \ \ \ \ \mbox{\hyperlink{classcl__px4__mr_1_1CpTfBroadcaster_a31e9fa2e6e97faf2bdbc1ac7fd77fe31}{params\_}}.\mbox{\hyperlink{structcl__px4__mr_1_1TfBroadcasterParams_ae793b7f77a1d56b7801186617e4c59b1}{sensorXyz}}[1],\ \mbox{\hyperlink{classcl__px4__mr_1_1CpTfBroadcaster_a31e9fa2e6e97faf2bdbc1ac7fd77fe31}{params\_}}.\mbox{\hyperlink{structcl__px4__mr_1_1TfBroadcasterParams_ae793b7f77a1d56b7801186617e4c59b1}{sensorXyz}}[2]);}
+\DoxyCodeLine{\Hypertarget{cp__tf__broadcaster_8cpp_source_l00082}00082\ \ \ \}}
+\DoxyCodeLine{\Hypertarget{cp__tf__broadcaster_8cpp_source_l00083}00083\ }
+\DoxyCodeLine{\Hypertarget{cp__tf__broadcaster_8cpp_source_l00084}00084\ \ \ \textcolor{keywordflow}{if}\ (\mbox{\hyperlink{classcl__px4__mr_1_1CpTfBroadcaster_a31e9fa2e6e97faf2bdbc1ac7fd77fe31}{params\_}}.\mbox{\hyperlink{structcl__px4__mr_1_1TfBroadcasterParams_a555b35c90687288ac6eee190de5693e7}{publishTrail}})}
+\DoxyCodeLine{\Hypertarget{cp__tf__broadcaster_8cpp_source_l00085}00085\ \ \ \{}
+\DoxyCodeLine{\Hypertarget{cp__tf__broadcaster_8cpp_source_l00086}00086\ \ \ \ \ \mbox{\hyperlink{classcl__px4__mr_1_1CpTfBroadcaster_a80899ad1ba58f27c47e8ff54f3c651e5}{trailPub\_}}\ =\ node-\/>create\_publisher<nav\_msgs::msg::Path>(}
+\DoxyCodeLine{\Hypertarget{cp__tf__broadcaster_8cpp_source_l00087}00087\ \ \ \ \ \ \ \mbox{\hyperlink{classcl__px4__mr_1_1CpTfBroadcaster_a31e9fa2e6e97faf2bdbc1ac7fd77fe31}{params\_}}.\mbox{\hyperlink{structcl__px4__mr_1_1TfBroadcasterParams_a89f370992ad11dc657a1488e9032faa1}{trailTopic}},\ rclcpp::QoS(1).transient\_local());}
+\DoxyCodeLine{\Hypertarget{cp__tf__broadcaster_8cpp_source_l00088}00088\ \ \ \ \ \mbox{\hyperlink{classcl__px4__mr_1_1CpTfBroadcaster_a93dc8f53d91d8d10d6a12d843f98cfca}{trail\_}}.header.frame\_id\ =\ \mbox{\hyperlink{classcl__px4__mr_1_1CpTfBroadcaster_a31e9fa2e6e97faf2bdbc1ac7fd77fe31}{params\_}}.\mbox{\hyperlink{structcl__px4__mr_1_1TfBroadcasterParams_a5f861e939e41647638e6913812f809f7}{mapFrame}};}
+\DoxyCodeLine{\Hypertarget{cp__tf__broadcaster_8cpp_source_l00089}00089\ \ \ \ \ RCLCPP\_INFO(}
+\DoxyCodeLine{\Hypertarget{cp__tf__broadcaster_8cpp_source_l00090}00090\ \ \ \ \ \ \ \mbox{\hyperlink{classsmacc2_1_1ISmaccComponent_a77ee85823bab8d84edcdf5d28782b728}{getLogger}}(),\ \textcolor{stringliteral}{"{}CpTfBroadcaster:\ publishing\ the\ flown\ trail\ on\ \%s\ (every\ \%.2f\ m,\ <=\ \%.0f\ Hz)"{}},}
+\DoxyCodeLine{\Hypertarget{cp__tf__broadcaster_8cpp_source_l00091}00091\ \ \ \ \ \ \ \mbox{\hyperlink{classcl__px4__mr_1_1CpTfBroadcaster_a31e9fa2e6e97faf2bdbc1ac7fd77fe31}{params\_}}.\mbox{\hyperlink{structcl__px4__mr_1_1TfBroadcasterParams_a89f370992ad11dc657a1488e9032faa1}{trailTopic}}.c\_str(),\ \mbox{\hyperlink{classcl__px4__mr_1_1CpTfBroadcaster_a31e9fa2e6e97faf2bdbc1ac7fd77fe31}{params\_}}.\mbox{\hyperlink{structcl__px4__mr_1_1TfBroadcasterParams_af97611430e38f8e6e2a37ca1869a6d54}{trailMinStepM}},\ \mbox{\hyperlink{classcl__px4__mr_1_1CpTfBroadcaster_a31e9fa2e6e97faf2bdbc1ac7fd77fe31}{params\_}}.\mbox{\hyperlink{structcl__px4__mr_1_1TfBroadcasterParams_a5d791c12fcb8f03d038a7fd80da63a27}{trailRateHz}});}
+\DoxyCodeLine{\Hypertarget{cp__tf__broadcaster_8cpp_source_l00092}00092\ \ \ \}}
+\DoxyCodeLine{\Hypertarget{cp__tf__broadcaster_8cpp_source_l00093}00093\ }
+\DoxyCodeLine{\Hypertarget{cp__tf__broadcaster_8cpp_source_l00094}00094\ \ \ \mbox{\hyperlink{classcl__px4__mr_1_1CpTfBroadcaster_a6e9360faf95d82244c902ab1a17572ee}{attitudeSub\_}}\ =\ node-\/>create\_subscription<px4\_msgs::msg::VehicleAttitude>(}
+\DoxyCodeLine{\Hypertarget{cp__tf__broadcaster_8cpp_source_l00095}00095\ \ \ \ \ \textcolor{stringliteral}{"{}/fmu/out/vehicle\_attitude"{}},\ rclcpp::SensorDataQoS(),}
+\DoxyCodeLine{\Hypertarget{cp__tf__broadcaster_8cpp_source_l00096}00096\ \ \ \ \ std::bind(\&\mbox{\hyperlink{classcl__px4__mr_1_1CpTfBroadcaster_aa98128d1ee1cc85f547cd27644f1d4e2}{CpTfBroadcaster::onAttitude}},\ \textcolor{keyword}{this},\ std::placeholders::\_1));}
+\DoxyCodeLine{\Hypertarget{cp__tf__broadcaster_8cpp_source_l00097}00097\ }
+\DoxyCodeLine{\Hypertarget{cp__tf__broadcaster_8cpp_source_l00098}00098\ \ \ RCLCPP\_INFO(}
+\DoxyCodeLine{\Hypertarget{cp__tf__broadcaster_8cpp_source_l00099}00099\ \ \ \ \ \mbox{\hyperlink{classsmacc2_1_1ISmaccComponent_a77ee85823bab8d84edcdf5d28782b728}{getLogger}}(),}
+\DoxyCodeLine{\Hypertarget{cp__tf__broadcaster_8cpp_source_l00100}00100\ \ \ \ \ \textcolor{stringliteral}{"{}CpTfBroadcaster:\ broadcasting\ \%s\ -\/>\ \%s\ (and\ \%s)\ from\ /fmu/out/vehicle\_attitude\ at\ <=\ \%.0f\ Hz"{}},}
+\DoxyCodeLine{\Hypertarget{cp__tf__broadcaster_8cpp_source_l00101}00101\ \ \ \ \ \mbox{\hyperlink{classcl__px4__mr_1_1CpTfBroadcaster_a31e9fa2e6e97faf2bdbc1ac7fd77fe31}{params\_}}.\mbox{\hyperlink{structcl__px4__mr_1_1TfBroadcasterParams_a5f861e939e41647638e6913812f809f7}{mapFrame}}.c\_str(),\ \mbox{\hyperlink{classcl__px4__mr_1_1CpTfBroadcaster_a31e9fa2e6e97faf2bdbc1ac7fd77fe31}{params\_}}.\mbox{\hyperlink{structcl__px4__mr_1_1TfBroadcasterParams_a529ac7cdee2ac9dfe5a6f492109fe964}{baseFrame}}.c\_str(),\ \mbox{\hyperlink{classcl__px4__mr_1_1CpTfBroadcaster_a31e9fa2e6e97faf2bdbc1ac7fd77fe31}{params\_}}.\mbox{\hyperlink{structcl__px4__mr_1_1TfBroadcasterParams_a55e1a51a32b384becd397ddfc46b835f}{followFrame}}.c\_str(),}
+\DoxyCodeLine{\Hypertarget{cp__tf__broadcaster_8cpp_source_l00102}00102\ \ \ \ \ \mbox{\hyperlink{classcl__px4__mr_1_1CpTfBroadcaster_a31e9fa2e6e97faf2bdbc1ac7fd77fe31}{params\_}}.\mbox{\hyperlink{structcl__px4__mr_1_1TfBroadcasterParams_a5069cf331e1d5eacbcbcfa2a596ce41a}{maxRateHz}});}
+\DoxyCodeLine{\Hypertarget{cp__tf__broadcaster_8cpp_source_l00103}00103\ \}}
+\DoxyCodeLine{\Hypertarget{cp__tf__broadcaster_8cpp_source_l00104}00104\ }
+\DoxyCodeLine{\Hypertarget{cp__tf__broadcaster_8cpp_source_l00105}\mbox{\hyperlink{classcl__px4__mr_1_1CpTfBroadcaster_aa98128d1ee1cc85f547cd27644f1d4e2}{00105}}\ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{classcl__px4__mr_1_1CpTfBroadcaster_aa98128d1ee1cc85f547cd27644f1d4e2}{CpTfBroadcaster::onAttitude}}(\textcolor{keyword}{const}\ px4\_msgs::msg::VehicleAttitude::SharedPtr\ msg)}
+\DoxyCodeLine{\Hypertarget{cp__tf__broadcaster_8cpp_source_l00106}00106\ \{}
+\DoxyCodeLine{\Hypertarget{cp__tf__broadcaster_8cpp_source_l00107}00107\ \ \ \textcolor{keyword}{const}\ \textcolor{keyword}{auto}\ now\ =\ std::chrono::steady\_clock::now();}
+\DoxyCodeLine{\Hypertarget{cp__tf__broadcaster_8cpp_source_l00108}00108\ \ \ \textcolor{keywordflow}{if}\ (\mbox{\hyperlink{classcl__px4__mr_1_1CpTfBroadcaster_a64c82fe91e8fa00ac11e984f00787df4}{firstSent\_}}\ \&\&\ \mbox{\hyperlink{classcl__px4__mr_1_1CpTfBroadcaster_a31e9fa2e6e97faf2bdbc1ac7fd77fe31}{params\_}}.\mbox{\hyperlink{structcl__px4__mr_1_1TfBroadcasterParams_a5069cf331e1d5eacbcbcfa2a596ce41a}{maxRateHz}}\ >\ 0.0)}
+\DoxyCodeLine{\Hypertarget{cp__tf__broadcaster_8cpp_source_l00109}00109\ \ \ \{}
+\DoxyCodeLine{\Hypertarget{cp__tf__broadcaster_8cpp_source_l00110}00110\ \ \ \ \ \textcolor{keyword}{const}\ \textcolor{keywordtype}{double}\ elapsed\ =\ std::chrono::duration<double>(now\ -\/\ \mbox{\hyperlink{classcl__px4__mr_1_1CpTfBroadcaster_a21d159618e073e191531f77804d13a49}{lastSent\_}}).count();}
+\DoxyCodeLine{\Hypertarget{cp__tf__broadcaster_8cpp_source_l00111}00111\ \ \ \ \ \textcolor{keywordflow}{if}\ (elapsed\ <\ 1.0\ /\ \mbox{\hyperlink{classcl__px4__mr_1_1CpTfBroadcaster_a31e9fa2e6e97faf2bdbc1ac7fd77fe31}{params\_}}.\mbox{\hyperlink{structcl__px4__mr_1_1TfBroadcasterParams_a5069cf331e1d5eacbcbcfa2a596ce41a}{maxRateHz}})}
+\DoxyCodeLine{\Hypertarget{cp__tf__broadcaster_8cpp_source_l00112}00112\ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{cp__tf__broadcaster_8cpp_source_l00113}00113\ \ \ \ \ \ \ \textcolor{keywordflow}{return};}
+\DoxyCodeLine{\Hypertarget{cp__tf__broadcaster_8cpp_source_l00114}00114\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{cp__tf__broadcaster_8cpp_source_l00115}00115\ \ \ \}}
+\DoxyCodeLine{\Hypertarget{cp__tf__broadcaster_8cpp_source_l00116}00116\ \ \ \textcolor{keywordflow}{if}\ (!\mbox{\hyperlink{classcl__px4__mr_1_1CpTfBroadcaster_ac50978dca87844180725f38a4fe1f841}{localPosition\_}}-\/>\mbox{\hyperlink{classcl__px4__mr_1_1CpVehicleLocalPosition_aca9a6689fa1e120b77feff35ab064b5c}{isValid}}())}
+\DoxyCodeLine{\Hypertarget{cp__tf__broadcaster_8cpp_source_l00117}00117\ \ \ \{}
+\DoxyCodeLine{\Hypertarget{cp__tf__broadcaster_8cpp_source_l00118}00118\ \ \ \ \ \textcolor{keywordflow}{return};}
+\DoxyCodeLine{\Hypertarget{cp__tf__broadcaster_8cpp_source_l00119}00119\ \ \ \}}
+\DoxyCodeLine{\Hypertarget{cp__tf__broadcaster_8cpp_source_l00120}00120\ }
+\DoxyCodeLine{\Hypertarget{cp__tf__broadcaster_8cpp_source_l00121}00121\ \ \ \textcolor{comment}{//\ PX4\ quaternion\ is\ (w,\ x,\ y,\ z),\ rotation\ FRD\ body\ -\/>\ NED\ earth}}
+\DoxyCodeLine{\Hypertarget{cp__tf__broadcaster_8cpp_source_l00122}00122\ \ \ \textcolor{keyword}{const}\ tf2::Quaternion\ qNedFrd(msg-\/>q[1],\ msg-\/>q[2],\ msg-\/>q[3],\ msg-\/>q[0]);}
+\DoxyCodeLine{\Hypertarget{cp__tf__broadcaster_8cpp_source_l00123}00123\ \ \ tf2::Quaternion\ qEnuFlu\ =\ kNedEnuQ\ *\ qNedFrd\ *\ kFrdFluQ;}
+\DoxyCodeLine{\Hypertarget{cp__tf__broadcaster_8cpp_source_l00124}00124\ \ \ qEnuFlu.normalize();}
+\DoxyCodeLine{\Hypertarget{cp__tf__broadcaster_8cpp_source_l00125}00125\ }
+\DoxyCodeLine{\Hypertarget{cp__tf__broadcaster_8cpp_source_l00126}00126\ \ \ \textcolor{keyword}{const}\ \textcolor{keyword}{auto}\ stamp\ =\ this-\/>\mbox{\hyperlink{classsmacc2_1_1ISmaccComponent_aaac68614687bed658c59f8f15746ab91}{getNode}}()-\/>now();}
+\DoxyCodeLine{\Hypertarget{cp__tf__broadcaster_8cpp_source_l00127}00127\ }
+\DoxyCodeLine{\Hypertarget{cp__tf__broadcaster_8cpp_source_l00128}00128\ \ \ geometry\_msgs::msg::TransformStamped\ base;}
+\DoxyCodeLine{\Hypertarget{cp__tf__broadcaster_8cpp_source_l00129}00129\ \ \ base.header.stamp\ =\ stamp;}
+\DoxyCodeLine{\Hypertarget{cp__tf__broadcaster_8cpp_source_l00130}00130\ \ \ base.header.frame\_id\ =\ \mbox{\hyperlink{classcl__px4__mr_1_1CpTfBroadcaster_a31e9fa2e6e97faf2bdbc1ac7fd77fe31}{params\_}}.\mbox{\hyperlink{structcl__px4__mr_1_1TfBroadcasterParams_a5f861e939e41647638e6913812f809f7}{mapFrame}};}
+\DoxyCodeLine{\Hypertarget{cp__tf__broadcaster_8cpp_source_l00131}00131\ \ \ base.child\_frame\_id\ =\ \mbox{\hyperlink{classcl__px4__mr_1_1CpTfBroadcaster_a31e9fa2e6e97faf2bdbc1ac7fd77fe31}{params\_}}.\mbox{\hyperlink{structcl__px4__mr_1_1TfBroadcasterParams_a529ac7cdee2ac9dfe5a6f492109fe964}{baseFrame}};}
+\DoxyCodeLine{\Hypertarget{cp__tf__broadcaster_8cpp_source_l00132}00132\ \ \ base.transform.translation.x\ =\ \mbox{\hyperlink{classcl__px4__mr_1_1CpTfBroadcaster_ac50978dca87844180725f38a4fe1f841}{localPosition\_}}-\/>\mbox{\hyperlink{classcl__px4__mr_1_1CpVehicleLocalPosition_a1d9536e60ab3709dec4876f3c650f964}{getY}}();\ \ \ \textcolor{comment}{//\ east}}
+\DoxyCodeLine{\Hypertarget{cp__tf__broadcaster_8cpp_source_l00133}00133\ \ \ base.transform.translation.y\ =\ \mbox{\hyperlink{classcl__px4__mr_1_1CpTfBroadcaster_ac50978dca87844180725f38a4fe1f841}{localPosition\_}}-\/>\mbox{\hyperlink{classcl__px4__mr_1_1CpVehicleLocalPosition_a90fd0ca926c0eba124d97f04cbc64880}{getX}}();\ \ \ \textcolor{comment}{//\ north}}
+\DoxyCodeLine{\Hypertarget{cp__tf__broadcaster_8cpp_source_l00134}00134\ \ \ base.transform.translation.z\ =\ -\/\mbox{\hyperlink{classcl__px4__mr_1_1CpTfBroadcaster_ac50978dca87844180725f38a4fe1f841}{localPosition\_}}-\/>\mbox{\hyperlink{classcl__px4__mr_1_1CpVehicleLocalPosition_aff646820b46d38aff061d40e8cdfd76b}{getZ}}();\ \ \textcolor{comment}{//\ up}}
+\DoxyCodeLine{\Hypertarget{cp__tf__broadcaster_8cpp_source_l00135}00135\ \ \ base.transform.rotation.x\ =\ qEnuFlu.x();}
+\DoxyCodeLine{\Hypertarget{cp__tf__broadcaster_8cpp_source_l00136}00136\ \ \ base.transform.rotation.y\ =\ qEnuFlu.y();}
+\DoxyCodeLine{\Hypertarget{cp__tf__broadcaster_8cpp_source_l00137}00137\ \ \ base.transform.rotation.z\ =\ qEnuFlu.z();}
+\DoxyCodeLine{\Hypertarget{cp__tf__broadcaster_8cpp_source_l00138}00138\ \ \ base.transform.rotation.w\ =\ qEnuFlu.w();}
+\DoxyCodeLine{\Hypertarget{cp__tf__broadcaster_8cpp_source_l00139}00139\ }
+\DoxyCodeLine{\Hypertarget{cp__tf__broadcaster_8cpp_source_l00140}00140\ \ \ geometry\_msgs::msg::TransformStamped\ follow\ =\ base;}
+\DoxyCodeLine{\Hypertarget{cp__tf__broadcaster_8cpp_source_l00141}00141\ \ \ follow.child\_frame\_id\ =\ \mbox{\hyperlink{classcl__px4__mr_1_1CpTfBroadcaster_a31e9fa2e6e97faf2bdbc1ac7fd77fe31}{params\_}}.\mbox{\hyperlink{structcl__px4__mr_1_1TfBroadcasterParams_a55e1a51a32b384becd397ddfc46b835f}{followFrame}};}
+\DoxyCodeLine{\Hypertarget{cp__tf__broadcaster_8cpp_source_l00142}00142\ \ \ follow.transform.rotation.x\ =\ 0.0;}
+\DoxyCodeLine{\Hypertarget{cp__tf__broadcaster_8cpp_source_l00143}00143\ \ \ follow.transform.rotation.y\ =\ 0.0;}
+\DoxyCodeLine{\Hypertarget{cp__tf__broadcaster_8cpp_source_l00144}00144\ \ \ follow.transform.rotation.z\ =\ 0.0;}
+\DoxyCodeLine{\Hypertarget{cp__tf__broadcaster_8cpp_source_l00145}00145\ \ \ follow.transform.rotation.w\ =\ 1.0;}
+\DoxyCodeLine{\Hypertarget{cp__tf__broadcaster_8cpp_source_l00146}00146\ }
+\DoxyCodeLine{\Hypertarget{cp__tf__broadcaster_8cpp_source_l00147}00147\ \ \ \mbox{\hyperlink{classcl__px4__mr_1_1CpTfBroadcaster_ab30da3df3aa80af5d472838c0cea6e2b}{broadcaster\_}}-\/>sendTransform(std::vector<geometry\_msgs::msg::TransformStamped>\{base,\ follow\});}
+\DoxyCodeLine{\Hypertarget{cp__tf__broadcaster_8cpp_source_l00148}00148\ \ \ \mbox{\hyperlink{classcl__px4__mr_1_1CpTfBroadcaster_a21d159618e073e191531f77804d13a49}{lastSent\_}}\ =\ now;}
+\DoxyCodeLine{\Hypertarget{cp__tf__broadcaster_8cpp_source_l00149}00149\ }
+\DoxyCodeLine{\Hypertarget{cp__tf__broadcaster_8cpp_source_l00150}00150\ \ \ \textcolor{keywordflow}{if}\ (\mbox{\hyperlink{classcl__px4__mr_1_1CpTfBroadcaster_a80899ad1ba58f27c47e8ff54f3c651e5}{trailPub\_}})}
+\DoxyCodeLine{\Hypertarget{cp__tf__broadcaster_8cpp_source_l00151}00151\ \ \ \{}
+\DoxyCodeLine{\Hypertarget{cp__tf__broadcaster_8cpp_source_l00152}00152\ \ \ \ \ \textcolor{keyword}{const}\ \textcolor{keyword}{auto}\ \&\ t\ =\ base.transform.translation;}
+\DoxyCodeLine{\Hypertarget{cp__tf__broadcaster_8cpp_source_l00153}00153\ \ \ \ \ \textcolor{keywordtype}{bool}\ append\ =\ \mbox{\hyperlink{classcl__px4__mr_1_1CpTfBroadcaster_a93dc8f53d91d8d10d6a12d843f98cfca}{trail\_}}.poses.empty();}
+\DoxyCodeLine{\Hypertarget{cp__tf__broadcaster_8cpp_source_l00154}00154\ \ \ \ \ \textcolor{keywordflow}{if}\ (!append)}
+\DoxyCodeLine{\Hypertarget{cp__tf__broadcaster_8cpp_source_l00155}00155\ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{cp__tf__broadcaster_8cpp_source_l00156}00156\ \ \ \ \ \ \ \textcolor{keyword}{const}\ \textcolor{keyword}{auto}\ \&\ l\ =\ \mbox{\hyperlink{classcl__px4__mr_1_1CpTfBroadcaster_a93dc8f53d91d8d10d6a12d843f98cfca}{trail\_}}.poses.back().pose.position;}
+\DoxyCodeLine{\Hypertarget{cp__tf__broadcaster_8cpp_source_l00157}00157\ \ \ \ \ \ \ \textcolor{keyword}{const}\ \textcolor{keywordtype}{double}\ dx\ =\ t.x\ -\/\ l.x,\ dy\ =\ t.y\ -\/\ l.y,\ dz\ =\ t.z\ -\/\ l.z;}
+\DoxyCodeLine{\Hypertarget{cp__tf__broadcaster_8cpp_source_l00158}00158\ \ \ \ \ \ \ append\ =\ std::sqrt(dx\ *\ dx\ +\ dy\ *\ dy\ +\ dz\ *\ dz)\ >=\ \mbox{\hyperlink{classcl__px4__mr_1_1CpTfBroadcaster_a31e9fa2e6e97faf2bdbc1ac7fd77fe31}{params\_}}.\mbox{\hyperlink{structcl__px4__mr_1_1TfBroadcasterParams_af97611430e38f8e6e2a37ca1869a6d54}{trailMinStepM}};}
+\DoxyCodeLine{\Hypertarget{cp__tf__broadcaster_8cpp_source_l00159}00159\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{cp__tf__broadcaster_8cpp_source_l00160}00160\ \ \ \ \ \textcolor{keywordflow}{if}\ (append)}
+\DoxyCodeLine{\Hypertarget{cp__tf__broadcaster_8cpp_source_l00161}00161\ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{cp__tf__broadcaster_8cpp_source_l00162}00162\ \ \ \ \ \ \ geometry\_msgs::msg::PoseStamped\ ps;}
+\DoxyCodeLine{\Hypertarget{cp__tf__broadcaster_8cpp_source_l00163}00163\ \ \ \ \ \ \ ps.header\ =\ base.header;}
+\DoxyCodeLine{\Hypertarget{cp__tf__broadcaster_8cpp_source_l00164}00164\ \ \ \ \ \ \ ps.pose.position.x\ =\ t.x;}
+\DoxyCodeLine{\Hypertarget{cp__tf__broadcaster_8cpp_source_l00165}00165\ \ \ \ \ \ \ ps.pose.position.y\ =\ t.y;}
+\DoxyCodeLine{\Hypertarget{cp__tf__broadcaster_8cpp_source_l00166}00166\ \ \ \ \ \ \ ps.pose.position.z\ =\ t.z;}
+\DoxyCodeLine{\Hypertarget{cp__tf__broadcaster_8cpp_source_l00167}00167\ \ \ \ \ \ \ ps.pose.orientation\ =\ base.transform.rotation;}
+\DoxyCodeLine{\Hypertarget{cp__tf__broadcaster_8cpp_source_l00168}00168\ \ \ \ \ \ \ \mbox{\hyperlink{classcl__px4__mr_1_1CpTfBroadcaster_a93dc8f53d91d8d10d6a12d843f98cfca}{trail\_}}.poses.push\_back(ps);}
+\DoxyCodeLine{\Hypertarget{cp__tf__broadcaster_8cpp_source_l00169}00169\ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (\mbox{\hyperlink{classcl__px4__mr_1_1CpTfBroadcaster_a93dc8f53d91d8d10d6a12d843f98cfca}{trail\_}}.poses.size()\ >\ \mbox{\hyperlink{classcl__px4__mr_1_1CpTfBroadcaster_a31e9fa2e6e97faf2bdbc1ac7fd77fe31}{params\_}}.\mbox{\hyperlink{structcl__px4__mr_1_1TfBroadcasterParams_a1964e2c3b6b178fa821bb044581fb75f}{trailMaxPoses}})}
+\DoxyCodeLine{\Hypertarget{cp__tf__broadcaster_8cpp_source_l00170}00170\ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{cp__tf__broadcaster_8cpp_source_l00171}00171\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{classcl__px4__mr_1_1CpTfBroadcaster_a93dc8f53d91d8d10d6a12d843f98cfca}{trail\_}}.poses.erase(\mbox{\hyperlink{classcl__px4__mr_1_1CpTfBroadcaster_a93dc8f53d91d8d10d6a12d843f98cfca}{trail\_}}.poses.begin());}
+\DoxyCodeLine{\Hypertarget{cp__tf__broadcaster_8cpp_source_l00172}00172\ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{cp__tf__broadcaster_8cpp_source_l00173}00173\ \ \ \ \ \ \ \textcolor{keyword}{const}\ \textcolor{keywordtype}{double}\ sinceTrail\ =\ std::chrono::duration<double>(now\ -\/\ \mbox{\hyperlink{classcl__px4__mr_1_1CpTfBroadcaster_a1bc809fffa6b82dd6c931891720ddd74}{lastTrailSent\_}}).count();}
+\DoxyCodeLine{\Hypertarget{cp__tf__broadcaster_8cpp_source_l00174}00174\ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (\mbox{\hyperlink{classcl__px4__mr_1_1CpTfBroadcaster_a31e9fa2e6e97faf2bdbc1ac7fd77fe31}{params\_}}.\mbox{\hyperlink{structcl__px4__mr_1_1TfBroadcasterParams_a5d791c12fcb8f03d038a7fd80da63a27}{trailRateHz}}\ <=\ 0.0\ ||\ sinceTrail\ >=\ 1.0\ /\ \mbox{\hyperlink{classcl__px4__mr_1_1CpTfBroadcaster_a31e9fa2e6e97faf2bdbc1ac7fd77fe31}{params\_}}.\mbox{\hyperlink{structcl__px4__mr_1_1TfBroadcasterParams_a5d791c12fcb8f03d038a7fd80da63a27}{trailRateHz}})}
+\DoxyCodeLine{\Hypertarget{cp__tf__broadcaster_8cpp_source_l00175}00175\ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{cp__tf__broadcaster_8cpp_source_l00176}00176\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{classcl__px4__mr_1_1CpTfBroadcaster_a93dc8f53d91d8d10d6a12d843f98cfca}{trail\_}}.header.stamp\ =\ stamp;}
+\DoxyCodeLine{\Hypertarget{cp__tf__broadcaster_8cpp_source_l00177}00177\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{classcl__px4__mr_1_1CpTfBroadcaster_a80899ad1ba58f27c47e8ff54f3c651e5}{trailPub\_}}-\/>publish(\mbox{\hyperlink{classcl__px4__mr_1_1CpTfBroadcaster_a93dc8f53d91d8d10d6a12d843f98cfca}{trail\_}});}
+\DoxyCodeLine{\Hypertarget{cp__tf__broadcaster_8cpp_source_l00178}00178\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{classcl__px4__mr_1_1CpTfBroadcaster_a1bc809fffa6b82dd6c931891720ddd74}{lastTrailSent\_}}\ =\ now;}
+\DoxyCodeLine{\Hypertarget{cp__tf__broadcaster_8cpp_source_l00179}00179\ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{cp__tf__broadcaster_8cpp_source_l00180}00180\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{cp__tf__broadcaster_8cpp_source_l00181}00181\ \ \ \}}
+\DoxyCodeLine{\Hypertarget{cp__tf__broadcaster_8cpp_source_l00182}00182\ \ \ \textcolor{keywordflow}{if}\ (!\mbox{\hyperlink{classcl__px4__mr_1_1CpTfBroadcaster_a64c82fe91e8fa00ac11e984f00787df4}{firstSent\_}})}
+\DoxyCodeLine{\Hypertarget{cp__tf__broadcaster_8cpp_source_l00183}00183\ \ \ \{}
+\DoxyCodeLine{\Hypertarget{cp__tf__broadcaster_8cpp_source_l00184}00184\ \ \ \ \ \mbox{\hyperlink{classcl__px4__mr_1_1CpTfBroadcaster_a64c82fe91e8fa00ac11e984f00787df4}{firstSent\_}}\ =\ \textcolor{keyword}{true};}
+\DoxyCodeLine{\Hypertarget{cp__tf__broadcaster_8cpp_source_l00185}00185\ \ \ \ \ RCLCPP\_INFO(}
+\DoxyCodeLine{\Hypertarget{cp__tf__broadcaster_8cpp_source_l00186}00186\ \ \ \ \ \ \ \mbox{\hyperlink{classsmacc2_1_1ISmaccComponent_a77ee85823bab8d84edcdf5d28782b728}{getLogger}}(),\ \textcolor{stringliteral}{"{}CpTfBroadcaster:\ first\ \%s\ -\/>\ \%s\ sent\ (ENU\ \%.2f,\ \%.2f,\ \%.2f)"{}},}
+\DoxyCodeLine{\Hypertarget{cp__tf__broadcaster_8cpp_source_l00187}00187\ \ \ \ \ \ \ \mbox{\hyperlink{classcl__px4__mr_1_1CpTfBroadcaster_a31e9fa2e6e97faf2bdbc1ac7fd77fe31}{params\_}}.\mbox{\hyperlink{structcl__px4__mr_1_1TfBroadcasterParams_a5f861e939e41647638e6913812f809f7}{mapFrame}}.c\_str(),\ \mbox{\hyperlink{classcl__px4__mr_1_1CpTfBroadcaster_a31e9fa2e6e97faf2bdbc1ac7fd77fe31}{params\_}}.\mbox{\hyperlink{structcl__px4__mr_1_1TfBroadcasterParams_a529ac7cdee2ac9dfe5a6f492109fe964}{baseFrame}}.c\_str(),\ base.transform.translation.x,}
+\DoxyCodeLine{\Hypertarget{cp__tf__broadcaster_8cpp_source_l00188}00188\ \ \ \ \ \ \ base.transform.translation.y,\ base.transform.translation.z);}
+\DoxyCodeLine{\Hypertarget{cp__tf__broadcaster_8cpp_source_l00189}00189\ \ \ \}}
+\DoxyCodeLine{\Hypertarget{cp__tf__broadcaster_8cpp_source_l00190}00190\ \}}
+\DoxyCodeLine{\Hypertarget{cp__tf__broadcaster_8cpp_source_l00191}00191\ }
+\DoxyCodeLine{\Hypertarget{cp__tf__broadcaster_8cpp_source_l00192}00192\ \}\ \ \textcolor{comment}{//\ namespace\ cl\_px4\_mr}}
+
+\end{DoxyCode}

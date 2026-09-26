@@ -1,0 +1,153 @@
+\doxysection{cb\+\_\+wait\+\_\+for\+\_\+heading\+\_\+stable.\+cpp}
+\hypertarget{cb__wait__for__heading__stable_8cpp_source}{}\label{cb__wait__for__heading__stable_8cpp_source}\index{smacc2\_client\_library/cl\_px4\_mr/src/cl\_px4\_mr/client\_behaviors/cb\_wait\_for\_heading\_stable.cpp@{smacc2\_client\_library/cl\_px4\_mr/src/cl\_px4\_mr/client\_behaviors/cb\_wait\_for\_heading\_stable.cpp}}
+\mbox{\hyperlink{cb__wait__for__heading__stable_8cpp}{Go to the documentation of this file.}}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\Hypertarget{cb__wait__for__heading__stable_8cpp_source_l00001}00001\ \textcolor{comment}{//\ Copyright\ 2026\ RobosoftAI\ Inc.}}
+\DoxyCodeLine{\Hypertarget{cb__wait__for__heading__stable_8cpp_source_l00002}00002\ \textcolor{comment}{//}}
+\DoxyCodeLine{\Hypertarget{cb__wait__for__heading__stable_8cpp_source_l00003}00003\ \textcolor{comment}{//\ Licensed\ under\ the\ Apache\ License,\ Version\ 2.0\ (the\ "{}License"{});}}
+\DoxyCodeLine{\Hypertarget{cb__wait__for__heading__stable_8cpp_source_l00004}00004\ \textcolor{comment}{//\ you\ may\ not\ use\ this\ file\ except\ in\ compliance\ with\ the\ License.}}
+\DoxyCodeLine{\Hypertarget{cb__wait__for__heading__stable_8cpp_source_l00005}00005\ \textcolor{comment}{//\ You\ may\ obtain\ a\ copy\ of\ the\ License\ at}}
+\DoxyCodeLine{\Hypertarget{cb__wait__for__heading__stable_8cpp_source_l00006}00006\ \textcolor{comment}{//}}
+\DoxyCodeLine{\Hypertarget{cb__wait__for__heading__stable_8cpp_source_l00007}00007\ \textcolor{comment}{//\ \ \ \ \ http://www.apache.org/licenses/LICENSE-\/2.0}}
+\DoxyCodeLine{\Hypertarget{cb__wait__for__heading__stable_8cpp_source_l00008}00008\ \textcolor{comment}{//}}
+\DoxyCodeLine{\Hypertarget{cb__wait__for__heading__stable_8cpp_source_l00009}00009\ \textcolor{comment}{//\ Unless\ required\ by\ applicable\ law\ or\ agreed\ to\ in\ writing,\ software}}
+\DoxyCodeLine{\Hypertarget{cb__wait__for__heading__stable_8cpp_source_l00010}00010\ \textcolor{comment}{//\ distributed\ under\ the\ License\ is\ distributed\ on\ an\ "{}AS\ IS"{}\ BASIS,}}
+\DoxyCodeLine{\Hypertarget{cb__wait__for__heading__stable_8cpp_source_l00011}00011\ \textcolor{comment}{//\ WITHOUT\ WARRANTIES\ OR\ CONDITIONS\ OF\ ANY\ KIND,\ either\ express\ or\ implied.}}
+\DoxyCodeLine{\Hypertarget{cb__wait__for__heading__stable_8cpp_source_l00012}00012\ \textcolor{comment}{//\ See\ the\ License\ for\ the\ specific\ language\ governing\ permissions\ and}}
+\DoxyCodeLine{\Hypertarget{cb__wait__for__heading__stable_8cpp_source_l00013}00013\ \textcolor{comment}{//\ limitations\ under\ the\ License.}}
+\DoxyCodeLine{\Hypertarget{cb__wait__for__heading__stable_8cpp_source_l00014}00014\ }
+\DoxyCodeLine{\Hypertarget{cb__wait__for__heading__stable_8cpp_source_l00015}00015\ \textcolor{preprocessor}{\#include\ <\mbox{\hyperlink{cb__wait__for__heading__stable_8hpp}{cl\_px4\_mr/client\_behaviors/cb\_wait\_for\_heading\_stable.hpp}}>}}
+\DoxyCodeLine{\Hypertarget{cb__wait__for__heading__stable_8cpp_source_l00016}00016\ \textcolor{preprocessor}{\#include\ <\mbox{\hyperlink{cp__vehicle__local__position_8hpp}{cl\_px4\_mr/components/cp\_vehicle\_local\_position.hpp}}>}}
+\DoxyCodeLine{\Hypertarget{cb__wait__for__heading__stable_8cpp_source_l00017}00017\ }
+\DoxyCodeLine{\Hypertarget{cb__wait__for__heading__stable_8cpp_source_l00018}00018\ \textcolor{preprocessor}{\#include\ <chrono>}}
+\DoxyCodeLine{\Hypertarget{cb__wait__for__heading__stable_8cpp_source_l00019}00019\ \textcolor{preprocessor}{\#include\ <deque>}}
+\DoxyCodeLine{\Hypertarget{cb__wait__for__heading__stable_8cpp_source_l00020}00020\ \textcolor{preprocessor}{\#include\ <utility>}}
+\DoxyCodeLine{\Hypertarget{cb__wait__for__heading__stable_8cpp_source_l00021}00021\ }
+\DoxyCodeLine{\Hypertarget{cb__wait__for__heading__stable_8cpp_source_l00022}00022\ \textcolor{keyword}{namespace\ }\mbox{\hyperlink{namespacecl__px4__mr}{cl\_px4\_mr}}}
+\DoxyCodeLine{\Hypertarget{cb__wait__for__heading__stable_8cpp_source_l00023}00023\ \{}
+\DoxyCodeLine{\Hypertarget{cb__wait__for__heading__stable_8cpp_source_l00024}00024\ }
+\DoxyCodeLine{\Hypertarget{cb__wait__for__heading__stable_8cpp_source_l00025}\mbox{\hyperlink{namespacecl__px4__mr_1_1anonymous__namespace_02cb__wait__for__heading__stable_8cpp_03}{00025}}\ \textcolor{keyword}{namespace}}
+\DoxyCodeLine{\Hypertarget{cb__wait__for__heading__stable_8cpp_source_l00026}00026\ \{}
+\DoxyCodeLine{\Hypertarget{cb__wait__for__heading__stable_8cpp_source_l00027}\mbox{\hyperlink{namespacecl__px4__mr_1_1anonymous__namespace_02cb__wait__for__heading__stable_8cpp_03_a2b0223c09f051b2b6e5539e0c6e09920}{00027}}\ \textcolor{keywordtype}{float}\ \mbox{\hyperlink{namespacecl__px4__mr_aa6a2289a8a3bb0e1ab6913fd251c3dd0}{wrapPi}}(\textcolor{keywordtype}{float}\ a)}
+\DoxyCodeLine{\Hypertarget{cb__wait__for__heading__stable_8cpp_source_l00028}00028\ \{}
+\DoxyCodeLine{\Hypertarget{cb__wait__for__heading__stable_8cpp_source_l00029}00029\ \ \ \textcolor{keywordflow}{while}\ (a\ >\ M\_PI)\ a\ -\/=\ 2.0f\ *\ M\_PI;}
+\DoxyCodeLine{\Hypertarget{cb__wait__for__heading__stable_8cpp_source_l00030}00030\ \ \ \textcolor{keywordflow}{while}\ (a\ <\ -\/M\_PI)\ a\ +=\ 2.0f\ *\ M\_PI;}
+\DoxyCodeLine{\Hypertarget{cb__wait__for__heading__stable_8cpp_source_l00031}00031\ \ \ \textcolor{keywordflow}{return}\ a;}
+\DoxyCodeLine{\Hypertarget{cb__wait__for__heading__stable_8cpp_source_l00032}00032\ \}}
+\DoxyCodeLine{\Hypertarget{cb__wait__for__heading__stable_8cpp_source_l00033}00033\ \}\ \ \textcolor{comment}{//\ namespace}}
+\DoxyCodeLine{\Hypertarget{cb__wait__for__heading__stable_8cpp_source_l00034}00034\ }
+\DoxyCodeLine{\Hypertarget{cb__wait__for__heading__stable_8cpp_source_l00035}\mbox{\hyperlink{classcl__px4__mr_1_1CbWaitForHeadingStable_a5aae89ae988c4fc50c23e6cc58ad4e30}{00035}}\ \mbox{\hyperlink{classcl__px4__mr_1_1CbWaitForHeadingStable_a5aae89ae988c4fc50c23e6cc58ad4e30}{CbWaitForHeadingStable::CbWaitForHeadingStable}}(\mbox{\hyperlink{structcl__px4__mr_1_1HeadingStableParams}{HeadingStableParams}}\ params)\ :\ params\_(params)\ \{\}}
+\DoxyCodeLine{\Hypertarget{cb__wait__for__heading__stable_8cpp_source_l00036}00036\ }
+\DoxyCodeLine{\Hypertarget{cb__wait__for__heading__stable_8cpp_source_l00037}\mbox{\hyperlink{classcl__px4__mr_1_1CbWaitForHeadingStable_a60882b121a32d139cbf77747ea6a65aa}{00037}}\ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{classcl__px4__mr_1_1CbWaitForHeadingStable_a60882b121a32d139cbf77747ea6a65aa}{CbWaitForHeadingStable::onEntry}}()}
+\DoxyCodeLine{\Hypertarget{cb__wait__for__heading__stable_8cpp_source_l00038}00038\ \{}
+\DoxyCodeLine{\Hypertarget{cb__wait__for__heading__stable_8cpp_source_l00039}00039\ \ \ \textcolor{keywordflow}{if}\ (\mbox{\hyperlink{classcl__px4__mr_1_1CbPx4ClientBehaviorBase_aac08e96640e94aff591f4a9a5af93453}{localPosition\_}}\ ==\ \textcolor{keyword}{nullptr})}
+\DoxyCodeLine{\Hypertarget{cb__wait__for__heading__stable_8cpp_source_l00040}00040\ \ \ \{}
+\DoxyCodeLine{\Hypertarget{cb__wait__for__heading__stable_8cpp_source_l00041}00041\ \ \ \ \ RCLCPP\_ERROR(\mbox{\hyperlink{classsmacc2_1_1ISmaccClientBehavior_a9c3d82542c800e2ba5207c5cff0e63e8}{getLogger}}(),\ \textcolor{stringliteral}{"{}CbWaitForHeadingStable:\ no\ CpVehicleLocalPosition"{}});}
+\DoxyCodeLine{\Hypertarget{cb__wait__for__heading__stable_8cpp_source_l00042}00042\ \ \ \ \ this-\/>\mbox{\hyperlink{classcl__px4__mr_1_1CbPx4ClientBehaviorBase_adec6c9edb3f9fa1e8d3028155f880379}{postPx4Failure}}();}
+\DoxyCodeLine{\Hypertarget{cb__wait__for__heading__stable_8cpp_source_l00043}00043\ \ \ \ \ \textcolor{keywordflow}{return};}
+\DoxyCodeLine{\Hypertarget{cb__wait__for__heading__stable_8cpp_source_l00044}00044\ \ \ \}}
+\DoxyCodeLine{\Hypertarget{cb__wait__for__heading__stable_8cpp_source_l00045}00045\ \ \ \textcolor{keyword}{const}\ \textcolor{keywordtype}{bool}\ checkExpected\ =\ std::isfinite(\mbox{\hyperlink{classcl__px4__mr_1_1CbWaitForHeadingStable_a4cb982ef3ad5d85a844247959b91b01b}{params\_}}.\mbox{\hyperlink{structcl__px4__mr_1_1HeadingStableParams_ac240677c9ced36b5c3658ef4bf965371}{expectedHeadingRad}});}
+\DoxyCodeLine{\Hypertarget{cb__wait__for__heading__stable_8cpp_source_l00046}00046\ \ \ RCLCPP\_INFO(}
+\DoxyCodeLine{\Hypertarget{cb__wait__for__heading__stable_8cpp_source_l00047}00047\ \ \ \ \ \mbox{\hyperlink{classsmacc2_1_1ISmaccClientBehavior_a9c3d82542c800e2ba5207c5cff0e63e8}{getLogger}}(),}
+\DoxyCodeLine{\Hypertarget{cb__wait__for__heading__stable_8cpp_source_l00048}00048\ \ \ \ \ \textcolor{stringliteral}{"{}CbWaitForHeadingStable:\ waiting\ for\ the\ heading\ to\ hold\ within\ \%.2f\ deg/s\ over\ \%.0f\ s\%s\ "{}}}
+\DoxyCodeLine{\Hypertarget{cb__wait__for__heading__stable_8cpp_source_l00049}00049\ \ \ \ \ \textcolor{stringliteral}{"{}(timeout\ \%.0f\ s)"{}},}
+\DoxyCodeLine{\Hypertarget{cb__wait__for__heading__stable_8cpp_source_l00050}00050\ \ \ \ \ \mbox{\hyperlink{classcl__px4__mr_1_1CbWaitForHeadingStable_a4cb982ef3ad5d85a844247959b91b01b}{params\_}}.\mbox{\hyperlink{structcl__px4__mr_1_1HeadingStableParams_a3de76234f12bd6e9dfb2921e6f2b0ed2}{maxDriftRadS}}\ *\ 180.0\ /\ M\_PI,\ \mbox{\hyperlink{classcl__px4__mr_1_1CbWaitForHeadingStable_a4cb982ef3ad5d85a844247959b91b01b}{params\_}}.\mbox{\hyperlink{structcl__px4__mr_1_1HeadingStableParams_ab57cada7d02659a47a8cb34739942ce5}{windowS}},}
+\DoxyCodeLine{\Hypertarget{cb__wait__for__heading__stable_8cpp_source_l00051}00051\ \ \ \ \ checkExpected\ ?\ \textcolor{stringliteral}{"{}\ and\ match\ the\ parked\ heading"{}}\ :\ \textcolor{stringliteral}{"{}"{}},\ \mbox{\hyperlink{classcl__px4__mr_1_1CbWaitForHeadingStable_a4cb982ef3ad5d85a844247959b91b01b}{params\_}}.\mbox{\hyperlink{structcl__px4__mr_1_1HeadingStableParams_ac81c54ecef3d5e9c191c59663e456a90}{timeoutS}});}
+\DoxyCodeLine{\Hypertarget{cb__wait__for__heading__stable_8cpp_source_l00052}00052\ }
+\DoxyCodeLine{\Hypertarget{cb__wait__for__heading__stable_8cpp_source_l00053}00053\ \ \ \textcolor{keyword}{using\ }clock\ =\ std::chrono::steady\_clock;}
+\DoxyCodeLine{\Hypertarget{cb__wait__for__heading__stable_8cpp_source_l00054}00054\ \ \ \textcolor{keyword}{const}\ \textcolor{keyword}{auto}\ start\ =\ clock::now();}
+\DoxyCodeLine{\Hypertarget{cb__wait__for__heading__stable_8cpp_source_l00055}00055\ \ \ std::deque<std::pair<double,\ float>>\ samples;\ \ \textcolor{comment}{//\ (t\ since\ start,\ heading)}}
+\DoxyCodeLine{\Hypertarget{cb__wait__for__heading__stable_8cpp_source_l00056}00056\ \ \ rclcpp::Rate\ rate(10.0);}
+\DoxyCodeLine{\Hypertarget{cb__wait__for__heading__stable_8cpp_source_l00057}00057\ \ \ \textcolor{keywordtype}{double}\ lastReport\ =\ -\/10.0;}
+\DoxyCodeLine{\Hypertarget{cb__wait__for__heading__stable_8cpp_source_l00058}00058\ }
+\DoxyCodeLine{\Hypertarget{cb__wait__for__heading__stable_8cpp_source_l00059}00059\ \ \ \textcolor{keywordflow}{while}\ (!this-\/>\mbox{\hyperlink{classsmacc2_1_1SmaccAsyncClientBehavior_a3fdbe8ec497fef82e2441e8e87899955}{isShutdownRequested}}())}
+\DoxyCodeLine{\Hypertarget{cb__wait__for__heading__stable_8cpp_source_l00060}00060\ \ \ \{}
+\DoxyCodeLine{\Hypertarget{cb__wait__for__heading__stable_8cpp_source_l00061}00061\ \ \ \ \ \textcolor{keyword}{const}\ \textcolor{keywordtype}{double}\ t\ =\ std::chrono::duration<double>(clock::now()\ -\/\ start).count();}
+\DoxyCodeLine{\Hypertarget{cb__wait__for__heading__stable_8cpp_source_l00062}00062\ \ \ \ \ \textcolor{keywordflow}{if}\ (\mbox{\hyperlink{classcl__px4__mr_1_1CbPx4ClientBehaviorBase_aac08e96640e94aff591f4a9a5af93453}{localPosition\_}}-\/>\mbox{\hyperlink{classcl__px4__mr_1_1CpVehicleLocalPosition_aca9a6689fa1e120b77feff35ab064b5c}{isValid}}())}
+\DoxyCodeLine{\Hypertarget{cb__wait__for__heading__stable_8cpp_source_l00063}00063\ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{cb__wait__for__heading__stable_8cpp_source_l00064}00064\ \ \ \ \ \ \ samples.emplace\_back(t,\ \mbox{\hyperlink{classcl__px4__mr_1_1CbPx4ClientBehaviorBase_aac08e96640e94aff591f4a9a5af93453}{localPosition\_}}-\/>\mbox{\hyperlink{classcl__px4__mr_1_1CpVehicleLocalPosition_ad20d2706ccb883910ec694f4c8587fd4}{getHeading}}());}
+\DoxyCodeLine{\Hypertarget{cb__wait__for__heading__stable_8cpp_source_l00065}00065\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{cb__wait__for__heading__stable_8cpp_source_l00066}00066\ \ \ \ \ \textcolor{keywordflow}{while}\ (!samples.empty()\ \&\&\ t\ -\/\ samples.front().first\ >\ \mbox{\hyperlink{classcl__px4__mr_1_1CbWaitForHeadingStable_a4cb982ef3ad5d85a844247959b91b01b}{params\_}}.\mbox{\hyperlink{structcl__px4__mr_1_1HeadingStableParams_ab57cada7d02659a47a8cb34739942ce5}{windowS}})}
+\DoxyCodeLine{\Hypertarget{cb__wait__for__heading__stable_8cpp_source_l00067}00067\ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{cb__wait__for__heading__stable_8cpp_source_l00068}00068\ \ \ \ \ \ \ samples.pop\_front();}
+\DoxyCodeLine{\Hypertarget{cb__wait__for__heading__stable_8cpp_source_l00069}00069\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{cb__wait__for__heading__stable_8cpp_source_l00070}00070\ }
+\DoxyCodeLine{\Hypertarget{cb__wait__for__heading__stable_8cpp_source_l00071}00071\ \ \ \ \ \textcolor{keywordtype}{bool}\ windowFull\ =}
+\DoxyCodeLine{\Hypertarget{cb__wait__for__heading__stable_8cpp_source_l00072}00072\ \ \ \ \ \ \ !samples.empty()\ \&\&\ samples.back().first\ -\/\ samples.front().first\ >=\ 0.9\ *\ \mbox{\hyperlink{classcl__px4__mr_1_1CbWaitForHeadingStable_a4cb982ef3ad5d85a844247959b91b01b}{params\_}}.\mbox{\hyperlink{structcl__px4__mr_1_1HeadingStableParams_ab57cada7d02659a47a8cb34739942ce5}{windowS}};}
+\DoxyCodeLine{\Hypertarget{cb__wait__for__heading__stable_8cpp_source_l00073}00073\ \ \ \ \ \textcolor{keywordtype}{float}\ drift\ =\ 0.0f,\ offset\ =\ 0.0f;}
+\DoxyCodeLine{\Hypertarget{cb__wait__for__heading__stable_8cpp_source_l00074}00074\ \ \ \ \ \textcolor{keywordtype}{bool}\ stable\ =\ \textcolor{keyword}{false},\ aligned\ =\ \textcolor{keyword}{true};}
+\DoxyCodeLine{\Hypertarget{cb__wait__for__heading__stable_8cpp_source_l00075}00075\ \ \ \ \ \textcolor{keywordflow}{if}\ (windowFull)}
+\DoxyCodeLine{\Hypertarget{cb__wait__for__heading__stable_8cpp_source_l00076}00076\ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{cb__wait__for__heading__stable_8cpp_source_l00077}00077\ \ \ \ \ \ \ \textcolor{comment}{//\ unwrap\ over\ the\ window:\ max\ excursion\ from\ the\ first\ sample}}
+\DoxyCodeLine{\Hypertarget{cb__wait__for__heading__stable_8cpp_source_l00078}00078\ \ \ \ \ \ \ \textcolor{keywordtype}{float}\ lo\ =\ 0.0f,\ hi\ =\ 0.0f;}
+\DoxyCodeLine{\Hypertarget{cb__wait__for__heading__stable_8cpp_source_l00079}00079\ \ \ \ \ \ \ \textcolor{keywordflow}{for}\ (\textcolor{keyword}{const}\ \textcolor{keyword}{auto}\ \&\ s\ :\ samples)}
+\DoxyCodeLine{\Hypertarget{cb__wait__for__heading__stable_8cpp_source_l00080}00080\ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{cb__wait__for__heading__stable_8cpp_source_l00081}00081\ \ \ \ \ \ \ \ \ \textcolor{keyword}{const}\ \textcolor{keywordtype}{float}\ d\ =\ \mbox{\hyperlink{namespacecl__px4__mr_aa6a2289a8a3bb0e1ab6913fd251c3dd0}{wrapPi}}(s.second\ -\/\ samples.front().second);}
+\DoxyCodeLine{\Hypertarget{cb__wait__for__heading__stable_8cpp_source_l00082}00082\ \ \ \ \ \ \ \ \ lo\ =\ std::min(lo,\ d);}
+\DoxyCodeLine{\Hypertarget{cb__wait__for__heading__stable_8cpp_source_l00083}00083\ \ \ \ \ \ \ \ \ hi\ =\ std::max(hi,\ d);}
+\DoxyCodeLine{\Hypertarget{cb__wait__for__heading__stable_8cpp_source_l00084}00084\ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{cb__wait__for__heading__stable_8cpp_source_l00085}00085\ \ \ \ \ \ \ drift\ =\ hi\ -\/\ lo;}
+\DoxyCodeLine{\Hypertarget{cb__wait__for__heading__stable_8cpp_source_l00086}00086\ \ \ \ \ \ \ stable\ =\ drift\ <=\ static\_cast<float>(\mbox{\hyperlink{classcl__px4__mr_1_1CbWaitForHeadingStable_a4cb982ef3ad5d85a844247959b91b01b}{params\_}}.\mbox{\hyperlink{structcl__px4__mr_1_1HeadingStableParams_a3de76234f12bd6e9dfb2921e6f2b0ed2}{maxDriftRadS}}\ *\ \mbox{\hyperlink{classcl__px4__mr_1_1CbWaitForHeadingStable_a4cb982ef3ad5d85a844247959b91b01b}{params\_}}.\mbox{\hyperlink{structcl__px4__mr_1_1HeadingStableParams_ab57cada7d02659a47a8cb34739942ce5}{windowS}});}
+\DoxyCodeLine{\Hypertarget{cb__wait__for__heading__stable_8cpp_source_l00087}00087\ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (checkExpected)}
+\DoxyCodeLine{\Hypertarget{cb__wait__for__heading__stable_8cpp_source_l00088}00088\ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{cb__wait__for__heading__stable_8cpp_source_l00089}00089\ \ \ \ \ \ \ \ \ offset\ =\ \mbox{\hyperlink{namespacecl__px4__mr_aa6a2289a8a3bb0e1ab6913fd251c3dd0}{wrapPi}}(samples.back().second\ -\/\ \mbox{\hyperlink{classcl__px4__mr_1_1CbWaitForHeadingStable_a4cb982ef3ad5d85a844247959b91b01b}{params\_}}.\mbox{\hyperlink{structcl__px4__mr_1_1HeadingStableParams_ac240677c9ced36b5c3658ef4bf965371}{expectedHeadingRad}});}
+\DoxyCodeLine{\Hypertarget{cb__wait__for__heading__stable_8cpp_source_l00090}00090\ \ \ \ \ \ \ \ \ aligned\ =\ std::fabs(offset)\ <=\ \mbox{\hyperlink{classcl__px4__mr_1_1CbWaitForHeadingStable_a4cb982ef3ad5d85a844247959b91b01b}{params\_}}.\mbox{\hyperlink{structcl__px4__mr_1_1HeadingStableParams_a5f2a7df4520cd78132cf60b08692e88a}{headingTolRad}};}
+\DoxyCodeLine{\Hypertarget{cb__wait__for__heading__stable_8cpp_source_l00091}00091\ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{cb__wait__for__heading__stable_8cpp_source_l00092}00092\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{cb__wait__for__heading__stable_8cpp_source_l00093}00093\ }
+\DoxyCodeLine{\Hypertarget{cb__wait__for__heading__stable_8cpp_source_l00094}00094\ \ \ \ \ \textcolor{keywordflow}{if}\ (windowFull\ \&\&\ stable\ \&\&\ aligned)}
+\DoxyCodeLine{\Hypertarget{cb__wait__for__heading__stable_8cpp_source_l00095}00095\ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{cb__wait__for__heading__stable_8cpp_source_l00096}00096\ \ \ \ \ \ \ RCLCPP\_INFO(}
+\DoxyCodeLine{\Hypertarget{cb__wait__for__heading__stable_8cpp_source_l00097}00097\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{classsmacc2_1_1ISmaccClientBehavior_a9c3d82542c800e2ba5207c5cff0e63e8}{getLogger}}(),}
+\DoxyCodeLine{\Hypertarget{cb__wait__for__heading__stable_8cpp_source_l00098}00098\ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}CbWaitForHeadingStable:\ heading\ \%.1f\ deg\ stable\ (\%.2f\ deg\ over\ \%.0f\ s\%s)\ -\/\ posting\ "{}}}
+\DoxyCodeLine{\Hypertarget{cb__wait__for__heading__stable_8cpp_source_l00099}00099\ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}success"{}},}
+\DoxyCodeLine{\Hypertarget{cb__wait__for__heading__stable_8cpp_source_l00100}00100\ \ \ \ \ \ \ \ \ samples.back().second\ *\ 180.0\ /\ M\_PI,\ drift\ *\ 180.0\ /\ M\_PI,\ \mbox{\hyperlink{classcl__px4__mr_1_1CbWaitForHeadingStable_a4cb982ef3ad5d85a844247959b91b01b}{params\_}}.\mbox{\hyperlink{structcl__px4__mr_1_1HeadingStableParams_ab57cada7d02659a47a8cb34739942ce5}{windowS}},}
+\DoxyCodeLine{\Hypertarget{cb__wait__for__heading__stable_8cpp_source_l00101}00101\ \ \ \ \ \ \ \ \ checkExpected\ ?\ (\textcolor{stringliteral}{"{},\ offset\ "{}}\ +\ std::to\_string(offset\ *\ 180.0\ /\ M\_PI)\ +\ \textcolor{stringliteral}{"{}\ deg"{}}).c\_str()}
+\DoxyCodeLine{\Hypertarget{cb__wait__for__heading__stable_8cpp_source_l00102}00102\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ :\ \textcolor{stringliteral}{"{}"{}});}
+\DoxyCodeLine{\Hypertarget{cb__wait__for__heading__stable_8cpp_source_l00103}00103\ \ \ \ \ \ \ this-\/>\mbox{\hyperlink{classcl__px4__mr_1_1CbPx4ClientBehaviorBase_a4b000d4fc4644581dc26c7e8dc1d4ef1}{postPx4Success}}();}
+\DoxyCodeLine{\Hypertarget{cb__wait__for__heading__stable_8cpp_source_l00104}00104\ \ \ \ \ \ \ \textcolor{keywordflow}{return};}
+\DoxyCodeLine{\Hypertarget{cb__wait__for__heading__stable_8cpp_source_l00105}00105\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{cb__wait__for__heading__stable_8cpp_source_l00106}00106\ }
+\DoxyCodeLine{\Hypertarget{cb__wait__for__heading__stable_8cpp_source_l00107}00107\ \ \ \ \ \textcolor{keywordflow}{if}\ (t\ -\/\ lastReport\ >=\ 2.0)}
+\DoxyCodeLine{\Hypertarget{cb__wait__for__heading__stable_8cpp_source_l00108}00108\ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{cb__wait__for__heading__stable_8cpp_source_l00109}00109\ \ \ \ \ \ \ lastReport\ =\ t;}
+\DoxyCodeLine{\Hypertarget{cb__wait__for__heading__stable_8cpp_source_l00110}00110\ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (!windowFull)}
+\DoxyCodeLine{\Hypertarget{cb__wait__for__heading__stable_8cpp_source_l00111}00111\ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{cb__wait__for__heading__stable_8cpp_source_l00112}00112\ \ \ \ \ \ \ \ \ RCLCPP\_INFO(}
+\DoxyCodeLine{\Hypertarget{cb__wait__for__heading__stable_8cpp_source_l00113}00113\ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{classsmacc2_1_1ISmaccClientBehavior_a9c3d82542c800e2ba5207c5cff0e63e8}{getLogger}}(),\ \textcolor{stringliteral}{"{}CbWaitForHeadingStable:\ collecting\ (\%zu\ samples,\ position\ valid=\%d)"{}},}
+\DoxyCodeLine{\Hypertarget{cb__wait__for__heading__stable_8cpp_source_l00114}00114\ \ \ \ \ \ \ \ \ \ \ samples.size(),\ \textcolor{keyword}{static\_cast<}\textcolor{keywordtype}{int}\textcolor{keyword}{>}(\mbox{\hyperlink{classcl__px4__mr_1_1CbPx4ClientBehaviorBase_aac08e96640e94aff591f4a9a5af93453}{localPosition\_}}-\/>\mbox{\hyperlink{classcl__px4__mr_1_1CpVehicleLocalPosition_aca9a6689fa1e120b77feff35ab064b5c}{isValid}}()));}
+\DoxyCodeLine{\Hypertarget{cb__wait__for__heading__stable_8cpp_source_l00115}00115\ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{cb__wait__for__heading__stable_8cpp_source_l00116}00116\ \ \ \ \ \ \ \textcolor{keywordflow}{else}}
+\DoxyCodeLine{\Hypertarget{cb__wait__for__heading__stable_8cpp_source_l00117}00117\ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{cb__wait__for__heading__stable_8cpp_source_l00118}00118\ \ \ \ \ \ \ \ \ RCLCPP\_WARN(}
+\DoxyCodeLine{\Hypertarget{cb__wait__for__heading__stable_8cpp_source_l00119}00119\ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{classsmacc2_1_1ISmaccClientBehavior_a9c3d82542c800e2ba5207c5cff0e63e8}{getLogger}}(),}
+\DoxyCodeLine{\Hypertarget{cb__wait__for__heading__stable_8cpp_source_l00120}00120\ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}CbWaitForHeadingStable:\ heading\ \%.1f\ deg\ NOT\ ready:\ drift\ \%.2f\ deg/s\%s\ -\/\ the\ EKF\ "{}}}
+\DoxyCodeLine{\Hypertarget{cb__wait__for__heading__stable_8cpp_source_l00121}00121\ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}yaw\ is\ not\ trustworthy\ for\ takeoff"{}},}
+\DoxyCodeLine{\Hypertarget{cb__wait__for__heading__stable_8cpp_source_l00122}00122\ \ \ \ \ \ \ \ \ \ \ samples.back().second\ *\ 180.0\ /\ M\_PI,\ drift\ /\ \mbox{\hyperlink{classcl__px4__mr_1_1CbWaitForHeadingStable_a4cb982ef3ad5d85a844247959b91b01b}{params\_}}.\mbox{\hyperlink{structcl__px4__mr_1_1HeadingStableParams_ab57cada7d02659a47a8cb34739942ce5}{windowS}}\ *\ 180.0\ /\ M\_PI,}
+\DoxyCodeLine{\Hypertarget{cb__wait__for__heading__stable_8cpp_source_l00123}00123\ \ \ \ \ \ \ \ \ \ \ checkExpected}
+\DoxyCodeLine{\Hypertarget{cb__wait__for__heading__stable_8cpp_source_l00124}00124\ \ \ \ \ \ \ \ \ \ \ \ \ ?\ (\textcolor{stringliteral}{"{},\ offset\ from\ parked\ heading\ "{}}\ +\ std::to\_string(offset\ *\ 180.0\ /\ M\_PI)\ +\ \textcolor{stringliteral}{"{}\ deg"{}})}
+\DoxyCodeLine{\Hypertarget{cb__wait__for__heading__stable_8cpp_source_l00125}00125\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ .c\_str()}
+\DoxyCodeLine{\Hypertarget{cb__wait__for__heading__stable_8cpp_source_l00126}00126\ \ \ \ \ \ \ \ \ \ \ \ \ :\ \textcolor{stringliteral}{"{}"{}});}
+\DoxyCodeLine{\Hypertarget{cb__wait__for__heading__stable_8cpp_source_l00127}00127\ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{cb__wait__for__heading__stable_8cpp_source_l00128}00128\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{cb__wait__for__heading__stable_8cpp_source_l00129}00129\ }
+\DoxyCodeLine{\Hypertarget{cb__wait__for__heading__stable_8cpp_source_l00130}00130\ \ \ \ \ \textcolor{keywordflow}{if}\ (t\ >\ \mbox{\hyperlink{classcl__px4__mr_1_1CbWaitForHeadingStable_a4cb982ef3ad5d85a844247959b91b01b}{params\_}}.\mbox{\hyperlink{structcl__px4__mr_1_1HeadingStableParams_ac81c54ecef3d5e9c191c59663e456a90}{timeoutS}})}
+\DoxyCodeLine{\Hypertarget{cb__wait__for__heading__stable_8cpp_source_l00131}00131\ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{cb__wait__for__heading__stable_8cpp_source_l00132}00132\ \ \ \ \ \ \ RCLCPP\_ERROR(}
+\DoxyCodeLine{\Hypertarget{cb__wait__for__heading__stable_8cpp_source_l00133}00133\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{classsmacc2_1_1ISmaccClientBehavior_a9c3d82542c800e2ba5207c5cff0e63e8}{getLogger}}(),}
+\DoxyCodeLine{\Hypertarget{cb__wait__for__heading__stable_8cpp_source_l00134}00134\ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}CbWaitForHeadingStable:\ timeout\ (\%.0f\ s):\ heading\ \%.1f\ deg,\ drift\ \%.2f\ deg/s.\ "{}}}
+\DoxyCodeLine{\Hypertarget{cb__wait__for__heading__stable_8cpp_source_l00135}00135\ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}Refusing\ to\ arm;\ restart\ the\ estimator\ /\ SITL"{}},}
+\DoxyCodeLine{\Hypertarget{cb__wait__for__heading__stable_8cpp_source_l00136}00136\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{classcl__px4__mr_1_1CbWaitForHeadingStable_a4cb982ef3ad5d85a844247959b91b01b}{params\_}}.\mbox{\hyperlink{structcl__px4__mr_1_1HeadingStableParams_ac81c54ecef3d5e9c191c59663e456a90}{timeoutS}},\ samples.empty()\ ?\ 0.0\ :\ samples.back().second\ *\ 180.0\ /\ M\_PI,}
+\DoxyCodeLine{\Hypertarget{cb__wait__for__heading__stable_8cpp_source_l00137}00137\ \ \ \ \ \ \ \ \ drift\ /\ \mbox{\hyperlink{classcl__px4__mr_1_1CbWaitForHeadingStable_a4cb982ef3ad5d85a844247959b91b01b}{params\_}}.\mbox{\hyperlink{structcl__px4__mr_1_1HeadingStableParams_ab57cada7d02659a47a8cb34739942ce5}{windowS}}\ *\ 180.0\ /\ M\_PI);}
+\DoxyCodeLine{\Hypertarget{cb__wait__for__heading__stable_8cpp_source_l00138}00138\ \ \ \ \ \ \ this-\/>\mbox{\hyperlink{classcl__px4__mr_1_1CbPx4ClientBehaviorBase_adec6c9edb3f9fa1e8d3028155f880379}{postPx4Failure}}();}
+\DoxyCodeLine{\Hypertarget{cb__wait__for__heading__stable_8cpp_source_l00139}00139\ \ \ \ \ \ \ \textcolor{keywordflow}{return};}
+\DoxyCodeLine{\Hypertarget{cb__wait__for__heading__stable_8cpp_source_l00140}00140\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{cb__wait__for__heading__stable_8cpp_source_l00141}00141\ \ \ \ \ rate.sleep();}
+\DoxyCodeLine{\Hypertarget{cb__wait__for__heading__stable_8cpp_source_l00142}00142\ \ \ \}}
+\DoxyCodeLine{\Hypertarget{cb__wait__for__heading__stable_8cpp_source_l00143}00143\ \ \ RCLCPP\_WARN(\mbox{\hyperlink{classsmacc2_1_1ISmaccClientBehavior_a9c3d82542c800e2ba5207c5cff0e63e8}{getLogger}}(),\ \textcolor{stringliteral}{"{}CbWaitForHeadingStable:\ shutdown\ requested"{}});}
+\DoxyCodeLine{\Hypertarget{cb__wait__for__heading__stable_8cpp_source_l00144}00144\ \ \ this-\/>\mbox{\hyperlink{classcl__px4__mr_1_1CbPx4ClientBehaviorBase_adec6c9edb3f9fa1e8d3028155f880379}{postPx4Failure}}();}
+\DoxyCodeLine{\Hypertarget{cb__wait__for__heading__stable_8cpp_source_l00145}00145\ \}}
+\DoxyCodeLine{\Hypertarget{cb__wait__for__heading__stable_8cpp_source_l00146}00146\ }
+\DoxyCodeLine{\Hypertarget{cb__wait__for__heading__stable_8cpp_source_l00147}00147\ \}\ \ \textcolor{comment}{//\ namespace\ cl\_px4\_mr}}
+
+\end{DoxyCode}

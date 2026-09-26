@@ -31,6 +31,8 @@ Collaboration diagram for cl\+\_\+px4\+\_\+mr\+::Cb\+Px4\+Path\+Follower\+Base\+
 \item 
 virtual \mbox{\hyperlink{classcl__px4__mr_1_1CbPx4PathFollowerBase_a161d4b123cde2809f439b055666715b1}{\texorpdfstring{$\sim$}{\string~}\+Cb\+Px4\+Path\+Follower\+Base}} ()
 \item 
+{\footnotesize template$<$typename TOrthogonal , typename TSource\+Object $>$ }\\void \mbox{\hyperlink{classcl__px4__mr_1_1CbPx4PathFollowerBase_a12f235b599b17bef659d71952c800397}{on\+State\+Orthogonal\+Allocation}} ()
+\item 
 void \mbox{\hyperlink{classcl__px4__mr_1_1CbPx4PathFollowerBase_add4bf85c0526b2eafc846a2658024ccf}{set\+Follower\+Params}} (const \mbox{\hyperlink{structcl__px4__mr_1_1PathFollowerParams}{Path\+Follower\+Params}} \&params)
 \item 
 const \mbox{\hyperlink{structcl__px4__mr_1_1PathFollowerParams}{Path\+Follower\+Params}} \& \mbox{\hyperlink{classcl__px4__mr_1_1CbPx4PathFollowerBase_af59c1be429fc23fd4b1a2c9375ca7352}{follower\+Params}} () const
@@ -121,6 +123,8 @@ virtual void \mbox{\hyperlink{classcl__px4__mr_1_1CbPx4PathFollowerBase_ae7dcc23
 float \mbox{\hyperlink{classcl__px4__mr_1_1CbPx4PathFollowerBase_a8acab8a45c85c22f4117371036926771}{total\+Length}} () const
 \item 
 float \mbox{\hyperlink{classcl__px4__mr_1_1CbPx4PathFollowerBase_aeeb8e64044778767dd22ecf433fc4575}{progress\+Fraction}} () const
+\item 
+size\+\_\+t \mbox{\hyperlink{classcl__px4__mr_1_1CbPx4PathFollowerBase_a53195a43ee917894e8eca9b967a17b06}{carrot\+Vertex\+Index}} () const
 \end{DoxyCompactItemize}
 \doxysubsection*{Protected Member Functions inherited from \mbox{\hyperlink{classcl__px4__mr_1_1CbPx4ClientBehaviorBase}{cl\+\_\+px4\+\_\+mr\+::\+Cb\+Px4\+Client\+Behavior\+Base}}}
 \begin{DoxyCompactItemize}
@@ -162,6 +166,8 @@ virtual rclcpp\+::\+Logger \mbox{\hyperlink{classsmacc2_1_1ISmaccClientBehavior_
 \begin{DoxyCompactItemize}
 \item 
 \mbox{\hyperlink{structcl__px4__mr_1_1PathFollowerParams}{Path\+Follower\+Params}} \mbox{\hyperlink{classcl__px4__mr_1_1CbPx4PathFollowerBase_a7b011538e949299d94649c4027f55f2e}{follower\+Params\+\_\+}}
+\item 
+\mbox{\hyperlink{classcl__px4__mr_1_1CpTunnelCentering}{Cp\+Tunnel\+Centering}} \texorpdfstring{$\ast$}{*} \mbox{\hyperlink{classcl__px4__mr_1_1CbPx4PathFollowerBase_a7a5777f04d171dced2890f0815667e9d}{tunnel\+Centering\+\_\+}} = nullptr
 \end{DoxyCompactItemize}
 \doxysubsection*{Protected Attributes inherited from \mbox{\hyperlink{classcl__px4__mr_1_1CbPx4ClientBehaviorBase}{cl\+\_\+px4\+\_\+mr\+::\+Cb\+Px4\+Client\+Behavior\+Base}}}
 \begin{DoxyCompactItemize}
@@ -183,6 +189,8 @@ virtual rclcpp\+::\+Logger \mbox{\hyperlink{classsmacc2_1_1ISmaccClientBehavior_
 \item 
 \mbox{\hyperlink{structcl__px4__mr_1_1NedPoint}{Ned\+Point}} \mbox{\hyperlink{classcl__px4__mr_1_1CbPx4PathFollowerBase_a4028f3d2fcbd2540f7a44af3b2779930}{command\+For}} (float s)
 \item 
+void \mbox{\hyperlink{classcl__px4__mr_1_1CbPx4PathFollowerBase_abd477f3f33ce6ebb8e01712546a03f29}{apply\+Centering}} (\mbox{\hyperlink{structcl__px4__mr_1_1NedPoint}{Ned\+Point}} \&cmd) const
+\item 
 float \mbox{\hyperlink{classcl__px4__mr_1_1CbPx4PathFollowerBase_a65bef5b79953c4af977acf361ff34ec7}{tangent\+Yaw\+At}} (size\+\_\+t segment\+Index) const
 \end{DoxyCompactItemize}
 \doxysubsubsection*{Private Attributes}
@@ -195,6 +203,8 @@ std\+::vector$<$ float $>$ \mbox{\hyperlink{classcl__px4__mr_1_1CbPx4PathFollowe
 float \mbox{\hyperlink{classcl__px4__mr_1_1CbPx4PathFollowerBase_a6a677869a5b9aa61ed1082a80215c8d8}{total\+Len\+\_\+}} = 0.\+0f
 \item 
 float \mbox{\hyperlink{classcl__px4__mr_1_1CbPx4PathFollowerBase_aef84d639d4f1627e736fd2b4c6990ec7}{s\+Carrot\+\_\+}} = 0.\+0f
+\item 
+std\+::atomic$<$ size\+\_\+t $>$ \mbox{\hyperlink{classcl__px4__mr_1_1CbPx4PathFollowerBase_aceeefa7ef72ffd866811ff9e159284f5}{carrot\+Vertex\+\_\+}} \{0\}
 \item 
 float \mbox{\hyperlink{classcl__px4__mr_1_1CbPx4PathFollowerBase_adc10a7f4318c8c9c88b1667401b85862}{entry\+Heading\+\_\+}} = 0.\+0f
 \item 
@@ -211,7 +221,7 @@ std\+::chrono\+::steady\+\_\+clock\+::time\+\_\+point \mbox{\hyperlink{classcl__
 \doxysubsection{Detailed Description}
 
 
-Definition at line \mbox{\hyperlink{cb__px4__path__follower__base_8hpp_source_l00076}{76}} of file \mbox{\hyperlink{cb__px4__path__follower__base_8hpp_source}{cb\+\_\+px4\+\_\+path\+\_\+follower\+\_\+base.\+hpp}}.
+Definition at line \mbox{\hyperlink{cb__px4__path__follower__base_8hpp_source_l00081}{81}} of file \mbox{\hyperlink{cb__px4__path__follower__base_8hpp_source}{cb\+\_\+px4\+\_\+path\+\_\+follower\+\_\+base.\+hpp}}.
 
 
 
@@ -224,11 +234,11 @@ cl\+\_\+px4\+\_\+mr\+::\+Cb\+Px4\+Path\+Follower\+Base\+::\+Cb\+Px4\+Path\+Follo
 
 
 
-Definition at line \mbox{\hyperlink{cb__px4__path__follower__base_8cpp_source_l00032}{32}} of file \mbox{\hyperlink{cb__px4__path__follower__base_8cpp_source}{cb\+\_\+px4\+\_\+path\+\_\+follower\+\_\+base.\+cpp}}.
+Definition at line \mbox{\hyperlink{cb__px4__path__follower__base_8cpp_source_l00033}{33}} of file \mbox{\hyperlink{cb__px4__path__follower__base_8cpp_source}{cb\+\_\+px4\+\_\+path\+\_\+follower\+\_\+base.\+cpp}}.
 
 
 \begin{DoxyCode}{0}
-\DoxyCodeLine{00032\ :\ \mbox{\hyperlink{classcl__px4__mr_1_1CbPx4PathFollowerBase_a7b011538e949299d94649c4027f55f2e}{followerParams\_}}(params)\ \{\}}
+\DoxyCodeLine{00033\ :\ \mbox{\hyperlink{classcl__px4__mr_1_1CbPx4PathFollowerBase_a7b011538e949299d94649c4027f55f2e}{followerParams\_}}(params)\ \{\}}
 
 \end{DoxyCode}
 \Hypertarget{classcl__px4__mr_1_1CbPx4PathFollowerBase_a161d4b123cde2809f439b055666715b1}\index{cl\_px4\_mr::CbPx4PathFollowerBase@{cl\_px4\_mr::CbPx4PathFollowerBase}!````~CbPx4PathFollowerBase@{\texorpdfstring{$\sim$}{\string~}CbPx4PathFollowerBase}}
@@ -239,16 +249,79 @@ virtual cl\+\_\+px4\+\_\+mr\+::\+Cb\+Px4\+Path\+Follower\+Base\+::\texorpdfstrin
 
 
 
-Definition at line \mbox{\hyperlink{cb__px4__path__follower__base_8hpp_source_l00080}{80}} of file \mbox{\hyperlink{cb__px4__path__follower__base_8hpp_source}{cb\+\_\+px4\+\_\+path\+\_\+follower\+\_\+base.\+hpp}}.
+Definition at line \mbox{\hyperlink{cb__px4__path__follower__base_8hpp_source_l00085}{85}} of file \mbox{\hyperlink{cb__px4__path__follower__base_8hpp_source}{cb\+\_\+px4\+\_\+path\+\_\+follower\+\_\+base.\+hpp}}.
 
 
 \begin{DoxyCode}{0}
-\DoxyCodeLine{00080\ \{\}}
+\DoxyCodeLine{00085\ \{\}}
 
 \end{DoxyCode}
 
 
 \doxysubsection{Member Function Documentation}
+\Hypertarget{classcl__px4__mr_1_1CbPx4PathFollowerBase_abd477f3f33ce6ebb8e01712546a03f29}\index{cl\_px4\_mr::CbPx4PathFollowerBase@{cl\_px4\_mr::CbPx4PathFollowerBase}!applyCentering@{applyCentering}}
+\index{applyCentering@{applyCentering}!cl\_px4\_mr::CbPx4PathFollowerBase@{cl\_px4\_mr::CbPx4PathFollowerBase}}
+\doxysubsubsection{\texorpdfstring{applyCentering()}{applyCentering()}}
+{\footnotesize\ttfamily \label{classcl__px4__mr_1_1CbPx4PathFollowerBase_abd477f3f33ce6ebb8e01712546a03f29} 
+void cl\+\_\+px4\+\_\+mr\+::\+Cb\+Px4\+Path\+Follower\+Base\+::apply\+Centering (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{structcl__px4__mr_1_1NedPoint}{Ned\+Point}} \&}]{cmd}{}\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [private]}}
+
+
+
+Definition at line \mbox{\hyperlink{cb__px4__path__follower__base_8cpp_source_l00261}{261}} of file \mbox{\hyperlink{cb__px4__path__follower__base_8cpp_source}{cb\+\_\+px4\+\_\+path\+\_\+follower\+\_\+base.\+cpp}}.
+
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00262\ \{}
+\DoxyCodeLine{00263\ \ \ \textcolor{keywordflow}{if}\ (}
+\DoxyCodeLine{00264\ \ \ \ \ !\mbox{\hyperlink{classcl__px4__mr_1_1CbPx4PathFollowerBase_a7b011538e949299d94649c4027f55f2e}{followerParams\_}}.\mbox{\hyperlink{structcl__px4__mr_1_1PathFollowerParams_a855342a06b5a6b4f1edef321708a1f2c}{useTunnelCentering}}\ ||\ \mbox{\hyperlink{classcl__px4__mr_1_1CbPx4PathFollowerBase_a7a5777f04d171dced2890f0815667e9d}{tunnelCentering\_}}\ ==\ \textcolor{keyword}{nullptr}\ ||}
+\DoxyCodeLine{00265\ \ \ \ \ !\mbox{\hyperlink{classcl__px4__mr_1_1CbPx4PathFollowerBase_a7a5777f04d171dced2890f0815667e9d}{tunnelCentering\_}}-\/>\mbox{\hyperlink{classcl__px4__mr_1_1CpTunnelCentering_a654b060963327d2fca1df7228f61eed5}{valid}}()\ ||\ \mbox{\hyperlink{classcl__px4__mr_1_1CbPx4ClientBehaviorBase_aac08e96640e94aff591f4a9a5af93453}{localPosition\_}}\ ==\ \textcolor{keyword}{nullptr})}
+\DoxyCodeLine{00266\ \ \ \{}
+\DoxyCodeLine{00267\ \ \ \ \ \textcolor{keywordflow}{return};}
+\DoxyCodeLine{00268\ \ \ \}}
+\DoxyCodeLine{00269\ \ \ \textcolor{keyword}{const}\ \textcolor{keywordtype}{float}\ up\ =\ \mbox{\hyperlink{classcl__px4__mr_1_1CbPx4PathFollowerBase_a7a5777f04d171dced2890f0815667e9d}{tunnelCentering\_}}-\/>\mbox{\hyperlink{classcl__px4__mr_1_1CpTunnelCentering_a8627458d52686b309822ebef2be4fdbe}{verticalOffsetM}}();\ \ \textcolor{comment}{//\ >\ 0:\ climb}}
+\DoxyCodeLine{00270\ \ \ cmd.z\ -\/=\ up;}
+\DoxyCodeLine{00271\ \ \ \textcolor{comment}{//\ the\ lateral\ offset\ is\ measured\ in\ the\ vehicle's\ own\ heading\ frame\ (the}}
+\DoxyCodeLine{00272\ \ \ \textcolor{comment}{//\ lidar's);\ apply\ it\ only\ while\ that\ heading\ agrees\ with\ the\ path\ tangent\ -\/}}
+\DoxyCodeLine{00273\ \ \ \textcolor{comment}{//\ mid-\/turn\ "{}left"{}\ can\ point\ straight\ at\ the\ wall\ the\ path\ leads\ away\ from}}
+\DoxyCodeLine{00274\ \ \ \textcolor{keyword}{const}\ \textcolor{keywordtype}{float}\ heading\ =\ \mbox{\hyperlink{classcl__px4__mr_1_1CbPx4ClientBehaviorBase_aac08e96640e94aff591f4a9a5af93453}{localPosition\_}}-\/>\mbox{\hyperlink{classcl__px4__mr_1_1CpVehicleLocalPosition_ad20d2706ccb883910ec694f4c8587fd4}{getHeading}}();}
+\DoxyCodeLine{00275\ \ \ \textcolor{keyword}{const}\ \textcolor{keywordtype}{float}\ misalign\ =\ \mbox{\hyperlink{namespacecl__px4__mr_aa6a2289a8a3bb0e1ab6913fd251c3dd0}{wrapPi}}(heading\ -\/\ cmd.yaw);}
+\DoxyCodeLine{00276\ \ \ \textcolor{keywordflow}{if}\ (std::fabs(misalign)\ >\ 0.7854f)}
+\DoxyCodeLine{00277\ \ \ \{}
+\DoxyCodeLine{00278\ \ \ \ \ \textcolor{keywordflow}{return};}
+\DoxyCodeLine{00279\ \ \ \}}
+\DoxyCodeLine{00280\ \ \ \textcolor{keyword}{const}\ \textcolor{keywordtype}{float}\ lateral\ =\ \mbox{\hyperlink{classcl__px4__mr_1_1CbPx4PathFollowerBase_a7a5777f04d171dced2890f0815667e9d}{tunnelCentering\_}}-\/>\mbox{\hyperlink{classcl__px4__mr_1_1CpTunnelCentering_aa9f82f04a654b4907e63e978d3aceab1}{lateralOffsetM}}();\ \ \textcolor{comment}{//\ >\ 0:\ left\ of\ the\ vehicle}}
+\DoxyCodeLine{00281\ \ \ \textcolor{comment}{//\ NED:\ heading\ psi\ from\ north\ toward\ east;\ left\ of\ forward\ =\ (sin\ psi,\ -\/cos\ psi)}}
+\DoxyCodeLine{00282\ \ \ \textcolor{keyword}{const}\ \textcolor{keywordtype}{float}\ s\ =\ std::sin(heading);}
+\DoxyCodeLine{00283\ \ \ \textcolor{keyword}{const}\ \textcolor{keywordtype}{float}\ c\ =\ std::cos(heading);}
+\DoxyCodeLine{00284\ \ \ cmd.x\ +=\ lateral\ *\ s;}
+\DoxyCodeLine{00285\ \ \ cmd.y\ -\/=\ lateral\ *\ c;}
+\DoxyCodeLine{00286\ \}}
+
+\end{DoxyCode}
+
+
+References \mbox{\hyperlink{cb__px4__path__follower__base_8hpp_source_l00121}{follower\+Params\+\_\+}}, \mbox{\hyperlink{cp__vehicle__local__position_8cpp_source_l00118}{cl\+\_\+px4\+\_\+mr\+::\+Cp\+Vehicle\+Local\+Position\+::get\+Heading()}}, \mbox{\hyperlink{cp__tunnel__centering_8hpp_source_l00099}{cl\+\_\+px4\+\_\+mr\+::\+Cp\+Tunnel\+Centering\+::lateral\+Offset\+M()}}, \mbox{\hyperlink{cb__px4__client__behavior__base_8hpp_source_l00141}{cl\+\_\+px4\+\_\+mr\+::\+Cb\+Px4\+Client\+Behavior\+Base\+::local\+Position\+\_\+}}, \mbox{\hyperlink{cb__px4__path__follower__base_8hpp_source_l00122}{tunnel\+Centering\+\_\+}}, \mbox{\hyperlink{cb__px4__path__follower__base_8hpp_source_l00063}{cl\+\_\+px4\+\_\+mr\+::\+Path\+Follower\+Params\+::use\+Tunnel\+Centering}}, \mbox{\hyperlink{cp__tunnel__centering_8cpp_source_l00088}{cl\+\_\+px4\+\_\+mr\+::\+Cp\+Tunnel\+Centering\+::valid()}}, \mbox{\hyperlink{cp__tunnel__centering_8hpp_source_l00100}{cl\+\_\+px4\+\_\+mr\+::\+Cp\+Tunnel\+Centering\+::vertical\+Offset\+M()}}, \mbox{\hyperlink{angle__utils_8hpp_source_l00025}{cl\+\_\+px4\+\_\+mr\+::wrap\+Pi()}}, \mbox{\hyperlink{geo__utils_8hpp_source_l00053}{cl\+\_\+px4\+\_\+mr\+::\+Ned\+Point\+::x}}, \mbox{\hyperlink{geo__utils_8hpp_source_l00054}{cl\+\_\+px4\+\_\+mr\+::\+Ned\+Point\+::y}}, \mbox{\hyperlink{geo__utils_8hpp_source_l00056}{cl\+\_\+px4\+\_\+mr\+::\+Ned\+Point\+::yaw}}, and \mbox{\hyperlink{geo__utils_8hpp_source_l00055}{cl\+\_\+px4\+\_\+mr\+::\+Ned\+Point\+::z}}.
+
+
+
+Referenced by \mbox{\hyperlink{cb__px4__path__follower__base_8cpp_source_l00232}{command\+For()}}.
+
+Here is the call graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{classcl__px4__mr_1_1CbPx4PathFollowerBase_abd477f3f33ce6ebb8e01712546a03f29_cgraph}
+\end{center}
+\end{figure}
+Here is the caller graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{classcl__px4__mr_1_1CbPx4PathFollowerBase_abd477f3f33ce6ebb8e01712546a03f29_icgraph}
+\end{center}
+\end{figure}
 \Hypertarget{classcl__px4__mr_1_1CbPx4PathFollowerBase_ab0db1bc9e5a98c75c13ad29ec173821b}\index{cl\_px4\_mr::CbPx4PathFollowerBase@{cl\_px4\_mr::CbPx4PathFollowerBase}!behaviorName@{behaviorName}}
 \index{behaviorName@{behaviorName}!cl\_px4\_mr::CbPx4PathFollowerBase@{cl\_px4\_mr::CbPx4PathFollowerBase}}
 \doxysubsubsection{\texorpdfstring{behaviorName()}{behaviorName()}}
@@ -257,20 +330,20 @@ virtual const char \texorpdfstring{$\ast$}{*} cl\+\_\+px4\+\_\+mr\+::\+Cb\+Px4\+
 
 
 
-Reimplemented in \mbox{\hyperlink{classcl__px4__mr_1_1CbAscendToAltitude_ac1936a6eeceacad08f30c5effe4fab99}{cl\+\_\+px4\+\_\+mr\+::\+Cb\+Ascend\+To\+Altitude}}, \mbox{\hyperlink{classcl__px4__mr_1_1CbGridPattern_a13f690fd6b78cd04f1c2edbf2dd5bf2a}{cl\+\_\+px4\+\_\+mr\+::\+Cb\+Grid\+Pattern}}, \mbox{\hyperlink{classcl__px4__mr_1_1CbLawnmower_a181feef1ad95ace6dcf520db34a47dc3}{cl\+\_\+px4\+\_\+mr\+::\+Cb\+Lawnmower}}, \mbox{\hyperlink{classcl__px4__mr_1_1CbLoiter_a5ffbda25098489b6c9048b04a5846435}{cl\+\_\+px4\+\_\+mr\+::\+Cb\+Loiter}}, \mbox{\hyperlink{classcl__px4__mr_1_1CbSineWaveHorizontal_a22e5f701421feb08feb0dac6a4717321}{cl\+\_\+px4\+\_\+mr\+::\+Cb\+Sine\+Wave\+Horizontal}}, \mbox{\hyperlink{classcl__px4__mr_1_1CbSineWaveVertical_a1c2e204b8c4873bf1a32cf273eafc695}{cl\+\_\+px4\+\_\+mr\+::\+Cb\+Sine\+Wave\+Vertical}}, \mbox{\hyperlink{classcl__px4__mr_1_1CbSpiral_a63e3b80b2cae3d3c9967e4f2a9326aff}{cl\+\_\+px4\+\_\+mr\+::\+Cb\+Spiral}}, \mbox{\hyperlink{classcl__px4__mr_1_1CbSquareSpiral_aca900ca1d381a644619ce01bf0163ad6}{cl\+\_\+px4\+\_\+mr\+::\+Cb\+Square\+Spiral}}, and \mbox{\hyperlink{classcl__px4__mr_1_1CbVSSearch_a20524494c9188b7091679466e189acc5}{cl\+\_\+px4\+\_\+mr\+::\+Cb\+VSSearch}}.
+Reimplemented in \mbox{\hyperlink{classcl__px4__mr_1_1CbAscendToAltitude_ac1936a6eeceacad08f30c5effe4fab99}{cl\+\_\+px4\+\_\+mr\+::\+Cb\+Ascend\+To\+Altitude}}, \mbox{\hyperlink{classcl__px4__mr_1_1CbFollowNedPath_ab6a0d1abc081d89d1325e6e8b94ef269}{cl\+\_\+px4\+\_\+mr\+::\+Cb\+Follow\+Ned\+Path}}, \mbox{\hyperlink{classcl__px4__mr_1_1CbGridPattern_a13f690fd6b78cd04f1c2edbf2dd5bf2a}{cl\+\_\+px4\+\_\+mr\+::\+Cb\+Grid\+Pattern}}, \mbox{\hyperlink{classcl__px4__mr_1_1CbLawnmower_a181feef1ad95ace6dcf520db34a47dc3}{cl\+\_\+px4\+\_\+mr\+::\+Cb\+Lawnmower}}, \mbox{\hyperlink{classcl__px4__mr_1_1CbLoiter_a5ffbda25098489b6c9048b04a5846435}{cl\+\_\+px4\+\_\+mr\+::\+Cb\+Loiter}}, \mbox{\hyperlink{classcl__px4__mr_1_1CbSineWaveHorizontal_a22e5f701421feb08feb0dac6a4717321}{cl\+\_\+px4\+\_\+mr\+::\+Cb\+Sine\+Wave\+Horizontal}}, \mbox{\hyperlink{classcl__px4__mr_1_1CbSineWaveVertical_a1c2e204b8c4873bf1a32cf273eafc695}{cl\+\_\+px4\+\_\+mr\+::\+Cb\+Sine\+Wave\+Vertical}}, \mbox{\hyperlink{classcl__px4__mr_1_1CbSpiral_a63e3b80b2cae3d3c9967e4f2a9326aff}{cl\+\_\+px4\+\_\+mr\+::\+Cb\+Spiral}}, \mbox{\hyperlink{classcl__px4__mr_1_1CbSquareSpiral_aca900ca1d381a644619ce01bf0163ad6}{cl\+\_\+px4\+\_\+mr\+::\+Cb\+Square\+Spiral}}, and \mbox{\hyperlink{classcl__px4__mr_1_1CbVSSearch_a20524494c9188b7091679466e189acc5}{cl\+\_\+px4\+\_\+mr\+::\+Cb\+VSSearch}}.
 
 
 
-Definition at line \mbox{\hyperlink{cb__px4__path__follower__base_8hpp_source_l00096}{96}} of file \mbox{\hyperlink{cb__px4__path__follower__base_8hpp_source}{cb\+\_\+px4\+\_\+path\+\_\+follower\+\_\+base.\+hpp}}.
+Definition at line \mbox{\hyperlink{cb__px4__path__follower__base_8hpp_source_l00109}{109}} of file \mbox{\hyperlink{cb__px4__path__follower__base_8hpp_source}{cb\+\_\+px4\+\_\+path\+\_\+follower\+\_\+base.\+hpp}}.
 
 
 \begin{DoxyCode}{0}
-\DoxyCodeLine{00096\ \{\ \textcolor{keywordflow}{return}\ \textcolor{stringliteral}{"{}CbPx4PathFollowerBase"{}};\ \}}
+\DoxyCodeLine{00109\ \{\ \textcolor{keywordflow}{return}\ \textcolor{stringliteral}{"{}CbPx4PathFollowerBase"{}};\ \}}
 
 \end{DoxyCode}
 
 
-Referenced by \mbox{\hyperlink{cb__px4__path__follower__base_8cpp_source_l00034}{on\+Entry()}}, \mbox{\hyperlink{cb__px4__path__follower__base_8cpp_source_l00123}{on\+Exit()}}, and \mbox{\hyperlink{cb__px4__path__follower__base_8cpp_source_l00136}{update()}}.
+Referenced by \mbox{\hyperlink{cb__px4__path__follower__base_8cpp_source_l00035}{on\+Entry()}}, \mbox{\hyperlink{cb__px4__path__follower__base_8cpp_source_l00129}{on\+Exit()}}, and \mbox{\hyperlink{cb__px4__path__follower__base_8cpp_source_l00142}{update()}}.
 
 Here is the caller graph for this function\+:
 \nopagebreak
@@ -288,11 +361,11 @@ virtual std\+::vector$<$ \mbox{\hyperlink{structcl__px4__mr_1_1NedPoint}{Ned\+Po
 
 
 
-Implemented in \mbox{\hyperlink{classcl__px4__mr_1_1CbAscendToAltitude_a6a4b6b7a2758a68c30b5087dcf6cdbb6}{cl\+\_\+px4\+\_\+mr\+::\+Cb\+Ascend\+To\+Altitude}}, \mbox{\hyperlink{classcl__px4__mr_1_1CbGridPattern_a59c3e55dd23cd7a424f8626226dbfa9e}{cl\+\_\+px4\+\_\+mr\+::\+Cb\+Grid\+Pattern}}, \mbox{\hyperlink{classcl__px4__mr_1_1CbLawnmower_abf7b528223ba65229bcdfdd517de41a7}{cl\+\_\+px4\+\_\+mr\+::\+Cb\+Lawnmower}}, \mbox{\hyperlink{classcl__px4__mr_1_1CbLoiter_a6d1dc9e8000cc08e04b37b5895eedea0}{cl\+\_\+px4\+\_\+mr\+::\+Cb\+Loiter}}, \mbox{\hyperlink{classcl__px4__mr_1_1CbSineWaveHorizontal_ab568cb74a83efba2690e9d4fa8c16ae5}{cl\+\_\+px4\+\_\+mr\+::\+Cb\+Sine\+Wave\+Horizontal}}, \mbox{\hyperlink{classcl__px4__mr_1_1CbSineWaveVertical_a553d006ab0b49be836400b47078aea7f}{cl\+\_\+px4\+\_\+mr\+::\+Cb\+Sine\+Wave\+Vertical}}, \mbox{\hyperlink{classcl__px4__mr_1_1CbSpiral_a485c9b6a166b9d57ff0d92cd4e27d295}{cl\+\_\+px4\+\_\+mr\+::\+Cb\+Spiral}}, \mbox{\hyperlink{classcl__px4__mr_1_1CbSquareSpiral_ac1f2a20bee3ee720a81cf6f640c9a0a2}{cl\+\_\+px4\+\_\+mr\+::\+Cb\+Square\+Spiral}}, and \mbox{\hyperlink{classcl__px4__mr_1_1CbVSSearch_af8d002030727ca391772d72c2e512f47}{cl\+\_\+px4\+\_\+mr\+::\+Cb\+VSSearch}}.
+Implemented in \mbox{\hyperlink{classcl__px4__mr_1_1CbAscendToAltitude_a6a4b6b7a2758a68c30b5087dcf6cdbb6}{cl\+\_\+px4\+\_\+mr\+::\+Cb\+Ascend\+To\+Altitude}}, \mbox{\hyperlink{classcl__px4__mr_1_1CbFollowNedPath_afc6826f041bd303815462e61d76a6fdb}{cl\+\_\+px4\+\_\+mr\+::\+Cb\+Follow\+Ned\+Path}}, \mbox{\hyperlink{classcl__px4__mr_1_1CbGridPattern_a59c3e55dd23cd7a424f8626226dbfa9e}{cl\+\_\+px4\+\_\+mr\+::\+Cb\+Grid\+Pattern}}, \mbox{\hyperlink{classcl__px4__mr_1_1CbLawnmower_abf7b528223ba65229bcdfdd517de41a7}{cl\+\_\+px4\+\_\+mr\+::\+Cb\+Lawnmower}}, \mbox{\hyperlink{classcl__px4__mr_1_1CbLoiter_a6d1dc9e8000cc08e04b37b5895eedea0}{cl\+\_\+px4\+\_\+mr\+::\+Cb\+Loiter}}, \mbox{\hyperlink{classcl__px4__mr_1_1CbSineWaveHorizontal_ab568cb74a83efba2690e9d4fa8c16ae5}{cl\+\_\+px4\+\_\+mr\+::\+Cb\+Sine\+Wave\+Horizontal}}, \mbox{\hyperlink{classcl__px4__mr_1_1CbSineWaveVertical_a553d006ab0b49be836400b47078aea7f}{cl\+\_\+px4\+\_\+mr\+::\+Cb\+Sine\+Wave\+Vertical}}, \mbox{\hyperlink{classcl__px4__mr_1_1CbSpiral_a485c9b6a166b9d57ff0d92cd4e27d295}{cl\+\_\+px4\+\_\+mr\+::\+Cb\+Spiral}}, \mbox{\hyperlink{classcl__px4__mr_1_1CbSquareSpiral_ac1f2a20bee3ee720a81cf6f640c9a0a2}{cl\+\_\+px4\+\_\+mr\+::\+Cb\+Square\+Spiral}}, and \mbox{\hyperlink{classcl__px4__mr_1_1CbVSSearch_af8d002030727ca391772d72c2e512f47}{cl\+\_\+px4\+\_\+mr\+::\+Cb\+VSSearch}}.
 
 
 
-Referenced by \mbox{\hyperlink{cb__px4__path__follower__base_8cpp_source_l00034}{on\+Entry()}}.
+Referenced by \mbox{\hyperlink{cb__px4__path__follower__base_8cpp_source_l00035}{on\+Entry()}}.
 
 Here is the caller graph for this function\+:
 \nopagebreak
@@ -300,6 +373,37 @@ Here is the caller graph for this function\+:
 \begin{center}
 \leavevmode
 \includegraphics[width=350pt]{classcl__px4__mr_1_1CbPx4PathFollowerBase_a557726946490f6fb22192b50edd0e614_icgraph}
+\end{center}
+\end{figure}
+\Hypertarget{classcl__px4__mr_1_1CbPx4PathFollowerBase_a53195a43ee917894e8eca9b967a17b06}\index{cl\_px4\_mr::CbPx4PathFollowerBase@{cl\_px4\_mr::CbPx4PathFollowerBase}!carrotVertexIndex@{carrotVertexIndex}}
+\index{carrotVertexIndex@{carrotVertexIndex}!cl\_px4\_mr::CbPx4PathFollowerBase@{cl\_px4\_mr::CbPx4PathFollowerBase}}
+\doxysubsubsection{\texorpdfstring{carrotVertexIndex()}{carrotVertexIndex()}}
+{\footnotesize\ttfamily \label{classcl__px4__mr_1_1CbPx4PathFollowerBase_a53195a43ee917894e8eca9b967a17b06} 
+size\+\_\+t cl\+\_\+px4\+\_\+mr\+::\+Cb\+Px4\+Path\+Follower\+Base\+::carrot\+Vertex\+Index (\begin{DoxyParamCaption}{}{}\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [protected]}}
+
+
+
+Definition at line \mbox{\hyperlink{cb__px4__path__follower__base_8hpp_source_l00119}{119}} of file \mbox{\hyperlink{cb__px4__path__follower__base_8hpp_source}{cb\+\_\+px4\+\_\+path\+\_\+follower\+\_\+base.\+hpp}}.
+
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00119\ \{\ \textcolor{keywordflow}{return}\ \mbox{\hyperlink{classcl__px4__mr_1_1CbPx4PathFollowerBase_aceeefa7ef72ffd866811ff9e159284f5}{carrotVertex\_}}.load();\ \}}
+
+\end{DoxyCode}
+
+
+References \mbox{\hyperlink{cb__px4__path__follower__base_8hpp_source_l00133}{carrot\+Vertex\+\_\+}}.
+
+
+
+Referenced by \mbox{\hyperlink{cb__follow__ned__path_8cpp_source_l00050}{cl\+\_\+px4\+\_\+mr\+::\+Cb\+Follow\+Ned\+Path\+::reached\+Count()}}.
+
+Here is the caller graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{classcl__px4__mr_1_1CbPx4PathFollowerBase_a53195a43ee917894e8eca9b967a17b06_icgraph}
 \end{center}
 \end{figure}
 \Hypertarget{classcl__px4__mr_1_1CbPx4PathFollowerBase_a4028f3d2fcbd2540f7a44af3b2779930}\index{cl\_px4\_mr::CbPx4PathFollowerBase@{cl\_px4\_mr::CbPx4PathFollowerBase}!commandFor@{commandFor}}
@@ -310,45 +414,46 @@ Here is the caller graph for this function\+:
 
 
 
-Definition at line \mbox{\hyperlink{cb__px4__path__follower__base_8cpp_source_l00216}{216}} of file \mbox{\hyperlink{cb__px4__path__follower__base_8cpp_source}{cb\+\_\+px4\+\_\+path\+\_\+follower\+\_\+base.\+cpp}}.
+Definition at line \mbox{\hyperlink{cb__px4__path__follower__base_8cpp_source_l00232}{232}} of file \mbox{\hyperlink{cb__px4__path__follower__base_8cpp_source}{cb\+\_\+px4\+\_\+path\+\_\+follower\+\_\+base.\+cpp}}.
 
 
 \begin{DoxyCode}{0}
-\DoxyCodeLine{00217\ \{}
-\DoxyCodeLine{00218\ \ \ \textcolor{keywordtype}{size\_t}\ segment\ =\ 0;}
-\DoxyCodeLine{00219\ \ \ NedPoint\ cmd\ =\ \mbox{\hyperlink{namespacecl__px4__mr_a3e263bea1b22cdf26f906654bbd84574}{sampleAtArcLength}}(\mbox{\hyperlink{classcl__px4__mr_1_1CbPx4PathFollowerBase_a3356e8d87f9a314f1a112425bdc473b5}{path\_}},\ \mbox{\hyperlink{classcl__px4__mr_1_1CbPx4PathFollowerBase_a78bec05786b51559eb69329756050261}{cumLen\_}},\ s,\ \&segment);}
-\DoxyCodeLine{00220\ }
-\DoxyCodeLine{00221\ \ \ \textcolor{keywordflow}{switch}\ (\mbox{\hyperlink{classcl__px4__mr_1_1CbPx4PathFollowerBase_a7b011538e949299d94649c4027f55f2e}{followerParams\_}}.\mbox{\hyperlink{structcl__px4__mr_1_1PathFollowerParams_a49fc0cb4837b09615e8c05358f0270e3}{yawMode}})}
-\DoxyCodeLine{00222\ \ \ \{}
-\DoxyCodeLine{00223\ \ \ \ \ \textcolor{keywordflow}{case}\ \mbox{\hyperlink{namespacecl__px4__mr_af7fa3b114930ffe6b6e25ca738f27336ac6e6dc18b53b4c2681394b9d8aefcec7}{YawMode::FIXED}}:}
-\DoxyCodeLine{00224\ \ \ \ \ \ \ cmd.yaw\ =\ std::isnan(\mbox{\hyperlink{classcl__px4__mr_1_1CbPx4PathFollowerBase_a7b011538e949299d94649c4027f55f2e}{followerParams\_}}.\mbox{\hyperlink{structcl__px4__mr_1_1PathFollowerParams_a47cdcf50e97217fe54b9376984de357a}{fixedYaw}})\ ?\ \mbox{\hyperlink{classcl__px4__mr_1_1CbPx4PathFollowerBase_adc10a7f4318c8c9c88b1667401b85862}{entryHeading\_}}\ :\ \mbox{\hyperlink{classcl__px4__mr_1_1CbPx4PathFollowerBase_a7b011538e949299d94649c4027f55f2e}{followerParams\_}}.\mbox{\hyperlink{structcl__px4__mr_1_1PathFollowerParams_a47cdcf50e97217fe54b9376984de357a}{fixedYaw}};}
-\DoxyCodeLine{00225\ \ \ \ \ \ \ \textcolor{keywordflow}{break};}
-\DoxyCodeLine{00226\ \ \ \ \ \textcolor{keywordflow}{case}\ \mbox{\hyperlink{namespacecl__px4__mr_af7fa3b114930ffe6b6e25ca738f27336aec8a6e75c25642ce9aebe5db97fd0d33}{YawMode::HOLD\_ENTRY}}:}
-\DoxyCodeLine{00227\ \ \ \ \ \ \ cmd.yaw\ =\ \mbox{\hyperlink{classcl__px4__mr_1_1CbPx4PathFollowerBase_adc10a7f4318c8c9c88b1667401b85862}{entryHeading\_}};}
-\DoxyCodeLine{00228\ \ \ \ \ \ \ \textcolor{keywordflow}{break};}
-\DoxyCodeLine{00229\ \ \ \ \ \textcolor{keywordflow}{case}\ \mbox{\hyperlink{namespacecl__px4__mr_af7fa3b114930ffe6b6e25ca738f27336a83e7f44a4d403e1ef4f9171bc7edcf58}{YawMode::PER\_VERTEX}}:}
-\DoxyCodeLine{00230\ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (std::isnan(cmd.yaw))}
-\DoxyCodeLine{00231\ \ \ \ \ \ \ \{}
-\DoxyCodeLine{00232\ \ \ \ \ \ \ \ \ cmd.yaw\ =\ \mbox{\hyperlink{classcl__px4__mr_1_1CbPx4PathFollowerBase_a65bef5b79953c4af977acf361ff34ec7}{tangentYawAt}}(segment);}
-\DoxyCodeLine{00233\ \ \ \ \ \ \ \}}
-\DoxyCodeLine{00234\ \ \ \ \ \ \ \textcolor{keywordflow}{break};}
-\DoxyCodeLine{00235\ \ \ \ \ \textcolor{keywordflow}{case}\ \mbox{\hyperlink{namespacecl__px4__mr_af7fa3b114930ffe6b6e25ca738f27336a4da56c3c2d4ee59a3461da5b2ad1a25d}{YawMode::TANGENT}}:}
-\DoxyCodeLine{00236\ \ \ \ \ \textcolor{keywordflow}{default}:}
-\DoxyCodeLine{00237\ \ \ \ \ \ \ cmd.yaw\ =\ \mbox{\hyperlink{classcl__px4__mr_1_1CbPx4PathFollowerBase_a65bef5b79953c4af977acf361ff34ec7}{tangentYawAt}}(segment);}
-\DoxyCodeLine{00238\ \ \ \ \ \ \ \textcolor{keywordflow}{break};}
-\DoxyCodeLine{00239\ \ \ \}}
-\DoxyCodeLine{00240\ \ \ cmd.yaw\ =\ \mbox{\hyperlink{namespacecl__px4__mr_aa6a2289a8a3bb0e1ab6913fd251c3dd0}{wrapPi}}(cmd.yaw);}
-\DoxyCodeLine{00241\ \ \ \textcolor{keywordflow}{return}\ cmd;}
-\DoxyCodeLine{00242\ \}}
+\DoxyCodeLine{00233\ \{}
+\DoxyCodeLine{00234\ \ \ \textcolor{keywordtype}{size\_t}\ segment\ =\ 0;}
+\DoxyCodeLine{00235\ \ \ NedPoint\ cmd\ =\ \mbox{\hyperlink{namespacecl__px4__mr_a3e263bea1b22cdf26f906654bbd84574}{sampleAtArcLength}}(\mbox{\hyperlink{classcl__px4__mr_1_1CbPx4PathFollowerBase_a3356e8d87f9a314f1a112425bdc473b5}{path\_}},\ \mbox{\hyperlink{classcl__px4__mr_1_1CbPx4PathFollowerBase_a78bec05786b51559eb69329756050261}{cumLen\_}},\ s,\ \&segment);}
+\DoxyCodeLine{00236\ }
+\DoxyCodeLine{00237\ \ \ \textcolor{keywordflow}{switch}\ (\mbox{\hyperlink{classcl__px4__mr_1_1CbPx4PathFollowerBase_a7b011538e949299d94649c4027f55f2e}{followerParams\_}}.\mbox{\hyperlink{structcl__px4__mr_1_1PathFollowerParams_a49fc0cb4837b09615e8c05358f0270e3}{yawMode}})}
+\DoxyCodeLine{00238\ \ \ \{}
+\DoxyCodeLine{00239\ \ \ \ \ \textcolor{keywordflow}{case}\ \mbox{\hyperlink{namespacecl__px4__mr_af7fa3b114930ffe6b6e25ca738f27336ac6e6dc18b53b4c2681394b9d8aefcec7}{YawMode::FIXED}}:}
+\DoxyCodeLine{00240\ \ \ \ \ \ \ cmd.yaw\ =\ std::isnan(\mbox{\hyperlink{classcl__px4__mr_1_1CbPx4PathFollowerBase_a7b011538e949299d94649c4027f55f2e}{followerParams\_}}.\mbox{\hyperlink{structcl__px4__mr_1_1PathFollowerParams_a47cdcf50e97217fe54b9376984de357a}{fixedYaw}})\ ?\ \mbox{\hyperlink{classcl__px4__mr_1_1CbPx4PathFollowerBase_adc10a7f4318c8c9c88b1667401b85862}{entryHeading\_}}\ :\ \mbox{\hyperlink{classcl__px4__mr_1_1CbPx4PathFollowerBase_a7b011538e949299d94649c4027f55f2e}{followerParams\_}}.\mbox{\hyperlink{structcl__px4__mr_1_1PathFollowerParams_a47cdcf50e97217fe54b9376984de357a}{fixedYaw}};}
+\DoxyCodeLine{00241\ \ \ \ \ \ \ \textcolor{keywordflow}{break};}
+\DoxyCodeLine{00242\ \ \ \ \ \textcolor{keywordflow}{case}\ \mbox{\hyperlink{namespacecl__px4__mr_af7fa3b114930ffe6b6e25ca738f27336aec8a6e75c25642ce9aebe5db97fd0d33}{YawMode::HOLD\_ENTRY}}:}
+\DoxyCodeLine{00243\ \ \ \ \ \ \ cmd.yaw\ =\ \mbox{\hyperlink{classcl__px4__mr_1_1CbPx4PathFollowerBase_adc10a7f4318c8c9c88b1667401b85862}{entryHeading\_}};}
+\DoxyCodeLine{00244\ \ \ \ \ \ \ \textcolor{keywordflow}{break};}
+\DoxyCodeLine{00245\ \ \ \ \ \textcolor{keywordflow}{case}\ \mbox{\hyperlink{namespacecl__px4__mr_af7fa3b114930ffe6b6e25ca738f27336a83e7f44a4d403e1ef4f9171bc7edcf58}{YawMode::PER\_VERTEX}}:}
+\DoxyCodeLine{00246\ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (std::isnan(cmd.yaw))}
+\DoxyCodeLine{00247\ \ \ \ \ \ \ \{}
+\DoxyCodeLine{00248\ \ \ \ \ \ \ \ \ cmd.yaw\ =\ \mbox{\hyperlink{classcl__px4__mr_1_1CbPx4PathFollowerBase_a65bef5b79953c4af977acf361ff34ec7}{tangentYawAt}}(segment);}
+\DoxyCodeLine{00249\ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00250\ \ \ \ \ \ \ \textcolor{keywordflow}{break};}
+\DoxyCodeLine{00251\ \ \ \ \ \textcolor{keywordflow}{case}\ \mbox{\hyperlink{namespacecl__px4__mr_af7fa3b114930ffe6b6e25ca738f27336a4da56c3c2d4ee59a3461da5b2ad1a25d}{YawMode::TANGENT}}:}
+\DoxyCodeLine{00252\ \ \ \ \ \textcolor{keywordflow}{default}:}
+\DoxyCodeLine{00253\ \ \ \ \ \ \ cmd.yaw\ =\ \mbox{\hyperlink{classcl__px4__mr_1_1CbPx4PathFollowerBase_a65bef5b79953c4af977acf361ff34ec7}{tangentYawAt}}(segment);}
+\DoxyCodeLine{00254\ \ \ \ \ \ \ \textcolor{keywordflow}{break};}
+\DoxyCodeLine{00255\ \ \ \}}
+\DoxyCodeLine{00256\ \ \ cmd.yaw\ =\ \mbox{\hyperlink{namespacecl__px4__mr_aa6a2289a8a3bb0e1ab6913fd251c3dd0}{wrapPi}}(cmd.yaw);}
+\DoxyCodeLine{00257\ \ \ \mbox{\hyperlink{classcl__px4__mr_1_1CbPx4PathFollowerBase_abd477f3f33ce6ebb8e01712546a03f29}{applyCentering}}(cmd);}
+\DoxyCodeLine{00258\ \ \ \textcolor{keywordflow}{return}\ cmd;}
+\DoxyCodeLine{00259\ \}}
 
 \end{DoxyCode}
 
 
-References \mbox{\hyperlink{cb__px4__path__follower__base_8hpp_source_l00110}{cum\+Len\+\_\+}}, \mbox{\hyperlink{cb__px4__path__follower__base_8hpp_source_l00113}{entry\+Heading\+\_\+}}, \mbox{\hyperlink{namespacecl__px4__mr_af7fa3b114930ffe6b6e25ca738f27336ac6e6dc18b53b4c2681394b9d8aefcec7}{cl\+\_\+px4\+\_\+mr\+::\+FIXED}}, \mbox{\hyperlink{cb__px4__path__follower__base_8hpp_source_l00053}{cl\+\_\+px4\+\_\+mr\+::\+Path\+Follower\+Params\+::fixed\+Yaw}}, \mbox{\hyperlink{cb__px4__path__follower__base_8hpp_source_l00103}{follower\+Params\+\_\+}}, \mbox{\hyperlink{namespacecl__px4__mr_af7fa3b114930ffe6b6e25ca738f27336aec8a6e75c25642ce9aebe5db97fd0d33}{cl\+\_\+px4\+\_\+mr\+::\+HOLD\+\_\+\+ENTRY}}, \mbox{\hyperlink{cb__px4__path__follower__base_8hpp_source_l00109}{path\+\_\+}}, \mbox{\hyperlink{namespacecl__px4__mr_af7fa3b114930ffe6b6e25ca738f27336a83e7f44a4d403e1ef4f9171bc7edcf58}{cl\+\_\+px4\+\_\+mr\+::\+PER\+\_\+\+VERTEX}}, \mbox{\hyperlink{geo__utils_8hpp_source_l00233}{cl\+\_\+px4\+\_\+mr\+::sample\+At\+Arc\+Length()}}, \mbox{\hyperlink{namespacecl__px4__mr_af7fa3b114930ffe6b6e25ca738f27336a4da56c3c2d4ee59a3461da5b2ad1a25d}{cl\+\_\+px4\+\_\+mr\+::\+TANGENT}}, \mbox{\hyperlink{cb__px4__path__follower__base_8cpp_source_l00198}{tangent\+Yaw\+At()}}, \mbox{\hyperlink{angle__utils_8hpp_source_l00025}{cl\+\_\+px4\+\_\+mr\+::wrap\+Pi()}}, \mbox{\hyperlink{geo__utils_8hpp_source_l00056}{cl\+\_\+px4\+\_\+mr\+::\+Ned\+Point\+::yaw}}, and \mbox{\hyperlink{cb__px4__path__follower__base_8hpp_source_l00052}{cl\+\_\+px4\+\_\+mr\+::\+Path\+Follower\+Params\+::yaw\+Mode}}.
+References \mbox{\hyperlink{cb__px4__path__follower__base_8cpp_source_l00261}{apply\+Centering()}}, \mbox{\hyperlink{cb__px4__path__follower__base_8hpp_source_l00130}{cum\+Len\+\_\+}}, \mbox{\hyperlink{cb__px4__path__follower__base_8hpp_source_l00134}{entry\+Heading\+\_\+}}, \mbox{\hyperlink{namespacecl__px4__mr_af7fa3b114930ffe6b6e25ca738f27336ac6e6dc18b53b4c2681394b9d8aefcec7}{cl\+\_\+px4\+\_\+mr\+::\+FIXED}}, \mbox{\hyperlink{cb__px4__path__follower__base_8hpp_source_l00054}{cl\+\_\+px4\+\_\+mr\+::\+Path\+Follower\+Params\+::fixed\+Yaw}}, \mbox{\hyperlink{cb__px4__path__follower__base_8hpp_source_l00121}{follower\+Params\+\_\+}}, \mbox{\hyperlink{namespacecl__px4__mr_af7fa3b114930ffe6b6e25ca738f27336aec8a6e75c25642ce9aebe5db97fd0d33}{cl\+\_\+px4\+\_\+mr\+::\+HOLD\+\_\+\+ENTRY}}, \mbox{\hyperlink{cb__px4__path__follower__base_8hpp_source_l00129}{path\+\_\+}}, \mbox{\hyperlink{namespacecl__px4__mr_af7fa3b114930ffe6b6e25ca738f27336a83e7f44a4d403e1ef4f9171bc7edcf58}{cl\+\_\+px4\+\_\+mr\+::\+PER\+\_\+\+VERTEX}}, \mbox{\hyperlink{geo__utils_8hpp_source_l00233}{cl\+\_\+px4\+\_\+mr\+::sample\+At\+Arc\+Length()}}, \mbox{\hyperlink{namespacecl__px4__mr_af7fa3b114930ffe6b6e25ca738f27336a4da56c3c2d4ee59a3461da5b2ad1a25d}{cl\+\_\+px4\+\_\+mr\+::\+TANGENT}}, \mbox{\hyperlink{cb__px4__path__follower__base_8cpp_source_l00214}{tangent\+Yaw\+At()}}, \mbox{\hyperlink{angle__utils_8hpp_source_l00025}{cl\+\_\+px4\+\_\+mr\+::wrap\+Pi()}}, \mbox{\hyperlink{geo__utils_8hpp_source_l00056}{cl\+\_\+px4\+\_\+mr\+::\+Ned\+Point\+::yaw}}, and \mbox{\hyperlink{cb__px4__path__follower__base_8hpp_source_l00053}{cl\+\_\+px4\+\_\+mr\+::\+Path\+Follower\+Params\+::yaw\+Mode}}.
 
 
 
-Referenced by \mbox{\hyperlink{cb__px4__path__follower__base_8cpp_source_l00034}{on\+Entry()}}, and \mbox{\hyperlink{cb__px4__path__follower__base_8cpp_source_l00136}{update()}}.
+Referenced by \mbox{\hyperlink{cb__px4__path__follower__base_8cpp_source_l00035}{on\+Entry()}}, and \mbox{\hyperlink{cb__px4__path__follower__base_8cpp_source_l00142}{update()}}.
 
 Here is the call graph for this function\+:
 \nopagebreak
@@ -374,16 +479,16 @@ const \mbox{\hyperlink{structcl__px4__mr_1_1PathFollowerParams}{Path\+Follower\+
 
 
 
-Definition at line \mbox{\hyperlink{cb__px4__path__follower__base_8hpp_source_l00083}{83}} of file \mbox{\hyperlink{cb__px4__path__follower__base_8hpp_source}{cb\+\_\+px4\+\_\+path\+\_\+follower\+\_\+base.\+hpp}}.
+Definition at line \mbox{\hyperlink{cb__px4__path__follower__base_8hpp_source_l00096}{96}} of file \mbox{\hyperlink{cb__px4__path__follower__base_8hpp_source}{cb\+\_\+px4\+\_\+path\+\_\+follower\+\_\+base.\+hpp}}.
 
 
 \begin{DoxyCode}{0}
-\DoxyCodeLine{00083\ \{\ \textcolor{keywordflow}{return}\ \mbox{\hyperlink{classcl__px4__mr_1_1CbPx4PathFollowerBase_a7b011538e949299d94649c4027f55f2e}{followerParams\_}};\ \}}
+\DoxyCodeLine{00096\ \{\ \textcolor{keywordflow}{return}\ \mbox{\hyperlink{classcl__px4__mr_1_1CbPx4PathFollowerBase_a7b011538e949299d94649c4027f55f2e}{followerParams\_}};\ \}}
 
 \end{DoxyCode}
 
 
-References \mbox{\hyperlink{cb__px4__path__follower__base_8hpp_source_l00103}{follower\+Params\+\_\+}}.
+References \mbox{\hyperlink{cb__px4__path__follower__base_8hpp_source_l00121}{follower\+Params\+\_\+}}.
 
 \Hypertarget{classcl__px4__mr_1_1CbPx4PathFollowerBase_a6a573480b07a4c5f5d4ffac0fab219be}\index{cl\_px4\_mr::CbPx4PathFollowerBase@{cl\_px4\_mr::CbPx4PathFollowerBase}!onEntry@{onEntry}}
 \index{onEntry@{onEntry}!cl\_px4\_mr::CbPx4PathFollowerBase@{cl\_px4\_mr::CbPx4PathFollowerBase}}
@@ -397,102 +502,107 @@ Reimplemented from \mbox{\hyperlink{classsmacc2_1_1ISmaccClientBehavior_aca7382c
 
 
 
-Definition at line \mbox{\hyperlink{cb__px4__path__follower__base_8cpp_source_l00034}{34}} of file \mbox{\hyperlink{cb__px4__path__follower__base_8cpp_source}{cb\+\_\+px4\+\_\+path\+\_\+follower\+\_\+base.\+cpp}}.
+Definition at line \mbox{\hyperlink{cb__px4__path__follower__base_8cpp_source_l00035}{35}} of file \mbox{\hyperlink{cb__px4__path__follower__base_8cpp_source}{cb\+\_\+px4\+\_\+path\+\_\+follower\+\_\+base.\+cpp}}.
 
 
 \begin{DoxyCode}{0}
-\DoxyCodeLine{00035\ \{}
-\DoxyCodeLine{00036\ \ \ \textcolor{keywordflow}{if}\ (\mbox{\hyperlink{classcl__px4__mr_1_1CbPx4ClientBehaviorBase_aac08e96640e94aff591f4a9a5af93453}{localPosition\_}}\ ==\ \textcolor{keyword}{nullptr}\ ||\ \mbox{\hyperlink{classcl__px4__mr_1_1CbPx4ClientBehaviorBase_aba8f7b7dfed092fd23bf30445921a7e3}{trajectorySetpoint\_}}\ ==\ \textcolor{keyword}{nullptr})}
-\DoxyCodeLine{00037\ \ \ \{}
-\DoxyCodeLine{00038\ \ \ \ \ RCLCPP\_ERROR(}
-\DoxyCodeLine{00039\ \ \ \ \ \ \ \mbox{\hyperlink{classsmacc2_1_1ISmaccClientBehavior_a9c3d82542c800e2ba5207c5cff0e63e8}{getLogger}}(),\ \textcolor{stringliteral}{"{}\%s:\ local\ position\ /\ trajectory\ setpoint\ component\ missing\ -\/\ posting\ failure"{}},}
-\DoxyCodeLine{00040\ \ \ \ \ \ \ \mbox{\hyperlink{classcl__px4__mr_1_1CbPx4PathFollowerBase_ab0db1bc9e5a98c75c13ad29ec173821b}{behaviorName}}());}
-\DoxyCodeLine{00041\ \ \ \ \ this-\/>\mbox{\hyperlink{classcl__px4__mr_1_1CbPx4ClientBehaviorBase_adec6c9edb3f9fa1e8d3028155f880379}{postPx4Failure}}();}
-\DoxyCodeLine{00042\ \ \ \ \ \textcolor{keywordflow}{return};}
-\DoxyCodeLine{00043\ \ \ \}}
-\DoxyCodeLine{00044\ \ \ \textcolor{keywordflow}{if}\ (!\mbox{\hyperlink{classcl__px4__mr_1_1CbPx4ClientBehaviorBase_aac08e96640e94aff591f4a9a5af93453}{localPosition\_}}-\/>\mbox{\hyperlink{classcl__px4__mr_1_1CpVehicleLocalPosition_aca9a6689fa1e120b77feff35ab064b5c}{isValid}}())}
-\DoxyCodeLine{00045\ \ \ \{}
-\DoxyCodeLine{00046\ \ \ \ \ RCLCPP\_ERROR(}
-\DoxyCodeLine{00047\ \ \ \ \ \ \ \mbox{\hyperlink{classsmacc2_1_1ISmaccClientBehavior_a9c3d82542c800e2ba5207c5cff0e63e8}{getLogger}}(),\ \textcolor{stringliteral}{"{}\%s:\ no\ valid\ local\ position\ at\ entry\ -\/\ posting\ failure"{}},\ \mbox{\hyperlink{classcl__px4__mr_1_1CbPx4PathFollowerBase_ab0db1bc9e5a98c75c13ad29ec173821b}{behaviorName}}());}
-\DoxyCodeLine{00048\ \ \ \ \ this-\/>\mbox{\hyperlink{classcl__px4__mr_1_1CbPx4ClientBehaviorBase_adec6c9edb3f9fa1e8d3028155f880379}{postPx4Failure}}();}
-\DoxyCodeLine{00049\ \ \ \ \ \textcolor{keywordflow}{return};}
-\DoxyCodeLine{00050\ \ \ \}}
-\DoxyCodeLine{00051\ }
-\DoxyCodeLine{00052\ \ \ NedPoint\ current;}
-\DoxyCodeLine{00053\ \ \ current.x\ =\ \mbox{\hyperlink{classcl__px4__mr_1_1CbPx4ClientBehaviorBase_aac08e96640e94aff591f4a9a5af93453}{localPosition\_}}-\/>\mbox{\hyperlink{classcl__px4__mr_1_1CpVehicleLocalPosition_a90fd0ca926c0eba124d97f04cbc64880}{getX}}();}
-\DoxyCodeLine{00054\ \ \ current.y\ =\ \mbox{\hyperlink{classcl__px4__mr_1_1CbPx4ClientBehaviorBase_aac08e96640e94aff591f4a9a5af93453}{localPosition\_}}-\/>\mbox{\hyperlink{classcl__px4__mr_1_1CpVehicleLocalPosition_a1d9536e60ab3709dec4876f3c650f964}{getY}}();}
-\DoxyCodeLine{00055\ \ \ current.z\ =\ \mbox{\hyperlink{classcl__px4__mr_1_1CbPx4ClientBehaviorBase_aac08e96640e94aff591f4a9a5af93453}{localPosition\_}}-\/>\mbox{\hyperlink{classcl__px4__mr_1_1CpVehicleLocalPosition_aff646820b46d38aff061d40e8cdfd76b}{getZ}}();}
-\DoxyCodeLine{00056\ \ \ current.yaw\ =\ \mbox{\hyperlink{classcl__px4__mr_1_1CbPx4ClientBehaviorBase_aac08e96640e94aff591f4a9a5af93453}{localPosition\_}}-\/>\mbox{\hyperlink{classcl__px4__mr_1_1CpVehicleLocalPosition_ad20d2706ccb883910ec694f4c8587fd4}{getHeading}}();}
-\DoxyCodeLine{00057\ \ \ \mbox{\hyperlink{classcl__px4__mr_1_1CbPx4PathFollowerBase_adc10a7f4318c8c9c88b1667401b85862}{entryHeading\_}}\ =\ current.yaw;}
-\DoxyCodeLine{00058\ }
-\DoxyCodeLine{00059\ \ \ std::vector<NedPoint>\ raw\ =\ \mbox{\hyperlink{classcl__px4__mr_1_1CbPx4PathFollowerBase_a557726946490f6fb22192b50edd0e614}{buildPath}}(current);}
-\DoxyCodeLine{00060\ \ \ \textcolor{keywordflow}{if}\ (raw.empty())}
-\DoxyCodeLine{00061\ \ \ \{}
-\DoxyCodeLine{00062\ \ \ \ \ RCLCPP\_ERROR(}
-\DoxyCodeLine{00063\ \ \ \ \ \ \ \mbox{\hyperlink{classsmacc2_1_1ISmaccClientBehavior_a9c3d82542c800e2ba5207c5cff0e63e8}{getLogger}}(),\ \textcolor{stringliteral}{"{}\%s:\ buildPath()\ returned\ no\ vertices\ -\/\ posting\ failure"{}},\ \mbox{\hyperlink{classcl__px4__mr_1_1CbPx4PathFollowerBase_ab0db1bc9e5a98c75c13ad29ec173821b}{behaviorName}}());}
-\DoxyCodeLine{00064\ \ \ \ \ this-\/>\mbox{\hyperlink{classcl__px4__mr_1_1CbPx4ClientBehaviorBase_adec6c9edb3f9fa1e8d3028155f880379}{postPx4Failure}}();}
-\DoxyCodeLine{00065\ \ \ \ \ \textcolor{keywordflow}{return};}
-\DoxyCodeLine{00066\ \ \ \}}
-\DoxyCodeLine{00067\ }
-\DoxyCodeLine{00068\ \ \ \mbox{\hyperlink{classcl__px4__mr_1_1CbPx4PathFollowerBase_a3356e8d87f9a314f1a112425bdc473b5}{path\_}}.clear();}
-\DoxyCodeLine{00069\ \ \ \textcolor{keywordflow}{if}\ (\mbox{\hyperlink{classcl__px4__mr_1_1CbPx4PathFollowerBase_a7b011538e949299d94649c4027f55f2e}{followerParams\_}}.\mbox{\hyperlink{structcl__px4__mr_1_1PathFollowerParams_a86e332143fb55767c9555dc5d15e302c}{prependCurrentPosition}})}
-\DoxyCodeLine{00070\ \ \ \{}
-\DoxyCodeLine{00071\ \ \ \ \ NedPoint\ start\ =\ current;}
-\DoxyCodeLine{00072\ \ \ \ \ start.yaw\ =\ std::numeric\_limits<float>::quiet\_NaN();}
-\DoxyCodeLine{00073\ \ \ \ \ \mbox{\hyperlink{classcl__px4__mr_1_1CbPx4PathFollowerBase_a3356e8d87f9a314f1a112425bdc473b5}{path\_}}.push\_back(start);}
-\DoxyCodeLine{00074\ \ \ \}}
-\DoxyCodeLine{00075\ \ \ \textcolor{keywordflow}{for}\ (\textcolor{keyword}{const}\ NedPoint\ \&\ v\ :\ raw)}
-\DoxyCodeLine{00076\ \ \ \{}
-\DoxyCodeLine{00077\ \ \ \ \ \textcolor{keywordflow}{if}\ (!\mbox{\hyperlink{classcl__px4__mr_1_1CbPx4PathFollowerBase_a3356e8d87f9a314f1a112425bdc473b5}{path\_}}.empty()\ \&\&\ \mbox{\hyperlink{namespacecl__px4__mr_a5cc5aeaa13238a0b7a22c071ca693a8d}{nedDistance}}(\mbox{\hyperlink{classcl__px4__mr_1_1CbPx4PathFollowerBase_a3356e8d87f9a314f1a112425bdc473b5}{path\_}}.back(),\ v)\ <\ \mbox{\hyperlink{classcl__px4__mr_1_1CbPx4PathFollowerBase_a7b011538e949299d94649c4027f55f2e}{followerParams\_}}.\mbox{\hyperlink{structcl__px4__mr_1_1PathFollowerParams_ad16d15e280f5072f592e126896aeb32c}{minSegmentLength}})}
-\DoxyCodeLine{00078\ \ \ \ \ \{}
-\DoxyCodeLine{00079\ \ \ \ \ \ \ \textcolor{comment}{//\ keep\ the\ later\ vertex's\ yaw,\ drop\ the\ degenerate\ segment}}
-\DoxyCodeLine{00080\ \ \ \ \ \ \ \mbox{\hyperlink{classcl__px4__mr_1_1CbPx4PathFollowerBase_a3356e8d87f9a314f1a112425bdc473b5}{path\_}}.back().yaw\ =\ std::isnan(v.yaw)\ ?\ \mbox{\hyperlink{classcl__px4__mr_1_1CbPx4PathFollowerBase_a3356e8d87f9a314f1a112425bdc473b5}{path\_}}.back().yaw\ :\ v.yaw;}
-\DoxyCodeLine{00081\ \ \ \ \ \ \ \textcolor{keywordflow}{continue};}
-\DoxyCodeLine{00082\ \ \ \ \ \}}
-\DoxyCodeLine{00083\ \ \ \ \ \mbox{\hyperlink{classcl__px4__mr_1_1CbPx4PathFollowerBase_a3356e8d87f9a314f1a112425bdc473b5}{path\_}}.push\_back(v);}
-\DoxyCodeLine{00084\ \ \ \}}
-\DoxyCodeLine{00085\ }
-\DoxyCodeLine{00086\ \ \ \mbox{\hyperlink{classcl__px4__mr_1_1CbPx4PathFollowerBase_a78bec05786b51559eb69329756050261}{cumLen\_}}\ =\ \mbox{\hyperlink{namespacecl__px4__mr_ad33f890ce9178cfe9b944650bb0f5754}{cumulativeLengths}}(\mbox{\hyperlink{classcl__px4__mr_1_1CbPx4PathFollowerBase_a3356e8d87f9a314f1a112425bdc473b5}{path\_}});}
-\DoxyCodeLine{00087\ \ \ \mbox{\hyperlink{classcl__px4__mr_1_1CbPx4PathFollowerBase_a6a677869a5b9aa61ed1082a80215c8d8}{totalLen\_}}\ =\ \mbox{\hyperlink{classcl__px4__mr_1_1CbPx4PathFollowerBase_a78bec05786b51559eb69329756050261}{cumLen\_}}.empty()\ ?\ 0.0f\ :\ \mbox{\hyperlink{classcl__px4__mr_1_1CbPx4PathFollowerBase_a78bec05786b51559eb69329756050261}{cumLen\_}}.back();}
-\DoxyCodeLine{00088\ \ \ \mbox{\hyperlink{classcl__px4__mr_1_1CbPx4PathFollowerBase_aef84d639d4f1627e736fd2b4c6990ec7}{sCarrot\_}}\ =\ 0.0f;}
-\DoxyCodeLine{00089\ \ \ \mbox{\hyperlink{classcl__px4__mr_1_1CbPx4PathFollowerBase_a44bd1ecb9a01c4a3ad132586c6d91f07}{lastProgressDecile\_}}\ =\ -\/1;}
-\DoxyCodeLine{00090\ }
-\DoxyCodeLine{00091\ \ \ \textcolor{keyword}{const}\ \textcolor{keywordtype}{float}\ speed\ =\ std::max(\mbox{\hyperlink{classcl__px4__mr_1_1CbPx4PathFollowerBase_a7b011538e949299d94649c4027f55f2e}{followerParams\_}}.\mbox{\hyperlink{structcl__px4__mr_1_1PathFollowerParams_a8f7685e2baf002a8b60cc992cfdb2d9b}{groundSpeed}},\ 0.05f);}
-\DoxyCodeLine{00092\ \ \ \textcolor{keyword}{const}\ \textcolor{keywordtype}{float}\ lag\ =\ speed\ /\ 0.95f;}
-\DoxyCodeLine{00093\ \ \ \textcolor{keywordflow}{if}\ (\mbox{\hyperlink{classcl__px4__mr_1_1CbPx4PathFollowerBase_a7b011538e949299d94649c4027f55f2e}{followerParams\_}}.\mbox{\hyperlink{structcl__px4__mr_1_1PathFollowerParams_ac945ba84bc76e7f783878ac1f0136a78}{leash}}\ <\ 1.2f\ *\ lag)}
-\DoxyCodeLine{00094\ \ \ \{}
-\DoxyCodeLine{00095\ \ \ \ \ RCLCPP\_WARN(}
-\DoxyCodeLine{00096\ \ \ \ \ \ \ \mbox{\hyperlink{classsmacc2_1_1ISmaccClientBehavior_a9c3d82542c800e2ba5207c5cff0e63e8}{getLogger}}(),}
-\DoxyCodeLine{00097\ \ \ \ \ \ \ \textcolor{stringliteral}{"{}\%s:\ leash\ \%.1f\ m\ is\ below\ 1.2x\ the\ expected\ tracking\ lag\ (\%.1f\ m\ at\ \%.1f\ m/s)\ -\/\ effective\ "{}}}
-\DoxyCodeLine{00098\ \ \ \ \ \ \ \textcolor{stringliteral}{"{}speed\ will\ be\ throttled\ to\ \string~\%.1f\ m/s"{}},}
-\DoxyCodeLine{00099\ \ \ \ \ \ \ \mbox{\hyperlink{classcl__px4__mr_1_1CbPx4PathFollowerBase_ab0db1bc9e5a98c75c13ad29ec173821b}{behaviorName}}(),\ \mbox{\hyperlink{classcl__px4__mr_1_1CbPx4PathFollowerBase_a7b011538e949299d94649c4027f55f2e}{followerParams\_}}.\mbox{\hyperlink{structcl__px4__mr_1_1PathFollowerParams_ac945ba84bc76e7f783878ac1f0136a78}{leash}},\ lag,\ speed,\ 0.95f\ *\ \mbox{\hyperlink{classcl__px4__mr_1_1CbPx4PathFollowerBase_a7b011538e949299d94649c4027f55f2e}{followerParams\_}}.\mbox{\hyperlink{structcl__px4__mr_1_1PathFollowerParams_ac945ba84bc76e7f783878ac1f0136a78}{leash}});}
-\DoxyCodeLine{00100\ \ \ \}}
-\DoxyCodeLine{00101\ }
-\DoxyCodeLine{00102\ \ \ \textcolor{keywordflow}{if}\ (!this-\/>\mbox{\hyperlink{classcl__px4__mr_1_1CbPx4ClientBehaviorBase_aac7a92f62b6bebf672f5a09311876bdd}{hasTimeout}}()\ \&\&\ \mbox{\hyperlink{classcl__px4__mr_1_1CbPx4PathFollowerBase_a7b011538e949299d94649c4027f55f2e}{followerParams\_}}.\mbox{\hyperlink{structcl__px4__mr_1_1PathFollowerParams_a66b9ef05719e38a1cd6f1f31ad9ecc9f}{autoTimeoutFactor}}\ >\ 0.0f)}
-\DoxyCodeLine{00103\ \ \ \{}
-\DoxyCodeLine{00104\ \ \ \ \ \textcolor{keyword}{const}\ \textcolor{keywordtype}{float}\ seconds\ =\ std::max(30.0f,\ \mbox{\hyperlink{classcl__px4__mr_1_1CbPx4PathFollowerBase_a7b011538e949299d94649c4027f55f2e}{followerParams\_}}.\mbox{\hyperlink{structcl__px4__mr_1_1PathFollowerParams_a66b9ef05719e38a1cd6f1f31ad9ecc9f}{autoTimeoutFactor}}\ *\ \mbox{\hyperlink{classcl__px4__mr_1_1CbPx4PathFollowerBase_a6a677869a5b9aa61ed1082a80215c8d8}{totalLen\_}}\ /\ speed);}
-\DoxyCodeLine{00105\ \ \ \ \ this-\/>\mbox{\hyperlink{classcl__px4__mr_1_1CbPx4ClientBehaviorBase_ae3a097aaa7446c3a51e85c2be3ce4833}{setTimeout}}(std::chrono::milliseconds(\textcolor{keyword}{static\_cast<}int64\_t\textcolor{keyword}{>}(seconds\ *\ 1000.0f)));}
-\DoxyCodeLine{00106\ \ \ \ \ RCLCPP\_INFO(\mbox{\hyperlink{classsmacc2_1_1ISmaccClientBehavior_a9c3d82542c800e2ba5207c5cff0e63e8}{getLogger}}(),\ \textcolor{stringliteral}{"{}\%s:\ auto-\/timeout\ armed\ at\ \%.0f\ s"{}},\ \mbox{\hyperlink{classcl__px4__mr_1_1CbPx4PathFollowerBase_ab0db1bc9e5a98c75c13ad29ec173821b}{behaviorName}}(),\ seconds);}
-\DoxyCodeLine{00107\ \ \ \}}
-\DoxyCodeLine{00108\ }
-\DoxyCodeLine{00109\ \ \ RCLCPP\_INFO(}
-\DoxyCodeLine{00110\ \ \ \ \ \mbox{\hyperlink{classsmacc2_1_1ISmaccClientBehavior_a9c3d82542c800e2ba5207c5cff0e63e8}{getLogger}}(),}
-\DoxyCodeLine{00111\ \ \ \ \ \textcolor{stringliteral}{"{}\%s:\ following\ \%zu\ vertices,\ \%.1f\ m\ at\ \%.1f\ m/s\ (leash\ \%.1f\ m)\ from\ NED\ (\%.1f,\ \%.1f,\ \%.1f)\ "{}}}
-\DoxyCodeLine{00112\ \ \ \ \ \textcolor{stringliteral}{"{}to\ (\%.1f,\ \%.1f,\ \%.1f)"{}},}
-\DoxyCodeLine{00113\ \ \ \ \ \mbox{\hyperlink{classcl__px4__mr_1_1CbPx4PathFollowerBase_ab0db1bc9e5a98c75c13ad29ec173821b}{behaviorName}}(),\ \mbox{\hyperlink{classcl__px4__mr_1_1CbPx4PathFollowerBase_a3356e8d87f9a314f1a112425bdc473b5}{path\_}}.size(),\ \mbox{\hyperlink{classcl__px4__mr_1_1CbPx4PathFollowerBase_a6a677869a5b9aa61ed1082a80215c8d8}{totalLen\_}},\ speed,\ \mbox{\hyperlink{classcl__px4__mr_1_1CbPx4PathFollowerBase_a7b011538e949299d94649c4027f55f2e}{followerParams\_}}.\mbox{\hyperlink{structcl__px4__mr_1_1PathFollowerParams_ac945ba84bc76e7f783878ac1f0136a78}{leash}},\ \mbox{\hyperlink{classcl__px4__mr_1_1CbPx4PathFollowerBase_a3356e8d87f9a314f1a112425bdc473b5}{path\_}}.front().x,}
-\DoxyCodeLine{00114\ \ \ \ \ \mbox{\hyperlink{classcl__px4__mr_1_1CbPx4PathFollowerBase_a3356e8d87f9a314f1a112425bdc473b5}{path\_}}.front().y,\ \mbox{\hyperlink{classcl__px4__mr_1_1CbPx4PathFollowerBase_a3356e8d87f9a314f1a112425bdc473b5}{path\_}}.front().z,\ \mbox{\hyperlink{classcl__px4__mr_1_1CbPx4PathFollowerBase_a3356e8d87f9a314f1a112425bdc473b5}{path\_}}.back().x,\ \mbox{\hyperlink{classcl__px4__mr_1_1CbPx4PathFollowerBase_a3356e8d87f9a314f1a112425bdc473b5}{path\_}}.back().y,\ \mbox{\hyperlink{classcl__px4__mr_1_1CbPx4PathFollowerBase_a3356e8d87f9a314f1a112425bdc473b5}{path\_}}.back().z);}
-\DoxyCodeLine{00115\ \ \ \mbox{\hyperlink{classcl__px4__mr_1_1CbPx4PathFollowerBase_a5990ff64db0f8cb79ba0645b84fcc5c8}{onPathStarted}}(\mbox{\hyperlink{classcl__px4__mr_1_1CbPx4PathFollowerBase_a3356e8d87f9a314f1a112425bdc473b5}{path\_}});}
-\DoxyCodeLine{00116\ }
-\DoxyCodeLine{00117\ \ \ \mbox{\hyperlink{classcl__px4__mr_1_1CbPx4PathFollowerBase_ae3a1b5cef09b019a8434b962b6f5f04c}{lastCmd\_}}\ =\ \mbox{\hyperlink{classcl__px4__mr_1_1CbPx4PathFollowerBase_a4028f3d2fcbd2540f7a44af3b2779930}{commandFor}}(0.0f);}
-\DoxyCodeLine{00118\ \ \ \mbox{\hyperlink{classcl__px4__mr_1_1CbPx4ClientBehaviorBase_aba8f7b7dfed092fd23bf30445921a7e3}{trajectorySetpoint\_}}-\/>\mbox{\hyperlink{classcl__px4__mr_1_1CpTrajectorySetpoint_ad05cf6bdc5f1bc48e305ddec619e7322}{setPositionNED}}(\mbox{\hyperlink{classcl__px4__mr_1_1CbPx4PathFollowerBase_ae3a1b5cef09b019a8434b962b6f5f04c}{lastCmd\_}}.\mbox{\hyperlink{structcl__px4__mr_1_1NedPoint_a99425401db0eafab4ff255f7d04f8b91}{x}},\ \mbox{\hyperlink{classcl__px4__mr_1_1CbPx4PathFollowerBase_ae3a1b5cef09b019a8434b962b6f5f04c}{lastCmd\_}}.\mbox{\hyperlink{structcl__px4__mr_1_1NedPoint_aadbc9a524709c808d8efac68c306ab1a}{y}},\ \mbox{\hyperlink{classcl__px4__mr_1_1CbPx4PathFollowerBase_ae3a1b5cef09b019a8434b962b6f5f04c}{lastCmd\_}}.\mbox{\hyperlink{structcl__px4__mr_1_1NedPoint_a22f4bf894e58a0981309fd9c210727ba}{z}},\ \mbox{\hyperlink{classcl__px4__mr_1_1CbPx4PathFollowerBase_ae3a1b5cef09b019a8434b962b6f5f04c}{lastCmd\_}}.\mbox{\hyperlink{structcl__px4__mr_1_1NedPoint_aeb2e30a30e3c927e7560cef598b9e2bf}{yaw}});}
-\DoxyCodeLine{00119\ \ \ \mbox{\hyperlink{classcl__px4__mr_1_1CbPx4PathFollowerBase_a26579cffbabd5e9f6056e503a9593081}{lastUpdateTime\_}}\ =\ std::chrono::steady\_clock::now();}
-\DoxyCodeLine{00120\ \ \ \mbox{\hyperlink{classcl__px4__mr_1_1CbPx4PathFollowerBase_a4e261c930d7d717daf859ee18d36acff}{active\_}}\ =\ \textcolor{keyword}{true};}
-\DoxyCodeLine{00121\ \}}
+\DoxyCodeLine{00036\ \{}
+\DoxyCodeLine{00037\ \ \ \textcolor{keywordflow}{if}\ (\mbox{\hyperlink{classcl__px4__mr_1_1CbPx4ClientBehaviorBase_aac08e96640e94aff591f4a9a5af93453}{localPosition\_}}\ ==\ \textcolor{keyword}{nullptr}\ ||\ \mbox{\hyperlink{classcl__px4__mr_1_1CbPx4ClientBehaviorBase_aba8f7b7dfed092fd23bf30445921a7e3}{trajectorySetpoint\_}}\ ==\ \textcolor{keyword}{nullptr})}
+\DoxyCodeLine{00038\ \ \ \{}
+\DoxyCodeLine{00039\ \ \ \ \ RCLCPP\_ERROR(}
+\DoxyCodeLine{00040\ \ \ \ \ \ \ \mbox{\hyperlink{classsmacc2_1_1ISmaccClientBehavior_a9c3d82542c800e2ba5207c5cff0e63e8}{getLogger}}(),\ \textcolor{stringliteral}{"{}\%s:\ local\ position\ /\ trajectory\ setpoint\ component\ missing\ -\/\ posting\ failure"{}},}
+\DoxyCodeLine{00041\ \ \ \ \ \ \ \mbox{\hyperlink{classcl__px4__mr_1_1CbPx4PathFollowerBase_ab0db1bc9e5a98c75c13ad29ec173821b}{behaviorName}}());}
+\DoxyCodeLine{00042\ \ \ \ \ this-\/>\mbox{\hyperlink{classcl__px4__mr_1_1CbPx4ClientBehaviorBase_adec6c9edb3f9fa1e8d3028155f880379}{postPx4Failure}}();}
+\DoxyCodeLine{00043\ \ \ \ \ \textcolor{keywordflow}{return};}
+\DoxyCodeLine{00044\ \ \ \}}
+\DoxyCodeLine{00045\ \ \ \textcolor{keywordflow}{if}\ (!\mbox{\hyperlink{classcl__px4__mr_1_1CbPx4ClientBehaviorBase_aac08e96640e94aff591f4a9a5af93453}{localPosition\_}}-\/>\mbox{\hyperlink{classcl__px4__mr_1_1CpVehicleLocalPosition_aca9a6689fa1e120b77feff35ab064b5c}{isValid}}())}
+\DoxyCodeLine{00046\ \ \ \{}
+\DoxyCodeLine{00047\ \ \ \ \ RCLCPP\_ERROR(}
+\DoxyCodeLine{00048\ \ \ \ \ \ \ \mbox{\hyperlink{classsmacc2_1_1ISmaccClientBehavior_a9c3d82542c800e2ba5207c5cff0e63e8}{getLogger}}(),\ \textcolor{stringliteral}{"{}\%s:\ no\ valid\ local\ position\ at\ entry\ -\/\ posting\ failure"{}},\ \mbox{\hyperlink{classcl__px4__mr_1_1CbPx4PathFollowerBase_ab0db1bc9e5a98c75c13ad29ec173821b}{behaviorName}}());}
+\DoxyCodeLine{00049\ \ \ \ \ this-\/>\mbox{\hyperlink{classcl__px4__mr_1_1CbPx4ClientBehaviorBase_adec6c9edb3f9fa1e8d3028155f880379}{postPx4Failure}}();}
+\DoxyCodeLine{00050\ \ \ \ \ \textcolor{keywordflow}{return};}
+\DoxyCodeLine{00051\ \ \ \}}
+\DoxyCodeLine{00052\ }
+\DoxyCodeLine{00053\ \ \ NedPoint\ current;}
+\DoxyCodeLine{00054\ \ \ current.x\ =\ \mbox{\hyperlink{classcl__px4__mr_1_1CbPx4ClientBehaviorBase_aac08e96640e94aff591f4a9a5af93453}{localPosition\_}}-\/>\mbox{\hyperlink{classcl__px4__mr_1_1CpVehicleLocalPosition_a90fd0ca926c0eba124d97f04cbc64880}{getX}}();}
+\DoxyCodeLine{00055\ \ \ current.y\ =\ \mbox{\hyperlink{classcl__px4__mr_1_1CbPx4ClientBehaviorBase_aac08e96640e94aff591f4a9a5af93453}{localPosition\_}}-\/>\mbox{\hyperlink{classcl__px4__mr_1_1CpVehicleLocalPosition_a1d9536e60ab3709dec4876f3c650f964}{getY}}();}
+\DoxyCodeLine{00056\ \ \ current.z\ =\ \mbox{\hyperlink{classcl__px4__mr_1_1CbPx4ClientBehaviorBase_aac08e96640e94aff591f4a9a5af93453}{localPosition\_}}-\/>\mbox{\hyperlink{classcl__px4__mr_1_1CpVehicleLocalPosition_aff646820b46d38aff061d40e8cdfd76b}{getZ}}();}
+\DoxyCodeLine{00057\ \ \ current.yaw\ =\ \mbox{\hyperlink{classcl__px4__mr_1_1CbPx4ClientBehaviorBase_aac08e96640e94aff591f4a9a5af93453}{localPosition\_}}-\/>\mbox{\hyperlink{classcl__px4__mr_1_1CpVehicleLocalPosition_ad20d2706ccb883910ec694f4c8587fd4}{getHeading}}();}
+\DoxyCodeLine{00058\ \ \ \mbox{\hyperlink{classcl__px4__mr_1_1CbPx4PathFollowerBase_adc10a7f4318c8c9c88b1667401b85862}{entryHeading\_}}\ =\ current.yaw;}
+\DoxyCodeLine{00059\ }
+\DoxyCodeLine{00060\ \ \ std::vector<NedPoint>\ raw\ =\ \mbox{\hyperlink{classcl__px4__mr_1_1CbPx4PathFollowerBase_a557726946490f6fb22192b50edd0e614}{buildPath}}(current);}
+\DoxyCodeLine{00061\ \ \ \textcolor{keywordflow}{if}\ (raw.empty())}
+\DoxyCodeLine{00062\ \ \ \{}
+\DoxyCodeLine{00063\ \ \ \ \ RCLCPP\_ERROR(}
+\DoxyCodeLine{00064\ \ \ \ \ \ \ \mbox{\hyperlink{classsmacc2_1_1ISmaccClientBehavior_a9c3d82542c800e2ba5207c5cff0e63e8}{getLogger}}(),\ \textcolor{stringliteral}{"{}\%s:\ buildPath()\ returned\ no\ vertices\ -\/\ posting\ failure"{}},\ \mbox{\hyperlink{classcl__px4__mr_1_1CbPx4PathFollowerBase_ab0db1bc9e5a98c75c13ad29ec173821b}{behaviorName}}());}
+\DoxyCodeLine{00065\ \ \ \ \ this-\/>\mbox{\hyperlink{classcl__px4__mr_1_1CbPx4ClientBehaviorBase_adec6c9edb3f9fa1e8d3028155f880379}{postPx4Failure}}();}
+\DoxyCodeLine{00066\ \ \ \ \ \textcolor{keywordflow}{return};}
+\DoxyCodeLine{00067\ \ \ \}}
+\DoxyCodeLine{00068\ }
+\DoxyCodeLine{00069\ \ \ \mbox{\hyperlink{classcl__px4__mr_1_1CbPx4PathFollowerBase_a3356e8d87f9a314f1a112425bdc473b5}{path\_}}.clear();}
+\DoxyCodeLine{00070\ \ \ \textcolor{keywordflow}{if}\ (\mbox{\hyperlink{classcl__px4__mr_1_1CbPx4PathFollowerBase_a7b011538e949299d94649c4027f55f2e}{followerParams\_}}.\mbox{\hyperlink{structcl__px4__mr_1_1PathFollowerParams_a86e332143fb55767c9555dc5d15e302c}{prependCurrentPosition}})}
+\DoxyCodeLine{00071\ \ \ \{}
+\DoxyCodeLine{00072\ \ \ \ \ NedPoint\ start\ =\ current;}
+\DoxyCodeLine{00073\ \ \ \ \ start.yaw\ =\ std::numeric\_limits<float>::quiet\_NaN();}
+\DoxyCodeLine{00074\ \ \ \ \ \mbox{\hyperlink{classcl__px4__mr_1_1CbPx4PathFollowerBase_a3356e8d87f9a314f1a112425bdc473b5}{path\_}}.push\_back(start);}
+\DoxyCodeLine{00075\ \ \ \}}
+\DoxyCodeLine{00076\ \ \ \textcolor{keywordflow}{for}\ (\textcolor{keyword}{const}\ NedPoint\ \&\ v\ :\ raw)}
+\DoxyCodeLine{00077\ \ \ \{}
+\DoxyCodeLine{00078\ \ \ \ \ \textcolor{keywordflow}{if}\ (!\mbox{\hyperlink{classcl__px4__mr_1_1CbPx4PathFollowerBase_a3356e8d87f9a314f1a112425bdc473b5}{path\_}}.empty()\ \&\&\ \mbox{\hyperlink{namespacecl__px4__mr_a5cc5aeaa13238a0b7a22c071ca693a8d}{nedDistance}}(\mbox{\hyperlink{classcl__px4__mr_1_1CbPx4PathFollowerBase_a3356e8d87f9a314f1a112425bdc473b5}{path\_}}.back(),\ v)\ <\ \mbox{\hyperlink{classcl__px4__mr_1_1CbPx4PathFollowerBase_a7b011538e949299d94649c4027f55f2e}{followerParams\_}}.\mbox{\hyperlink{structcl__px4__mr_1_1PathFollowerParams_ad16d15e280f5072f592e126896aeb32c}{minSegmentLength}})}
+\DoxyCodeLine{00079\ \ \ \ \ \{}
+\DoxyCodeLine{00080\ \ \ \ \ \ \ \textcolor{comment}{//\ keep\ the\ later\ vertex's\ yaw,\ drop\ the\ degenerate\ segment}}
+\DoxyCodeLine{00081\ \ \ \ \ \ \ \mbox{\hyperlink{classcl__px4__mr_1_1CbPx4PathFollowerBase_a3356e8d87f9a314f1a112425bdc473b5}{path\_}}.back().yaw\ =\ std::isnan(v.yaw)\ ?\ \mbox{\hyperlink{classcl__px4__mr_1_1CbPx4PathFollowerBase_a3356e8d87f9a314f1a112425bdc473b5}{path\_}}.back().yaw\ :\ v.yaw;}
+\DoxyCodeLine{00082\ \ \ \ \ \ \ \textcolor{keywordflow}{continue};}
+\DoxyCodeLine{00083\ \ \ \ \ \}}
+\DoxyCodeLine{00084\ \ \ \ \ \mbox{\hyperlink{classcl__px4__mr_1_1CbPx4PathFollowerBase_a3356e8d87f9a314f1a112425bdc473b5}{path\_}}.push\_back(v);}
+\DoxyCodeLine{00085\ \ \ \}}
+\DoxyCodeLine{00086\ }
+\DoxyCodeLine{00087\ \ \ \mbox{\hyperlink{classcl__px4__mr_1_1CbPx4PathFollowerBase_a78bec05786b51559eb69329756050261}{cumLen\_}}\ =\ \mbox{\hyperlink{namespacecl__px4__mr_ad33f890ce9178cfe9b944650bb0f5754}{cumulativeLengths}}(\mbox{\hyperlink{classcl__px4__mr_1_1CbPx4PathFollowerBase_a3356e8d87f9a314f1a112425bdc473b5}{path\_}});}
+\DoxyCodeLine{00088\ \ \ \mbox{\hyperlink{classcl__px4__mr_1_1CbPx4PathFollowerBase_a6a677869a5b9aa61ed1082a80215c8d8}{totalLen\_}}\ =\ \mbox{\hyperlink{classcl__px4__mr_1_1CbPx4PathFollowerBase_a78bec05786b51559eb69329756050261}{cumLen\_}}.empty()\ ?\ 0.0f\ :\ \mbox{\hyperlink{classcl__px4__mr_1_1CbPx4PathFollowerBase_a78bec05786b51559eb69329756050261}{cumLen\_}}.back();}
+\DoxyCodeLine{00089\ \ \ \mbox{\hyperlink{classcl__px4__mr_1_1CbPx4PathFollowerBase_aef84d639d4f1627e736fd2b4c6990ec7}{sCarrot\_}}\ =\ 0.0f;}
+\DoxyCodeLine{00090\ \ \ \mbox{\hyperlink{classcl__px4__mr_1_1CbPx4PathFollowerBase_aceeefa7ef72ffd866811ff9e159284f5}{carrotVertex\_}}\ =\ 0;}
+\DoxyCodeLine{00091\ \ \ \mbox{\hyperlink{classcl__px4__mr_1_1CbPx4PathFollowerBase_a44bd1ecb9a01c4a3ad132586c6d91f07}{lastProgressDecile\_}}\ =\ -\/1;}
+\DoxyCodeLine{00092\ }
+\DoxyCodeLine{00093\ \ \ \textcolor{keyword}{const}\ \textcolor{keywordtype}{float}\ speed\ =\ std::max(\mbox{\hyperlink{classcl__px4__mr_1_1CbPx4PathFollowerBase_a7b011538e949299d94649c4027f55f2e}{followerParams\_}}.\mbox{\hyperlink{structcl__px4__mr_1_1PathFollowerParams_a8f7685e2baf002a8b60cc992cfdb2d9b}{groundSpeed}},\ 0.05f);}
+\DoxyCodeLine{00094\ \ \ \textcolor{keyword}{const}\ \textcolor{keywordtype}{float}\ lag\ =\ speed\ /\ 0.95f;}
+\DoxyCodeLine{00095\ \ \ \textcolor{keywordflow}{if}\ (\mbox{\hyperlink{classcl__px4__mr_1_1CbPx4PathFollowerBase_a7b011538e949299d94649c4027f55f2e}{followerParams\_}}.\mbox{\hyperlink{structcl__px4__mr_1_1PathFollowerParams_ac945ba84bc76e7f783878ac1f0136a78}{leash}}\ <\ 1.2f\ *\ lag)}
+\DoxyCodeLine{00096\ \ \ \{}
+\DoxyCodeLine{00097\ \ \ \ \ RCLCPP\_WARN(}
+\DoxyCodeLine{00098\ \ \ \ \ \ \ \mbox{\hyperlink{classsmacc2_1_1ISmaccClientBehavior_a9c3d82542c800e2ba5207c5cff0e63e8}{getLogger}}(),}
+\DoxyCodeLine{00099\ \ \ \ \ \ \ \textcolor{stringliteral}{"{}\%s:\ leash\ \%.1f\ m\ is\ below\ 1.2x\ the\ expected\ tracking\ lag\ (\%.1f\ m\ at\ \%.1f\ m/s)\ -\/\ effective\ "{}}}
+\DoxyCodeLine{00100\ \ \ \ \ \ \ \textcolor{stringliteral}{"{}speed\ will\ be\ throttled\ to\ \string~\%.1f\ m/s"{}},}
+\DoxyCodeLine{00101\ \ \ \ \ \ \ \mbox{\hyperlink{classcl__px4__mr_1_1CbPx4PathFollowerBase_ab0db1bc9e5a98c75c13ad29ec173821b}{behaviorName}}(),\ \mbox{\hyperlink{classcl__px4__mr_1_1CbPx4PathFollowerBase_a7b011538e949299d94649c4027f55f2e}{followerParams\_}}.\mbox{\hyperlink{structcl__px4__mr_1_1PathFollowerParams_ac945ba84bc76e7f783878ac1f0136a78}{leash}},\ lag,\ speed,\ 0.95f\ *\ \mbox{\hyperlink{classcl__px4__mr_1_1CbPx4PathFollowerBase_a7b011538e949299d94649c4027f55f2e}{followerParams\_}}.\mbox{\hyperlink{structcl__px4__mr_1_1PathFollowerParams_ac945ba84bc76e7f783878ac1f0136a78}{leash}});}
+\DoxyCodeLine{00102\ \ \ \}}
+\DoxyCodeLine{00103\ }
+\DoxyCodeLine{00104\ \ \ \textcolor{keywordflow}{if}\ (!this-\/>\mbox{\hyperlink{classcl__px4__mr_1_1CbPx4ClientBehaviorBase_aac7a92f62b6bebf672f5a09311876bdd}{hasTimeout}}()\ \&\&\ \mbox{\hyperlink{classcl__px4__mr_1_1CbPx4PathFollowerBase_a7b011538e949299d94649c4027f55f2e}{followerParams\_}}.\mbox{\hyperlink{structcl__px4__mr_1_1PathFollowerParams_a66b9ef05719e38a1cd6f1f31ad9ecc9f}{autoTimeoutFactor}}\ >\ 0.0f)}
+\DoxyCodeLine{00105\ \ \ \{}
+\DoxyCodeLine{00106\ \ \ \ \ \textcolor{keyword}{const}\ \textcolor{keywordtype}{float}\ seconds\ =\ std::max(30.0f,\ \mbox{\hyperlink{classcl__px4__mr_1_1CbPx4PathFollowerBase_a7b011538e949299d94649c4027f55f2e}{followerParams\_}}.\mbox{\hyperlink{structcl__px4__mr_1_1PathFollowerParams_a66b9ef05719e38a1cd6f1f31ad9ecc9f}{autoTimeoutFactor}}\ *\ \mbox{\hyperlink{classcl__px4__mr_1_1CbPx4PathFollowerBase_a6a677869a5b9aa61ed1082a80215c8d8}{totalLen\_}}\ /\ speed);}
+\DoxyCodeLine{00107\ \ \ \ \ this-\/>\mbox{\hyperlink{classcl__px4__mr_1_1CbPx4ClientBehaviorBase_ae3a097aaa7446c3a51e85c2be3ce4833}{setTimeout}}(std::chrono::milliseconds(\textcolor{keyword}{static\_cast<}int64\_t\textcolor{keyword}{>}(seconds\ *\ 1000.0f)));}
+\DoxyCodeLine{00108\ \ \ \ \ RCLCPP\_INFO(\mbox{\hyperlink{classsmacc2_1_1ISmaccClientBehavior_a9c3d82542c800e2ba5207c5cff0e63e8}{getLogger}}(),\ \textcolor{stringliteral}{"{}\%s:\ auto-\/timeout\ armed\ at\ \%.0f\ s"{}},\ \mbox{\hyperlink{classcl__px4__mr_1_1CbPx4PathFollowerBase_ab0db1bc9e5a98c75c13ad29ec173821b}{behaviorName}}(),\ seconds);}
+\DoxyCodeLine{00109\ \ \ \}}
+\DoxyCodeLine{00110\ }
+\DoxyCodeLine{00111\ \ \ RCLCPP\_INFO(}
+\DoxyCodeLine{00112\ \ \ \ \ \mbox{\hyperlink{classsmacc2_1_1ISmaccClientBehavior_a9c3d82542c800e2ba5207c5cff0e63e8}{getLogger}}(),}
+\DoxyCodeLine{00113\ \ \ \ \ \textcolor{stringliteral}{"{}\%s:\ following\ \%zu\ vertices,\ \%.1f\ m\ at\ \%.1f\ m/s\ (leash\ \%.1f\ m)\ from\ NED\ (\%.1f,\ \%.1f,\ \%.1f)\ "{}}}
+\DoxyCodeLine{00114\ \ \ \ \ \textcolor{stringliteral}{"{}to\ (\%.1f,\ \%.1f,\ \%.1f)\%s"{}},}
+\DoxyCodeLine{00115\ \ \ \ \ \mbox{\hyperlink{classcl__px4__mr_1_1CbPx4PathFollowerBase_ab0db1bc9e5a98c75c13ad29ec173821b}{behaviorName}}(),\ \mbox{\hyperlink{classcl__px4__mr_1_1CbPx4PathFollowerBase_a3356e8d87f9a314f1a112425bdc473b5}{path\_}}.size(),\ \mbox{\hyperlink{classcl__px4__mr_1_1CbPx4PathFollowerBase_a6a677869a5b9aa61ed1082a80215c8d8}{totalLen\_}},\ speed,\ \mbox{\hyperlink{classcl__px4__mr_1_1CbPx4PathFollowerBase_a7b011538e949299d94649c4027f55f2e}{followerParams\_}}.\mbox{\hyperlink{structcl__px4__mr_1_1PathFollowerParams_ac945ba84bc76e7f783878ac1f0136a78}{leash}},\ \mbox{\hyperlink{classcl__px4__mr_1_1CbPx4PathFollowerBase_a3356e8d87f9a314f1a112425bdc473b5}{path\_}}.front().x,}
+\DoxyCodeLine{00116\ \ \ \ \ \mbox{\hyperlink{classcl__px4__mr_1_1CbPx4PathFollowerBase_a3356e8d87f9a314f1a112425bdc473b5}{path\_}}.front().y,\ \mbox{\hyperlink{classcl__px4__mr_1_1CbPx4PathFollowerBase_a3356e8d87f9a314f1a112425bdc473b5}{path\_}}.front().z,\ \mbox{\hyperlink{classcl__px4__mr_1_1CbPx4PathFollowerBase_a3356e8d87f9a314f1a112425bdc473b5}{path\_}}.back().x,\ \mbox{\hyperlink{classcl__px4__mr_1_1CbPx4PathFollowerBase_a3356e8d87f9a314f1a112425bdc473b5}{path\_}}.back().y,\ \mbox{\hyperlink{classcl__px4__mr_1_1CbPx4PathFollowerBase_a3356e8d87f9a314f1a112425bdc473b5}{path\_}}.back().z,}
+\DoxyCodeLine{00117\ \ \ \ \ \mbox{\hyperlink{classcl__px4__mr_1_1CbPx4PathFollowerBase_a7b011538e949299d94649c4027f55f2e}{followerParams\_}}.\mbox{\hyperlink{structcl__px4__mr_1_1PathFollowerParams_a855342a06b5a6b4f1edef321708a1f2c}{useTunnelCentering}}}
+\DoxyCodeLine{00118\ \ \ \ \ \ \ ?\ (\mbox{\hyperlink{classcl__px4__mr_1_1CbPx4PathFollowerBase_a7a5777f04d171dced2890f0815667e9d}{tunnelCentering\_}}\ ?\ \textcolor{stringliteral}{"{}\ +\ tunnel\ centering"{}}}
+\DoxyCodeLine{00119\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ :\ \textcolor{stringliteral}{"{}\ (tunnel\ centering\ requested\ but\ no\ component)"{}})}
+\DoxyCodeLine{00120\ \ \ \ \ \ \ :\ \textcolor{stringliteral}{"{}"{}});}
+\DoxyCodeLine{00121\ \ \ \mbox{\hyperlink{classcl__px4__mr_1_1CbPx4PathFollowerBase_a5990ff64db0f8cb79ba0645b84fcc5c8}{onPathStarted}}(\mbox{\hyperlink{classcl__px4__mr_1_1CbPx4PathFollowerBase_a3356e8d87f9a314f1a112425bdc473b5}{path\_}});}
+\DoxyCodeLine{00122\ }
+\DoxyCodeLine{00123\ \ \ \mbox{\hyperlink{classcl__px4__mr_1_1CbPx4PathFollowerBase_ae3a1b5cef09b019a8434b962b6f5f04c}{lastCmd\_}}\ =\ \mbox{\hyperlink{classcl__px4__mr_1_1CbPx4PathFollowerBase_a4028f3d2fcbd2540f7a44af3b2779930}{commandFor}}(0.0f);}
+\DoxyCodeLine{00124\ \ \ \mbox{\hyperlink{classcl__px4__mr_1_1CbPx4ClientBehaviorBase_aba8f7b7dfed092fd23bf30445921a7e3}{trajectorySetpoint\_}}-\/>\mbox{\hyperlink{classcl__px4__mr_1_1CpTrajectorySetpoint_ad05cf6bdc5f1bc48e305ddec619e7322}{setPositionNED}}(\mbox{\hyperlink{classcl__px4__mr_1_1CbPx4PathFollowerBase_ae3a1b5cef09b019a8434b962b6f5f04c}{lastCmd\_}}.\mbox{\hyperlink{structcl__px4__mr_1_1NedPoint_a99425401db0eafab4ff255f7d04f8b91}{x}},\ \mbox{\hyperlink{classcl__px4__mr_1_1CbPx4PathFollowerBase_ae3a1b5cef09b019a8434b962b6f5f04c}{lastCmd\_}}.\mbox{\hyperlink{structcl__px4__mr_1_1NedPoint_aadbc9a524709c808d8efac68c306ab1a}{y}},\ \mbox{\hyperlink{classcl__px4__mr_1_1CbPx4PathFollowerBase_ae3a1b5cef09b019a8434b962b6f5f04c}{lastCmd\_}}.\mbox{\hyperlink{structcl__px4__mr_1_1NedPoint_a22f4bf894e58a0981309fd9c210727ba}{z}},\ \mbox{\hyperlink{classcl__px4__mr_1_1CbPx4PathFollowerBase_ae3a1b5cef09b019a8434b962b6f5f04c}{lastCmd\_}}.\mbox{\hyperlink{structcl__px4__mr_1_1NedPoint_aeb2e30a30e3c927e7560cef598b9e2bf}{yaw}});}
+\DoxyCodeLine{00125\ \ \ \mbox{\hyperlink{classcl__px4__mr_1_1CbPx4PathFollowerBase_a26579cffbabd5e9f6056e503a9593081}{lastUpdateTime\_}}\ =\ std::chrono::steady\_clock::now();}
+\DoxyCodeLine{00126\ \ \ \mbox{\hyperlink{classcl__px4__mr_1_1CbPx4PathFollowerBase_a4e261c930d7d717daf859ee18d36acff}{active\_}}\ =\ \textcolor{keyword}{true};}
+\DoxyCodeLine{00127\ \}}
 
 \end{DoxyCode}
 
 
-References \mbox{\hyperlink{cb__px4__path__follower__base_8hpp_source_l00116}{active\+\_\+}}, \mbox{\hyperlink{cb__px4__path__follower__base_8hpp_source_l00058}{cl\+\_\+px4\+\_\+mr\+::\+Path\+Follower\+Params\+::auto\+Timeout\+Factor}}, \mbox{\hyperlink{cb__px4__path__follower__base_8hpp_source_l00096}{behavior\+Name()}}, \mbox{\hyperlink{classcl__px4__mr_1_1CbPx4PathFollowerBase_a557726946490f6fb22192b50edd0e614}{build\+Path()}}, \mbox{\hyperlink{cb__px4__path__follower__base_8cpp_source_l00216}{command\+For()}}, \mbox{\hyperlink{cb__px4__path__follower__base_8hpp_source_l00110}{cum\+Len\+\_\+}}, \mbox{\hyperlink{geo__utils_8hpp_source_l00205}{cl\+\_\+px4\+\_\+mr\+::cumulative\+Lengths()}}, \mbox{\hyperlink{cb__px4__path__follower__base_8hpp_source_l00113}{entry\+Heading\+\_\+}}, \mbox{\hyperlink{cb__px4__path__follower__base_8hpp_source_l00103}{follower\+Params\+\_\+}}, \mbox{\hyperlink{cp__vehicle__local__position_8cpp_source_l00116}{cl\+\_\+px4\+\_\+mr\+::\+Cp\+Vehicle\+Local\+Position\+::get\+Heading()}}, \mbox{\hyperlink{smacc__client__behavior__base_8cpp_source_l00043}{smacc2\+::\+ISmacc\+Client\+Behavior\+::get\+Logger()}}, \mbox{\hyperlink{cp__vehicle__local__position_8cpp_source_l00098}{cl\+\_\+px4\+\_\+mr\+::\+Cp\+Vehicle\+Local\+Position\+::get\+X()}}, \mbox{\hyperlink{cp__vehicle__local__position_8cpp_source_l00104}{cl\+\_\+px4\+\_\+mr\+::\+Cp\+Vehicle\+Local\+Position\+::get\+Y()}}, \mbox{\hyperlink{cp__vehicle__local__position_8cpp_source_l00110}{cl\+\_\+px4\+\_\+mr\+::\+Cp\+Vehicle\+Local\+Position\+::get\+Z()}}, \mbox{\hyperlink{cb__px4__path__follower__base_8hpp_source_l00044}{cl\+\_\+px4\+\_\+mr\+::\+Path\+Follower\+Params\+::ground\+Speed}}, \mbox{\hyperlink{cb__px4__client__behavior__base_8hpp_source_l00090}{cl\+\_\+px4\+\_\+mr\+::\+Cb\+Px4\+Client\+Behavior\+Base\+::has\+Timeout()}}, \mbox{\hyperlink{cp__vehicle__local__position_8cpp_source_l00122}{cl\+\_\+px4\+\_\+mr\+::\+Cp\+Vehicle\+Local\+Position\+::is\+Valid()}}, \mbox{\hyperlink{cb__px4__path__follower__base_8hpp_source_l00114}{last\+Cmd\+\_\+}}, \mbox{\hyperlink{cb__px4__path__follower__base_8hpp_source_l00115}{last\+Progress\+Decile\+\_\+}}, \mbox{\hyperlink{cb__px4__path__follower__base_8hpp_source_l00117}{last\+Update\+Time\+\_\+}}, \mbox{\hyperlink{cb__px4__path__follower__base_8hpp_source_l00049}{cl\+\_\+px4\+\_\+mr\+::\+Path\+Follower\+Params\+::leash}}, \mbox{\hyperlink{cb__px4__client__behavior__base_8hpp_source_l00141}{cl\+\_\+px4\+\_\+mr\+::\+Cb\+Px4\+Client\+Behavior\+Base\+::local\+Position\+\_\+}}, \mbox{\hyperlink{cb__px4__path__follower__base_8hpp_source_l00055}{cl\+\_\+px4\+\_\+mr\+::\+Path\+Follower\+Params\+::min\+Segment\+Length}}, \mbox{\hyperlink{geo__utils_8hpp_source_l00188}{cl\+\_\+px4\+\_\+mr\+::ned\+Distance()}}, \mbox{\hyperlink{cb__px4__path__follower__base_8hpp_source_l00097}{on\+Path\+Started()}}, \mbox{\hyperlink{cb__px4__path__follower__base_8hpp_source_l00109}{path\+\_\+}}, \mbox{\hyperlink{cb__px4__client__behavior__base_8hpp_source_l00129}{cl\+\_\+px4\+\_\+mr\+::\+Cb\+Px4\+Client\+Behavior\+Base\+::post\+Px4\+Failure()}}, \mbox{\hyperlink{cb__px4__path__follower__base_8hpp_source_l00054}{cl\+\_\+px4\+\_\+mr\+::\+Path\+Follower\+Params\+::prepend\+Current\+Position}}, \mbox{\hyperlink{cb__px4__path__follower__base_8hpp_source_l00112}{s\+Carrot\+\_\+}}, \mbox{\hyperlink{cp__trajectory__setpoint_8cpp_source_l00046}{cl\+\_\+px4\+\_\+mr\+::\+Cp\+Trajectory\+Setpoint\+::set\+Position\+NED()}}, \mbox{\hyperlink{cb__px4__client__behavior__base_8hpp_source_l00087}{cl\+\_\+px4\+\_\+mr\+::\+Cb\+Px4\+Client\+Behavior\+Base\+::set\+Timeout()}}, \mbox{\hyperlink{cb__px4__path__follower__base_8hpp_source_l00111}{total\+Len\+\_\+}}, \mbox{\hyperlink{cb__px4__client__behavior__base_8hpp_source_l00139}{cl\+\_\+px4\+\_\+mr\+::\+Cb\+Px4\+Client\+Behavior\+Base\+::trajectory\+Setpoint\+\_\+}}, \mbox{\hyperlink{geo__utils_8hpp_source_l00053}{cl\+\_\+px4\+\_\+mr\+::\+Ned\+Point\+::x}}, \mbox{\hyperlink{geo__utils_8hpp_source_l00054}{cl\+\_\+px4\+\_\+mr\+::\+Ned\+Point\+::y}}, \mbox{\hyperlink{geo__utils_8hpp_source_l00056}{cl\+\_\+px4\+\_\+mr\+::\+Ned\+Point\+::yaw}}, and \mbox{\hyperlink{geo__utils_8hpp_source_l00055}{cl\+\_\+px4\+\_\+mr\+::\+Ned\+Point\+::z}}.
+References \mbox{\hyperlink{cb__px4__path__follower__base_8hpp_source_l00137}{active\+\_\+}}, \mbox{\hyperlink{cb__px4__path__follower__base_8hpp_source_l00059}{cl\+\_\+px4\+\_\+mr\+::\+Path\+Follower\+Params\+::auto\+Timeout\+Factor}}, \mbox{\hyperlink{cb__px4__path__follower__base_8hpp_source_l00109}{behavior\+Name()}}, \mbox{\hyperlink{classcl__px4__mr_1_1CbPx4PathFollowerBase_a557726946490f6fb22192b50edd0e614}{build\+Path()}}, \mbox{\hyperlink{cb__px4__path__follower__base_8hpp_source_l00133}{carrot\+Vertex\+\_\+}}, \mbox{\hyperlink{cb__px4__path__follower__base_8cpp_source_l00232}{command\+For()}}, \mbox{\hyperlink{cb__px4__path__follower__base_8hpp_source_l00130}{cum\+Len\+\_\+}}, \mbox{\hyperlink{geo__utils_8hpp_source_l00205}{cl\+\_\+px4\+\_\+mr\+::cumulative\+Lengths()}}, \mbox{\hyperlink{cb__px4__path__follower__base_8hpp_source_l00134}{entry\+Heading\+\_\+}}, \mbox{\hyperlink{cb__px4__path__follower__base_8hpp_source_l00121}{follower\+Params\+\_\+}}, \mbox{\hyperlink{cp__vehicle__local__position_8cpp_source_l00118}{cl\+\_\+px4\+\_\+mr\+::\+Cp\+Vehicle\+Local\+Position\+::get\+Heading()}}, \mbox{\hyperlink{smacc__client__behavior__base_8cpp_source_l00043}{smacc2\+::\+ISmacc\+Client\+Behavior\+::get\+Logger()}}, \mbox{\hyperlink{cp__vehicle__local__position_8cpp_source_l00100}{cl\+\_\+px4\+\_\+mr\+::\+Cp\+Vehicle\+Local\+Position\+::get\+X()}}, \mbox{\hyperlink{cp__vehicle__local__position_8cpp_source_l00106}{cl\+\_\+px4\+\_\+mr\+::\+Cp\+Vehicle\+Local\+Position\+::get\+Y()}}, \mbox{\hyperlink{cp__vehicle__local__position_8cpp_source_l00112}{cl\+\_\+px4\+\_\+mr\+::\+Cp\+Vehicle\+Local\+Position\+::get\+Z()}}, \mbox{\hyperlink{cb__px4__path__follower__base_8hpp_source_l00045}{cl\+\_\+px4\+\_\+mr\+::\+Path\+Follower\+Params\+::ground\+Speed}}, \mbox{\hyperlink{cb__px4__client__behavior__base_8hpp_source_l00090}{cl\+\_\+px4\+\_\+mr\+::\+Cb\+Px4\+Client\+Behavior\+Base\+::has\+Timeout()}}, \mbox{\hyperlink{cp__vehicle__local__position_8cpp_source_l00124}{cl\+\_\+px4\+\_\+mr\+::\+Cp\+Vehicle\+Local\+Position\+::is\+Valid()}}, \mbox{\hyperlink{cb__px4__path__follower__base_8hpp_source_l00135}{last\+Cmd\+\_\+}}, \mbox{\hyperlink{cb__px4__path__follower__base_8hpp_source_l00136}{last\+Progress\+Decile\+\_\+}}, \mbox{\hyperlink{cb__px4__path__follower__base_8hpp_source_l00138}{last\+Update\+Time\+\_\+}}, \mbox{\hyperlink{cb__px4__path__follower__base_8hpp_source_l00050}{cl\+\_\+px4\+\_\+mr\+::\+Path\+Follower\+Params\+::leash}}, \mbox{\hyperlink{cb__px4__client__behavior__base_8hpp_source_l00141}{cl\+\_\+px4\+\_\+mr\+::\+Cb\+Px4\+Client\+Behavior\+Base\+::local\+Position\+\_\+}}, \mbox{\hyperlink{cb__px4__path__follower__base_8hpp_source_l00056}{cl\+\_\+px4\+\_\+mr\+::\+Path\+Follower\+Params\+::min\+Segment\+Length}}, \mbox{\hyperlink{geo__utils_8hpp_source_l00188}{cl\+\_\+px4\+\_\+mr\+::ned\+Distance()}}, \mbox{\hyperlink{cb__px4__path__follower__base_8hpp_source_l00110}{on\+Path\+Started()}}, \mbox{\hyperlink{cb__px4__path__follower__base_8hpp_source_l00129}{path\+\_\+}}, \mbox{\hyperlink{cb__px4__client__behavior__base_8hpp_source_l00129}{cl\+\_\+px4\+\_\+mr\+::\+Cb\+Px4\+Client\+Behavior\+Base\+::post\+Px4\+Failure()}}, \mbox{\hyperlink{cb__px4__path__follower__base_8hpp_source_l00055}{cl\+\_\+px4\+\_\+mr\+::\+Path\+Follower\+Params\+::prepend\+Current\+Position}}, \mbox{\hyperlink{cb__px4__path__follower__base_8hpp_source_l00132}{s\+Carrot\+\_\+}}, \mbox{\hyperlink{cp__trajectory__setpoint_8cpp_source_l00046}{cl\+\_\+px4\+\_\+mr\+::\+Cp\+Trajectory\+Setpoint\+::set\+Position\+NED()}}, \mbox{\hyperlink{cb__px4__client__behavior__base_8hpp_source_l00087}{cl\+\_\+px4\+\_\+mr\+::\+Cb\+Px4\+Client\+Behavior\+Base\+::set\+Timeout()}}, \mbox{\hyperlink{cb__px4__path__follower__base_8hpp_source_l00131}{total\+Len\+\_\+}}, \mbox{\hyperlink{cb__px4__client__behavior__base_8hpp_source_l00139}{cl\+\_\+px4\+\_\+mr\+::\+Cb\+Px4\+Client\+Behavior\+Base\+::trajectory\+Setpoint\+\_\+}}, \mbox{\hyperlink{cb__px4__path__follower__base_8hpp_source_l00122}{tunnel\+Centering\+\_\+}}, \mbox{\hyperlink{cb__px4__path__follower__base_8hpp_source_l00063}{cl\+\_\+px4\+\_\+mr\+::\+Path\+Follower\+Params\+::use\+Tunnel\+Centering}}, \mbox{\hyperlink{geo__utils_8hpp_source_l00053}{cl\+\_\+px4\+\_\+mr\+::\+Ned\+Point\+::x}}, \mbox{\hyperlink{geo__utils_8hpp_source_l00054}{cl\+\_\+px4\+\_\+mr\+::\+Ned\+Point\+::y}}, \mbox{\hyperlink{geo__utils_8hpp_source_l00056}{cl\+\_\+px4\+\_\+mr\+::\+Ned\+Point\+::yaw}}, and \mbox{\hyperlink{geo__utils_8hpp_source_l00055}{cl\+\_\+px4\+\_\+mr\+::\+Ned\+Point\+::z}}.
 
 Here is the call graph for this function\+:
 \nopagebreak
@@ -514,26 +624,26 @@ Reimplemented from \mbox{\hyperlink{classsmacc2_1_1ISmaccClientBehavior_a52b767b
 
 
 
-Definition at line \mbox{\hyperlink{cb__px4__path__follower__base_8cpp_source_l00123}{123}} of file \mbox{\hyperlink{cb__px4__path__follower__base_8cpp_source}{cb\+\_\+px4\+\_\+path\+\_\+follower\+\_\+base.\+cpp}}.
+Definition at line \mbox{\hyperlink{cb__px4__path__follower__base_8cpp_source_l00129}{129}} of file \mbox{\hyperlink{cb__px4__path__follower__base_8cpp_source}{cb\+\_\+px4\+\_\+path\+\_\+follower\+\_\+base.\+cpp}}.
 
 
 \begin{DoxyCode}{0}
-\DoxyCodeLine{00124\ \{}
-\DoxyCodeLine{00125\ \ \ \textcolor{keywordflow}{if}\ (\mbox{\hyperlink{classcl__px4__mr_1_1CbPx4PathFollowerBase_a4e261c930d7d717daf859ee18d36acff}{active\_}}.exchange(\textcolor{keyword}{false}))}
-\DoxyCodeLine{00126\ \ \ \{}
-\DoxyCodeLine{00127\ \ \ \ \ \textcolor{comment}{//\ hold\ at\ the\ last\ carrot\ (not\ hold():\ that\ would\ step\ the\ setpoint\ back}}
-\DoxyCodeLine{00128\ \ \ \ \ \textcolor{comment}{//\ to\ the\ lagging\ vehicle\ position)}}
-\DoxyCodeLine{00129\ \ \ \ \ \mbox{\hyperlink{classcl__px4__mr_1_1CbPx4ClientBehaviorBase_aba8f7b7dfed092fd23bf30445921a7e3}{trajectorySetpoint\_}}-\/>\mbox{\hyperlink{classcl__px4__mr_1_1CpTrajectorySetpoint_ad05cf6bdc5f1bc48e305ddec619e7322}{setPositionNED}}(\mbox{\hyperlink{classcl__px4__mr_1_1CbPx4PathFollowerBase_ae3a1b5cef09b019a8434b962b6f5f04c}{lastCmd\_}}.\mbox{\hyperlink{structcl__px4__mr_1_1NedPoint_a99425401db0eafab4ff255f7d04f8b91}{x}},\ \mbox{\hyperlink{classcl__px4__mr_1_1CbPx4PathFollowerBase_ae3a1b5cef09b019a8434b962b6f5f04c}{lastCmd\_}}.\mbox{\hyperlink{structcl__px4__mr_1_1NedPoint_aadbc9a524709c808d8efac68c306ab1a}{y}},\ \mbox{\hyperlink{classcl__px4__mr_1_1CbPx4PathFollowerBase_ae3a1b5cef09b019a8434b962b6f5f04c}{lastCmd\_}}.\mbox{\hyperlink{structcl__px4__mr_1_1NedPoint_a22f4bf894e58a0981309fd9c210727ba}{z}},\ \mbox{\hyperlink{classcl__px4__mr_1_1CbPx4PathFollowerBase_ae3a1b5cef09b019a8434b962b6f5f04c}{lastCmd\_}}.\mbox{\hyperlink{structcl__px4__mr_1_1NedPoint_aeb2e30a30e3c927e7560cef598b9e2bf}{yaw}});}
-\DoxyCodeLine{00130\ \ \ \ \ RCLCPP\_INFO(}
-\DoxyCodeLine{00131\ \ \ \ \ \ \ \mbox{\hyperlink{classsmacc2_1_1ISmaccClientBehavior_a9c3d82542c800e2ba5207c5cff0e63e8}{getLogger}}(),\ \textcolor{stringliteral}{"{}\%s:\ exiting\ at\ \%.0f\%\%\ -\/\ holding\ at\ last\ setpoint\ (\%.1f,\ \%.1f,\ \%.1f)"{}},}
-\DoxyCodeLine{00132\ \ \ \ \ \ \ \mbox{\hyperlink{classcl__px4__mr_1_1CbPx4PathFollowerBase_ab0db1bc9e5a98c75c13ad29ec173821b}{behaviorName}}(),\ 100.0f\ *\ \mbox{\hyperlink{classcl__px4__mr_1_1CbPx4PathFollowerBase_aeeb8e64044778767dd22ecf433fc4575}{progressFraction}}(),\ \mbox{\hyperlink{classcl__px4__mr_1_1CbPx4PathFollowerBase_ae3a1b5cef09b019a8434b962b6f5f04c}{lastCmd\_}}.\mbox{\hyperlink{structcl__px4__mr_1_1NedPoint_a99425401db0eafab4ff255f7d04f8b91}{x}},\ \mbox{\hyperlink{classcl__px4__mr_1_1CbPx4PathFollowerBase_ae3a1b5cef09b019a8434b962b6f5f04c}{lastCmd\_}}.\mbox{\hyperlink{structcl__px4__mr_1_1NedPoint_aadbc9a524709c808d8efac68c306ab1a}{y}},\ \mbox{\hyperlink{classcl__px4__mr_1_1CbPx4PathFollowerBase_ae3a1b5cef09b019a8434b962b6f5f04c}{lastCmd\_}}.\mbox{\hyperlink{structcl__px4__mr_1_1NedPoint_a22f4bf894e58a0981309fd9c210727ba}{z}});}
-\DoxyCodeLine{00133\ \ \ \}}
-\DoxyCodeLine{00134\ \}}
+\DoxyCodeLine{00130\ \{}
+\DoxyCodeLine{00131\ \ \ \textcolor{keywordflow}{if}\ (\mbox{\hyperlink{classcl__px4__mr_1_1CbPx4PathFollowerBase_a4e261c930d7d717daf859ee18d36acff}{active\_}}.exchange(\textcolor{keyword}{false}))}
+\DoxyCodeLine{00132\ \ \ \{}
+\DoxyCodeLine{00133\ \ \ \ \ \textcolor{comment}{//\ hold\ at\ the\ last\ carrot\ (not\ hold():\ that\ would\ step\ the\ setpoint\ back}}
+\DoxyCodeLine{00134\ \ \ \ \ \textcolor{comment}{//\ to\ the\ lagging\ vehicle\ position)}}
+\DoxyCodeLine{00135\ \ \ \ \ \mbox{\hyperlink{classcl__px4__mr_1_1CbPx4ClientBehaviorBase_aba8f7b7dfed092fd23bf30445921a7e3}{trajectorySetpoint\_}}-\/>\mbox{\hyperlink{classcl__px4__mr_1_1CpTrajectorySetpoint_ad05cf6bdc5f1bc48e305ddec619e7322}{setPositionNED}}(\mbox{\hyperlink{classcl__px4__mr_1_1CbPx4PathFollowerBase_ae3a1b5cef09b019a8434b962b6f5f04c}{lastCmd\_}}.\mbox{\hyperlink{structcl__px4__mr_1_1NedPoint_a99425401db0eafab4ff255f7d04f8b91}{x}},\ \mbox{\hyperlink{classcl__px4__mr_1_1CbPx4PathFollowerBase_ae3a1b5cef09b019a8434b962b6f5f04c}{lastCmd\_}}.\mbox{\hyperlink{structcl__px4__mr_1_1NedPoint_aadbc9a524709c808d8efac68c306ab1a}{y}},\ \mbox{\hyperlink{classcl__px4__mr_1_1CbPx4PathFollowerBase_ae3a1b5cef09b019a8434b962b6f5f04c}{lastCmd\_}}.\mbox{\hyperlink{structcl__px4__mr_1_1NedPoint_a22f4bf894e58a0981309fd9c210727ba}{z}},\ \mbox{\hyperlink{classcl__px4__mr_1_1CbPx4PathFollowerBase_ae3a1b5cef09b019a8434b962b6f5f04c}{lastCmd\_}}.\mbox{\hyperlink{structcl__px4__mr_1_1NedPoint_aeb2e30a30e3c927e7560cef598b9e2bf}{yaw}});}
+\DoxyCodeLine{00136\ \ \ \ \ RCLCPP\_INFO(}
+\DoxyCodeLine{00137\ \ \ \ \ \ \ \mbox{\hyperlink{classsmacc2_1_1ISmaccClientBehavior_a9c3d82542c800e2ba5207c5cff0e63e8}{getLogger}}(),\ \textcolor{stringliteral}{"{}\%s:\ exiting\ at\ \%.0f\%\%\ -\/\ holding\ at\ last\ setpoint\ (\%.1f,\ \%.1f,\ \%.1f)"{}},}
+\DoxyCodeLine{00138\ \ \ \ \ \ \ \mbox{\hyperlink{classcl__px4__mr_1_1CbPx4PathFollowerBase_ab0db1bc9e5a98c75c13ad29ec173821b}{behaviorName}}(),\ 100.0f\ *\ \mbox{\hyperlink{classcl__px4__mr_1_1CbPx4PathFollowerBase_aeeb8e64044778767dd22ecf433fc4575}{progressFraction}}(),\ \mbox{\hyperlink{classcl__px4__mr_1_1CbPx4PathFollowerBase_ae3a1b5cef09b019a8434b962b6f5f04c}{lastCmd\_}}.\mbox{\hyperlink{structcl__px4__mr_1_1NedPoint_a99425401db0eafab4ff255f7d04f8b91}{x}},\ \mbox{\hyperlink{classcl__px4__mr_1_1CbPx4PathFollowerBase_ae3a1b5cef09b019a8434b962b6f5f04c}{lastCmd\_}}.\mbox{\hyperlink{structcl__px4__mr_1_1NedPoint_aadbc9a524709c808d8efac68c306ab1a}{y}},\ \mbox{\hyperlink{classcl__px4__mr_1_1CbPx4PathFollowerBase_ae3a1b5cef09b019a8434b962b6f5f04c}{lastCmd\_}}.\mbox{\hyperlink{structcl__px4__mr_1_1NedPoint_a22f4bf894e58a0981309fd9c210727ba}{z}});}
+\DoxyCodeLine{00139\ \ \ \}}
+\DoxyCodeLine{00140\ \}}
 
 \end{DoxyCode}
 
 
-References \mbox{\hyperlink{cb__px4__path__follower__base_8hpp_source_l00116}{active\+\_\+}}, \mbox{\hyperlink{cb__px4__path__follower__base_8hpp_source_l00096}{behavior\+Name()}}, \mbox{\hyperlink{smacc__client__behavior__base_8cpp_source_l00043}{smacc2\+::\+ISmacc\+Client\+Behavior\+::get\+Logger()}}, \mbox{\hyperlink{cb__px4__path__follower__base_8hpp_source_l00114}{last\+Cmd\+\_\+}}, \mbox{\hyperlink{cb__px4__path__follower__base_8hpp_source_l00101}{progress\+Fraction()}}, \mbox{\hyperlink{cp__trajectory__setpoint_8cpp_source_l00046}{cl\+\_\+px4\+\_\+mr\+::\+Cp\+Trajectory\+Setpoint\+::set\+Position\+NED()}}, \mbox{\hyperlink{cb__px4__client__behavior__base_8hpp_source_l00139}{cl\+\_\+px4\+\_\+mr\+::\+Cb\+Px4\+Client\+Behavior\+Base\+::trajectory\+Setpoint\+\_\+}}, \mbox{\hyperlink{geo__utils_8hpp_source_l00053}{cl\+\_\+px4\+\_\+mr\+::\+Ned\+Point\+::x}}, \mbox{\hyperlink{geo__utils_8hpp_source_l00054}{cl\+\_\+px4\+\_\+mr\+::\+Ned\+Point\+::y}}, \mbox{\hyperlink{geo__utils_8hpp_source_l00056}{cl\+\_\+px4\+\_\+mr\+::\+Ned\+Point\+::yaw}}, and \mbox{\hyperlink{geo__utils_8hpp_source_l00055}{cl\+\_\+px4\+\_\+mr\+::\+Ned\+Point\+::z}}.
+References \mbox{\hyperlink{cb__px4__path__follower__base_8hpp_source_l00137}{active\+\_\+}}, \mbox{\hyperlink{cb__px4__path__follower__base_8hpp_source_l00109}{behavior\+Name()}}, \mbox{\hyperlink{smacc__client__behavior__base_8cpp_source_l00043}{smacc2\+::\+ISmacc\+Client\+Behavior\+::get\+Logger()}}, \mbox{\hyperlink{cb__px4__path__follower__base_8hpp_source_l00135}{last\+Cmd\+\_\+}}, \mbox{\hyperlink{cb__px4__path__follower__base_8hpp_source_l00114}{progress\+Fraction()}}, \mbox{\hyperlink{cp__trajectory__setpoint_8cpp_source_l00046}{cl\+\_\+px4\+\_\+mr\+::\+Cp\+Trajectory\+Setpoint\+::set\+Position\+NED()}}, \mbox{\hyperlink{cb__px4__client__behavior__base_8hpp_source_l00139}{cl\+\_\+px4\+\_\+mr\+::\+Cb\+Px4\+Client\+Behavior\+Base\+::trajectory\+Setpoint\+\_\+}}, \mbox{\hyperlink{geo__utils_8hpp_source_l00053}{cl\+\_\+px4\+\_\+mr\+::\+Ned\+Point\+::x}}, \mbox{\hyperlink{geo__utils_8hpp_source_l00054}{cl\+\_\+px4\+\_\+mr\+::\+Ned\+Point\+::y}}, \mbox{\hyperlink{geo__utils_8hpp_source_l00056}{cl\+\_\+px4\+\_\+mr\+::\+Ned\+Point\+::yaw}}, and \mbox{\hyperlink{geo__utils_8hpp_source_l00055}{cl\+\_\+px4\+\_\+mr\+::\+Ned\+Point\+::z}}.
 
 Here is the call graph for this function\+:
 \nopagebreak
@@ -551,16 +661,16 @@ virtual void cl\+\_\+px4\+\_\+mr\+::\+Cb\+Px4\+Path\+Follower\+Base\+::on\+Path\
 
 
 
-Definition at line \mbox{\hyperlink{cb__px4__path__follower__base_8hpp_source_l00098}{98}} of file \mbox{\hyperlink{cb__px4__path__follower__base_8hpp_source}{cb\+\_\+px4\+\_\+path\+\_\+follower\+\_\+base.\+hpp}}.
+Definition at line \mbox{\hyperlink{cb__px4__path__follower__base_8hpp_source_l00111}{111}} of file \mbox{\hyperlink{cb__px4__path__follower__base_8hpp_source}{cb\+\_\+px4\+\_\+path\+\_\+follower\+\_\+base.\+hpp}}.
 
 
 \begin{DoxyCode}{0}
-\DoxyCodeLine{00098\ \{\}}
+\DoxyCodeLine{00111\ \{\}}
 
 \end{DoxyCode}
 
 
-Referenced by \mbox{\hyperlink{cb__px4__path__follower__base_8cpp_source_l00136}{update()}}.
+Referenced by \mbox{\hyperlink{cb__px4__path__follower__base_8cpp_source_l00142}{update()}}.
 
 Here is the caller graph for this function\+:
 \nopagebreak
@@ -578,16 +688,16 @@ virtual void cl\+\_\+px4\+\_\+mr\+::\+Cb\+Px4\+Path\+Follower\+Base\+::on\+Path\
 
 
 
-Definition at line \mbox{\hyperlink{cb__px4__path__follower__base_8hpp_source_l00097}{97}} of file \mbox{\hyperlink{cb__px4__path__follower__base_8hpp_source}{cb\+\_\+px4\+\_\+path\+\_\+follower\+\_\+base.\+hpp}}.
+Definition at line \mbox{\hyperlink{cb__px4__path__follower__base_8hpp_source_l00110}{110}} of file \mbox{\hyperlink{cb__px4__path__follower__base_8hpp_source}{cb\+\_\+px4\+\_\+path\+\_\+follower\+\_\+base.\+hpp}}.
 
 
 \begin{DoxyCode}{0}
-\DoxyCodeLine{00097\ \{\}}
+\DoxyCodeLine{00110\ \{\}}
 
 \end{DoxyCode}
 
 
-Referenced by \mbox{\hyperlink{cb__px4__path__follower__base_8cpp_source_l00034}{on\+Entry()}}.
+Referenced by \mbox{\hyperlink{cb__px4__path__follower__base_8cpp_source_l00035}{on\+Entry()}}.
 
 Here is the caller graph for this function\+:
 \nopagebreak
@@ -595,6 +705,38 @@ Here is the caller graph for this function\+:
 \begin{center}
 \leavevmode
 \includegraphics[width=350pt]{classcl__px4__mr_1_1CbPx4PathFollowerBase_a5990ff64db0f8cb79ba0645b84fcc5c8_icgraph}
+\end{center}
+\end{figure}
+\Hypertarget{classcl__px4__mr_1_1CbPx4PathFollowerBase_a12f235b599b17bef659d71952c800397}\index{cl\_px4\_mr::CbPx4PathFollowerBase@{cl\_px4\_mr::CbPx4PathFollowerBase}!onStateOrthogonalAllocation@{onStateOrthogonalAllocation}}
+\index{onStateOrthogonalAllocation@{onStateOrthogonalAllocation}!cl\_px4\_mr::CbPx4PathFollowerBase@{cl\_px4\_mr::CbPx4PathFollowerBase}}
+\doxysubsubsection{\texorpdfstring{onStateOrthogonalAllocation()}{onStateOrthogonalAllocation()}}
+{\footnotesize\ttfamily \label{classcl__px4__mr_1_1CbPx4PathFollowerBase_a12f235b599b17bef659d71952c800397} 
+template$<$typename TOrthogonal , typename TSource\+Object $>$ \\
+void cl\+\_\+px4\+\_\+mr\+::\+Cb\+Px4\+Path\+Follower\+Base\+::on\+State\+Orthogonal\+Allocation (\begin{DoxyParamCaption}{}{}\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Definition at line \mbox{\hyperlink{cb__px4__path__follower__base_8hpp_source_l00088}{88}} of file \mbox{\hyperlink{cb__px4__path__follower__base_8hpp_source}{cb\+\_\+px4\+\_\+path\+\_\+follower\+\_\+base.\+hpp}}.
+
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00089\ \ \ \{}
+\DoxyCodeLine{00090\ \ \ \ \ \textcolor{comment}{//\ optional,\ may\ live\ in\ another\ orthogonal\ (state\ machine\ thread,\ see\ the\ locking\ rule)}}
+\DoxyCodeLine{00091\ \ \ \ \ this-\/>\mbox{\hyperlink{classsmacc2_1_1ISmaccClientBehavior_aeb76b10b9bb3925244da9d484739a5a9}{requiresComponent}}(\mbox{\hyperlink{classcl__px4__mr_1_1CbPx4PathFollowerBase_a7a5777f04d171dced2890f0815667e9d}{tunnelCentering\_}},\ \mbox{\hyperlink{namespacesmacc2_ae6caa1d032436dea4d4d2a864566aff2a52e743143106c12bfd73aae547fc6e2e}{smacc2::ComponentRequirement::SOFT}});}
+\DoxyCodeLine{00092\ \ \ \ \ \mbox{\hyperlink{classcl__px4__mr_1_1CbPx4ClientBehaviorBase_a876dd6d5900bf7000d9c9cea3aa18795}{CbPx4ClientBehaviorBase::onStateOrthogonalAllocation<TOrthogonal,\ TSourceObject>}}();}
+\DoxyCodeLine{00093\ \ \ \}}
+
+\end{DoxyCode}
+
+
+References \mbox{\hyperlink{cb__px4__client__behavior__base_8hpp_source_l00065}{cl\+\_\+px4\+\_\+mr\+::\+Cb\+Px4\+Client\+Behavior\+Base\+::on\+State\+Orthogonal\+Allocation()}}, \mbox{\hyperlink{smacc__client__behavior__impl_8hpp_source_l00073}{smacc2\+::\+ISmacc\+Client\+Behavior\+::requires\+Component()}}, \mbox{\hyperlink{namespacesmacc2_ae6caa1d032436dea4d4d2a864566aff2a52e743143106c12bfd73aae547fc6e2e}{smacc2\+::\+SOFT}}, and \mbox{\hyperlink{cb__px4__path__follower__base_8hpp_source_l00122}{tunnel\+Centering\+\_\+}}.
+
+Here is the call graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{classcl__px4__mr_1_1CbPx4PathFollowerBase_a12f235b599b17bef659d71952c800397_cgraph}
 \end{center}
 \end{figure}
 \Hypertarget{classcl__px4__mr_1_1CbPx4PathFollowerBase_aeeb8e64044778767dd22ecf433fc4575}\index{cl\_px4\_mr::CbPx4PathFollowerBase@{cl\_px4\_mr::CbPx4PathFollowerBase}!progressFraction@{progressFraction}}
@@ -605,20 +747,20 @@ float cl\+\_\+px4\+\_\+mr\+::\+Cb\+Px4\+Path\+Follower\+Base\+::progress\+Fracti
 
 
 
-Definition at line \mbox{\hyperlink{cb__px4__path__follower__base_8hpp_source_l00101}{101}} of file \mbox{\hyperlink{cb__px4__path__follower__base_8hpp_source}{cb\+\_\+px4\+\_\+path\+\_\+follower\+\_\+base.\+hpp}}.
+Definition at line \mbox{\hyperlink{cb__px4__path__follower__base_8hpp_source_l00114}{114}} of file \mbox{\hyperlink{cb__px4__path__follower__base_8hpp_source}{cb\+\_\+px4\+\_\+path\+\_\+follower\+\_\+base.\+hpp}}.
 
 
 \begin{DoxyCode}{0}
-\DoxyCodeLine{00101\ \{\ \textcolor{keywordflow}{return}\ \mbox{\hyperlink{classcl__px4__mr_1_1CbPx4PathFollowerBase_a6a677869a5b9aa61ed1082a80215c8d8}{totalLen\_}}\ >\ 0.0f\ ?\ \mbox{\hyperlink{classcl__px4__mr_1_1CbPx4PathFollowerBase_aef84d639d4f1627e736fd2b4c6990ec7}{sCarrot\_}}\ /\ \mbox{\hyperlink{classcl__px4__mr_1_1CbPx4PathFollowerBase_a6a677869a5b9aa61ed1082a80215c8d8}{totalLen\_}}\ :\ 1.0f;\ \}}
+\DoxyCodeLine{00114\ \{\ \textcolor{keywordflow}{return}\ \mbox{\hyperlink{classcl__px4__mr_1_1CbPx4PathFollowerBase_a6a677869a5b9aa61ed1082a80215c8d8}{totalLen\_}}\ >\ 0.0f\ ?\ \mbox{\hyperlink{classcl__px4__mr_1_1CbPx4PathFollowerBase_aef84d639d4f1627e736fd2b4c6990ec7}{sCarrot\_}}\ /\ \mbox{\hyperlink{classcl__px4__mr_1_1CbPx4PathFollowerBase_a6a677869a5b9aa61ed1082a80215c8d8}{totalLen\_}}\ :\ 1.0f;\ \}}
 
 \end{DoxyCode}
 
 
-References \mbox{\hyperlink{cb__px4__path__follower__base_8hpp_source_l00112}{s\+Carrot\+\_\+}}, and \mbox{\hyperlink{cb__px4__path__follower__base_8hpp_source_l00111}{total\+Len\+\_\+}}.
+References \mbox{\hyperlink{cb__px4__path__follower__base_8hpp_source_l00132}{s\+Carrot\+\_\+}}, and \mbox{\hyperlink{cb__px4__path__follower__base_8hpp_source_l00131}{total\+Len\+\_\+}}.
 
 
 
-Referenced by \mbox{\hyperlink{cb__px4__path__follower__base_8cpp_source_l00123}{on\+Exit()}}, and \mbox{\hyperlink{cb__px4__path__follower__base_8cpp_source_l00136}{update()}}.
+Referenced by \mbox{\hyperlink{cb__px4__path__follower__base_8cpp_source_l00129}{on\+Exit()}}, and \mbox{\hyperlink{cb__px4__path__follower__base_8cpp_source_l00142}{update()}}.
 
 Here is the caller graph for this function\+:
 \nopagebreak
@@ -636,16 +778,16 @@ void cl\+\_\+px4\+\_\+mr\+::\+Cb\+Px4\+Path\+Follower\+Base\+::set\+Follower\+Pa
 
 
 
-Definition at line \mbox{\hyperlink{cb__px4__path__follower__base_8hpp_source_l00082}{82}} of file \mbox{\hyperlink{cb__px4__path__follower__base_8hpp_source}{cb\+\_\+px4\+\_\+path\+\_\+follower\+\_\+base.\+hpp}}.
+Definition at line \mbox{\hyperlink{cb__px4__path__follower__base_8hpp_source_l00095}{95}} of file \mbox{\hyperlink{cb__px4__path__follower__base_8hpp_source}{cb\+\_\+px4\+\_\+path\+\_\+follower\+\_\+base.\+hpp}}.
 
 
 \begin{DoxyCode}{0}
-\DoxyCodeLine{00082\ \{\ \mbox{\hyperlink{classcl__px4__mr_1_1CbPx4PathFollowerBase_a7b011538e949299d94649c4027f55f2e}{followerParams\_}}\ =\ params;\ \}}
+\DoxyCodeLine{00095\ \{\ \mbox{\hyperlink{classcl__px4__mr_1_1CbPx4PathFollowerBase_a7b011538e949299d94649c4027f55f2e}{followerParams\_}}\ =\ params;\ \}}
 
 \end{DoxyCode}
 
 
-References \mbox{\hyperlink{cb__px4__path__follower__base_8hpp_source_l00103}{follower\+Params\+\_\+}}.
+References \mbox{\hyperlink{cb__px4__path__follower__base_8hpp_source_l00121}{follower\+Params\+\_\+}}.
 
 \Hypertarget{classcl__px4__mr_1_1CbPx4PathFollowerBase_a65bef5b79953c4af977acf361ff34ec7}\index{cl\_px4\_mr::CbPx4PathFollowerBase@{cl\_px4\_mr::CbPx4PathFollowerBase}!tangentYawAt@{tangentYawAt}}
 \index{tangentYawAt@{tangentYawAt}!cl\_px4\_mr::CbPx4PathFollowerBase@{cl\_px4\_mr::CbPx4PathFollowerBase}}
@@ -655,35 +797,35 @@ float cl\+\_\+px4\+\_\+mr\+::\+Cb\+Px4\+Path\+Follower\+Base\+::tangent\+Yaw\+At
 
 
 
-Definition at line \mbox{\hyperlink{cb__px4__path__follower__base_8cpp_source_l00198}{198}} of file \mbox{\hyperlink{cb__px4__path__follower__base_8cpp_source}{cb\+\_\+px4\+\_\+path\+\_\+follower\+\_\+base.\+cpp}}.
+Definition at line \mbox{\hyperlink{cb__px4__path__follower__base_8cpp_source_l00214}{214}} of file \mbox{\hyperlink{cb__px4__path__follower__base_8cpp_source}{cb\+\_\+px4\+\_\+path\+\_\+follower\+\_\+base.\+cpp}}.
 
 
 \begin{DoxyCode}{0}
-\DoxyCodeLine{00199\ \{}
-\DoxyCodeLine{00200\ \ \ \textcolor{keywordflow}{if}\ (\mbox{\hyperlink{classcl__px4__mr_1_1CbPx4PathFollowerBase_a3356e8d87f9a314f1a112425bdc473b5}{path\_}}.size()\ <\ 2)}
-\DoxyCodeLine{00201\ \ \ \{}
-\DoxyCodeLine{00202\ \ \ \ \ \textcolor{keywordflow}{return}\ \mbox{\hyperlink{classcl__px4__mr_1_1CbPx4PathFollowerBase_adc10a7f4318c8c9c88b1667401b85862}{entryHeading\_}};}
-\DoxyCodeLine{00203\ \ \ \}}
-\DoxyCodeLine{00204\ \ \ \textcolor{keyword}{const}\ \textcolor{keywordtype}{size\_t}\ i0\ =\ std::min(segmentIndex,\ \mbox{\hyperlink{classcl__px4__mr_1_1CbPx4PathFollowerBase_a3356e8d87f9a314f1a112425bdc473b5}{path\_}}.size()\ -\/\ 2);}
-\DoxyCodeLine{00205\ \ \ \textcolor{keyword}{const}\ NedPoint\ \&\ a\ =\ \mbox{\hyperlink{classcl__px4__mr_1_1CbPx4PathFollowerBase_a3356e8d87f9a314f1a112425bdc473b5}{path\_}}[i0];}
-\DoxyCodeLine{00206\ \ \ \textcolor{keyword}{const}\ NedPoint\ \&\ b\ =\ \mbox{\hyperlink{classcl__px4__mr_1_1CbPx4PathFollowerBase_a3356e8d87f9a314f1a112425bdc473b5}{path\_}}[i0\ +\ 1];}
-\DoxyCodeLine{00207\ \ \ \textcolor{keyword}{const}\ \textcolor{keywordtype}{float}\ dx\ =\ b.x\ -\/\ a.x;}
-\DoxyCodeLine{00208\ \ \ \textcolor{keyword}{const}\ \textcolor{keywordtype}{float}\ dy\ =\ b.y\ -\/\ a.y;}
-\DoxyCodeLine{00209\ \ \ \textcolor{keywordflow}{if}\ (std::hypot(dx,\ dy)\ <\ 1e-\/3f)}
-\DoxyCodeLine{00210\ \ \ \{}
-\DoxyCodeLine{00211\ \ \ \ \ \textcolor{keywordflow}{return}\ \mbox{\hyperlink{classcl__px4__mr_1_1CbPx4PathFollowerBase_adc10a7f4318c8c9c88b1667401b85862}{entryHeading\_}};\ \ \textcolor{comment}{//\ vertical\ segment:\ keep\ heading}}
-\DoxyCodeLine{00212\ \ \ \}}
-\DoxyCodeLine{00213\ \ \ \textcolor{keywordflow}{return}\ std::atan2(dy,\ dx);}
-\DoxyCodeLine{00214\ \}}
+\DoxyCodeLine{00215\ \{}
+\DoxyCodeLine{00216\ \ \ \textcolor{keywordflow}{if}\ (\mbox{\hyperlink{classcl__px4__mr_1_1CbPx4PathFollowerBase_a3356e8d87f9a314f1a112425bdc473b5}{path\_}}.size()\ <\ 2)}
+\DoxyCodeLine{00217\ \ \ \{}
+\DoxyCodeLine{00218\ \ \ \ \ \textcolor{keywordflow}{return}\ \mbox{\hyperlink{classcl__px4__mr_1_1CbPx4PathFollowerBase_adc10a7f4318c8c9c88b1667401b85862}{entryHeading\_}};}
+\DoxyCodeLine{00219\ \ \ \}}
+\DoxyCodeLine{00220\ \ \ \textcolor{keyword}{const}\ \textcolor{keywordtype}{size\_t}\ i0\ =\ std::min(segmentIndex,\ \mbox{\hyperlink{classcl__px4__mr_1_1CbPx4PathFollowerBase_a3356e8d87f9a314f1a112425bdc473b5}{path\_}}.size()\ -\/\ 2);}
+\DoxyCodeLine{00221\ \ \ \textcolor{keyword}{const}\ NedPoint\ \&\ a\ =\ \mbox{\hyperlink{classcl__px4__mr_1_1CbPx4PathFollowerBase_a3356e8d87f9a314f1a112425bdc473b5}{path\_}}[i0];}
+\DoxyCodeLine{00222\ \ \ \textcolor{keyword}{const}\ NedPoint\ \&\ b\ =\ \mbox{\hyperlink{classcl__px4__mr_1_1CbPx4PathFollowerBase_a3356e8d87f9a314f1a112425bdc473b5}{path\_}}[i0\ +\ 1];}
+\DoxyCodeLine{00223\ \ \ \textcolor{keyword}{const}\ \textcolor{keywordtype}{float}\ dx\ =\ b.x\ -\/\ a.x;}
+\DoxyCodeLine{00224\ \ \ \textcolor{keyword}{const}\ \textcolor{keywordtype}{float}\ dy\ =\ b.y\ -\/\ a.y;}
+\DoxyCodeLine{00225\ \ \ \textcolor{keywordflow}{if}\ (std::hypot(dx,\ dy)\ <\ 1e-\/3f)}
+\DoxyCodeLine{00226\ \ \ \{}
+\DoxyCodeLine{00227\ \ \ \ \ \textcolor{keywordflow}{return}\ \mbox{\hyperlink{classcl__px4__mr_1_1CbPx4PathFollowerBase_adc10a7f4318c8c9c88b1667401b85862}{entryHeading\_}};\ \ \textcolor{comment}{//\ vertical\ segment:\ keep\ heading}}
+\DoxyCodeLine{00228\ \ \ \}}
+\DoxyCodeLine{00229\ \ \ \textcolor{keywordflow}{return}\ std::atan2(dy,\ dx);}
+\DoxyCodeLine{00230\ \}}
 
 \end{DoxyCode}
 
 
-References \mbox{\hyperlink{cb__px4__path__follower__base_8hpp_source_l00113}{entry\+Heading\+\_\+}}, \mbox{\hyperlink{cb__px4__path__follower__base_8hpp_source_l00109}{path\+\_\+}}, \mbox{\hyperlink{geo__utils_8hpp_source_l00053}{cl\+\_\+px4\+\_\+mr\+::\+Ned\+Point\+::x}}, and \mbox{\hyperlink{geo__utils_8hpp_source_l00054}{cl\+\_\+px4\+\_\+mr\+::\+Ned\+Point\+::y}}.
+References \mbox{\hyperlink{cb__px4__path__follower__base_8hpp_source_l00134}{entry\+Heading\+\_\+}}, \mbox{\hyperlink{cb__px4__path__follower__base_8hpp_source_l00129}{path\+\_\+}}, \mbox{\hyperlink{geo__utils_8hpp_source_l00053}{cl\+\_\+px4\+\_\+mr\+::\+Ned\+Point\+::x}}, and \mbox{\hyperlink{geo__utils_8hpp_source_l00054}{cl\+\_\+px4\+\_\+mr\+::\+Ned\+Point\+::y}}.
 
 
 
-Referenced by \mbox{\hyperlink{cb__px4__path__follower__base_8cpp_source_l00216}{command\+For()}}.
+Referenced by \mbox{\hyperlink{cb__px4__path__follower__base_8cpp_source_l00232}{command\+For()}}.
 
 Here is the caller graph for this function\+:
 \nopagebreak
@@ -701,16 +843,16 @@ float cl\+\_\+px4\+\_\+mr\+::\+Cb\+Px4\+Path\+Follower\+Base\+::total\+Length (\
 
 
 
-Definition at line \mbox{\hyperlink{cb__px4__path__follower__base_8hpp_source_l00100}{100}} of file \mbox{\hyperlink{cb__px4__path__follower__base_8hpp_source}{cb\+\_\+px4\+\_\+path\+\_\+follower\+\_\+base.\+hpp}}.
+Definition at line \mbox{\hyperlink{cb__px4__path__follower__base_8hpp_source_l00113}{113}} of file \mbox{\hyperlink{cb__px4__path__follower__base_8hpp_source}{cb\+\_\+px4\+\_\+path\+\_\+follower\+\_\+base.\+hpp}}.
 
 
 \begin{DoxyCode}{0}
-\DoxyCodeLine{00100\ \{\ \textcolor{keywordflow}{return}\ \mbox{\hyperlink{classcl__px4__mr_1_1CbPx4PathFollowerBase_a6a677869a5b9aa61ed1082a80215c8d8}{totalLen\_}};\ \}}
+\DoxyCodeLine{00113\ \{\ \textcolor{keywordflow}{return}\ \mbox{\hyperlink{classcl__px4__mr_1_1CbPx4PathFollowerBase_a6a677869a5b9aa61ed1082a80215c8d8}{totalLen\_}};\ \}}
 
 \end{DoxyCode}
 
 
-References \mbox{\hyperlink{cb__px4__path__follower__base_8hpp_source_l00111}{total\+Len\+\_\+}}.
+References \mbox{\hyperlink{cb__px4__path__follower__base_8hpp_source_l00131}{total\+Len\+\_\+}}.
 
 \Hypertarget{classcl__px4__mr_1_1CbPx4PathFollowerBase_a102c3ec539e2d686a41d81a95b61b4df}\index{cl\_px4\_mr::CbPx4PathFollowerBase@{cl\_px4\_mr::CbPx4PathFollowerBase}!update@{update}}
 \index{update@{update}!cl\_px4\_mr::CbPx4PathFollowerBase@{cl\_px4\_mr::CbPx4PathFollowerBase}}
@@ -724,75 +866,85 @@ Reimplemented from \mbox{\hyperlink{classcl__px4__mr_1_1CbPx4ClientBehaviorBase_
 
 
 
-Definition at line \mbox{\hyperlink{cb__px4__path__follower__base_8cpp_source_l00136}{136}} of file \mbox{\hyperlink{cb__px4__path__follower__base_8cpp_source}{cb\+\_\+px4\+\_\+path\+\_\+follower\+\_\+base.\+cpp}}.
+Definition at line \mbox{\hyperlink{cb__px4__path__follower__base_8cpp_source_l00142}{142}} of file \mbox{\hyperlink{cb__px4__path__follower__base_8cpp_source}{cb\+\_\+px4\+\_\+path\+\_\+follower\+\_\+base.\+cpp}}.
 
 
 \begin{DoxyCode}{0}
-\DoxyCodeLine{00137\ \{}
-\DoxyCodeLine{00138\ \ \ \mbox{\hyperlink{classcl__px4__mr_1_1CbPx4ClientBehaviorBase_a2cd960ab47037f6037d0c12e4e1490cf}{CbPx4ClientBehaviorBase::update}}();}
-\DoxyCodeLine{00139\ }
-\DoxyCodeLine{00140\ \ \ \textcolor{keywordflow}{if}\ (!\mbox{\hyperlink{classcl__px4__mr_1_1CbPx4PathFollowerBase_a4e261c930d7d717daf859ee18d36acff}{active\_}})}
-\DoxyCodeLine{00141\ \ \ \{}
-\DoxyCodeLine{00142\ \ \ \ \ \textcolor{keywordflow}{return};}
-\DoxyCodeLine{00143\ \ \ \}}
-\DoxyCodeLine{00144\ }
-\DoxyCodeLine{00145\ \ \ \textcolor{keyword}{const}\ \textcolor{keyword}{auto}\ now\ =\ std::chrono::steady\_clock::now();}
-\DoxyCodeLine{00146\ \ \ \textcolor{keywordtype}{float}\ dt\ =\ std::chrono::duration<float>(now\ -\/\ \mbox{\hyperlink{classcl__px4__mr_1_1CbPx4PathFollowerBase_a26579cffbabd5e9f6056e503a9593081}{lastUpdateTime\_}}).count();}
-\DoxyCodeLine{00147\ \ \ \mbox{\hyperlink{classcl__px4__mr_1_1CbPx4PathFollowerBase_a26579cffbabd5e9f6056e503a9593081}{lastUpdateTime\_}}\ =\ now;}
-\DoxyCodeLine{00148\ \ \ dt\ =\ std::clamp(dt,\ 0.0f,\ 0.5f);}
-\DoxyCodeLine{00149\ }
-\DoxyCodeLine{00150\ \ \ \textcolor{keywordflow}{if}\ (!\mbox{\hyperlink{classcl__px4__mr_1_1CbPx4ClientBehaviorBase_aac08e96640e94aff591f4a9a5af93453}{localPosition\_}}-\/>\mbox{\hyperlink{classcl__px4__mr_1_1CpVehicleLocalPosition_aca9a6689fa1e120b77feff35ab064b5c}{isValid}}())}
-\DoxyCodeLine{00151\ \ \ \{}
-\DoxyCodeLine{00152\ \ \ \ \ \textcolor{comment}{//\ freeze\ the\ carrot;\ the\ watchdog\ covers\ a\ lost\ position}}
-\DoxyCodeLine{00153\ \ \ \ \ \textcolor{keywordflow}{return};}
-\DoxyCodeLine{00154\ \ \ \}}
+\DoxyCodeLine{00143\ \{}
+\DoxyCodeLine{00144\ \ \ \mbox{\hyperlink{classcl__px4__mr_1_1CbPx4ClientBehaviorBase_a2cd960ab47037f6037d0c12e4e1490cf}{CbPx4ClientBehaviorBase::update}}();}
+\DoxyCodeLine{00145\ }
+\DoxyCodeLine{00146\ \ \ \textcolor{keywordflow}{if}\ (!\mbox{\hyperlink{classcl__px4__mr_1_1CbPx4PathFollowerBase_a4e261c930d7d717daf859ee18d36acff}{active\_}})}
+\DoxyCodeLine{00147\ \ \ \{}
+\DoxyCodeLine{00148\ \ \ \ \ \textcolor{keywordflow}{return};}
+\DoxyCodeLine{00149\ \ \ \}}
+\DoxyCodeLine{00150\ }
+\DoxyCodeLine{00151\ \ \ \textcolor{keyword}{const}\ \textcolor{keyword}{auto}\ now\ =\ std::chrono::steady\_clock::now();}
+\DoxyCodeLine{00152\ \ \ \textcolor{keywordtype}{float}\ dt\ =\ std::chrono::duration<float>(now\ -\/\ \mbox{\hyperlink{classcl__px4__mr_1_1CbPx4PathFollowerBase_a26579cffbabd5e9f6056e503a9593081}{lastUpdateTime\_}}).count();}
+\DoxyCodeLine{00153\ \ \ \mbox{\hyperlink{classcl__px4__mr_1_1CbPx4PathFollowerBase_a26579cffbabd5e9f6056e503a9593081}{lastUpdateTime\_}}\ =\ now;}
+\DoxyCodeLine{00154\ \ \ dt\ =\ std::clamp(dt,\ 0.0f,\ 0.5f);}
 \DoxyCodeLine{00155\ }
-\DoxyCodeLine{00156\ \ \ NedPoint\ vehicle;}
-\DoxyCodeLine{00157\ \ \ vehicle.x\ =\ \mbox{\hyperlink{classcl__px4__mr_1_1CbPx4ClientBehaviorBase_aac08e96640e94aff591f4a9a5af93453}{localPosition\_}}-\/>\mbox{\hyperlink{classcl__px4__mr_1_1CpVehicleLocalPosition_a90fd0ca926c0eba124d97f04cbc64880}{getX}}();}
-\DoxyCodeLine{00158\ \ \ vehicle.y\ =\ \mbox{\hyperlink{classcl__px4__mr_1_1CbPx4ClientBehaviorBase_aac08e96640e94aff591f4a9a5af93453}{localPosition\_}}-\/>\mbox{\hyperlink{classcl__px4__mr_1_1CpVehicleLocalPosition_a1d9536e60ab3709dec4876f3c650f964}{getY}}();}
-\DoxyCodeLine{00159\ \ \ vehicle.z\ =\ \mbox{\hyperlink{classcl__px4__mr_1_1CbPx4ClientBehaviorBase_aac08e96640e94aff591f4a9a5af93453}{localPosition\_}}-\/>\mbox{\hyperlink{classcl__px4__mr_1_1CpVehicleLocalPosition_aff646820b46d38aff061d40e8cdfd76b}{getZ}}();}
-\DoxyCodeLine{00160\ }
-\DoxyCodeLine{00161\ \ \ \textcolor{comment}{//\ advance\ the\ carrot,\ throttled\ by\ the\ leash}}
-\DoxyCodeLine{00162\ \ \ \textcolor{keyword}{const}\ \textcolor{keywordtype}{float}\ sNext\ =\ std::min(\mbox{\hyperlink{classcl__px4__mr_1_1CbPx4PathFollowerBase_aef84d639d4f1627e736fd2b4c6990ec7}{sCarrot\_}}\ +\ \mbox{\hyperlink{classcl__px4__mr_1_1CbPx4PathFollowerBase_a7b011538e949299d94649c4027f55f2e}{followerParams\_}}.\mbox{\hyperlink{structcl__px4__mr_1_1PathFollowerParams_a8f7685e2baf002a8b60cc992cfdb2d9b}{groundSpeed}}\ *\ dt,\ \mbox{\hyperlink{classcl__px4__mr_1_1CbPx4PathFollowerBase_a6a677869a5b9aa61ed1082a80215c8d8}{totalLen\_}});}
-\DoxyCodeLine{00163\ \ \ \textcolor{keyword}{const}\ NedPoint\ candidate\ =\ \mbox{\hyperlink{namespacecl__px4__mr_a3e263bea1b22cdf26f906654bbd84574}{sampleAtArcLength}}(\mbox{\hyperlink{classcl__px4__mr_1_1CbPx4PathFollowerBase_a3356e8d87f9a314f1a112425bdc473b5}{path\_}},\ \mbox{\hyperlink{classcl__px4__mr_1_1CbPx4PathFollowerBase_a78bec05786b51559eb69329756050261}{cumLen\_}},\ sNext);}
-\DoxyCodeLine{00164\ \ \ \textcolor{keywordflow}{if}\ (\mbox{\hyperlink{namespacecl__px4__mr_a5cc5aeaa13238a0b7a22c071ca693a8d}{nedDistance}}(candidate,\ vehicle)\ <=\ \mbox{\hyperlink{classcl__px4__mr_1_1CbPx4PathFollowerBase_a7b011538e949299d94649c4027f55f2e}{followerParams\_}}.\mbox{\hyperlink{structcl__px4__mr_1_1PathFollowerParams_ac945ba84bc76e7f783878ac1f0136a78}{leash}})}
-\DoxyCodeLine{00165\ \ \ \{}
-\DoxyCodeLine{00166\ \ \ \ \ \mbox{\hyperlink{classcl__px4__mr_1_1CbPx4PathFollowerBase_aef84d639d4f1627e736fd2b4c6990ec7}{sCarrot\_}}\ =\ sNext;}
-\DoxyCodeLine{00167\ \ \ \}}
-\DoxyCodeLine{00168\ }
-\DoxyCodeLine{00169\ \ \ \mbox{\hyperlink{classcl__px4__mr_1_1CbPx4PathFollowerBase_ae3a1b5cef09b019a8434b962b6f5f04c}{lastCmd\_}}\ =\ \mbox{\hyperlink{classcl__px4__mr_1_1CbPx4PathFollowerBase_a4028f3d2fcbd2540f7a44af3b2779930}{commandFor}}(\mbox{\hyperlink{classcl__px4__mr_1_1CbPx4PathFollowerBase_aef84d639d4f1627e736fd2b4c6990ec7}{sCarrot\_}});}
-\DoxyCodeLine{00170\ \ \ \mbox{\hyperlink{classcl__px4__mr_1_1CbPx4ClientBehaviorBase_aba8f7b7dfed092fd23bf30445921a7e3}{trajectorySetpoint\_}}-\/>\mbox{\hyperlink{classcl__px4__mr_1_1CpTrajectorySetpoint_ad05cf6bdc5f1bc48e305ddec619e7322}{setPositionNED}}(\mbox{\hyperlink{classcl__px4__mr_1_1CbPx4PathFollowerBase_ae3a1b5cef09b019a8434b962b6f5f04c}{lastCmd\_}}.\mbox{\hyperlink{structcl__px4__mr_1_1NedPoint_a99425401db0eafab4ff255f7d04f8b91}{x}},\ \mbox{\hyperlink{classcl__px4__mr_1_1CbPx4PathFollowerBase_ae3a1b5cef09b019a8434b962b6f5f04c}{lastCmd\_}}.\mbox{\hyperlink{structcl__px4__mr_1_1NedPoint_aadbc9a524709c808d8efac68c306ab1a}{y}},\ \mbox{\hyperlink{classcl__px4__mr_1_1CbPx4PathFollowerBase_ae3a1b5cef09b019a8434b962b6f5f04c}{lastCmd\_}}.\mbox{\hyperlink{structcl__px4__mr_1_1NedPoint_a22f4bf894e58a0981309fd9c210727ba}{z}},\ \mbox{\hyperlink{classcl__px4__mr_1_1CbPx4PathFollowerBase_ae3a1b5cef09b019a8434b962b6f5f04c}{lastCmd\_}}.\mbox{\hyperlink{structcl__px4__mr_1_1NedPoint_aeb2e30a30e3c927e7560cef598b9e2bf}{yaw}});}
-\DoxyCodeLine{00171\ }
-\DoxyCodeLine{00172\ \ \ \textcolor{keyword}{const}\ \textcolor{keywordtype}{int}\ decile\ =\ \textcolor{keyword}{static\_cast<}\textcolor{keywordtype}{int}\textcolor{keyword}{>}(\mbox{\hyperlink{classcl__px4__mr_1_1CbPx4PathFollowerBase_aeeb8e64044778767dd22ecf433fc4575}{progressFraction}}()\ *\ 10.0f);}
-\DoxyCodeLine{00173\ \ \ \textcolor{keywordflow}{if}\ (decile\ !=\ \mbox{\hyperlink{classcl__px4__mr_1_1CbPx4PathFollowerBase_a44bd1ecb9a01c4a3ad132586c6d91f07}{lastProgressDecile\_}}\ \&\&\ decile\ >\ 0\ \&\&\ decile\ <\ 10)}
-\DoxyCodeLine{00174\ \ \ \{}
-\DoxyCodeLine{00175\ \ \ \ \ \mbox{\hyperlink{classcl__px4__mr_1_1CbPx4PathFollowerBase_a44bd1ecb9a01c4a3ad132586c6d91f07}{lastProgressDecile\_}}\ =\ decile;}
-\DoxyCodeLine{00176\ \ \ \ \ RCLCPP\_INFO(}
-\DoxyCodeLine{00177\ \ \ \ \ \ \ \mbox{\hyperlink{classsmacc2_1_1ISmaccClientBehavior_a9c3d82542c800e2ba5207c5cff0e63e8}{getLogger}}(),\ \textcolor{stringliteral}{"{}\%s:\ \%d\%\%\ (\%.0f\ /\ \%.0f\ m)"{}},\ \mbox{\hyperlink{classcl__px4__mr_1_1CbPx4PathFollowerBase_ab0db1bc9e5a98c75c13ad29ec173821b}{behaviorName}}(),\ decile\ *\ 10,\ \mbox{\hyperlink{classcl__px4__mr_1_1CbPx4PathFollowerBase_aef84d639d4f1627e736fd2b4c6990ec7}{sCarrot\_}},\ \mbox{\hyperlink{classcl__px4__mr_1_1CbPx4PathFollowerBase_a6a677869a5b9aa61ed1082a80215c8d8}{totalLen\_}});}
-\DoxyCodeLine{00178\ \ \ \}}
-\DoxyCodeLine{00179\ }
-\DoxyCodeLine{00180\ \ \ \textcolor{comment}{//\ completion:\ carrot\ at\ the\ end\ and\ vehicle\ within\ tolerance\ of\ the\ last\ vertex}}
-\DoxyCodeLine{00181\ \ \ \textcolor{keywordflow}{if}\ (\mbox{\hyperlink{classcl__px4__mr_1_1CbPx4PathFollowerBase_aef84d639d4f1627e736fd2b4c6990ec7}{sCarrot\_}}\ >=\ \mbox{\hyperlink{classcl__px4__mr_1_1CbPx4PathFollowerBase_a6a677869a5b9aa61ed1082a80215c8d8}{totalLen\_}})}
-\DoxyCodeLine{00182\ \ \ \{}
-\DoxyCodeLine{00183\ \ \ \ \ \textcolor{keyword}{const}\ NedPoint\ \&\ end\ =\ \mbox{\hyperlink{classcl__px4__mr_1_1CbPx4PathFollowerBase_a3356e8d87f9a314f1a112425bdc473b5}{path\_}}.back();}
-\DoxyCodeLine{00184\ \ \ \ \ \textcolor{keyword}{const}\ \textcolor{keywordtype}{float}\ dxy\ =\ \mbox{\hyperlink{namespacecl__px4__mr_a7df65cf893bb5e56f48924ac01411389}{nedDistanceXY}}(vehicle,\ end);}
-\DoxyCodeLine{00185\ \ \ \ \ \textcolor{keyword}{const}\ \textcolor{keywordtype}{float}\ dz\ =\ std::fabs(vehicle.z\ -\/\ end.z);}
-\DoxyCodeLine{00186\ \ \ \ \ \textcolor{keywordflow}{if}\ (dxy\ <=\ \mbox{\hyperlink{classcl__px4__mr_1_1CbPx4PathFollowerBase_a7b011538e949299d94649c4027f55f2e}{followerParams\_}}.\mbox{\hyperlink{structcl__px4__mr_1_1PathFollowerParams_a12c859b35a5f098e8f459bbd748f614a}{arrivalXyTol}}\ \&\&\ dz\ <=\ \mbox{\hyperlink{classcl__px4__mr_1_1CbPx4PathFollowerBase_a7b011538e949299d94649c4027f55f2e}{followerParams\_}}.\mbox{\hyperlink{structcl__px4__mr_1_1PathFollowerParams_aa9f84692d37d75cba347e502fcdf8631}{arrivalZTol}})}
-\DoxyCodeLine{00187\ \ \ \ \ \{}
-\DoxyCodeLine{00188\ \ \ \ \ \ \ \mbox{\hyperlink{classcl__px4__mr_1_1CbPx4PathFollowerBase_a4e261c930d7d717daf859ee18d36acff}{active\_}}\ =\ \textcolor{keyword}{false};}
-\DoxyCodeLine{00189\ \ \ \ \ \ \ RCLCPP\_INFO(}
-\DoxyCodeLine{00190\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{classsmacc2_1_1ISmaccClientBehavior_a9c3d82542c800e2ba5207c5cff0e63e8}{getLogger}}(),\ \textcolor{stringliteral}{"{}\%s:\ path\ complete\ (xy\ err\ \%.2f\ m,\ z\ err\ \%.2f\ m)\ -\/\ posting\ success"{}},}
-\DoxyCodeLine{00191\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{classcl__px4__mr_1_1CbPx4PathFollowerBase_ab0db1bc9e5a98c75c13ad29ec173821b}{behaviorName}}(),\ dxy,\ dz);}
-\DoxyCodeLine{00192\ \ \ \ \ \ \ \mbox{\hyperlink{classcl__px4__mr_1_1CbPx4PathFollowerBase_ae7dcc23beed503d2c387d5ffc93eb504}{onPathCompleted}}();}
-\DoxyCodeLine{00193\ \ \ \ \ \ \ this-\/>\mbox{\hyperlink{classcl__px4__mr_1_1CbPx4ClientBehaviorBase_a4b000d4fc4644581dc26c7e8dc1d4ef1}{postPx4Success}}();}
-\DoxyCodeLine{00194\ \ \ \ \ \}}
-\DoxyCodeLine{00195\ \ \ \}}
-\DoxyCodeLine{00196\ \}}
+\DoxyCodeLine{00156\ \ \ \textcolor{keywordflow}{if}\ (!\mbox{\hyperlink{classcl__px4__mr_1_1CbPx4ClientBehaviorBase_aac08e96640e94aff591f4a9a5af93453}{localPosition\_}}-\/>\mbox{\hyperlink{classcl__px4__mr_1_1CpVehicleLocalPosition_aca9a6689fa1e120b77feff35ab064b5c}{isValid}}())}
+\DoxyCodeLine{00157\ \ \ \{}
+\DoxyCodeLine{00158\ \ \ \ \ \textcolor{comment}{//\ freeze\ the\ carrot;\ the\ watchdog\ covers\ a\ lost\ position}}
+\DoxyCodeLine{00159\ \ \ \ \ \textcolor{keywordflow}{return};}
+\DoxyCodeLine{00160\ \ \ \}}
+\DoxyCodeLine{00161\ }
+\DoxyCodeLine{00162\ \ \ NedPoint\ vehicle;}
+\DoxyCodeLine{00163\ \ \ vehicle.x\ =\ \mbox{\hyperlink{classcl__px4__mr_1_1CbPx4ClientBehaviorBase_aac08e96640e94aff591f4a9a5af93453}{localPosition\_}}-\/>\mbox{\hyperlink{classcl__px4__mr_1_1CpVehicleLocalPosition_a90fd0ca926c0eba124d97f04cbc64880}{getX}}();}
+\DoxyCodeLine{00164\ \ \ vehicle.y\ =\ \mbox{\hyperlink{classcl__px4__mr_1_1CbPx4ClientBehaviorBase_aac08e96640e94aff591f4a9a5af93453}{localPosition\_}}-\/>\mbox{\hyperlink{classcl__px4__mr_1_1CpVehicleLocalPosition_a1d9536e60ab3709dec4876f3c650f964}{getY}}();}
+\DoxyCodeLine{00165\ \ \ vehicle.z\ =\ \mbox{\hyperlink{classcl__px4__mr_1_1CbPx4ClientBehaviorBase_aac08e96640e94aff591f4a9a5af93453}{localPosition\_}}-\/>\mbox{\hyperlink{classcl__px4__mr_1_1CpVehicleLocalPosition_aff646820b46d38aff061d40e8cdfd76b}{getZ}}();}
+\DoxyCodeLine{00166\ }
+\DoxyCodeLine{00167\ \ \ \textcolor{comment}{//\ advance\ the\ carrot,\ throttled\ by\ the\ leash\ (measured\ to\ the\ carrot\ as\ it}}
+\DoxyCodeLine{00168\ \ \ \textcolor{comment}{//\ will\ actually\ be\ commanded,\ centering\ offsets\ included)}}
+\DoxyCodeLine{00169\ \ \ \textcolor{keyword}{const}\ \textcolor{keywordtype}{float}\ sNext\ =\ std::min(\mbox{\hyperlink{classcl__px4__mr_1_1CbPx4PathFollowerBase_aef84d639d4f1627e736fd2b4c6990ec7}{sCarrot\_}}\ +\ \mbox{\hyperlink{classcl__px4__mr_1_1CbPx4PathFollowerBase_a7b011538e949299d94649c4027f55f2e}{followerParams\_}}.\mbox{\hyperlink{structcl__px4__mr_1_1PathFollowerParams_a8f7685e2baf002a8b60cc992cfdb2d9b}{groundSpeed}}\ *\ dt,\ \mbox{\hyperlink{classcl__px4__mr_1_1CbPx4PathFollowerBase_a6a677869a5b9aa61ed1082a80215c8d8}{totalLen\_}});}
+\DoxyCodeLine{00170\ \ \ \textcolor{keyword}{const}\ NedPoint\ candidate\ =\ \mbox{\hyperlink{classcl__px4__mr_1_1CbPx4PathFollowerBase_a4028f3d2fcbd2540f7a44af3b2779930}{commandFor}}(sNext);}
+\DoxyCodeLine{00171\ \ \ \textcolor{keywordflow}{if}\ (\mbox{\hyperlink{namespacecl__px4__mr_a5cc5aeaa13238a0b7a22c071ca693a8d}{nedDistance}}(candidate,\ vehicle)\ <=\ \mbox{\hyperlink{classcl__px4__mr_1_1CbPx4PathFollowerBase_a7b011538e949299d94649c4027f55f2e}{followerParams\_}}.\mbox{\hyperlink{structcl__px4__mr_1_1PathFollowerParams_ac945ba84bc76e7f783878ac1f0136a78}{leash}})}
+\DoxyCodeLine{00172\ \ \ \{}
+\DoxyCodeLine{00173\ \ \ \ \ \mbox{\hyperlink{classcl__px4__mr_1_1CbPx4PathFollowerBase_aef84d639d4f1627e736fd2b4c6990ec7}{sCarrot\_}}\ =\ sNext;}
+\DoxyCodeLine{00174\ \ \ \}}
+\DoxyCodeLine{00175\ }
+\DoxyCodeLine{00176\ \ \ \mbox{\hyperlink{classcl__px4__mr_1_1CbPx4PathFollowerBase_ae3a1b5cef09b019a8434b962b6f5f04c}{lastCmd\_}}\ =\ \mbox{\hyperlink{classcl__px4__mr_1_1CbPx4PathFollowerBase_a4028f3d2fcbd2540f7a44af3b2779930}{commandFor}}(\mbox{\hyperlink{classcl__px4__mr_1_1CbPx4PathFollowerBase_aef84d639d4f1627e736fd2b4c6990ec7}{sCarrot\_}});}
+\DoxyCodeLine{00177\ \ \ \mbox{\hyperlink{classcl__px4__mr_1_1CbPx4ClientBehaviorBase_aba8f7b7dfed092fd23bf30445921a7e3}{trajectorySetpoint\_}}-\/>\mbox{\hyperlink{classcl__px4__mr_1_1CpTrajectorySetpoint_ad05cf6bdc5f1bc48e305ddec619e7322}{setPositionNED}}(\mbox{\hyperlink{classcl__px4__mr_1_1CbPx4PathFollowerBase_ae3a1b5cef09b019a8434b962b6f5f04c}{lastCmd\_}}.\mbox{\hyperlink{structcl__px4__mr_1_1NedPoint_a99425401db0eafab4ff255f7d04f8b91}{x}},\ \mbox{\hyperlink{classcl__px4__mr_1_1CbPx4PathFollowerBase_ae3a1b5cef09b019a8434b962b6f5f04c}{lastCmd\_}}.\mbox{\hyperlink{structcl__px4__mr_1_1NedPoint_aadbc9a524709c808d8efac68c306ab1a}{y}},\ \mbox{\hyperlink{classcl__px4__mr_1_1CbPx4PathFollowerBase_ae3a1b5cef09b019a8434b962b6f5f04c}{lastCmd\_}}.\mbox{\hyperlink{structcl__px4__mr_1_1NedPoint_a22f4bf894e58a0981309fd9c210727ba}{z}},\ \mbox{\hyperlink{classcl__px4__mr_1_1CbPx4PathFollowerBase_ae3a1b5cef09b019a8434b962b6f5f04c}{lastCmd\_}}.\mbox{\hyperlink{structcl__px4__mr_1_1NedPoint_aeb2e30a30e3c927e7560cef598b9e2bf}{yaw}});}
+\DoxyCodeLine{00178\ }
+\DoxyCodeLine{00179\ \ \ \textcolor{comment}{//\ vertex\ most\ recently\ passed\ by\ the\ carrot\ (cumLen\_[0]\ ==\ 0,\ so\ the}}
+\DoxyCodeLine{00180\ \ \ \textcolor{comment}{//\ upper\_bound\ is\ never\ begin())}}
+\DoxyCodeLine{00181\ \ \ \{}
+\DoxyCodeLine{00182\ \ \ \ \ \textcolor{keyword}{const}\ \textcolor{keywordtype}{size\_t}\ ub\ =\ std::upper\_bound(\mbox{\hyperlink{classcl__px4__mr_1_1CbPx4PathFollowerBase_a78bec05786b51559eb69329756050261}{cumLen\_}}.begin(),\ \mbox{\hyperlink{classcl__px4__mr_1_1CbPx4PathFollowerBase_a78bec05786b51559eb69329756050261}{cumLen\_}}.end(),\ \mbox{\hyperlink{classcl__px4__mr_1_1CbPx4PathFollowerBase_aef84d639d4f1627e736fd2b4c6990ec7}{sCarrot\_}})\ -\/\ \mbox{\hyperlink{classcl__px4__mr_1_1CbPx4PathFollowerBase_a78bec05786b51559eb69329756050261}{cumLen\_}}.begin();}
+\DoxyCodeLine{00183\ \ \ \ \ \textcolor{keyword}{const}\ \textcolor{keywordtype}{size\_t}\ idx\ =\ ub\ ==\ 0\ ?\ 0\ :\ ub\ -\/\ 1;}
+\DoxyCodeLine{00184\ \ \ \ \ \mbox{\hyperlink{classcl__px4__mr_1_1CbPx4PathFollowerBase_aceeefa7ef72ffd866811ff9e159284f5}{carrotVertex\_}}\ =\ \mbox{\hyperlink{classcl__px4__mr_1_1CbPx4PathFollowerBase_a3356e8d87f9a314f1a112425bdc473b5}{path\_}}.empty()\ ?\ 0\ :\ std::min(idx,\ \mbox{\hyperlink{classcl__px4__mr_1_1CbPx4PathFollowerBase_a3356e8d87f9a314f1a112425bdc473b5}{path\_}}.size()\ -\/\ 1);}
+\DoxyCodeLine{00185\ \ \ \}}
+\DoxyCodeLine{00186\ }
+\DoxyCodeLine{00187\ \ \ \textcolor{keyword}{const}\ \textcolor{keywordtype}{int}\ decile\ =\ \textcolor{keyword}{static\_cast<}\textcolor{keywordtype}{int}\textcolor{keyword}{>}(\mbox{\hyperlink{classcl__px4__mr_1_1CbPx4PathFollowerBase_aeeb8e64044778767dd22ecf433fc4575}{progressFraction}}()\ *\ 10.0f);}
+\DoxyCodeLine{00188\ \ \ \textcolor{keywordflow}{if}\ (decile\ !=\ \mbox{\hyperlink{classcl__px4__mr_1_1CbPx4PathFollowerBase_a44bd1ecb9a01c4a3ad132586c6d91f07}{lastProgressDecile\_}}\ \&\&\ decile\ >\ 0\ \&\&\ decile\ <\ 10)}
+\DoxyCodeLine{00189\ \ \ \{}
+\DoxyCodeLine{00190\ \ \ \ \ \mbox{\hyperlink{classcl__px4__mr_1_1CbPx4PathFollowerBase_a44bd1ecb9a01c4a3ad132586c6d91f07}{lastProgressDecile\_}}\ =\ decile;}
+\DoxyCodeLine{00191\ \ \ \ \ RCLCPP\_INFO(}
+\DoxyCodeLine{00192\ \ \ \ \ \ \ \mbox{\hyperlink{classsmacc2_1_1ISmaccClientBehavior_a9c3d82542c800e2ba5207c5cff0e63e8}{getLogger}}(),\ \textcolor{stringliteral}{"{}\%s:\ \%d\%\%\ (\%.0f\ /\ \%.0f\ m)"{}},\ \mbox{\hyperlink{classcl__px4__mr_1_1CbPx4PathFollowerBase_ab0db1bc9e5a98c75c13ad29ec173821b}{behaviorName}}(),\ decile\ *\ 10,\ \mbox{\hyperlink{classcl__px4__mr_1_1CbPx4PathFollowerBase_aef84d639d4f1627e736fd2b4c6990ec7}{sCarrot\_}},\ \mbox{\hyperlink{classcl__px4__mr_1_1CbPx4PathFollowerBase_a6a677869a5b9aa61ed1082a80215c8d8}{totalLen\_}});}
+\DoxyCodeLine{00193\ \ \ \}}
+\DoxyCodeLine{00194\ }
+\DoxyCodeLine{00195\ \ \ \textcolor{comment}{//\ completion:\ carrot\ at\ the\ end\ and\ vehicle\ within\ tolerance\ of\ the\ final}}
+\DoxyCodeLine{00196\ \ \ \textcolor{comment}{//\ commanded\ carrot\ (==\ the\ last\ vertex\ unless\ centering\ offsets\ it)}}
+\DoxyCodeLine{00197\ \ \ \textcolor{keywordflow}{if}\ (\mbox{\hyperlink{classcl__px4__mr_1_1CbPx4PathFollowerBase_aef84d639d4f1627e736fd2b4c6990ec7}{sCarrot\_}}\ >=\ \mbox{\hyperlink{classcl__px4__mr_1_1CbPx4PathFollowerBase_a6a677869a5b9aa61ed1082a80215c8d8}{totalLen\_}})}
+\DoxyCodeLine{00198\ \ \ \{}
+\DoxyCodeLine{00199\ \ \ \ \ \textcolor{keyword}{const}\ NedPoint\ \&\ end\ =\ \mbox{\hyperlink{classcl__px4__mr_1_1CbPx4PathFollowerBase_ae3a1b5cef09b019a8434b962b6f5f04c}{lastCmd\_}};}
+\DoxyCodeLine{00200\ \ \ \ \ \textcolor{keyword}{const}\ \textcolor{keywordtype}{float}\ dxy\ =\ \mbox{\hyperlink{namespacecl__px4__mr_a7df65cf893bb5e56f48924ac01411389}{nedDistanceXY}}(vehicle,\ end);}
+\DoxyCodeLine{00201\ \ \ \ \ \textcolor{keyword}{const}\ \textcolor{keywordtype}{float}\ dz\ =\ std::fabs(vehicle.z\ -\/\ end.z);}
+\DoxyCodeLine{00202\ \ \ \ \ \textcolor{keywordflow}{if}\ (dxy\ <=\ \mbox{\hyperlink{classcl__px4__mr_1_1CbPx4PathFollowerBase_a7b011538e949299d94649c4027f55f2e}{followerParams\_}}.\mbox{\hyperlink{structcl__px4__mr_1_1PathFollowerParams_a12c859b35a5f098e8f459bbd748f614a}{arrivalXyTol}}\ \&\&\ dz\ <=\ \mbox{\hyperlink{classcl__px4__mr_1_1CbPx4PathFollowerBase_a7b011538e949299d94649c4027f55f2e}{followerParams\_}}.\mbox{\hyperlink{structcl__px4__mr_1_1PathFollowerParams_aa9f84692d37d75cba347e502fcdf8631}{arrivalZTol}})}
+\DoxyCodeLine{00203\ \ \ \ \ \{}
+\DoxyCodeLine{00204\ \ \ \ \ \ \ \mbox{\hyperlink{classcl__px4__mr_1_1CbPx4PathFollowerBase_a4e261c930d7d717daf859ee18d36acff}{active\_}}\ =\ \textcolor{keyword}{false};}
+\DoxyCodeLine{00205\ \ \ \ \ \ \ RCLCPP\_INFO(}
+\DoxyCodeLine{00206\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{classsmacc2_1_1ISmaccClientBehavior_a9c3d82542c800e2ba5207c5cff0e63e8}{getLogger}}(),\ \textcolor{stringliteral}{"{}\%s:\ path\ complete\ (xy\ err\ \%.2f\ m,\ z\ err\ \%.2f\ m)\ -\/\ posting\ success"{}},}
+\DoxyCodeLine{00207\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{classcl__px4__mr_1_1CbPx4PathFollowerBase_ab0db1bc9e5a98c75c13ad29ec173821b}{behaviorName}}(),\ dxy,\ dz);}
+\DoxyCodeLine{00208\ \ \ \ \ \ \ \mbox{\hyperlink{classcl__px4__mr_1_1CbPx4PathFollowerBase_ae7dcc23beed503d2c387d5ffc93eb504}{onPathCompleted}}();}
+\DoxyCodeLine{00209\ \ \ \ \ \ \ this-\/>\mbox{\hyperlink{classcl__px4__mr_1_1CbPx4ClientBehaviorBase_a4b000d4fc4644581dc26c7e8dc1d4ef1}{postPx4Success}}();}
+\DoxyCodeLine{00210\ \ \ \ \ \}}
+\DoxyCodeLine{00211\ \ \ \}}
+\DoxyCodeLine{00212\ \}}
 
 \end{DoxyCode}
 
 
-References \mbox{\hyperlink{cb__px4__path__follower__base_8hpp_source_l00116}{active\+\_\+}}, \mbox{\hyperlink{cb__px4__path__follower__base_8hpp_source_l00050}{cl\+\_\+px4\+\_\+mr\+::\+Path\+Follower\+Params\+::arrival\+Xy\+Tol}}, \mbox{\hyperlink{cb__px4__path__follower__base_8hpp_source_l00051}{cl\+\_\+px4\+\_\+mr\+::\+Path\+Follower\+Params\+::arrival\+ZTol}}, \mbox{\hyperlink{cb__px4__path__follower__base_8hpp_source_l00096}{behavior\+Name()}}, \mbox{\hyperlink{cb__px4__path__follower__base_8cpp_source_l00216}{command\+For()}}, \mbox{\hyperlink{cb__px4__path__follower__base_8hpp_source_l00110}{cum\+Len\+\_\+}}, \mbox{\hyperlink{cb__px4__path__follower__base_8hpp_source_l00103}{follower\+Params\+\_\+}}, \mbox{\hyperlink{smacc__client__behavior__base_8cpp_source_l00043}{smacc2\+::\+ISmacc\+Client\+Behavior\+::get\+Logger()}}, \mbox{\hyperlink{cp__vehicle__local__position_8cpp_source_l00098}{cl\+\_\+px4\+\_\+mr\+::\+Cp\+Vehicle\+Local\+Position\+::get\+X()}}, \mbox{\hyperlink{cp__vehicle__local__position_8cpp_source_l00104}{cl\+\_\+px4\+\_\+mr\+::\+Cp\+Vehicle\+Local\+Position\+::get\+Y()}}, \mbox{\hyperlink{cp__vehicle__local__position_8cpp_source_l00110}{cl\+\_\+px4\+\_\+mr\+::\+Cp\+Vehicle\+Local\+Position\+::get\+Z()}}, \mbox{\hyperlink{cb__px4__path__follower__base_8hpp_source_l00044}{cl\+\_\+px4\+\_\+mr\+::\+Path\+Follower\+Params\+::ground\+Speed}}, \mbox{\hyperlink{cp__vehicle__local__position_8cpp_source_l00122}{cl\+\_\+px4\+\_\+mr\+::\+Cp\+Vehicle\+Local\+Position\+::is\+Valid()}}, \mbox{\hyperlink{cb__px4__path__follower__base_8hpp_source_l00114}{last\+Cmd\+\_\+}}, \mbox{\hyperlink{cb__px4__path__follower__base_8hpp_source_l00115}{last\+Progress\+Decile\+\_\+}}, \mbox{\hyperlink{cb__px4__path__follower__base_8hpp_source_l00117}{last\+Update\+Time\+\_\+}}, \mbox{\hyperlink{cb__px4__path__follower__base_8hpp_source_l00049}{cl\+\_\+px4\+\_\+mr\+::\+Path\+Follower\+Params\+::leash}}, \mbox{\hyperlink{cb__px4__client__behavior__base_8hpp_source_l00141}{cl\+\_\+px4\+\_\+mr\+::\+Cb\+Px4\+Client\+Behavior\+Base\+::local\+Position\+\_\+}}, \mbox{\hyperlink{geo__utils_8hpp_source_l00188}{cl\+\_\+px4\+\_\+mr\+::ned\+Distance()}}, \mbox{\hyperlink{geo__utils_8hpp_source_l00196}{cl\+\_\+px4\+\_\+mr\+::ned\+Distance\+XY()}}, \mbox{\hyperlink{cb__px4__path__follower__base_8hpp_source_l00098}{on\+Path\+Completed()}}, \mbox{\hyperlink{cb__px4__path__follower__base_8hpp_source_l00109}{path\+\_\+}}, \mbox{\hyperlink{cb__px4__client__behavior__base_8hpp_source_l00121}{cl\+\_\+px4\+\_\+mr\+::\+Cb\+Px4\+Client\+Behavior\+Base\+::post\+Px4\+Success()}}, \mbox{\hyperlink{cb__px4__path__follower__base_8hpp_source_l00101}{progress\+Fraction()}}, \mbox{\hyperlink{geo__utils_8hpp_source_l00233}{cl\+\_\+px4\+\_\+mr\+::sample\+At\+Arc\+Length()}}, \mbox{\hyperlink{cb__px4__path__follower__base_8hpp_source_l00112}{s\+Carrot\+\_\+}}, \mbox{\hyperlink{cp__trajectory__setpoint_8cpp_source_l00046}{cl\+\_\+px4\+\_\+mr\+::\+Cp\+Trajectory\+Setpoint\+::set\+Position\+NED()}}, \mbox{\hyperlink{cb__px4__path__follower__base_8hpp_source_l00111}{total\+Len\+\_\+}}, \mbox{\hyperlink{cb__px4__client__behavior__base_8hpp_source_l00139}{cl\+\_\+px4\+\_\+mr\+::\+Cb\+Px4\+Client\+Behavior\+Base\+::trajectory\+Setpoint\+\_\+}}, \mbox{\hyperlink{cb__px4__client__behavior__base_8hpp_source_l00092}{cl\+\_\+px4\+\_\+mr\+::\+Cb\+Px4\+Client\+Behavior\+Base\+::update()}}, \mbox{\hyperlink{geo__utils_8hpp_source_l00053}{cl\+\_\+px4\+\_\+mr\+::\+Ned\+Point\+::x}}, \mbox{\hyperlink{geo__utils_8hpp_source_l00054}{cl\+\_\+px4\+\_\+mr\+::\+Ned\+Point\+::y}}, \mbox{\hyperlink{geo__utils_8hpp_source_l00056}{cl\+\_\+px4\+\_\+mr\+::\+Ned\+Point\+::yaw}}, and \mbox{\hyperlink{geo__utils_8hpp_source_l00055}{cl\+\_\+px4\+\_\+mr\+::\+Ned\+Point\+::z}}.
+References \mbox{\hyperlink{cb__px4__path__follower__base_8hpp_source_l00137}{active\+\_\+}}, \mbox{\hyperlink{cb__px4__path__follower__base_8hpp_source_l00051}{cl\+\_\+px4\+\_\+mr\+::\+Path\+Follower\+Params\+::arrival\+Xy\+Tol}}, \mbox{\hyperlink{cb__px4__path__follower__base_8hpp_source_l00052}{cl\+\_\+px4\+\_\+mr\+::\+Path\+Follower\+Params\+::arrival\+ZTol}}, \mbox{\hyperlink{cb__px4__path__follower__base_8hpp_source_l00109}{behavior\+Name()}}, \mbox{\hyperlink{cb__px4__path__follower__base_8hpp_source_l00133}{carrot\+Vertex\+\_\+}}, \mbox{\hyperlink{cb__px4__path__follower__base_8cpp_source_l00232}{command\+For()}}, \mbox{\hyperlink{cb__px4__path__follower__base_8hpp_source_l00130}{cum\+Len\+\_\+}}, \mbox{\hyperlink{cb__px4__path__follower__base_8hpp_source_l00121}{follower\+Params\+\_\+}}, \mbox{\hyperlink{smacc__client__behavior__base_8cpp_source_l00043}{smacc2\+::\+ISmacc\+Client\+Behavior\+::get\+Logger()}}, \mbox{\hyperlink{cp__vehicle__local__position_8cpp_source_l00100}{cl\+\_\+px4\+\_\+mr\+::\+Cp\+Vehicle\+Local\+Position\+::get\+X()}}, \mbox{\hyperlink{cp__vehicle__local__position_8cpp_source_l00106}{cl\+\_\+px4\+\_\+mr\+::\+Cp\+Vehicle\+Local\+Position\+::get\+Y()}}, \mbox{\hyperlink{cp__vehicle__local__position_8cpp_source_l00112}{cl\+\_\+px4\+\_\+mr\+::\+Cp\+Vehicle\+Local\+Position\+::get\+Z()}}, \mbox{\hyperlink{cb__px4__path__follower__base_8hpp_source_l00045}{cl\+\_\+px4\+\_\+mr\+::\+Path\+Follower\+Params\+::ground\+Speed}}, \mbox{\hyperlink{cp__vehicle__local__position_8cpp_source_l00124}{cl\+\_\+px4\+\_\+mr\+::\+Cp\+Vehicle\+Local\+Position\+::is\+Valid()}}, \mbox{\hyperlink{cb__px4__path__follower__base_8hpp_source_l00135}{last\+Cmd\+\_\+}}, \mbox{\hyperlink{cb__px4__path__follower__base_8hpp_source_l00136}{last\+Progress\+Decile\+\_\+}}, \mbox{\hyperlink{cb__px4__path__follower__base_8hpp_source_l00138}{last\+Update\+Time\+\_\+}}, \mbox{\hyperlink{cb__px4__path__follower__base_8hpp_source_l00050}{cl\+\_\+px4\+\_\+mr\+::\+Path\+Follower\+Params\+::leash}}, \mbox{\hyperlink{cb__px4__client__behavior__base_8hpp_source_l00141}{cl\+\_\+px4\+\_\+mr\+::\+Cb\+Px4\+Client\+Behavior\+Base\+::local\+Position\+\_\+}}, \mbox{\hyperlink{geo__utils_8hpp_source_l00188}{cl\+\_\+px4\+\_\+mr\+::ned\+Distance()}}, \mbox{\hyperlink{geo__utils_8hpp_source_l00196}{cl\+\_\+px4\+\_\+mr\+::ned\+Distance\+XY()}}, \mbox{\hyperlink{cb__px4__path__follower__base_8hpp_source_l00111}{on\+Path\+Completed()}}, \mbox{\hyperlink{cb__px4__path__follower__base_8hpp_source_l00129}{path\+\_\+}}, \mbox{\hyperlink{cb__px4__client__behavior__base_8hpp_source_l00121}{cl\+\_\+px4\+\_\+mr\+::\+Cb\+Px4\+Client\+Behavior\+Base\+::post\+Px4\+Success()}}, \mbox{\hyperlink{cb__px4__path__follower__base_8hpp_source_l00114}{progress\+Fraction()}}, \mbox{\hyperlink{cb__px4__path__follower__base_8hpp_source_l00132}{s\+Carrot\+\_\+}}, \mbox{\hyperlink{cp__trajectory__setpoint_8cpp_source_l00046}{cl\+\_\+px4\+\_\+mr\+::\+Cp\+Trajectory\+Setpoint\+::set\+Position\+NED()}}, \mbox{\hyperlink{cb__px4__path__follower__base_8hpp_source_l00131}{total\+Len\+\_\+}}, \mbox{\hyperlink{cb__px4__client__behavior__base_8hpp_source_l00139}{cl\+\_\+px4\+\_\+mr\+::\+Cb\+Px4\+Client\+Behavior\+Base\+::trajectory\+Setpoint\+\_\+}}, \mbox{\hyperlink{cb__px4__client__behavior__base_8hpp_source_l00092}{cl\+\_\+px4\+\_\+mr\+::\+Cb\+Px4\+Client\+Behavior\+Base\+::update()}}, \mbox{\hyperlink{geo__utils_8hpp_source_l00053}{cl\+\_\+px4\+\_\+mr\+::\+Ned\+Point\+::x}}, \mbox{\hyperlink{geo__utils_8hpp_source_l00054}{cl\+\_\+px4\+\_\+mr\+::\+Ned\+Point\+::y}}, \mbox{\hyperlink{geo__utils_8hpp_source_l00056}{cl\+\_\+px4\+\_\+mr\+::\+Ned\+Point\+::yaw}}, and \mbox{\hyperlink{geo__utils_8hpp_source_l00055}{cl\+\_\+px4\+\_\+mr\+::\+Ned\+Point\+::z}}.
 
 Here is the call graph for this function\+:
 \nopagebreak
@@ -813,16 +965,35 @@ std\+::atomic$<$\mbox{\hyperlink{classbool}{bool}}$>$ cl\+\_\+px4\+\_\+mr\+::\+C
 
 
 
-Definition at line \mbox{\hyperlink{cb__px4__path__follower__base_8hpp_source_l00116}{116}} of file \mbox{\hyperlink{cb__px4__path__follower__base_8hpp_source}{cb\+\_\+px4\+\_\+path\+\_\+follower\+\_\+base.\+hpp}}.
+Definition at line \mbox{\hyperlink{cb__px4__path__follower__base_8hpp_source_l00137}{137}} of file \mbox{\hyperlink{cb__px4__path__follower__base_8hpp_source}{cb\+\_\+px4\+\_\+path\+\_\+follower\+\_\+base.\+hpp}}.
 
 
 \begin{DoxyCode}{0}
-\DoxyCodeLine{00116\ \{\textcolor{keyword}{false}\};}
+\DoxyCodeLine{00137\ \{\textcolor{keyword}{false}\};}
 
 \end{DoxyCode}
 
 
-Referenced by \mbox{\hyperlink{cb__px4__path__follower__base_8cpp_source_l00034}{on\+Entry()}}, \mbox{\hyperlink{cb__px4__path__follower__base_8cpp_source_l00123}{on\+Exit()}}, and \mbox{\hyperlink{cb__px4__path__follower__base_8cpp_source_l00136}{update()}}.
+Referenced by \mbox{\hyperlink{cb__px4__path__follower__base_8cpp_source_l00035}{on\+Entry()}}, \mbox{\hyperlink{cb__px4__path__follower__base_8cpp_source_l00129}{on\+Exit()}}, and \mbox{\hyperlink{cb__px4__path__follower__base_8cpp_source_l00142}{update()}}.
+
+\Hypertarget{classcl__px4__mr_1_1CbPx4PathFollowerBase_aceeefa7ef72ffd866811ff9e159284f5}\index{cl\_px4\_mr::CbPx4PathFollowerBase@{cl\_px4\_mr::CbPx4PathFollowerBase}!carrotVertex\_@{carrotVertex\_}}
+\index{carrotVertex\_@{carrotVertex\_}!cl\_px4\_mr::CbPx4PathFollowerBase@{cl\_px4\_mr::CbPx4PathFollowerBase}}
+\doxysubsubsection{\texorpdfstring{carrotVertex\_}{carrotVertex\_}}
+{\footnotesize\ttfamily \label{classcl__px4__mr_1_1CbPx4PathFollowerBase_aceeefa7ef72ffd866811ff9e159284f5} 
+std\+::atomic$<$size\+\_\+t$>$ cl\+\_\+px4\+\_\+mr\+::\+Cb\+Px4\+Path\+Follower\+Base\+::carrot\+Vertex\+\_\+ \{0\}\hspace{0.3cm}{\ttfamily [private]}}
+
+
+
+Definition at line \mbox{\hyperlink{cb__px4__path__follower__base_8hpp_source_l00133}{133}} of file \mbox{\hyperlink{cb__px4__path__follower__base_8hpp_source}{cb\+\_\+px4\+\_\+path\+\_\+follower\+\_\+base.\+hpp}}.
+
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00133\ \{0\};}
+
+\end{DoxyCode}
+
+
+Referenced by \mbox{\hyperlink{cb__px4__path__follower__base_8hpp_source_l00119}{carrot\+Vertex\+Index()}}, \mbox{\hyperlink{cb__px4__path__follower__base_8cpp_source_l00035}{on\+Entry()}}, and \mbox{\hyperlink{cb__px4__path__follower__base_8cpp_source_l00142}{update()}}.
 
 \Hypertarget{classcl__px4__mr_1_1CbPx4PathFollowerBase_a78bec05786b51559eb69329756050261}\index{cl\_px4\_mr::CbPx4PathFollowerBase@{cl\_px4\_mr::CbPx4PathFollowerBase}!cumLen\_@{cumLen\_}}
 \index{cumLen\_@{cumLen\_}!cl\_px4\_mr::CbPx4PathFollowerBase@{cl\_px4\_mr::CbPx4PathFollowerBase}}
@@ -832,11 +1003,11 @@ std\+::vector$<$float$>$ cl\+\_\+px4\+\_\+mr\+::\+Cb\+Px4\+Path\+Follower\+Base\
 
 
 
-Definition at line \mbox{\hyperlink{cb__px4__path__follower__base_8hpp_source_l00110}{110}} of file \mbox{\hyperlink{cb__px4__path__follower__base_8hpp_source}{cb\+\_\+px4\+\_\+path\+\_\+follower\+\_\+base.\+hpp}}.
+Definition at line \mbox{\hyperlink{cb__px4__path__follower__base_8hpp_source_l00130}{130}} of file \mbox{\hyperlink{cb__px4__path__follower__base_8hpp_source}{cb\+\_\+px4\+\_\+path\+\_\+follower\+\_\+base.\+hpp}}.
 
 
 
-Referenced by \mbox{\hyperlink{cb__px4__path__follower__base_8cpp_source_l00216}{command\+For()}}, \mbox{\hyperlink{cb__px4__path__follower__base_8cpp_source_l00034}{on\+Entry()}}, and \mbox{\hyperlink{cb__px4__path__follower__base_8cpp_source_l00136}{update()}}.
+Referenced by \mbox{\hyperlink{cb__px4__path__follower__base_8cpp_source_l00232}{command\+For()}}, \mbox{\hyperlink{cb__px4__path__follower__base_8cpp_source_l00035}{on\+Entry()}}, and \mbox{\hyperlink{cb__px4__path__follower__base_8cpp_source_l00142}{update()}}.
 
 \Hypertarget{classcl__px4__mr_1_1CbPx4PathFollowerBase_adc10a7f4318c8c9c88b1667401b85862}\index{cl\_px4\_mr::CbPx4PathFollowerBase@{cl\_px4\_mr::CbPx4PathFollowerBase}!entryHeading\_@{entryHeading\_}}
 \index{entryHeading\_@{entryHeading\_}!cl\_px4\_mr::CbPx4PathFollowerBase@{cl\_px4\_mr::CbPx4PathFollowerBase}}
@@ -846,11 +1017,11 @@ float cl\+\_\+px4\+\_\+mr\+::\+Cb\+Px4\+Path\+Follower\+Base\+::entry\+Heading\+
 
 
 
-Definition at line \mbox{\hyperlink{cb__px4__path__follower__base_8hpp_source_l00113}{113}} of file \mbox{\hyperlink{cb__px4__path__follower__base_8hpp_source}{cb\+\_\+px4\+\_\+path\+\_\+follower\+\_\+base.\+hpp}}.
+Definition at line \mbox{\hyperlink{cb__px4__path__follower__base_8hpp_source_l00134}{134}} of file \mbox{\hyperlink{cb__px4__path__follower__base_8hpp_source}{cb\+\_\+px4\+\_\+path\+\_\+follower\+\_\+base.\+hpp}}.
 
 
 
-Referenced by \mbox{\hyperlink{cb__px4__path__follower__base_8cpp_source_l00216}{command\+For()}}, \mbox{\hyperlink{cb__px4__path__follower__base_8cpp_source_l00034}{on\+Entry()}}, and \mbox{\hyperlink{cb__px4__path__follower__base_8cpp_source_l00198}{tangent\+Yaw\+At()}}.
+Referenced by \mbox{\hyperlink{cb__px4__path__follower__base_8cpp_source_l00232}{command\+For()}}, \mbox{\hyperlink{cb__px4__path__follower__base_8cpp_source_l00035}{on\+Entry()}}, and \mbox{\hyperlink{cb__px4__path__follower__base_8cpp_source_l00214}{tangent\+Yaw\+At()}}.
 
 \Hypertarget{classcl__px4__mr_1_1CbPx4PathFollowerBase_a7b011538e949299d94649c4027f55f2e}\index{cl\_px4\_mr::CbPx4PathFollowerBase@{cl\_px4\_mr::CbPx4PathFollowerBase}!followerParams\_@{followerParams\_}}
 \index{followerParams\_@{followerParams\_}!cl\_px4\_mr::CbPx4PathFollowerBase@{cl\_px4\_mr::CbPx4PathFollowerBase}}
@@ -860,11 +1031,11 @@ Referenced by \mbox{\hyperlink{cb__px4__path__follower__base_8cpp_source_l00216}
 
 
 
-Definition at line \mbox{\hyperlink{cb__px4__path__follower__base_8hpp_source_l00103}{103}} of file \mbox{\hyperlink{cb__px4__path__follower__base_8hpp_source}{cb\+\_\+px4\+\_\+path\+\_\+follower\+\_\+base.\+hpp}}.
+Definition at line \mbox{\hyperlink{cb__px4__path__follower__base_8hpp_source_l00121}{121}} of file \mbox{\hyperlink{cb__px4__path__follower__base_8hpp_source}{cb\+\_\+px4\+\_\+path\+\_\+follower\+\_\+base.\+hpp}}.
 
 
 
-Referenced by \mbox{\hyperlink{cb__ascend__to__altitude_8cpp_source_l00041}{cl\+\_\+px4\+\_\+mr\+::\+Cb\+Ascend\+To\+Altitude\+::build\+Path()}}, \mbox{\hyperlink{cb__grid__pattern_8cpp_source_l00031}{cl\+\_\+px4\+\_\+mr\+::\+Cb\+Grid\+Pattern\+::build\+Path()}}, \mbox{\hyperlink{cb__lawnmower_8cpp_source_l00036}{cl\+\_\+px4\+\_\+mr\+::\+Cb\+Lawnmower\+::build\+Path()}}, \mbox{\hyperlink{cb__loiter_8cpp_source_l00037}{cl\+\_\+px4\+\_\+mr\+::\+Cb\+Loiter\+::build\+Path()}}, \mbox{\hyperlink{cb__sine__wave__horizontal_8cpp_source_l00032}{cl\+\_\+px4\+\_\+mr\+::\+Cb\+Sine\+Wave\+Horizontal\+::build\+Path()}}, \mbox{\hyperlink{cb__sine__wave__vertical_8cpp_source_l00032}{cl\+\_\+px4\+\_\+mr\+::\+Cb\+Sine\+Wave\+Vertical\+::build\+Path()}}, \mbox{\hyperlink{cb__spiral_8cpp_source_l00031}{cl\+\_\+px4\+\_\+mr\+::\+Cb\+Spiral\+::build\+Path()}}, \mbox{\hyperlink{cb__square__spiral_8cpp_source_l00036}{cl\+\_\+px4\+\_\+mr\+::\+Cb\+Square\+Spiral\+::build\+Path()}}, \mbox{\hyperlink{cb__vs__search_8cpp_source_l00031}{cl\+\_\+px4\+\_\+mr\+::\+Cb\+VSSearch\+::build\+Path()}}, \mbox{\hyperlink{cb__px4__path__follower__base_8cpp_source_l00216}{command\+For()}}, \mbox{\hyperlink{cb__px4__path__follower__base_8hpp_source_l00083}{follower\+Params()}}, \mbox{\hyperlink{cb__px4__path__follower__base_8cpp_source_l00034}{on\+Entry()}}, \mbox{\hyperlink{cb__px4__path__follower__base_8hpp_source_l00082}{set\+Follower\+Params()}}, and \mbox{\hyperlink{cb__px4__path__follower__base_8cpp_source_l00136}{update()}}.
+Referenced by \mbox{\hyperlink{cb__px4__path__follower__base_8cpp_source_l00261}{apply\+Centering()}}, \mbox{\hyperlink{cb__ascend__to__altitude_8cpp_source_l00041}{cl\+\_\+px4\+\_\+mr\+::\+Cb\+Ascend\+To\+Altitude\+::build\+Path()}}, \mbox{\hyperlink{cb__grid__pattern_8cpp_source_l00031}{cl\+\_\+px4\+\_\+mr\+::\+Cb\+Grid\+Pattern\+::build\+Path()}}, \mbox{\hyperlink{cb__lawnmower_8cpp_source_l00036}{cl\+\_\+px4\+\_\+mr\+::\+Cb\+Lawnmower\+::build\+Path()}}, \mbox{\hyperlink{cb__loiter_8cpp_source_l00037}{cl\+\_\+px4\+\_\+mr\+::\+Cb\+Loiter\+::build\+Path()}}, \mbox{\hyperlink{cb__sine__wave__horizontal_8cpp_source_l00032}{cl\+\_\+px4\+\_\+mr\+::\+Cb\+Sine\+Wave\+Horizontal\+::build\+Path()}}, \mbox{\hyperlink{cb__sine__wave__vertical_8cpp_source_l00032}{cl\+\_\+px4\+\_\+mr\+::\+Cb\+Sine\+Wave\+Vertical\+::build\+Path()}}, \mbox{\hyperlink{cb__spiral_8cpp_source_l00031}{cl\+\_\+px4\+\_\+mr\+::\+Cb\+Spiral\+::build\+Path()}}, \mbox{\hyperlink{cb__square__spiral_8cpp_source_l00036}{cl\+\_\+px4\+\_\+mr\+::\+Cb\+Square\+Spiral\+::build\+Path()}}, \mbox{\hyperlink{cb__vs__search_8cpp_source_l00031}{cl\+\_\+px4\+\_\+mr\+::\+Cb\+VSSearch\+::build\+Path()}}, \mbox{\hyperlink{cb__px4__path__follower__base_8cpp_source_l00232}{command\+For()}}, \mbox{\hyperlink{cb__px4__path__follower__base_8hpp_source_l00096}{follower\+Params()}}, \mbox{\hyperlink{cb__px4__path__follower__base_8cpp_source_l00035}{on\+Entry()}}, \mbox{\hyperlink{cb__follow__ned__path_8cpp_source_l00050}{cl\+\_\+px4\+\_\+mr\+::\+Cb\+Follow\+Ned\+Path\+::reached\+Count()}}, \mbox{\hyperlink{cb__px4__path__follower__base_8hpp_source_l00095}{set\+Follower\+Params()}}, \mbox{\hyperlink{cb__follow__ned__path_8cpp_source_l00033}{cl\+\_\+px4\+\_\+mr\+::\+Cb\+Follow\+Ned\+Path\+::set\+Path()}}, and \mbox{\hyperlink{cb__px4__path__follower__base_8cpp_source_l00142}{update()}}.
 
 \Hypertarget{classcl__px4__mr_1_1CbPx4PathFollowerBase_ae3a1b5cef09b019a8434b962b6f5f04c}\index{cl\_px4\_mr::CbPx4PathFollowerBase@{cl\_px4\_mr::CbPx4PathFollowerBase}!lastCmd\_@{lastCmd\_}}
 \index{lastCmd\_@{lastCmd\_}!cl\_px4\_mr::CbPx4PathFollowerBase@{cl\_px4\_mr::CbPx4PathFollowerBase}}
@@ -874,11 +1045,11 @@ Referenced by \mbox{\hyperlink{cb__ascend__to__altitude_8cpp_source_l00041}{cl\+
 
 
 
-Definition at line \mbox{\hyperlink{cb__px4__path__follower__base_8hpp_source_l00114}{114}} of file \mbox{\hyperlink{cb__px4__path__follower__base_8hpp_source}{cb\+\_\+px4\+\_\+path\+\_\+follower\+\_\+base.\+hpp}}.
+Definition at line \mbox{\hyperlink{cb__px4__path__follower__base_8hpp_source_l00135}{135}} of file \mbox{\hyperlink{cb__px4__path__follower__base_8hpp_source}{cb\+\_\+px4\+\_\+path\+\_\+follower\+\_\+base.\+hpp}}.
 
 
 
-Referenced by \mbox{\hyperlink{cb__px4__path__follower__base_8cpp_source_l00034}{on\+Entry()}}, \mbox{\hyperlink{cb__px4__path__follower__base_8cpp_source_l00123}{on\+Exit()}}, and \mbox{\hyperlink{cb__px4__path__follower__base_8cpp_source_l00136}{update()}}.
+Referenced by \mbox{\hyperlink{cb__px4__path__follower__base_8cpp_source_l00035}{on\+Entry()}}, \mbox{\hyperlink{cb__px4__path__follower__base_8cpp_source_l00129}{on\+Exit()}}, and \mbox{\hyperlink{cb__px4__path__follower__base_8cpp_source_l00142}{update()}}.
 
 \Hypertarget{classcl__px4__mr_1_1CbPx4PathFollowerBase_a44bd1ecb9a01c4a3ad132586c6d91f07}\index{cl\_px4\_mr::CbPx4PathFollowerBase@{cl\_px4\_mr::CbPx4PathFollowerBase}!lastProgressDecile\_@{lastProgressDecile\_}}
 \index{lastProgressDecile\_@{lastProgressDecile\_}!cl\_px4\_mr::CbPx4PathFollowerBase@{cl\_px4\_mr::CbPx4PathFollowerBase}}
@@ -888,11 +1059,11 @@ int cl\+\_\+px4\+\_\+mr\+::\+Cb\+Px4\+Path\+Follower\+Base\+::last\+Progress\+De
 
 
 
-Definition at line \mbox{\hyperlink{cb__px4__path__follower__base_8hpp_source_l00115}{115}} of file \mbox{\hyperlink{cb__px4__path__follower__base_8hpp_source}{cb\+\_\+px4\+\_\+path\+\_\+follower\+\_\+base.\+hpp}}.
+Definition at line \mbox{\hyperlink{cb__px4__path__follower__base_8hpp_source_l00136}{136}} of file \mbox{\hyperlink{cb__px4__path__follower__base_8hpp_source}{cb\+\_\+px4\+\_\+path\+\_\+follower\+\_\+base.\+hpp}}.
 
 
 
-Referenced by \mbox{\hyperlink{cb__px4__path__follower__base_8cpp_source_l00034}{on\+Entry()}}, and \mbox{\hyperlink{cb__px4__path__follower__base_8cpp_source_l00136}{update()}}.
+Referenced by \mbox{\hyperlink{cb__px4__path__follower__base_8cpp_source_l00035}{on\+Entry()}}, and \mbox{\hyperlink{cb__px4__path__follower__base_8cpp_source_l00142}{update()}}.
 
 \Hypertarget{classcl__px4__mr_1_1CbPx4PathFollowerBase_a26579cffbabd5e9f6056e503a9593081}\index{cl\_px4\_mr::CbPx4PathFollowerBase@{cl\_px4\_mr::CbPx4PathFollowerBase}!lastUpdateTime\_@{lastUpdateTime\_}}
 \index{lastUpdateTime\_@{lastUpdateTime\_}!cl\_px4\_mr::CbPx4PathFollowerBase@{cl\_px4\_mr::CbPx4PathFollowerBase}}
@@ -902,11 +1073,11 @@ std\+::chrono\+::steady\+\_\+clock\+::time\+\_\+point cl\+\_\+px4\+\_\+mr\+::\+C
 
 
 
-Definition at line \mbox{\hyperlink{cb__px4__path__follower__base_8hpp_source_l00117}{117}} of file \mbox{\hyperlink{cb__px4__path__follower__base_8hpp_source}{cb\+\_\+px4\+\_\+path\+\_\+follower\+\_\+base.\+hpp}}.
+Definition at line \mbox{\hyperlink{cb__px4__path__follower__base_8hpp_source_l00138}{138}} of file \mbox{\hyperlink{cb__px4__path__follower__base_8hpp_source}{cb\+\_\+px4\+\_\+path\+\_\+follower\+\_\+base.\+hpp}}.
 
 
 
-Referenced by \mbox{\hyperlink{cb__px4__path__follower__base_8cpp_source_l00034}{on\+Entry()}}, and \mbox{\hyperlink{cb__px4__path__follower__base_8cpp_source_l00136}{update()}}.
+Referenced by \mbox{\hyperlink{cb__px4__path__follower__base_8cpp_source_l00035}{on\+Entry()}}, and \mbox{\hyperlink{cb__px4__path__follower__base_8cpp_source_l00142}{update()}}.
 
 \Hypertarget{classcl__px4__mr_1_1CbPx4PathFollowerBase_a3356e8d87f9a314f1a112425bdc473b5}\index{cl\_px4\_mr::CbPx4PathFollowerBase@{cl\_px4\_mr::CbPx4PathFollowerBase}!path\_@{path\_}}
 \index{path\_@{path\_}!cl\_px4\_mr::CbPx4PathFollowerBase@{cl\_px4\_mr::CbPx4PathFollowerBase}}
@@ -916,11 +1087,11 @@ std\+::vector$<$\mbox{\hyperlink{structcl__px4__mr_1_1NedPoint}{Ned\+Point}}$>$ 
 
 
 
-Definition at line \mbox{\hyperlink{cb__px4__path__follower__base_8hpp_source_l00109}{109}} of file \mbox{\hyperlink{cb__px4__path__follower__base_8hpp_source}{cb\+\_\+px4\+\_\+path\+\_\+follower\+\_\+base.\+hpp}}.
+Definition at line \mbox{\hyperlink{cb__px4__path__follower__base_8hpp_source_l00129}{129}} of file \mbox{\hyperlink{cb__px4__path__follower__base_8hpp_source}{cb\+\_\+px4\+\_\+path\+\_\+follower\+\_\+base.\+hpp}}.
 
 
 
-Referenced by \mbox{\hyperlink{cb__px4__path__follower__base_8cpp_source_l00216}{command\+For()}}, \mbox{\hyperlink{cb__px4__path__follower__base_8cpp_source_l00034}{on\+Entry()}}, \mbox{\hyperlink{cb__px4__path__follower__base_8cpp_source_l00198}{tangent\+Yaw\+At()}}, and \mbox{\hyperlink{cb__px4__path__follower__base_8cpp_source_l00136}{update()}}.
+Referenced by \mbox{\hyperlink{cb__px4__path__follower__base_8cpp_source_l00232}{command\+For()}}, \mbox{\hyperlink{cb__px4__path__follower__base_8cpp_source_l00035}{on\+Entry()}}, \mbox{\hyperlink{cb__px4__path__follower__base_8cpp_source_l00214}{tangent\+Yaw\+At()}}, and \mbox{\hyperlink{cb__px4__path__follower__base_8cpp_source_l00142}{update()}}.
 
 \Hypertarget{classcl__px4__mr_1_1CbPx4PathFollowerBase_aef84d639d4f1627e736fd2b4c6990ec7}\index{cl\_px4\_mr::CbPx4PathFollowerBase@{cl\_px4\_mr::CbPx4PathFollowerBase}!sCarrot\_@{sCarrot\_}}
 \index{sCarrot\_@{sCarrot\_}!cl\_px4\_mr::CbPx4PathFollowerBase@{cl\_px4\_mr::CbPx4PathFollowerBase}}
@@ -930,11 +1101,11 @@ float cl\+\_\+px4\+\_\+mr\+::\+Cb\+Px4\+Path\+Follower\+Base\+::s\+Carrot\+\_\+ 
 
 
 
-Definition at line \mbox{\hyperlink{cb__px4__path__follower__base_8hpp_source_l00112}{112}} of file \mbox{\hyperlink{cb__px4__path__follower__base_8hpp_source}{cb\+\_\+px4\+\_\+path\+\_\+follower\+\_\+base.\+hpp}}.
+Definition at line \mbox{\hyperlink{cb__px4__path__follower__base_8hpp_source_l00132}{132}} of file \mbox{\hyperlink{cb__px4__path__follower__base_8hpp_source}{cb\+\_\+px4\+\_\+path\+\_\+follower\+\_\+base.\+hpp}}.
 
 
 
-Referenced by \mbox{\hyperlink{cb__px4__path__follower__base_8cpp_source_l00034}{on\+Entry()}}, \mbox{\hyperlink{cb__px4__path__follower__base_8hpp_source_l00101}{progress\+Fraction()}}, and \mbox{\hyperlink{cb__px4__path__follower__base_8cpp_source_l00136}{update()}}.
+Referenced by \mbox{\hyperlink{cb__px4__path__follower__base_8cpp_source_l00035}{on\+Entry()}}, \mbox{\hyperlink{cb__px4__path__follower__base_8hpp_source_l00114}{progress\+Fraction()}}, and \mbox{\hyperlink{cb__px4__path__follower__base_8cpp_source_l00142}{update()}}.
 
 \Hypertarget{classcl__px4__mr_1_1CbPx4PathFollowerBase_a6a677869a5b9aa61ed1082a80215c8d8}\index{cl\_px4\_mr::CbPx4PathFollowerBase@{cl\_px4\_mr::CbPx4PathFollowerBase}!totalLen\_@{totalLen\_}}
 \index{totalLen\_@{totalLen\_}!cl\_px4\_mr::CbPx4PathFollowerBase@{cl\_px4\_mr::CbPx4PathFollowerBase}}
@@ -944,11 +1115,25 @@ float cl\+\_\+px4\+\_\+mr\+::\+Cb\+Px4\+Path\+Follower\+Base\+::total\+Len\+\_\+
 
 
 
-Definition at line \mbox{\hyperlink{cb__px4__path__follower__base_8hpp_source_l00111}{111}} of file \mbox{\hyperlink{cb__px4__path__follower__base_8hpp_source}{cb\+\_\+px4\+\_\+path\+\_\+follower\+\_\+base.\+hpp}}.
+Definition at line \mbox{\hyperlink{cb__px4__path__follower__base_8hpp_source_l00131}{131}} of file \mbox{\hyperlink{cb__px4__path__follower__base_8hpp_source}{cb\+\_\+px4\+\_\+path\+\_\+follower\+\_\+base.\+hpp}}.
 
 
 
-Referenced by \mbox{\hyperlink{cb__px4__path__follower__base_8cpp_source_l00034}{on\+Entry()}}, \mbox{\hyperlink{cb__px4__path__follower__base_8hpp_source_l00101}{progress\+Fraction()}}, \mbox{\hyperlink{cb__px4__path__follower__base_8hpp_source_l00100}{total\+Length()}}, and \mbox{\hyperlink{cb__px4__path__follower__base_8cpp_source_l00136}{update()}}.
+Referenced by \mbox{\hyperlink{cb__px4__path__follower__base_8cpp_source_l00035}{on\+Entry()}}, \mbox{\hyperlink{cb__px4__path__follower__base_8hpp_source_l00114}{progress\+Fraction()}}, \mbox{\hyperlink{cb__px4__path__follower__base_8hpp_source_l00113}{total\+Length()}}, and \mbox{\hyperlink{cb__px4__path__follower__base_8cpp_source_l00142}{update()}}.
+
+\Hypertarget{classcl__px4__mr_1_1CbPx4PathFollowerBase_a7a5777f04d171dced2890f0815667e9d}\index{cl\_px4\_mr::CbPx4PathFollowerBase@{cl\_px4\_mr::CbPx4PathFollowerBase}!tunnelCentering\_@{tunnelCentering\_}}
+\index{tunnelCentering\_@{tunnelCentering\_}!cl\_px4\_mr::CbPx4PathFollowerBase@{cl\_px4\_mr::CbPx4PathFollowerBase}}
+\doxysubsubsection{\texorpdfstring{tunnelCentering\_}{tunnelCentering\_}}
+{\footnotesize\ttfamily \label{classcl__px4__mr_1_1CbPx4PathFollowerBase_a7a5777f04d171dced2890f0815667e9d} 
+\mbox{\hyperlink{classcl__px4__mr_1_1CpTunnelCentering}{Cp\+Tunnel\+Centering}}\texorpdfstring{$\ast$}{*} cl\+\_\+px4\+\_\+mr\+::\+Cb\+Px4\+Path\+Follower\+Base\+::tunnel\+Centering\+\_\+ = nullptr\hspace{0.3cm}{\ttfamily [protected]}}
+
+
+
+Definition at line \mbox{\hyperlink{cb__px4__path__follower__base_8hpp_source_l00122}{122}} of file \mbox{\hyperlink{cb__px4__path__follower__base_8hpp_source}{cb\+\_\+px4\+\_\+path\+\_\+follower\+\_\+base.\+hpp}}.
+
+
+
+Referenced by \mbox{\hyperlink{cb__px4__path__follower__base_8cpp_source_l00261}{apply\+Centering()}}, \mbox{\hyperlink{cb__px4__path__follower__base_8cpp_source_l00035}{on\+Entry()}}, and \mbox{\hyperlink{cb__px4__path__follower__base_8hpp_source_l00088}{on\+State\+Orthogonal\+Allocation()}}.
 
 
 

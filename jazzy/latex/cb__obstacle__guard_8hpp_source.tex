@@ -1,0 +1,68 @@
+\doxysection{cb\+\_\+obstacle\+\_\+guard.\+hpp}
+\hypertarget{cb__obstacle__guard_8hpp_source}{}\label{cb__obstacle__guard_8hpp_source}\index{smacc2\_client\_library/cl\_px4\_mr/include/cl\_px4\_mr/client\_behaviors/cb\_obstacle\_guard.hpp@{smacc2\_client\_library/cl\_px4\_mr/include/cl\_px4\_mr/client\_behaviors/cb\_obstacle\_guard.hpp}}
+\mbox{\hyperlink{cb__obstacle__guard_8hpp}{Go to the documentation of this file.}}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\Hypertarget{cb__obstacle__guard_8hpp_source_l00001}00001\ \textcolor{comment}{//\ Copyright\ 2026\ RobosoftAI\ Inc.}}
+\DoxyCodeLine{\Hypertarget{cb__obstacle__guard_8hpp_source_l00002}00002\ \textcolor{comment}{//}}
+\DoxyCodeLine{\Hypertarget{cb__obstacle__guard_8hpp_source_l00003}00003\ \textcolor{comment}{//\ Licensed\ under\ the\ Apache\ License,\ Version\ 2.0\ (the\ "{}License"{});}}
+\DoxyCodeLine{\Hypertarget{cb__obstacle__guard_8hpp_source_l00004}00004\ \textcolor{comment}{//\ you\ may\ not\ use\ this\ file\ except\ in\ compliance\ with\ the\ License.}}
+\DoxyCodeLine{\Hypertarget{cb__obstacle__guard_8hpp_source_l00005}00005\ \textcolor{comment}{//\ You\ may\ obtain\ a\ copy\ of\ the\ License\ at}}
+\DoxyCodeLine{\Hypertarget{cb__obstacle__guard_8hpp_source_l00006}00006\ \textcolor{comment}{//}}
+\DoxyCodeLine{\Hypertarget{cb__obstacle__guard_8hpp_source_l00007}00007\ \textcolor{comment}{//\ \ \ \ \ http://www.apache.org/licenses/LICENSE-\/2.0}}
+\DoxyCodeLine{\Hypertarget{cb__obstacle__guard_8hpp_source_l00008}00008\ \textcolor{comment}{//}}
+\DoxyCodeLine{\Hypertarget{cb__obstacle__guard_8hpp_source_l00009}00009\ \textcolor{comment}{//\ Unless\ required\ by\ applicable\ law\ or\ agreed\ to\ in\ writing,\ software}}
+\DoxyCodeLine{\Hypertarget{cb__obstacle__guard_8hpp_source_l00010}00010\ \textcolor{comment}{//\ distributed\ under\ the\ License\ is\ distributed\ on\ an\ "{}AS\ IS"{}\ BASIS,}}
+\DoxyCodeLine{\Hypertarget{cb__obstacle__guard_8hpp_source_l00011}00011\ \textcolor{comment}{//\ WITHOUT\ WARRANTIES\ OR\ CONDITIONS\ OF\ ANY\ KIND,\ either\ express\ or\ implied.}}
+\DoxyCodeLine{\Hypertarget{cb__obstacle__guard_8hpp_source_l00012}00012\ \textcolor{comment}{//\ See\ the\ License\ for\ the\ specific\ language\ governing\ permissions\ and}}
+\DoxyCodeLine{\Hypertarget{cb__obstacle__guard_8hpp_source_l00013}00013\ \textcolor{comment}{//\ limitations\ under\ the\ License.}}
+\DoxyCodeLine{\Hypertarget{cb__obstacle__guard_8hpp_source_l00014}00014\ }
+\DoxyCodeLine{\Hypertarget{cb__obstacle__guard_8hpp_source_l00015}00015\ \textcolor{comment}{/*****************************************************************************************************************}}
+\DoxyCodeLine{\Hypertarget{cb__obstacle__guard_8hpp_source_l00016}00016\ \textcolor{comment}{\ *}}
+\DoxyCodeLine{\Hypertarget{cb__obstacle__guard_8hpp_source_l00017}00017\ \textcolor{comment}{\ *\ \ \ Authors:\ Brett\ Aldrich}}
+\DoxyCodeLine{\Hypertarget{cb__obstacle__guard_8hpp_source_l00018}00018\ \textcolor{comment}{\ *}}
+\DoxyCodeLine{\Hypertarget{cb__obstacle__guard_8hpp_source_l00019}00019\ \textcolor{comment}{\ ******************************************************************************************************************/}}
+\DoxyCodeLine{\Hypertarget{cb__obstacle__guard_8hpp_source_l00020}00020\ }
+\DoxyCodeLine{\Hypertarget{cb__obstacle__guard_8hpp_source_l00021}00021\ \textcolor{preprocessor}{\#pragma\ once}}
+\DoxyCodeLine{\Hypertarget{cb__obstacle__guard_8hpp_source_l00022}00022\ }
+\DoxyCodeLine{\Hypertarget{cb__obstacle__guard_8hpp_source_l00023}00023\ \textcolor{preprocessor}{\#include\ <functional>}}
+\DoxyCodeLine{\Hypertarget{cb__obstacle__guard_8hpp_source_l00024}00024\ }
+\DoxyCodeLine{\Hypertarget{cb__obstacle__guard_8hpp_source_l00025}00025\ \textcolor{preprocessor}{\#include\ <\mbox{\hyperlink{cp__forward__obstacle__guard_8hpp}{cl\_px4\_mr/components/cp\_forward\_obstacle\_guard.hpp}}>}}
+\DoxyCodeLine{\Hypertarget{cb__obstacle__guard_8hpp_source_l00026}00026\ \textcolor{preprocessor}{\#include\ <\mbox{\hyperlink{smacc__client__behavior_8hpp}{smacc2/smacc\_client\_behavior.hpp}}>}}
+\DoxyCodeLine{\Hypertarget{cb__obstacle__guard_8hpp_source_l00027}00027\ }
+\DoxyCodeLine{\Hypertarget{cb__obstacle__guard_8hpp_source_l00028}00028\ \textcolor{keyword}{namespace\ }\mbox{\hyperlink{namespacecl__px4__mr}{cl\_px4\_mr}}}
+\DoxyCodeLine{\Hypertarget{cb__obstacle__guard_8hpp_source_l00029}00029\ \{}
+\DoxyCodeLine{\Hypertarget{cb__obstacle__guard_8hpp_source_l00030}00030\ }
+\DoxyCodeLine{\Hypertarget{cb__obstacle__guard_8hpp_source_l00031}00031\ \textcolor{comment}{//\ Turns\ CpForwardObstacleGuard's\ signals\ into\ state\ machine\ events}}
+\DoxyCodeLine{\Hypertarget{cb__obstacle__guard_8hpp_source_l00032}00032\ \textcolor{comment}{//\ EvObstacleTooClose\ /\ EvObstacleCleared<CbObstacleGuard,\ TOrthogonal>.}}
+\DoxyCodeLine{\Hypertarget{cb__obstacle__guard_8hpp_source_l00033}00033\ \textcolor{comment}{//\ Synchronous\ behavior:\ onEntry\ runs\ on\ the\ state\ machine\ thread,\ so\ it\ may}}
+\DoxyCodeLine{\Hypertarget{cb__obstacle__guard_8hpp_source_l00034}00034\ \textcolor{comment}{//\ resolve\ the\ component\ and\ create\ signal\ connections\ there.\ Configure\ it}}
+\DoxyCodeLine{\Hypertarget{cb__obstacle__guard_8hpp_source_l00035}00035\ \textcolor{comment}{//\ once\ on\ a\ container\ state\ (e.g.\ the\ in-\/flight\ mode\ state)\ so\ a\ single}}
+\DoxyCodeLine{\Hypertarget{cb__obstacle__guard_8hpp_source_l00036}00036\ \textcolor{comment}{//\ instance\ covers\ every\ inner\ flight\ state.}}
+\DoxyCodeLine{\Hypertarget{cb__obstacle__guard_8hpp_source_l00037}\mbox{\hyperlink{classcl__px4__mr_1_1CbObstacleGuard}{00037}}\ \textcolor{keyword}{class\ }\mbox{\hyperlink{classcl__px4__mr_1_1CbObstacleGuard}{CbObstacleGuard}}\ :\ \textcolor{keyword}{public}\ \mbox{\hyperlink{classsmacc2_1_1SmaccClientBehavior}{smacc2::SmaccClientBehavior}}}
+\DoxyCodeLine{\Hypertarget{cb__obstacle__guard_8hpp_source_l00038}00038\ \{}
+\DoxyCodeLine{\Hypertarget{cb__obstacle__guard_8hpp_source_l00039}00039\ \textcolor{keyword}{public}:}
+\DoxyCodeLine{\Hypertarget{cb__obstacle__guard_8hpp_source_l00040}00040\ \ \ \mbox{\hyperlink{classcl__px4__mr_1_1CbObstacleGuard_a82a88fa3f2df59489065dc0aec2d6ab0}{CbObstacleGuard}}();}
+\DoxyCodeLine{\Hypertarget{cb__obstacle__guard_8hpp_source_l00041}00041\ \ \ \textcolor{keyword}{virtual}\ \mbox{\hyperlink{classcl__px4__mr_1_1CbObstacleGuard_a1373690dc5ede01611010c31ab1bb68e}{\string~CbObstacleGuard}}();}
+\DoxyCodeLine{\Hypertarget{cb__obstacle__guard_8hpp_source_l00042}00042\ }
+\DoxyCodeLine{\Hypertarget{cb__obstacle__guard_8hpp_source_l00043}00043\ \ \ \textcolor{keyword}{template}\ <\textcolor{keyword}{typename}\ TOrthogonal,\ \textcolor{keyword}{typename}\ TSourceObject>}
+\DoxyCodeLine{\Hypertarget{cb__obstacle__guard_8hpp_source_l00044}\mbox{\hyperlink{classcl__px4__mr_1_1CbObstacleGuard_ad6c7155dcac04524d134d3ebbd4a11d7}{00044}}\ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{classcl__px4__mr_1_1CbObstacleGuard_ad6c7155dcac04524d134d3ebbd4a11d7}{onStateOrthogonalAllocation}}()}
+\DoxyCodeLine{\Hypertarget{cb__obstacle__guard_8hpp_source_l00045}00045\ \ \ \{}
+\DoxyCodeLine{\Hypertarget{cb__obstacle__guard_8hpp_source_l00046}00046\ \ \ \ \ \mbox{\hyperlink{classcl__px4__mr_1_1CbObstacleGuard_a581f3da8db8a1c54b610e1b69d4d0274}{postTooClose\_}}\ =\ [\textcolor{keyword}{this}]()\ \{\ this-\/>\mbox{\hyperlink{classsmacc2_1_1ISmaccClientBehavior_a291c6cc5a71d18a01c52edd72aff988f}{postEvent<EvObstacleTooClose<TSourceObject,\ TOrthogonal>}}>();\ \};}
+\DoxyCodeLine{\Hypertarget{cb__obstacle__guard_8hpp_source_l00047}00047\ \ \ \ \ \mbox{\hyperlink{classcl__px4__mr_1_1CbObstacleGuard_add06772eeaa452de2c3ce20aea5ebd2b}{postCleared\_}}\ =\ [\textcolor{keyword}{this}]()\ \{\ this-\/>\mbox{\hyperlink{classsmacc2_1_1ISmaccClientBehavior_a291c6cc5a71d18a01c52edd72aff988f}{postEvent<EvObstacleCleared<TSourceObject,\ TOrthogonal>}}>();\ \};}
+\DoxyCodeLine{\Hypertarget{cb__obstacle__guard_8hpp_source_l00048}00048\ \ \ \}}
+\DoxyCodeLine{\Hypertarget{cb__obstacle__guard_8hpp_source_l00049}00049\ }
+\DoxyCodeLine{\Hypertarget{cb__obstacle__guard_8hpp_source_l00050}00050\ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{classcl__px4__mr_1_1CbObstacleGuard_a25370975c492e8369a474eb796ead4c1}{onEntry}}()\ \textcolor{keyword}{override};}
+\DoxyCodeLine{\Hypertarget{cb__obstacle__guard_8hpp_source_l00051}00051\ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{classcl__px4__mr_1_1CbObstacleGuard_a716f355a754f655a5f57ab1013c98dfe}{onExit}}()\ \textcolor{keyword}{override};}
+\DoxyCodeLine{\Hypertarget{cb__obstacle__guard_8hpp_source_l00052}00052\ }
+\DoxyCodeLine{\Hypertarget{cb__obstacle__guard_8hpp_source_l00053}00053\ \textcolor{keyword}{private}:}
+\DoxyCodeLine{\Hypertarget{cb__obstacle__guard_8hpp_source_l00054}00054\ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{classcl__px4__mr_1_1CbObstacleGuard_ac46ab61ba5579d95ef848c3c87c16993}{onTooClose}}();}
+\DoxyCodeLine{\Hypertarget{cb__obstacle__guard_8hpp_source_l00055}00055\ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{classcl__px4__mr_1_1CbObstacleGuard_ac0379b42286956cf3f360fdaae476bfb}{onCleared}}();}
+\DoxyCodeLine{\Hypertarget{cb__obstacle__guard_8hpp_source_l00056}00056\ }
+\DoxyCodeLine{\Hypertarget{cb__obstacle__guard_8hpp_source_l00057}\mbox{\hyperlink{classcl__px4__mr_1_1CbObstacleGuard_a23eaf7e21a63651555cd19800c30d5eb}{00057}}\ \ \ \mbox{\hyperlink{classcl__px4__mr_1_1CpForwardObstacleGuard}{CpForwardObstacleGuard}}\ *\ \mbox{\hyperlink{classcl__px4__mr_1_1CbObstacleGuard_a23eaf7e21a63651555cd19800c30d5eb}{guard\_}}\ =\ \textcolor{keyword}{nullptr};}
+\DoxyCodeLine{\Hypertarget{cb__obstacle__guard_8hpp_source_l00058}\mbox{\hyperlink{classcl__px4__mr_1_1CbObstacleGuard_a581f3da8db8a1c54b610e1b69d4d0274}{00058}}\ \ \ std::function<void()>\ \mbox{\hyperlink{classcl__px4__mr_1_1CbObstacleGuard_a581f3da8db8a1c54b610e1b69d4d0274}{postTooClose\_}};}
+\DoxyCodeLine{\Hypertarget{cb__obstacle__guard_8hpp_source_l00059}\mbox{\hyperlink{classcl__px4__mr_1_1CbObstacleGuard_add06772eeaa452de2c3ce20aea5ebd2b}{00059}}\ \ \ std::function<void()>\ \mbox{\hyperlink{classcl__px4__mr_1_1CbObstacleGuard_add06772eeaa452de2c3ce20aea5ebd2b}{postCleared\_}};}
+\DoxyCodeLine{\Hypertarget{cb__obstacle__guard_8hpp_source_l00060}00060\ \};}
+\DoxyCodeLine{\Hypertarget{cb__obstacle__guard_8hpp_source_l00061}00061\ }
+\DoxyCodeLine{\Hypertarget{cb__obstacle__guard_8hpp_source_l00062}00062\ \}\ \ \textcolor{comment}{//\ namespace\ cl\_px4\_mr}}
+
+\end{DoxyCode}

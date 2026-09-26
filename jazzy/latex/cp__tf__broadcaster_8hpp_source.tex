@@ -1,0 +1,103 @@
+\doxysection{cp\+\_\+tf\+\_\+broadcaster.\+hpp}
+\hypertarget{cp__tf__broadcaster_8hpp_source}{}\label{cp__tf__broadcaster_8hpp_source}\index{smacc2\_client\_library/cl\_px4\_mr/include/cl\_px4\_mr/components/cp\_tf\_broadcaster.hpp@{smacc2\_client\_library/cl\_px4\_mr/include/cl\_px4\_mr/components/cp\_tf\_broadcaster.hpp}}
+\mbox{\hyperlink{cp__tf__broadcaster_8hpp}{Go to the documentation of this file.}}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\Hypertarget{cp__tf__broadcaster_8hpp_source_l00001}00001\ \textcolor{comment}{//\ Copyright\ 2026\ RobosoftAI\ Inc.}}
+\DoxyCodeLine{\Hypertarget{cp__tf__broadcaster_8hpp_source_l00002}00002\ \textcolor{comment}{//}}
+\DoxyCodeLine{\Hypertarget{cp__tf__broadcaster_8hpp_source_l00003}00003\ \textcolor{comment}{//\ Licensed\ under\ the\ Apache\ License,\ Version\ 2.0\ (the\ "{}License"{});}}
+\DoxyCodeLine{\Hypertarget{cp__tf__broadcaster_8hpp_source_l00004}00004\ \textcolor{comment}{//\ you\ may\ not\ use\ this\ file\ except\ in\ compliance\ with\ the\ License.}}
+\DoxyCodeLine{\Hypertarget{cp__tf__broadcaster_8hpp_source_l00005}00005\ \textcolor{comment}{//\ You\ may\ obtain\ a\ copy\ of\ the\ License\ at}}
+\DoxyCodeLine{\Hypertarget{cp__tf__broadcaster_8hpp_source_l00006}00006\ \textcolor{comment}{//}}
+\DoxyCodeLine{\Hypertarget{cp__tf__broadcaster_8hpp_source_l00007}00007\ \textcolor{comment}{//\ \ \ \ \ http://www.apache.org/licenses/LICENSE-\/2.0}}
+\DoxyCodeLine{\Hypertarget{cp__tf__broadcaster_8hpp_source_l00008}00008\ \textcolor{comment}{//}}
+\DoxyCodeLine{\Hypertarget{cp__tf__broadcaster_8hpp_source_l00009}00009\ \textcolor{comment}{//\ Unless\ required\ by\ applicable\ law\ or\ agreed\ to\ in\ writing,\ software}}
+\DoxyCodeLine{\Hypertarget{cp__tf__broadcaster_8hpp_source_l00010}00010\ \textcolor{comment}{//\ distributed\ under\ the\ License\ is\ distributed\ on\ an\ "{}AS\ IS"{}\ BASIS,}}
+\DoxyCodeLine{\Hypertarget{cp__tf__broadcaster_8hpp_source_l00011}00011\ \textcolor{comment}{//\ WITHOUT\ WARRANTIES\ OR\ CONDITIONS\ OF\ ANY\ KIND,\ either\ express\ or\ implied.}}
+\DoxyCodeLine{\Hypertarget{cp__tf__broadcaster_8hpp_source_l00012}00012\ \textcolor{comment}{//\ See\ the\ License\ for\ the\ specific\ language\ governing\ permissions\ and}}
+\DoxyCodeLine{\Hypertarget{cp__tf__broadcaster_8hpp_source_l00013}00013\ \textcolor{comment}{//\ limitations\ under\ the\ License.}}
+\DoxyCodeLine{\Hypertarget{cp__tf__broadcaster_8hpp_source_l00014}00014\ }
+\DoxyCodeLine{\Hypertarget{cp__tf__broadcaster_8hpp_source_l00015}00015\ \textcolor{comment}{/*****************************************************************************************************************}}
+\DoxyCodeLine{\Hypertarget{cp__tf__broadcaster_8hpp_source_l00016}00016\ \textcolor{comment}{\ *}}
+\DoxyCodeLine{\Hypertarget{cp__tf__broadcaster_8hpp_source_l00017}00017\ \textcolor{comment}{\ *\ \ \ Authors:\ Brett\ Aldrich}}
+\DoxyCodeLine{\Hypertarget{cp__tf__broadcaster_8hpp_source_l00018}00018\ \textcolor{comment}{\ *}}
+\DoxyCodeLine{\Hypertarget{cp__tf__broadcaster_8hpp_source_l00019}00019\ \textcolor{comment}{\ ******************************************************************************************************************/}}
+\DoxyCodeLine{\Hypertarget{cp__tf__broadcaster_8hpp_source_l00020}00020\ }
+\DoxyCodeLine{\Hypertarget{cp__tf__broadcaster_8hpp_source_l00021}00021\ \textcolor{preprocessor}{\#pragma\ once}}
+\DoxyCodeLine{\Hypertarget{cp__tf__broadcaster_8hpp_source_l00022}00022\ }
+\DoxyCodeLine{\Hypertarget{cp__tf__broadcaster_8hpp_source_l00023}00023\ \textcolor{preprocessor}{\#include\ <chrono>}}
+\DoxyCodeLine{\Hypertarget{cp__tf__broadcaster_8hpp_source_l00024}00024\ \textcolor{preprocessor}{\#include\ <memory>}}
+\DoxyCodeLine{\Hypertarget{cp__tf__broadcaster_8hpp_source_l00025}00025\ \textcolor{preprocessor}{\#include\ <string>}}
+\DoxyCodeLine{\Hypertarget{cp__tf__broadcaster_8hpp_source_l00026}00026\ }
+\DoxyCodeLine{\Hypertarget{cp__tf__broadcaster_8hpp_source_l00027}00027\ \textcolor{preprocessor}{\#include\ <tf2\_ros/static\_transform\_broadcaster.h>}}
+\DoxyCodeLine{\Hypertarget{cp__tf__broadcaster_8hpp_source_l00028}00028\ \textcolor{preprocessor}{\#include\ <tf2\_ros/transform\_broadcaster.h>}}
+\DoxyCodeLine{\Hypertarget{cp__tf__broadcaster_8hpp_source_l00029}00029\ \textcolor{preprocessor}{\#include\ <nav\_msgs/msg/path.hpp>}}
+\DoxyCodeLine{\Hypertarget{cp__tf__broadcaster_8hpp_source_l00030}00030\ \textcolor{preprocessor}{\#include\ <px4\_msgs/msg/vehicle\_attitude.hpp>}}
+\DoxyCodeLine{\Hypertarget{cp__tf__broadcaster_8hpp_source_l00031}00031\ \textcolor{preprocessor}{\#include\ <rclcpp/rclcpp.hpp>}}
+\DoxyCodeLine{\Hypertarget{cp__tf__broadcaster_8hpp_source_l00032}00032\ \textcolor{preprocessor}{\#include\ <\mbox{\hyperlink{smacc_8hpp}{smacc2/smacc.hpp}}>}}
+\DoxyCodeLine{\Hypertarget{cp__tf__broadcaster_8hpp_source_l00033}00033\ }
+\DoxyCodeLine{\Hypertarget{cp__tf__broadcaster_8hpp_source_l00034}00034\ \textcolor{keyword}{namespace\ }\mbox{\hyperlink{namespacecl__px4__mr}{cl\_px4\_mr}}}
+\DoxyCodeLine{\Hypertarget{cp__tf__broadcaster_8hpp_source_l00035}00035\ \{}
+\DoxyCodeLine{\Hypertarget{cp__tf__broadcaster_8hpp_source_l00036}00036\ }
+\DoxyCodeLine{\Hypertarget{cp__tf__broadcaster_8hpp_source_l00037}00037\ \textcolor{keyword}{class\ }CpVehicleLocalPosition;}
+\DoxyCodeLine{\Hypertarget{cp__tf__broadcaster_8hpp_source_l00038}00038\ }
+\DoxyCodeLine{\Hypertarget{cp__tf__broadcaster_8hpp_source_l00039}\mbox{\hyperlink{structcl__px4__mr_1_1TfBroadcasterParams}{00039}}\ \textcolor{keyword}{struct\ }\mbox{\hyperlink{structcl__px4__mr_1_1TfBroadcasterParams}{TfBroadcasterParams}}}
+\DoxyCodeLine{\Hypertarget{cp__tf__broadcaster_8hpp_source_l00040}00040\ \{}
+\DoxyCodeLine{\Hypertarget{cp__tf__broadcaster_8hpp_source_l00041}\mbox{\hyperlink{structcl__px4__mr_1_1TfBroadcasterParams_a5f861e939e41647638e6913812f809f7}{00041}}\ \ \ std::string\ \mbox{\hyperlink{structcl__px4__mr_1_1TfBroadcasterParams_a5f861e939e41647638e6913812f809f7}{mapFrame}}\ =\ \textcolor{stringliteral}{"{}map"{}};}
+\DoxyCodeLine{\Hypertarget{cp__tf__broadcaster_8hpp_source_l00042}\mbox{\hyperlink{structcl__px4__mr_1_1TfBroadcasterParams_a529ac7cdee2ac9dfe5a6f492109fe964}{00042}}\ \ \ std::string\ \mbox{\hyperlink{structcl__px4__mr_1_1TfBroadcasterParams_a529ac7cdee2ac9dfe5a6f492109fe964}{baseFrame}}\ =\ \textcolor{stringliteral}{"{}base\_link"{}};}
+\DoxyCodeLine{\Hypertarget{cp__tf__broadcaster_8hpp_source_l00043}00043\ \ \ \textcolor{comment}{//\ same\ translation\ as\ baseFrame,\ identity\ rotation:\ an\ RViz\ orbit\ camera}}
+\DoxyCodeLine{\Hypertarget{cp__tf__broadcaster_8hpp_source_l00044}00044\ \ \ \textcolor{comment}{//\ targeting\ it\ follows\ the\ vehicle\ without\ spinning\ with\ its\ yaw}}
+\DoxyCodeLine{\Hypertarget{cp__tf__broadcaster_8hpp_source_l00045}\mbox{\hyperlink{structcl__px4__mr_1_1TfBroadcasterParams_a55e1a51a32b384becd397ddfc46b835f}{00045}}\ \ \ std::string\ \mbox{\hyperlink{structcl__px4__mr_1_1TfBroadcasterParams_a55e1a51a32b384becd397ddfc46b835f}{followFrame}}\ =\ \textcolor{stringliteral}{"{}base\_link\_follow"{}};}
+\DoxyCodeLine{\Hypertarget{cp__tf__broadcaster_8hpp_source_l00046}\mbox{\hyperlink{structcl__px4__mr_1_1TfBroadcasterParams_a703ba8f66654cda48acf4d82f586e79b}{00046}}\ \ \ std::string\ \mbox{\hyperlink{structcl__px4__mr_1_1TfBroadcasterParams_a703ba8f66654cda48acf4d82f586e79b}{sensorFrame}}\ =\ \textcolor{stringliteral}{"{}lidar\_link"{}};}
+\DoxyCodeLine{\Hypertarget{cp__tf__broadcaster_8hpp_source_l00047}\mbox{\hyperlink{structcl__px4__mr_1_1TfBroadcasterParams_ad6fc39254e6cf7d76521830eacfafae3}{00047}}\ \ \ \textcolor{keywordtype}{bool}\ \mbox{\hyperlink{structcl__px4__mr_1_1TfBroadcasterParams_ad6fc39254e6cf7d76521830eacfafae3}{publishSensorFrame}}\ =\ \textcolor{keyword}{true};}
+\DoxyCodeLine{\Hypertarget{cp__tf__broadcaster_8hpp_source_l00048}00048\ \ \ \textcolor{comment}{//\ sensor\ mount\ in\ the\ body\ FLU\ frame\ (metres\ /\ radians)}}
+\DoxyCodeLine{\Hypertarget{cp__tf__broadcaster_8hpp_source_l00049}\mbox{\hyperlink{structcl__px4__mr_1_1TfBroadcasterParams_ae793b7f77a1d56b7801186617e4c59b1}{00049}}\ \ \ \textcolor{keywordtype}{double}\ \mbox{\hyperlink{structcl__px4__mr_1_1TfBroadcasterParams_ae793b7f77a1d56b7801186617e4c59b1}{sensorXyz}}[3]\ =\ \{0.12,\ 0.0,\ 0.315\};}
+\DoxyCodeLine{\Hypertarget{cp__tf__broadcaster_8hpp_source_l00050}\mbox{\hyperlink{structcl__px4__mr_1_1TfBroadcasterParams_aae0b38ab837a6c10a554ec3bd6975cfa}{00050}}\ \ \ \textcolor{keywordtype}{double}\ \mbox{\hyperlink{structcl__px4__mr_1_1TfBroadcasterParams_aae0b38ab837a6c10a554ec3bd6975cfa}{sensorRpy}}[3]\ =\ \{0.0,\ 0.0,\ 0.0\};}
+\DoxyCodeLine{\Hypertarget{cp__tf__broadcaster_8hpp_source_l00051}\mbox{\hyperlink{structcl__px4__mr_1_1TfBroadcasterParams_a5069cf331e1d5eacbcbcfa2a596ce41a}{00051}}\ \ \ \textcolor{keywordtype}{double}\ \mbox{\hyperlink{structcl__px4__mr_1_1TfBroadcasterParams_a5069cf331e1d5eacbcbcfa2a596ce41a}{maxRateHz}}\ =\ 50.0;\ \ \textcolor{comment}{//\ vehicle\_attitude\ arrives\ at\ 100-\/250\ Hz}}
+\DoxyCodeLine{\Hypertarget{cp__tf__broadcaster_8hpp_source_l00052}00052\ \ \ \textcolor{comment}{//\ flown\ trail\ as\ a\ nav\_msgs/Path\ in\ mapFrame\ (for\ RViz);\ a\ pose\ is\ appended}}
+\DoxyCodeLine{\Hypertarget{cp__tf__broadcaster_8hpp_source_l00053}00053\ \ \ \textcolor{comment}{//\ every\ trailMinStepM\ of\ travel,\ the\ path\ republished\ at\ <=\ trailRateHz}}
+\DoxyCodeLine{\Hypertarget{cp__tf__broadcaster_8hpp_source_l00054}\mbox{\hyperlink{structcl__px4__mr_1_1TfBroadcasterParams_a555b35c90687288ac6eee190de5693e7}{00054}}\ \ \ \textcolor{keywordtype}{bool}\ \mbox{\hyperlink{structcl__px4__mr_1_1TfBroadcasterParams_a555b35c90687288ac6eee190de5693e7}{publishTrail}}\ =\ \textcolor{keyword}{true};}
+\DoxyCodeLine{\Hypertarget{cp__tf__broadcaster_8hpp_source_l00055}\mbox{\hyperlink{structcl__px4__mr_1_1TfBroadcasterParams_a89f370992ad11dc657a1488e9032faa1}{00055}}\ \ \ std::string\ \mbox{\hyperlink{structcl__px4__mr_1_1TfBroadcasterParams_a89f370992ad11dc657a1488e9032faa1}{trailTopic}}\ =\ \textcolor{stringliteral}{"{}/px4/trail"{}};}
+\DoxyCodeLine{\Hypertarget{cp__tf__broadcaster_8hpp_source_l00056}\mbox{\hyperlink{structcl__px4__mr_1_1TfBroadcasterParams_af97611430e38f8e6e2a37ca1869a6d54}{00056}}\ \ \ \textcolor{keywordtype}{double}\ \mbox{\hyperlink{structcl__px4__mr_1_1TfBroadcasterParams_af97611430e38f8e6e2a37ca1869a6d54}{trailMinStepM}}\ =\ 0.25;}
+\DoxyCodeLine{\Hypertarget{cp__tf__broadcaster_8hpp_source_l00057}\mbox{\hyperlink{structcl__px4__mr_1_1TfBroadcasterParams_a5d791c12fcb8f03d038a7fd80da63a27}{00057}}\ \ \ \textcolor{keywordtype}{double}\ \mbox{\hyperlink{structcl__px4__mr_1_1TfBroadcasterParams_a5d791c12fcb8f03d038a7fd80da63a27}{trailRateHz}}\ =\ 2.0;}
+\DoxyCodeLine{\Hypertarget{cp__tf__broadcaster_8hpp_source_l00058}\mbox{\hyperlink{structcl__px4__mr_1_1TfBroadcasterParams_a1964e2c3b6b178fa821bb044581fb75f}{00058}}\ \ \ \textcolor{keywordtype}{size\_t}\ \mbox{\hyperlink{structcl__px4__mr_1_1TfBroadcasterParams_a1964e2c3b6b178fa821bb044581fb75f}{trailMaxPoses}}\ =\ 20000;}
+\DoxyCodeLine{\Hypertarget{cp__tf__broadcaster_8hpp_source_l00059}00059\ \};}
+\DoxyCodeLine{\Hypertarget{cp__tf__broadcaster_8hpp_source_l00060}00060\ }
+\DoxyCodeLine{\Hypertarget{cp__tf__broadcaster_8hpp_source_l00061}00061\ \textcolor{comment}{//\ Publishes\ the\ PX4\ state\ estimate\ as\ a\ ROS\ TF\ tree:\ map\ -\/>\ base\_link\ from}}
+\DoxyCodeLine{\Hypertarget{cp__tf__broadcaster_8hpp_source_l00062}00062\ \textcolor{comment}{//\ /fmu/out/vehicle\_attitude\ (rotation)\ and\ CpVehicleLocalPosition\ (translation),}}
+\DoxyCodeLine{\Hypertarget{cp__tf__broadcaster_8hpp_source_l00063}00063\ \textcolor{comment}{//\ converted\ from\ PX4's\ NED\ /\ FRD\ conventions\ to\ ROS\ ENU\ /\ FLU,\ plus\ a}}
+\DoxyCodeLine{\Hypertarget{cp__tf__broadcaster_8hpp_source_l00064}00064\ \textcolor{comment}{//\ translation-\/only\ map\ -\/>\ base\_link\_follow\ and\ a\ static\ base\_link\ -\/>\ sensor}}
+\DoxyCodeLine{\Hypertarget{cp__tf__broadcaster_8hpp_source_l00065}00065\ \textcolor{comment}{//\ frame.\ Optionally\ also\ publishes\ the\ flown\ trail\ as\ a\ nav\_msgs/Path.\ \`{}map`\ is\ the\ FMU's\ local\ NED\ origin\ (ref\_lat\ /\ ref\_lon),\ expressed}}
+\DoxyCodeLine{\Hypertarget{cp__tf__broadcaster_8hpp_source_l00066}00066\ \textcolor{comment}{//\ ENU:\ x\ east,\ y\ north,\ z\ up.\ EKF\ origin\ resets\ are\ not\ compensated.}}
+\DoxyCodeLine{\Hypertarget{cp__tf__broadcaster_8hpp_source_l00067}00067\ \textcolor{comment}{//}}
+\DoxyCodeLine{\Hypertarget{cp__tf__broadcaster_8hpp_source_l00068}00068\ \textcolor{comment}{//\ Opt-\/in:\ not\ created\ by\ ClPx4Mr;\ an\ orthogonal\ that\ wants\ TF\ adds\ it\ with}}
+\DoxyCodeLine{\Hypertarget{cp__tf__broadcaster_8hpp_source_l00069}00069\ \textcolor{comment}{//\ \ \ createClient<ClPx4Mr>()-\/>createComponent<CpTfBroadcaster>(params);}}
+\DoxyCodeLine{\Hypertarget{cp__tf__broadcaster_8hpp_source_l00070}00070\ \textcolor{comment}{//\ Threading:\ onAttitude\ runs\ on\ the\ ROS\ executor\ and\ touches\ no\ state\ machine}}
+\DoxyCodeLine{\Hypertarget{cp__tf__broadcaster_8hpp_source_l00071}00071\ \textcolor{comment}{//\ APIs.}}
+\DoxyCodeLine{\Hypertarget{cp__tf__broadcaster_8hpp_source_l00072}\mbox{\hyperlink{classcl__px4__mr_1_1CpTfBroadcaster}{00072}}\ \textcolor{keyword}{class\ }\mbox{\hyperlink{classcl__px4__mr_1_1CpTfBroadcaster}{CpTfBroadcaster}}\ :\ \textcolor{keyword}{public}\ \mbox{\hyperlink{classsmacc2_1_1ISmaccComponent}{smacc2::ISmaccComponent}}}
+\DoxyCodeLine{\Hypertarget{cp__tf__broadcaster_8hpp_source_l00073}00073\ \{}
+\DoxyCodeLine{\Hypertarget{cp__tf__broadcaster_8hpp_source_l00074}00074\ \textcolor{keyword}{public}:}
+\DoxyCodeLine{\Hypertarget{cp__tf__broadcaster_8hpp_source_l00075}00075\ \ \ \textcolor{keyword}{explicit}\ \mbox{\hyperlink{classcl__px4__mr_1_1CpTfBroadcaster_aeefb8c35d1f58869be7d37f8ec5071a0}{CpTfBroadcaster}}(\mbox{\hyperlink{structcl__px4__mr_1_1TfBroadcasterParams}{TfBroadcasterParams}}\ \mbox{\hyperlink{classcl__px4__mr_1_1CpTfBroadcaster_a36488050549a3ed06f162cf0240e9e40}{params}}\ =\ \{\});}
+\DoxyCodeLine{\Hypertarget{cp__tf__broadcaster_8hpp_source_l00076}00076\ \ \ \textcolor{keyword}{virtual}\ \mbox{\hyperlink{classcl__px4__mr_1_1CpTfBroadcaster_ae058107872daba4f3af442b695a40b8a}{\string~CpTfBroadcaster}}();}
+\DoxyCodeLine{\Hypertarget{cp__tf__broadcaster_8hpp_source_l00077}00077\ }
+\DoxyCodeLine{\Hypertarget{cp__tf__broadcaster_8hpp_source_l00078}00078\ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{classcl__px4__mr_1_1CpTfBroadcaster_a4e901580ce7d7fe6089d9174c3853225}{onInitialize}}()\ \textcolor{keyword}{override};}
+\DoxyCodeLine{\Hypertarget{cp__tf__broadcaster_8hpp_source_l00079}00079\ }
+\DoxyCodeLine{\Hypertarget{cp__tf__broadcaster_8hpp_source_l00080}\mbox{\hyperlink{classcl__px4__mr_1_1CpTfBroadcaster_a36488050549a3ed06f162cf0240e9e40}{00080}}\ \ \ \textcolor{keyword}{const}\ \mbox{\hyperlink{structcl__px4__mr_1_1TfBroadcasterParams}{TfBroadcasterParams}}\ \&\ \mbox{\hyperlink{classcl__px4__mr_1_1CpTfBroadcaster_a36488050549a3ed06f162cf0240e9e40}{params}}()\textcolor{keyword}{\ const\ }\{\ \textcolor{keywordflow}{return}\ \mbox{\hyperlink{classcl__px4__mr_1_1CpTfBroadcaster_a31e9fa2e6e97faf2bdbc1ac7fd77fe31}{params\_}};\ \}}
+\DoxyCodeLine{\Hypertarget{cp__tf__broadcaster_8hpp_source_l00081}00081\ }
+\DoxyCodeLine{\Hypertarget{cp__tf__broadcaster_8hpp_source_l00082}00082\ \textcolor{keyword}{private}:}
+\DoxyCodeLine{\Hypertarget{cp__tf__broadcaster_8hpp_source_l00083}00083\ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{classcl__px4__mr_1_1CpTfBroadcaster_aa98128d1ee1cc85f547cd27644f1d4e2}{onAttitude}}(\textcolor{keyword}{const}\ px4\_msgs::msg::VehicleAttitude::SharedPtr\ msg);}
+\DoxyCodeLine{\Hypertarget{cp__tf__broadcaster_8hpp_source_l00084}00084\ }
+\DoxyCodeLine{\Hypertarget{cp__tf__broadcaster_8hpp_source_l00085}\mbox{\hyperlink{classcl__px4__mr_1_1CpTfBroadcaster_a31e9fa2e6e97faf2bdbc1ac7fd77fe31}{00085}}\ \ \ \mbox{\hyperlink{structcl__px4__mr_1_1TfBroadcasterParams}{TfBroadcasterParams}}\ \mbox{\hyperlink{classcl__px4__mr_1_1CpTfBroadcaster_a31e9fa2e6e97faf2bdbc1ac7fd77fe31}{params\_}};}
+\DoxyCodeLine{\Hypertarget{cp__tf__broadcaster_8hpp_source_l00086}\mbox{\hyperlink{classcl__px4__mr_1_1CpTfBroadcaster_ac50978dca87844180725f38a4fe1f841}{00086}}\ \ \ \mbox{\hyperlink{classcl__px4__mr_1_1CpVehicleLocalPosition}{CpVehicleLocalPosition}}\ *\ \mbox{\hyperlink{classcl__px4__mr_1_1CpTfBroadcaster_ac50978dca87844180725f38a4fe1f841}{localPosition\_}}\ =\ \textcolor{keyword}{nullptr};}
+\DoxyCodeLine{\Hypertarget{cp__tf__broadcaster_8hpp_source_l00087}\mbox{\hyperlink{classcl__px4__mr_1_1CpTfBroadcaster_a6e9360faf95d82244c902ab1a17572ee}{00087}}\ \ \ rclcpp::Subscription<px4\_msgs::msg::VehicleAttitude>::SharedPtr\ \mbox{\hyperlink{classcl__px4__mr_1_1CpTfBroadcaster_a6e9360faf95d82244c902ab1a17572ee}{attitudeSub\_}};}
+\DoxyCodeLine{\Hypertarget{cp__tf__broadcaster_8hpp_source_l00088}\mbox{\hyperlink{classcl__px4__mr_1_1CpTfBroadcaster_ab30da3df3aa80af5d472838c0cea6e2b}{00088}}\ \ \ std::shared\_ptr<tf2\_ros::TransformBroadcaster>\ \mbox{\hyperlink{classcl__px4__mr_1_1CpTfBroadcaster_ab30da3df3aa80af5d472838c0cea6e2b}{broadcaster\_}};}
+\DoxyCodeLine{\Hypertarget{cp__tf__broadcaster_8hpp_source_l00089}\mbox{\hyperlink{classcl__px4__mr_1_1CpTfBroadcaster_a8d3a05be554c992dbd90e2e3c6399167}{00089}}\ \ \ std::shared\_ptr<tf2\_ros::StaticTransformBroadcaster>\ \mbox{\hyperlink{classcl__px4__mr_1_1CpTfBroadcaster_a8d3a05be554c992dbd90e2e3c6399167}{staticBroadcaster\_}};}
+\DoxyCodeLine{\Hypertarget{cp__tf__broadcaster_8hpp_source_l00090}\mbox{\hyperlink{classcl__px4__mr_1_1CpTfBroadcaster_a21d159618e073e191531f77804d13a49}{00090}}\ \ \ std::chrono::steady\_clock::time\_point\ \mbox{\hyperlink{classcl__px4__mr_1_1CpTfBroadcaster_a21d159618e073e191531f77804d13a49}{lastSent\_}};}
+\DoxyCodeLine{\Hypertarget{cp__tf__broadcaster_8hpp_source_l00091}\mbox{\hyperlink{classcl__px4__mr_1_1CpTfBroadcaster_a64c82fe91e8fa00ac11e984f00787df4}{00091}}\ \ \ \textcolor{keywordtype}{bool}\ \mbox{\hyperlink{classcl__px4__mr_1_1CpTfBroadcaster_a64c82fe91e8fa00ac11e984f00787df4}{firstSent\_}}\ =\ \textcolor{keyword}{false};}
+\DoxyCodeLine{\Hypertarget{cp__tf__broadcaster_8hpp_source_l00092}\mbox{\hyperlink{classcl__px4__mr_1_1CpTfBroadcaster_a80899ad1ba58f27c47e8ff54f3c651e5}{00092}}\ \ \ rclcpp::Publisher<nav\_msgs::msg::Path>::SharedPtr\ \mbox{\hyperlink{classcl__px4__mr_1_1CpTfBroadcaster_a80899ad1ba58f27c47e8ff54f3c651e5}{trailPub\_}};}
+\DoxyCodeLine{\Hypertarget{cp__tf__broadcaster_8hpp_source_l00093}\mbox{\hyperlink{classcl__px4__mr_1_1CpTfBroadcaster_a93dc8f53d91d8d10d6a12d843f98cfca}{00093}}\ \ \ nav\_msgs::msg::Path\ \mbox{\hyperlink{classcl__px4__mr_1_1CpTfBroadcaster_a93dc8f53d91d8d10d6a12d843f98cfca}{trail\_}};}
+\DoxyCodeLine{\Hypertarget{cp__tf__broadcaster_8hpp_source_l00094}\mbox{\hyperlink{classcl__px4__mr_1_1CpTfBroadcaster_a1bc809fffa6b82dd6c931891720ddd74}{00094}}\ \ \ std::chrono::steady\_clock::time\_point\ \mbox{\hyperlink{classcl__px4__mr_1_1CpTfBroadcaster_a1bc809fffa6b82dd6c931891720ddd74}{lastTrailSent\_}};}
+\DoxyCodeLine{\Hypertarget{cp__tf__broadcaster_8hpp_source_l00095}00095\ \};}
+\DoxyCodeLine{\Hypertarget{cp__tf__broadcaster_8hpp_source_l00096}00096\ }
+\DoxyCodeLine{\Hypertarget{cp__tf__broadcaster_8hpp_source_l00097}00097\ \}\ \ \textcolor{comment}{//\ namespace\ cl\_px4\_mr}}
+
+\end{DoxyCode}

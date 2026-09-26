@@ -1,0 +1,58 @@
+\doxysection{level\+\_\+frame.\+hpp}
+\hypertarget{level__frame_8hpp_source}{}\label{level__frame_8hpp_source}\index{smacc2\_client\_library/cl\_px4\_mr/include/cl\_px4\_mr/utils/level\_frame.hpp@{smacc2\_client\_library/cl\_px4\_mr/include/cl\_px4\_mr/utils/level\_frame.hpp}}
+\mbox{\hyperlink{level__frame_8hpp}{Go to the documentation of this file.}}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\Hypertarget{level__frame_8hpp_source_l00001}00001\ \textcolor{comment}{//\ Copyright\ 2026\ RobosoftAI\ Inc.}}
+\DoxyCodeLine{\Hypertarget{level__frame_8hpp_source_l00002}00002\ \textcolor{comment}{//}}
+\DoxyCodeLine{\Hypertarget{level__frame_8hpp_source_l00003}00003\ \textcolor{comment}{//\ Licensed\ under\ the\ Apache\ License,\ Version\ 2.0\ (the\ "{}License"{});}}
+\DoxyCodeLine{\Hypertarget{level__frame_8hpp_source_l00004}00004\ \textcolor{comment}{//\ you\ may\ not\ use\ this\ file\ except\ in\ compliance\ with\ the\ License.}}
+\DoxyCodeLine{\Hypertarget{level__frame_8hpp_source_l00005}00005\ \textcolor{comment}{//\ You\ may\ obtain\ a\ copy\ of\ the\ License\ at}}
+\DoxyCodeLine{\Hypertarget{level__frame_8hpp_source_l00006}00006\ \textcolor{comment}{//}}
+\DoxyCodeLine{\Hypertarget{level__frame_8hpp_source_l00007}00007\ \textcolor{comment}{//\ \ \ \ \ http://www.apache.org/licenses/LICENSE-\/2.0}}
+\DoxyCodeLine{\Hypertarget{level__frame_8hpp_source_l00008}00008\ \textcolor{comment}{//}}
+\DoxyCodeLine{\Hypertarget{level__frame_8hpp_source_l00009}00009\ \textcolor{comment}{//\ Unless\ required\ by\ applicable\ law\ or\ agreed\ to\ in\ writing,\ software}}
+\DoxyCodeLine{\Hypertarget{level__frame_8hpp_source_l00010}00010\ \textcolor{comment}{//\ distributed\ under\ the\ License\ is\ distributed\ on\ an\ "{}AS\ IS"{}\ BASIS,}}
+\DoxyCodeLine{\Hypertarget{level__frame_8hpp_source_l00011}00011\ \textcolor{comment}{//\ WITHOUT\ WARRANTIES\ OR\ CONDITIONS\ OF\ ANY\ KIND,\ either\ express\ or\ implied.}}
+\DoxyCodeLine{\Hypertarget{level__frame_8hpp_source_l00012}00012\ \textcolor{comment}{//\ See\ the\ License\ for\ the\ specific\ language\ governing\ permissions\ and}}
+\DoxyCodeLine{\Hypertarget{level__frame_8hpp_source_l00013}00013\ \textcolor{comment}{//\ limitations\ under\ the\ License.}}
+\DoxyCodeLine{\Hypertarget{level__frame_8hpp_source_l00014}00014\ }
+\DoxyCodeLine{\Hypertarget{level__frame_8hpp_source_l00015}00015\ \textcolor{preprocessor}{\#pragma\ once}}
+\DoxyCodeLine{\Hypertarget{level__frame_8hpp_source_l00016}00016\ }
+\DoxyCodeLine{\Hypertarget{level__frame_8hpp_source_l00017}00017\ \textcolor{preprocessor}{\#include\ <tf2/LinearMath/Matrix3x3.h>}}
+\DoxyCodeLine{\Hypertarget{level__frame_8hpp_source_l00018}00018\ \textcolor{preprocessor}{\#include\ <tf2/LinearMath/Quaternion.h>}}
+\DoxyCodeLine{\Hypertarget{level__frame_8hpp_source_l00019}00019\ }
+\DoxyCodeLine{\Hypertarget{level__frame_8hpp_source_l00020}00020\ \textcolor{preprocessor}{\#include\ <array>}}
+\DoxyCodeLine{\Hypertarget{level__frame_8hpp_source_l00021}00021\ \textcolor{preprocessor}{\#include\ <cmath>}}
+\DoxyCodeLine{\Hypertarget{level__frame_8hpp_source_l00022}00022\ }
+\DoxyCodeLine{\Hypertarget{level__frame_8hpp_source_l00023}00023\ \textcolor{keyword}{namespace\ }\mbox{\hyperlink{namespacecl__px4__mr}{cl\_px4\_mr}}}
+\DoxyCodeLine{\Hypertarget{level__frame_8hpp_source_l00024}00024\ \{}
+\DoxyCodeLine{\Hypertarget{level__frame_8hpp_source_l00025}00025\ }
+\DoxyCodeLine{\Hypertarget{level__frame_8hpp_source_l00026}00026\ \textcolor{comment}{//\ Roll/pitch-\/only\ rotation\ from\ a\ PX4\ attitude\ quaternion\ (order\ w,\ x,\ y,\ z,}}
+\DoxyCodeLine{\Hypertarget{level__frame_8hpp_source_l00027}00027\ \textcolor{comment}{//\ FRD\ body\ -\/>\ NED\ earth):\ maps\ a\ body-\/FLU\ vector\ (x\ forward,\ y\ left,\ z\ up\ -\/}}
+\DoxyCodeLine{\Hypertarget{level__frame_8hpp_source_l00028}00028\ \textcolor{comment}{//\ the\ frame\ of\ a\ level-\/mounted\ sensor)\ into\ a\ LEVEL\ frame\ with\ the\ same}}
+\DoxyCodeLine{\Hypertarget{level__frame_8hpp_source_l00029}00029\ \textcolor{comment}{//\ heading:\ x\ =\ horizontal\ forward,\ y\ =\ horizontal\ left,\ z\ =\ up.\ Row-\/major\ 3x3.}}
+\DoxyCodeLine{\Hypertarget{level__frame_8hpp_source_l00030}\mbox{\hyperlink{namespacecl__px4__mr_af007c8f0431105aef876a7ad969c4617}{00030}}\ \textcolor{keyword}{inline}\ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{namespacecl__px4__mr_af007c8f0431105aef876a7ad969c4617}{levelRotationFromPx4Quaternion}}(\textcolor{keyword}{const}\ std::array<float,\ 4>\ \&\ q,\ std::array<float,\ 9>\ \&\ r)}
+\DoxyCodeLine{\Hypertarget{level__frame_8hpp_source_l00031}00031\ \{}
+\DoxyCodeLine{\Hypertarget{level__frame_8hpp_source_l00032}00032\ \ \ \textcolor{comment}{//\ px4\_ros\_com\ frame\_transforms\ constants\ (tf2\ order\ x,\ y,\ z,\ w)}}
+\DoxyCodeLine{\Hypertarget{level__frame_8hpp_source_l00033}00033\ \ \ \textcolor{keyword}{const}\ tf2::Quaternion\ kNedEnuQ(0.70710678118654752,\ 0.70710678118654752,\ 0.0,\ 0.0);}
+\DoxyCodeLine{\Hypertarget{level__frame_8hpp_source_l00034}00034\ \ \ \textcolor{keyword}{const}\ tf2::Quaternion\ kFrdFluQ(1.0,\ 0.0,\ 0.0,\ 0.0);}
+\DoxyCodeLine{\Hypertarget{level__frame_8hpp_source_l00035}00035\ \ \ \textcolor{keyword}{const}\ tf2::Quaternion\ qNedFrd(q[1],\ q[2],\ q[3],\ q[0]);}
+\DoxyCodeLine{\Hypertarget{level__frame_8hpp_source_l00036}00036\ \ \ tf2::Quaternion\ qEnuFlu\ =\ kNedEnuQ\ *\ qNedFrd\ *\ kFrdFluQ;}
+\DoxyCodeLine{\Hypertarget{level__frame_8hpp_source_l00037}00037\ \ \ qEnuFlu.normalize();}
+\DoxyCodeLine{\Hypertarget{level__frame_8hpp_source_l00038}00038\ \ \ \textcolor{keyword}{const}\ tf2::Matrix3x3\ m(qEnuFlu);}
+\DoxyCodeLine{\Hypertarget{level__frame_8hpp_source_l00039}00039\ \ \ \textcolor{keyword}{const}\ \textcolor{keywordtype}{double}\ yaw\ =\ std::atan2(m[1][0],\ m[0][0]);}
+\DoxyCodeLine{\Hypertarget{level__frame_8hpp_source_l00040}00040\ \ \ tf2::Matrix3x3\ unyaw;}
+\DoxyCodeLine{\Hypertarget{level__frame_8hpp_source_l00041}00041\ \ \ unyaw.setRPY(0.0,\ 0.0,\ -\/yaw);}
+\DoxyCodeLine{\Hypertarget{level__frame_8hpp_source_l00042}00042\ \ \ \textcolor{keyword}{const}\ tf2::Matrix3x3\ level\ =\ unyaw\ *\ m;}
+\DoxyCodeLine{\Hypertarget{level__frame_8hpp_source_l00043}00043\ \ \ \textcolor{keywordflow}{for}\ (\textcolor{keywordtype}{int}\ i\ =\ 0;\ i\ <\ 3;\ ++i)}
+\DoxyCodeLine{\Hypertarget{level__frame_8hpp_source_l00044}00044\ \ \ \{}
+\DoxyCodeLine{\Hypertarget{level__frame_8hpp_source_l00045}00045\ \ \ \ \ \textcolor{keywordflow}{for}\ (\textcolor{keywordtype}{int}\ j\ =\ 0;\ j\ <\ 3;\ ++j)}
+\DoxyCodeLine{\Hypertarget{level__frame_8hpp_source_l00046}00046\ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{level__frame_8hpp_source_l00047}00047\ \ \ \ \ \ \ r[i\ *\ 3\ +\ j]\ =\ \textcolor{keyword}{static\_cast<}\textcolor{keywordtype}{float}\textcolor{keyword}{>}(level[i][j]);}
+\DoxyCodeLine{\Hypertarget{level__frame_8hpp_source_l00048}00048\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{level__frame_8hpp_source_l00049}00049\ \ \ \}}
+\DoxyCodeLine{\Hypertarget{level__frame_8hpp_source_l00050}00050\ \}}
+\DoxyCodeLine{\Hypertarget{level__frame_8hpp_source_l00051}00051\ }
+\DoxyCodeLine{\Hypertarget{level__frame_8hpp_source_l00052}00052\ \}\ \ \textcolor{comment}{//\ namespace\ cl\_px4\_mr}}
+
+\end{DoxyCode}
