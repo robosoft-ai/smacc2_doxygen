@@ -289,19 +289,22 @@ Definition at line \mbox{\hyperlink{smacc__ros__launch__client__2_8cpp_source_l0
 \DoxyCodeLine{00146\ \ \ \ \ \ \ \ \ RCLCPP\_ERROR(rclcpp::get\_logger(\textcolor{stringliteral}{"{}smacc2"{}}),\ \textcolor{stringliteral}{"{}Error\ waiting\ for\ child\ process."{}});}
 \DoxyCodeLine{00147\ \ \ \ \ \ \ \}}
 \DoxyCodeLine{00148\ }
-\DoxyCodeLine{00149\ \ \ \ \ \ \ pclose(child.pipe);}
-\DoxyCodeLine{00150\ \ \ \ \ \ \ close(child.pipe-\/>\_fileno);\ \ \textcolor{comment}{//\ Close\ pipe\ file\ descriptor\ but\ not\ processes}}
-\DoxyCodeLine{00151\ }
-\DoxyCodeLine{00152\ \ \ \ \ \ \ RCLCPP\_WARN\_STREAM(rclcpp::get\_logger(\textcolor{stringliteral}{"{}smacc2"{}}),\ \textcolor{stringliteral}{"{}[ClRosLaunch2]\ RESULT:\(\backslash\)n"{}}\ <<\ result);}
-\DoxyCodeLine{00153\ }
-\DoxyCodeLine{00154\ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ result;}
-\DoxyCodeLine{00155\ \ \ \ \ \});}
-\DoxyCodeLine{00156\ \}}
+\DoxyCodeLine{00149\ \ \ \ \ \ \ \textcolor{comment}{//\ The\ stream\ came\ from\ fdopen()\ on\ our\ own\ pipe,\ not\ from\ popen(),\ and\ the\ child\ was}}
+\DoxyCodeLine{00150\ \ \ \ \ \ \ \textcolor{comment}{//\ already\ reaped\ by\ waitpid()\ above.\ fclose()\ closes\ the\ descriptor\ and\ frees\ the}}
+\DoxyCodeLine{00151\ \ \ \ \ \ \ \textcolor{comment}{//\ FILE;\ the\ former\ pclose()\ +\ close(pipe-\/>\_fileno)\ read\ the\ freed\ FILE\ and\ closed}}
+\DoxyCodeLine{00152\ \ \ \ \ \ \ \textcolor{comment}{//\ the\ descriptor\ twice.}}
+\DoxyCodeLine{00153\ \ \ \ \ \ \ fclose(child.pipe);}
+\DoxyCodeLine{00154\ }
+\DoxyCodeLine{00155\ \ \ \ \ \ \ RCLCPP\_WARN\_STREAM(rclcpp::get\_logger(\textcolor{stringliteral}{"{}smacc2"{}}),\ \textcolor{stringliteral}{"{}[ClRosLaunch2]\ RESULT:\(\backslash\)n"{}}\ <<\ result);}
+\DoxyCodeLine{00156\ }
+\DoxyCodeLine{00157\ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ result;}
+\DoxyCodeLine{00158\ \ \ \ \ \});}
+\DoxyCodeLine{00159\ \}}
 
 \end{DoxyCode}
 
 
-References \mbox{\hyperlink{smacc__ros__launch__client__2_8cpp_source_l00249}{smacc2\+::client\+\_\+bases\+::kill\+Grandchildren()}}, \mbox{\hyperlink{smacc__ros__launch__client__2_8hpp_source_l00067}{launch\+Pid\+\_\+}}, and \mbox{\hyperlink{smacc__ros__launch__client__2_8cpp_source_l00161}{smacc2\+::client\+\_\+bases\+::run\+Process()}}.
+References \mbox{\hyperlink{smacc__ros__launch__client__2_8cpp_source_l00252}{smacc2\+::client\+\_\+bases\+::kill\+Grandchildren()}}, \mbox{\hyperlink{smacc__ros__launch__client__2_8hpp_source_l00067}{launch\+Pid\+\_\+}}, and \mbox{\hyperlink{smacc__ros__launch__client__2_8cpp_source_l00164}{smacc2\+::client\+\_\+bases\+::run\+Process()}}.
 
 
 
