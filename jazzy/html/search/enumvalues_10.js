@@ -6,8 +6,9 @@ var searchData=
   ['state_5fconfiguring_3',['STATE_CONFIGURING',['../namespacesmacc2.html#af13b5c45bc293d2492a93482c86d179fa32406d3560b9f36b3e6e3b84454e1be5',1,'smacc2']]],
   ['state_5fentering_4',['STATE_ENTERING',['../namespacesmacc2.html#af13b5c45bc293d2492a93482c86d179faef27ae3e54b805b81e1efacea3c02575',1,'smacc2']]],
   ['state_5fexiting_5',['STATE_EXITING',['../namespacesmacc2.html#af13b5c45bc293d2492a93482c86d179fa22bd5bb7935dd66f181d92efc273951e',1,'smacc2']]],
-  ['state_5frunning_6',['STATE_RUNNING',['../namespacesmacc2.html#af13b5c45bc293d2492a93482c86d179fad8a3bbc9a845117a56f75c0f8e74f09e',1,'smacc2']]],
-  ['success_7',['SUCCESS',['../namespacecl__moveit2z.html#af5bc4960eb481e11e105390fb319f767ad0749aaba8b833466dfcbb0428e4f89c',1,'cl_moveit2z::SUCCESS'],['../namespacecl__moveit2z.html#a953bbc2f9f52eb0c1865716d8ea45c7aad0749aaba8b833466dfcbb0428e4f89c',1,'cl_moveit2z::SUCCESS']]],
-  ['superstate_8',['SUPERSTATE',['../namespacesmacc2_1_1introspection.html#ab0e5e657daa88f9c51de0f835ce3e5d3a4da54a31b31f1c863864fdee05fc35c8',1,'smacc2::introspection']]],
-  ['superstate_5froutine_9',['SUPERSTATE_ROUTINE',['../namespacesmacc2_1_1introspection.html#ab0e5e657daa88f9c51de0f835ce3e5d3a6d39c20504d2f2afe9c8c27351e61d20',1,'smacc2::introspection']]]
+  ['state_5fmachine_5finitializing_6',['STATE_MACHINE_INITIALIZING',['../namespacesmacc2.html#af13b5c45bc293d2492a93482c86d179fa4cc51fd7b517d163828fb5f6eb0bb463',1,'smacc2']]],
+  ['state_5frunning_7',['STATE_RUNNING',['../namespacesmacc2.html#af13b5c45bc293d2492a93482c86d179fad8a3bbc9a845117a56f75c0f8e74f09e',1,'smacc2']]],
+  ['success_8',['SUCCESS',['../namespacecl__moveit2z.html#af5bc4960eb481e11e105390fb319f767ad0749aaba8b833466dfcbb0428e4f89c',1,'cl_moveit2z::SUCCESS'],['../namespacecl__moveit2z.html#a953bbc2f9f52eb0c1865716d8ea45c7aad0749aaba8b833466dfcbb0428e4f89c',1,'cl_moveit2z::SUCCESS']]],
+  ['superstate_9',['SUPERSTATE',['../namespacesmacc2_1_1introspection.html#ab0e5e657daa88f9c51de0f835ce3e5d3a4da54a31b31f1c863864fdee05fc35c8',1,'smacc2::introspection']]],
+  ['superstate_5froutine_10',['SUPERSTATE_ROUTINE',['../namespacesmacc2_1_1introspection.html#ab0e5e657daa88f9c51de0f835ce3e5d3a6d39c20504d2f2afe9c8c27351e61d20',1,'smacc2::introspection']]]
 ];
