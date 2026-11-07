@@ -97,16 +97,26 @@
 \DoxyCodeLine{\Hypertarget{cp__pose_8hpp_source_l00093}00093\ \textcolor{keyword}{private}:}
 \DoxyCodeLine{\Hypertarget{cp__pose_8hpp_source_l00094}\mbox{\hyperlink{classcl__nav2z_1_1CpPose_ad4118a93555653a15690313cf8960054}{00094}}\ \ \ geometry\_msgs::msg::PoseStamped\ \mbox{\hyperlink{classcl__nav2z_1_1CpPose_ad4118a93555653a15690313cf8960054}{pose\_}};}
 \DoxyCodeLine{\Hypertarget{cp__pose_8hpp_source_l00095}00095\ }
-\DoxyCodeLine{\Hypertarget{cp__pose_8hpp_source_l00096}\mbox{\hyperlink{classcl__nav2z_1_1CpPose_a7a0544afce32387256dfb6bba5fd9a4b}{00096}}\ \ \ \textcolor{keyword}{static}\ std::shared\_ptr<tf2\_ros::Buffer>\ \mbox{\hyperlink{classcl__nav2z_1_1CpPose_a7a0544afce32387256dfb6bba5fd9a4b}{tfBuffer\_}};}
-\DoxyCodeLine{\Hypertarget{cp__pose_8hpp_source_l00097}\mbox{\hyperlink{classcl__nav2z_1_1CpPose_ac104661f91358c5a70f9c7eeb8962653}{00097}}\ \ \ \textcolor{keyword}{static}\ std::shared\_ptr<tf2\_ros::TransformListener>\ \mbox{\hyperlink{classcl__nav2z_1_1CpPose_ac104661f91358c5a70f9c7eeb8962653}{tfListener\_}};}
-\DoxyCodeLine{\Hypertarget{cp__pose_8hpp_source_l00098}00098\ }
-\DoxyCodeLine{\Hypertarget{cp__pose_8hpp_source_l00099}\mbox{\hyperlink{classcl__nav2z_1_1CpPose_a2bab0b63ca213f7c4ed42c6f582f633d}{00099}}\ \ \ \textcolor{keyword}{static}\ std::mutex\ \mbox{\hyperlink{classcl__nav2z_1_1CpPose_a2bab0b63ca213f7c4ed42c6f582f633d}{listenerMutex\_}};}
-\DoxyCodeLine{\Hypertarget{cp__pose_8hpp_source_l00100}00100\ }
-\DoxyCodeLine{\Hypertarget{cp__pose_8hpp_source_l00101}\mbox{\hyperlink{classcl__nav2z_1_1CpPose_ae4d85daee94818e11ab316b2ec77fedc}{00101}}\ \ \ std::string\ \mbox{\hyperlink{classcl__nav2z_1_1CpPose_ae4d85daee94818e11ab316b2ec77fedc}{poseFrameName\_}};}
-\DoxyCodeLine{\Hypertarget{cp__pose_8hpp_source_l00102}\mbox{\hyperlink{classcl__nav2z_1_1CpPose_a274ea3169f566e2638a138c21e5b7543}{00102}}\ \ \ std::string\ \mbox{\hyperlink{classcl__nav2z_1_1CpPose_a274ea3169f566e2638a138c21e5b7543}{referenceFrame\_}};}
-\DoxyCodeLine{\Hypertarget{cp__pose_8hpp_source_l00103}00103\ }
-\DoxyCodeLine{\Hypertarget{cp__pose_8hpp_source_l00104}\mbox{\hyperlink{classcl__nav2z_1_1CpPose_a07a993922332af032586d48228d14ad9}{00104}}\ \ \ std::mutex\ \mbox{\hyperlink{classcl__nav2z_1_1CpPose_a07a993922332af032586d48228d14ad9}{m\_mutex\_}};}
-\DoxyCodeLine{\Hypertarget{cp__pose_8hpp_source_l00105}00105\ \};}
-\DoxyCodeLine{\Hypertarget{cp__pose_8hpp_source_l00106}00106\ \}\ \ \textcolor{comment}{//\ namespace\ cl\_nav2z}}
+\DoxyCodeLine{\Hypertarget{cp__pose_8hpp_source_l00096}00096\ \ \ \textcolor{comment}{//\ One\ TF\ buffer\ and\ listener\ per\ process,\ shared\ by\ every\ CpPose\ instance\ and\ owned\ by\ them:}}
+\DoxyCodeLine{\Hypertarget{cp__pose_8hpp_source_l00097}00097\ \ \ \textcolor{comment}{//\ each\ instance\ holds\ a\ strong\ reference,\ the\ statics\ hold\ only\ weak\ ones.\ The\ last\ CpPose}}
+\DoxyCodeLine{\Hypertarget{cp__pose_8hpp_source_l00098}00098\ \ \ \textcolor{comment}{//\ to\ be\ destroyed,\ inside\ the\ state\ machine's\ destruction\ in\ run<>,\ releases\ the\ listener}}
+\DoxyCodeLine{\Hypertarget{cp__pose_8hpp_source_l00099}00099\ \ \ \textcolor{comment}{//\ while\ the\ rclcpp\ context\ is\ still\ alive.\ Held\ as\ static\ shared\_ptrs,\ they\ were\ released\ by}}
+\DoxyCodeLine{\Hypertarget{cp__pose_8hpp_source_l00100}00100\ \ \ \textcolor{comment}{//\ the\ library's\ static\ destructors\ after\ main()\ returned,\ after\ the\ context\ had\ finalized}}
+\DoxyCodeLine{\Hypertarget{cp__pose_8hpp_source_l00101}00101\ \ \ \textcolor{comment}{//\ the\ DDS\ participant,\ and\ the\ listener's\ own\ node\ crashed\ in\ Fast\ DDS\ on\ every\ shutdown.}}
+\DoxyCodeLine{\Hypertarget{cp__pose_8hpp_source_l00102}00102\ \ \ \textcolor{comment}{//\ Member\ order\ matters:\ the\ listener\ references\ the\ buffer,\ so\ it\ is\ declared\ after\ it\ and}}
+\DoxyCodeLine{\Hypertarget{cp__pose_8hpp_source_l00103}00103\ \ \ \textcolor{comment}{//\ destroyed\ before\ it.}}
+\DoxyCodeLine{\Hypertarget{cp__pose_8hpp_source_l00104}\mbox{\hyperlink{classcl__nav2z_1_1CpPose_ad32657d7b199017d3f751774b6b2fc99}{00104}}\ \ \ std::shared\_ptr<tf2\_ros::Buffer>\ \mbox{\hyperlink{classcl__nav2z_1_1CpPose_ad32657d7b199017d3f751774b6b2fc99}{tfBuffer\_}};}
+\DoxyCodeLine{\Hypertarget{cp__pose_8hpp_source_l00105}\mbox{\hyperlink{classcl__nav2z_1_1CpPose_a9d0434967a72233479dd4f286c4bdce4}{00105}}\ \ \ std::shared\_ptr<tf2\_ros::TransformListener>\ \mbox{\hyperlink{classcl__nav2z_1_1CpPose_a9d0434967a72233479dd4f286c4bdce4}{tfListener\_}};}
+\DoxyCodeLine{\Hypertarget{cp__pose_8hpp_source_l00106}00106\ }
+\DoxyCodeLine{\Hypertarget{cp__pose_8hpp_source_l00107}\mbox{\hyperlink{classcl__nav2z_1_1CpPose_a3f6238ed3a22e74c76447b1c21d9ee25}{00107}}\ \ \ \textcolor{keyword}{static}\ std::weak\_ptr<tf2\_ros::Buffer>\ \mbox{\hyperlink{classcl__nav2z_1_1CpPose_a3f6238ed3a22e74c76447b1c21d9ee25}{sharedTfBuffer\_}};}
+\DoxyCodeLine{\Hypertarget{cp__pose_8hpp_source_l00108}\mbox{\hyperlink{classcl__nav2z_1_1CpPose_ae7b2bc590ab17a540c5421df315ee5b0}{00108}}\ \ \ \textcolor{keyword}{static}\ std::weak\_ptr<tf2\_ros::TransformListener>\ \mbox{\hyperlink{classcl__nav2z_1_1CpPose_ae7b2bc590ab17a540c5421df315ee5b0}{sharedTfListener\_}};}
+\DoxyCodeLine{\Hypertarget{cp__pose_8hpp_source_l00109}\mbox{\hyperlink{classcl__nav2z_1_1CpPose_a2bab0b63ca213f7c4ed42c6f582f633d}{00109}}\ \ \ \textcolor{keyword}{static}\ std::mutex\ \mbox{\hyperlink{classcl__nav2z_1_1CpPose_a2bab0b63ca213f7c4ed42c6f582f633d}{listenerMutex\_}};}
+\DoxyCodeLine{\Hypertarget{cp__pose_8hpp_source_l00110}00110\ }
+\DoxyCodeLine{\Hypertarget{cp__pose_8hpp_source_l00111}\mbox{\hyperlink{classcl__nav2z_1_1CpPose_ae4d85daee94818e11ab316b2ec77fedc}{00111}}\ \ \ std::string\ \mbox{\hyperlink{classcl__nav2z_1_1CpPose_ae4d85daee94818e11ab316b2ec77fedc}{poseFrameName\_}};}
+\DoxyCodeLine{\Hypertarget{cp__pose_8hpp_source_l00112}\mbox{\hyperlink{classcl__nav2z_1_1CpPose_a274ea3169f566e2638a138c21e5b7543}{00112}}\ \ \ std::string\ \mbox{\hyperlink{classcl__nav2z_1_1CpPose_a274ea3169f566e2638a138c21e5b7543}{referenceFrame\_}};}
+\DoxyCodeLine{\Hypertarget{cp__pose_8hpp_source_l00113}00113\ }
+\DoxyCodeLine{\Hypertarget{cp__pose_8hpp_source_l00114}\mbox{\hyperlink{classcl__nav2z_1_1CpPose_a07a993922332af032586d48228d14ad9}{00114}}\ \ \ std::mutex\ \mbox{\hyperlink{classcl__nav2z_1_1CpPose_a07a993922332af032586d48228d14ad9}{m\_mutex\_}};}
+\DoxyCodeLine{\Hypertarget{cp__pose_8hpp_source_l00115}00115\ \};}
+\DoxyCodeLine{\Hypertarget{cp__pose_8hpp_source_l00116}00116\ \}\ \ \textcolor{comment}{//\ namespace\ cl\_nav2z}}
 
 \end{DoxyCode}
