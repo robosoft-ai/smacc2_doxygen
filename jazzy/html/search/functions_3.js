@@ -264,5 +264,6 @@ var searchData=
   ['createstatereactor_261',['createStateReactor',['../classsmacc2_1_1ISmaccState.html#a74782748da16622811338cb65bc77282',1,'smacc2::ISmaccState::createStateReactor(TEvArgs... args)'],['../classsmacc2_1_1ISmaccState.html#af97c9e6dbb530a883fabedf2deb6b533',1,'smacc2::ISmaccState::createStateReactor(TEvArgs... args)']]],
   ['ctf_5fstring_262',['ctf_string',['../trace__provider_8hpp.html#a3f947258cec0ad8a62ab43fca4bd5b4c',1,'trace_provider.hpp']]],
   ['cumulativelengths_263',['cumulativeLengths',['../namespacecl__px4__mr.html#ad33f890ce9178cfe9b944650bb0f5754',1,'cl_px4_mr']]],
-  ['currentjointstatestostring_264',['currentJointStatesToString',['../classcl__moveit2z_1_1CbMoveJoints.html#a1afeb58800d953ecdddd480bc39bf7ca',1,'cl_moveit2z::CbMoveJoints']]]
+  ['currentclientbehaviors_264',['currentClientBehaviors',['../classsmacc2_1_1ISmaccOrthogonal.html#a067b7c9999ec470442c301ecd2847d83',1,'smacc2::ISmaccOrthogonal']]],
+  ['currentjointstatestostring_265',['currentJointStatesToString',['../classcl__moveit2z_1_1CbMoveJoints.html#a1afeb58800d953ecdddd480bc39bf7ca',1,'cl_moveit2z::CbMoveJoints']]]
 ];
