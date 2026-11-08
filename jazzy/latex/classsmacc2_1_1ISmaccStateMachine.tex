@@ -258,12 +258,19 @@ Definition at line \mbox{\hyperlink{smacc__state__machine_8cpp_source_l00069}{69
 \begin{DoxyCode}{0}
 \DoxyCodeLine{00070\ \{}
 \DoxyCodeLine{00071\ \ \ RCLCPP\_INFO(\mbox{\hyperlink{classsmacc2_1_1ISmaccStateMachine_a8b441209151e301f66e62844994946ff}{nh\_}}-\/>get\_logger(),\ \textcolor{stringliteral}{"{}Finishing\ State\ Machine"{}});}
-\DoxyCodeLine{00072\ \}}
+\DoxyCodeLine{00072\ }
+\DoxyCodeLine{00073\ \ \ \textcolor{comment}{//\ initiate\_impl\ stored\ this\ state\ machine's\ node\ in\ the\ static\ introspection::globalNh\_\ for\ the}}
+\DoxyCodeLine{00074\ \ \ \textcolor{comment}{//\ type\ walker's\ logging.\ Release\ it\ here\ so\ that\ nh\_,\ destroyed\ with\ the\ other\ members\ below,}}
+\DoxyCodeLine{00075\ \ \ \textcolor{comment}{//\ is\ the\ node's\ last\ owner\ and\ the\ node\ is\ finalized\ inside\ run<>,\ while\ the\ rclcpp\ context\ is}}
+\DoxyCodeLine{00076\ \ \ \textcolor{comment}{//\ still\ valid.\ Left\ in\ the\ static,\ the\ node\ would\ be\ destroyed\ by\ the\ exit\ handlers\ after}}
+\DoxyCodeLine{00077\ \ \ \textcolor{comment}{//\ rclcpp::shutdown()\ has\ finalized\ the\ DDS\ participant,\ which\ crashes\ in\ rcl\_service\_fini.}}
+\DoxyCodeLine{00078\ \ \ \mbox{\hyperlink{namespacesmacc2_1_1introspection_a413b791d0aea9733dfa59aae4c82fb15}{introspection::globalNh\_}}.reset();}
+\DoxyCodeLine{00079\ \}}
 
 \end{DoxyCode}
 
 
-References \mbox{\hyperlink{smacc__state__machine_8hpp_source_l00201}{nh\+\_\+}}.
+References \mbox{\hyperlink{reflection_8cpp_source_l00028}{smacc2\+::introspection\+::global\+Nh\+\_\+}}, and \mbox{\hyperlink{smacc__state__machine_8hpp_source_l00201}{nh\+\_\+}}.
 
 
 
@@ -291,7 +298,7 @@ Definition at line \mbox{\hyperlink{smacc__state__machine__impl_8hpp_source_l007
 \end{DoxyCode}
 
 
-References \mbox{\hyperlink{smacc__state__machine_8cpp_source_l00251}{check\+State\+Machine\+Consistence()}}, \mbox{\hyperlink{smacc__state__machine_8cpp_source_l00091}{get\+Node()}}, and \mbox{\hyperlink{smacc__state__machine_8hpp_source_l00224}{state\+Machine\+Info\+\_\+}}.
+References \mbox{\hyperlink{smacc__state__machine_8cpp_source_l00258}{check\+State\+Machine\+Consistence()}}, \mbox{\hyperlink{smacc__state__machine_8cpp_source_l00098}{get\+Node()}}, and \mbox{\hyperlink{smacc__state__machine_8hpp_source_l00224}{state\+Machine\+Info\+\_\+}}.
 
 
 
@@ -321,11 +328,11 @@ void smacc2\+::\+ISmacc\+State\+Machine\+::check\+State\+Machine\+Consistence (\
 
 
 
-Definition at line \mbox{\hyperlink{smacc__state__machine_8cpp_source_l00251}{251}} of file \mbox{\hyperlink{smacc__state__machine_8cpp_source}{smacc\+\_\+state\+\_\+machine.\+cpp}}.
+Definition at line \mbox{\hyperlink{smacc__state__machine_8cpp_source_l00258}{258}} of file \mbox{\hyperlink{smacc__state__machine_8cpp_source}{smacc\+\_\+state\+\_\+machine.\+cpp}}.
 
 
 \begin{DoxyCode}{0}
-\DoxyCodeLine{00251\ \{\}}
+\DoxyCodeLine{00258\ \{\}}
 
 \end{DoxyCode}
 
@@ -526,7 +533,7 @@ Definition at line \mbox{\hyperlink{smacc__state__machine_8hpp_source_l00152}{15
 \end{DoxyCode}
 
 
-References \mbox{\hyperlink{smacc__state__machine_8cpp_source_l00074}{disconnect\+Smacc\+Signal\+Object()}}.
+References \mbox{\hyperlink{smacc__state__machine_8cpp_source_l00081}{disconnect\+Smacc\+Signal\+Object()}}.
 
 Here is the call graph for this function\+:
 \nopagebreak
@@ -544,25 +551,25 @@ void smacc2\+::\+ISmacc\+State\+Machine\+::disconnect\+Smacc\+Signal\+Object (\b
 
 
 
-Definition at line \mbox{\hyperlink{smacc__state__machine_8cpp_source_l00074}{74}} of file \mbox{\hyperlink{smacc__state__machine_8cpp_source}{smacc\+\_\+state\+\_\+machine.\+cpp}}.
+Definition at line \mbox{\hyperlink{smacc__state__machine_8cpp_source_l00081}{81}} of file \mbox{\hyperlink{smacc__state__machine_8cpp_source}{smacc\+\_\+state\+\_\+machine.\+cpp}}.
 
 
 \begin{DoxyCode}{0}
-\DoxyCodeLine{00075\ \{}
-\DoxyCodeLine{00076\ \ \ \textcolor{comment}{//\ DEBUG:\ this\ runs\ for\ every\ disposed\ behavior,\ reactor,\ generator\ and\ state.}}
-\DoxyCodeLine{00077\ \ \ RCLCPP\_DEBUG(}
-\DoxyCodeLine{00078\ \ \ \ \ \mbox{\hyperlink{classsmacc2_1_1ISmaccStateMachine_a8b441209151e301f66e62844994946ff}{nh\_}}-\/>get\_logger(),\ \textcolor{stringliteral}{"{}[SmaccSignal]\ Object\ signal\ disconnecting\ \%ld"{}},\ (\textcolor{keywordtype}{long})object\_ptr);}
-\DoxyCodeLine{00079\ \ \ \textcolor{keywordflow}{if}\ (\mbox{\hyperlink{classsmacc2_1_1ISmaccStateMachine_ac9597ff781fb3d9510e2824e3274dda2}{stateCallbackConnections}}.count(object\_ptr)\ >\ 0)}
-\DoxyCodeLine{00080\ \ \ \{}
-\DoxyCodeLine{00081\ \ \ \ \ \textcolor{keyword}{auto}\ callbackSemaphore\ =\ \mbox{\hyperlink{classsmacc2_1_1ISmaccStateMachine_ac9597ff781fb3d9510e2824e3274dda2}{stateCallbackConnections}}[object\_ptr];}
-\DoxyCodeLine{00082\ \ \ \ \ callbackSemaphore-\/>finalize();}
-\DoxyCodeLine{00083\ \ \ \ \ \mbox{\hyperlink{classsmacc2_1_1ISmaccStateMachine_ac9597ff781fb3d9510e2824e3274dda2}{stateCallbackConnections}}.erase(object\_ptr);}
-\DoxyCodeLine{00084\ \ \ \}}
-\DoxyCodeLine{00085\ \ \ \textcolor{keywordflow}{else}}
-\DoxyCodeLine{00086\ \ \ \{}
-\DoxyCodeLine{00087\ \ \ \ \ RCLCPP\_DEBUG(\mbox{\hyperlink{classsmacc2_1_1ISmaccStateMachine_a8b441209151e301f66e62844994946ff}{nh\_}}-\/>get\_logger(),\ \textcolor{stringliteral}{"{}[SmaccSignal]\ No\ signals\ found\ \%ld"{}},\ (\textcolor{keywordtype}{long})object\_ptr);}
-\DoxyCodeLine{00088\ \ \ \}}
-\DoxyCodeLine{00089\ \}}
+\DoxyCodeLine{00082\ \{}
+\DoxyCodeLine{00083\ \ \ \textcolor{comment}{//\ DEBUG:\ this\ runs\ for\ every\ disposed\ behavior,\ reactor,\ generator\ and\ state.}}
+\DoxyCodeLine{00084\ \ \ RCLCPP\_DEBUG(}
+\DoxyCodeLine{00085\ \ \ \ \ \mbox{\hyperlink{classsmacc2_1_1ISmaccStateMachine_a8b441209151e301f66e62844994946ff}{nh\_}}-\/>get\_logger(),\ \textcolor{stringliteral}{"{}[SmaccSignal]\ Object\ signal\ disconnecting\ \%ld"{}},\ (\textcolor{keywordtype}{long})object\_ptr);}
+\DoxyCodeLine{00086\ \ \ \textcolor{keywordflow}{if}\ (\mbox{\hyperlink{classsmacc2_1_1ISmaccStateMachine_ac9597ff781fb3d9510e2824e3274dda2}{stateCallbackConnections}}.count(object\_ptr)\ >\ 0)}
+\DoxyCodeLine{00087\ \ \ \{}
+\DoxyCodeLine{00088\ \ \ \ \ \textcolor{keyword}{auto}\ callbackSemaphore\ =\ \mbox{\hyperlink{classsmacc2_1_1ISmaccStateMachine_ac9597ff781fb3d9510e2824e3274dda2}{stateCallbackConnections}}[object\_ptr];}
+\DoxyCodeLine{00089\ \ \ \ \ callbackSemaphore-\/>finalize();}
+\DoxyCodeLine{00090\ \ \ \ \ \mbox{\hyperlink{classsmacc2_1_1ISmaccStateMachine_ac9597ff781fb3d9510e2824e3274dda2}{stateCallbackConnections}}.erase(object\_ptr);}
+\DoxyCodeLine{00091\ \ \ \}}
+\DoxyCodeLine{00092\ \ \ \textcolor{keywordflow}{else}}
+\DoxyCodeLine{00093\ \ \ \{}
+\DoxyCodeLine{00094\ \ \ \ \ RCLCPP\_DEBUG(\mbox{\hyperlink{classsmacc2_1_1ISmaccStateMachine_a8b441209151e301f66e62844994946ff}{nh\_}}-\/>get\_logger(),\ \textcolor{stringliteral}{"{}[SmaccSignal]\ No\ signals\ found\ \%ld"{}},\ (\textcolor{keywordtype}{long})object\_ptr);}
+\DoxyCodeLine{00095\ \ \ \}}
+\DoxyCodeLine{00096\ \}}
 
 \end{DoxyCode}
 
@@ -593,11 +600,11 @@ Reimplemented in \mbox{\hyperlink{structsmacc2_1_1SmaccStateMachineBase_a8f12ffd
 
 
 
-Definition at line \mbox{\hyperlink{smacc__state__machine_8cpp_source_l00097}{97}} of file \mbox{\hyperlink{smacc__state__machine_8cpp_source}{smacc\+\_\+state\+\_\+machine.\+cpp}}.
+Definition at line \mbox{\hyperlink{smacc__state__machine_8cpp_source_l00104}{104}} of file \mbox{\hyperlink{smacc__state__machine_8cpp_source}{smacc\+\_\+state\+\_\+machine.\+cpp}}.
 
 
 \begin{DoxyCode}{0}
-\DoxyCodeLine{00097\ \{\}}
+\DoxyCodeLine{00104\ \{\}}
 
 \end{DoxyCode}
 
@@ -854,11 +861,11 @@ rclcpp\+::\+Node\+::\+Shared\+Ptr smacc2\+::\+ISmacc\+State\+Machine\+::get\+Nod
 
 
 
-Definition at line \mbox{\hyperlink{smacc__state__machine_8cpp_source_l00091}{91}} of file \mbox{\hyperlink{smacc__state__machine_8cpp_source}{smacc\+\_\+state\+\_\+machine.\+cpp}}.
+Definition at line \mbox{\hyperlink{smacc__state__machine_8cpp_source_l00098}{98}} of file \mbox{\hyperlink{smacc__state__machine_8cpp_source}{smacc\+\_\+state\+\_\+machine.\+cpp}}.
 
 
 \begin{DoxyCode}{0}
-\DoxyCodeLine{00091\ \{\ \textcolor{keywordflow}{return}\ this-\/>\mbox{\hyperlink{classsmacc2_1_1ISmaccStateMachine_a8b441209151e301f66e62844994946ff}{nh\_}};\ \}}
+\DoxyCodeLine{00098\ \{\ \textcolor{keywordflow}{return}\ this-\/>\mbox{\hyperlink{classsmacc2_1_1ISmaccStateMachine_a8b441209151e301f66e62844994946ff}{nh\_}};\ \}}
 
 \end{DoxyCode}
 
@@ -958,13 +965,13 @@ const std\+::map$<$ std\+::string, std\+::shared\+\_\+ptr$<$ \mbox{\hyperlink{cl
 
 
 
-Definition at line \mbox{\hyperlink{smacc__state__machine_8cpp_source_l00120}{120}} of file \mbox{\hyperlink{smacc__state__machine_8cpp_source}{smacc\+\_\+state\+\_\+machine.\+cpp}}.
+Definition at line \mbox{\hyperlink{smacc__state__machine_8cpp_source_l00127}{127}} of file \mbox{\hyperlink{smacc__state__machine_8cpp_source}{smacc\+\_\+state\+\_\+machine.\+cpp}}.
 
 
 \begin{DoxyCode}{0}
-\DoxyCodeLine{00121\ \{}
-\DoxyCodeLine{00122\ \ \ \textcolor{keywordflow}{return}\ this-\/>\mbox{\hyperlink{classsmacc2_1_1ISmaccStateMachine_a00c314c742c2ab90d9ff5cf262d160ac}{orthogonals\_}};}
-\DoxyCodeLine{00123\ \}}
+\DoxyCodeLine{00128\ \{}
+\DoxyCodeLine{00129\ \ \ \textcolor{keywordflow}{return}\ this-\/>\mbox{\hyperlink{classsmacc2_1_1ISmaccStateMachine_a00c314c742c2ab90d9ff5cf262d160ac}{orthogonals\_}};}
+\DoxyCodeLine{00130\ \}}
 
 \end{DoxyCode}
 
@@ -1024,13 +1031,13 @@ std\+::string smacc2\+::\+ISmacc\+State\+Machine\+::get\+State\+Machine\+Name (\
 
 
 
-Definition at line \mbox{\hyperlink{smacc__state__machine_8cpp_source_l00246}{246}} of file \mbox{\hyperlink{smacc__state__machine_8cpp_source}{smacc\+\_\+state\+\_\+machine.\+cpp}}.
+Definition at line \mbox{\hyperlink{smacc__state__machine_8cpp_source_l00253}{253}} of file \mbox{\hyperlink{smacc__state__machine_8cpp_source}{smacc\+\_\+state\+\_\+machine.\+cpp}}.
 
 
 \begin{DoxyCode}{0}
-\DoxyCodeLine{00247\ \{}
-\DoxyCodeLine{00248\ \ \ \textcolor{keywordflow}{return}\ \mbox{\hyperlink{namespacesmacc2_1_1introspection_aba19132e50f25adee919c2504ae6a3a2}{demangleSymbol}}(\textcolor{keyword}{typeid}(*this).name());}
-\DoxyCodeLine{00249\ \}}
+\DoxyCodeLine{00254\ \{}
+\DoxyCodeLine{00255\ \ \ \textcolor{keywordflow}{return}\ \mbox{\hyperlink{namespacesmacc2_1_1introspection_aba19132e50f25adee919c2504ae6a3a2}{demangleSymbol}}(\textcolor{keyword}{typeid}(*this).name());}
+\DoxyCodeLine{00256\ \}}
 
 \end{DoxyCode}
 
@@ -1053,16 +1060,16 @@ void smacc2\+::\+ISmacc\+State\+Machine\+::get\+Transition\+Log\+History (\begin
 
 
 
-Definition at line \mbox{\hyperlink{smacc__state__machine_8cpp_source_l00207}{207}} of file \mbox{\hyperlink{smacc__state__machine_8cpp_source}{smacc\+\_\+state\+\_\+machine.\+cpp}}.
+Definition at line \mbox{\hyperlink{smacc__state__machine_8cpp_source_l00214}{214}} of file \mbox{\hyperlink{smacc__state__machine_8cpp_source}{smacc\+\_\+state\+\_\+machine.\+cpp}}.
 
 
 \begin{DoxyCode}{0}
-\DoxyCodeLine{00211\ \{}
-\DoxyCodeLine{00212\ \ \ RCLCPP\_WARN(}
-\DoxyCodeLine{00213\ \ \ \ \ \mbox{\hyperlink{classsmacc2_1_1ISmaccStateMachine_a8b441209151e301f66e62844994946ff}{nh\_}}-\/>get\_logger(),\ \textcolor{stringliteral}{"{}Requesting\ transition\ log\ history,\ current\ size:\ \%ld"{}},}
-\DoxyCodeLine{00214\ \ \ \ \ this-\/>transitionLogHistory\_.size());}
-\DoxyCodeLine{00215\ \ \ res-\/>history\ =\ this-\/>\mbox{\hyperlink{classsmacc2_1_1ISmaccStateMachine_a4da2aa10dedea4828b46a64d7a764707}{transitionLogHistory\_}};}
-\DoxyCodeLine{00216\ \}}
+\DoxyCodeLine{00218\ \{}
+\DoxyCodeLine{00219\ \ \ RCLCPP\_WARN(}
+\DoxyCodeLine{00220\ \ \ \ \ \mbox{\hyperlink{classsmacc2_1_1ISmaccStateMachine_a8b441209151e301f66e62844994946ff}{nh\_}}-\/>get\_logger(),\ \textcolor{stringliteral}{"{}Requesting\ transition\ log\ history,\ current\ size:\ \%ld"{}},}
+\DoxyCodeLine{00221\ \ \ \ \ this-\/>transitionLogHistory\_.size());}
+\DoxyCodeLine{00222\ \ \ res-\/>history\ =\ this-\/>\mbox{\hyperlink{classsmacc2_1_1ISmaccStateMachine_a4da2aa10dedea4828b46a64d7a764707}{transitionLogHistory\_}};}
+\DoxyCodeLine{00223\ \}}
 
 \end{DoxyCode}
 
@@ -1071,7 +1078,7 @@ References \mbox{\hyperlink{smacc__state__machine_8hpp_source_l00201}{nh\+\_\+}}
 
 
 
-Referenced by \mbox{\hyperlink{smacc__state__machine_8cpp_source_l00181}{initialize\+ROS()}}.
+Referenced by \mbox{\hyperlink{smacc__state__machine_8cpp_source_l00188}{initialize\+ROS()}}.
 
 Here is the caller graph for this function\+:
 \nopagebreak
@@ -1089,39 +1096,39 @@ void smacc2\+::\+ISmacc\+State\+Machine\+::initialize\+ROS (\begin{DoxyParamCapt
 
 
 
-Definition at line \mbox{\hyperlink{smacc__state__machine_8cpp_source_l00181}{181}} of file \mbox{\hyperlink{smacc__state__machine_8cpp_source}{smacc\+\_\+state\+\_\+machine.\+cpp}}.
+Definition at line \mbox{\hyperlink{smacc__state__machine_8cpp_source_l00188}{188}} of file \mbox{\hyperlink{smacc__state__machine_8cpp_source}{smacc\+\_\+state\+\_\+machine.\+cpp}}.
 
 
 \begin{DoxyCode}{0}
-\DoxyCodeLine{00182\ \{}
-\DoxyCodeLine{00183\ \ \ RCLCPP\_WARN\_STREAM(\mbox{\hyperlink{classsmacc2_1_1ISmaccStateMachine_a8b441209151e301f66e62844994946ff}{nh\_}}-\/>get\_logger(),\ \textcolor{stringliteral}{"{}State\ machine\ base\ creation:\ "{}}\ <<\ shortname);}
-\DoxyCodeLine{00184\ \ \ \textcolor{comment}{//\ STATE\ MACHINE\ TOPICS}}
-\DoxyCodeLine{00185\ \ \ \mbox{\hyperlink{classsmacc2_1_1ISmaccStateMachine_a27836343c7e1c3efd339a30305e465a7}{stateMachinePub\_}}\ =\ \mbox{\hyperlink{classsmacc2_1_1ISmaccStateMachine_a8b441209151e301f66e62844994946ff}{nh\_}}-\/>create\_publisher<smacc2\_msgs::msg::SmaccStateMachine>(}
-\DoxyCodeLine{00186\ \ \ \ \ shortname\ +\ \textcolor{stringliteral}{"{}/smacc/state\_machine\_description"{}},\ rclcpp::QoS(1));}
-\DoxyCodeLine{00187\ \ \ \mbox{\hyperlink{classsmacc2_1_1ISmaccStateMachine_a6267edbd9d853218f12808465f65463d}{stateMachineStatusPub\_}}\ =\ \mbox{\hyperlink{classsmacc2_1_1ISmaccStateMachine_a8b441209151e301f66e62844994946ff}{nh\_}}-\/>create\_publisher<smacc2\_msgs::msg::SmaccStatus>(}
-\DoxyCodeLine{00188\ \ \ \ \ shortname\ +\ \textcolor{stringliteral}{"{}/smacc/status"{}},\ rclcpp::QoS(1));}
-\DoxyCodeLine{00189\ \ \ \mbox{\hyperlink{classsmacc2_1_1ISmaccStateMachine_ab73d97a7f4dfb7f05c2d7599b55afe47}{transitionLogPub\_}}\ =\ \mbox{\hyperlink{classsmacc2_1_1ISmaccStateMachine_a8b441209151e301f66e62844994946ff}{nh\_}}-\/>create\_publisher<smacc2\_msgs::msg::SmaccTransitionLogEntry>(}
-\DoxyCodeLine{00190\ \ \ \ \ shortname\ +\ \textcolor{stringliteral}{"{}/smacc/transition\_log"{}},\ rclcpp::QoS(1));}
-\DoxyCodeLine{00191\ }
-\DoxyCodeLine{00192\ \ \ \mbox{\hyperlink{classsmacc2_1_1ISmaccStateMachine_aef1b343fc7276d3c6c1f5bbc1415efb3}{eventsLogPub\_}}\ =\ \mbox{\hyperlink{classsmacc2_1_1ISmaccStateMachine_a8b441209151e301f66e62844994946ff}{nh\_}}-\/>create\_publisher<smacc2\_msgs::msg::SmaccEvent>(}
-\DoxyCodeLine{00193\ \ \ \ \ shortname\ +\ \textcolor{stringliteral}{"{}/smacc/event\_log"{}},\ rclcpp::QoS(100));}
-\DoxyCodeLine{00194\ }
-\DoxyCodeLine{00195\ \ \ \textcolor{comment}{//\ STATE\ MACHINE\ SERVICES}}
-\DoxyCodeLine{00196\ \ \ \mbox{\hyperlink{classsmacc2_1_1ISmaccStateMachine_a39187adf895b3dfee4ca5e82a8849318}{transitionHistoryService\_}}\ =\ \mbox{\hyperlink{classsmacc2_1_1ISmaccStateMachine_a8b441209151e301f66e62844994946ff}{nh\_}}-\/>create\_service<smacc2\_msgs::srv::SmaccGetTransitionHistory>(}
-\DoxyCodeLine{00197\ \ \ \ \ shortname\ +\ \textcolor{stringliteral}{"{}/smacc/transition\_log\_history"{}},}
-\DoxyCodeLine{00198\ \ \ \ \ std::bind(}
-\DoxyCodeLine{00199\ \ \ \ \ \ \ \&\mbox{\hyperlink{classsmacc2_1_1ISmaccStateMachine_af8e9186bd647fbd9c4fdf5679c00b08e}{ISmaccStateMachine::getTransitionLogHistory}},\ \textcolor{keyword}{this},\ std::placeholders::\_1,}
-\DoxyCodeLine{00200\ \ \ \ \ \ \ std::placeholders::\_2,\ std::placeholders::\_3));}
+\DoxyCodeLine{00189\ \{}
+\DoxyCodeLine{00190\ \ \ RCLCPP\_WARN\_STREAM(\mbox{\hyperlink{classsmacc2_1_1ISmaccStateMachine_a8b441209151e301f66e62844994946ff}{nh\_}}-\/>get\_logger(),\ \textcolor{stringliteral}{"{}State\ machine\ base\ creation:\ "{}}\ <<\ shortname);}
+\DoxyCodeLine{00191\ \ \ \textcolor{comment}{//\ STATE\ MACHINE\ TOPICS}}
+\DoxyCodeLine{00192\ \ \ \mbox{\hyperlink{classsmacc2_1_1ISmaccStateMachine_a27836343c7e1c3efd339a30305e465a7}{stateMachinePub\_}}\ =\ \mbox{\hyperlink{classsmacc2_1_1ISmaccStateMachine_a8b441209151e301f66e62844994946ff}{nh\_}}-\/>create\_publisher<smacc2\_msgs::msg::SmaccStateMachine>(}
+\DoxyCodeLine{00193\ \ \ \ \ shortname\ +\ \textcolor{stringliteral}{"{}/smacc/state\_machine\_description"{}},\ rclcpp::QoS(1));}
+\DoxyCodeLine{00194\ \ \ \mbox{\hyperlink{classsmacc2_1_1ISmaccStateMachine_a6267edbd9d853218f12808465f65463d}{stateMachineStatusPub\_}}\ =\ \mbox{\hyperlink{classsmacc2_1_1ISmaccStateMachine_a8b441209151e301f66e62844994946ff}{nh\_}}-\/>create\_publisher<smacc2\_msgs::msg::SmaccStatus>(}
+\DoxyCodeLine{00195\ \ \ \ \ shortname\ +\ \textcolor{stringliteral}{"{}/smacc/status"{}},\ rclcpp::QoS(1));}
+\DoxyCodeLine{00196\ \ \ \mbox{\hyperlink{classsmacc2_1_1ISmaccStateMachine_ab73d97a7f4dfb7f05c2d7599b55afe47}{transitionLogPub\_}}\ =\ \mbox{\hyperlink{classsmacc2_1_1ISmaccStateMachine_a8b441209151e301f66e62844994946ff}{nh\_}}-\/>create\_publisher<smacc2\_msgs::msg::SmaccTransitionLogEntry>(}
+\DoxyCodeLine{00197\ \ \ \ \ shortname\ +\ \textcolor{stringliteral}{"{}/smacc/transition\_log"{}},\ rclcpp::QoS(1));}
+\DoxyCodeLine{00198\ }
+\DoxyCodeLine{00199\ \ \ \mbox{\hyperlink{classsmacc2_1_1ISmaccStateMachine_aef1b343fc7276d3c6c1f5bbc1415efb3}{eventsLogPub\_}}\ =\ \mbox{\hyperlink{classsmacc2_1_1ISmaccStateMachine_a8b441209151e301f66e62844994946ff}{nh\_}}-\/>create\_publisher<smacc2\_msgs::msg::SmaccEvent>(}
+\DoxyCodeLine{00200\ \ \ \ \ shortname\ +\ \textcolor{stringliteral}{"{}/smacc/event\_log"{}},\ rclcpp::QoS(100));}
 \DoxyCodeLine{00201\ }
-\DoxyCodeLine{00202\ \ \ \textcolor{comment}{//\ Notify\ signal\ detector\ that\ ROS\ initialization\ is\ complete}}
-\DoxyCodeLine{00203\ \ \ \textcolor{comment}{//\ This\ allows\ the\ polling\ loop\ to\ start\ safely\ accessing\ ROS\ objects}}
-\DoxyCodeLine{00204\ \ \ \mbox{\hyperlink{classsmacc2_1_1ISmaccStateMachine_ac14b83c6cb61b7fb5ed56ca2dbe5ff3e}{signalDetector\_}}-\/>\mbox{\hyperlink{classsmacc2_1_1SignalDetector_ad621cb54a515f0d8f4863f1e8a608c0b}{notifyRosInitialized}}();}
-\DoxyCodeLine{00205\ \}}
+\DoxyCodeLine{00202\ \ \ \textcolor{comment}{//\ STATE\ MACHINE\ SERVICES}}
+\DoxyCodeLine{00203\ \ \ \mbox{\hyperlink{classsmacc2_1_1ISmaccStateMachine_a39187adf895b3dfee4ca5e82a8849318}{transitionHistoryService\_}}\ =\ \mbox{\hyperlink{classsmacc2_1_1ISmaccStateMachine_a8b441209151e301f66e62844994946ff}{nh\_}}-\/>create\_service<smacc2\_msgs::srv::SmaccGetTransitionHistory>(}
+\DoxyCodeLine{00204\ \ \ \ \ shortname\ +\ \textcolor{stringliteral}{"{}/smacc/transition\_log\_history"{}},}
+\DoxyCodeLine{00205\ \ \ \ \ std::bind(}
+\DoxyCodeLine{00206\ \ \ \ \ \ \ \&\mbox{\hyperlink{classsmacc2_1_1ISmaccStateMachine_af8e9186bd647fbd9c4fdf5679c00b08e}{ISmaccStateMachine::getTransitionLogHistory}},\ \textcolor{keyword}{this},\ std::placeholders::\_1,}
+\DoxyCodeLine{00207\ \ \ \ \ \ \ std::placeholders::\_2,\ std::placeholders::\_3));}
+\DoxyCodeLine{00208\ }
+\DoxyCodeLine{00209\ \ \ \textcolor{comment}{//\ Notify\ signal\ detector\ that\ ROS\ initialization\ is\ complete}}
+\DoxyCodeLine{00210\ \ \ \textcolor{comment}{//\ This\ allows\ the\ polling\ loop\ to\ start\ safely\ accessing\ ROS\ objects}}
+\DoxyCodeLine{00211\ \ \ \mbox{\hyperlink{classsmacc2_1_1ISmaccStateMachine_ac14b83c6cb61b7fb5ed56ca2dbe5ff3e}{signalDetector\_}}-\/>\mbox{\hyperlink{classsmacc2_1_1SignalDetector_ad621cb54a515f0d8f4863f1e8a608c0b}{notifyRosInitialized}}();}
+\DoxyCodeLine{00212\ \}}
 
 \end{DoxyCode}
 
 
-References \mbox{\hyperlink{smacc__state__machine_8hpp_source_l00208}{events\+Log\+Pub\+\_\+}}, \mbox{\hyperlink{smacc__state__machine_8cpp_source_l00207}{get\+Transition\+Log\+History()}}, \mbox{\hyperlink{smacc__state__machine_8hpp_source_l00201}{nh\+\_\+}}, \mbox{\hyperlink{signal__detector_8cpp_source_l00216}{smacc2\+::\+Signal\+Detector\+::notify\+Ros\+Initialized()}}, \mbox{\hyperlink{smacc__state__machine_8hpp_source_l00248}{signal\+Detector\+\_\+}}, \mbox{\hyperlink{smacc__state__machine_8hpp_source_l00204}{state\+Machine\+Pub\+\_\+}}, \mbox{\hyperlink{smacc__state__machine_8hpp_source_l00205}{state\+Machine\+Status\+Pub\+\_\+}}, \mbox{\hyperlink{smacc__state__machine_8hpp_source_l00210}{transition\+History\+Service\+\_\+}}, and \mbox{\hyperlink{smacc__state__machine_8hpp_source_l00206}{transition\+Log\+Pub\+\_\+}}.
+References \mbox{\hyperlink{smacc__state__machine_8hpp_source_l00208}{events\+Log\+Pub\+\_\+}}, \mbox{\hyperlink{smacc__state__machine_8cpp_source_l00214}{get\+Transition\+Log\+History()}}, \mbox{\hyperlink{smacc__state__machine_8hpp_source_l00201}{nh\+\_\+}}, \mbox{\hyperlink{signal__detector_8cpp_source_l00216}{smacc2\+::\+Signal\+Detector\+::notify\+Ros\+Initialized()}}, \mbox{\hyperlink{smacc__state__machine_8hpp_source_l00248}{signal\+Detector\+\_\+}}, \mbox{\hyperlink{smacc__state__machine_8hpp_source_l00204}{state\+Machine\+Pub\+\_\+}}, \mbox{\hyperlink{smacc__state__machine_8hpp_source_l00205}{state\+Machine\+Status\+Pub\+\_\+}}, \mbox{\hyperlink{smacc__state__machine_8hpp_source_l00210}{transition\+History\+Service\+\_\+}}, and \mbox{\hyperlink{smacc__state__machine_8hpp_source_l00206}{transition\+Log\+Pub\+\_\+}}.
 
 
 
@@ -1151,28 +1158,28 @@ void smacc2\+::\+ISmacc\+State\+Machine\+::join\+Async\+Client\+Behavior\+Thread
 
 
 
-Definition at line \mbox{\hyperlink{smacc__state__machine_8cpp_source_l00099}{99}} of file \mbox{\hyperlink{smacc__state__machine_8cpp_source}{smacc\+\_\+state\+\_\+machine.\+cpp}}.
+Definition at line \mbox{\hyperlink{smacc__state__machine_8cpp_source_l00106}{106}} of file \mbox{\hyperlink{smacc__state__machine_8cpp_source}{smacc\+\_\+state\+\_\+machine.\+cpp}}.
 
 
 \begin{DoxyCode}{0}
-\DoxyCodeLine{00100\ \{}
-\DoxyCodeLine{00101\ \ \ \textcolor{comment}{//\ No\ lock:\ the\ scheduler\ thread\ has\ joined,\ so\ no\ transition\ touches\ the\ orthogonals,\ and}}
-\DoxyCodeLine{00102\ \ \ \textcolor{comment}{//\ the\ threads\ being\ joined\ must\ never\ take\ m\_mutex\_\ (Async\ Thread\ Locking\ Rule).}}
-\DoxyCodeLine{00103\ \ \ \textcolor{keywordflow}{for}\ (\textcolor{keyword}{auto}\ \&\ orthogonalEntry\ :\ this-\/>\mbox{\hyperlink{classsmacc2_1_1ISmaccStateMachine_a00c314c742c2ab90d9ff5cf262d160ac}{orthogonals\_}})}
-\DoxyCodeLine{00104\ \ \ \{}
-\DoxyCodeLine{00105\ \ \ \ \ \textcolor{keywordflow}{for}\ (\textcolor{keyword}{auto}\ \&\ behaviorsOfOneState\ :\ orthogonalEntry.second-\/>getClientBehaviors())}
-\DoxyCodeLine{00106\ \ \ \ \ \{}
-\DoxyCodeLine{00107\ \ \ \ \ \ \ \textcolor{keywordflow}{for}\ (\textcolor{keyword}{auto}\ \&\ clBehavior\ :\ behaviorsOfOneState)}
-\DoxyCodeLine{00108\ \ \ \ \ \ \ \{}
-\DoxyCodeLine{00109\ \ \ \ \ \ \ \ \ \textcolor{keyword}{auto}\ *\ asyncBehavior\ =\ \textcolor{keyword}{dynamic\_cast<}SmaccAsyncClientBehavior\ *\textcolor{keyword}{>}(clBehavior.get());}
-\DoxyCodeLine{00110\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (asyncBehavior\ !=\ \textcolor{keyword}{nullptr})}
-\DoxyCodeLine{00111\ \ \ \ \ \ \ \ \ \{}
-\DoxyCodeLine{00112\ \ \ \ \ \ \ \ \ \ \ asyncBehavior-\/>waitOnEntryThread(\textcolor{keyword}{true});}
-\DoxyCodeLine{00113\ \ \ \ \ \ \ \ \ \}}
-\DoxyCodeLine{00114\ \ \ \ \ \ \ \}}
-\DoxyCodeLine{00115\ \ \ \ \ \}}
-\DoxyCodeLine{00116\ \ \ \}}
-\DoxyCodeLine{00117\ \}}
+\DoxyCodeLine{00107\ \{}
+\DoxyCodeLine{00108\ \ \ \textcolor{comment}{//\ No\ lock:\ the\ scheduler\ thread\ has\ joined,\ so\ no\ transition\ touches\ the\ orthogonals,\ and}}
+\DoxyCodeLine{00109\ \ \ \textcolor{comment}{//\ the\ threads\ being\ joined\ must\ never\ take\ m\_mutex\_\ (Async\ Thread\ Locking\ Rule).}}
+\DoxyCodeLine{00110\ \ \ \textcolor{keywordflow}{for}\ (\textcolor{keyword}{auto}\ \&\ orthogonalEntry\ :\ this-\/>\mbox{\hyperlink{classsmacc2_1_1ISmaccStateMachine_a00c314c742c2ab90d9ff5cf262d160ac}{orthogonals\_}})}
+\DoxyCodeLine{00111\ \ \ \{}
+\DoxyCodeLine{00112\ \ \ \ \ \textcolor{keywordflow}{for}\ (\textcolor{keyword}{auto}\ \&\ behaviorsOfOneState\ :\ orthogonalEntry.second-\/>getClientBehaviors())}
+\DoxyCodeLine{00113\ \ \ \ \ \{}
+\DoxyCodeLine{00114\ \ \ \ \ \ \ \textcolor{keywordflow}{for}\ (\textcolor{keyword}{auto}\ \&\ clBehavior\ :\ behaviorsOfOneState)}
+\DoxyCodeLine{00115\ \ \ \ \ \ \ \{}
+\DoxyCodeLine{00116\ \ \ \ \ \ \ \ \ \textcolor{keyword}{auto}\ *\ asyncBehavior\ =\ \textcolor{keyword}{dynamic\_cast<}SmaccAsyncClientBehavior\ *\textcolor{keyword}{>}(clBehavior.get());}
+\DoxyCodeLine{00117\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (asyncBehavior\ !=\ \textcolor{keyword}{nullptr})}
+\DoxyCodeLine{00118\ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{00119\ \ \ \ \ \ \ \ \ \ \ asyncBehavior-\/>waitOnEntryThread(\textcolor{keyword}{true});}
+\DoxyCodeLine{00120\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00121\ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00122\ \ \ \ \ \}}
+\DoxyCodeLine{00123\ \ \ \}}
+\DoxyCodeLine{00124\ \}}
 
 \end{DoxyCode}
 
@@ -1199,14 +1206,14 @@ void smacc2\+::\+ISmacc\+State\+Machine\+::lock\+State\+Machine (\begin{DoxyPara
 
 
 
-Definition at line \mbox{\hyperlink{smacc__state__machine_8cpp_source_l00234}{234}} of file \mbox{\hyperlink{smacc__state__machine_8cpp_source}{smacc\+\_\+state\+\_\+machine.\+cpp}}.
+Definition at line \mbox{\hyperlink{smacc__state__machine_8cpp_source_l00241}{241}} of file \mbox{\hyperlink{smacc__state__machine_8cpp_source}{smacc\+\_\+state\+\_\+machine.\+cpp}}.
 
 
 \begin{DoxyCode}{0}
-\DoxyCodeLine{00235\ \{}
-\DoxyCodeLine{00236\ \ \ RCLCPP\_DEBUG(\mbox{\hyperlink{classsmacc2_1_1ISmaccStateMachine_a8b441209151e301f66e62844994946ff}{nh\_}}-\/>get\_logger(),\ \textcolor{stringliteral}{"{}-\/-\/\ locking\ SM:\ \%s"{}},\ msg.c\_str());}
-\DoxyCodeLine{00237\ \ \ \mbox{\hyperlink{classsmacc2_1_1ISmaccStateMachine_a5c3c7701e263d0dda0a1a4d74a4217c0}{m\_mutex\_}}.lock();}
-\DoxyCodeLine{00238\ \}}
+\DoxyCodeLine{00242\ \{}
+\DoxyCodeLine{00243\ \ \ RCLCPP\_DEBUG(\mbox{\hyperlink{classsmacc2_1_1ISmaccStateMachine_a8b441209151e301f66e62844994946ff}{nh\_}}-\/>get\_logger(),\ \textcolor{stringliteral}{"{}-\/-\/\ locking\ SM:\ \%s"{}},\ msg.c\_str());}
+\DoxyCodeLine{00244\ \ \ \mbox{\hyperlink{classsmacc2_1_1ISmaccStateMachine_a5c3c7701e263d0dda0a1a4d74a4217c0}{m\_mutex\_}}.lock();}
+\DoxyCodeLine{00245\ \}}
 
 \end{DoxyCode}
 
@@ -1258,7 +1265,7 @@ Definition at line \mbox{\hyperlink{smacc__state__machine__impl_8hpp_source_l005
 \end{DoxyCode}
 
 
-References \mbox{\hyperlink{smacc__state__machine_8hpp_source_l00214}{current\+State\+\_\+}}, \mbox{\hyperlink{smacc__state__machine_8hpp_source_l00227}{m\+\_\+mutex\+\_\+}}, \mbox{\hyperlink{signal__detector_8cpp_source_l00206}{smacc2\+::\+Signal\+Detector\+::notify\+State\+Configured()}}, \mbox{\hyperlink{smacc__state__machine_8hpp_source_l00221}{orthogonals\+\_\+}}, \mbox{\hyperlink{smacc__state__machine_8hpp_source_l00248}{signal\+Detector\+\_\+}}, \mbox{\hyperlink{namespacesmacc2_af13b5c45bc293d2492a93482c86d179faef27ae3e54b805b81e1efacea3c02575}{smacc2\+::\+STATE\+\_\+\+ENTERING}}, \mbox{\hyperlink{smacc__state__machine_8hpp_source_l00234}{state\+Machine\+Current\+Action}}, and \mbox{\hyperlink{smacc__state__machine_8cpp_source_l00125}{update\+Status\+Message()}}.
+References \mbox{\hyperlink{smacc__state__machine_8hpp_source_l00214}{current\+State\+\_\+}}, \mbox{\hyperlink{smacc__state__machine_8hpp_source_l00227}{m\+\_\+mutex\+\_\+}}, \mbox{\hyperlink{signal__detector_8cpp_source_l00206}{smacc2\+::\+Signal\+Detector\+::notify\+State\+Configured()}}, \mbox{\hyperlink{smacc__state__machine_8hpp_source_l00221}{orthogonals\+\_\+}}, \mbox{\hyperlink{smacc__state__machine_8hpp_source_l00248}{signal\+Detector\+\_\+}}, \mbox{\hyperlink{namespacesmacc2_af13b5c45bc293d2492a93482c86d179faef27ae3e54b805b81e1efacea3c02575}{smacc2\+::\+STATE\+\_\+\+ENTERING}}, \mbox{\hyperlink{smacc__state__machine_8hpp_source_l00234}{state\+Machine\+Current\+Action}}, and \mbox{\hyperlink{smacc__state__machine_8cpp_source_l00132}{update\+Status\+Message()}}.
 
 
 
@@ -1396,7 +1403,7 @@ Definition at line \mbox{\hyperlink{smacc__state__machine__impl_8hpp_source_l005
 \end{DoxyCode}
 
 
-References \mbox{\hyperlink{smacc__state__machine_8hpp_source_l00214}{current\+State\+\_\+}}, \mbox{\hyperlink{introspection_8hpp_source_l00093}{smacc2\+::introspection\+::demangle\+Symbol()}}, \mbox{\hyperlink{smacc__state__machine_8hpp_source_l00186}{get\+Logger()}}, \mbox{\hyperlink{smacc__state__machine_8hpp_source_l00227}{m\+\_\+mutex\+\_\+}}, \mbox{\hyperlink{smacc__state__machine_8hpp_source_l00221}{orthogonals\+\_\+}}, \mbox{\hyperlink{namespacesmacc2_af13b5c45bc293d2492a93482c86d179fad8a3bbc9a845117a56f75c0f8e74f09e}{smacc2\+::\+STATE\+\_\+\+RUNNING}}, \mbox{\hyperlink{smacc__state__machine_8hpp_source_l00234}{state\+Machine\+Current\+Action}}, and \mbox{\hyperlink{smacc__state__machine_8cpp_source_l00125}{update\+Status\+Message()}}.
+References \mbox{\hyperlink{smacc__state__machine_8hpp_source_l00214}{current\+State\+\_\+}}, \mbox{\hyperlink{introspection_8hpp_source_l00093}{smacc2\+::introspection\+::demangle\+Symbol()}}, \mbox{\hyperlink{smacc__state__machine_8hpp_source_l00186}{get\+Logger()}}, \mbox{\hyperlink{smacc__state__machine_8hpp_source_l00227}{m\+\_\+mutex\+\_\+}}, \mbox{\hyperlink{smacc__state__machine_8hpp_source_l00221}{orthogonals\+\_\+}}, \mbox{\hyperlink{namespacesmacc2_af13b5c45bc293d2492a93482c86d179fad8a3bbc9a845117a56f75c0f8e74f09e}{smacc2\+::\+STATE\+\_\+\+RUNNING}}, \mbox{\hyperlink{smacc__state__machine_8hpp_source_l00234}{state\+Machine\+Current\+Action}}, and \mbox{\hyperlink{smacc__state__machine_8cpp_source_l00132}{update\+Status\+Message()}}.
 
 
 
@@ -1572,7 +1579,7 @@ Definition at line \mbox{\hyperlink{smacc__state__machine__impl_8hpp_source_l006
 \end{DoxyCode}
 
 
-References \mbox{\hyperlink{smacc__state__machine_8hpp_source_l00214}{current\+State\+\_\+}}, \mbox{\hyperlink{introspection_8hpp_source_l00093}{smacc2\+::introspection\+::demangle\+Symbol()}}, \mbox{\hyperlink{smacc__state__machine_8cpp_source_l00074}{disconnect\+Smacc\+Signal\+Object()}}, \mbox{\hyperlink{smacc__state__machine_8hpp_source_l00186}{get\+Logger()}}, \mbox{\hyperlink{smacc__state__machine_8cpp_source_l00234}{lock\+State\+Machine()}}, \mbox{\hyperlink{signal__detector_8cpp_source_l00211}{smacc2\+::\+Signal\+Detector\+::notify\+State\+Exited()}}, \mbox{\hyperlink{smacc__state__machine_8hpp_source_l00221}{orthogonals\+\_\+}}, \mbox{\hyperlink{smacc__state__machine_8hpp_source_l00248}{signal\+Detector\+\_\+}}, \mbox{\hyperlink{smacc__state__machine_8hpp_source_l00234}{state\+Machine\+Current\+Action}}, \mbox{\hyperlink{namespacesmacc2_af13b5c45bc293d2492a93482c86d179fa5e174e130ee1847f37541ba5786207a3}{smacc2\+::\+TRANSITIONING}}, and \mbox{\hyperlink{smacc__state__machine_8cpp_source_l00240}{unlock\+State\+Machine()}}.
+References \mbox{\hyperlink{smacc__state__machine_8hpp_source_l00214}{current\+State\+\_\+}}, \mbox{\hyperlink{introspection_8hpp_source_l00093}{smacc2\+::introspection\+::demangle\+Symbol()}}, \mbox{\hyperlink{smacc__state__machine_8cpp_source_l00081}{disconnect\+Smacc\+Signal\+Object()}}, \mbox{\hyperlink{smacc__state__machine_8hpp_source_l00186}{get\+Logger()}}, \mbox{\hyperlink{smacc__state__machine_8cpp_source_l00241}{lock\+State\+Machine()}}, \mbox{\hyperlink{signal__detector_8cpp_source_l00211}{smacc2\+::\+Signal\+Detector\+::notify\+State\+Exited()}}, \mbox{\hyperlink{smacc__state__machine_8hpp_source_l00221}{orthogonals\+\_\+}}, \mbox{\hyperlink{smacc__state__machine_8hpp_source_l00248}{signal\+Detector\+\_\+}}, \mbox{\hyperlink{smacc__state__machine_8hpp_source_l00234}{state\+Machine\+Current\+Action}}, \mbox{\hyperlink{namespacesmacc2_af13b5c45bc293d2492a93482c86d179fa5e174e130ee1847f37541ba5786207a3}{smacc2\+::\+TRANSITIONING}}, and \mbox{\hyperlink{smacc__state__machine_8cpp_source_l00247}{unlock\+State\+Machine()}}.
 
 
 
@@ -1703,11 +1710,11 @@ this function should be implemented by the user to create the orthogonals
 
 
 
-Definition at line \mbox{\hyperlink{smacc__state__machine_8cpp_source_l00172}{172}} of file \mbox{\hyperlink{smacc__state__machine_8cpp_source}{smacc\+\_\+state\+\_\+machine.\+cpp}}.
+Definition at line \mbox{\hyperlink{smacc__state__machine_8cpp_source_l00179}{179}} of file \mbox{\hyperlink{smacc__state__machine_8cpp_source}{smacc\+\_\+state\+\_\+machine.\+cpp}}.
 
 
 \begin{DoxyCode}{0}
-\DoxyCodeLine{00172\ \{\}}
+\DoxyCodeLine{00179\ \{\}}
 
 \end{DoxyCode}
 
@@ -1730,20 +1737,20 @@ void smacc2\+::\+ISmacc\+State\+Machine\+::on\+Initialized (\begin{DoxyParamCapt
 
 
 
-Definition at line \mbox{\hyperlink{smacc__state__machine_8cpp_source_l00174}{174}} of file \mbox{\hyperlink{smacc__state__machine_8cpp_source}{smacc\+\_\+state\+\_\+machine.\+cpp}}.
+Definition at line \mbox{\hyperlink{smacc__state__machine_8cpp_source_l00181}{181}} of file \mbox{\hyperlink{smacc__state__machine_8cpp_source}{smacc\+\_\+state\+\_\+machine.\+cpp}}.
 
 
 \begin{DoxyCode}{0}
-\DoxyCodeLine{00175\ \{}
-\DoxyCodeLine{00176\ \ \ \textcolor{keyword}{auto}\ ros\_clock\ =\ rclcpp::Clock::make\_shared();}
-\DoxyCodeLine{00177\ \ \ \mbox{\hyperlink{classsmacc2_1_1ISmaccStateMachine_ab60e7438f1c8823a61972f069bf266ed}{timer\_}}\ =}
-\DoxyCodeLine{00178\ \ \ \ \ rclcpp::create\_timer(\mbox{\hyperlink{classsmacc2_1_1ISmaccStateMachine_a8b441209151e301f66e62844994946ff}{nh\_}},\ ros\_clock,\ 0.5s,\ [=]()\ \{\ this-\/>\mbox{\hyperlink{classsmacc2_1_1ISmaccStateMachine_ae26457963398831232033d3054bc94c7}{state\_machine\_visualization}}();\ \});}
-\DoxyCodeLine{00179\ \}}
+\DoxyCodeLine{00182\ \{}
+\DoxyCodeLine{00183\ \ \ \textcolor{keyword}{auto}\ ros\_clock\ =\ rclcpp::Clock::make\_shared();}
+\DoxyCodeLine{00184\ \ \ \mbox{\hyperlink{classsmacc2_1_1ISmaccStateMachine_ab60e7438f1c8823a61972f069bf266ed}{timer\_}}\ =}
+\DoxyCodeLine{00185\ \ \ \ \ rclcpp::create\_timer(\mbox{\hyperlink{classsmacc2_1_1ISmaccStateMachine_a8b441209151e301f66e62844994946ff}{nh\_}},\ ros\_clock,\ 0.5s,\ [=]()\ \{\ this-\/>\mbox{\hyperlink{classsmacc2_1_1ISmaccStateMachine_ae26457963398831232033d3054bc94c7}{state\_machine\_visualization}}();\ \});}
+\DoxyCodeLine{00186\ \}}
 
 \end{DoxyCode}
 
 
-References \mbox{\hyperlink{smacc__state__machine_8hpp_source_l00201}{nh\+\_\+}}, \mbox{\hyperlink{smacc__state__machine_8cpp_source_l00218}{state\+\_\+machine\+\_\+visualization()}}, and \mbox{\hyperlink{smacc__state__machine_8hpp_source_l00203}{timer\+\_\+}}.
+References \mbox{\hyperlink{smacc__state__machine_8hpp_source_l00201}{nh\+\_\+}}, \mbox{\hyperlink{smacc__state__machine_8cpp_source_l00225}{state\+\_\+machine\+\_\+visualization()}}, and \mbox{\hyperlink{smacc__state__machine_8hpp_source_l00203}{timer\+\_\+}}.
 
 
 
@@ -1955,18 +1962,18 @@ void smacc2\+::\+ISmacc\+State\+Machine\+::publish\+Transition (\begin{DoxyParam
 
 
 
-Definition at line \mbox{\hyperlink{smacc__state__machine_8cpp_source_l00162}{162}} of file \mbox{\hyperlink{smacc__state__machine_8cpp_source}{smacc\+\_\+state\+\_\+machine.\+cpp}}.
+Definition at line \mbox{\hyperlink{smacc__state__machine_8cpp_source_l00169}{169}} of file \mbox{\hyperlink{smacc__state__machine_8cpp_source}{smacc\+\_\+state\+\_\+machine.\+cpp}}.
 
 
 \begin{DoxyCode}{0}
-\DoxyCodeLine{00163\ \{}
-\DoxyCodeLine{00164\ \ \ smacc2\_msgs::msg::SmaccTransitionLogEntry\ transitionLogEntry;}
-\DoxyCodeLine{00165\ \ \ transitionLogEntry.timestamp\ =\ this-\/>\mbox{\hyperlink{classsmacc2_1_1ISmaccStateMachine_a8b441209151e301f66e62844994946ff}{nh\_}}-\/>now();}
-\DoxyCodeLine{00166\ \ \ \mbox{\hyperlink{namespacesmacc2_1_1introspection_aff63647843caf0176c8dac4c8cbfd04f}{transitionInfoToMsg}}(transitionInfo,\ transitionLogEntry.transition);}
-\DoxyCodeLine{00167\ \ \ this-\/>\mbox{\hyperlink{classsmacc2_1_1ISmaccStateMachine_a4da2aa10dedea4828b46a64d7a764707}{transitionLogHistory\_}}.push\_back(transitionLogEntry);}
-\DoxyCodeLine{00168\ }
-\DoxyCodeLine{00169\ \ \ \mbox{\hyperlink{classsmacc2_1_1ISmaccStateMachine_ab73d97a7f4dfb7f05c2d7599b55afe47}{transitionLogPub\_}}-\/>publish(transitionLogEntry);}
-\DoxyCodeLine{00170\ \}}
+\DoxyCodeLine{00170\ \{}
+\DoxyCodeLine{00171\ \ \ smacc2\_msgs::msg::SmaccTransitionLogEntry\ transitionLogEntry;}
+\DoxyCodeLine{00172\ \ \ transitionLogEntry.timestamp\ =\ this-\/>\mbox{\hyperlink{classsmacc2_1_1ISmaccStateMachine_a8b441209151e301f66e62844994946ff}{nh\_}}-\/>now();}
+\DoxyCodeLine{00173\ \ \ \mbox{\hyperlink{namespacesmacc2_1_1introspection_aff63647843caf0176c8dac4c8cbfd04f}{transitionInfoToMsg}}(transitionInfo,\ transitionLogEntry.transition);}
+\DoxyCodeLine{00174\ \ \ this-\/>\mbox{\hyperlink{classsmacc2_1_1ISmaccStateMachine_a4da2aa10dedea4828b46a64d7a764707}{transitionLogHistory\_}}.push\_back(transitionLogEntry);}
+\DoxyCodeLine{00175\ }
+\DoxyCodeLine{00176\ \ \ \mbox{\hyperlink{classsmacc2_1_1ISmaccStateMachine_ab73d97a7f4dfb7f05c2d7599b55afe47}{transitionLogPub\_}}-\/>publish(transitionLogEntry);}
+\DoxyCodeLine{00177\ \}}
 
 \end{DoxyCode}
 
@@ -2123,11 +2130,11 @@ Reimplemented in \mbox{\hyperlink{structsmacc2_1_1SmaccStateMachineBase_a95f28ac
 
 
 
-Definition at line \mbox{\hyperlink{smacc__state__machine_8cpp_source_l00093}{93}} of file \mbox{\hyperlink{smacc__state__machine_8cpp_source}{smacc\+\_\+state\+\_\+machine.\+cpp}}.
+Definition at line \mbox{\hyperlink{smacc__state__machine_8cpp_source_l00100}{100}} of file \mbox{\hyperlink{smacc__state__machine_8cpp_source}{smacc\+\_\+state\+\_\+machine.\+cpp}}.
 
 
 \begin{DoxyCode}{0}
-\DoxyCodeLine{00093\ \{\}}
+\DoxyCodeLine{00100\ \{\}}
 
 \end{DoxyCode}
 
@@ -2177,7 +2184,7 @@ Definition at line \mbox{\hyperlink{smacc__state__machine__impl_8hpp_source_l002
 \end{DoxyCode}
 
 
-References \mbox{\hyperlink{smacc__state__machine_8hpp_source_l00240}{global\+Data\+\_\+}}, \mbox{\hyperlink{smacc__state__machine_8hpp_source_l00227}{m\+\_\+mutex\+\_\+}}, and \mbox{\hyperlink{smacc__state__machine_8cpp_source_l00125}{update\+Status\+Message()}}.
+References \mbox{\hyperlink{smacc__state__machine_8hpp_source_l00240}{global\+Data\+\_\+}}, \mbox{\hyperlink{smacc__state__machine_8hpp_source_l00227}{m\+\_\+mutex\+\_\+}}, and \mbox{\hyperlink{smacc__state__machine_8cpp_source_l00132}{update\+Status\+Message()}}.
 
 
 
@@ -2207,24 +2214,24 @@ void smacc2\+::\+ISmacc\+State\+Machine\+::state\+\_\+machine\+\_\+visualization
 
 
 
-Definition at line \mbox{\hyperlink{smacc__state__machine_8cpp_source_l00218}{218}} of file \mbox{\hyperlink{smacc__state__machine_8cpp_source}{smacc\+\_\+state\+\_\+machine.\+cpp}}.
+Definition at line \mbox{\hyperlink{smacc__state__machine_8cpp_source_l00225}{225}} of file \mbox{\hyperlink{smacc__state__machine_8cpp_source}{smacc\+\_\+state\+\_\+machine.\+cpp}}.
 
 
 \begin{DoxyCode}{0}
-\DoxyCodeLine{00219\ \{}
-\DoxyCodeLine{00220\ \ \ std::lock\_guard<std::recursive\_mutex>\ lock(\mbox{\hyperlink{classsmacc2_1_1ISmaccStateMachine_a5c3c7701e263d0dda0a1a4d74a4217c0}{m\_mutex\_}});}
-\DoxyCodeLine{00221\ }
-\DoxyCodeLine{00222\ \ \ smacc2\_msgs::msg::SmaccStateMachine\ state\_machine\_msg;}
-\DoxyCodeLine{00223\ \ \ state\_machine\_msg.states\ =\ \mbox{\hyperlink{classsmacc2_1_1ISmaccStateMachine_ae4156760ffcfaad1fe5ccd685d850d3c}{stateMachineInfo\_}}-\/>stateMsgs;}
-\DoxyCodeLine{00224\ }
-\DoxyCodeLine{00225\ \ \ std::sort(}
-\DoxyCodeLine{00226\ \ \ \ \ state\_machine\_msg.states.begin(),\ state\_machine\_msg.states.end(),}
-\DoxyCodeLine{00227\ \ \ \ \ [](\textcolor{keyword}{auto}\ \&\ a,\ \textcolor{keyword}{auto}\ \&\ b)\ \{\ return\ a.index\ <\ b.index;\ \});}
-\DoxyCodeLine{00228\ \ \ \mbox{\hyperlink{classsmacc2_1_1ISmaccStateMachine_a27836343c7e1c3efd339a30305e465a7}{stateMachinePub\_}}-\/>publish(state\_machine\_msg);}
-\DoxyCodeLine{00229\ }
-\DoxyCodeLine{00230\ \ \ \mbox{\hyperlink{classsmacc2_1_1ISmaccStateMachine_adbc25bce965af4e74f262ec1b9e2dc55}{status\_msg\_}}.header.stamp\ =\ this-\/>\mbox{\hyperlink{classsmacc2_1_1ISmaccStateMachine_a8b441209151e301f66e62844994946ff}{nh\_}}-\/>now();}
-\DoxyCodeLine{00231\ \ \ \mbox{\hyperlink{classsmacc2_1_1ISmaccStateMachine_a6267edbd9d853218f12808465f65463d}{stateMachineStatusPub\_}}-\/>publish(\mbox{\hyperlink{classsmacc2_1_1ISmaccStateMachine_adbc25bce965af4e74f262ec1b9e2dc55}{status\_msg\_}});}
-\DoxyCodeLine{00232\ \}}
+\DoxyCodeLine{00226\ \{}
+\DoxyCodeLine{00227\ \ \ std::lock\_guard<std::recursive\_mutex>\ lock(\mbox{\hyperlink{classsmacc2_1_1ISmaccStateMachine_a5c3c7701e263d0dda0a1a4d74a4217c0}{m\_mutex\_}});}
+\DoxyCodeLine{00228\ }
+\DoxyCodeLine{00229\ \ \ smacc2\_msgs::msg::SmaccStateMachine\ state\_machine\_msg;}
+\DoxyCodeLine{00230\ \ \ state\_machine\_msg.states\ =\ \mbox{\hyperlink{classsmacc2_1_1ISmaccStateMachine_ae4156760ffcfaad1fe5ccd685d850d3c}{stateMachineInfo\_}}-\/>stateMsgs;}
+\DoxyCodeLine{00231\ }
+\DoxyCodeLine{00232\ \ \ std::sort(}
+\DoxyCodeLine{00233\ \ \ \ \ state\_machine\_msg.states.begin(),\ state\_machine\_msg.states.end(),}
+\DoxyCodeLine{00234\ \ \ \ \ [](\textcolor{keyword}{auto}\ \&\ a,\ \textcolor{keyword}{auto}\ \&\ b)\ \{\ return\ a.index\ <\ b.index;\ \});}
+\DoxyCodeLine{00235\ \ \ \mbox{\hyperlink{classsmacc2_1_1ISmaccStateMachine_a27836343c7e1c3efd339a30305e465a7}{stateMachinePub\_}}-\/>publish(state\_machine\_msg);}
+\DoxyCodeLine{00236\ }
+\DoxyCodeLine{00237\ \ \ \mbox{\hyperlink{classsmacc2_1_1ISmaccStateMachine_adbc25bce965af4e74f262ec1b9e2dc55}{status\_msg\_}}.header.stamp\ =\ this-\/>\mbox{\hyperlink{classsmacc2_1_1ISmaccStateMachine_a8b441209151e301f66e62844994946ff}{nh\_}}-\/>now();}
+\DoxyCodeLine{00238\ \ \ \mbox{\hyperlink{classsmacc2_1_1ISmaccStateMachine_a6267edbd9d853218f12808465f65463d}{stateMachineStatusPub\_}}-\/>publish(\mbox{\hyperlink{classsmacc2_1_1ISmaccStateMachine_adbc25bce965af4e74f262ec1b9e2dc55}{status\_msg\_}});}
+\DoxyCodeLine{00239\ \}}
 
 \end{DoxyCode}
 
@@ -2233,7 +2240,7 @@ References \mbox{\hyperlink{smacc__state__machine_8hpp_source_l00227}{m\+\_\+mut
 
 
 
-Referenced by \mbox{\hyperlink{smacc__state__machine_8cpp_source_l00174}{on\+Initialized()}}.
+Referenced by \mbox{\hyperlink{smacc__state__machine_8cpp_source_l00181}{on\+Initialized()}}.
 
 Here is the caller graph for this function\+:
 \nopagebreak
@@ -2255,11 +2262,11 @@ Reimplemented in \mbox{\hyperlink{structsmacc2_1_1SmaccStateMachineBase_ab67f99b
 
 
 
-Definition at line \mbox{\hyperlink{smacc__state__machine_8cpp_source_l00095}{95}} of file \mbox{\hyperlink{smacc__state__machine_8cpp_source}{smacc\+\_\+state\+\_\+machine.\+cpp}}.
+Definition at line \mbox{\hyperlink{smacc__state__machine_8cpp_source_l00102}{102}} of file \mbox{\hyperlink{smacc__state__machine_8cpp_source}{smacc\+\_\+state\+\_\+machine.\+cpp}}.
 
 
 \begin{DoxyCode}{0}
-\DoxyCodeLine{00095\ \{\}}
+\DoxyCodeLine{00102\ \{\}}
 
 \end{DoxyCode}
 
@@ -2282,14 +2289,14 @@ void smacc2\+::\+ISmacc\+State\+Machine\+::unlock\+State\+Machine (\begin{DoxyPa
 
 
 
-Definition at line \mbox{\hyperlink{smacc__state__machine_8cpp_source_l00240}{240}} of file \mbox{\hyperlink{smacc__state__machine_8cpp_source}{smacc\+\_\+state\+\_\+machine.\+cpp}}.
+Definition at line \mbox{\hyperlink{smacc__state__machine_8cpp_source_l00247}{247}} of file \mbox{\hyperlink{smacc__state__machine_8cpp_source}{smacc\+\_\+state\+\_\+machine.\+cpp}}.
 
 
 \begin{DoxyCode}{0}
-\DoxyCodeLine{00241\ \{}
-\DoxyCodeLine{00242\ \ \ RCLCPP\_DEBUG(\mbox{\hyperlink{classsmacc2_1_1ISmaccStateMachine_a8b441209151e301f66e62844994946ff}{nh\_}}-\/>get\_logger(),\ \textcolor{stringliteral}{"{}-\/-\/\ unlocking\ SM:\ \%s"{}},\ msg.c\_str());}
-\DoxyCodeLine{00243\ \ \ \mbox{\hyperlink{classsmacc2_1_1ISmaccStateMachine_a5c3c7701e263d0dda0a1a4d74a4217c0}{m\_mutex\_}}.unlock();}
-\DoxyCodeLine{00244\ \}}
+\DoxyCodeLine{00248\ \{}
+\DoxyCodeLine{00249\ \ \ RCLCPP\_DEBUG(\mbox{\hyperlink{classsmacc2_1_1ISmaccStateMachine_a8b441209151e301f66e62844994946ff}{nh\_}}-\/>get\_logger(),\ \textcolor{stringliteral}{"{}-\/-\/\ unlocking\ SM:\ \%s"{}},\ msg.c\_str());}
+\DoxyCodeLine{00250\ \ \ \mbox{\hyperlink{classsmacc2_1_1ISmaccStateMachine_a5c3c7701e263d0dda0a1a4d74a4217c0}{m\_mutex\_}}.unlock();}
+\DoxyCodeLine{00251\ \}}
 
 \end{DoxyCode}
 
@@ -2316,45 +2323,45 @@ void smacc2\+::\+ISmacc\+State\+Machine\+::update\+Status\+Message (\begin{DoxyP
 
 
 
-Definition at line \mbox{\hyperlink{smacc__state__machine_8cpp_source_l00125}{125}} of file \mbox{\hyperlink{smacc__state__machine_8cpp_source}{smacc\+\_\+state\+\_\+machine.\+cpp}}.
+Definition at line \mbox{\hyperlink{smacc__state__machine_8cpp_source_l00132}{132}} of file \mbox{\hyperlink{smacc__state__machine_8cpp_source}{smacc\+\_\+state\+\_\+machine.\+cpp}}.
 
 
 \begin{DoxyCode}{0}
-\DoxyCodeLine{00126\ \{}
-\DoxyCodeLine{00127\ \ \ std::lock\_guard<std::recursive\_mutex>\ lock(\mbox{\hyperlink{classsmacc2_1_1ISmaccStateMachine_a5c3c7701e263d0dda0a1a4d74a4217c0}{m\_mutex\_}});}
-\DoxyCodeLine{00128\ }
-\DoxyCodeLine{00129\ \ \ \textcolor{keywordflow}{if}\ (\mbox{\hyperlink{classsmacc2_1_1ISmaccStateMachine_a2a3a7b822ebda2458d335bd7a8aa582b}{currentStateInfo\_}}\ !=\ \textcolor{keyword}{nullptr})}
-\DoxyCodeLine{00130\ \ \ \{}
-\DoxyCodeLine{00131\ \ \ \ \ RCLCPP\_WARN\_STREAM(}
-\DoxyCodeLine{00132\ \ \ \ \ \ \ \mbox{\hyperlink{classsmacc2_1_1ISmaccStateMachine_a8b441209151e301f66e62844994946ff}{nh\_}}-\/>get\_logger(),}
-\DoxyCodeLine{00133\ \ \ \ \ \ \ \textcolor{stringliteral}{"{}[StateMachine]\ Setting\ state\ active:\ "{}}\ <<\ \mbox{\hyperlink{classsmacc2_1_1ISmaccStateMachine_a2a3a7b822ebda2458d335bd7a8aa582b}{currentStateInfo\_}}-\/>getFullPath());}
-\DoxyCodeLine{00134\ }
-\DoxyCodeLine{00135\ \ \ \ \ \textcolor{keywordflow}{if}\ (\mbox{\hyperlink{classsmacc2_1_1ISmaccStateMachine_a0391578b8ec4dbbe1c4a93f2905d59f1}{runMode\_}}\ ==\ \mbox{\hyperlink{namespacesmacc2_a7322c034df3cc8d5a5d8f0fc7737fc2eadc30ec20708ef7b0f641ef78b7880a15}{SMRunMode::DEBUG}})}
-\DoxyCodeLine{00136\ \ \ \ \ \{}
-\DoxyCodeLine{00137\ \ \ \ \ \ \ \mbox{\hyperlink{classsmacc2_1_1ISmaccStateMachine_adbc25bce965af4e74f262ec1b9e2dc55}{status\_msg\_}}.current\_states.clear();}
-\DoxyCodeLine{00138\ \ \ \ \ \ \ std::list<const\ SmaccStateInfo\ *>\ ancestorList;}
-\DoxyCodeLine{00139\ \ \ \ \ \ \ \mbox{\hyperlink{classsmacc2_1_1ISmaccStateMachine_a2a3a7b822ebda2458d335bd7a8aa582b}{currentStateInfo\_}}-\/>getAncestors(ancestorList);}
-\DoxyCodeLine{00140\ }
-\DoxyCodeLine{00141\ \ \ \ \ \ \ \textcolor{keywordflow}{for}\ (\textcolor{keyword}{auto}\ \&\ ancestor\ :\ ancestorList)}
-\DoxyCodeLine{00142\ \ \ \ \ \ \ \{}
-\DoxyCodeLine{00143\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{classsmacc2_1_1ISmaccStateMachine_adbc25bce965af4e74f262ec1b9e2dc55}{status\_msg\_}}.current\_states.push\_back(ancestor-\/>toShortName());}
-\DoxyCodeLine{00144\ \ \ \ \ \ \ \}}
-\DoxyCodeLine{00145\ }
-\DoxyCodeLine{00146\ \ \ \ \ \ \ \mbox{\hyperlink{classsmacc2_1_1ISmaccStateMachine_adbc25bce965af4e74f262ec1b9e2dc55}{status\_msg\_}}.global\_variable\_names.clear();}
-\DoxyCodeLine{00147\ \ \ \ \ \ \ \mbox{\hyperlink{classsmacc2_1_1ISmaccStateMachine_adbc25bce965af4e74f262ec1b9e2dc55}{status\_msg\_}}.global\_variable\_values.clear();}
-\DoxyCodeLine{00148\ }
-\DoxyCodeLine{00149\ \ \ \ \ \ \ \textcolor{keywordflow}{for}\ (\textcolor{keyword}{auto}\ entry\ :\ this-\/>\mbox{\hyperlink{classsmacc2_1_1ISmaccStateMachine_a2d3dad66888a8e17a49f7fbf66175816}{globalData\_}})}
-\DoxyCodeLine{00150\ \ \ \ \ \ \ \{}
-\DoxyCodeLine{00151\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{classsmacc2_1_1ISmaccStateMachine_adbc25bce965af4e74f262ec1b9e2dc55}{status\_msg\_}}.global\_variable\_names.push\_back(entry.first);}
-\DoxyCodeLine{00152\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{classsmacc2_1_1ISmaccStateMachine_adbc25bce965af4e74f262ec1b9e2dc55}{status\_msg\_}}.global\_variable\_values.push\_back(}
-\DoxyCodeLine{00153\ \ \ \ \ \ \ \ \ \ \ entry.second.first());\ \ \textcolor{comment}{//\ <-\/\ invoke\ to\_string()}}
-\DoxyCodeLine{00154\ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00133\ \{}
+\DoxyCodeLine{00134\ \ \ std::lock\_guard<std::recursive\_mutex>\ lock(\mbox{\hyperlink{classsmacc2_1_1ISmaccStateMachine_a5c3c7701e263d0dda0a1a4d74a4217c0}{m\_mutex\_}});}
+\DoxyCodeLine{00135\ }
+\DoxyCodeLine{00136\ \ \ \textcolor{keywordflow}{if}\ (\mbox{\hyperlink{classsmacc2_1_1ISmaccStateMachine_a2a3a7b822ebda2458d335bd7a8aa582b}{currentStateInfo\_}}\ !=\ \textcolor{keyword}{nullptr})}
+\DoxyCodeLine{00137\ \ \ \{}
+\DoxyCodeLine{00138\ \ \ \ \ RCLCPP\_WARN\_STREAM(}
+\DoxyCodeLine{00139\ \ \ \ \ \ \ \mbox{\hyperlink{classsmacc2_1_1ISmaccStateMachine_a8b441209151e301f66e62844994946ff}{nh\_}}-\/>get\_logger(),}
+\DoxyCodeLine{00140\ \ \ \ \ \ \ \textcolor{stringliteral}{"{}[StateMachine]\ Setting\ state\ active:\ "{}}\ <<\ \mbox{\hyperlink{classsmacc2_1_1ISmaccStateMachine_a2a3a7b822ebda2458d335bd7a8aa582b}{currentStateInfo\_}}-\/>getFullPath());}
+\DoxyCodeLine{00141\ }
+\DoxyCodeLine{00142\ \ \ \ \ \textcolor{keywordflow}{if}\ (\mbox{\hyperlink{classsmacc2_1_1ISmaccStateMachine_a0391578b8ec4dbbe1c4a93f2905d59f1}{runMode\_}}\ ==\ \mbox{\hyperlink{namespacesmacc2_a7322c034df3cc8d5a5d8f0fc7737fc2eadc30ec20708ef7b0f641ef78b7880a15}{SMRunMode::DEBUG}})}
+\DoxyCodeLine{00143\ \ \ \ \ \{}
+\DoxyCodeLine{00144\ \ \ \ \ \ \ \mbox{\hyperlink{classsmacc2_1_1ISmaccStateMachine_adbc25bce965af4e74f262ec1b9e2dc55}{status\_msg\_}}.current\_states.clear();}
+\DoxyCodeLine{00145\ \ \ \ \ \ \ std::list<const\ SmaccStateInfo\ *>\ ancestorList;}
+\DoxyCodeLine{00146\ \ \ \ \ \ \ \mbox{\hyperlink{classsmacc2_1_1ISmaccStateMachine_a2a3a7b822ebda2458d335bd7a8aa582b}{currentStateInfo\_}}-\/>getAncestors(ancestorList);}
+\DoxyCodeLine{00147\ }
+\DoxyCodeLine{00148\ \ \ \ \ \ \ \textcolor{keywordflow}{for}\ (\textcolor{keyword}{auto}\ \&\ ancestor\ :\ ancestorList)}
+\DoxyCodeLine{00149\ \ \ \ \ \ \ \{}
+\DoxyCodeLine{00150\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{classsmacc2_1_1ISmaccStateMachine_adbc25bce965af4e74f262ec1b9e2dc55}{status\_msg\_}}.current\_states.push\_back(ancestor-\/>toShortName());}
+\DoxyCodeLine{00151\ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00152\ }
+\DoxyCodeLine{00153\ \ \ \ \ \ \ \mbox{\hyperlink{classsmacc2_1_1ISmaccStateMachine_adbc25bce965af4e74f262ec1b9e2dc55}{status\_msg\_}}.global\_variable\_names.clear();}
+\DoxyCodeLine{00154\ \ \ \ \ \ \ \mbox{\hyperlink{classsmacc2_1_1ISmaccStateMachine_adbc25bce965af4e74f262ec1b9e2dc55}{status\_msg\_}}.global\_variable\_values.clear();}
 \DoxyCodeLine{00155\ }
-\DoxyCodeLine{00156\ \ \ \ \ \ \ \mbox{\hyperlink{classsmacc2_1_1ISmaccStateMachine_adbc25bce965af4e74f262ec1b9e2dc55}{status\_msg\_}}.header.stamp\ =\ this-\/>\mbox{\hyperlink{classsmacc2_1_1ISmaccStateMachine_a8b441209151e301f66e62844994946ff}{nh\_}}-\/>now();}
-\DoxyCodeLine{00157\ \ \ \ \ \ \ \mbox{\hyperlink{classsmacc2_1_1ISmaccStateMachine_a6267edbd9d853218f12808465f65463d}{stateMachineStatusPub\_}}-\/>publish(\mbox{\hyperlink{classsmacc2_1_1ISmaccStateMachine_adbc25bce965af4e74f262ec1b9e2dc55}{status\_msg\_}});}
-\DoxyCodeLine{00158\ \ \ \ \ \}}
-\DoxyCodeLine{00159\ \ \ \}}
-\DoxyCodeLine{00160\ \}}
+\DoxyCodeLine{00156\ \ \ \ \ \ \ \textcolor{keywordflow}{for}\ (\textcolor{keyword}{auto}\ entry\ :\ this-\/>\mbox{\hyperlink{classsmacc2_1_1ISmaccStateMachine_a2d3dad66888a8e17a49f7fbf66175816}{globalData\_}})}
+\DoxyCodeLine{00157\ \ \ \ \ \ \ \{}
+\DoxyCodeLine{00158\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{classsmacc2_1_1ISmaccStateMachine_adbc25bce965af4e74f262ec1b9e2dc55}{status\_msg\_}}.global\_variable\_names.push\_back(entry.first);}
+\DoxyCodeLine{00159\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{classsmacc2_1_1ISmaccStateMachine_adbc25bce965af4e74f262ec1b9e2dc55}{status\_msg\_}}.global\_variable\_values.push\_back(}
+\DoxyCodeLine{00160\ \ \ \ \ \ \ \ \ \ \ entry.second.first());\ \ \textcolor{comment}{//\ <-\/\ invoke\ to\_string()}}
+\DoxyCodeLine{00161\ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00162\ }
+\DoxyCodeLine{00163\ \ \ \ \ \ \ \mbox{\hyperlink{classsmacc2_1_1ISmaccStateMachine_adbc25bce965af4e74f262ec1b9e2dc55}{status\_msg\_}}.header.stamp\ =\ this-\/>\mbox{\hyperlink{classsmacc2_1_1ISmaccStateMachine_a8b441209151e301f66e62844994946ff}{nh\_}}-\/>now();}
+\DoxyCodeLine{00164\ \ \ \ \ \ \ \mbox{\hyperlink{classsmacc2_1_1ISmaccStateMachine_a6267edbd9d853218f12808465f65463d}{stateMachineStatusPub\_}}-\/>publish(\mbox{\hyperlink{classsmacc2_1_1ISmaccStateMachine_adbc25bce965af4e74f262ec1b9e2dc55}{status\_msg\_}});}
+\DoxyCodeLine{00165\ \ \ \ \ \}}
+\DoxyCodeLine{00166\ \ \ \}}
+\DoxyCodeLine{00167\ \}}
 
 \end{DoxyCode}
 
@@ -2425,7 +2432,7 @@ Definition at line \mbox{\hyperlink{smacc__state__machine_8hpp_source_l00216}{21
 
 
 
-Referenced by \mbox{\hyperlink{smacc__state__machine_8hpp_source_l00129}{get\+Current\+State\+Info()}}, \mbox{\hyperlink{smacc__state__machine__impl_8hpp_source_l00488}{notify\+On\+State\+Entry\+Start()}}, and \mbox{\hyperlink{smacc__state__machine_8cpp_source_l00125}{update\+Status\+Message()}}.
+Referenced by \mbox{\hyperlink{smacc__state__machine_8hpp_source_l00129}{get\+Current\+State\+Info()}}, \mbox{\hyperlink{smacc__state__machine__impl_8hpp_source_l00488}{notify\+On\+State\+Entry\+Start()}}, and \mbox{\hyperlink{smacc__state__machine_8cpp_source_l00132}{update\+Status\+Message()}}.
 
 \Hypertarget{classsmacc2_1_1ISmaccStateMachine_a1236a0d981a42e9202713b6035748b12}\index{smacc2::ISmaccStateMachine@{smacc2::ISmaccStateMachine}!eventQueueMutex\_@{eventQueueMutex\_}}
 \index{eventQueueMutex\_@{eventQueueMutex\_}!smacc2::ISmaccStateMachine@{smacc2::ISmaccStateMachine}}
@@ -2453,7 +2460,7 @@ Definition at line \mbox{\hyperlink{smacc__state__machine_8hpp_source_l00208}{20
 
 
 
-Referenced by \mbox{\hyperlink{smacc__state__machine_8cpp_source_l00181}{initialize\+ROS()}}, and \mbox{\hyperlink{smacc__state__machine__impl_8hpp_source_l00178}{post\+Event()}}.
+Referenced by \mbox{\hyperlink{smacc__state__machine_8cpp_source_l00188}{initialize\+ROS()}}, and \mbox{\hyperlink{smacc__state__machine__impl_8hpp_source_l00178}{post\+Event()}}.
 
 \Hypertarget{classsmacc2_1_1ISmaccStateMachine_a2d3dad66888a8e17a49f7fbf66175816}\index{smacc2::ISmaccStateMachine@{smacc2::ISmaccStateMachine}!globalData\_@{globalData\_}}
 \index{globalData\_@{globalData\_}!smacc2::ISmaccStateMachine@{smacc2::ISmaccStateMachine}}
@@ -2467,7 +2474,7 @@ Definition at line \mbox{\hyperlink{smacc__state__machine_8hpp_source_l00240}{24
 
 
 
-Referenced by \mbox{\hyperlink{smacc__state__machine__impl_8hpp_source_l00246}{get\+Global\+SMData()}}, \mbox{\hyperlink{smacc__state__machine__impl_8hpp_source_l00281}{set\+Global\+SMData()}}, and \mbox{\hyperlink{smacc__state__machine_8cpp_source_l00125}{update\+Status\+Message()}}.
+Referenced by \mbox{\hyperlink{smacc__state__machine__impl_8hpp_source_l00246}{get\+Global\+SMData()}}, \mbox{\hyperlink{smacc__state__machine__impl_8hpp_source_l00281}{set\+Global\+SMData()}}, and \mbox{\hyperlink{smacc__state__machine_8cpp_source_l00132}{update\+Status\+Message()}}.
 
 \Hypertarget{classsmacc2_1_1ISmaccStateMachine_a5c3c7701e263d0dda0a1a4d74a4217c0}\index{smacc2::ISmaccStateMachine@{smacc2::ISmaccStateMachine}!m\_mutex\_@{m\_mutex\_}}
 \index{m\_mutex\_@{m\_mutex\_}!smacc2::ISmaccStateMachine@{smacc2::ISmaccStateMachine}}
@@ -2481,7 +2488,7 @@ Definition at line \mbox{\hyperlink{smacc__state__machine_8hpp_source_l00227}{22
 
 
 
-Referenced by \mbox{\hyperlink{smacc__state__machine__impl_8hpp_source_l00086}{create\+Orthogonal()}}, \mbox{\hyperlink{smacc__state__machine__impl_8hpp_source_l00412}{create\+Signal\+Connection()}}, \mbox{\hyperlink{smacc__state__machine__impl_8hpp_source_l00246}{get\+Global\+SMData()}}, \mbox{\hyperlink{smacc__state__machine_8hpp_source_l00188}{get\+Mutex()}}, \mbox{\hyperlink{smacc__state__machine__impl_8hpp_source_l00048}{get\+Orthogonal()}}, \mbox{\hyperlink{smacc__state__machine_8cpp_source_l00234}{lock\+State\+Machine()}}, \mbox{\hyperlink{smacc__state__machine__impl_8hpp_source_l00572}{notify\+On\+Runtime\+Configuration\+Finished()}}, \mbox{\hyperlink{smacc__state__machine__impl_8hpp_source_l00504}{notify\+On\+State\+Entry\+End()}}, \mbox{\hyperlink{smacc__state__machine__impl_8hpp_source_l00488}{notify\+On\+State\+Entry\+Start()}}, \mbox{\hyperlink{signal__detector_8cpp_source_l00283}{smacc2\+::\+Signal\+Detector\+::poll\+Once()}}, \mbox{\hyperlink{smacc__state__machine__impl_8hpp_source_l00118}{requires\+Component()}}, \mbox{\hyperlink{smacc__state__machine__impl_8hpp_source_l00148}{requires\+Component()}}, \mbox{\hyperlink{smacc__state__machine__impl_8hpp_source_l00281}{set\+Global\+SMData()}}, \mbox{\hyperlink{smacc__state__machine_8cpp_source_l00218}{state\+\_\+machine\+\_\+visualization()}}, \mbox{\hyperlink{smacc__state__machine_8cpp_source_l00240}{unlock\+State\+Machine()}}, and \mbox{\hyperlink{smacc__state__machine_8cpp_source_l00125}{update\+Status\+Message()}}.
+Referenced by \mbox{\hyperlink{smacc__state__machine__impl_8hpp_source_l00086}{create\+Orthogonal()}}, \mbox{\hyperlink{smacc__state__machine__impl_8hpp_source_l00412}{create\+Signal\+Connection()}}, \mbox{\hyperlink{smacc__state__machine__impl_8hpp_source_l00246}{get\+Global\+SMData()}}, \mbox{\hyperlink{smacc__state__machine_8hpp_source_l00188}{get\+Mutex()}}, \mbox{\hyperlink{smacc__state__machine__impl_8hpp_source_l00048}{get\+Orthogonal()}}, \mbox{\hyperlink{smacc__state__machine_8cpp_source_l00241}{lock\+State\+Machine()}}, \mbox{\hyperlink{smacc__state__machine__impl_8hpp_source_l00572}{notify\+On\+Runtime\+Configuration\+Finished()}}, \mbox{\hyperlink{smacc__state__machine__impl_8hpp_source_l00504}{notify\+On\+State\+Entry\+End()}}, \mbox{\hyperlink{smacc__state__machine__impl_8hpp_source_l00488}{notify\+On\+State\+Entry\+Start()}}, \mbox{\hyperlink{signal__detector_8cpp_source_l00283}{smacc2\+::\+Signal\+Detector\+::poll\+Once()}}, \mbox{\hyperlink{smacc__state__machine__impl_8hpp_source_l00118}{requires\+Component()}}, \mbox{\hyperlink{smacc__state__machine__impl_8hpp_source_l00148}{requires\+Component()}}, \mbox{\hyperlink{smacc__state__machine__impl_8hpp_source_l00281}{set\+Global\+SMData()}}, \mbox{\hyperlink{smacc__state__machine_8cpp_source_l00225}{state\+\_\+machine\+\_\+visualization()}}, \mbox{\hyperlink{smacc__state__machine_8cpp_source_l00247}{unlock\+State\+Machine()}}, and \mbox{\hyperlink{smacc__state__machine_8cpp_source_l00132}{update\+Status\+Message()}}.
 
 \Hypertarget{classsmacc2_1_1ISmaccStateMachine_a8b441209151e301f66e62844994946ff}\index{smacc2::ISmaccStateMachine@{smacc2::ISmaccStateMachine}!nh\_@{nh\_}}
 \index{nh\_@{nh\_}!smacc2::ISmaccStateMachine@{smacc2::ISmaccStateMachine}}
@@ -2495,7 +2502,7 @@ Definition at line \mbox{\hyperlink{smacc__state__machine_8hpp_source_l00201}{20
 
 
 
-Referenced by \mbox{\hyperlink{smacc__state__machine_8cpp_source_l00074}{disconnect\+Smacc\+Signal\+Object()}}, \mbox{\hyperlink{smacc__state__machine_8hpp_source_l00186}{get\+Logger()}}, \mbox{\hyperlink{smacc__state__machine_8cpp_source_l00091}{get\+Node()}}, \mbox{\hyperlink{smacc__state__machine_8cpp_source_l00207}{get\+Transition\+Log\+History()}}, \mbox{\hyperlink{smacc__state__machine_8cpp_source_l00181}{initialize\+ROS()}}, \mbox{\hyperlink{smacc__state__machine_8cpp_source_l00036}{ISmacc\+State\+Machine()}}, \mbox{\hyperlink{smacc__state__machine_8cpp_source_l00234}{lock\+State\+Machine()}}, \mbox{\hyperlink{smacc__state__machine_8cpp_source_l00174}{on\+Initialized()}}, \mbox{\hyperlink{smacc__state__machine_8cpp_source_l00162}{publish\+Transition()}}, \mbox{\hyperlink{smacc__state__machine_8cpp_source_l00218}{state\+\_\+machine\+\_\+visualization()}}, \mbox{\hyperlink{smacc__state__machine_8cpp_source_l00240}{unlock\+State\+Machine()}}, \mbox{\hyperlink{smacc__state__machine_8cpp_source_l00125}{update\+Status\+Message()}}, and \mbox{\hyperlink{smacc__state__machine_8cpp_source_l00069}{\texorpdfstring{$\sim$}{\string~}\+ISmacc\+State\+Machine()}}.
+Referenced by \mbox{\hyperlink{smacc__state__machine_8cpp_source_l00081}{disconnect\+Smacc\+Signal\+Object()}}, \mbox{\hyperlink{smacc__state__machine_8hpp_source_l00186}{get\+Logger()}}, \mbox{\hyperlink{smacc__state__machine_8cpp_source_l00098}{get\+Node()}}, \mbox{\hyperlink{smacc__state__machine_8cpp_source_l00214}{get\+Transition\+Log\+History()}}, \mbox{\hyperlink{smacc__state__machine_8cpp_source_l00188}{initialize\+ROS()}}, \mbox{\hyperlink{smacc__state__machine_8cpp_source_l00036}{ISmacc\+State\+Machine()}}, \mbox{\hyperlink{smacc__state__machine_8cpp_source_l00241}{lock\+State\+Machine()}}, \mbox{\hyperlink{smacc__state__machine_8cpp_source_l00181}{on\+Initialized()}}, \mbox{\hyperlink{smacc__state__machine_8cpp_source_l00169}{publish\+Transition()}}, \mbox{\hyperlink{smacc__state__machine_8cpp_source_l00225}{state\+\_\+machine\+\_\+visualization()}}, \mbox{\hyperlink{smacc__state__machine_8cpp_source_l00247}{unlock\+State\+Machine()}}, \mbox{\hyperlink{smacc__state__machine_8cpp_source_l00132}{update\+Status\+Message()}}, and \mbox{\hyperlink{smacc__state__machine_8cpp_source_l00069}{\texorpdfstring{$\sim$}{\string~}\+ISmacc\+State\+Machine()}}.
 
 \Hypertarget{classsmacc2_1_1ISmaccStateMachine_a00c314c742c2ab90d9ff5cf262d160ac}\index{smacc2::ISmaccStateMachine@{smacc2::ISmaccStateMachine}!orthogonals\_@{orthogonals\_}}
 \index{orthogonals\_@{orthogonals\_}!smacc2::ISmaccStateMachine@{smacc2::ISmaccStateMachine}}
@@ -2509,7 +2516,7 @@ Definition at line \mbox{\hyperlink{smacc__state__machine_8hpp_source_l00221}{22
 
 
 
-Referenced by \mbox{\hyperlink{smacc__state__machine__impl_8hpp_source_l00086}{create\+Orthogonal()}}, \mbox{\hyperlink{smacc__state__machine__impl_8hpp_source_l00048}{get\+Orthogonal()}}, \mbox{\hyperlink{smacc__state__machine_8cpp_source_l00120}{get\+Orthogonals()}}, \mbox{\hyperlink{smacc__state__machine_8cpp_source_l00099}{join\+Async\+Client\+Behavior\+Threads()}}, \mbox{\hyperlink{smacc__state__machine__impl_8hpp_source_l00572}{notify\+On\+Runtime\+Configuration\+Finished()}}, \mbox{\hyperlink{smacc__state__machine__impl_8hpp_source_l00504}{notify\+On\+State\+Entry\+End()}}, \mbox{\hyperlink{smacc__state__machine__impl_8hpp_source_l00488}{notify\+On\+State\+Entry\+Start()}}, \mbox{\hyperlink{smacc__state__machine__impl_8hpp_source_l00658}{notify\+On\+State\+Exited()}}, \mbox{\hyperlink{smacc__state__machine__impl_8hpp_source_l00597}{notify\+On\+State\+Exiting()}}, \mbox{\hyperlink{smacc__state__machine__impl_8hpp_source_l00118}{requires\+Component()}}, and \mbox{\hyperlink{smacc__state__machine__impl_8hpp_source_l00148}{requires\+Component()}}.
+Referenced by \mbox{\hyperlink{smacc__state__machine__impl_8hpp_source_l00086}{create\+Orthogonal()}}, \mbox{\hyperlink{smacc__state__machine__impl_8hpp_source_l00048}{get\+Orthogonal()}}, \mbox{\hyperlink{smacc__state__machine_8cpp_source_l00127}{get\+Orthogonals()}}, \mbox{\hyperlink{smacc__state__machine_8cpp_source_l00106}{join\+Async\+Client\+Behavior\+Threads()}}, \mbox{\hyperlink{smacc__state__machine__impl_8hpp_source_l00572}{notify\+On\+Runtime\+Configuration\+Finished()}}, \mbox{\hyperlink{smacc__state__machine__impl_8hpp_source_l00504}{notify\+On\+State\+Entry\+End()}}, \mbox{\hyperlink{smacc__state__machine__impl_8hpp_source_l00488}{notify\+On\+State\+Entry\+Start()}}, \mbox{\hyperlink{smacc__state__machine__impl_8hpp_source_l00658}{notify\+On\+State\+Exited()}}, \mbox{\hyperlink{smacc__state__machine__impl_8hpp_source_l00597}{notify\+On\+State\+Exiting()}}, \mbox{\hyperlink{smacc__state__machine__impl_8hpp_source_l00118}{requires\+Component()}}, and \mbox{\hyperlink{smacc__state__machine__impl_8hpp_source_l00148}{requires\+Component()}}.
 
 \Hypertarget{classsmacc2_1_1ISmaccStateMachine_a0391578b8ec4dbbe1c4a93f2905d59f1}\index{smacc2::ISmaccStateMachine@{smacc2::ISmaccStateMachine}!runMode\_@{runMode\_}}
 \index{runMode\_@{runMode\_}!smacc2::ISmaccStateMachine@{smacc2::ISmaccStateMachine}}
@@ -2523,7 +2530,7 @@ Definition at line \mbox{\hyperlink{smacc__state__machine_8hpp_source_l00245}{24
 
 
 
-Referenced by \mbox{\hyperlink{smacc__state__machine_8cpp_source_l00036}{ISmacc\+State\+Machine()}}, and \mbox{\hyperlink{smacc__state__machine_8cpp_source_l00125}{update\+Status\+Message()}}.
+Referenced by \mbox{\hyperlink{smacc__state__machine_8cpp_source_l00036}{ISmacc\+State\+Machine()}}, and \mbox{\hyperlink{smacc__state__machine_8cpp_source_l00132}{update\+Status\+Message()}}.
 
 \Hypertarget{classsmacc2_1_1ISmaccStateMachine_ac14b83c6cb61b7fb5ed56ca2dbe5ff3e}\index{smacc2::ISmaccStateMachine@{smacc2::ISmaccStateMachine}!signalDetector\_@{signalDetector\_}}
 \index{signalDetector\_@{signalDetector\_}!smacc2::ISmaccStateMachine@{smacc2::ISmaccStateMachine}}
@@ -2537,7 +2544,7 @@ Definition at line \mbox{\hyperlink{smacc__state__machine_8hpp_source_l00248}{24
 
 
 
-Referenced by \mbox{\hyperlink{smacc__state__machine_8cpp_source_l00181}{initialize\+ROS()}}, \mbox{\hyperlink{smacc__state__machine_8cpp_source_l00036}{ISmacc\+State\+Machine()}}, \mbox{\hyperlink{smacc__state__machine__impl_8hpp_source_l00572}{notify\+On\+Runtime\+Configuration\+Finished()}}, \mbox{\hyperlink{smacc__state__machine__impl_8hpp_source_l00658}{notify\+On\+State\+Exited()}}, and \mbox{\hyperlink{smacc__state__machine__impl_8hpp_source_l00178}{post\+Event()}}.
+Referenced by \mbox{\hyperlink{smacc__state__machine_8cpp_source_l00188}{initialize\+ROS()}}, \mbox{\hyperlink{smacc__state__machine_8cpp_source_l00036}{ISmacc\+State\+Machine()}}, \mbox{\hyperlink{smacc__state__machine__impl_8hpp_source_l00572}{notify\+On\+Runtime\+Configuration\+Finished()}}, \mbox{\hyperlink{smacc__state__machine__impl_8hpp_source_l00658}{notify\+On\+State\+Exited()}}, and \mbox{\hyperlink{smacc__state__machine__impl_8hpp_source_l00178}{post\+Event()}}.
 
 \Hypertarget{classsmacc2_1_1ISmaccStateMachine_ac9597ff781fb3d9510e2824e3274dda2}\index{smacc2::ISmaccStateMachine@{smacc2::ISmaccStateMachine}!stateCallbackConnections@{stateCallbackConnections}}
 \index{stateCallbackConnections@{stateCallbackConnections}!smacc2::ISmaccStateMachine@{smacc2::ISmaccStateMachine}}
@@ -2551,7 +2558,7 @@ Definition at line \mbox{\hyperlink{smacc__state__machine_8hpp_source_l00237}{23
 
 
 
-Referenced by \mbox{\hyperlink{smacc__state__machine__impl_8hpp_source_l00412}{create\+Signal\+Connection()}}, and \mbox{\hyperlink{smacc__state__machine_8cpp_source_l00074}{disconnect\+Smacc\+Signal\+Object()}}.
+Referenced by \mbox{\hyperlink{smacc__state__machine__impl_8hpp_source_l00412}{create\+Signal\+Connection()}}, and \mbox{\hyperlink{smacc__state__machine_8cpp_source_l00081}{disconnect\+Smacc\+Signal\+Object()}}.
 
 \Hypertarget{classsmacc2_1_1ISmaccStateMachine_a4eefdac6604da303dd60bea35ceb3d43}\index{smacc2::ISmaccStateMachine@{smacc2::ISmaccStateMachine}!stateMachineCurrentAction@{stateMachineCurrentAction}}
 \index{stateMachineCurrentAction@{stateMachineCurrentAction}!smacc2::ISmaccStateMachine@{smacc2::ISmaccStateMachine}}
@@ -2591,7 +2598,7 @@ Definition at line \mbox{\hyperlink{smacc__state__machine_8hpp_source_l00224}{22
 
 
 
-Referenced by \mbox{\hyperlink{smacc__state__machine__impl_8hpp_source_l00764}{build\+State\+Machine\+Info()}}, \mbox{\hyperlink{smacc__state__machine__impl_8hpp_source_l00776}{get\+State\+Machine\+Info()}}, \mbox{\hyperlink{smacc__state__machine__base_8hpp_source_l00067}{smacc2\+::\+Smacc\+State\+Machine\+Base$<$ Derived\+State\+Machine, Initial\+State\+Type $>$\+::initiate\+\_\+impl()}}, \mbox{\hyperlink{smacc__state__machine__impl_8hpp_source_l00488}{notify\+On\+State\+Entry\+Start()}}, and \mbox{\hyperlink{smacc__state__machine_8cpp_source_l00218}{state\+\_\+machine\+\_\+visualization()}}.
+Referenced by \mbox{\hyperlink{smacc__state__machine__impl_8hpp_source_l00764}{build\+State\+Machine\+Info()}}, \mbox{\hyperlink{smacc__state__machine__impl_8hpp_source_l00776}{get\+State\+Machine\+Info()}}, \mbox{\hyperlink{smacc__state__machine__base_8hpp_source_l00067}{smacc2\+::\+Smacc\+State\+Machine\+Base$<$ Derived\+State\+Machine, Initial\+State\+Type $>$\+::initiate\+\_\+impl()}}, \mbox{\hyperlink{smacc__state__machine__impl_8hpp_source_l00488}{notify\+On\+State\+Entry\+Start()}}, and \mbox{\hyperlink{smacc__state__machine_8cpp_source_l00225}{state\+\_\+machine\+\_\+visualization()}}.
 
 \Hypertarget{classsmacc2_1_1ISmaccStateMachine_a27836343c7e1c3efd339a30305e465a7}\index{smacc2::ISmaccStateMachine@{smacc2::ISmaccStateMachine}!stateMachinePub\_@{stateMachinePub\_}}
 \index{stateMachinePub\_@{stateMachinePub\_}!smacc2::ISmaccStateMachine@{smacc2::ISmaccStateMachine}}
@@ -2605,7 +2612,7 @@ Definition at line \mbox{\hyperlink{smacc__state__machine_8hpp_source_l00204}{20
 
 
 
-Referenced by \mbox{\hyperlink{smacc__state__machine_8cpp_source_l00181}{initialize\+ROS()}}, and \mbox{\hyperlink{smacc__state__machine_8cpp_source_l00218}{state\+\_\+machine\+\_\+visualization()}}.
+Referenced by \mbox{\hyperlink{smacc__state__machine_8cpp_source_l00188}{initialize\+ROS()}}, and \mbox{\hyperlink{smacc__state__machine_8cpp_source_l00225}{state\+\_\+machine\+\_\+visualization()}}.
 
 \Hypertarget{classsmacc2_1_1ISmaccStateMachine_a6267edbd9d853218f12808465f65463d}\index{smacc2::ISmaccStateMachine@{smacc2::ISmaccStateMachine}!stateMachineStatusPub\_@{stateMachineStatusPub\_}}
 \index{stateMachineStatusPub\_@{stateMachineStatusPub\_}!smacc2::ISmaccStateMachine@{smacc2::ISmaccStateMachine}}
@@ -2619,7 +2626,7 @@ Definition at line \mbox{\hyperlink{smacc__state__machine_8hpp_source_l00205}{20
 
 
 
-Referenced by \mbox{\hyperlink{smacc__state__machine_8cpp_source_l00181}{initialize\+ROS()}}, \mbox{\hyperlink{smacc__state__machine_8cpp_source_l00218}{state\+\_\+machine\+\_\+visualization()}}, and \mbox{\hyperlink{smacc__state__machine_8cpp_source_l00125}{update\+Status\+Message()}}.
+Referenced by \mbox{\hyperlink{smacc__state__machine_8cpp_source_l00188}{initialize\+ROS()}}, \mbox{\hyperlink{smacc__state__machine_8cpp_source_l00225}{state\+\_\+machine\+\_\+visualization()}}, and \mbox{\hyperlink{smacc__state__machine_8cpp_source_l00132}{update\+Status\+Message()}}.
 
 \Hypertarget{classsmacc2_1_1ISmaccStateMachine_aac622c4cfb76a88f94d12cf27e745655}\index{smacc2::ISmaccStateMachine@{smacc2::ISmaccStateMachine}!stateSeqCounter\_@{stateSeqCounter\_}}
 \index{stateSeqCounter\_@{stateSeqCounter\_}!smacc2::ISmaccStateMachine@{smacc2::ISmaccStateMachine}}
@@ -2647,7 +2654,7 @@ Definition at line \mbox{\hyperlink{smacc__state__machine_8hpp_source_l00218}{21
 
 
 
-Referenced by \mbox{\hyperlink{smacc__state__machine_8cpp_source_l00218}{state\+\_\+machine\+\_\+visualization()}}, and \mbox{\hyperlink{smacc__state__machine_8cpp_source_l00125}{update\+Status\+Message()}}.
+Referenced by \mbox{\hyperlink{smacc__state__machine_8cpp_source_l00225}{state\+\_\+machine\+\_\+visualization()}}, and \mbox{\hyperlink{smacc__state__machine_8cpp_source_l00132}{update\+Status\+Message()}}.
 
 \Hypertarget{classsmacc2_1_1ISmaccStateMachine_ab60e7438f1c8823a61972f069bf266ed}\index{smacc2::ISmaccStateMachine@{smacc2::ISmaccStateMachine}!timer\_@{timer\_}}
 \index{timer\_@{timer\_}!smacc2::ISmaccStateMachine@{smacc2::ISmaccStateMachine}}
@@ -2661,7 +2668,7 @@ Definition at line \mbox{\hyperlink{smacc__state__machine_8hpp_source_l00203}{20
 
 
 
-Referenced by \mbox{\hyperlink{smacc__state__machine_8cpp_source_l00174}{on\+Initialized()}}.
+Referenced by \mbox{\hyperlink{smacc__state__machine_8cpp_source_l00181}{on\+Initialized()}}.
 
 \Hypertarget{classsmacc2_1_1ISmaccStateMachine_a39187adf895b3dfee4ca5e82a8849318}\index{smacc2::ISmaccStateMachine@{smacc2::ISmaccStateMachine}!transitionHistoryService\_@{transitionHistoryService\_}}
 \index{transitionHistoryService\_@{transitionHistoryService\_}!smacc2::ISmaccStateMachine@{smacc2::ISmaccStateMachine}}
@@ -2675,7 +2682,7 @@ Definition at line \mbox{\hyperlink{smacc__state__machine_8hpp_source_l00210}{21
 
 
 
-Referenced by \mbox{\hyperlink{smacc__state__machine_8cpp_source_l00181}{initialize\+ROS()}}.
+Referenced by \mbox{\hyperlink{smacc__state__machine_8cpp_source_l00188}{initialize\+ROS()}}.
 
 \Hypertarget{classsmacc2_1_1ISmaccStateMachine_a4da2aa10dedea4828b46a64d7a764707}\index{smacc2::ISmaccStateMachine@{smacc2::ISmaccStateMachine}!transitionLogHistory\_@{transitionLogHistory\_}}
 \index{transitionLogHistory\_@{transitionLogHistory\_}!smacc2::ISmaccStateMachine@{smacc2::ISmaccStateMachine}}
@@ -2689,7 +2696,7 @@ Definition at line \mbox{\hyperlink{smacc__state__machine_8hpp_source_l00243}{24
 
 
 
-Referenced by \mbox{\hyperlink{smacc__state__machine_8cpp_source_l00207}{get\+Transition\+Log\+History()}}, and \mbox{\hyperlink{smacc__state__machine_8cpp_source_l00162}{publish\+Transition()}}.
+Referenced by \mbox{\hyperlink{smacc__state__machine_8cpp_source_l00214}{get\+Transition\+Log\+History()}}, and \mbox{\hyperlink{smacc__state__machine_8cpp_source_l00169}{publish\+Transition()}}.
 
 \Hypertarget{classsmacc2_1_1ISmaccStateMachine_ab73d97a7f4dfb7f05c2d7599b55afe47}\index{smacc2::ISmaccStateMachine@{smacc2::ISmaccStateMachine}!transitionLogPub\_@{transitionLogPub\_}}
 \index{transitionLogPub\_@{transitionLogPub\_}!smacc2::ISmaccStateMachine@{smacc2::ISmaccStateMachine}}
@@ -2703,7 +2710,7 @@ Definition at line \mbox{\hyperlink{smacc__state__machine_8hpp_source_l00206}{20
 
 
 
-Referenced by \mbox{\hyperlink{smacc__state__machine_8cpp_source_l00181}{initialize\+ROS()}}, and \mbox{\hyperlink{smacc__state__machine_8cpp_source_l00162}{publish\+Transition()}}.
+Referenced by \mbox{\hyperlink{smacc__state__machine_8cpp_source_l00188}{initialize\+ROS()}}, and \mbox{\hyperlink{smacc__state__machine_8cpp_source_l00169}{publish\+Transition()}}.
 
 
 
