@@ -50,6 +50,8 @@ void \mbox{\hyperlink{classcl__lifecycle__node_1_1ClLifecycleNode_a7262a4a82e901
 \item 
 \mbox{\hyperlink{classbool}{bool}} \mbox{\hyperlink{classcl__lifecycle__node_1_1ClLifecycleNode_a36d7d6c20e6839d1ed93da595bd425ab}{shutdown}} (const \mbox{\hyperlink{classcl__lifecycle__node_1_1ClLifecycleNode_a5e3f92736ef684316a92f669e92b1647}{Cancel\+Predicate}} \&cancelled=\mbox{\hyperlink{classcl__lifecycle__node_1_1ClLifecycleNode_a5e3f92736ef684316a92f669e92b1647}{Cancel\+Predicate}}())
 \item 
+\mbox{\hyperlink{classbool}{bool}} \mbox{\hyperlink{classcl__lifecycle__node_1_1ClLifecycleNode_a964c2f86b4a24326df4fae329dac836a}{get\+State}} (uint8\+\_\+t \&state, const \mbox{\hyperlink{classcl__lifecycle__node_1_1ClLifecycleNode_a5e3f92736ef684316a92f669e92b1647}{Cancel\+Predicate}} \&cancelled=\mbox{\hyperlink{classcl__lifecycle__node_1_1ClLifecycleNode_a5e3f92736ef684316a92f669e92b1647}{Cancel\+Predicate}}())
+\item 
 {\footnotesize template$<$typename TOrthogonal , typename TSource\+Object $>$ }\\void \mbox{\hyperlink{classcl__lifecycle__node_1_1ClLifecycleNode_a3e6fd9174b8886aba9467fb1452110ab}{on\+State\+Orthogonal\+Allocation}} ()
 \begin{DoxyCompactList}\small\item\em Configure component for event posting during orthogonal allocation. \end{DoxyCompactList}\end{DoxyCompactItemize}
 \doxysubsection*{Public Member Functions inherited from \mbox{\hyperlink{classsmacc2_1_1ISmaccClient}{smacc2\+::\+ISmacc\+Client}}}
@@ -187,18 +189,18 @@ Definition at line \mbox{\hyperlink{cl__lifecycle__node_8cpp_source_l00033}{33}}
 
 
 
-Definition at line \mbox{\hyperlink{cl__lifecycle__node_8cpp_source_l00108}{108}} of file \mbox{\hyperlink{cl__lifecycle__node_8cpp_source}{cl\+\_\+lifecycle\+\_\+node.\+cpp}}.
+Definition at line \mbox{\hyperlink{cl__lifecycle__node_8cpp_source_l00137}{137}} of file \mbox{\hyperlink{cl__lifecycle__node_8cpp_source}{cl\+\_\+lifecycle\+\_\+node.\+cpp}}.
 
 
 \begin{DoxyCode}{0}
-\DoxyCodeLine{00109\ \{}
-\DoxyCodeLine{00110\ \ \ \textcolor{keywordflow}{return}\ \mbox{\hyperlink{classcl__lifecycle__node_1_1ClLifecycleNode_a1a726ffd8245b3d58fc46ede5ecfa932}{changeState}}(lifecycle\_msgs::msg::Transition::TRANSITION\_ACTIVATE,\ cancelled);}
-\DoxyCodeLine{00111\ \}}
+\DoxyCodeLine{00138\ \{}
+\DoxyCodeLine{00139\ \ \ \textcolor{keywordflow}{return}\ \mbox{\hyperlink{classcl__lifecycle__node_1_1ClLifecycleNode_a1a726ffd8245b3d58fc46ede5ecfa932}{changeState}}(lifecycle\_msgs::msg::Transition::TRANSITION\_ACTIVATE,\ cancelled);}
+\DoxyCodeLine{00140\ \}}
 
 \end{DoxyCode}
 
 
-References \mbox{\hyperlink{cl__lifecycle__node_8cpp_source_l00044}{change\+State()}}.
+References \mbox{\hyperlink{cl__lifecycle__node_8cpp_source_l00097}{change\+State()}}.
 
 
 
@@ -228,81 +230,44 @@ Here is the caller graph for this function\+:
 
 
 
-Definition at line \mbox{\hyperlink{cl__lifecycle__node_8cpp_source_l00044}{44}} of file \mbox{\hyperlink{cl__lifecycle__node_8cpp_source}{cl\+\_\+lifecycle\+\_\+node.\+cpp}}.
+Definition at line \mbox{\hyperlink{cl__lifecycle__node_8cpp_source_l00097}{97}} of file \mbox{\hyperlink{cl__lifecycle__node_8cpp_source}{cl\+\_\+lifecycle\+\_\+node.\+cpp}}.
 
 
 \begin{DoxyCode}{0}
-\DoxyCodeLine{00045\ \{}
-\DoxyCodeLine{00046\ \ \ \textcolor{keyword}{auto}\ logger\ =\ this-\/>\mbox{\hyperlink{classsmacc2_1_1ISmaccClient_a0d0d53879b63fd45c78aac1c711f8708}{getNode}}()-\/>get\_logger();}
-\DoxyCodeLine{00047\ \ \ \textcolor{keyword}{const}\ std::string\ serviceName\ =\ \mbox{\hyperlink{classcl__lifecycle__node_1_1ClLifecycleNode_a02e3c8c31dd0397852f3af95323bddae}{client\_change\_state\_}}-\/>get\_service\_name();}
-\DoxyCodeLine{00048\ \ \ \textcolor{keyword}{auto}\ abandoned\ =\ [\&cancelled]()\ \{\ \textcolor{keywordflow}{return}\ (cancelled\ \&\&\ cancelled())\ ||\ !rclcpp::ok();\ \};}
-\DoxyCodeLine{00049\ }
-\DoxyCodeLine{00050\ \ \ \textcolor{comment}{//\ The\ client\ is\ created\ in\ onInitialize()\ and\ the\ first\ request\ can\ follow\ within}}
-\DoxyCodeLine{00051\ \ \ \textcolor{comment}{//\ milliseconds,\ before\ the\ service\ has\ been\ discovered.\ A\ request\ sent\ before\ discovery\ has}}
-\DoxyCodeLine{00052\ \ \ \textcolor{comment}{//\ no\ reader\ and\ its\ future\ never\ completes,\ so\ wait\ for\ the\ server\ first.\ The\ wait\ is}}
-\DoxyCodeLine{00053\ \ \ \textcolor{comment}{//\ unbounded\ but\ abandonable:\ the\ predicate\ is\ checked\ every\ 100\ ms.}}
-\DoxyCodeLine{00054\ \ \ \textcolor{keywordtype}{int}\ laps\ =\ 0;}
-\DoxyCodeLine{00055\ \ \ \textcolor{keywordflow}{while}\ (!\mbox{\hyperlink{classcl__lifecycle__node_1_1ClLifecycleNode_a02e3c8c31dd0397852f3af95323bddae}{client\_change\_state\_}}-\/>wait\_for\_service(std::chrono::milliseconds(100)))}
-\DoxyCodeLine{00056\ \ \ \{}
-\DoxyCodeLine{00057\ \ \ \ \ \textcolor{keywordflow}{if}\ (abandoned())}
-\DoxyCodeLine{00058\ \ \ \ \ \{}
-\DoxyCodeLine{00059\ \ \ \ \ \ \ RCLCPP\_INFO(}
-\DoxyCodeLine{00060\ \ \ \ \ \ \ \ \ logger,\ \textcolor{stringliteral}{"{}[ClLifecycleNode]\ transition\ \%d\ abandoned\ while\ waiting\ for\ service\ \%s"{}},}
-\DoxyCodeLine{00061\ \ \ \ \ \ \ \ \ transition,\ serviceName.c\_str());}
-\DoxyCodeLine{00062\ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \textcolor{keyword}{false};}
-\DoxyCodeLine{00063\ \ \ \ \ \}}
-\DoxyCodeLine{00064\ \ \ \ \ \textcolor{keywordflow}{if}\ (++laps\ \%\ 50\ ==\ 0)}
-\DoxyCodeLine{00065\ \ \ \ \ \{}
-\DoxyCodeLine{00066\ \ \ \ \ \ \ RCLCPP\_WARN(}
-\DoxyCodeLine{00067\ \ \ \ \ \ \ \ \ logger,\ \textcolor{stringliteral}{"{}[ClLifecycleNode]\ still\ waiting\ for\ service\ \%s\ (\%d\ s)"{}},\ serviceName.c\_str(),}
-\DoxyCodeLine{00068\ \ \ \ \ \ \ \ \ laps\ /\ 10);}
-\DoxyCodeLine{00069\ \ \ \ \ \}}
-\DoxyCodeLine{00070\ \ \ \}}
-\DoxyCodeLine{00071\ }
-\DoxyCodeLine{00072\ \ \ \textcolor{keyword}{auto}\ request\ =\ std::make\_shared<lifecycle\_msgs::srv::ChangeState::Request>();}
-\DoxyCodeLine{00073\ \ \ request-\/>transition.id\ =\ transition;}
-\DoxyCodeLine{00074\ \ \ \textcolor{keyword}{auto}\ future\ =\ \mbox{\hyperlink{classcl__lifecycle__node_1_1ClLifecycleNode_a02e3c8c31dd0397852f3af95323bddae}{client\_change\_state\_}}-\/>async\_send\_request(request);}
-\DoxyCodeLine{00075\ \ \ laps\ =\ 0;}
-\DoxyCodeLine{00076\ \ \ \textcolor{keywordflow}{while}\ (future.wait\_for(std::chrono::milliseconds(100))\ !=\ std::future\_status::ready)}
-\DoxyCodeLine{00077\ \ \ \{}
-\DoxyCodeLine{00078\ \ \ \ \ \textcolor{keywordflow}{if}\ (abandoned())}
-\DoxyCodeLine{00079\ \ \ \ \ \{}
-\DoxyCodeLine{00080\ \ \ \ \ \ \ \mbox{\hyperlink{classcl__lifecycle__node_1_1ClLifecycleNode_a02e3c8c31dd0397852f3af95323bddae}{client\_change\_state\_}}-\/>remove\_pending\_request(future);}
-\DoxyCodeLine{00081\ \ \ \ \ \ \ RCLCPP\_INFO(}
-\DoxyCodeLine{00082\ \ \ \ \ \ \ \ \ logger,\ \textcolor{stringliteral}{"{}[ClLifecycleNode]\ transition\ \%d\ abandoned\ while\ waiting\ for\ the\ response\ of\ \%s"{}},}
-\DoxyCodeLine{00083\ \ \ \ \ \ \ \ \ transition,\ serviceName.c\_str());}
-\DoxyCodeLine{00084\ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \textcolor{keyword}{false};}
-\DoxyCodeLine{00085\ \ \ \ \ \}}
-\DoxyCodeLine{00086\ \ \ \ \ \textcolor{keywordflow}{if}\ (++laps\ \%\ 50\ ==\ 0)}
-\DoxyCodeLine{00087\ \ \ \ \ \{}
-\DoxyCodeLine{00088\ \ \ \ \ \ \ RCLCPP\_WARN(}
-\DoxyCodeLine{00089\ \ \ \ \ \ \ \ \ logger,\ \textcolor{stringliteral}{"{}[ClLifecycleNode]\ no\ response\ from\ \%s\ after\ \%d\ s"{}},\ serviceName.c\_str(),\ laps\ /\ 10);}
-\DoxyCodeLine{00090\ \ \ \ \ \}}
-\DoxyCodeLine{00091\ \ \ \}}
-\DoxyCodeLine{00092\ }
-\DoxyCodeLine{00093\ \ \ \textcolor{keyword}{const}\ \textcolor{keywordtype}{bool}\ accepted\ =\ future.get()-\/>success;}
-\DoxyCodeLine{00094\ \ \ \textcolor{keywordflow}{if}\ (accepted)}
-\DoxyCodeLine{00095\ \ \ \{}
-\DoxyCodeLine{00096\ \ \ \ \ RCLCPP\_INFO(}
-\DoxyCodeLine{00097\ \ \ \ \ \ \ logger,\ \textcolor{stringliteral}{"{}[ClLifecycleNode]\ transition\ \%d\ accepted\ by\ \%s"{}},\ transition,\ serviceName.c\_str());}
-\DoxyCodeLine{00098\ \ \ \}}
-\DoxyCodeLine{00099\ \ \ \textcolor{keywordflow}{else}}
-\DoxyCodeLine{00100\ \ \ \{}
-\DoxyCodeLine{00101\ \ \ \ \ RCLCPP\_ERROR(}
-\DoxyCodeLine{00102\ \ \ \ \ \ \ logger,\ \textcolor{stringliteral}{"{}[ClLifecycleNode]\ transition\ \%d\ rejected\ by\ \%s;\ no\ transition\ event\ will\ follow"{}},}
-\DoxyCodeLine{00103\ \ \ \ \ \ \ transition,\ serviceName.c\_str());}
-\DoxyCodeLine{00104\ \ \ \}}
-\DoxyCodeLine{00105\ \ \ \textcolor{keywordflow}{return}\ accepted;}
-\DoxyCodeLine{00106\ \}}
+\DoxyCodeLine{00098\ \{}
+\DoxyCodeLine{00099\ \ \ \textcolor{keyword}{auto}\ logger\ =\ this-\/>\mbox{\hyperlink{classsmacc2_1_1ISmaccClient_a0d0d53879b63fd45c78aac1c711f8708}{getNode}}()-\/>get\_logger();}
+\DoxyCodeLine{00100\ \ \ \textcolor{keyword}{auto}\ request\ =\ std::make\_shared<lifecycle\_msgs::srv::ChangeState::Request>();}
+\DoxyCodeLine{00101\ \ \ request-\/>transition.id\ =\ transition;}
+\DoxyCodeLine{00102\ \ \ \textcolor{keyword}{auto}\ response\ =\ callService<lifecycle\_msgs::srv::ChangeState>(}
+\DoxyCodeLine{00103\ \ \ \ \ logger,\ \mbox{\hyperlink{classcl__lifecycle__node_1_1ClLifecycleNode_a02e3c8c31dd0397852f3af95323bddae}{client\_change\_state\_}},\ request,\ cancelled,\ \textcolor{stringliteral}{"{}transition\ "{}}\ +\ std::to\_string(transition));}
+\DoxyCodeLine{00104\ \ \ \textcolor{keywordflow}{if}\ (!response)}
+\DoxyCodeLine{00105\ \ \ \{}
+\DoxyCodeLine{00106\ \ \ \ \ \textcolor{keywordflow}{return}\ \textcolor{keyword}{false};}
+\DoxyCodeLine{00107\ \ \ \}}
+\DoxyCodeLine{00108\ }
+\DoxyCodeLine{00109\ \ \ \textcolor{keyword}{const}\ std::string\ serviceName\ =\ \mbox{\hyperlink{classcl__lifecycle__node_1_1ClLifecycleNode_a02e3c8c31dd0397852f3af95323bddae}{client\_change\_state\_}}-\/>get\_service\_name();}
+\DoxyCodeLine{00110\ \ \ \textcolor{keywordflow}{if}\ (response-\/>success)}
+\DoxyCodeLine{00111\ \ \ \{}
+\DoxyCodeLine{00112\ \ \ \ \ RCLCPP\_INFO(}
+\DoxyCodeLine{00113\ \ \ \ \ \ \ logger,\ \textcolor{stringliteral}{"{}[ClLifecycleNode]\ transition\ \%d\ accepted\ by\ \%s"{}},\ transition,\ serviceName.c\_str());}
+\DoxyCodeLine{00114\ \ \ \}}
+\DoxyCodeLine{00115\ \ \ \textcolor{keywordflow}{else}}
+\DoxyCodeLine{00116\ \ \ \{}
+\DoxyCodeLine{00117\ \ \ \ \ RCLCPP\_ERROR(}
+\DoxyCodeLine{00118\ \ \ \ \ \ \ logger,\ \textcolor{stringliteral}{"{}[ClLifecycleNode]\ transition\ \%d\ rejected\ by\ \%s;\ no\ transition\ event\ will\ follow"{}},}
+\DoxyCodeLine{00119\ \ \ \ \ \ \ transition,\ serviceName.c\_str());}
+\DoxyCodeLine{00120\ \ \ \}}
+\DoxyCodeLine{00121\ \ \ \textcolor{keywordflow}{return}\ response-\/>success;}
+\DoxyCodeLine{00122\ \}}
 
 \end{DoxyCode}
 
 
-References \mbox{\hyperlink{cl__lifecycle__node_8hpp_source_l00253}{client\+\_\+change\+\_\+state\+\_\+}}, and \mbox{\hyperlink{client_8cpp_source_l00060}{smacc2\+::\+ISmacc\+Client\+::get\+Node()}}.
+References \mbox{\hyperlink{cl__lifecycle__node_8hpp_source_l00258}{client\+\_\+change\+\_\+state\+\_\+}}, and \mbox{\hyperlink{client_8cpp_source_l00060}{smacc2\+::\+ISmacc\+Client\+::get\+Node()}}.
 
 
 
-Referenced by \mbox{\hyperlink{cl__lifecycle__node_8cpp_source_l00108}{activate()}}, \mbox{\hyperlink{cl__lifecycle__node_8cpp_source_l00123}{cleanup()}}, \mbox{\hyperlink{cl__lifecycle__node_8cpp_source_l00118}{configure()}}, \mbox{\hyperlink{cl__lifecycle__node_8cpp_source_l00113}{deactivate()}}, and \mbox{\hyperlink{cl__lifecycle__node_8cpp_source_l00128}{shutdown()}}.
+Referenced by \mbox{\hyperlink{cl__lifecycle__node_8cpp_source_l00137}{activate()}}, \mbox{\hyperlink{cl__lifecycle__node_8cpp_source_l00152}{cleanup()}}, \mbox{\hyperlink{cl__lifecycle__node_8cpp_source_l00147}{configure()}}, \mbox{\hyperlink{cl__lifecycle__node_8cpp_source_l00142}{deactivate()}}, and \mbox{\hyperlink{cl__lifecycle__node_8cpp_source_l00157}{shutdown()}}.
 
 Here is the call graph for this function\+:
 \nopagebreak
@@ -328,18 +293,18 @@ Here is the caller graph for this function\+:
 
 
 
-Definition at line \mbox{\hyperlink{cl__lifecycle__node_8cpp_source_l00123}{123}} of file \mbox{\hyperlink{cl__lifecycle__node_8cpp_source}{cl\+\_\+lifecycle\+\_\+node.\+cpp}}.
+Definition at line \mbox{\hyperlink{cl__lifecycle__node_8cpp_source_l00152}{152}} of file \mbox{\hyperlink{cl__lifecycle__node_8cpp_source}{cl\+\_\+lifecycle\+\_\+node.\+cpp}}.
 
 
 \begin{DoxyCode}{0}
-\DoxyCodeLine{00124\ \{}
-\DoxyCodeLine{00125\ \ \ \textcolor{keywordflow}{return}\ \mbox{\hyperlink{classcl__lifecycle__node_1_1ClLifecycleNode_a1a726ffd8245b3d58fc46ede5ecfa932}{changeState}}(lifecycle\_msgs::msg::Transition::TRANSITION\_CLEANUP,\ cancelled);}
-\DoxyCodeLine{00126\ \}}
+\DoxyCodeLine{00153\ \{}
+\DoxyCodeLine{00154\ \ \ \textcolor{keywordflow}{return}\ \mbox{\hyperlink{classcl__lifecycle__node_1_1ClLifecycleNode_a1a726ffd8245b3d58fc46ede5ecfa932}{changeState}}(lifecycle\_msgs::msg::Transition::TRANSITION\_CLEANUP,\ cancelled);}
+\DoxyCodeLine{00155\ \}}
 
 \end{DoxyCode}
 
 
-References \mbox{\hyperlink{cl__lifecycle__node_8cpp_source_l00044}{change\+State()}}.
+References \mbox{\hyperlink{cl__lifecycle__node_8cpp_source_l00097}{change\+State()}}.
 
 
 
@@ -369,18 +334,18 @@ Here is the caller graph for this function\+:
 
 
 
-Definition at line \mbox{\hyperlink{cl__lifecycle__node_8cpp_source_l00118}{118}} of file \mbox{\hyperlink{cl__lifecycle__node_8cpp_source}{cl\+\_\+lifecycle\+\_\+node.\+cpp}}.
+Definition at line \mbox{\hyperlink{cl__lifecycle__node_8cpp_source_l00147}{147}} of file \mbox{\hyperlink{cl__lifecycle__node_8cpp_source}{cl\+\_\+lifecycle\+\_\+node.\+cpp}}.
 
 
 \begin{DoxyCode}{0}
-\DoxyCodeLine{00119\ \{}
-\DoxyCodeLine{00120\ \ \ \textcolor{keywordflow}{return}\ \mbox{\hyperlink{classcl__lifecycle__node_1_1ClLifecycleNode_a1a726ffd8245b3d58fc46ede5ecfa932}{changeState}}(lifecycle\_msgs::msg::Transition::TRANSITION\_CONFIGURE,\ cancelled);}
-\DoxyCodeLine{00121\ \}}
+\DoxyCodeLine{00148\ \{}
+\DoxyCodeLine{00149\ \ \ \textcolor{keywordflow}{return}\ \mbox{\hyperlink{classcl__lifecycle__node_1_1ClLifecycleNode_a1a726ffd8245b3d58fc46ede5ecfa932}{changeState}}(lifecycle\_msgs::msg::Transition::TRANSITION\_CONFIGURE,\ cancelled);}
+\DoxyCodeLine{00150\ \}}
 
 \end{DoxyCode}
 
 
-References \mbox{\hyperlink{cl__lifecycle__node_8cpp_source_l00044}{change\+State()}}.
+References \mbox{\hyperlink{cl__lifecycle__node_8cpp_source_l00097}{change\+State()}}.
 
 
 
@@ -410,18 +375,18 @@ Here is the caller graph for this function\+:
 
 
 
-Definition at line \mbox{\hyperlink{cl__lifecycle__node_8cpp_source_l00113}{113}} of file \mbox{\hyperlink{cl__lifecycle__node_8cpp_source}{cl\+\_\+lifecycle\+\_\+node.\+cpp}}.
+Definition at line \mbox{\hyperlink{cl__lifecycle__node_8cpp_source_l00142}{142}} of file \mbox{\hyperlink{cl__lifecycle__node_8cpp_source}{cl\+\_\+lifecycle\+\_\+node.\+cpp}}.
 
 
 \begin{DoxyCode}{0}
-\DoxyCodeLine{00114\ \{}
-\DoxyCodeLine{00115\ \ \ \textcolor{keywordflow}{return}\ \mbox{\hyperlink{classcl__lifecycle__node_1_1ClLifecycleNode_a1a726ffd8245b3d58fc46ede5ecfa932}{changeState}}(lifecycle\_msgs::msg::Transition::TRANSITION\_DEACTIVATE,\ cancelled);}
-\DoxyCodeLine{00116\ \}}
+\DoxyCodeLine{00143\ \{}
+\DoxyCodeLine{00144\ \ \ \textcolor{keywordflow}{return}\ \mbox{\hyperlink{classcl__lifecycle__node_1_1ClLifecycleNode_a1a726ffd8245b3d58fc46ede5ecfa932}{changeState}}(lifecycle\_msgs::msg::Transition::TRANSITION\_DEACTIVATE,\ cancelled);}
+\DoxyCodeLine{00145\ \}}
 
 \end{DoxyCode}
 
 
-References \mbox{\hyperlink{cl__lifecycle__node_8cpp_source_l00044}{change\+State()}}.
+References \mbox{\hyperlink{cl__lifecycle__node_8cpp_source_l00097}{change\+State()}}.
 
 
 
@@ -441,6 +406,55 @@ Here is the caller graph for this function\+:
 \begin{center}
 \leavevmode
 \includegraphics[width=350pt]{classcl__lifecycle__node_1_1ClLifecycleNode_a57eda00992f80c932bf42b518cc5495b_icgraph}
+\end{center}
+\end{figure}
+\Hypertarget{classcl__lifecycle__node_1_1ClLifecycleNode_a964c2f86b4a24326df4fae329dac836a}\index{cl\_lifecycle\_node::ClLifecycleNode@{cl\_lifecycle\_node::ClLifecycleNode}!getState@{getState}}
+\index{getState@{getState}!cl\_lifecycle\_node::ClLifecycleNode@{cl\_lifecycle\_node::ClLifecycleNode}}
+\doxysubsubsection{\texorpdfstring{getState()}{getState()}}
+{\footnotesize\ttfamily \label{classcl__lifecycle__node_1_1ClLifecycleNode_a964c2f86b4a24326df4fae329dac836a} 
+\mbox{\hyperlink{classbool}{bool}} cl\+\_\+lifecycle\+\_\+node\+::\+Cl\+Lifecycle\+Node\+::get\+State (\begin{DoxyParamCaption}\item[{uint8\+\_\+t \&}]{state}{, }\item[{const \mbox{\hyperlink{classcl__lifecycle__node_1_1ClLifecycleNode_a5e3f92736ef684316a92f669e92b1647}{Cancel\+Predicate}} \&}]{cancelled}{ = {\ttfamily \mbox{\hyperlink{classcl__lifecycle__node_1_1ClLifecycleNode_a5e3f92736ef684316a92f669e92b1647}{Cancel\+Predicate}}()}}\end{DoxyParamCaption})}
+
+
+
+Definition at line \mbox{\hyperlink{cl__lifecycle__node_8cpp_source_l00124}{124}} of file \mbox{\hyperlink{cl__lifecycle__node_8cpp_source}{cl\+\_\+lifecycle\+\_\+node.\+cpp}}.
+
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00125\ \{}
+\DoxyCodeLine{00126\ \ \ \textcolor{keyword}{auto}\ request\ =\ std::make\_shared<lifecycle\_msgs::srv::GetState::Request>();}
+\DoxyCodeLine{00127\ \ \ \textcolor{keyword}{auto}\ response\ =\ callService<lifecycle\_msgs::srv::GetState>(}
+\DoxyCodeLine{00128\ \ \ \ \ this-\/>\mbox{\hyperlink{classsmacc2_1_1ISmaccClient_a0d0d53879b63fd45c78aac1c711f8708}{getNode}}()-\/>get\_logger(),\ \mbox{\hyperlink{classcl__lifecycle__node_1_1ClLifecycleNode_a76e377a81ad049c3010a094d2d99c6e9}{client\_get\_state\_}},\ request,\ cancelled,\ \textcolor{stringliteral}{"{}get\_state"{}});}
+\DoxyCodeLine{00129\ \ \ \textcolor{keywordflow}{if}\ (!response)}
+\DoxyCodeLine{00130\ \ \ \{}
+\DoxyCodeLine{00131\ \ \ \ \ \textcolor{keywordflow}{return}\ \textcolor{keyword}{false};}
+\DoxyCodeLine{00132\ \ \ \}}
+\DoxyCodeLine{00133\ \ \ state\ =\ response-\/>current\_state.id;}
+\DoxyCodeLine{00134\ \ \ \textcolor{keywordflow}{return}\ \textcolor{keyword}{true};}
+\DoxyCodeLine{00135\ \}}
+
+\end{DoxyCode}
+
+
+References \mbox{\hyperlink{cl__lifecycle__node_8hpp_source_l00257}{client\+\_\+get\+\_\+state\+\_\+}}, and \mbox{\hyperlink{client_8cpp_source_l00060}{smacc2\+::\+ISmacc\+Client\+::get\+Node()}}.
+
+
+
+Referenced by \mbox{\hyperlink{cl__lifecycle__node_8cpp_source_l00157}{shutdown()}}.
+
+Here is the call graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{classcl__lifecycle__node_1_1ClLifecycleNode_a964c2f86b4a24326df4fae329dac836a_cgraph}
+\end{center}
+\end{figure}
+Here is the caller graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{classcl__lifecycle__node_1_1ClLifecycleNode_a964c2f86b4a24326df4fae329dac836a_icgraph}
 \end{center}
 \end{figure}
 \Hypertarget{classcl__lifecycle__node_1_1ClLifecycleNode_a7262a4a82e90128ed7cc394e7f0d2a4a}\index{cl\_lifecycle\_node::ClLifecycleNode@{cl\_lifecycle\_node::ClLifecycleNode}!onInitialize@{onInitialize}}
@@ -470,7 +484,7 @@ Definition at line \mbox{\hyperlink{cl__lifecycle__node_8cpp_source_l00035}{35}}
 \end{DoxyCode}
 
 
-References \mbox{\hyperlink{cl__lifecycle__node_8hpp_source_l00253}{client\+\_\+change\+\_\+state\+\_\+}}, \mbox{\hyperlink{cl__lifecycle__node_8hpp_source_l00252}{client\+\_\+get\+\_\+state\+\_\+}}, \mbox{\hyperlink{client_8cpp_source_l00060}{smacc2\+::\+ISmacc\+Client\+::get\+Node()}}, \mbox{\hyperlink{cl__lifecycle__node_8hpp_source_l00260}{node\+\_\+change\+\_\+state\+\_\+topic}}, \mbox{\hyperlink{cl__lifecycle__node_8hpp_source_l00259}{node\+\_\+get\+\_\+state\+\_\+topic}}, and \mbox{\hyperlink{cl__lifecycle__node_8hpp_source_l00255}{node\+Name\+\_\+}}.
+References \mbox{\hyperlink{cl__lifecycle__node_8hpp_source_l00258}{client\+\_\+change\+\_\+state\+\_\+}}, \mbox{\hyperlink{cl__lifecycle__node_8hpp_source_l00257}{client\+\_\+get\+\_\+state\+\_\+}}, \mbox{\hyperlink{client_8cpp_source_l00060}{smacc2\+::\+ISmacc\+Client\+::get\+Node()}}, \mbox{\hyperlink{cl__lifecycle__node_8hpp_source_l00265}{node\+\_\+change\+\_\+state\+\_\+topic}}, \mbox{\hyperlink{cl__lifecycle__node_8hpp_source_l00264}{node\+\_\+get\+\_\+state\+\_\+topic}}, and \mbox{\hyperlink{cl__lifecycle__node_8hpp_source_l00260}{node\+Name\+\_\+}}.
 
 Here is the call graph for this function\+:
 \nopagebreak
@@ -493,31 +507,31 @@ Configure component for event posting during orthogonal allocation.
 
 
 
-Definition at line \mbox{\hyperlink{cl__lifecycle__node_8hpp_source_l00236}{236}} of file \mbox{\hyperlink{cl__lifecycle__node_8hpp_source}{cl\+\_\+lifecycle\+\_\+node.\+hpp}}.
+Definition at line \mbox{\hyperlink{cl__lifecycle__node_8hpp_source_l00241}{241}} of file \mbox{\hyperlink{cl__lifecycle__node_8hpp_source}{cl\+\_\+lifecycle\+\_\+node.\+hpp}}.
 
 
 \begin{DoxyCode}{0}
-\DoxyCodeLine{00237\ \ \ \{}
-\DoxyCodeLine{00238\ \ \ \ \ \textcolor{comment}{//\ Create\ and\ register\ component\ with\ orthogonal}}
-\DoxyCodeLine{00239\ \ \ \ \ \textcolor{keywordflow}{if}\ (!\mbox{\hyperlink{classcl__lifecycle__node_1_1ClLifecycleNode_ae132781f1d79e6ddba05ef88a32ac944}{eventMonitor\_}})}
-\DoxyCodeLine{00240\ \ \ \ \ \{}
-\DoxyCodeLine{00241\ \ \ \ \ \ \ \mbox{\hyperlink{classcl__lifecycle__node_1_1ClLifecycleNode_ae132781f1d79e6ddba05ef88a32ac944}{eventMonitor\_}}\ =}
-\DoxyCodeLine{00242\ \ \ \ \ \ \ \ \ this-\/>\textcolor{keyword}{template}\ \mbox{\hyperlink{classsmacc2_1_1ISmaccClient_ab58cece2f3e504933b401e69c23de015}{createComponent<CpLifecycleEventMonitor,\ TOrthogonal,\ ClLifecycleNode>}}(}
-\DoxyCodeLine{00243\ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{classcl__lifecycle__node_1_1ClLifecycleNode_a2c84920902cb98b6ab1cfa5447412008}{nodeName\_}});}
-\DoxyCodeLine{00244\ \ \ \ \ \}}
-\DoxyCodeLine{00245\ }
-\DoxyCodeLine{00246\ \ \ \ \ \textcolor{comment}{//\ Configure\ component\ for\ this\ orthogonal}}
-\DoxyCodeLine{00247\ \ \ \ \ \mbox{\hyperlink{classcl__lifecycle__node_1_1ClLifecycleNode_ae132781f1d79e6ddba05ef88a32ac944}{eventMonitor\_}}-\/>template\ \mbox{\hyperlink{classcl__lifecycle__node_1_1ClLifecycleNode_a3e6fd9174b8886aba9467fb1452110ab}{onStateOrthogonalAllocation<TOrthogonal,\ ClLifecycleNode>}}();}
-\DoxyCodeLine{00248\ \ \ \}}
+\DoxyCodeLine{00242\ \ \ \{}
+\DoxyCodeLine{00243\ \ \ \ \ \textcolor{comment}{//\ Create\ and\ register\ component\ with\ orthogonal}}
+\DoxyCodeLine{00244\ \ \ \ \ \textcolor{keywordflow}{if}\ (!\mbox{\hyperlink{classcl__lifecycle__node_1_1ClLifecycleNode_ae132781f1d79e6ddba05ef88a32ac944}{eventMonitor\_}})}
+\DoxyCodeLine{00245\ \ \ \ \ \{}
+\DoxyCodeLine{00246\ \ \ \ \ \ \ \mbox{\hyperlink{classcl__lifecycle__node_1_1ClLifecycleNode_ae132781f1d79e6ddba05ef88a32ac944}{eventMonitor\_}}\ =}
+\DoxyCodeLine{00247\ \ \ \ \ \ \ \ \ this-\/>\textcolor{keyword}{template}\ \mbox{\hyperlink{classsmacc2_1_1ISmaccClient_ab58cece2f3e504933b401e69c23de015}{createComponent<CpLifecycleEventMonitor,\ TOrthogonal,\ ClLifecycleNode>}}(}
+\DoxyCodeLine{00248\ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{classcl__lifecycle__node_1_1ClLifecycleNode_a2c84920902cb98b6ab1cfa5447412008}{nodeName\_}});}
+\DoxyCodeLine{00249\ \ \ \ \ \}}
+\DoxyCodeLine{00250\ }
+\DoxyCodeLine{00251\ \ \ \ \ \textcolor{comment}{//\ Configure\ component\ for\ this\ orthogonal}}
+\DoxyCodeLine{00252\ \ \ \ \ \mbox{\hyperlink{classcl__lifecycle__node_1_1ClLifecycleNode_ae132781f1d79e6ddba05ef88a32ac944}{eventMonitor\_}}-\/>template\ \mbox{\hyperlink{classcl__lifecycle__node_1_1ClLifecycleNode_a3e6fd9174b8886aba9467fb1452110ab}{onStateOrthogonalAllocation<TOrthogonal,\ ClLifecycleNode>}}();}
+\DoxyCodeLine{00253\ \ \ \}}
 
 \end{DoxyCode}
 
 
-References \mbox{\hyperlink{smacc__client__impl_8hpp_source_l00132}{smacc2\+::\+ISmacc\+Client\+::create\+Component()}}, \mbox{\hyperlink{cl__lifecycle__node_8hpp_source_l00258}{event\+Monitor\+\_\+}}, \mbox{\hyperlink{cl__lifecycle__node_8hpp_source_l00255}{node\+Name\+\_\+}}, and \mbox{\hyperlink{cl__lifecycle__node_8hpp_source_l00236}{on\+State\+Orthogonal\+Allocation()}}.
+References \mbox{\hyperlink{smacc__client__impl_8hpp_source_l00132}{smacc2\+::\+ISmacc\+Client\+::create\+Component()}}, \mbox{\hyperlink{cl__lifecycle__node_8hpp_source_l00263}{event\+Monitor\+\_\+}}, \mbox{\hyperlink{cl__lifecycle__node_8hpp_source_l00260}{node\+Name\+\_\+}}, and \mbox{\hyperlink{cl__lifecycle__node_8hpp_source_l00241}{on\+State\+Orthogonal\+Allocation()}}.
 
 
 
-Referenced by \mbox{\hyperlink{cl__lifecycle__node_8hpp_source_l00236}{on\+State\+Orthogonal\+Allocation()}}.
+Referenced by \mbox{\hyperlink{cl__lifecycle__node_8hpp_source_l00241}{on\+State\+Orthogonal\+Allocation()}}.
 
 Here is the call graph for this function\+:
 \nopagebreak
@@ -543,18 +557,40 @@ Here is the caller graph for this function\+:
 
 
 
-Definition at line \mbox{\hyperlink{cl__lifecycle__node_8cpp_source_l00128}{128}} of file \mbox{\hyperlink{cl__lifecycle__node_8cpp_source}{cl\+\_\+lifecycle\+\_\+node.\+cpp}}.
+Definition at line \mbox{\hyperlink{cl__lifecycle__node_8cpp_source_l00157}{157}} of file \mbox{\hyperlink{cl__lifecycle__node_8cpp_source}{cl\+\_\+lifecycle\+\_\+node.\+cpp}}.
 
 
 \begin{DoxyCode}{0}
-\DoxyCodeLine{00129\ \{}
-\DoxyCodeLine{00130\ \ \ \textcolor{keywordflow}{return}\ \mbox{\hyperlink{classcl__lifecycle__node_1_1ClLifecycleNode_a1a726ffd8245b3d58fc46ede5ecfa932}{changeState}}(lifecycle\_msgs::msg::Transition::TRANSITION\_UNCONFIGURED\_SHUTDOWN,\ cancelled);}
-\DoxyCodeLine{00131\ \}}
+\DoxyCodeLine{00158\ \{}
+\DoxyCodeLine{00159\ \ \ \textcolor{comment}{//\ Each\ primary\ state\ has\ its\ own\ shutdown\ transition\ id,\ so\ ask\ the\ node\ which\ state\ it\ is\ in.}}
+\DoxyCodeLine{00160\ \ \ \textcolor{keyword}{using\ }lifecycle\_msgs::msg::State;}
+\DoxyCodeLine{00161\ \ \ \textcolor{keyword}{using\ }lifecycle\_msgs::msg::Transition;}
+\DoxyCodeLine{00162\ \ \ uint8\_t\ state;}
+\DoxyCodeLine{00163\ \ \ \textcolor{keywordflow}{if}\ (!\mbox{\hyperlink{classcl__lifecycle__node_1_1ClLifecycleNode_a964c2f86b4a24326df4fae329dac836a}{getState}}(state,\ cancelled))}
+\DoxyCodeLine{00164\ \ \ \{}
+\DoxyCodeLine{00165\ \ \ \ \ \textcolor{keywordflow}{return}\ \textcolor{keyword}{false};}
+\DoxyCodeLine{00166\ \ \ \}}
+\DoxyCodeLine{00167\ \ \ \textcolor{keywordflow}{switch}\ (state)}
+\DoxyCodeLine{00168\ \ \ \{}
+\DoxyCodeLine{00169\ \ \ \ \ \textcolor{keywordflow}{case}\ State::PRIMARY\_STATE\_UNCONFIGURED:}
+\DoxyCodeLine{00170\ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \mbox{\hyperlink{classcl__lifecycle__node_1_1ClLifecycleNode_a1a726ffd8245b3d58fc46ede5ecfa932}{changeState}}(Transition::TRANSITION\_UNCONFIGURED\_SHUTDOWN,\ cancelled);}
+\DoxyCodeLine{00171\ \ \ \ \ \textcolor{keywordflow}{case}\ State::PRIMARY\_STATE\_INACTIVE:}
+\DoxyCodeLine{00172\ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \mbox{\hyperlink{classcl__lifecycle__node_1_1ClLifecycleNode_a1a726ffd8245b3d58fc46ede5ecfa932}{changeState}}(Transition::TRANSITION\_INACTIVE\_SHUTDOWN,\ cancelled);}
+\DoxyCodeLine{00173\ \ \ \ \ \textcolor{keywordflow}{case}\ State::PRIMARY\_STATE\_ACTIVE:}
+\DoxyCodeLine{00174\ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \mbox{\hyperlink{classcl__lifecycle__node_1_1ClLifecycleNode_a1a726ffd8245b3d58fc46ede5ecfa932}{changeState}}(Transition::TRANSITION\_ACTIVE\_SHUTDOWN,\ cancelled);}
+\DoxyCodeLine{00175\ \ \ \ \ \textcolor{keywordflow}{default}:}
+\DoxyCodeLine{00176\ \ \ \ \ \ \ RCLCPP\_ERROR(}
+\DoxyCodeLine{00177\ \ \ \ \ \ \ \ \ this-\/>\mbox{\hyperlink{classsmacc2_1_1ISmaccClient_a0d0d53879b63fd45c78aac1c711f8708}{getNode}}()-\/>get\_logger(),}
+\DoxyCodeLine{00178\ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}[ClLifecycleNode]\ \%s\ is\ in\ lifecycle\ state\ \%d,\ which\ has\ no\ shutdown\ transition"{}},}
+\DoxyCodeLine{00179\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{classcl__lifecycle__node_1_1ClLifecycleNode_a2c84920902cb98b6ab1cfa5447412008}{nodeName\_}}.c\_str(),\ state);}
+\DoxyCodeLine{00180\ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \textcolor{keyword}{false};}
+\DoxyCodeLine{00181\ \ \ \}}
+\DoxyCodeLine{00182\ \}}
 
 \end{DoxyCode}
 
 
-References \mbox{\hyperlink{cl__lifecycle__node_8cpp_source_l00044}{change\+State()}}.
+References \mbox{\hyperlink{cl__lifecycle__node_8cpp_source_l00097}{change\+State()}}, \mbox{\hyperlink{client_8cpp_source_l00060}{smacc2\+::\+ISmacc\+Client\+::get\+Node()}}, \mbox{\hyperlink{cl__lifecycle__node_8cpp_source_l00124}{get\+State()}}, and \mbox{\hyperlink{cl__lifecycle__node_8hpp_source_l00260}{node\+Name\+\_\+}}.
 
 
 
@@ -587,11 +623,11 @@ rclcpp\+::\+Client$<$lifecycle\+\_\+msgs\+::srv\+::\+Change\+State$>$\mbox{\hype
 
 
 
-Definition at line \mbox{\hyperlink{cl__lifecycle__node_8hpp_source_l00253}{253}} of file \mbox{\hyperlink{cl__lifecycle__node_8hpp_source}{cl\+\_\+lifecycle\+\_\+node.\+hpp}}.
+Definition at line \mbox{\hyperlink{cl__lifecycle__node_8hpp_source_l00258}{258}} of file \mbox{\hyperlink{cl__lifecycle__node_8hpp_source}{cl\+\_\+lifecycle\+\_\+node.\+hpp}}.
 
 
 
-Referenced by \mbox{\hyperlink{cl__lifecycle__node_8cpp_source_l00044}{change\+State()}}, and \mbox{\hyperlink{cl__lifecycle__node_8cpp_source_l00035}{on\+Initialize()}}.
+Referenced by \mbox{\hyperlink{cl__lifecycle__node_8cpp_source_l00097}{change\+State()}}, and \mbox{\hyperlink{cl__lifecycle__node_8cpp_source_l00035}{on\+Initialize()}}.
 
 \Hypertarget{classcl__lifecycle__node_1_1ClLifecycleNode_a76e377a81ad049c3010a094d2d99c6e9}\index{cl\_lifecycle\_node::ClLifecycleNode@{cl\_lifecycle\_node::ClLifecycleNode}!client\_get\_state\_@{client\_get\_state\_}}
 \index{client\_get\_state\_@{client\_get\_state\_}!cl\_lifecycle\_node::ClLifecycleNode@{cl\_lifecycle\_node::ClLifecycleNode}}
@@ -601,11 +637,11 @@ rclcpp\+::\+Client$<$lifecycle\+\_\+msgs\+::srv\+::\+Get\+State$>$\mbox{\hyperli
 
 
 
-Definition at line \mbox{\hyperlink{cl__lifecycle__node_8hpp_source_l00252}{252}} of file \mbox{\hyperlink{cl__lifecycle__node_8hpp_source}{cl\+\_\+lifecycle\+\_\+node.\+hpp}}.
+Definition at line \mbox{\hyperlink{cl__lifecycle__node_8hpp_source_l00257}{257}} of file \mbox{\hyperlink{cl__lifecycle__node_8hpp_source}{cl\+\_\+lifecycle\+\_\+node.\+hpp}}.
 
 
 
-Referenced by \mbox{\hyperlink{cl__lifecycle__node_8cpp_source_l00035}{on\+Initialize()}}.
+Referenced by \mbox{\hyperlink{cl__lifecycle__node_8cpp_source_l00124}{get\+State()}}, and \mbox{\hyperlink{cl__lifecycle__node_8cpp_source_l00035}{on\+Initialize()}}.
 
 \Hypertarget{classcl__lifecycle__node_1_1ClLifecycleNode_ae132781f1d79e6ddba05ef88a32ac944}\index{cl\_lifecycle\_node::ClLifecycleNode@{cl\_lifecycle\_node::ClLifecycleNode}!eventMonitor\_@{eventMonitor\_}}
 \index{eventMonitor\_@{eventMonitor\_}!cl\_lifecycle\_node::ClLifecycleNode@{cl\_lifecycle\_node::ClLifecycleNode}}
@@ -615,11 +651,11 @@ Referenced by \mbox{\hyperlink{cl__lifecycle__node_8cpp_source_l00035}{on\+Initi
 
 
 
-Definition at line \mbox{\hyperlink{cl__lifecycle__node_8hpp_source_l00258}{258}} of file \mbox{\hyperlink{cl__lifecycle__node_8hpp_source}{cl\+\_\+lifecycle\+\_\+node.\+hpp}}.
+Definition at line \mbox{\hyperlink{cl__lifecycle__node_8hpp_source_l00263}{263}} of file \mbox{\hyperlink{cl__lifecycle__node_8hpp_source}{cl\+\_\+lifecycle\+\_\+node.\+hpp}}.
 
 
 
-Referenced by \mbox{\hyperlink{cl__lifecycle__node_8hpp_source_l00236}{on\+State\+Orthogonal\+Allocation()}}.
+Referenced by \mbox{\hyperlink{cl__lifecycle__node_8hpp_source_l00241}{on\+State\+Orthogonal\+Allocation()}}.
 
 \Hypertarget{classcl__lifecycle__node_1_1ClLifecycleNode_a7cd40fcfdd00dc8d3cc95998b50733e4}\index{cl\_lifecycle\_node::ClLifecycleNode@{cl\_lifecycle\_node::ClLifecycleNode}!lastTransitionEvent\_@{lastTransitionEvent\_}}
 \index{lastTransitionEvent\_@{lastTransitionEvent\_}!cl\_lifecycle\_node::ClLifecycleNode@{cl\_lifecycle\_node::ClLifecycleNode}}
@@ -629,7 +665,7 @@ lifecycle\+\_\+msgs\+::msg\+::\+Transition\+Event\+::\+Shared\+Ptr cl\+\_\+lifec
 
 
 
-Definition at line \mbox{\hyperlink{cl__lifecycle__node_8hpp_source_l00262}{262}} of file \mbox{\hyperlink{cl__lifecycle__node_8hpp_source}{cl\+\_\+lifecycle\+\_\+node.\+hpp}}.
+Definition at line \mbox{\hyperlink{cl__lifecycle__node_8hpp_source_l00267}{267}} of file \mbox{\hyperlink{cl__lifecycle__node_8hpp_source}{cl\+\_\+lifecycle\+\_\+node.\+hpp}}.
 
 \Hypertarget{classcl__lifecycle__node_1_1ClLifecycleNode_ac816eb16dddd2330c1ac5364a45f85bc}\index{cl\_lifecycle\_node::ClLifecycleNode@{cl\_lifecycle\_node::ClLifecycleNode}!node\_change\_state\_topic@{node\_change\_state\_topic}}
 \index{node\_change\_state\_topic@{node\_change\_state\_topic}!cl\_lifecycle\_node::ClLifecycleNode@{cl\_lifecycle\_node::ClLifecycleNode}}
@@ -639,7 +675,7 @@ const std\+::string cl\+\_\+lifecycle\+\_\+node\+::\+Cl\+Lifecycle\+Node\+::node
 
 
 
-Definition at line \mbox{\hyperlink{cl__lifecycle__node_8hpp_source_l00260}{260}} of file \mbox{\hyperlink{cl__lifecycle__node_8hpp_source}{cl\+\_\+lifecycle\+\_\+node.\+hpp}}.
+Definition at line \mbox{\hyperlink{cl__lifecycle__node_8hpp_source_l00265}{265}} of file \mbox{\hyperlink{cl__lifecycle__node_8hpp_source}{cl\+\_\+lifecycle\+\_\+node.\+hpp}}.
 
 
 
@@ -653,7 +689,7 @@ const std\+::string cl\+\_\+lifecycle\+\_\+node\+::\+Cl\+Lifecycle\+Node\+::node
 
 
 
-Definition at line \mbox{\hyperlink{cl__lifecycle__node_8hpp_source_l00259}{259}} of file \mbox{\hyperlink{cl__lifecycle__node_8hpp_source}{cl\+\_\+lifecycle\+\_\+node.\+hpp}}.
+Definition at line \mbox{\hyperlink{cl__lifecycle__node_8hpp_source_l00264}{264}} of file \mbox{\hyperlink{cl__lifecycle__node_8hpp_source}{cl\+\_\+lifecycle\+\_\+node.\+hpp}}.
 
 
 
@@ -667,11 +703,11 @@ std\+::string cl\+\_\+lifecycle\+\_\+node\+::\+Cl\+Lifecycle\+Node\+::node\+Name
 
 
 
-Definition at line \mbox{\hyperlink{cl__lifecycle__node_8hpp_source_l00255}{255}} of file \mbox{\hyperlink{cl__lifecycle__node_8hpp_source}{cl\+\_\+lifecycle\+\_\+node.\+hpp}}.
+Definition at line \mbox{\hyperlink{cl__lifecycle__node_8hpp_source_l00260}{260}} of file \mbox{\hyperlink{cl__lifecycle__node_8hpp_source}{cl\+\_\+lifecycle\+\_\+node.\+hpp}}.
 
 
 
-Referenced by \mbox{\hyperlink{cl__lifecycle__node_8cpp_source_l00035}{on\+Initialize()}}, and \mbox{\hyperlink{cl__lifecycle__node_8hpp_source_l00236}{on\+State\+Orthogonal\+Allocation()}}.
+Referenced by \mbox{\hyperlink{cl__lifecycle__node_8cpp_source_l00035}{on\+Initialize()}}, \mbox{\hyperlink{cl__lifecycle__node_8hpp_source_l00241}{on\+State\+Orthogonal\+Allocation()}}, and \mbox{\hyperlink{cl__lifecycle__node_8cpp_source_l00157}{shutdown()}}.
 
 
 

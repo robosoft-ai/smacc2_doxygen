@@ -1,0 +1,91 @@
+\doxysection{cl\+\_\+lifecycle\+\_\+node\+::anonymous\+\_\+namespace\{cl\+\_\+lifecycle\+\_\+node.\+cpp\} Namespace Reference}
+\hypertarget{namespacecl__lifecycle__node_1_1anonymous__namespace_02cl__lifecycle__node_8cpp_03}{}\label{namespacecl__lifecycle__node_1_1anonymous__namespace_02cl__lifecycle__node_8cpp_03}\index{cl\_lifecycle\_node::anonymous\_namespace\lcurly{}cl\_lifecycle\_node.cpp\rcurly{}@{cl\_lifecycle\_node::anonymous\_namespace\lcurly{}cl\_lifecycle\_node.cpp\rcurly{}}}
+\doxysubsubsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+{\footnotesize template$<$typename ServiceT $>$ }\\Service\+T\+::\+Response\+::\+Shared\+Ptr \mbox{\hyperlink{namespacecl__lifecycle__node_1_1anonymous__namespace_02cl__lifecycle__node_8cpp_03_ae81dc81c35fe21d9e448a12dc0a603c6}{call\+Service}} (const rclcpp\+::\+Logger \&logger, typename rclcpp\+::\+Client$<$ ServiceT $>$\mbox{\hyperlink{classrclcpp_1_1Subscription_3_01vision__msgs_1_1msg_1_1Detection3DArray_01_4_1_1SharedPtr}{\+::\+Shared\+Ptr}} client, typename Service\+T\+::\+Request\+::\+Shared\+Ptr request, const \mbox{\hyperlink{classcl__lifecycle__node_1_1ClLifecycleNode_a5e3f92736ef684316a92f669e92b1647}{Cl\+Lifecycle\+Node\+::\+Cancel\+Predicate}} \&cancelled, const std\+::string \&what)
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{Function Documentation}
+\Hypertarget{namespacecl__lifecycle__node_1_1anonymous__namespace_02cl__lifecycle__node_8cpp_03_ae81dc81c35fe21d9e448a12dc0a603c6}\index{cl\_lifecycle\_node::anonymous\_namespace\lcurly{}cl\_lifecycle\_node.cpp\rcurly{}@{cl\_lifecycle\_node::anonymous\_namespace\lcurly{}cl\_lifecycle\_node.cpp\rcurly{}}!callService@{callService}}
+\index{callService@{callService}!cl\_lifecycle\_node::anonymous\_namespace\lcurly{}cl\_lifecycle\_node.cpp\rcurly{}@{cl\_lifecycle\_node::anonymous\_namespace\lcurly{}cl\_lifecycle\_node.cpp\rcurly{}}}
+\doxysubsubsection{\texorpdfstring{callService()}{callService()}}
+{\footnotesize\ttfamily \label{namespacecl__lifecycle__node_1_1anonymous__namespace_02cl__lifecycle__node_8cpp_03_ae81dc81c35fe21d9e448a12dc0a603c6} 
+template$<$typename ServiceT $>$ \\
+Service\+T\+::\+Response\+::\+Shared\+Ptr cl\+\_\+lifecycle\+\_\+node\+::anonymous\+\_\+namespace\{cl\+\_\+lifecycle\+\_\+node.\+cpp\}\+::call\+Service (\begin{DoxyParamCaption}\item[{const rclcpp\+::\+Logger \&}]{logger}{, }\item[{typename rclcpp\+::\+Client$<$ ServiceT $>$\mbox{\hyperlink{classrclcpp_1_1Subscription_3_01vision__msgs_1_1msg_1_1Detection3DArray_01_4_1_1SharedPtr}{\+::\+Shared\+Ptr}}}]{client}{, }\item[{typename Service\+T\+::\+Request\+::\+Shared\+Ptr}]{request}{, }\item[{const \mbox{\hyperlink{classcl__lifecycle__node_1_1ClLifecycleNode_a5e3f92736ef684316a92f669e92b1647}{Cl\+Lifecycle\+Node\+::\+Cancel\+Predicate}} \&}]{cancelled}{, }\item[{const std\+::string \&}]{what}{}\end{DoxyParamCaption})}
+
+
+
+Definition at line \mbox{\hyperlink{cl__lifecycle__node_8cpp_source_l00049}{49}} of file \mbox{\hyperlink{cl__lifecycle__node_8cpp_source}{cl\+\_\+lifecycle\+\_\+node.\+cpp}}.
+
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00053\ \{}
+\DoxyCodeLine{00054\ \ \ \textcolor{keyword}{const}\ std::string\ serviceName\ =\ client-\/>get\_service\_name();}
+\DoxyCodeLine{00055\ \ \ \textcolor{keyword}{auto}\ abandoned\ =\ [\&cancelled]()\ \{\ \textcolor{keywordflow}{return}\ (cancelled\ \&\&\ cancelled())\ ||\ !rclcpp::ok();\ \};}
+\DoxyCodeLine{00056\ }
+\DoxyCodeLine{00057\ \ \ \textcolor{keywordtype}{int}\ laps\ =\ 0;}
+\DoxyCodeLine{00058\ \ \ \textcolor{keywordflow}{while}\ (!client-\/>wait\_for\_service(std::chrono::milliseconds(100)))}
+\DoxyCodeLine{00059\ \ \ \{}
+\DoxyCodeLine{00060\ \ \ \ \ \textcolor{keywordflow}{if}\ (abandoned())}
+\DoxyCodeLine{00061\ \ \ \ \ \{}
+\DoxyCodeLine{00062\ \ \ \ \ \ \ RCLCPP\_INFO(}
+\DoxyCodeLine{00063\ \ \ \ \ \ \ \ \ logger,\ \textcolor{stringliteral}{"{}[ClLifecycleNode]\ \%s\ abandoned\ while\ waiting\ for\ service\ \%s"{}},\ what.c\_str(),}
+\DoxyCodeLine{00064\ \ \ \ \ \ \ \ \ serviceName.c\_str());}
+\DoxyCodeLine{00065\ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \textcolor{keyword}{nullptr};}
+\DoxyCodeLine{00066\ \ \ \ \ \}}
+\DoxyCodeLine{00067\ \ \ \ \ \textcolor{keywordflow}{if}\ (++laps\ \%\ 50\ ==\ 0)}
+\DoxyCodeLine{00068\ \ \ \ \ \{}
+\DoxyCodeLine{00069\ \ \ \ \ \ \ RCLCPP\_WARN(}
+\DoxyCodeLine{00070\ \ \ \ \ \ \ \ \ logger,\ \textcolor{stringliteral}{"{}[ClLifecycleNode]\ still\ waiting\ for\ service\ \%s\ (\%d\ s)"{}},\ serviceName.c\_str(),}
+\DoxyCodeLine{00071\ \ \ \ \ \ \ \ \ laps\ /\ 10);}
+\DoxyCodeLine{00072\ \ \ \ \ \}}
+\DoxyCodeLine{00073\ \ \ \}}
+\DoxyCodeLine{00074\ }
+\DoxyCodeLine{00075\ \ \ \textcolor{keyword}{auto}\ future\ =\ client-\/>async\_send\_request(request);}
+\DoxyCodeLine{00076\ \ \ laps\ =\ 0;}
+\DoxyCodeLine{00077\ \ \ \textcolor{keywordflow}{while}\ (future.wait\_for(std::chrono::milliseconds(100))\ !=\ std::future\_status::ready)}
+\DoxyCodeLine{00078\ \ \ \{}
+\DoxyCodeLine{00079\ \ \ \ \ \textcolor{keywordflow}{if}\ (abandoned())}
+\DoxyCodeLine{00080\ \ \ \ \ \{}
+\DoxyCodeLine{00081\ \ \ \ \ \ \ client-\/>remove\_pending\_request(future);}
+\DoxyCodeLine{00082\ \ \ \ \ \ \ RCLCPP\_INFO(}
+\DoxyCodeLine{00083\ \ \ \ \ \ \ \ \ logger,\ \textcolor{stringliteral}{"{}[ClLifecycleNode]\ \%s\ abandoned\ while\ waiting\ for\ the\ response\ of\ \%s"{}},\ what.c\_str(),}
+\DoxyCodeLine{00084\ \ \ \ \ \ \ \ \ serviceName.c\_str());}
+\DoxyCodeLine{00085\ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \textcolor{keyword}{nullptr};}
+\DoxyCodeLine{00086\ \ \ \ \ \}}
+\DoxyCodeLine{00087\ \ \ \ \ \textcolor{keywordflow}{if}\ (++laps\ \%\ 50\ ==\ 0)}
+\DoxyCodeLine{00088\ \ \ \ \ \{}
+\DoxyCodeLine{00089\ \ \ \ \ \ \ RCLCPP\_WARN(}
+\DoxyCodeLine{00090\ \ \ \ \ \ \ \ \ logger,\ \textcolor{stringliteral}{"{}[ClLifecycleNode]\ no\ response\ from\ \%s\ after\ \%d\ s"{}},\ serviceName.c\_str(),\ laps\ /\ 10);}
+\DoxyCodeLine{00091\ \ \ \ \ \}}
+\DoxyCodeLine{00092\ \ \ \}}
+\DoxyCodeLine{00093\ \ \ \textcolor{keywordflow}{return}\ future.get();}
+\DoxyCodeLine{00094\ \}}
+
+\end{DoxyCode}
+
+
+References \mbox{\hyperlink{cl__lifecycle__node_8cpp_source_l00049}{call\+Service()}}.
+
+
+
+Referenced by \mbox{\hyperlink{cl__lifecycle__node_8cpp_source_l00049}{call\+Service()}}.
+
+Here is the call graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=201pt]{namespacecl__lifecycle__node_1_1anonymous__namespace_02cl__lifecycle__node_8cpp_03_ae81dc81c35fe21d9e448a12dc0a603c6_cgraph}
+\end{center}
+\end{figure}
+Here is the caller graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=201pt]{namespacecl__lifecycle__node_1_1anonymous__namespace_02cl__lifecycle__node_8cpp_03_ae81dc81c35fe21d9e448a12dc0a603c6_icgraph}
+\end{center}
+\end{figure}

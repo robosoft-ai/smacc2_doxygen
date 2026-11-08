@@ -45,95 +45,146 @@
 \DoxyCodeLine{\Hypertarget{cl__lifecycle__node_8cpp_source_l00041}00041\ \ \ \ \ this-\/>\mbox{\hyperlink{classcl__lifecycle__node_1_1ClLifecycleNode_a2c84920902cb98b6ab1cfa5447412008}{nodeName\_}}\ +\ \mbox{\hyperlink{classcl__lifecycle__node_1_1ClLifecycleNode_ac816eb16dddd2330c1ac5364a45f85bc}{node\_change\_state\_topic}});}
 \DoxyCodeLine{\Hypertarget{cl__lifecycle__node_8cpp_source_l00042}00042\ \}}
 \DoxyCodeLine{\Hypertarget{cl__lifecycle__node_8cpp_source_l00043}00043\ }
-\DoxyCodeLine{\Hypertarget{cl__lifecycle__node_8cpp_source_l00044}\mbox{\hyperlink{classcl__lifecycle__node_1_1ClLifecycleNode_a1a726ffd8245b3d58fc46ede5ecfa932}{00044}}\ \textcolor{keywordtype}{bool}\ \mbox{\hyperlink{classcl__lifecycle__node_1_1ClLifecycleNode_a1a726ffd8245b3d58fc46ede5ecfa932}{ClLifecycleNode::changeState}}(uint8\_t\ transition,\ \textcolor{keyword}{const}\ \mbox{\hyperlink{classcl__lifecycle__node_1_1ClLifecycleNode_a5e3f92736ef684316a92f669e92b1647}{CancelPredicate}}\ \&\ cancelled)}
+\DoxyCodeLine{\Hypertarget{cl__lifecycle__node_8cpp_source_l00044}\mbox{\hyperlink{namespacecl__lifecycle__node_1_1anonymous__namespace_02cl__lifecycle__node_8cpp_03}{00044}}\ \textcolor{keyword}{namespace}}
 \DoxyCodeLine{\Hypertarget{cl__lifecycle__node_8cpp_source_l00045}00045\ \{}
-\DoxyCodeLine{\Hypertarget{cl__lifecycle__node_8cpp_source_l00046}00046\ \ \ \textcolor{keyword}{auto}\ logger\ =\ this-\/>\mbox{\hyperlink{classsmacc2_1_1ISmaccClient_a0d0d53879b63fd45c78aac1c711f8708}{getNode}}()-\/>get\_logger();}
-\DoxyCodeLine{\Hypertarget{cl__lifecycle__node_8cpp_source_l00047}00047\ \ \ \textcolor{keyword}{const}\ std::string\ serviceName\ =\ \mbox{\hyperlink{classcl__lifecycle__node_1_1ClLifecycleNode_a02e3c8c31dd0397852f3af95323bddae}{client\_change\_state\_}}-\/>get\_service\_name();}
-\DoxyCodeLine{\Hypertarget{cl__lifecycle__node_8cpp_source_l00048}00048\ \ \ \textcolor{keyword}{auto}\ abandoned\ =\ [\&cancelled]()\ \{\ \textcolor{keywordflow}{return}\ (cancelled\ \&\&\ cancelled())\ ||\ !rclcpp::ok();\ \};}
-\DoxyCodeLine{\Hypertarget{cl__lifecycle__node_8cpp_source_l00049}00049\ }
-\DoxyCodeLine{\Hypertarget{cl__lifecycle__node_8cpp_source_l00050}00050\ \ \ \textcolor{comment}{//\ The\ client\ is\ created\ in\ onInitialize()\ and\ the\ first\ request\ can\ follow\ within}}
-\DoxyCodeLine{\Hypertarget{cl__lifecycle__node_8cpp_source_l00051}00051\ \ \ \textcolor{comment}{//\ milliseconds,\ before\ the\ service\ has\ been\ discovered.\ A\ request\ sent\ before\ discovery\ has}}
-\DoxyCodeLine{\Hypertarget{cl__lifecycle__node_8cpp_source_l00052}00052\ \ \ \textcolor{comment}{//\ no\ reader\ and\ its\ future\ never\ completes,\ so\ wait\ for\ the\ server\ first.\ The\ wait\ is}}
-\DoxyCodeLine{\Hypertarget{cl__lifecycle__node_8cpp_source_l00053}00053\ \ \ \textcolor{comment}{//\ unbounded\ but\ abandonable:\ the\ predicate\ is\ checked\ every\ 100\ ms.}}
-\DoxyCodeLine{\Hypertarget{cl__lifecycle__node_8cpp_source_l00054}00054\ \ \ \textcolor{keywordtype}{int}\ laps\ =\ 0;}
-\DoxyCodeLine{\Hypertarget{cl__lifecycle__node_8cpp_source_l00055}00055\ \ \ \textcolor{keywordflow}{while}\ (!\mbox{\hyperlink{classcl__lifecycle__node_1_1ClLifecycleNode_a02e3c8c31dd0397852f3af95323bddae}{client\_change\_state\_}}-\/>wait\_for\_service(std::chrono::milliseconds(100)))}
-\DoxyCodeLine{\Hypertarget{cl__lifecycle__node_8cpp_source_l00056}00056\ \ \ \{}
-\DoxyCodeLine{\Hypertarget{cl__lifecycle__node_8cpp_source_l00057}00057\ \ \ \ \ \textcolor{keywordflow}{if}\ (abandoned())}
-\DoxyCodeLine{\Hypertarget{cl__lifecycle__node_8cpp_source_l00058}00058\ \ \ \ \ \{}
-\DoxyCodeLine{\Hypertarget{cl__lifecycle__node_8cpp_source_l00059}00059\ \ \ \ \ \ \ RCLCPP\_INFO(}
-\DoxyCodeLine{\Hypertarget{cl__lifecycle__node_8cpp_source_l00060}00060\ \ \ \ \ \ \ \ \ logger,\ \textcolor{stringliteral}{"{}[ClLifecycleNode]\ transition\ \%d\ abandoned\ while\ waiting\ for\ service\ \%s"{}},}
-\DoxyCodeLine{\Hypertarget{cl__lifecycle__node_8cpp_source_l00061}00061\ \ \ \ \ \ \ \ \ transition,\ serviceName.c\_str());}
-\DoxyCodeLine{\Hypertarget{cl__lifecycle__node_8cpp_source_l00062}00062\ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \textcolor{keyword}{false};}
-\DoxyCodeLine{\Hypertarget{cl__lifecycle__node_8cpp_source_l00063}00063\ \ \ \ \ \}}
-\DoxyCodeLine{\Hypertarget{cl__lifecycle__node_8cpp_source_l00064}00064\ \ \ \ \ \textcolor{keywordflow}{if}\ (++laps\ \%\ 50\ ==\ 0)}
-\DoxyCodeLine{\Hypertarget{cl__lifecycle__node_8cpp_source_l00065}00065\ \ \ \ \ \{}
-\DoxyCodeLine{\Hypertarget{cl__lifecycle__node_8cpp_source_l00066}00066\ \ \ \ \ \ \ RCLCPP\_WARN(}
-\DoxyCodeLine{\Hypertarget{cl__lifecycle__node_8cpp_source_l00067}00067\ \ \ \ \ \ \ \ \ logger,\ \textcolor{stringliteral}{"{}[ClLifecycleNode]\ still\ waiting\ for\ service\ \%s\ (\%d\ s)"{}},\ serviceName.c\_str(),}
-\DoxyCodeLine{\Hypertarget{cl__lifecycle__node_8cpp_source_l00068}00068\ \ \ \ \ \ \ \ \ laps\ /\ 10);}
-\DoxyCodeLine{\Hypertarget{cl__lifecycle__node_8cpp_source_l00069}00069\ \ \ \ \ \}}
-\DoxyCodeLine{\Hypertarget{cl__lifecycle__node_8cpp_source_l00070}00070\ \ \ \}}
-\DoxyCodeLine{\Hypertarget{cl__lifecycle__node_8cpp_source_l00071}00071\ }
-\DoxyCodeLine{\Hypertarget{cl__lifecycle__node_8cpp_source_l00072}00072\ \ \ \textcolor{keyword}{auto}\ request\ =\ std::make\_shared<lifecycle\_msgs::srv::ChangeState::Request>();}
-\DoxyCodeLine{\Hypertarget{cl__lifecycle__node_8cpp_source_l00073}00073\ \ \ request-\/>transition.id\ =\ transition;}
-\DoxyCodeLine{\Hypertarget{cl__lifecycle__node_8cpp_source_l00074}00074\ \ \ \textcolor{keyword}{auto}\ future\ =\ \mbox{\hyperlink{classcl__lifecycle__node_1_1ClLifecycleNode_a02e3c8c31dd0397852f3af95323bddae}{client\_change\_state\_}}-\/>async\_send\_request(request);}
-\DoxyCodeLine{\Hypertarget{cl__lifecycle__node_8cpp_source_l00075}00075\ \ \ laps\ =\ 0;}
-\DoxyCodeLine{\Hypertarget{cl__lifecycle__node_8cpp_source_l00076}00076\ \ \ \textcolor{keywordflow}{while}\ (future.wait\_for(std::chrono::milliseconds(100))\ !=\ std::future\_status::ready)}
-\DoxyCodeLine{\Hypertarget{cl__lifecycle__node_8cpp_source_l00077}00077\ \ \ \{}
-\DoxyCodeLine{\Hypertarget{cl__lifecycle__node_8cpp_source_l00078}00078\ \ \ \ \ \textcolor{keywordflow}{if}\ (abandoned())}
-\DoxyCodeLine{\Hypertarget{cl__lifecycle__node_8cpp_source_l00079}00079\ \ \ \ \ \{}
-\DoxyCodeLine{\Hypertarget{cl__lifecycle__node_8cpp_source_l00080}00080\ \ \ \ \ \ \ \mbox{\hyperlink{classcl__lifecycle__node_1_1ClLifecycleNode_a02e3c8c31dd0397852f3af95323bddae}{client\_change\_state\_}}-\/>remove\_pending\_request(future);}
-\DoxyCodeLine{\Hypertarget{cl__lifecycle__node_8cpp_source_l00081}00081\ \ \ \ \ \ \ RCLCPP\_INFO(}
-\DoxyCodeLine{\Hypertarget{cl__lifecycle__node_8cpp_source_l00082}00082\ \ \ \ \ \ \ \ \ logger,\ \textcolor{stringliteral}{"{}[ClLifecycleNode]\ transition\ \%d\ abandoned\ while\ waiting\ for\ the\ response\ of\ \%s"{}},}
-\DoxyCodeLine{\Hypertarget{cl__lifecycle__node_8cpp_source_l00083}00083\ \ \ \ \ \ \ \ \ transition,\ serviceName.c\_str());}
-\DoxyCodeLine{\Hypertarget{cl__lifecycle__node_8cpp_source_l00084}00084\ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \textcolor{keyword}{false};}
-\DoxyCodeLine{\Hypertarget{cl__lifecycle__node_8cpp_source_l00085}00085\ \ \ \ \ \}}
-\DoxyCodeLine{\Hypertarget{cl__lifecycle__node_8cpp_source_l00086}00086\ \ \ \ \ \textcolor{keywordflow}{if}\ (++laps\ \%\ 50\ ==\ 0)}
-\DoxyCodeLine{\Hypertarget{cl__lifecycle__node_8cpp_source_l00087}00087\ \ \ \ \ \{}
-\DoxyCodeLine{\Hypertarget{cl__lifecycle__node_8cpp_source_l00088}00088\ \ \ \ \ \ \ RCLCPP\_WARN(}
-\DoxyCodeLine{\Hypertarget{cl__lifecycle__node_8cpp_source_l00089}00089\ \ \ \ \ \ \ \ \ logger,\ \textcolor{stringliteral}{"{}[ClLifecycleNode]\ no\ response\ from\ \%s\ after\ \%d\ s"{}},\ serviceName.c\_str(),\ laps\ /\ 10);}
-\DoxyCodeLine{\Hypertarget{cl__lifecycle__node_8cpp_source_l00090}00090\ \ \ \ \ \}}
-\DoxyCodeLine{\Hypertarget{cl__lifecycle__node_8cpp_source_l00091}00091\ \ \ \}}
-\DoxyCodeLine{\Hypertarget{cl__lifecycle__node_8cpp_source_l00092}00092\ }
-\DoxyCodeLine{\Hypertarget{cl__lifecycle__node_8cpp_source_l00093}00093\ \ \ \textcolor{keyword}{const}\ \textcolor{keywordtype}{bool}\ accepted\ =\ future.get()-\/>success;}
-\DoxyCodeLine{\Hypertarget{cl__lifecycle__node_8cpp_source_l00094}00094\ \ \ \textcolor{keywordflow}{if}\ (accepted)}
-\DoxyCodeLine{\Hypertarget{cl__lifecycle__node_8cpp_source_l00095}00095\ \ \ \{}
-\DoxyCodeLine{\Hypertarget{cl__lifecycle__node_8cpp_source_l00096}00096\ \ \ \ \ RCLCPP\_INFO(}
-\DoxyCodeLine{\Hypertarget{cl__lifecycle__node_8cpp_source_l00097}00097\ \ \ \ \ \ \ logger,\ \textcolor{stringliteral}{"{}[ClLifecycleNode]\ transition\ \%d\ accepted\ by\ \%s"{}},\ transition,\ serviceName.c\_str());}
-\DoxyCodeLine{\Hypertarget{cl__lifecycle__node_8cpp_source_l00098}00098\ \ \ \}}
-\DoxyCodeLine{\Hypertarget{cl__lifecycle__node_8cpp_source_l00099}00099\ \ \ \textcolor{keywordflow}{else}}
-\DoxyCodeLine{\Hypertarget{cl__lifecycle__node_8cpp_source_l00100}00100\ \ \ \{}
-\DoxyCodeLine{\Hypertarget{cl__lifecycle__node_8cpp_source_l00101}00101\ \ \ \ \ RCLCPP\_ERROR(}
-\DoxyCodeLine{\Hypertarget{cl__lifecycle__node_8cpp_source_l00102}00102\ \ \ \ \ \ \ logger,\ \textcolor{stringliteral}{"{}[ClLifecycleNode]\ transition\ \%d\ rejected\ by\ \%s;\ no\ transition\ event\ will\ follow"{}},}
-\DoxyCodeLine{\Hypertarget{cl__lifecycle__node_8cpp_source_l00103}00103\ \ \ \ \ \ \ transition,\ serviceName.c\_str());}
-\DoxyCodeLine{\Hypertarget{cl__lifecycle__node_8cpp_source_l00104}00104\ \ \ \}}
-\DoxyCodeLine{\Hypertarget{cl__lifecycle__node_8cpp_source_l00105}00105\ \ \ \textcolor{keywordflow}{return}\ accepted;}
-\DoxyCodeLine{\Hypertarget{cl__lifecycle__node_8cpp_source_l00106}00106\ \}}
-\DoxyCodeLine{\Hypertarget{cl__lifecycle__node_8cpp_source_l00107}00107\ }
-\DoxyCodeLine{\Hypertarget{cl__lifecycle__node_8cpp_source_l00108}\mbox{\hyperlink{classcl__lifecycle__node_1_1ClLifecycleNode_a27ca31781a5f5fd0e93b86fae85d2407}{00108}}\ \textcolor{keywordtype}{bool}\ \mbox{\hyperlink{classcl__lifecycle__node_1_1ClLifecycleNode_a27ca31781a5f5fd0e93b86fae85d2407}{ClLifecycleNode::activate}}(\textcolor{keyword}{const}\ \mbox{\hyperlink{classcl__lifecycle__node_1_1ClLifecycleNode_a5e3f92736ef684316a92f669e92b1647}{CancelPredicate}}\ \&\ cancelled)}
-\DoxyCodeLine{\Hypertarget{cl__lifecycle__node_8cpp_source_l00109}00109\ \{}
-\DoxyCodeLine{\Hypertarget{cl__lifecycle__node_8cpp_source_l00110}00110\ \ \ \textcolor{keywordflow}{return}\ \mbox{\hyperlink{classcl__lifecycle__node_1_1ClLifecycleNode_a1a726ffd8245b3d58fc46ede5ecfa932}{changeState}}(lifecycle\_msgs::msg::Transition::TRANSITION\_ACTIVATE,\ cancelled);}
-\DoxyCodeLine{\Hypertarget{cl__lifecycle__node_8cpp_source_l00111}00111\ \}}
-\DoxyCodeLine{\Hypertarget{cl__lifecycle__node_8cpp_source_l00112}00112\ }
-\DoxyCodeLine{\Hypertarget{cl__lifecycle__node_8cpp_source_l00113}\mbox{\hyperlink{classcl__lifecycle__node_1_1ClLifecycleNode_a57eda00992f80c932bf42b518cc5495b}{00113}}\ \textcolor{keywordtype}{bool}\ \mbox{\hyperlink{classcl__lifecycle__node_1_1ClLifecycleNode_a57eda00992f80c932bf42b518cc5495b}{ClLifecycleNode::deactivate}}(\textcolor{keyword}{const}\ \mbox{\hyperlink{classcl__lifecycle__node_1_1ClLifecycleNode_a5e3f92736ef684316a92f669e92b1647}{CancelPredicate}}\ \&\ cancelled)}
-\DoxyCodeLine{\Hypertarget{cl__lifecycle__node_8cpp_source_l00114}00114\ \{}
-\DoxyCodeLine{\Hypertarget{cl__lifecycle__node_8cpp_source_l00115}00115\ \ \ \textcolor{keywordflow}{return}\ \mbox{\hyperlink{classcl__lifecycle__node_1_1ClLifecycleNode_a1a726ffd8245b3d58fc46ede5ecfa932}{changeState}}(lifecycle\_msgs::msg::Transition::TRANSITION\_DEACTIVATE,\ cancelled);}
-\DoxyCodeLine{\Hypertarget{cl__lifecycle__node_8cpp_source_l00116}00116\ \}}
-\DoxyCodeLine{\Hypertarget{cl__lifecycle__node_8cpp_source_l00117}00117\ }
-\DoxyCodeLine{\Hypertarget{cl__lifecycle__node_8cpp_source_l00118}\mbox{\hyperlink{classcl__lifecycle__node_1_1ClLifecycleNode_af598e0a245ce4dcfa6d26b62d8a91d27}{00118}}\ \textcolor{keywordtype}{bool}\ \mbox{\hyperlink{classcl__lifecycle__node_1_1ClLifecycleNode_af598e0a245ce4dcfa6d26b62d8a91d27}{ClLifecycleNode::configure}}(\textcolor{keyword}{const}\ \mbox{\hyperlink{classcl__lifecycle__node_1_1ClLifecycleNode_a5e3f92736ef684316a92f669e92b1647}{CancelPredicate}}\ \&\ cancelled)}
-\DoxyCodeLine{\Hypertarget{cl__lifecycle__node_8cpp_source_l00119}00119\ \{}
-\DoxyCodeLine{\Hypertarget{cl__lifecycle__node_8cpp_source_l00120}00120\ \ \ \textcolor{keywordflow}{return}\ \mbox{\hyperlink{classcl__lifecycle__node_1_1ClLifecycleNode_a1a726ffd8245b3d58fc46ede5ecfa932}{changeState}}(lifecycle\_msgs::msg::Transition::TRANSITION\_CONFIGURE,\ cancelled);}
-\DoxyCodeLine{\Hypertarget{cl__lifecycle__node_8cpp_source_l00121}00121\ \}}
-\DoxyCodeLine{\Hypertarget{cl__lifecycle__node_8cpp_source_l00122}00122\ }
-\DoxyCodeLine{\Hypertarget{cl__lifecycle__node_8cpp_source_l00123}\mbox{\hyperlink{classcl__lifecycle__node_1_1ClLifecycleNode_a7407971d8b586b7d7cb13dbe2650ffc1}{00123}}\ \textcolor{keywordtype}{bool}\ \mbox{\hyperlink{classcl__lifecycle__node_1_1ClLifecycleNode_a7407971d8b586b7d7cb13dbe2650ffc1}{ClLifecycleNode::cleanup}}(\textcolor{keyword}{const}\ \mbox{\hyperlink{classcl__lifecycle__node_1_1ClLifecycleNode_a5e3f92736ef684316a92f669e92b1647}{CancelPredicate}}\ \&\ cancelled)}
-\DoxyCodeLine{\Hypertarget{cl__lifecycle__node_8cpp_source_l00124}00124\ \{}
-\DoxyCodeLine{\Hypertarget{cl__lifecycle__node_8cpp_source_l00125}00125\ \ \ \textcolor{keywordflow}{return}\ \mbox{\hyperlink{classcl__lifecycle__node_1_1ClLifecycleNode_a1a726ffd8245b3d58fc46ede5ecfa932}{changeState}}(lifecycle\_msgs::msg::Transition::TRANSITION\_CLEANUP,\ cancelled);}
-\DoxyCodeLine{\Hypertarget{cl__lifecycle__node_8cpp_source_l00126}00126\ \}}
-\DoxyCodeLine{\Hypertarget{cl__lifecycle__node_8cpp_source_l00127}00127\ }
-\DoxyCodeLine{\Hypertarget{cl__lifecycle__node_8cpp_source_l00128}\mbox{\hyperlink{classcl__lifecycle__node_1_1ClLifecycleNode_a36d7d6c20e6839d1ed93da595bd425ab}{00128}}\ \textcolor{keywordtype}{bool}\ \mbox{\hyperlink{classcl__lifecycle__node_1_1ClLifecycleNode_a36d7d6c20e6839d1ed93da595bd425ab}{ClLifecycleNode::shutdown}}(\textcolor{keyword}{const}\ \mbox{\hyperlink{classcl__lifecycle__node_1_1ClLifecycleNode_a5e3f92736ef684316a92f669e92b1647}{CancelPredicate}}\ \&\ cancelled)}
-\DoxyCodeLine{\Hypertarget{cl__lifecycle__node_8cpp_source_l00129}00129\ \{}
-\DoxyCodeLine{\Hypertarget{cl__lifecycle__node_8cpp_source_l00130}00130\ \ \ \textcolor{keywordflow}{return}\ \mbox{\hyperlink{classcl__lifecycle__node_1_1ClLifecycleNode_a1a726ffd8245b3d58fc46ede5ecfa932}{changeState}}(lifecycle\_msgs::msg::Transition::TRANSITION\_UNCONFIGURED\_SHUTDOWN,\ cancelled);}
-\DoxyCodeLine{\Hypertarget{cl__lifecycle__node_8cpp_source_l00131}00131\ \}}
-\DoxyCodeLine{\Hypertarget{cl__lifecycle__node_8cpp_source_l00132}00132\ }
-\DoxyCodeLine{\Hypertarget{cl__lifecycle__node_8cpp_source_l00133}00133\ \}\ \ \textcolor{comment}{//\ namespace\ cl\_lifecycle\_node}}
+\DoxyCodeLine{\Hypertarget{cl__lifecycle__node_8cpp_source_l00046}00046\ \textcolor{comment}{//\ Waits\ for\ the\ service,\ sends\ the\ request\ and\ waits\ for\ the\ response,\ checking\ \`{}cancelled`\ and}}
+\DoxyCodeLine{\Hypertarget{cl__lifecycle__node_8cpp_source_l00047}00047\ \textcolor{comment}{//\ rclcpp::ok()\ every\ 100\ ms;\ both\ waits\ are\ unbounded\ but\ abandonable.\ Returns\ nullptr\ if\ abandoned.}}
+\DoxyCodeLine{\Hypertarget{cl__lifecycle__node_8cpp_source_l00048}00048\ \textcolor{keyword}{template}\ <\textcolor{keyword}{typename}\ ServiceT>}
+\DoxyCodeLine{\Hypertarget{cl__lifecycle__node_8cpp_source_l00049}\mbox{\hyperlink{namespacecl__lifecycle__node_1_1anonymous__namespace_02cl__lifecycle__node_8cpp_03_ae81dc81c35fe21d9e448a12dc0a603c6}{00049}}\ \textcolor{keyword}{typename}\ ServiceT::Response::SharedPtr\ \mbox{\hyperlink{namespacecl__lifecycle__node_1_1anonymous__namespace_02cl__lifecycle__node_8cpp_03_ae81dc81c35fe21d9e448a12dc0a603c6}{callService}}(}
+\DoxyCodeLine{\Hypertarget{cl__lifecycle__node_8cpp_source_l00050}00050\ \ \ \textcolor{keyword}{const}\ rclcpp::Logger\ \&\ logger,\ \textcolor{keyword}{typename}\ rclcpp::Client<ServiceT>::SharedPtr\ client,}
+\DoxyCodeLine{\Hypertarget{cl__lifecycle__node_8cpp_source_l00051}00051\ \ \ \textcolor{keyword}{typename}\ ServiceT::Request::SharedPtr\ request,\ \textcolor{keyword}{const}\ \mbox{\hyperlink{classcl__lifecycle__node_1_1ClLifecycleNode_a5e3f92736ef684316a92f669e92b1647}{ClLifecycleNode::CancelPredicate}}\ \&\ cancelled,}
+\DoxyCodeLine{\Hypertarget{cl__lifecycle__node_8cpp_source_l00052}00052\ \ \ \textcolor{keyword}{const}\ std::string\ \&\ what)}
+\DoxyCodeLine{\Hypertarget{cl__lifecycle__node_8cpp_source_l00053}00053\ \{}
+\DoxyCodeLine{\Hypertarget{cl__lifecycle__node_8cpp_source_l00054}00054\ \ \ \textcolor{keyword}{const}\ std::string\ serviceName\ =\ client-\/>get\_service\_name();}
+\DoxyCodeLine{\Hypertarget{cl__lifecycle__node_8cpp_source_l00055}00055\ \ \ \textcolor{keyword}{auto}\ abandoned\ =\ [\&cancelled]()\ \{\ \textcolor{keywordflow}{return}\ (cancelled\ \&\&\ cancelled())\ ||\ !rclcpp::ok();\ \};}
+\DoxyCodeLine{\Hypertarget{cl__lifecycle__node_8cpp_source_l00056}00056\ }
+\DoxyCodeLine{\Hypertarget{cl__lifecycle__node_8cpp_source_l00057}00057\ \ \ \textcolor{keywordtype}{int}\ laps\ =\ 0;}
+\DoxyCodeLine{\Hypertarget{cl__lifecycle__node_8cpp_source_l00058}00058\ \ \ \textcolor{keywordflow}{while}\ (!client-\/>wait\_for\_service(std::chrono::milliseconds(100)))}
+\DoxyCodeLine{\Hypertarget{cl__lifecycle__node_8cpp_source_l00059}00059\ \ \ \{}
+\DoxyCodeLine{\Hypertarget{cl__lifecycle__node_8cpp_source_l00060}00060\ \ \ \ \ \textcolor{keywordflow}{if}\ (abandoned())}
+\DoxyCodeLine{\Hypertarget{cl__lifecycle__node_8cpp_source_l00061}00061\ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{cl__lifecycle__node_8cpp_source_l00062}00062\ \ \ \ \ \ \ RCLCPP\_INFO(}
+\DoxyCodeLine{\Hypertarget{cl__lifecycle__node_8cpp_source_l00063}00063\ \ \ \ \ \ \ \ \ logger,\ \textcolor{stringliteral}{"{}[ClLifecycleNode]\ \%s\ abandoned\ while\ waiting\ for\ service\ \%s"{}},\ what.c\_str(),}
+\DoxyCodeLine{\Hypertarget{cl__lifecycle__node_8cpp_source_l00064}00064\ \ \ \ \ \ \ \ \ serviceName.c\_str());}
+\DoxyCodeLine{\Hypertarget{cl__lifecycle__node_8cpp_source_l00065}00065\ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \textcolor{keyword}{nullptr};}
+\DoxyCodeLine{\Hypertarget{cl__lifecycle__node_8cpp_source_l00066}00066\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{cl__lifecycle__node_8cpp_source_l00067}00067\ \ \ \ \ \textcolor{keywordflow}{if}\ (++laps\ \%\ 50\ ==\ 0)}
+\DoxyCodeLine{\Hypertarget{cl__lifecycle__node_8cpp_source_l00068}00068\ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{cl__lifecycle__node_8cpp_source_l00069}00069\ \ \ \ \ \ \ RCLCPP\_WARN(}
+\DoxyCodeLine{\Hypertarget{cl__lifecycle__node_8cpp_source_l00070}00070\ \ \ \ \ \ \ \ \ logger,\ \textcolor{stringliteral}{"{}[ClLifecycleNode]\ still\ waiting\ for\ service\ \%s\ (\%d\ s)"{}},\ serviceName.c\_str(),}
+\DoxyCodeLine{\Hypertarget{cl__lifecycle__node_8cpp_source_l00071}00071\ \ \ \ \ \ \ \ \ laps\ /\ 10);}
+\DoxyCodeLine{\Hypertarget{cl__lifecycle__node_8cpp_source_l00072}00072\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{cl__lifecycle__node_8cpp_source_l00073}00073\ \ \ \}}
+\DoxyCodeLine{\Hypertarget{cl__lifecycle__node_8cpp_source_l00074}00074\ }
+\DoxyCodeLine{\Hypertarget{cl__lifecycle__node_8cpp_source_l00075}00075\ \ \ \textcolor{keyword}{auto}\ future\ =\ client-\/>async\_send\_request(request);}
+\DoxyCodeLine{\Hypertarget{cl__lifecycle__node_8cpp_source_l00076}00076\ \ \ laps\ =\ 0;}
+\DoxyCodeLine{\Hypertarget{cl__lifecycle__node_8cpp_source_l00077}00077\ \ \ \textcolor{keywordflow}{while}\ (future.wait\_for(std::chrono::milliseconds(100))\ !=\ std::future\_status::ready)}
+\DoxyCodeLine{\Hypertarget{cl__lifecycle__node_8cpp_source_l00078}00078\ \ \ \{}
+\DoxyCodeLine{\Hypertarget{cl__lifecycle__node_8cpp_source_l00079}00079\ \ \ \ \ \textcolor{keywordflow}{if}\ (abandoned())}
+\DoxyCodeLine{\Hypertarget{cl__lifecycle__node_8cpp_source_l00080}00080\ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{cl__lifecycle__node_8cpp_source_l00081}00081\ \ \ \ \ \ \ client-\/>remove\_pending\_request(future);}
+\DoxyCodeLine{\Hypertarget{cl__lifecycle__node_8cpp_source_l00082}00082\ \ \ \ \ \ \ RCLCPP\_INFO(}
+\DoxyCodeLine{\Hypertarget{cl__lifecycle__node_8cpp_source_l00083}00083\ \ \ \ \ \ \ \ \ logger,\ \textcolor{stringliteral}{"{}[ClLifecycleNode]\ \%s\ abandoned\ while\ waiting\ for\ the\ response\ of\ \%s"{}},\ what.c\_str(),}
+\DoxyCodeLine{\Hypertarget{cl__lifecycle__node_8cpp_source_l00084}00084\ \ \ \ \ \ \ \ \ serviceName.c\_str());}
+\DoxyCodeLine{\Hypertarget{cl__lifecycle__node_8cpp_source_l00085}00085\ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \textcolor{keyword}{nullptr};}
+\DoxyCodeLine{\Hypertarget{cl__lifecycle__node_8cpp_source_l00086}00086\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{cl__lifecycle__node_8cpp_source_l00087}00087\ \ \ \ \ \textcolor{keywordflow}{if}\ (++laps\ \%\ 50\ ==\ 0)}
+\DoxyCodeLine{\Hypertarget{cl__lifecycle__node_8cpp_source_l00088}00088\ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{cl__lifecycle__node_8cpp_source_l00089}00089\ \ \ \ \ \ \ RCLCPP\_WARN(}
+\DoxyCodeLine{\Hypertarget{cl__lifecycle__node_8cpp_source_l00090}00090\ \ \ \ \ \ \ \ \ logger,\ \textcolor{stringliteral}{"{}[ClLifecycleNode]\ no\ response\ from\ \%s\ after\ \%d\ s"{}},\ serviceName.c\_str(),\ laps\ /\ 10);}
+\DoxyCodeLine{\Hypertarget{cl__lifecycle__node_8cpp_source_l00091}00091\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{cl__lifecycle__node_8cpp_source_l00092}00092\ \ \ \}}
+\DoxyCodeLine{\Hypertarget{cl__lifecycle__node_8cpp_source_l00093}00093\ \ \ \textcolor{keywordflow}{return}\ future.get();}
+\DoxyCodeLine{\Hypertarget{cl__lifecycle__node_8cpp_source_l00094}00094\ \}}
+\DoxyCodeLine{\Hypertarget{cl__lifecycle__node_8cpp_source_l00095}00095\ \}\ \ \textcolor{comment}{//\ namespace}}
+\DoxyCodeLine{\Hypertarget{cl__lifecycle__node_8cpp_source_l00096}00096\ }
+\DoxyCodeLine{\Hypertarget{cl__lifecycle__node_8cpp_source_l00097}\mbox{\hyperlink{classcl__lifecycle__node_1_1ClLifecycleNode_a1a726ffd8245b3d58fc46ede5ecfa932}{00097}}\ \textcolor{keywordtype}{bool}\ \mbox{\hyperlink{classcl__lifecycle__node_1_1ClLifecycleNode_a1a726ffd8245b3d58fc46ede5ecfa932}{ClLifecycleNode::changeState}}(uint8\_t\ transition,\ \textcolor{keyword}{const}\ \mbox{\hyperlink{classcl__lifecycle__node_1_1ClLifecycleNode_a5e3f92736ef684316a92f669e92b1647}{CancelPredicate}}\ \&\ cancelled)}
+\DoxyCodeLine{\Hypertarget{cl__lifecycle__node_8cpp_source_l00098}00098\ \{}
+\DoxyCodeLine{\Hypertarget{cl__lifecycle__node_8cpp_source_l00099}00099\ \ \ \textcolor{keyword}{auto}\ logger\ =\ this-\/>\mbox{\hyperlink{classsmacc2_1_1ISmaccClient_a0d0d53879b63fd45c78aac1c711f8708}{getNode}}()-\/>get\_logger();}
+\DoxyCodeLine{\Hypertarget{cl__lifecycle__node_8cpp_source_l00100}00100\ \ \ \textcolor{keyword}{auto}\ request\ =\ std::make\_shared<lifecycle\_msgs::srv::ChangeState::Request>();}
+\DoxyCodeLine{\Hypertarget{cl__lifecycle__node_8cpp_source_l00101}00101\ \ \ request-\/>transition.id\ =\ transition;}
+\DoxyCodeLine{\Hypertarget{cl__lifecycle__node_8cpp_source_l00102}00102\ \ \ \textcolor{keyword}{auto}\ response\ =\ callService<lifecycle\_msgs::srv::ChangeState>(}
+\DoxyCodeLine{\Hypertarget{cl__lifecycle__node_8cpp_source_l00103}00103\ \ \ \ \ logger,\ \mbox{\hyperlink{classcl__lifecycle__node_1_1ClLifecycleNode_a02e3c8c31dd0397852f3af95323bddae}{client\_change\_state\_}},\ request,\ cancelled,\ \textcolor{stringliteral}{"{}transition\ "{}}\ +\ std::to\_string(transition));}
+\DoxyCodeLine{\Hypertarget{cl__lifecycle__node_8cpp_source_l00104}00104\ \ \ \textcolor{keywordflow}{if}\ (!response)}
+\DoxyCodeLine{\Hypertarget{cl__lifecycle__node_8cpp_source_l00105}00105\ \ \ \{}
+\DoxyCodeLine{\Hypertarget{cl__lifecycle__node_8cpp_source_l00106}00106\ \ \ \ \ \textcolor{keywordflow}{return}\ \textcolor{keyword}{false};}
+\DoxyCodeLine{\Hypertarget{cl__lifecycle__node_8cpp_source_l00107}00107\ \ \ \}}
+\DoxyCodeLine{\Hypertarget{cl__lifecycle__node_8cpp_source_l00108}00108\ }
+\DoxyCodeLine{\Hypertarget{cl__lifecycle__node_8cpp_source_l00109}00109\ \ \ \textcolor{keyword}{const}\ std::string\ serviceName\ =\ \mbox{\hyperlink{classcl__lifecycle__node_1_1ClLifecycleNode_a02e3c8c31dd0397852f3af95323bddae}{client\_change\_state\_}}-\/>get\_service\_name();}
+\DoxyCodeLine{\Hypertarget{cl__lifecycle__node_8cpp_source_l00110}00110\ \ \ \textcolor{keywordflow}{if}\ (response-\/>success)}
+\DoxyCodeLine{\Hypertarget{cl__lifecycle__node_8cpp_source_l00111}00111\ \ \ \{}
+\DoxyCodeLine{\Hypertarget{cl__lifecycle__node_8cpp_source_l00112}00112\ \ \ \ \ RCLCPP\_INFO(}
+\DoxyCodeLine{\Hypertarget{cl__lifecycle__node_8cpp_source_l00113}00113\ \ \ \ \ \ \ logger,\ \textcolor{stringliteral}{"{}[ClLifecycleNode]\ transition\ \%d\ accepted\ by\ \%s"{}},\ transition,\ serviceName.c\_str());}
+\DoxyCodeLine{\Hypertarget{cl__lifecycle__node_8cpp_source_l00114}00114\ \ \ \}}
+\DoxyCodeLine{\Hypertarget{cl__lifecycle__node_8cpp_source_l00115}00115\ \ \ \textcolor{keywordflow}{else}}
+\DoxyCodeLine{\Hypertarget{cl__lifecycle__node_8cpp_source_l00116}00116\ \ \ \{}
+\DoxyCodeLine{\Hypertarget{cl__lifecycle__node_8cpp_source_l00117}00117\ \ \ \ \ RCLCPP\_ERROR(}
+\DoxyCodeLine{\Hypertarget{cl__lifecycle__node_8cpp_source_l00118}00118\ \ \ \ \ \ \ logger,\ \textcolor{stringliteral}{"{}[ClLifecycleNode]\ transition\ \%d\ rejected\ by\ \%s;\ no\ transition\ event\ will\ follow"{}},}
+\DoxyCodeLine{\Hypertarget{cl__lifecycle__node_8cpp_source_l00119}00119\ \ \ \ \ \ \ transition,\ serviceName.c\_str());}
+\DoxyCodeLine{\Hypertarget{cl__lifecycle__node_8cpp_source_l00120}00120\ \ \ \}}
+\DoxyCodeLine{\Hypertarget{cl__lifecycle__node_8cpp_source_l00121}00121\ \ \ \textcolor{keywordflow}{return}\ response-\/>success;}
+\DoxyCodeLine{\Hypertarget{cl__lifecycle__node_8cpp_source_l00122}00122\ \}}
+\DoxyCodeLine{\Hypertarget{cl__lifecycle__node_8cpp_source_l00123}00123\ }
+\DoxyCodeLine{\Hypertarget{cl__lifecycle__node_8cpp_source_l00124}\mbox{\hyperlink{classcl__lifecycle__node_1_1ClLifecycleNode_a964c2f86b4a24326df4fae329dac836a}{00124}}\ \textcolor{keywordtype}{bool}\ \mbox{\hyperlink{classcl__lifecycle__node_1_1ClLifecycleNode_a964c2f86b4a24326df4fae329dac836a}{ClLifecycleNode::getState}}(uint8\_t\ \&\ state,\ \textcolor{keyword}{const}\ \mbox{\hyperlink{classcl__lifecycle__node_1_1ClLifecycleNode_a5e3f92736ef684316a92f669e92b1647}{CancelPredicate}}\ \&\ cancelled)}
+\DoxyCodeLine{\Hypertarget{cl__lifecycle__node_8cpp_source_l00125}00125\ \{}
+\DoxyCodeLine{\Hypertarget{cl__lifecycle__node_8cpp_source_l00126}00126\ \ \ \textcolor{keyword}{auto}\ request\ =\ std::make\_shared<lifecycle\_msgs::srv::GetState::Request>();}
+\DoxyCodeLine{\Hypertarget{cl__lifecycle__node_8cpp_source_l00127}00127\ \ \ \textcolor{keyword}{auto}\ response\ =\ callService<lifecycle\_msgs::srv::GetState>(}
+\DoxyCodeLine{\Hypertarget{cl__lifecycle__node_8cpp_source_l00128}00128\ \ \ \ \ this-\/>\mbox{\hyperlink{classsmacc2_1_1ISmaccClient_a0d0d53879b63fd45c78aac1c711f8708}{getNode}}()-\/>get\_logger(),\ \mbox{\hyperlink{classcl__lifecycle__node_1_1ClLifecycleNode_a76e377a81ad049c3010a094d2d99c6e9}{client\_get\_state\_}},\ request,\ cancelled,\ \textcolor{stringliteral}{"{}get\_state"{}});}
+\DoxyCodeLine{\Hypertarget{cl__lifecycle__node_8cpp_source_l00129}00129\ \ \ \textcolor{keywordflow}{if}\ (!response)}
+\DoxyCodeLine{\Hypertarget{cl__lifecycle__node_8cpp_source_l00130}00130\ \ \ \{}
+\DoxyCodeLine{\Hypertarget{cl__lifecycle__node_8cpp_source_l00131}00131\ \ \ \ \ \textcolor{keywordflow}{return}\ \textcolor{keyword}{false};}
+\DoxyCodeLine{\Hypertarget{cl__lifecycle__node_8cpp_source_l00132}00132\ \ \ \}}
+\DoxyCodeLine{\Hypertarget{cl__lifecycle__node_8cpp_source_l00133}00133\ \ \ state\ =\ response-\/>current\_state.id;}
+\DoxyCodeLine{\Hypertarget{cl__lifecycle__node_8cpp_source_l00134}00134\ \ \ \textcolor{keywordflow}{return}\ \textcolor{keyword}{true};}
+\DoxyCodeLine{\Hypertarget{cl__lifecycle__node_8cpp_source_l00135}00135\ \}}
+\DoxyCodeLine{\Hypertarget{cl__lifecycle__node_8cpp_source_l00136}00136\ }
+\DoxyCodeLine{\Hypertarget{cl__lifecycle__node_8cpp_source_l00137}\mbox{\hyperlink{classcl__lifecycle__node_1_1ClLifecycleNode_a27ca31781a5f5fd0e93b86fae85d2407}{00137}}\ \textcolor{keywordtype}{bool}\ \mbox{\hyperlink{classcl__lifecycle__node_1_1ClLifecycleNode_a27ca31781a5f5fd0e93b86fae85d2407}{ClLifecycleNode::activate}}(\textcolor{keyword}{const}\ \mbox{\hyperlink{classcl__lifecycle__node_1_1ClLifecycleNode_a5e3f92736ef684316a92f669e92b1647}{CancelPredicate}}\ \&\ cancelled)}
+\DoxyCodeLine{\Hypertarget{cl__lifecycle__node_8cpp_source_l00138}00138\ \{}
+\DoxyCodeLine{\Hypertarget{cl__lifecycle__node_8cpp_source_l00139}00139\ \ \ \textcolor{keywordflow}{return}\ \mbox{\hyperlink{classcl__lifecycle__node_1_1ClLifecycleNode_a1a726ffd8245b3d58fc46ede5ecfa932}{changeState}}(lifecycle\_msgs::msg::Transition::TRANSITION\_ACTIVATE,\ cancelled);}
+\DoxyCodeLine{\Hypertarget{cl__lifecycle__node_8cpp_source_l00140}00140\ \}}
+\DoxyCodeLine{\Hypertarget{cl__lifecycle__node_8cpp_source_l00141}00141\ }
+\DoxyCodeLine{\Hypertarget{cl__lifecycle__node_8cpp_source_l00142}\mbox{\hyperlink{classcl__lifecycle__node_1_1ClLifecycleNode_a57eda00992f80c932bf42b518cc5495b}{00142}}\ \textcolor{keywordtype}{bool}\ \mbox{\hyperlink{classcl__lifecycle__node_1_1ClLifecycleNode_a57eda00992f80c932bf42b518cc5495b}{ClLifecycleNode::deactivate}}(\textcolor{keyword}{const}\ \mbox{\hyperlink{classcl__lifecycle__node_1_1ClLifecycleNode_a5e3f92736ef684316a92f669e92b1647}{CancelPredicate}}\ \&\ cancelled)}
+\DoxyCodeLine{\Hypertarget{cl__lifecycle__node_8cpp_source_l00143}00143\ \{}
+\DoxyCodeLine{\Hypertarget{cl__lifecycle__node_8cpp_source_l00144}00144\ \ \ \textcolor{keywordflow}{return}\ \mbox{\hyperlink{classcl__lifecycle__node_1_1ClLifecycleNode_a1a726ffd8245b3d58fc46ede5ecfa932}{changeState}}(lifecycle\_msgs::msg::Transition::TRANSITION\_DEACTIVATE,\ cancelled);}
+\DoxyCodeLine{\Hypertarget{cl__lifecycle__node_8cpp_source_l00145}00145\ \}}
+\DoxyCodeLine{\Hypertarget{cl__lifecycle__node_8cpp_source_l00146}00146\ }
+\DoxyCodeLine{\Hypertarget{cl__lifecycle__node_8cpp_source_l00147}\mbox{\hyperlink{classcl__lifecycle__node_1_1ClLifecycleNode_af598e0a245ce4dcfa6d26b62d8a91d27}{00147}}\ \textcolor{keywordtype}{bool}\ \mbox{\hyperlink{classcl__lifecycle__node_1_1ClLifecycleNode_af598e0a245ce4dcfa6d26b62d8a91d27}{ClLifecycleNode::configure}}(\textcolor{keyword}{const}\ \mbox{\hyperlink{classcl__lifecycle__node_1_1ClLifecycleNode_a5e3f92736ef684316a92f669e92b1647}{CancelPredicate}}\ \&\ cancelled)}
+\DoxyCodeLine{\Hypertarget{cl__lifecycle__node_8cpp_source_l00148}00148\ \{}
+\DoxyCodeLine{\Hypertarget{cl__lifecycle__node_8cpp_source_l00149}00149\ \ \ \textcolor{keywordflow}{return}\ \mbox{\hyperlink{classcl__lifecycle__node_1_1ClLifecycleNode_a1a726ffd8245b3d58fc46ede5ecfa932}{changeState}}(lifecycle\_msgs::msg::Transition::TRANSITION\_CONFIGURE,\ cancelled);}
+\DoxyCodeLine{\Hypertarget{cl__lifecycle__node_8cpp_source_l00150}00150\ \}}
+\DoxyCodeLine{\Hypertarget{cl__lifecycle__node_8cpp_source_l00151}00151\ }
+\DoxyCodeLine{\Hypertarget{cl__lifecycle__node_8cpp_source_l00152}\mbox{\hyperlink{classcl__lifecycle__node_1_1ClLifecycleNode_a7407971d8b586b7d7cb13dbe2650ffc1}{00152}}\ \textcolor{keywordtype}{bool}\ \mbox{\hyperlink{classcl__lifecycle__node_1_1ClLifecycleNode_a7407971d8b586b7d7cb13dbe2650ffc1}{ClLifecycleNode::cleanup}}(\textcolor{keyword}{const}\ \mbox{\hyperlink{classcl__lifecycle__node_1_1ClLifecycleNode_a5e3f92736ef684316a92f669e92b1647}{CancelPredicate}}\ \&\ cancelled)}
+\DoxyCodeLine{\Hypertarget{cl__lifecycle__node_8cpp_source_l00153}00153\ \{}
+\DoxyCodeLine{\Hypertarget{cl__lifecycle__node_8cpp_source_l00154}00154\ \ \ \textcolor{keywordflow}{return}\ \mbox{\hyperlink{classcl__lifecycle__node_1_1ClLifecycleNode_a1a726ffd8245b3d58fc46ede5ecfa932}{changeState}}(lifecycle\_msgs::msg::Transition::TRANSITION\_CLEANUP,\ cancelled);}
+\DoxyCodeLine{\Hypertarget{cl__lifecycle__node_8cpp_source_l00155}00155\ \}}
+\DoxyCodeLine{\Hypertarget{cl__lifecycle__node_8cpp_source_l00156}00156\ }
+\DoxyCodeLine{\Hypertarget{cl__lifecycle__node_8cpp_source_l00157}\mbox{\hyperlink{classcl__lifecycle__node_1_1ClLifecycleNode_a36d7d6c20e6839d1ed93da595bd425ab}{00157}}\ \textcolor{keywordtype}{bool}\ \mbox{\hyperlink{classcl__lifecycle__node_1_1ClLifecycleNode_a36d7d6c20e6839d1ed93da595bd425ab}{ClLifecycleNode::shutdown}}(\textcolor{keyword}{const}\ \mbox{\hyperlink{classcl__lifecycle__node_1_1ClLifecycleNode_a5e3f92736ef684316a92f669e92b1647}{CancelPredicate}}\ \&\ cancelled)}
+\DoxyCodeLine{\Hypertarget{cl__lifecycle__node_8cpp_source_l00158}00158\ \{}
+\DoxyCodeLine{\Hypertarget{cl__lifecycle__node_8cpp_source_l00159}00159\ \ \ \textcolor{comment}{//\ Each\ primary\ state\ has\ its\ own\ shutdown\ transition\ id,\ so\ ask\ the\ node\ which\ state\ it\ is\ in.}}
+\DoxyCodeLine{\Hypertarget{cl__lifecycle__node_8cpp_source_l00160}00160\ \ \ \textcolor{keyword}{using\ }lifecycle\_msgs::msg::State;}
+\DoxyCodeLine{\Hypertarget{cl__lifecycle__node_8cpp_source_l00161}00161\ \ \ \textcolor{keyword}{using\ }lifecycle\_msgs::msg::Transition;}
+\DoxyCodeLine{\Hypertarget{cl__lifecycle__node_8cpp_source_l00162}00162\ \ \ uint8\_t\ state;}
+\DoxyCodeLine{\Hypertarget{cl__lifecycle__node_8cpp_source_l00163}00163\ \ \ \textcolor{keywordflow}{if}\ (!\mbox{\hyperlink{classcl__lifecycle__node_1_1ClLifecycleNode_a964c2f86b4a24326df4fae329dac836a}{getState}}(state,\ cancelled))}
+\DoxyCodeLine{\Hypertarget{cl__lifecycle__node_8cpp_source_l00164}00164\ \ \ \{}
+\DoxyCodeLine{\Hypertarget{cl__lifecycle__node_8cpp_source_l00165}00165\ \ \ \ \ \textcolor{keywordflow}{return}\ \textcolor{keyword}{false};}
+\DoxyCodeLine{\Hypertarget{cl__lifecycle__node_8cpp_source_l00166}00166\ \ \ \}}
+\DoxyCodeLine{\Hypertarget{cl__lifecycle__node_8cpp_source_l00167}00167\ \ \ \textcolor{keywordflow}{switch}\ (state)}
+\DoxyCodeLine{\Hypertarget{cl__lifecycle__node_8cpp_source_l00168}00168\ \ \ \{}
+\DoxyCodeLine{\Hypertarget{cl__lifecycle__node_8cpp_source_l00169}00169\ \ \ \ \ \textcolor{keywordflow}{case}\ State::PRIMARY\_STATE\_UNCONFIGURED:}
+\DoxyCodeLine{\Hypertarget{cl__lifecycle__node_8cpp_source_l00170}00170\ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \mbox{\hyperlink{classcl__lifecycle__node_1_1ClLifecycleNode_a1a726ffd8245b3d58fc46ede5ecfa932}{changeState}}(Transition::TRANSITION\_UNCONFIGURED\_SHUTDOWN,\ cancelled);}
+\DoxyCodeLine{\Hypertarget{cl__lifecycle__node_8cpp_source_l00171}00171\ \ \ \ \ \textcolor{keywordflow}{case}\ State::PRIMARY\_STATE\_INACTIVE:}
+\DoxyCodeLine{\Hypertarget{cl__lifecycle__node_8cpp_source_l00172}00172\ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \mbox{\hyperlink{classcl__lifecycle__node_1_1ClLifecycleNode_a1a726ffd8245b3d58fc46ede5ecfa932}{changeState}}(Transition::TRANSITION\_INACTIVE\_SHUTDOWN,\ cancelled);}
+\DoxyCodeLine{\Hypertarget{cl__lifecycle__node_8cpp_source_l00173}00173\ \ \ \ \ \textcolor{keywordflow}{case}\ State::PRIMARY\_STATE\_ACTIVE:}
+\DoxyCodeLine{\Hypertarget{cl__lifecycle__node_8cpp_source_l00174}00174\ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \mbox{\hyperlink{classcl__lifecycle__node_1_1ClLifecycleNode_a1a726ffd8245b3d58fc46ede5ecfa932}{changeState}}(Transition::TRANSITION\_ACTIVE\_SHUTDOWN,\ cancelled);}
+\DoxyCodeLine{\Hypertarget{cl__lifecycle__node_8cpp_source_l00175}00175\ \ \ \ \ \textcolor{keywordflow}{default}:}
+\DoxyCodeLine{\Hypertarget{cl__lifecycle__node_8cpp_source_l00176}00176\ \ \ \ \ \ \ RCLCPP\_ERROR(}
+\DoxyCodeLine{\Hypertarget{cl__lifecycle__node_8cpp_source_l00177}00177\ \ \ \ \ \ \ \ \ this-\/>\mbox{\hyperlink{classsmacc2_1_1ISmaccClient_a0d0d53879b63fd45c78aac1c711f8708}{getNode}}()-\/>get\_logger(),}
+\DoxyCodeLine{\Hypertarget{cl__lifecycle__node_8cpp_source_l00178}00178\ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}[ClLifecycleNode]\ \%s\ is\ in\ lifecycle\ state\ \%d,\ which\ has\ no\ shutdown\ transition"{}},}
+\DoxyCodeLine{\Hypertarget{cl__lifecycle__node_8cpp_source_l00179}00179\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{classcl__lifecycle__node_1_1ClLifecycleNode_a2c84920902cb98b6ab1cfa5447412008}{nodeName\_}}.c\_str(),\ state);}
+\DoxyCodeLine{\Hypertarget{cl__lifecycle__node_8cpp_source_l00180}00180\ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \textcolor{keyword}{false};}
+\DoxyCodeLine{\Hypertarget{cl__lifecycle__node_8cpp_source_l00181}00181\ \ \ \}}
+\DoxyCodeLine{\Hypertarget{cl__lifecycle__node_8cpp_source_l00182}00182\ \}}
+\DoxyCodeLine{\Hypertarget{cl__lifecycle__node_8cpp_source_l00183}00183\ }
+\DoxyCodeLine{\Hypertarget{cl__lifecycle__node_8cpp_source_l00184}00184\ \}\ \ \textcolor{comment}{//\ namespace\ cl\_lifecycle\_node}}
 
 \end{DoxyCode}
