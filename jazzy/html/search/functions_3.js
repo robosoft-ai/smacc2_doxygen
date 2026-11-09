@@ -11,7 +11,7 @@ var searchData=
   ['cantransform_8',['canTransform',['../classcl__moveit2z_1_1CpTfListener.html#a06338b85d45bca196508773b858891cb',1,'cl_moveit2z::CpTfListener']]],
   ['carrotvertexindex_9',['carrotVertexIndex',['../classcl__px4__mr_1_1CbPx4PathFollowerBase.html#a53195a43ee917894e8eca9b967a17b06',1,'cl_px4_mr::CbPx4PathFollowerBase']]],
   ['cbabortnavigation_10',['CbAbortNavigation',['../classcl__nav2z_1_1CbAbortNavigation.html#a8e19683cd5e4fb9c76abd441ee98b671',1,'cl_nav2z::CbAbortNavigation']]],
-  ['cbabsoluterotate_11',['CbAbsoluteRotate',['../classcl__nav2z_1_1CbAbsoluteRotate.html#a3556cba281b2b3962b66fbff0a271138',1,'cl_nav2z::CbAbsoluteRotate::CbAbsoluteRotate()'],['../classcl__nav2z_1_1CbAbsoluteRotate.html#ad8ef1b61a9709256050ae9dc9fc19ffd',1,'cl_nav2z::CbAbsoluteRotate::CbAbsoluteRotate(float absoluteGoalAngleDegree, float yawGoalTolerance=-1)']]],
+  ['cbabsoluterotate_11',['CbAbsoluteRotate',['../classcl__nav2z_1_1CbAbsoluteRotate.html#a3556cba281b2b3962b66fbff0a271138',1,'cl_nav2z::CbAbsoluteRotate::CbAbsoluteRotate()'],['../classcl__nav2z_1_1CbAbsoluteRotate.html#a003f37ed4f3be9832145545ade112dac',1,'cl_nav2z::CbAbsoluteRotate::CbAbsoluteRotate(float absoluteGoalAngleDegree)']]],
   ['cbactivate_12',['CbActivate',['../classcl__lifecycle__node_1_1CbActivate.html#a09d57a4a861816b2157d2aeb12c00789',1,'cl_lifecycle_node::CbActivate']]],
   ['cbactivestop_13',['CbActiveStop',['../structcl__nav2z_1_1CbActiveStop.html#a479a74552e41580385350c8b2ef97512',1,'cl_nav2z::CbActiveStop']]],
   ['cballrelaysoff_14',['CbAllRelaysOff',['../classcl__modbus__tcp__relay_1_1CbAllRelaysOff.html#a5f963f28342ac1dc3aa8619eff9ffb8a',1,'cl_modbus_tcp_relay::CbAllRelaysOff']]],
