@@ -223,88 +223,101 @@ Definition at line \mbox{\hyperlink{smacc__ros__launch__client__2_8cpp_source_l0
 \DoxyCodeLine{00080\ }
 \DoxyCodeLine{00081\ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (!child.pipe)}
 \DoxyCodeLine{00082\ \ \ \ \ \ \ \{}
-\DoxyCodeLine{00083\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{throw}\ std::runtime\_error(\textcolor{stringliteral}{"{}popen()\ failed!"{}});}
-\DoxyCodeLine{00084\ \ \ \ \ \ \ \}}
-\DoxyCodeLine{00085\ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (client\ !=\ \textcolor{keyword}{nullptr})}
-\DoxyCodeLine{00086\ \ \ \ \ \ \ \{}
-\DoxyCodeLine{00087\ \ \ \ \ \ \ \ \ client-\/>launchPid\_\ =\ child.pid;}
-\DoxyCodeLine{00088\ \ \ \ \ \ \ \}}
-\DoxyCodeLine{00089\ }
-\DoxyCodeLine{00090\ \ \ \ \ \ \ \textcolor{keywordtype}{int}\ fd\ =\ fileno(child.pipe);}
-\DoxyCodeLine{00091\ }
-\DoxyCodeLine{00092\ \ \ \ \ \ \ \textcolor{keywordtype}{int}\ flags\ =\ fcntl(fd,\ F\_GETFL,\ 0);}
-\DoxyCodeLine{00093\ \ \ \ \ \ \ fcntl(fd,\ F\_SETFL,\ flags\ |\ O\_NONBLOCK);}
-\DoxyCodeLine{00094\ }
-\DoxyCodeLine{00095\ \ \ \ \ \ \ \textcolor{keywordtype}{bool}\ cancelled\ =\ \textcolor{keyword}{false};}
-\DoxyCodeLine{00096\ }
-\DoxyCodeLine{00097\ \ \ \ \ \ \ \textcolor{comment}{//\ while\ (!cancelCondition())}}
+\DoxyCodeLine{00083\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Logged,\ not\ thrown:\ nothing\ reads\ this\ future\ in\ LAUNCH\_CLIENT\_BEHAVIOR\_LIFETIME\ mode.}}
+\DoxyCodeLine{00084\ \ \ \ \ \ \ \ \ RCLCPP\_ERROR\_STREAM(}
+\DoxyCodeLine{00085\ \ \ \ \ \ \ \ \ \ \ rclcpp::get\_logger(\textcolor{stringliteral}{"{}smacc2"{}}),\ \textcolor{stringliteral}{"{}[ClRosLaunch2]\ could\ not\ start:\ "{}}\ <<\ cmd.str());}
+\DoxyCodeLine{00086\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ result;}
+\DoxyCodeLine{00087\ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00088\ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (client\ !=\ \textcolor{keyword}{nullptr})}
+\DoxyCodeLine{00089\ \ \ \ \ \ \ \{}
+\DoxyCodeLine{00090\ \ \ \ \ \ \ \ \ client-\/>launchPid\_\ =\ child.pid;}
+\DoxyCodeLine{00091\ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00092\ }
+\DoxyCodeLine{00093\ \ \ \ \ \ \ \textcolor{keywordtype}{int}\ fd\ =\ fileno(child.pipe);}
+\DoxyCodeLine{00094\ \ \ \ \ \ \ \textcolor{keywordtype}{bool}\ cancelled\ =\ \textcolor{keyword}{false};}
+\DoxyCodeLine{00095\ }
+\DoxyCodeLine{00096\ \ \ \ \ \ \ \textcolor{comment}{//\ poll()\ with\ a\ 100\ ms\ timeout\ is\ also\ the\ cancel-\/check\ cadence.\ read()\ returning\ 0\ is\ the}}
+\DoxyCodeLine{00097\ \ \ \ \ \ \ \textcolor{comment}{//\ launch\ tree's\ end\ of\ file,\ which\ the\ former\ non-\/blocking\ fread()\ loop\ took\ for\ "{}no\ data\ yet"{}.}}
 \DoxyCodeLine{00098\ \ \ \ \ \ \ \textcolor{keywordflow}{while}\ (!cancelled)}
 \DoxyCodeLine{00099\ \ \ \ \ \ \ \{}
 \DoxyCodeLine{00100\ \ \ \ \ \ \ \ \ cancelled\ =\ cancelCondition();}
-\DoxyCodeLine{00101\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{size\_t}\ bytesRead\ =\ fread(buffer.data(),\ 1,\ buffer.size(),\ \textcolor{comment}{/*data*/}\ child.pipe);}
-\DoxyCodeLine{00102\ }
-\DoxyCodeLine{00103\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (bytesRead\ >\ 0)}
+\DoxyCodeLine{00101\ \ \ \ \ \ \ \ \ pollfd\ pfd\{fd,\ POLLIN,\ 0\};}
+\DoxyCodeLine{00102\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{int}\ ready\ =\ poll(\&pfd,\ 1,\ 100);}
+\DoxyCodeLine{00103\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (ready\ <\ 0)}
 \DoxyCodeLine{00104\ \ \ \ \ \ \ \ \ \{}
-\DoxyCodeLine{00105\ \ \ \ \ \ \ \ \ \ \ result.append(buffer.data(),\ bytesRead);}
-\DoxyCodeLine{00106\ \ \ \ \ \ \ \ \ \}}
-\DoxyCodeLine{00107\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{else}\ \textcolor{keywordflow}{if}\ (bytesRead\ ==\ 0)}
-\DoxyCodeLine{00108\ \ \ \ \ \ \ \ \ \{}
-\DoxyCodeLine{00109\ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ No\ data\ available\ yet}}
-\DoxyCodeLine{00110\ \ \ \ \ \ \ \ \ \ \ std::this\_thread::sleep\_for(std::chrono::milliseconds(100));\ \ \textcolor{comment}{//\ Wait\ before\ retrying}}
-\DoxyCodeLine{00111\ \ \ \ \ \ \ \ \ \}}
-\DoxyCodeLine{00112\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{else}}
-\DoxyCodeLine{00113\ \ \ \ \ \ \ \ \ \{}
-\DoxyCodeLine{00114\ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Read\ error}}
-\DoxyCodeLine{00115\ \ \ \ \ \ \ \ \ \ \ RCLCPP\_ERROR(rclcpp::get\_logger(\textcolor{stringliteral}{"{}smacc2"{}}),\ \textcolor{stringliteral}{"{}Error\ reading\ from\ pipe"{}});}
-\DoxyCodeLine{00116\ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{break};}
+\DoxyCodeLine{00105\ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (errno\ ==\ EINTR)\ \textcolor{keywordflow}{continue};}
+\DoxyCodeLine{00106\ \ \ \ \ \ \ \ \ \ \ RCLCPP\_ERROR\_STREAM(}
+\DoxyCodeLine{00107\ \ \ \ \ \ \ \ \ \ \ \ \ rclcpp::get\_logger(\textcolor{stringliteral}{"{}smacc2"{}}),}
+\DoxyCodeLine{00108\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}[ClRosLaunch2]\ poll()\ failed:\ "{}}\ <<\ std::generic\_category().message(errno));}
+\DoxyCodeLine{00109\ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{break};}
+\DoxyCodeLine{00110\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00111\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (ready\ ==\ 0)\ \textcolor{keywordflow}{continue};}
+\DoxyCodeLine{00112\ }
+\DoxyCodeLine{00113\ \ \ \ \ \ \ \ \ ssize\_t\ bytesRead\ =\ read(fd,\ buffer.data(),\ buffer.size());}
+\DoxyCodeLine{00114\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (bytesRead\ >\ 0)}
+\DoxyCodeLine{00115\ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{00116\ \ \ \ \ \ \ \ \ \ \ result.append(buffer.data(),\ \textcolor{keyword}{static\_cast<}\textcolor{keywordtype}{size\_t}\textcolor{keyword}{>}(bytesRead));}
 \DoxyCodeLine{00117\ \ \ \ \ \ \ \ \ \}}
-\DoxyCodeLine{00118\ \ \ \ \ \ \ \}}
-\DoxyCodeLine{00119\ }
-\DoxyCodeLine{00120\ \ \ \ \ \ \ rclcpp::sleep\_for(2s);}
-\DoxyCodeLine{00121\ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (child.pid\ >\ 0)}
-\DoxyCodeLine{00122\ \ \ \ \ \ \ \{}
-\DoxyCodeLine{00123\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{namespacesmacc2_1_1client__bases_a1a82d22a82ec20a6c8ae7a2c679e49b8}{killGrandchildren}}(child.pid);}
-\DoxyCodeLine{00124\ \ \ \ \ \ \ \ \ rclcpp::sleep\_for(2s);}
-\DoxyCodeLine{00125\ \ \ \ \ \ \ \}}
-\DoxyCodeLine{00126\ }
-\DoxyCodeLine{00127\ \ \ \ \ \ \ \textcolor{keywordtype}{int}\ status;}
-\DoxyCodeLine{00128\ \ \ \ \ \ \ pid\_t\ child\_pid\ =\ child.pid;}
-\DoxyCodeLine{00129\ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (waitpid(child\_pid,\ \&status,\ 0)\ !=\ -\/1)}
-\DoxyCodeLine{00130\ \ \ \ \ \ \ \{}
-\DoxyCodeLine{00131\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (WIFEXITED(status))}
-\DoxyCodeLine{00132\ \ \ \ \ \ \ \ \ \{}
-\DoxyCodeLine{00133\ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{int}\ exit\_status\ =\ WEXITSTATUS(status);}
-\DoxyCodeLine{00134\ \ \ \ \ \ \ \ \ \ \ RCLCPP\_INFO(}
-\DoxyCodeLine{00135\ \ \ \ \ \ \ \ \ \ \ \ \ rclcpp::get\_logger(\textcolor{stringliteral}{"{}smacc2"{}}),\ \textcolor{stringliteral}{"{}Child\ process\ exited\ with\ status:\ \%d"{}},\ exit\_status);}
-\DoxyCodeLine{00136\ \ \ \ \ \ \ \ \ \}}
-\DoxyCodeLine{00137\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{else}\ \textcolor{keywordflow}{if}\ (WIFSIGNALED(status))}
-\DoxyCodeLine{00138\ \ \ \ \ \ \ \ \ \{}
-\DoxyCodeLine{00139\ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{int}\ term\_signal\ =\ WTERMSIG(status);}
-\DoxyCodeLine{00140\ \ \ \ \ \ \ \ \ \ \ RCLCPP\_WARN(}
-\DoxyCodeLine{00141\ \ \ \ \ \ \ \ \ \ \ \ \ rclcpp::get\_logger(\textcolor{stringliteral}{"{}smacc2"{}}),\ \textcolor{stringliteral}{"{}Child\ process\ terminated\ by\ signal:\ \%d"{}},\ term\_signal);}
-\DoxyCodeLine{00142\ \ \ \ \ \ \ \ \ \}}
-\DoxyCodeLine{00143\ \ \ \ \ \ \ \}}
-\DoxyCodeLine{00144\ \ \ \ \ \ \ \textcolor{keywordflow}{else}}
-\DoxyCodeLine{00145\ \ \ \ \ \ \ \{}
-\DoxyCodeLine{00146\ \ \ \ \ \ \ \ \ RCLCPP\_ERROR(rclcpp::get\_logger(\textcolor{stringliteral}{"{}smacc2"{}}),\ \textcolor{stringliteral}{"{}Error\ waiting\ for\ child\ process."{}});}
-\DoxyCodeLine{00147\ \ \ \ \ \ \ \}}
-\DoxyCodeLine{00148\ }
-\DoxyCodeLine{00149\ \ \ \ \ \ \ \textcolor{comment}{//\ The\ stream\ came\ from\ fdopen()\ on\ our\ own\ pipe,\ not\ from\ popen(),\ and\ the\ child\ was}}
-\DoxyCodeLine{00150\ \ \ \ \ \ \ \textcolor{comment}{//\ already\ reaped\ by\ waitpid()\ above.\ fclose()\ closes\ the\ descriptor\ and\ frees\ the}}
-\DoxyCodeLine{00151\ \ \ \ \ \ \ \textcolor{comment}{//\ FILE;\ the\ former\ pclose()\ +\ close(pipe-\/>\_fileno)\ read\ the\ freed\ FILE\ and\ closed}}
-\DoxyCodeLine{00152\ \ \ \ \ \ \ \textcolor{comment}{//\ the\ descriptor\ twice.}}
-\DoxyCodeLine{00153\ \ \ \ \ \ \ fclose(child.pipe);}
-\DoxyCodeLine{00154\ }
-\DoxyCodeLine{00155\ \ \ \ \ \ \ RCLCPP\_WARN\_STREAM(rclcpp::get\_logger(\textcolor{stringliteral}{"{}smacc2"{}}),\ \textcolor{stringliteral}{"{}[ClRosLaunch2]\ RESULT:\(\backslash\)n"{}}\ <<\ result);}
-\DoxyCodeLine{00156\ }
-\DoxyCodeLine{00157\ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ result;}
-\DoxyCodeLine{00158\ \ \ \ \ \});}
-\DoxyCodeLine{00159\ \}}
+\DoxyCodeLine{00118\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{else}\ \textcolor{keywordflow}{if}\ (bytesRead\ ==\ 0)}
+\DoxyCodeLine{00119\ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{00120\ \ \ \ \ \ \ \ \ \ \ RCLCPP\_INFO(}
+\DoxyCodeLine{00121\ \ \ \ \ \ \ \ \ \ \ \ \ rclcpp::get\_logger(\textcolor{stringliteral}{"{}smacc2"{}}),\ \textcolor{stringliteral}{"{}[ClRosLaunch2]\ launch\ process\ closed\ its\ output"{}});}
+\DoxyCodeLine{00122\ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{break};}
+\DoxyCodeLine{00123\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00124\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{else}\ \textcolor{keywordflow}{if}\ (errno\ !=\ EINTR\ \&\&\ errno\ !=\ EAGAIN)}
+\DoxyCodeLine{00125\ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{00126\ \ \ \ \ \ \ \ \ \ \ RCLCPP\_ERROR\_STREAM(}
+\DoxyCodeLine{00127\ \ \ \ \ \ \ \ \ \ \ \ \ rclcpp::get\_logger(\textcolor{stringliteral}{"{}smacc2"{}}),}
+\DoxyCodeLine{00128\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}[ClRosLaunch2]\ read()\ failed:\ "{}}\ <<\ std::generic\_category().message(errno));}
+\DoxyCodeLine{00129\ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{break};}
+\DoxyCodeLine{00130\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00131\ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00132\ }
+\DoxyCodeLine{00133\ \ \ \ \ \ \ rclcpp::sleep\_for(2s);}
+\DoxyCodeLine{00134\ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (child.pid\ >\ 0)}
+\DoxyCodeLine{00135\ \ \ \ \ \ \ \{}
+\DoxyCodeLine{00136\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{namespacesmacc2_1_1client__bases_a1a82d22a82ec20a6c8ae7a2c679e49b8}{killGrandchildren}}(child.pid);}
+\DoxyCodeLine{00137\ \ \ \ \ \ \ \ \ rclcpp::sleep\_for(2s);}
+\DoxyCodeLine{00138\ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00139\ }
+\DoxyCodeLine{00140\ \ \ \ \ \ \ \textcolor{keywordtype}{int}\ status;}
+\DoxyCodeLine{00141\ \ \ \ \ \ \ pid\_t\ child\_pid\ =\ child.pid;}
+\DoxyCodeLine{00142\ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (waitpid(child\_pid,\ \&status,\ 0)\ !=\ -\/1)}
+\DoxyCodeLine{00143\ \ \ \ \ \ \ \{}
+\DoxyCodeLine{00144\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (WIFEXITED(status))}
+\DoxyCodeLine{00145\ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{00146\ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{int}\ exit\_status\ =\ WEXITSTATUS(status);}
+\DoxyCodeLine{00147\ \ \ \ \ \ \ \ \ \ \ RCLCPP\_INFO(}
+\DoxyCodeLine{00148\ \ \ \ \ \ \ \ \ \ \ \ \ rclcpp::get\_logger(\textcolor{stringliteral}{"{}smacc2"{}}),\ \textcolor{stringliteral}{"{}Child\ process\ exited\ with\ status:\ \%d"{}},\ exit\_status);}
+\DoxyCodeLine{00149\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00150\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{else}\ \textcolor{keywordflow}{if}\ (WIFSIGNALED(status))}
+\DoxyCodeLine{00151\ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{00152\ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{int}\ term\_signal\ =\ WTERMSIG(status);}
+\DoxyCodeLine{00153\ \ \ \ \ \ \ \ \ \ \ RCLCPP\_WARN(}
+\DoxyCodeLine{00154\ \ \ \ \ \ \ \ \ \ \ \ \ rclcpp::get\_logger(\textcolor{stringliteral}{"{}smacc2"{}}),\ \textcolor{stringliteral}{"{}Child\ process\ terminated\ by\ signal:\ \%d"{}},\ term\_signal);}
+\DoxyCodeLine{00155\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00156\ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00157\ \ \ \ \ \ \ \textcolor{keywordflow}{else}}
+\DoxyCodeLine{00158\ \ \ \ \ \ \ \{}
+\DoxyCodeLine{00159\ \ \ \ \ \ \ \ \ RCLCPP\_ERROR(rclcpp::get\_logger(\textcolor{stringliteral}{"{}smacc2"{}}),\ \textcolor{stringliteral}{"{}Error\ waiting\ for\ child\ process."{}});}
+\DoxyCodeLine{00160\ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00161\ }
+\DoxyCodeLine{00162\ \ \ \ \ \ \ \textcolor{comment}{//\ The\ stream\ came\ from\ fdopen()\ on\ our\ own\ pipe,\ not\ from\ popen(),\ and\ the\ child\ was}}
+\DoxyCodeLine{00163\ \ \ \ \ \ \ \textcolor{comment}{//\ already\ reaped\ by\ waitpid()\ above.\ fclose()\ closes\ the\ descriptor\ and\ frees\ the}}
+\DoxyCodeLine{00164\ \ \ \ \ \ \ \textcolor{comment}{//\ FILE;\ the\ former\ pclose()\ +\ close(pipe-\/>\_fileno)\ read\ the\ freed\ FILE\ and\ closed}}
+\DoxyCodeLine{00165\ \ \ \ \ \ \ \textcolor{comment}{//\ the\ descriptor\ twice.}}
+\DoxyCodeLine{00166\ \ \ \ \ \ \ fclose(child.pipe);}
+\DoxyCodeLine{00167\ }
+\DoxyCodeLine{00168\ \ \ \ \ \ \ RCLCPP\_WARN\_STREAM(rclcpp::get\_logger(\textcolor{stringliteral}{"{}smacc2"{}}),\ \textcolor{stringliteral}{"{}[ClRosLaunch2]\ RESULT:\(\backslash\)n"{}}\ <<\ result);}
+\DoxyCodeLine{00169\ }
+\DoxyCodeLine{00170\ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ result;}
+\DoxyCodeLine{00171\ \ \ \ \ \});}
+\DoxyCodeLine{00172\ \}}
 
 \end{DoxyCode}
 
 
-References \mbox{\hyperlink{smacc__ros__launch__client__2_8cpp_source_l00252}{smacc2\+::client\+\_\+bases\+::kill\+Grandchildren()}}, \mbox{\hyperlink{smacc__ros__launch__client__2_8hpp_source_l00068}{launch\+Pid\+\_\+}}, and \mbox{\hyperlink{smacc__ros__launch__client__2_8cpp_source_l00164}{smacc2\+::client\+\_\+bases\+::run\+Process()}}.
+References \mbox{\hyperlink{smacc__ros__launch__client__2_8cpp_source_l00277}{smacc2\+::client\+\_\+bases\+::kill\+Grandchildren()}}, \mbox{\hyperlink{smacc__ros__launch__client__2_8hpp_source_l00068}{launch\+Pid\+\_\+}}, and \mbox{\hyperlink{smacc__ros__launch__client__2_8cpp_source_l00177}{smacc2\+::client\+\_\+bases\+::run\+Process()}}.
 
 
 

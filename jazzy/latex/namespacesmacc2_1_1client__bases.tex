@@ -39,16 +39,16 @@ void smacc2\+::client\+\_\+bases\+::kill\+Grandchildren (\begin{DoxyParamCaption
 
 
 
-Definition at line \mbox{\hyperlink{smacc__ros__launch__client__2_8cpp_source_l00252}{252}} of file \mbox{\hyperlink{smacc__ros__launch__client__2_8cpp_source}{smacc\+\_\+ros\+\_\+launch\+\_\+client\+\_\+2.\+cpp}}.
+Definition at line \mbox{\hyperlink{smacc__ros__launch__client__2_8cpp_source_l00277}{277}} of file \mbox{\hyperlink{smacc__ros__launch__client__2_8cpp_source}{smacc\+\_\+ros\+\_\+launch\+\_\+client\+\_\+2.\+cpp}}.
 
 
 \begin{DoxyCode}{0}
-\DoxyCodeLine{00252\ \{\ \mbox{\hyperlink{namespacesmacc2_1_1client__bases_a69252b7282d90f069ab71a854f5e46e8}{killProcessesRecursive}}(originalPid);\ \}}
+\DoxyCodeLine{00277\ \{\ \mbox{\hyperlink{namespacesmacc2_1_1client__bases_a69252b7282d90f069ab71a854f5e46e8}{killProcessesRecursive}}(originalPid);\ \}}
 
 \end{DoxyCode}
 
 
-References \mbox{\hyperlink{smacc__ros__launch__client__2_8cpp_source_l00208}{kill\+Processes\+Recursive()}}.
+References \mbox{\hyperlink{smacc__ros__launch__client__2_8cpp_source_l00233}{kill\+Processes\+Recursive()}}.
 
 
 
@@ -78,61 +78,61 @@ void smacc2\+::client\+\_\+bases\+::kill\+Processes\+Recursive (\begin{DoxyParam
 
 
 
-Definition at line \mbox{\hyperlink{smacc__ros__launch__client__2_8cpp_source_l00208}{208}} of file \mbox{\hyperlink{smacc__ros__launch__client__2_8cpp_source}{smacc\+\_\+ros\+\_\+launch\+\_\+client\+\_\+2.\+cpp}}.
+Definition at line \mbox{\hyperlink{smacc__ros__launch__client__2_8cpp_source_l00233}{233}} of file \mbox{\hyperlink{smacc__ros__launch__client__2_8cpp_source}{smacc\+\_\+ros\+\_\+launch\+\_\+client\+\_\+2.\+cpp}}.
 
 
 \begin{DoxyCode}{0}
-\DoxyCodeLine{00209\ \{}
-\DoxyCodeLine{00210\ \ \ std::string\ command\ =\ \textcolor{stringliteral}{"{}pgrep\ -\/P\ "{}}\ +\ std::to\_string(pid);}
-\DoxyCodeLine{00211\ \ \ FILE\ *\ pipe\ =\ popen(command.c\_str(),\ \textcolor{stringliteral}{"{}r"{}});}
-\DoxyCodeLine{00212\ }
-\DoxyCodeLine{00213\ \ \ \textcolor{keywordflow}{if}\ (!pipe)}
-\DoxyCodeLine{00214\ \ \ \{}
-\DoxyCodeLine{00215\ \ \ \ \ std::cerr\ <<\ \textcolor{stringliteral}{"{}Error\ executing\ pgrep\ command."{}}\ <<\ std::endl;}
-\DoxyCodeLine{00216\ \ \ \ \ \textcolor{keywordflow}{return};}
-\DoxyCodeLine{00217\ \ \ \}}
-\DoxyCodeLine{00218\ }
-\DoxyCodeLine{00219\ \ \ \textcolor{keywordtype}{char}\ buffer[128];}
-\DoxyCodeLine{00220\ \ \ std::string\ result\ =\ \textcolor{stringliteral}{"{}"{}};}
-\DoxyCodeLine{00221\ }
-\DoxyCodeLine{00222\ \ \ \textcolor{keywordflow}{while}\ (fgets(buffer,\ \textcolor{keyword}{sizeof}(buffer),\ pipe)\ !=\ NULL)}
-\DoxyCodeLine{00223\ \ \ \{}
-\DoxyCodeLine{00224\ \ \ \ \ result\ +=\ buffer;}
-\DoxyCodeLine{00225\ \ \ \}}
-\DoxyCodeLine{00226\ }
-\DoxyCodeLine{00227\ \ \ pclose(pipe);}
-\DoxyCodeLine{00228\ }
-\DoxyCodeLine{00229\ \ \ std::istringstream\ iss(result);}
-\DoxyCodeLine{00230\ \ \ pid\_t\ childPid;}
-\DoxyCodeLine{00231\ \ \ std::vector<pid\_t>\ childPids;}
-\DoxyCodeLine{00232\ }
-\DoxyCodeLine{00233\ \ \ \textcolor{keywordflow}{while}\ (iss\ >>\ childPid)}
-\DoxyCodeLine{00234\ \ \ \{}
-\DoxyCodeLine{00235\ \ \ \ \ childPids.push\_back(childPid);}
-\DoxyCodeLine{00236\ \ \ \}}
+\DoxyCodeLine{00234\ \{}
+\DoxyCodeLine{00235\ \ \ std::string\ command\ =\ \textcolor{stringliteral}{"{}pgrep\ -\/P\ "{}}\ +\ std::to\_string(pid);}
+\DoxyCodeLine{00236\ \ \ FILE\ *\ pipe\ =\ popen(command.c\_str(),\ \textcolor{stringliteral}{"{}r"{}});}
 \DoxyCodeLine{00237\ }
-\DoxyCodeLine{00238\ \ \ \textcolor{comment}{//\ Kill\ child\ processes\ before\ killing\ the\ parent\ process}}
-\DoxyCodeLine{00239\ \ \ \textcolor{keywordflow}{for}\ (\textcolor{keyword}{const}\ pid\_t\ \&\ child\ :\ childPids)}
-\DoxyCodeLine{00240\ \ \ \{}
-\DoxyCodeLine{00241\ \ \ \ \ \mbox{\hyperlink{namespacesmacc2_1_1client__bases_a69252b7282d90f069ab71a854f5e46e8}{killProcessesRecursive}}(child);}
+\DoxyCodeLine{00238\ \ \ \textcolor{keywordflow}{if}\ (!pipe)}
+\DoxyCodeLine{00239\ \ \ \{}
+\DoxyCodeLine{00240\ \ \ \ \ std::cerr\ <<\ \textcolor{stringliteral}{"{}Error\ executing\ pgrep\ command."{}}\ <<\ std::endl;}
+\DoxyCodeLine{00241\ \ \ \ \ \textcolor{keywordflow}{return};}
 \DoxyCodeLine{00242\ \ \ \}}
 \DoxyCodeLine{00243\ }
-\DoxyCodeLine{00244\ \ \ \textcolor{comment}{//\ After\ killing\ all\ children,\ kill\ the\ parent\ process}}
-\DoxyCodeLine{00245\ \ \ \textcolor{keywordtype}{int}\ res\ =\ kill(pid,\ SIGTERM);}
-\DoxyCodeLine{00246\ \ \ \textcolor{keywordflow}{if}\ (res\ ==\ 0)}
-\DoxyCodeLine{00247\ \ \ \{}
-\DoxyCodeLine{00248\ \ \ \ \ RCLCPP\_FATAL(rclcpp::get\_logger(\textcolor{stringliteral}{"{}smacc2"{}}),\ \textcolor{stringliteral}{"{}Killed\ process\ \%d"{}},\ pid);}
-\DoxyCodeLine{00249\ \ \ \}}
-\DoxyCodeLine{00250\ \}}
+\DoxyCodeLine{00244\ \ \ \textcolor{keywordtype}{char}\ buffer[128];}
+\DoxyCodeLine{00245\ \ \ std::string\ result\ =\ \textcolor{stringliteral}{"{}"{}};}
+\DoxyCodeLine{00246\ }
+\DoxyCodeLine{00247\ \ \ \textcolor{keywordflow}{while}\ (fgets(buffer,\ \textcolor{keyword}{sizeof}(buffer),\ pipe)\ !=\ NULL)}
+\DoxyCodeLine{00248\ \ \ \{}
+\DoxyCodeLine{00249\ \ \ \ \ result\ +=\ buffer;}
+\DoxyCodeLine{00250\ \ \ \}}
+\DoxyCodeLine{00251\ }
+\DoxyCodeLine{00252\ \ \ pclose(pipe);}
+\DoxyCodeLine{00253\ }
+\DoxyCodeLine{00254\ \ \ std::istringstream\ iss(result);}
+\DoxyCodeLine{00255\ \ \ pid\_t\ childPid;}
+\DoxyCodeLine{00256\ \ \ std::vector<pid\_t>\ childPids;}
+\DoxyCodeLine{00257\ }
+\DoxyCodeLine{00258\ \ \ \textcolor{keywordflow}{while}\ (iss\ >>\ childPid)}
+\DoxyCodeLine{00259\ \ \ \{}
+\DoxyCodeLine{00260\ \ \ \ \ childPids.push\_back(childPid);}
+\DoxyCodeLine{00261\ \ \ \}}
+\DoxyCodeLine{00262\ }
+\DoxyCodeLine{00263\ \ \ \textcolor{comment}{//\ Kill\ child\ processes\ before\ killing\ the\ parent\ process}}
+\DoxyCodeLine{00264\ \ \ \textcolor{keywordflow}{for}\ (\textcolor{keyword}{const}\ pid\_t\ \&\ child\ :\ childPids)}
+\DoxyCodeLine{00265\ \ \ \{}
+\DoxyCodeLine{00266\ \ \ \ \ \mbox{\hyperlink{namespacesmacc2_1_1client__bases_a69252b7282d90f069ab71a854f5e46e8}{killProcessesRecursive}}(child);}
+\DoxyCodeLine{00267\ \ \ \}}
+\DoxyCodeLine{00268\ }
+\DoxyCodeLine{00269\ \ \ \textcolor{comment}{//\ After\ killing\ all\ children,\ kill\ the\ parent\ process}}
+\DoxyCodeLine{00270\ \ \ \textcolor{keywordtype}{int}\ res\ =\ kill(pid,\ SIGTERM);}
+\DoxyCodeLine{00271\ \ \ \textcolor{keywordflow}{if}\ (res\ ==\ 0)}
+\DoxyCodeLine{00272\ \ \ \{}
+\DoxyCodeLine{00273\ \ \ \ \ RCLCPP\_FATAL(rclcpp::get\_logger(\textcolor{stringliteral}{"{}smacc2"{}}),\ \textcolor{stringliteral}{"{}Killed\ process\ \%d"{}},\ pid);}
+\DoxyCodeLine{00274\ \ \ \}}
+\DoxyCodeLine{00275\ \}}
 
 \end{DoxyCode}
 
 
-References \mbox{\hyperlink{smacc__ros__launch__client__2_8cpp_source_l00208}{kill\+Processes\+Recursive()}}.
+References \mbox{\hyperlink{smacc__ros__launch__client__2_8cpp_source_l00233}{kill\+Processes\+Recursive()}}.
 
 
 
-Referenced by \mbox{\hyperlink{smacc__ros__launch__client__2_8cpp_source_l00252}{kill\+Grandchildren()}}, and \mbox{\hyperlink{smacc__ros__launch__client__2_8cpp_source_l00208}{kill\+Processes\+Recursive()}}.
+Referenced by \mbox{\hyperlink{smacc__ros__launch__client__2_8cpp_source_l00277}{kill\+Grandchildren()}}, and \mbox{\hyperlink{smacc__ros__launch__client__2_8cpp_source_l00233}{kill\+Processes\+Recursive()}}.
 
 Here is the call graph for this function\+:
 \nopagebreak
@@ -158,52 +158,64 @@ Here is the caller graph for this function\+:
 
 Additional functions 
 
-Definition at line \mbox{\hyperlink{smacc__ros__launch__client__2_8cpp_source_l00164}{164}} of file \mbox{\hyperlink{smacc__ros__launch__client__2_8cpp_source}{smacc\+\_\+ros\+\_\+launch\+\_\+client\+\_\+2.\+cpp}}.
+Definition at line \mbox{\hyperlink{smacc__ros__launch__client__2_8cpp_source_l00177}{177}} of file \mbox{\hyperlink{smacc__ros__launch__client__2_8cpp_source}{smacc\+\_\+ros\+\_\+launch\+\_\+client\+\_\+2.\+cpp}}.
 
 
 \begin{DoxyCode}{0}
-\DoxyCodeLine{00165\ \{}
-\DoxyCodeLine{00166\ \ \ \mbox{\hyperlink{structsmacc2_1_1client__bases_1_1ProcessInfo}{ProcessInfo}}\ info;}
-\DoxyCodeLine{00167\ \ \ info.\mbox{\hyperlink{structsmacc2_1_1client__bases_1_1ProcessInfo_a4b89d5acba7e751d5384a6bc473758bb}{pid}}\ =\ -\/1;\ \ \textcolor{comment}{//\ Initialize\ PID\ to\ -\/1\ (error\ sentinel)}}
-\DoxyCodeLine{00168\ \ \ info.\mbox{\hyperlink{structsmacc2_1_1client__bases_1_1ProcessInfo_a37ce0d01a9330b932d540c9a8973d563}{pipe}}\ =\ \textcolor{keyword}{nullptr};}
-\DoxyCodeLine{00169\ }
-\DoxyCodeLine{00170\ \ \ \textcolor{keywordtype}{int}\ pipefd[2];\ \ \textcolor{comment}{//\ File\ descriptors\ for\ the\ pipe}}
-\DoxyCodeLine{00171\ }
-\DoxyCodeLine{00172\ \ \ \textcolor{keywordflow}{if}\ (pipe(pipefd)\ ==\ -\/1)}
-\DoxyCodeLine{00173\ \ \ \{}
-\DoxyCodeLine{00174\ \ \ \ \ perror(\textcolor{stringliteral}{"{}pipe"{}});}
-\DoxyCodeLine{00175\ \ \ \ \ \textcolor{keywordflow}{return}\ info;}
-\DoxyCodeLine{00176\ \ \ \}}
-\DoxyCodeLine{00177\ }
-\DoxyCodeLine{00178\ \ \ pid\_t\ pid\ =\ fork();}
-\DoxyCodeLine{00179\ }
-\DoxyCodeLine{00180\ \ \ \textcolor{keywordflow}{if}\ (pid\ ==\ 0)}
-\DoxyCodeLine{00181\ \ \ \{}
-\DoxyCodeLine{00182\ \ \ \ \ \textcolor{comment}{//\ Child\ process}}
-\DoxyCodeLine{00183\ \ \ \ \ close(pipefd[0]);\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Close\ read\ end\ in\ child}}
-\DoxyCodeLine{00184\ \ \ \ \ dup2(pipefd[1],\ STDOUT\_FILENO);\ \ \textcolor{comment}{//\ Redirect\ stdout\ to\ pipe}}
-\DoxyCodeLine{00185\ \ \ \ \ close(pipefd[1]);\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Close\ write\ end\ in\ child}}
-\DoxyCodeLine{00186\ }
-\DoxyCodeLine{00187\ \ \ \ \ execl(\textcolor{stringliteral}{"{}/bin/sh"{}},\ \textcolor{stringliteral}{"{}/bin/sh"{}},\ \textcolor{stringliteral}{"{}-\/c"{}},\ command,\ \textcolor{keyword}{nullptr});\ \ \textcolor{comment}{//\ Execute\ the\ command}}
-\DoxyCodeLine{00188\ }
-\DoxyCodeLine{00189\ \ \ \ \ \textcolor{comment}{//\ execl\ only\ returns\ on\ error}}
-\DoxyCodeLine{00190\ \ \ \ \ std::cerr\ <<\ \textcolor{stringliteral}{"{}Error\ executing\ command:\ "{}}\ <<\ command\ <<\ std::endl;}
-\DoxyCodeLine{00191\ \ \ \ \ \_exit(1);\ \ \textcolor{comment}{//\ Use\ \_exit\ to\ skip\ at\ exit\ handlers}}
-\DoxyCodeLine{00192\ \ \ \}}
-\DoxyCodeLine{00193\ \ \ \textcolor{keywordflow}{else}\ \textcolor{keywordflow}{if}\ (pid\ >\ 0)}
+\DoxyCodeLine{00178\ \{}
+\DoxyCodeLine{00179\ \ \ \mbox{\hyperlink{structsmacc2_1_1client__bases_1_1ProcessInfo}{ProcessInfo}}\ info;}
+\DoxyCodeLine{00180\ \ \ info.\mbox{\hyperlink{structsmacc2_1_1client__bases_1_1ProcessInfo_a4b89d5acba7e751d5384a6bc473758bb}{pid}}\ =\ -\/1;\ \ \textcolor{comment}{//\ Initialize\ PID\ to\ -\/1\ (error\ sentinel)}}
+\DoxyCodeLine{00181\ \ \ info.\mbox{\hyperlink{structsmacc2_1_1client__bases_1_1ProcessInfo_a37ce0d01a9330b932d540c9a8973d563}{pipe}}\ =\ \textcolor{keyword}{nullptr};}
+\DoxyCodeLine{00182\ }
+\DoxyCodeLine{00183\ \ \ \textcolor{keywordtype}{int}\ pipefd[2];\ \ \textcolor{comment}{//\ File\ descriptors\ for\ the\ pipe}}
+\DoxyCodeLine{00184\ }
+\DoxyCodeLine{00185\ \ \ \textcolor{keywordflow}{if}\ (pipe(pipefd)\ ==\ -\/1)}
+\DoxyCodeLine{00186\ \ \ \{}
+\DoxyCodeLine{00187\ \ \ \ \ perror(\textcolor{stringliteral}{"{}pipe"{}});}
+\DoxyCodeLine{00188\ \ \ \ \ \textcolor{keywordflow}{return}\ info;}
+\DoxyCodeLine{00189\ \ \ \}}
+\DoxyCodeLine{00190\ }
+\DoxyCodeLine{00191\ \ \ pid\_t\ pid\ =\ fork();}
+\DoxyCodeLine{00192\ }
+\DoxyCodeLine{00193\ \ \ \textcolor{keywordflow}{if}\ (pid\ ==\ 0)}
 \DoxyCodeLine{00194\ \ \ \{}
-\DoxyCodeLine{00195\ \ \ \ \ \textcolor{comment}{//\ Parent\ process}}
-\DoxyCodeLine{00196\ \ \ \ \ close(pipefd[1]);\ \ \textcolor{comment}{//\ Close\ write\ end\ in\ parent}}
-\DoxyCodeLine{00197\ \ \ \ \ info.\mbox{\hyperlink{structsmacc2_1_1client__bases_1_1ProcessInfo_a4b89d5acba7e751d5384a6bc473758bb}{pid}}\ =\ pid;}
-\DoxyCodeLine{00198\ \ \ \ \ info.\mbox{\hyperlink{structsmacc2_1_1client__bases_1_1ProcessInfo_a37ce0d01a9330b932d540c9a8973d563}{pipe}}\ =\ fdopen(pipefd[0],\ \textcolor{stringliteral}{"{}r"{}});\ \ \textcolor{comment}{//\ Open\ read\ end\ as\ text-\/mode\ FILE}}
-\DoxyCodeLine{00199\ \ \ \}}
-\DoxyCodeLine{00200\ \ \ \textcolor{keywordflow}{else}}
-\DoxyCodeLine{00201\ \ \ \{}
-\DoxyCodeLine{00202\ \ \ \ \ std::cerr\ <<\ \textcolor{stringliteral}{"{}Error\ creating\ child\ process."{}}\ <<\ std::endl;}
-\DoxyCodeLine{00203\ \ \ \}}
-\DoxyCodeLine{00204\ }
-\DoxyCodeLine{00205\ \ \ \textcolor{keywordflow}{return}\ info;}
-\DoxyCodeLine{00206\ \}}
+\DoxyCodeLine{00195\ \ \ \ \ \textcolor{comment}{//\ Child\ process}}
+\DoxyCodeLine{00196\ \ \ \ \ close(pipefd[0]);\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Close\ read\ end\ in\ child}}
+\DoxyCodeLine{00197\ \ \ \ \ dup2(pipefd[1],\ STDOUT\_FILENO);\ \ \textcolor{comment}{//\ Redirect\ stdout\ to\ pipe}}
+\DoxyCodeLine{00198\ \ \ \ \ close(pipefd[1]);\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Close\ write\ end\ in\ child}}
+\DoxyCodeLine{00199\ }
+\DoxyCodeLine{00200\ \ \ \ \ execl(\textcolor{stringliteral}{"{}/bin/sh"{}},\ \textcolor{stringliteral}{"{}/bin/sh"{}},\ \textcolor{stringliteral}{"{}-\/c"{}},\ command,\ \textcolor{keyword}{nullptr});\ \ \textcolor{comment}{//\ Execute\ the\ command}}
+\DoxyCodeLine{00201\ }
+\DoxyCodeLine{00202\ \ \ \ \ \textcolor{comment}{//\ execl\ only\ returns\ on\ error}}
+\DoxyCodeLine{00203\ \ \ \ \ std::cerr\ <<\ \textcolor{stringliteral}{"{}Error\ executing\ command:\ "{}}\ <<\ command\ <<\ std::endl;}
+\DoxyCodeLine{00204\ \ \ \ \ \_exit(1);\ \ \textcolor{comment}{//\ Use\ \_exit\ to\ skip\ at\ exit\ handlers}}
+\DoxyCodeLine{00205\ \ \ \}}
+\DoxyCodeLine{00206\ \ \ \textcolor{keywordflow}{else}\ \textcolor{keywordflow}{if}\ (pid\ >\ 0)}
+\DoxyCodeLine{00207\ \ \ \{}
+\DoxyCodeLine{00208\ \ \ \ \ \textcolor{comment}{//\ Parent\ process}}
+\DoxyCodeLine{00209\ \ \ \ \ close(pipefd[1]);\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Close\ write\ end\ in\ parent}}
+\DoxyCodeLine{00210\ \ \ \ \ info.\mbox{\hyperlink{structsmacc2_1_1client__bases_1_1ProcessInfo_a37ce0d01a9330b932d540c9a8973d563}{pipe}}\ =\ fdopen(pipefd[0],\ \textcolor{stringliteral}{"{}r"{}});\ \ \textcolor{comment}{//\ Open\ read\ end\ as\ text-\/mode\ FILE}}
+\DoxyCodeLine{00211\ \ \ \ \ \textcolor{keywordflow}{if}\ (info.\mbox{\hyperlink{structsmacc2_1_1client__bases_1_1ProcessInfo_a37ce0d01a9330b932d540c9a8973d563}{pipe}}\ ==\ \textcolor{keyword}{nullptr})}
+\DoxyCodeLine{00212\ \ \ \ \ \{}
+\DoxyCodeLine{00213\ \ \ \ \ \ \ \textcolor{comment}{//\ No\ stream\ to\ read\ the\ child\ through:\ close\ the\ descriptor,\ stop\ and\ reap\ the\ child.}}
+\DoxyCodeLine{00214\ \ \ \ \ \ \ close(pipefd[0]);}
+\DoxyCodeLine{00215\ \ \ \ \ \ \ kill(pid,\ SIGTERM);}
+\DoxyCodeLine{00216\ \ \ \ \ \ \ waitpid(pid,\ \textcolor{keyword}{nullptr},\ 0);}
+\DoxyCodeLine{00217\ \ \ \ \ \}}
+\DoxyCodeLine{00218\ \ \ \ \ \textcolor{keywordflow}{else}}
+\DoxyCodeLine{00219\ \ \ \ \ \{}
+\DoxyCodeLine{00220\ \ \ \ \ \ \ info.\mbox{\hyperlink{structsmacc2_1_1client__bases_1_1ProcessInfo_a4b89d5acba7e751d5384a6bc473758bb}{pid}}\ =\ pid;}
+\DoxyCodeLine{00221\ \ \ \ \ \}}
+\DoxyCodeLine{00222\ \ \ \}}
+\DoxyCodeLine{00223\ \ \ \textcolor{keywordflow}{else}}
+\DoxyCodeLine{00224\ \ \ \{}
+\DoxyCodeLine{00225\ \ \ \ \ close(pipefd[0]);}
+\DoxyCodeLine{00226\ \ \ \ \ close(pipefd[1]);}
+\DoxyCodeLine{00227\ \ \ \ \ std::cerr\ <<\ \textcolor{stringliteral}{"{}Error\ creating\ child\ process."{}}\ <<\ std::endl;}
+\DoxyCodeLine{00228\ \ \ \}}
+\DoxyCodeLine{00229\ }
+\DoxyCodeLine{00230\ \ \ \textcolor{keywordflow}{return}\ info;}
+\DoxyCodeLine{00231\ \}}
 
 \end{DoxyCode}
 
