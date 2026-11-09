@@ -85,23 +85,24 @@
 \DoxyCodeLine{\Hypertarget{smacc__orthogonal_8hpp_source_l00081}\mbox{\hyperlink{classsmacc2_1_1ISmaccOrthogonal_ad03b3f59cfbc5eaac529910ed965bd1f}{00081}}\ \ \ std::vector<std::shared\_ptr<smacc2::ISmaccClient>>\ \mbox{\hyperlink{classsmacc2_1_1ISmaccOrthogonal_ad03b3f59cfbc5eaac529910ed965bd1f}{clients\_}};}
 \DoxyCodeLine{\Hypertarget{smacc__orthogonal_8hpp_source_l00082}00082\ }
 \DoxyCodeLine{\Hypertarget{smacc__orthogonal_8hpp_source_l00083}00083\ \textcolor{keyword}{private}:}
-\DoxyCodeLine{\Hypertarget{smacc__orthogonal_8hpp_source_l00084}\mbox{\hyperlink{classsmacc2_1_1ISmaccOrthogonal_ae1fdf0a77a8063fed564b18831754bf0}{00084}}\ \ \ \mbox{\hyperlink{classsmacc2_1_1ISmaccStateMachine}{ISmaccStateMachine}}\ *\ \mbox{\hyperlink{classsmacc2_1_1ISmaccOrthogonal_ae1fdf0a77a8063fed564b18831754bf0}{stateMachine\_}};}
-\DoxyCodeLine{\Hypertarget{smacc__orthogonal_8hpp_source_l00085}00085\ }
-\DoxyCodeLine{\Hypertarget{smacc__orthogonal_8hpp_source_l00086}\mbox{\hyperlink{classsmacc2_1_1ISmaccOrthogonal_ae99892f5dffed8fab48c7c8b841bf0af}{00086}}\ \ \ std::vector<std::vector<std::shared\_ptr<smacc2::ISmaccClientBehavior>>>\ \mbox{\hyperlink{classsmacc2_1_1ISmaccOrthogonal_ae99892f5dffed8fab48c7c8b841bf0af}{clientBehaviors\_}};}
-\DoxyCodeLine{\Hypertarget{smacc__orthogonal_8hpp_source_l00087}\mbox{\hyperlink{classsmacc2_1_1ISmaccOrthogonal_a0e71d23a61c07d55f419d02237d03b6a}{00087}}\ \ \ \textcolor{keyword}{friend}\ \textcolor{keyword}{class\ }\mbox{\hyperlink{classsmacc2_1_1ISmaccStateMachine}{ISmaccStateMachine}};}
-\DoxyCodeLine{\Hypertarget{smacc__orthogonal_8hpp_source_l00088}00088\ }
-\DoxyCodeLine{\Hypertarget{smacc__orthogonal_8hpp_source_l00089}00089\ \ \ \textcolor{comment}{//\ Guards\ clientBehaviors\_.\ It\ is\ a\ leaf\ lock:\ it\ is\ never\ held\ while\ behavior\ code\ runs\ or}}
-\DoxyCodeLine{\Hypertarget{smacc__orthogonal_8hpp_source_l00090}00090\ \ \ \textcolor{comment}{//\ while\ any\ other\ lock\ is\ taken.\ runtimeConfigure(),\ onEntry()\ and\ onExit()\ copy\ the\ current}}
-\DoxyCodeLine{\Hypertarget{smacc__orthogonal_8hpp_source_l00091}00091\ \ \ \textcolor{comment}{//\ state's\ behavior\ list\ under\ it\ and\ then\ call\ the\ behaviors\ without\ it,\ so\ a\ behavior\ that}}
-\DoxyCodeLine{\Hypertarget{smacc__orthogonal_8hpp_source_l00092}00092\ \ \ \textcolor{comment}{//\ takes\ the\ state\ machine's\ m\_mutex\_\ (requiresComponent,\ createSignalConnection)\ does\ not}}
-\DoxyCodeLine{\Hypertarget{smacc__orthogonal_8hpp_source_l00093}00093\ \ \ \textcolor{comment}{//\ create\ an\ orthogonal-\/then-\/state-\/machine\ lock\ order;\ the\ exit\ path\ already\ holds\ m\_mutex\_}}
-\DoxyCodeLine{\Hypertarget{smacc__orthogonal_8hpp_source_l00094}00094\ \ \ \textcolor{comment}{//\ when\ it\ locks\ this\ mutex.\ CbSequence\ adds\ behaviors\ through\ addClientBehavior\ from\ its\ own}}
-\DoxyCodeLine{\Hypertarget{smacc__orthogonal_8hpp_source_l00095}00095\ \ \ \textcolor{comment}{//\ thread,\ which\ is\ what\ the\ lock\ is\ for.}}
-\DoxyCodeLine{\Hypertarget{smacc__orthogonal_8hpp_source_l00096}\mbox{\hyperlink{classsmacc2_1_1ISmaccOrthogonal_af90f2309877078e434f2d91fcaa78db1}{00096}}\ \ \ std::mutex\ \mbox{\hyperlink{classsmacc2_1_1ISmaccOrthogonal_af90f2309877078e434f2d91fcaa78db1}{mutex\_}};}
-\DoxyCodeLine{\Hypertarget{smacc__orthogonal_8hpp_source_l00097}00097\ }
-\DoxyCodeLine{\Hypertarget{smacc__orthogonal_8hpp_source_l00098}00098\ \ \ std::vector<std::shared\_ptr<smacc2::ISmaccClientBehavior>>\ \mbox{\hyperlink{classsmacc2_1_1ISmaccOrthogonal_a067b7c9999ec470442c301ecd2847d83}{currentClientBehaviors}}();}
-\DoxyCodeLine{\Hypertarget{smacc__orthogonal_8hpp_source_l00099}00099\ \};}
-\DoxyCodeLine{\Hypertarget{smacc__orthogonal_8hpp_source_l00100}00100\ }
-\DoxyCodeLine{\Hypertarget{smacc__orthogonal_8hpp_source_l00101}00101\ \}\ \ \textcolor{comment}{//\ namespace\ smacc2}}
+\DoxyCodeLine{\Hypertarget{smacc__orthogonal_8hpp_source_l00084}00084\ \ \ \textcolor{comment}{//\ Null\ until\ setStateMachine()\ is\ called\ from\ createOrthogonal().}}
+\DoxyCodeLine{\Hypertarget{smacc__orthogonal_8hpp_source_l00085}\mbox{\hyperlink{classsmacc2_1_1ISmaccOrthogonal_ae1fdf0a77a8063fed564b18831754bf0}{00085}}\ \ \ \mbox{\hyperlink{classsmacc2_1_1ISmaccStateMachine}{ISmaccStateMachine}}\ *\ \mbox{\hyperlink{classsmacc2_1_1ISmaccOrthogonal_ae1fdf0a77a8063fed564b18831754bf0}{stateMachine\_}}\ =\ \textcolor{keyword}{nullptr};}
+\DoxyCodeLine{\Hypertarget{smacc__orthogonal_8hpp_source_l00086}00086\ }
+\DoxyCodeLine{\Hypertarget{smacc__orthogonal_8hpp_source_l00087}\mbox{\hyperlink{classsmacc2_1_1ISmaccOrthogonal_ae99892f5dffed8fab48c7c8b841bf0af}{00087}}\ \ \ std::vector<std::vector<std::shared\_ptr<smacc2::ISmaccClientBehavior>>>\ \mbox{\hyperlink{classsmacc2_1_1ISmaccOrthogonal_ae99892f5dffed8fab48c7c8b841bf0af}{clientBehaviors\_}};}
+\DoxyCodeLine{\Hypertarget{smacc__orthogonal_8hpp_source_l00088}\mbox{\hyperlink{classsmacc2_1_1ISmaccOrthogonal_a0e71d23a61c07d55f419d02237d03b6a}{00088}}\ \ \ \textcolor{keyword}{friend}\ \textcolor{keyword}{class\ }\mbox{\hyperlink{classsmacc2_1_1ISmaccStateMachine}{ISmaccStateMachine}};}
+\DoxyCodeLine{\Hypertarget{smacc__orthogonal_8hpp_source_l00089}00089\ }
+\DoxyCodeLine{\Hypertarget{smacc__orthogonal_8hpp_source_l00090}00090\ \ \ \textcolor{comment}{//\ Guards\ clientBehaviors\_.\ It\ is\ a\ leaf\ lock:\ it\ is\ never\ held\ while\ behavior\ code\ runs\ or}}
+\DoxyCodeLine{\Hypertarget{smacc__orthogonal_8hpp_source_l00091}00091\ \ \ \textcolor{comment}{//\ while\ any\ other\ lock\ is\ taken.\ runtimeConfigure(),\ onEntry()\ and\ onExit()\ copy\ the\ current}}
+\DoxyCodeLine{\Hypertarget{smacc__orthogonal_8hpp_source_l00092}00092\ \ \ \textcolor{comment}{//\ state's\ behavior\ list\ under\ it\ and\ then\ call\ the\ behaviors\ without\ it,\ so\ a\ behavior\ that}}
+\DoxyCodeLine{\Hypertarget{smacc__orthogonal_8hpp_source_l00093}00093\ \ \ \textcolor{comment}{//\ takes\ the\ state\ machine's\ m\_mutex\_\ (requiresComponent,\ createSignalConnection)\ does\ not}}
+\DoxyCodeLine{\Hypertarget{smacc__orthogonal_8hpp_source_l00094}00094\ \ \ \textcolor{comment}{//\ create\ an\ orthogonal-\/then-\/state-\/machine\ lock\ order;\ the\ exit\ path\ already\ holds\ m\_mutex\_}}
+\DoxyCodeLine{\Hypertarget{smacc__orthogonal_8hpp_source_l00095}00095\ \ \ \textcolor{comment}{//\ when\ it\ locks\ this\ mutex.\ CbSequence\ adds\ behaviors\ through\ addClientBehavior\ from\ its\ own}}
+\DoxyCodeLine{\Hypertarget{smacc__orthogonal_8hpp_source_l00096}00096\ \ \ \textcolor{comment}{//\ thread,\ which\ is\ what\ the\ lock\ is\ for.}}
+\DoxyCodeLine{\Hypertarget{smacc__orthogonal_8hpp_source_l00097}\mbox{\hyperlink{classsmacc2_1_1ISmaccOrthogonal_af90f2309877078e434f2d91fcaa78db1}{00097}}\ \ \ std::mutex\ \mbox{\hyperlink{classsmacc2_1_1ISmaccOrthogonal_af90f2309877078e434f2d91fcaa78db1}{mutex\_}};}
+\DoxyCodeLine{\Hypertarget{smacc__orthogonal_8hpp_source_l00098}00098\ }
+\DoxyCodeLine{\Hypertarget{smacc__orthogonal_8hpp_source_l00099}00099\ \ \ std::vector<std::shared\_ptr<smacc2::ISmaccClientBehavior>>\ \mbox{\hyperlink{classsmacc2_1_1ISmaccOrthogonal_a067b7c9999ec470442c301ecd2847d83}{currentClientBehaviors}}();}
+\DoxyCodeLine{\Hypertarget{smacc__orthogonal_8hpp_source_l00100}00100\ \};}
+\DoxyCodeLine{\Hypertarget{smacc__orthogonal_8hpp_source_l00101}00101\ }
+\DoxyCodeLine{\Hypertarget{smacc__orthogonal_8hpp_source_l00102}00102\ \}\ \ \textcolor{comment}{//\ namespace\ smacc2}}
 
 \end{DoxyCode}
