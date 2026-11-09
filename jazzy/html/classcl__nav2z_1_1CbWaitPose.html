@@ -439,22 +439,28 @@ Additional Inherited Members</h2></td></tr>
 <div class="fragment"><div class="line"><span class="lineno">   36</span>{</div>
 <div class="line"><span class="lineno">   37</span>  <a class="code hl_class" href="classcl__nav2z_1_1CpPose.html">cl_nav2z::CpPose</a> * pose = <span class="keyword">nullptr</span>;</div>
 <div class="line"><span class="lineno">   38</span>  this-&gt;<a class="code hl_function" href="classsmacc2_1_1ISmaccClientBehavior.html#aeb76b10b9bb3925244da9d484739a5a9">requiresComponent</a>(pose, ComponentRequirement::SOFT);</div>
-<div class="line"><span class="lineno">   39</span>  <span class="keywordflow">try</span></div>
+<div class="line"><span class="lineno">   39</span>  <span class="keywordflow">if</span> (pose == <span class="keyword">nullptr</span>)</div>
 <div class="line"><span class="lineno">   40</span>  {</div>
-<div class="line"><span class="lineno">   41</span>    pose-&gt;<a class="code hl_function" href="classcl__nav2z_1_1CpPose.html#a67a3702ee46f0e966ed8cdd902d49f4f">waitTransformUpdate</a>(rclcpp::Rate(20));</div>
-<div class="line"><span class="lineno">   42</span>    <span class="keyword">auto</span> posemsg = pose-&gt;<a class="code hl_function" href="classcl__nav2z_1_1CpPose.html#a047aae7ec0c834d5e7d56d1a34de512d">toPoseMsg</a>();</div>
-<div class="line"><span class="lineno">   43</span>    RCLCPP_INFO_STREAM(<a class="code hl_function" href="classsmacc2_1_1ISmaccClientBehavior.html#a9c3d82542c800e2ba5207c5cff0e63e8">getLogger</a>(), <span class="stringliteral">&quot;[CbWaitPose] pose arrived: &quot;</span> &lt;&lt; std::endl &lt;&lt; posemsg);</div>
+<div class="line"><span class="lineno">   41</span>    RCLCPP_ERROR(<a class="code hl_function" href="classsmacc2_1_1ISmaccClientBehavior.html#a9c3d82542c800e2ba5207c5cff0e63e8">getLogger</a>(), <span class="stringliteral">&quot;[CbWaitPose] no CpPose component in the state machine&quot;</span>);</div>
+<div class="line"><span class="lineno">   42</span>    this-&gt;<a class="code hl_function" href="classsmacc2_1_1SmaccAsyncClientBehavior.html#afcb5c1a0bf3b9bae6c54e8f5ef1bc04d">postFailureEvent</a>();</div>
+<div class="line"><span class="lineno">   43</span>    <span class="keywordflow">return</span>;</div>
 <div class="line"><span class="lineno">   44</span>  }</div>
-<div class="line"><span class="lineno">   45</span>  <span class="keywordflow">catch</span> (std::exception &amp; ex)</div>
+<div class="line"><span class="lineno">   45</span>  <span class="keywordflow">try</span></div>
 <div class="line"><span class="lineno">   46</span>  {</div>
-<div class="line"><span class="lineno">   47</span>    RCLCPP_INFO(<a class="code hl_function" href="classsmacc2_1_1ISmaccClientBehavior.html#a9c3d82542c800e2ba5207c5cff0e63e8">getLogger</a>(), <span class="stringliteral">&quot;[CbWaitPose] error getting the robot pose&quot;</span>);</div>
-<div class="line"><span class="lineno">   48</span>    this-&gt;<a class="code hl_function" href="classsmacc2_1_1SmaccAsyncClientBehavior.html#afcb5c1a0bf3b9bae6c54e8f5ef1bc04d">postFailureEvent</a>();</div>
-<div class="line"><span class="lineno">   49</span>    <span class="keywordflow">return</span>;</div>
+<div class="line"><span class="lineno">   47</span>    pose-&gt;<a class="code hl_function" href="classcl__nav2z_1_1CpPose.html#a67a3702ee46f0e966ed8cdd902d49f4f">waitTransformUpdate</a>(rclcpp::Rate(20));</div>
+<div class="line"><span class="lineno">   48</span>    <span class="keyword">auto</span> posemsg = pose-&gt;<a class="code hl_function" href="classcl__nav2z_1_1CpPose.html#a047aae7ec0c834d5e7d56d1a34de512d">toPoseMsg</a>();</div>
+<div class="line"><span class="lineno">   49</span>    RCLCPP_INFO_STREAM(<a class="code hl_function" href="classsmacc2_1_1ISmaccClientBehavior.html#a9c3d82542c800e2ba5207c5cff0e63e8">getLogger</a>(), <span class="stringliteral">&quot;[CbWaitPose] pose arrived: &quot;</span> &lt;&lt; std::endl &lt;&lt; posemsg);</div>
 <div class="line"><span class="lineno">   50</span>  }</div>
-<div class="line"><span class="lineno">   51</span> </div>
-<div class="line"><span class="lineno">   52</span>  RCLCPP_INFO(<a class="code hl_function" href="classsmacc2_1_1ISmaccClientBehavior.html#a9c3d82542c800e2ba5207c5cff0e63e8">getLogger</a>(), <span class="stringliteral">&quot;[CbWaitPose] pose received&quot;</span>);</div>
-<div class="line"><span class="lineno">   53</span>  this-&gt;<a class="code hl_function" href="classsmacc2_1_1SmaccAsyncClientBehavior.html#a2fb4de26d011fbbb55bc1bbaed2e6f5b">postSuccessEvent</a>();</div>
-<div class="line"><span class="lineno">   54</span>}</div>
+<div class="line"><span class="lineno">   51</span>  <span class="keywordflow">catch</span> (std::exception &amp; ex)</div>
+<div class="line"><span class="lineno">   52</span>  {</div>
+<div class="line"><span class="lineno">   53</span>    RCLCPP_INFO(<a class="code hl_function" href="classsmacc2_1_1ISmaccClientBehavior.html#a9c3d82542c800e2ba5207c5cff0e63e8">getLogger</a>(), <span class="stringliteral">&quot;[CbWaitPose] error getting the robot pose&quot;</span>);</div>
+<div class="line"><span class="lineno">   54</span>    this-&gt;<a class="code hl_function" href="classsmacc2_1_1SmaccAsyncClientBehavior.html#afcb5c1a0bf3b9bae6c54e8f5ef1bc04d">postFailureEvent</a>();</div>
+<div class="line"><span class="lineno">   55</span>    <span class="keywordflow">return</span>;</div>
+<div class="line"><span class="lineno">   56</span>  }</div>
+<div class="line"><span class="lineno">   57</span> </div>
+<div class="line"><span class="lineno">   58</span>  RCLCPP_INFO(<a class="code hl_function" href="classsmacc2_1_1ISmaccClientBehavior.html#a9c3d82542c800e2ba5207c5cff0e63e8">getLogger</a>(), <span class="stringliteral">&quot;[CbWaitPose] pose received&quot;</span>);</div>
+<div class="line"><span class="lineno">   59</span>  this-&gt;<a class="code hl_function" href="classsmacc2_1_1SmaccAsyncClientBehavior.html#a2fb4de26d011fbbb55bc1bbaed2e6f5b">postSuccessEvent</a>();</div>
+<div class="line"><span class="lineno">   60</span>}</div>
 <div class="ttc" id="aclasscl__nav2z_1_1CpPose_html"><div class="ttname"><a href="classcl__nav2z_1_1CpPose.html">cl_nav2z::CpPose</a></div><div class="ttdef"><b>Definition</b> <a href="cp__pose_8hpp_source.html#l00043">cp_pose.hpp:44</a></div></div>
 <div class="ttc" id="aclasscl__nav2z_1_1CpPose_html_a047aae7ec0c834d5e7d56d1a34de512d"><div class="ttname"><a href="classcl__nav2z_1_1CpPose.html#a047aae7ec0c834d5e7d56d1a34de512d">cl_nav2z::CpPose::toPoseMsg</a></div><div class="ttdeci">geometry_msgs::msg::Pose toPoseMsg()</div><div class="ttdef"><b>Definition</b> <a href="cp__pose_8hpp_source.html#l00057">cp_pose.hpp:57</a></div></div>
 <div class="ttc" id="aclasscl__nav2z_1_1CpPose_html_a67a3702ee46f0e966ed8cdd902d49f4f"><div class="ttname"><a href="classcl__nav2z_1_1CpPose.html#a67a3702ee46f0e966ed8cdd902d49f4f">cl_nav2z::CpPose::waitTransformUpdate</a></div><div class="ttdeci">void waitTransformUpdate(rclcpp::Rate r=rclcpp::Rate(20))</div><div class="ttdef"><b>Definition</b> <a href="cp__pose_8cpp_source.html#l00082">cp_pose.cpp:82</a></div></div>
