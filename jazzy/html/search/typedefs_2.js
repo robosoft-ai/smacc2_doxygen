@@ -1,7 +1,7 @@
 var searchData=
 [
   ['cancelcallback_0',['CancelCallback',['../classsmacc2_1_1client__bases_1_1SmaccActionClientBase.html#a2e2e4a251af927195cf771b849756051',1,'smacc2::client_bases::SmaccActionClientBase']]],
-  ['cancelcallback_1',['cancelCallback',['../classsmacc2_1_1client__bases_1_1ClRosLaunch.html#a4e6bbbcdb94501ab2a0dada1f22525b4',1,'smacc2::client_bases::ClRosLaunch::cancelCallback'],['../classsmacc2_1_1client__bases_1_1ClRosLaunch2.html#a156f8b981c14bd918730722e6917d305',1,'smacc2::client_bases::ClRosLaunch2::cancelCallback']]],
+  ['cancelcallback_1',['cancelCallback',['../classsmacc2_1_1client__bases_1_1ClRosLaunch2.html#a156f8b981c14bd918730722e6917d305',1,'smacc2::client_bases::ClRosLaunch2']]],
   ['cancelpredicate_2',['CancelPredicate',['../classcl__lifecycle__node_1_1ClLifecycleNode.html#a5e3f92736ef684316a92f669e92b1647',1,'cl_lifecycle_node::ClLifecycleNode']]],
   ['cancelrequest_3',['CancelRequest',['../classsmacc2_1_1client__bases_1_1SmaccActionClientBase.html#a16a8be19ae38bc24910e89640c47129e',1,'smacc2::client_bases::SmaccActionClientBase']]],
   ['cancelresponse_4',['CancelResponse',['../classsmacc2_1_1client__bases_1_1SmaccActionClientBase.html#a0e5fd3472d74ed8ee7913bdc05fcc4a4',1,'smacc2::client_bases::SmaccActionClientBase']]],

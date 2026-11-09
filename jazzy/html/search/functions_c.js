@@ -5,7 +5,7 @@ var searchData=
   ['lastminrange_2',['lastMinRange',['../classcl__px4__mr_1_1CpForwardObstacleGuard.html#ab4d525d85c4e74d77c36e3f8ba524334',1,'cl_px4_mr::CpForwardObstacleGuard']]],
   ['lastyawrate_3',['lastYawRate',['../classcl__px4__mr_1_1CpForwardObstacleGuard.html#a453669295a2b1819dc2438fd28d715fa',1,'cl_px4_mr::CpForwardObstacleGuard']]],
   ['lateraloffsetm_4',['lateralOffsetM',['../classcl__px4__mr_1_1CpTunnelCentering.html#aa9f82f04a654b4907e63e978d3aceab1',1,'cl_px4_mr::CpTunnelCentering']]],
-  ['launch_5',['launch',['../classsmacc2_1_1client__bases_1_1ClRosLaunch.html#ab1556711e46d77a4a78df73dbb33556d',1,'smacc2::client_bases::ClRosLaunch::launch()'],['../classsmacc2_1_1client__bases_1_1ClRosLaunch2.html#a10310d7b48c6baf91cf217f8543b7d7b',1,'smacc2::client_bases::ClRosLaunch2::launch()'],['../classcl__px4__mr_1_1CpMicroRosAgent.html#a5412947da4bf691ae59c0fbb21918ca8',1,'cl_px4_mr::CpMicroRosAgent::launch()']]],
+  ['launch_5',['launch',['../classsmacc2_1_1client__bases_1_1ClRosLaunch2.html#a10310d7b48c6baf91cf217f8543b7d7b',1,'smacc2::client_bases::ClRosLaunch2::launch()'],['../classcl__px4__mr_1_1CpMicroRosAgent.html#a5412947da4bf691ae59c0fbb21918ca8',1,'cl_px4_mr::CpMicroRosAgent::launch()']]],
   ['leftwallm_6',['leftWallM',['../classcl__px4__mr_1_1CpTunnelCentering.html#ae8a8fb2a0c8b6a2c3365b2557b873963',1,'cl_px4_mr::CpTunnelCentering']]],
   ['legfrom_7',['legFrom',['../namespacecl__px4__mr_1_1anonymous__namespace_02pattern__generators_8cpp_03.html#a116963a84b78fdaadb649c073ab63890',1,'cl_px4_mr::anonymous_namespace{pattern_generators.cpp}']]],
   ['legheading_8',['legHeading',['../namespacecl__px4__mr.html#a72364be73a980283f8066ba59b217364',1,'cl_px4_mr']]],
