@@ -20,5 +20,6 @@ var searchData=
   ['lockstatemachine_17',['lockStateMachine',['../classsmacc2_1_1ISmaccStateMachine.html#a79e82f5c2ff6e8110577b87142ce6989',1,'smacc2::ISmaccStateMachine']]],
   ['logstatestring_18',['logStateString',['../classcl__nav2z_1_1odom__tracker_1_1CpOdomTracker.html#afb5b67139e3f4299d4f002f07feb7d12',1,'cl_nav2z::odom_tracker::CpOdomTracker']]],
   ['logstatestringlocked_19',['logStateStringLocked',['../classcl__nav2z_1_1odom__tracker_1_1CpOdomTracker.html#a673d942a79406015c1f9db5a929e6c45',1,'cl_nav2z::odom_tracker::CpOdomTracker']]],
-  ['lookuptransform_20',['lookupTransform',['../classcl__moveit2z_1_1CpTfListener.html#a797fb92a0161f5c927c3c7fa9ab6bc24',1,'cl_moveit2z::CpTfListener']]]
+  ['logthreadexception_20',['logThreadException',['../namespacesmacc2.html#a162b470606680ef855ef837bf03554b1',1,'smacc2']]],
+  ['lookuptransform_21',['lookupTransform',['../classcl__moveit2z_1_1CpTfListener.html#a797fb92a0161f5c927c3c7fa9ab6bc24',1,'cl_moveit2z::CpTfListener']]]
 ];

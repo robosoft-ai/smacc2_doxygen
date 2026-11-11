@@ -85,11 +85,12 @@ var searchData=
   ['logger_5f_82',['logger_',['../classsmacc2_1_1introspection_1_1StateReactorHandler.html#a8785768c133e83079938528e52e34bad',1,'smacc2::introspection::StateReactorHandler::logger_'],['../classsmacc2_1_1ISmaccState.html#a05d1116e83e537fa5686660bd4a9cc0e',1,'smacc2::ISmaccState::logger_']]],
   ['logstatestring_83',['logStateString',['../classcl__nav2z_1_1odom__tracker_1_1CpOdomTracker.html#afb5b67139e3f4299d4f002f07feb7d12',1,'cl_nav2z::odom_tracker::CpOdomTracker']]],
   ['logstatestringlocked_84',['logStateStringLocked',['../classcl__nav2z_1_1odom__tracker_1_1CpOdomTracker.html#a673d942a79406015c1f9db5a929e6c45',1,'cl_nav2z::odom_tracker::CpOdomTracker']]],
-  ['lon_85',['lon',['../structcl__px4__mr_1_1GeoPoint.html#ab42f475390301eff81c62aa30205716a',1,'cl_px4_mr::GeoPoint']]],
-  ['lookaheadmaxm_86',['lookAheadMaxM',['../structcl__px4__mr_1_1TunnelCenteringParams.html#a13c0cb8a9abcc447b6fb72d603ee5104',1,'cl_px4_mr::TunnelCenteringParams']]],
-  ['lookaheadminm_87',['lookAheadMinM',['../structcl__px4__mr_1_1TunnelCenteringParams.html#a04d93e76f745c5c3ab678d1f39a35061',1,'cl_px4_mr::TunnelCenteringParams']]],
-  ['lookatpose_5f_88',['lookAtPose_',['../classcl__nav2z_1_1CbRotateLookAt.html#a637c0fdfff1076efa36ac1e8cf57819c',1,'cl_nav2z::CbRotateLookAt']]],
-  ['lookuptransform_89',['lookupTransform',['../classcl__moveit2z_1_1CpTfListener.html#a797fb92a0161f5c927c3c7fa9ab6bc24',1,'cl_moveit2z::CpTfListener']]],
-  ['loop_5frate_5fhz_90',['loop_rate_hz',['../classsmacc2_1_1SignalDetector.html#ac67b27bde2d30322b6792bafa0522274',1,'smacc2::SignalDetector']]],
-  ['loopduration_5f_91',['loopDuration_',['../classcl__ros2__timer_1_1CbTimerCountdownLoop.html#a55d04fa3601aa90325f1db528e806172',1,'cl_ros2_timer::CbTimerCountdownLoop']]]
+  ['logthreadexception_85',['logThreadException',['../namespacesmacc2.html#a162b470606680ef855ef837bf03554b1',1,'smacc2']]],
+  ['lon_86',['lon',['../structcl__px4__mr_1_1GeoPoint.html#ab42f475390301eff81c62aa30205716a',1,'cl_px4_mr::GeoPoint']]],
+  ['lookaheadmaxm_87',['lookAheadMaxM',['../structcl__px4__mr_1_1TunnelCenteringParams.html#a13c0cb8a9abcc447b6fb72d603ee5104',1,'cl_px4_mr::TunnelCenteringParams']]],
+  ['lookaheadminm_88',['lookAheadMinM',['../structcl__px4__mr_1_1TunnelCenteringParams.html#a04d93e76f745c5c3ab678d1f39a35061',1,'cl_px4_mr::TunnelCenteringParams']]],
+  ['lookatpose_5f_89',['lookAtPose_',['../classcl__nav2z_1_1CbRotateLookAt.html#a637c0fdfff1076efa36ac1e8cf57819c',1,'cl_nav2z::CbRotateLookAt']]],
+  ['lookuptransform_90',['lookupTransform',['../classcl__moveit2z_1_1CpTfListener.html#a797fb92a0161f5c927c3c7fa9ab6bc24',1,'cl_moveit2z::CpTfListener']]],
+  ['loop_5frate_5fhz_91',['loop_rate_hz',['../classsmacc2_1_1SignalDetector.html#ac67b27bde2d30322b6792bafa0522274',1,'smacc2::SignalDetector']]],
+  ['loopduration_5f_92',['loopDuration_',['../classcl__ros2__timer_1_1CbTimerCountdownLoop.html#a55d04fa3601aa90325f1db528e806172',1,'cl_ros2_timer::CbTimerCountdownLoop']]]
 ];
