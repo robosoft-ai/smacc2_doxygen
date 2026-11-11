@@ -208,10 +208,10 @@ $(function(){ initResizable(false); });
 <div class="line"><a id="l00112" name="l00112"></a><span class="lineno">  112</span>    };</div>
 <div class="line"><a id="l00113" name="l00113"></a><span class="lineno">  113</span> </div>
 <div class="line"><a id="l00114" name="l00114"></a><span class="lineno">  114</span>    <span class="comment">// Set up result callback</span></div>
-<div class="line"><a id="l00115" name="l00115"></a><span class="lineno">  115</span>    options.result_callback = [<span class="keyword">this</span>, resultCallback](<span class="keyword">const</span> <a class="code hl_typedef" href="classsmacc2_1_1client__core__components_1_1CpActionClient.html#a0a229dae04d4dc9b3be9aed4c5b93c79">WrappedResult</a> &amp; result)</div>
-<div class="line"><a id="l00116" name="l00116"></a><span class="lineno">  116</span>    {</div>
-<div class="line"><a id="l00117" name="l00117"></a><span class="lineno">  117</span>      std::lock_guard&lt;std::mutex&gt; lock(<a class="code hl_variable" href="classsmacc2_1_1client__core__components_1_1CpActionClient.html#a806cfb164cf4bd9c87ff5e95ba95a042">actionMutex_</a>);</div>
-<div class="line"><a id="l00118" name="l00118"></a><span class="lineno">  118</span> </div>
+<div class="line"><a id="l00115" name="l00115"></a><span class="lineno">  115</span>    <span class="comment">// No actionMutex_ here: it guards nothing this lambda touches, and rclcpp_action runs it under</span></div>
+<div class="line"><a id="l00116" name="l00116"></a><span class="lineno">  116</span>    <span class="comment">// the goal handle&#39;s mutex, which would close a lock cycle with sendGoal (study, F-1).</span></div>
+<div class="line"><a id="l00117" name="l00117"></a><span class="lineno">  117</span>    options.result_callback = [<span class="keyword">this</span>, resultCallback](<span class="keyword">const</span> <a class="code hl_typedef" href="classsmacc2_1_1client__core__components_1_1CpActionClient.html#a0a229dae04d4dc9b3be9aed4c5b93c79">WrappedResult</a> &amp; result)</div>
+<div class="line"><a id="l00118" name="l00118"></a><span class="lineno">  118</span>    {</div>
 <div class="line"><a id="l00119" name="l00119"></a><span class="lineno">  119</span>      RCLCPP_INFO_STREAM(</div>
 <div class="line"><a id="l00120" name="l00120"></a><span class="lineno">  120</span>        <a class="code hl_function" href="classsmacc2_1_1ISmaccComponent.html#a77ee85823bab8d84edcdf5d28782b728">getLogger</a>(), <span class="stringliteral">&quot;[&quot;</span> &lt;&lt; this-&gt;<a class="code hl_function" href="classsmacc2_1_1ISmaccComponent.html#a6fea938740f0c9ffc082b2ff076c900b">getName</a>() &lt;&lt; <span class="stringliteral">&quot;] Action result callback, goal id: &quot;</span></div>
 <div class="line"><a id="l00121" name="l00121"></a><span class="lineno">  121</span>                         &lt;&lt; rclcpp_action::to_string(result.goal_id));</div>

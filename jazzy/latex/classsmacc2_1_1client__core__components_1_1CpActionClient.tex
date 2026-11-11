@@ -919,10 +919,10 @@ Definition at line \mbox{\hyperlink{cp__action__client_8hpp_source_l00078}{78}} 
 \DoxyCodeLine{00112\ \ \ \ \ \};}
 \DoxyCodeLine{00113\ }
 \DoxyCodeLine{00114\ \ \ \ \ \textcolor{comment}{//\ Set\ up\ result\ callback}}
-\DoxyCodeLine{00115\ \ \ \ \ options.result\_callback\ =\ [\textcolor{keyword}{this},\ resultCallback](\textcolor{keyword}{const}\ WrappedResult\ \&\ result)}
-\DoxyCodeLine{00116\ \ \ \ \ \{}
-\DoxyCodeLine{00117\ \ \ \ \ \ \ std::lock\_guard<std::mutex>\ lock(\mbox{\hyperlink{classsmacc2_1_1client__core__components_1_1CpActionClient_a806cfb164cf4bd9c87ff5e95ba95a042}{actionMutex\_}});}
-\DoxyCodeLine{00118\ }
+\DoxyCodeLine{00115\ \ \ \ \ \textcolor{comment}{//\ No\ actionMutex\_\ here:\ it\ guards\ nothing\ this\ lambda\ touches,\ and\ rclcpp\_action\ runs\ it\ under}}
+\DoxyCodeLine{00116\ \ \ \ \ \textcolor{comment}{//\ the\ goal\ handle's\ mutex,\ which\ would\ close\ a\ lock\ cycle\ with\ sendGoal\ (study,\ F-\/1).}}
+\DoxyCodeLine{00117\ \ \ \ \ options.result\_callback\ =\ [\textcolor{keyword}{this},\ resultCallback](\textcolor{keyword}{const}\ WrappedResult\ \&\ result)}
+\DoxyCodeLine{00118\ \ \ \ \ \{}
 \DoxyCodeLine{00119\ \ \ \ \ \ \ RCLCPP\_INFO\_STREAM(}
 \DoxyCodeLine{00120\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{classsmacc2_1_1ISmaccComponent_a77ee85823bab8d84edcdf5d28782b728}{getLogger}}(),\ \textcolor{stringliteral}{"{}["{}}\ <<\ this-\/>\mbox{\hyperlink{classsmacc2_1_1ISmaccComponent_a6fea938740f0c9ffc082b2ff076c900b}{getName}}()\ <<\ \textcolor{stringliteral}{"{}]\ Action\ result\ callback,\ goal\ id:\ "{}}}
 \DoxyCodeLine{00121\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ <<\ rclcpp\_action::to\_string(result.goal\_id));}
