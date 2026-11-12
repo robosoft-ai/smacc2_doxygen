@@ -1109,32 +1109,42 @@ Here is the caller graph for this function:</div>
 <div class="line"><span class="lineno">  463</span>      RCLCPP_INFO_STREAM_THROTTLE(</div>
 <div class="line"><span class="lineno">  464</span>        <a class="code hl_function" href="#a97db4ee81e1e63ab67ea40775fd57302">getLogger</a>(), *<a class="code hl_function" href="#aa774a30b0118ee411ba423fc668405b3">getNode</a>()-&gt;get_clock(), 10000, <span class="stringliteral">&quot;[SignalDetector] Heartbeat&quot;</span>);</div>
 <div class="line"><span class="lineno">  465</span>      <a class="code hl_function" href="#af363cea3f8228eeb68b25ad21903dc74">pollOnce</a>();</div>
-<div class="line"><span class="lineno">  466</span>      <span class="keyword">const</span> <span class="keyword">auto</span> spinStart = std::chrono::steady_clock::now();</div>
-<div class="line"><span class="lineno">  467</span>      executor.spin_all(spinBudget);</div>
-<div class="line"><span class="lineno">  468</span>      <span class="keywordflow">if</span> (std::chrono::steady_clock::now() - spinStart &gt;= spinBudget)</div>
-<div class="line"><span class="lineno">  469</span>      {</div>
-<div class="line"><span class="lineno">  470</span>        RCLCPP_WARN_THROTTLE(</div>
-<div class="line"><span class="lineno">  471</span>          <a class="code hl_function" href="#a97db4ee81e1e63ab67ea40775fd57302">getLogger</a>(), *<a class="code hl_function" href="#aa774a30b0118ee411ba423fc668405b3">getNode</a>()-&gt;get_clock(), 5000,</div>
-<div class="line"><span class="lineno">  472</span>          <span class="stringliteral">&quot;[SignalDetector] callbacks filled the whole loop period (%.1f ms): the loop is &quot;</span></div>
-<div class="line"><span class="lineno">  473</span>          <span class="stringliteral">&quot;saturated and runs below %.1f Hz&quot;</span>,</div>
-<div class="line"><span class="lineno">  474</span>          spinBudgetMs, <a class="code hl_variable" href="#ac67b27bde2d30322b6792bafa0522274">loop_rate_hz</a>);</div>
-<div class="line"><span class="lineno">  475</span>      }</div>
-<div class="line"><span class="lineno">  476</span>      <span class="keywordflow">if</span> (!<a class="code hl_function" href="namespacesmacc2.html#aff9a6ebdf866d76c68848bb62bbd6c18">sleepUnlessShutdown</a>(r))</div>
-<div class="line"><span class="lineno">  477</span>      {</div>
-<div class="line"><span class="lineno">  478</span>        <span class="keywordflow">break</span>;</div>
+<div class="line"><span class="lineno">  466</span>      <span class="comment">// A timer or subscription created on another thread reaches a kept executor only through the</span></div>
+<div class="line"><span class="lineno">  467</span>      <span class="comment">// notify guard condition, and that hand-off was missed about once in fifty state entries, leaving</span></div>
+<div class="line"><span class="lineno">  468</span>      <span class="comment">// the entity ready and never executed (W). Asking for a rebuild every iteration closes it.</span></div>
+<div class="line"><span class="lineno">  469</span>      nh-&gt;get_node_base_interface()-&gt;trigger_notify_guard_condition();</div>
+<div class="line"><span class="lineno">  470</span>      <span class="keyword">const</span> <span class="keyword">auto</span> spinStart = std::chrono::steady_clock::now();</div>
+<div class="line"><span class="lineno">  471</span>      executor.spin_all(spinBudget);</div>
+<div class="line"><span class="lineno">  472</span>      <span class="keywordflow">if</span> (std::chrono::steady_clock::now() - spinStart &gt;= spinBudget)</div>
+<div class="line"><span class="lineno">  473</span>      {</div>
+<div class="line"><span class="lineno">  474</span>        RCLCPP_WARN_THROTTLE(</div>
+<div class="line"><span class="lineno">  475</span>          <a class="code hl_function" href="#a97db4ee81e1e63ab67ea40775fd57302">getLogger</a>(), *<a class="code hl_function" href="#aa774a30b0118ee411ba423fc668405b3">getNode</a>()-&gt;get_clock(), 5000,</div>
+<div class="line"><span class="lineno">  476</span>          <span class="stringliteral">&quot;[SignalDetector] callbacks filled the whole loop period (%.1f ms): the loop is &quot;</span></div>
+<div class="line"><span class="lineno">  477</span>          <span class="stringliteral">&quot;saturated and runs below %.1f Hz&quot;</span>,</div>
+<div class="line"><span class="lineno">  478</span>          spinBudgetMs, <a class="code hl_variable" href="#ac67b27bde2d30322b6792bafa0522274">loop_rate_hz</a>);</div>
 <div class="line"><span class="lineno">  479</span>      }</div>
-<div class="line"><span class="lineno">  480</span>    }</div>
-<div class="line"><span class="lineno">  481</span>    executor.remove_node(nh);</div>
-<div class="line"><span class="lineno">  482</span>  }</div>
-<div class="line"><span class="lineno">  483</span>  <span class="keywordflow">else</span></div>
-<div class="line"><span class="lineno">  484</span>  {</div>
-<div class="line"><span class="lineno">  485</span>    RCLCPP_INFO_STREAM(<a class="code hl_function" href="#a97db4ee81e1e63ab67ea40775fd57302">getLogger</a>(), <span class="stringliteral">&quot;[SignalDetector] Running in multi-threaded mode.&quot;</span>);</div>
-<div class="line"><span class="lineno">  486</span> </div>
-<div class="line"><span class="lineno">  487</span>    rclcpp::executors::MultiThreadedExecutor executor;</div>
-<div class="line"><span class="lineno">  488</span>    executor.add_node(nh);</div>
-<div class="line"><span class="lineno">  489</span>    executor.spin();</div>
-<div class="line"><span class="lineno">  490</span>  }</div>
-<div class="line"><span class="lineno">  491</span>}</div>
+<div class="line"><span class="lineno">  480</span>      <span class="keywordflow">if</span> (!<a class="code hl_function" href="namespacesmacc2.html#aff9a6ebdf866d76c68848bb62bbd6c18">sleepUnlessShutdown</a>(r))</div>
+<div class="line"><span class="lineno">  481</span>      {</div>
+<div class="line"><span class="lineno">  482</span>        <span class="keywordflow">break</span>;</div>
+<div class="line"><span class="lineno">  483</span>      }</div>
+<div class="line"><span class="lineno">  484</span>    }</div>
+<div class="line"><span class="lineno">  485</span>    executor.remove_node(nh);</div>
+<div class="line"><span class="lineno">  486</span>  }</div>
+<div class="line"><span class="lineno">  487</span>  <span class="keywordflow">else</span></div>
+<div class="line"><span class="lineno">  488</span>  {</div>
+<div class="line"><span class="lineno">  489</span>    RCLCPP_INFO_STREAM(<a class="code hl_function" href="#a97db4ee81e1e63ab67ea40775fd57302">getLogger</a>(), <span class="stringliteral">&quot;[SignalDetector] Running in multi-threaded mode.&quot;</span>);</div>
+<div class="line"><span class="lineno">  490</span> </div>
+<div class="line"><span class="lineno">  491</span>    rclcpp::executors::MultiThreadedExecutor executor;</div>
+<div class="line"><span class="lineno">  492</span>    <span class="comment">// Same hand-off hazard as the single-threaded loop (W); here a timer created before the node is</span></div>
+<div class="line"><span class="lineno">  493</span>    <span class="comment">// added, so it is in the executor&#39;s first collection, asks for a rebuild once per loop period.</span></div>
+<div class="line"><span class="lineno">  494</span>    <span class="keyword">auto</span> rebuildTimer = nh-&gt;create_wall_timer(</div>
+<div class="line"><span class="lineno">  495</span>      std::chrono::duration_cast&lt;std::chrono::nanoseconds&gt;(</div>
+<div class="line"><span class="lineno">  496</span>        std::chrono::duration&lt;double&gt;(1.0 / <a class="code hl_variable" href="#ac67b27bde2d30322b6792bafa0522274">loop_rate_hz</a>)),</div>
+<div class="line"><span class="lineno">  497</span>      [nh]() { nh-&gt;get_node_base_interface()-&gt;trigger_notify_guard_condition(); });</div>
+<div class="line"><span class="lineno">  498</span>    executor.add_node(nh);</div>
+<div class="line"><span class="lineno">  499</span>    executor.spin();</div>
+<div class="line"><span class="lineno">  500</span>  }</div>
+<div class="line"><span class="lineno">  501</span>}</div>
 <div class="ttc" id="aclasssmacc2_1_1SignalDetector_html_af363cea3f8228eeb68b25ad21903dc74"><div class="ttname"><a href="#af363cea3f8228eeb68b25ad21903dc74">smacc2::SignalDetector::pollOnce</a></div><div class="ttdeci">void pollOnce()</div><div class="ttdef"><b>Definition</b> <a href="signal__detector_8cpp_source.html#l00282">signal_detector.cpp:282</a></div></div>
 <div class="ttc" id="anamespacesmacc2_html_a1a2b312e55d319400e73bbf7ec27d6daab4c3af830a31cbfd165e744c166b9ee7"><div class="ttname"><a href="namespacesmacc2.html#a1a2b312e55d319400e73bbf7ec27d6daab4c3af830a31cbfd165e744c166b9ee7">smacc2::ExecutionModel::SINGLE_THREAD_SPINNER</a></div><div class="ttdeci">@ SINGLE_THREAD_SPINNER</div></div>
 <div class="ttc" id="anamespacesmacc2_html_aff9a6ebdf866d76c68848bb62bbd6c18"><div class="ttname"><a href="namespacesmacc2.html#aff9a6ebdf866d76c68848bb62bbd6c18">smacc2::sleepUnlessShutdown</a></div><div class="ttdeci">static bool sleepUnlessShutdown(rclcpp::Rate &amp;rate)</div><div class="ttdef"><b>Definition</b> <a href="signal__detector_8cpp_source.html#l00366">signal_detector.cpp:366</a></div></div>
