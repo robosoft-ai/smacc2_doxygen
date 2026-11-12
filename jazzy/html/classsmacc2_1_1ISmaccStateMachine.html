@@ -345,7 +345,7 @@ Private Attributes</h2></td></tr>
 <tr class="separator:a0391578b8ec4dbbe1c4a93f2905d59f1"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ac14b83c6cb61b7fb5ed56ca2dbe5ff3e" id="r_ac14b83c6cb61b7fb5ed56ca2dbe5ff3e"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classsmacc2_1_1SignalDetector.html">SignalDetector</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ac14b83c6cb61b7fb5ed56ca2dbe5ff3e">signalDetector_</a></td></tr>
 <tr class="separator:ac14b83c6cb61b7fb5ed56ca2dbe5ff3e"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aac622c4cfb76a88f94d12cf27e745655" id="r_aac622c4cfb76a88f94d12cf27e745655"><td class="memItemLeft" align="right" valign="top">int64_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#aac622c4cfb76a88f94d12cf27e745655">stateSeqCounter_</a></td></tr>
+<tr class="memitem:aac622c4cfb76a88f94d12cf27e745655" id="r_aac622c4cfb76a88f94d12cf27e745655"><td class="memItemLeft" align="right" valign="top">int64_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#aac622c4cfb76a88f94d12cf27e745655">stateSeqCounter_</a> = 0</td></tr>
 <tr class="separator:aac622c4cfb76a88f94d12cf27e745655"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pri-static-attribs" name="pri-static-attribs"></a>
@@ -389,45 +389,43 @@ Friends</h2></td></tr>
 </div><div class="memdoc">
 
 <p class="definition">Definition at line <a class="el" href="smacc__state__machine_8cpp_source.html#l00038">38</a> of file <a class="el" href="smacc__state__machine_8cpp_source.html">smacc_state_machine.cpp</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">   40</span>: <a class="code hl_variable" href="#a8b441209151e301f66e62844994946ff">nh_</a>(<span class="keyword">nullptr</span>), <a class="code hl_variable" href="#aac622c4cfb76a88f94d12cf27e745655">stateSeqCounter_</a>(0)</div>
+<div class="fragment"><div class="line"><span class="lineno">   40</span>: <a class="code hl_variable" href="#a8b441209151e301f66e62844994946ff">nh_</a>(rclcpp::Node::make_shared(stateMachineName, nodeOptions))</div>
 <div class="line"><span class="lineno">   41</span>{</div>
-<div class="line"><span class="lineno">   42</span>  <a class="code hl_variable" href="#a8b441209151e301f66e62844994946ff">nh_</a> = rclcpp::Node::make_shared(stateMachineName, nodeOptions);  <span class="comment">//</span></div>
-<div class="line"><span class="lineno">   43</span>  RCLCPP_INFO_STREAM(</div>
-<div class="line"><span class="lineno">   44</span>    <a class="code hl_variable" href="#a8b441209151e301f66e62844994946ff">nh_</a>-&gt;get_logger(), <span class="stringliteral">&quot;Creating state machine base: &quot;</span> &lt;&lt; <a class="code hl_variable" href="#a8b441209151e301f66e62844994946ff">nh_</a>-&gt;get_fully_qualified_name());</div>
-<div class="line"><span class="lineno">   45</span> </div>
-<div class="line"><span class="lineno">   46</span>  <a class="code hl_variable" href="#ac14b83c6cb61b7fb5ed56ca2dbe5ff3e">signalDetector_</a> = signalDetector;</div>
-<div class="line"><span class="lineno">   47</span>  <a class="code hl_variable" href="#ac14b83c6cb61b7fb5ed56ca2dbe5ff3e">signalDetector_</a>-&gt;<a class="code hl_function" href="classsmacc2_1_1SignalDetector.html#a6035e4180f1f868d42902021eb41d9c6">initialize</a>(<span class="keyword">this</span>);</div>
-<div class="line"><span class="lineno">   48</span> </div>
-<div class="line"><span class="lineno">   49</span>  std::string runMode;</div>
-<div class="line"><span class="lineno">   50</span>  <span class="keywordflow">if</span> (<a class="code hl_variable" href="#a8b441209151e301f66e62844994946ff">nh_</a>-&gt;get_parameter(<span class="stringliteral">&quot;run_mode&quot;</span>, runMode))</div>
-<div class="line"><span class="lineno">   51</span>  {</div>
-<div class="line"><span class="lineno">   52</span>    <span class="keywordflow">if</span> (runMode == <span class="stringliteral">&quot;debug&quot;</span>)</div>
-<div class="line"><span class="lineno">   53</span>    {</div>
-<div class="line"><span class="lineno">   54</span>      <a class="code hl_variable" href="#a0391578b8ec4dbbe1c4a93f2905d59f1">runMode_</a> = <a class="code hl_enumvalue" href="namespacesmacc2.html#a7322c034df3cc8d5a5d8f0fc7737fc2eadc30ec20708ef7b0f641ef78b7880a15">SMRunMode::DEBUG</a>;</div>
-<div class="line"><span class="lineno">   55</span>    }</div>
-<div class="line"><span class="lineno">   56</span>    <span class="keywordflow">else</span> <span class="keywordflow">if</span> (runMode == <span class="stringliteral">&quot;release&quot;</span>)</div>
-<div class="line"><span class="lineno">   57</span>    {</div>
-<div class="line"><span class="lineno">   58</span>      <a class="code hl_variable" href="#a0391578b8ec4dbbe1c4a93f2905d59f1">runMode_</a> = <a class="code hl_enumvalue" href="namespacesmacc2.html#a7322c034df3cc8d5a5d8f0fc7737fc2ea7d649ef069df9885e382417c79f3d5cd">SMRunMode::RELEASE</a>;</div>
-<div class="line"><span class="lineno">   59</span>    }</div>
-<div class="line"><span class="lineno">   60</span>    <span class="keywordflow">else</span></div>
-<div class="line"><span class="lineno">   61</span>    {</div>
-<div class="line"><span class="lineno">   62</span>      RCLCPP_ERROR(<a class="code hl_variable" href="#a8b441209151e301f66e62844994946ff">nh_</a>-&gt;get_logger(), <span class="stringliteral">&quot;Incorrect run_mode value: %s&quot;</span>, runMode.c_str());</div>
-<div class="line"><span class="lineno">   63</span>    }</div>
-<div class="line"><span class="lineno">   64</span>  }</div>
-<div class="line"><span class="lineno">   65</span>  <span class="keywordflow">else</span></div>
-<div class="line"><span class="lineno">   66</span>  {</div>
-<div class="line"><span class="lineno">   67</span>    <a class="code hl_variable" href="#a0391578b8ec4dbbe1c4a93f2905d59f1">runMode_</a> = <a class="code hl_enumvalue" href="namespacesmacc2.html#a7322c034df3cc8d5a5d8f0fc7737fc2eadc30ec20708ef7b0f641ef78b7880a15">SMRunMode::DEBUG</a>;</div>
-<div class="line"><span class="lineno">   68</span>  }</div>
-<div class="line"><span class="lineno">   69</span>}</div>
+<div class="line"><span class="lineno">   42</span>  RCLCPP_INFO_STREAM(</div>
+<div class="line"><span class="lineno">   43</span>    <a class="code hl_variable" href="#a8b441209151e301f66e62844994946ff">nh_</a>-&gt;get_logger(), <span class="stringliteral">&quot;Creating state machine base: &quot;</span> &lt;&lt; <a class="code hl_variable" href="#a8b441209151e301f66e62844994946ff">nh_</a>-&gt;get_fully_qualified_name());</div>
+<div class="line"><span class="lineno">   44</span> </div>
+<div class="line"><span class="lineno">   45</span>  <a class="code hl_variable" href="#ac14b83c6cb61b7fb5ed56ca2dbe5ff3e">signalDetector_</a> = signalDetector;</div>
+<div class="line"><span class="lineno">   46</span>  <a class="code hl_variable" href="#ac14b83c6cb61b7fb5ed56ca2dbe5ff3e">signalDetector_</a>-&gt;<a class="code hl_function" href="classsmacc2_1_1SignalDetector.html#a6035e4180f1f868d42902021eb41d9c6">initialize</a>(<span class="keyword">this</span>);</div>
+<div class="line"><span class="lineno">   47</span> </div>
+<div class="line"><span class="lineno">   48</span>  std::string runMode;</div>
+<div class="line"><span class="lineno">   49</span>  <span class="keywordflow">if</span> (<a class="code hl_variable" href="#a8b441209151e301f66e62844994946ff">nh_</a>-&gt;get_parameter(<span class="stringliteral">&quot;run_mode&quot;</span>, runMode))</div>
+<div class="line"><span class="lineno">   50</span>  {</div>
+<div class="line"><span class="lineno">   51</span>    <span class="keywordflow">if</span> (runMode == <span class="stringliteral">&quot;debug&quot;</span>)</div>
+<div class="line"><span class="lineno">   52</span>    {</div>
+<div class="line"><span class="lineno">   53</span>      <a class="code hl_variable" href="#a0391578b8ec4dbbe1c4a93f2905d59f1">runMode_</a> = <a class="code hl_enumvalue" href="namespacesmacc2.html#a7322c034df3cc8d5a5d8f0fc7737fc2eadc30ec20708ef7b0f641ef78b7880a15">SMRunMode::DEBUG</a>;</div>
+<div class="line"><span class="lineno">   54</span>    }</div>
+<div class="line"><span class="lineno">   55</span>    <span class="keywordflow">else</span> <span class="keywordflow">if</span> (runMode == <span class="stringliteral">&quot;release&quot;</span>)</div>
+<div class="line"><span class="lineno">   56</span>    {</div>
+<div class="line"><span class="lineno">   57</span>      <a class="code hl_variable" href="#a0391578b8ec4dbbe1c4a93f2905d59f1">runMode_</a> = <a class="code hl_enumvalue" href="namespacesmacc2.html#a7322c034df3cc8d5a5d8f0fc7737fc2ea7d649ef069df9885e382417c79f3d5cd">SMRunMode::RELEASE</a>;</div>
+<div class="line"><span class="lineno">   58</span>    }</div>
+<div class="line"><span class="lineno">   59</span>    <span class="keywordflow">else</span></div>
+<div class="line"><span class="lineno">   60</span>    {</div>
+<div class="line"><span class="lineno">   61</span>      RCLCPP_ERROR(<a class="code hl_variable" href="#a8b441209151e301f66e62844994946ff">nh_</a>-&gt;get_logger(), <span class="stringliteral">&quot;Incorrect run_mode value: %s&quot;</span>, runMode.c_str());</div>
+<div class="line"><span class="lineno">   62</span>    }</div>
+<div class="line"><span class="lineno">   63</span>  }</div>
+<div class="line"><span class="lineno">   64</span>  <span class="keywordflow">else</span></div>
+<div class="line"><span class="lineno">   65</span>  {</div>
+<div class="line"><span class="lineno">   66</span>    <a class="code hl_variable" href="#a0391578b8ec4dbbe1c4a93f2905d59f1">runMode_</a> = <a class="code hl_enumvalue" href="namespacesmacc2.html#a7322c034df3cc8d5a5d8f0fc7737fc2eadc30ec20708ef7b0f641ef78b7880a15">SMRunMode::DEBUG</a>;</div>
+<div class="line"><span class="lineno">   67</span>  }</div>
+<div class="line"><span class="lineno">   68</span>}</div>
 <div class="ttc" id="aclasssmacc2_1_1ISmaccStateMachine_html_a0391578b8ec4dbbe1c4a93f2905d59f1"><div class="ttname"><a href="#a0391578b8ec4dbbe1c4a93f2905d59f1">smacc2::ISmaccStateMachine::runMode_</a></div><div class="ttdeci">smacc2::SMRunMode runMode_</div><div class="ttdef"><b>Definition</b> <a href="smacc__state__machine_8hpp_source.html#l00250">smacc_state_machine.hpp:250</a></div></div>
 <div class="ttc" id="aclasssmacc2_1_1ISmaccStateMachine_html_a8b441209151e301f66e62844994946ff"><div class="ttname"><a href="#a8b441209151e301f66e62844994946ff">smacc2::ISmaccStateMachine::nh_</a></div><div class="ttdeci">rclcpp::Node::SharedPtr nh_</div><div class="ttdef"><b>Definition</b> <a href="smacc__state__machine_8hpp_source.html#l00202">smacc_state_machine.hpp:202</a></div></div>
-<div class="ttc" id="aclasssmacc2_1_1ISmaccStateMachine_html_aac622c4cfb76a88f94d12cf27e745655"><div class="ttname"><a href="#aac622c4cfb76a88f94d12cf27e745655">smacc2::ISmaccStateMachine::stateSeqCounter_</a></div><div class="ttdeci">int64_t stateSeqCounter_</div><div class="ttdef"><b>Definition</b> <a href="smacc__state__machine_8hpp_source.html#l00255">smacc_state_machine.hpp:255</a></div></div>
 <div class="ttc" id="aclasssmacc2_1_1ISmaccStateMachine_html_ac14b83c6cb61b7fb5ed56ca2dbe5ff3e"><div class="ttname"><a href="#ac14b83c6cb61b7fb5ed56ca2dbe5ff3e">smacc2::ISmaccStateMachine::signalDetector_</a></div><div class="ttdeci">SignalDetector * signalDetector_</div><div class="ttdef"><b>Definition</b> <a href="smacc__state__machine_8hpp_source.html#l00253">smacc_state_machine.hpp:253</a></div></div>
-<div class="ttc" id="aclasssmacc2_1_1SignalDetector_html_a6035e4180f1f868d42902021eb41d9c6"><div class="ttname"><a href="classsmacc2_1_1SignalDetector.html#a6035e4180f1f868d42902021eb41d9c6">smacc2::SignalDetector::initialize</a></div><div class="ttdeci">void initialize(ISmaccStateMachine *stateMachine)</div><div class="ttdef"><b>Definition</b> <a href="signal__detector_8cpp_source.html#l00081">signal_detector.cpp:81</a></div></div>
+<div class="ttc" id="aclasssmacc2_1_1SignalDetector_html_a6035e4180f1f868d42902021eb41d9c6"><div class="ttname"><a href="classsmacc2_1_1SignalDetector.html#a6035e4180f1f868d42902021eb41d9c6">smacc2::SignalDetector::initialize</a></div><div class="ttdeci">void initialize(ISmaccStateMachine *stateMachine)</div><div class="ttdef"><b>Definition</b> <a href="signal__detector_8cpp_source.html#l00075">signal_detector.cpp:75</a></div></div>
 <div class="ttc" id="anamespacesmacc2_html_a7322c034df3cc8d5a5d8f0fc7737fc2ea7d649ef069df9885e382417c79f3d5cd"><div class="ttname"><a href="namespacesmacc2.html#a7322c034df3cc8d5a5d8f0fc7737fc2ea7d649ef069df9885e382417c79f3d5cd">smacc2::SMRunMode::RELEASE</a></div><div class="ttdeci">@ RELEASE</div></div>
 <div class="ttc" id="anamespacesmacc2_html_a7322c034df3cc8d5a5d8f0fc7737fc2eadc30ec20708ef7b0f641ef78b7880a15"><div class="ttname"><a href="namespacesmacc2.html#a7322c034df3cc8d5a5d8f0fc7737fc2eadc30ec20708ef7b0f641ef78b7880a15">smacc2::SMRunMode::DEBUG</a></div><div class="ttdeci">@ DEBUG</div></div>
 </div><!-- fragment -->
-<p class="reference">References <a class="el" href="namespacesmacc2.html#a7322c034df3cc8d5a5d8f0fc7737fc2eadc30ec20708ef7b0f641ef78b7880a15">smacc2::DEBUG</a>, <a class="el" href="signal__detector_8cpp_source.html#l00081">smacc2::SignalDetector::initialize()</a>, <a class="el" href="smacc__state__machine_8hpp_source.html#l00202">nh_</a>, <a class="el" href="namespacesmacc2.html#a7322c034df3cc8d5a5d8f0fc7737fc2ea7d649ef069df9885e382417c79f3d5cd">smacc2::RELEASE</a>, <a class="el" href="smacc__state__machine_8hpp_source.html#l00250">runMode_</a>, and <a class="el" href="smacc__state__machine_8hpp_source.html#l00253">signalDetector_</a>.</p>
+<p class="reference">References <a class="el" href="namespacesmacc2.html#a7322c034df3cc8d5a5d8f0fc7737fc2eadc30ec20708ef7b0f641ef78b7880a15">smacc2::DEBUG</a>, <a class="el" href="signal__detector_8cpp_source.html#l00075">smacc2::SignalDetector::initialize()</a>, <a class="el" href="smacc__state__machine_8hpp_source.html#l00202">nh_</a>, <a class="el" href="namespacesmacc2.html#a7322c034df3cc8d5a5d8f0fc7737fc2ea7d649ef069df9885e382417c79f3d5cd">smacc2::RELEASE</a>, <a class="el" href="smacc__state__machine_8hpp_source.html#l00250">runMode_</a>, and <a class="el" href="smacc__state__machine_8hpp_source.html#l00253">signalDetector_</a>.</p>
 <div class="dynheader">
 Here is the call graph for this function:</div>
 <div class="dyncontent">
@@ -485,17 +483,17 @@ Here is the call graph for this function:</div>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="smacc__state__machine_8cpp_source.html#l00071">71</a> of file <a class="el" href="smacc__state__machine_8cpp_source.html">smacc_state_machine.cpp</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">   72</span>{</div>
-<div class="line"><span class="lineno">   73</span>  RCLCPP_INFO(<a class="code hl_variable" href="#a8b441209151e301f66e62844994946ff">nh_</a>-&gt;get_logger(), <span class="stringliteral">&quot;Finishing State Machine&quot;</span>);</div>
-<div class="line"><span class="lineno">   74</span> </div>
-<div class="line"><span class="lineno">   75</span>  <span class="comment">// initiate_impl stored this state machine&#39;s node in the static introspection::globalNh_ for the</span></div>
-<div class="line"><span class="lineno">   76</span>  <span class="comment">// type walker&#39;s logging. Release it here so that nh_, destroyed with the other members below,</span></div>
-<div class="line"><span class="lineno">   77</span>  <span class="comment">// is the node&#39;s last owner and the node is finalized inside run&lt;&gt;, while the rclcpp context is</span></div>
-<div class="line"><span class="lineno">   78</span>  <span class="comment">// still valid. Left in the static, the node would be destroyed by the exit handlers after</span></div>
-<div class="line"><span class="lineno">   79</span>  <span class="comment">// rclcpp::shutdown() has finalized the DDS participant, which crashes in rcl_service_fini.</span></div>
-<div class="line"><span class="lineno">   80</span>  <a class="code hl_variable" href="namespacesmacc2_1_1introspection.html#a413b791d0aea9733dfa59aae4c82fb15">introspection::globalNh_</a>.reset();</div>
-<div class="line"><span class="lineno">   81</span>}</div>
+<p class="definition">Definition at line <a class="el" href="smacc__state__machine_8cpp_source.html#l00070">70</a> of file <a class="el" href="smacc__state__machine_8cpp_source.html">smacc_state_machine.cpp</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">   71</span>{</div>
+<div class="line"><span class="lineno">   72</span>  RCLCPP_INFO(<a class="code hl_variable" href="#a8b441209151e301f66e62844994946ff">nh_</a>-&gt;get_logger(), <span class="stringliteral">&quot;Finishing State Machine&quot;</span>);</div>
+<div class="line"><span class="lineno">   73</span> </div>
+<div class="line"><span class="lineno">   74</span>  <span class="comment">// initiate_impl stored this state machine&#39;s node in the static introspection::globalNh_ for the</span></div>
+<div class="line"><span class="lineno">   75</span>  <span class="comment">// type walker&#39;s logging. Release it here so that nh_, destroyed with the other members below,</span></div>
+<div class="line"><span class="lineno">   76</span>  <span class="comment">// is the node&#39;s last owner and the node is finalized inside run&lt;&gt;, while the rclcpp context is</span></div>
+<div class="line"><span class="lineno">   77</span>  <span class="comment">// still valid. Left in the static, the node would be destroyed by the exit handlers after</span></div>
+<div class="line"><span class="lineno">   78</span>  <span class="comment">// rclcpp::shutdown() has finalized the DDS participant, which crashes in rcl_service_fini.</span></div>
+<div class="line"><span class="lineno">   79</span>  <a class="code hl_variable" href="namespacesmacc2_1_1introspection.html#a413b791d0aea9733dfa59aae4c82fb15">introspection::globalNh_</a>.reset();</div>
+<div class="line"><span class="lineno">   80</span>}</div>
 <div class="ttc" id="anamespacesmacc2_1_1introspection_html_a413b791d0aea9733dfa59aae4c82fb15"><div class="ttname"><a href="namespacesmacc2_1_1introspection.html#a413b791d0aea9733dfa59aae4c82fb15">smacc2::introspection::globalNh_</a></div><div class="ttdeci">rclcpp::Node::SharedPtr globalNh_</div><div class="ttdef"><b>Definition</b> <a href="reflection_8cpp_source.html#l00028">reflection.cpp:28</a></div></div>
 </div><!-- fragment -->
 <p class="reference">References <a class="el" href="reflection_8cpp_source.html#l00028">smacc2::introspection::globalNh_</a>, and <a class="el" href="smacc__state__machine_8hpp_source.html#l00202">nh_</a>.</p>
@@ -527,11 +525,11 @@ template&lt;typename InitialStateType &gt; </div>
 <div class="line"><span class="lineno">  804</span>  this-&gt;<a class="code hl_variable" href="#ae4156760ffcfaad1fe5ccd685d850d3c">stateMachineInfo_</a>-&gt;assembleSMStructureMessage(<span class="keyword">this</span>);</div>
 <div class="line"><span class="lineno">  805</span>  this-&gt;<a class="code hl_function" href="#abe8e52eb644f51ee2a50f8a3dbf01b58">checkStateMachineConsistence</a>();</div>
 <div class="line"><span class="lineno">  806</span>}</div>
-<div class="ttc" id="aclasssmacc2_1_1ISmaccStateMachine_html_a2cf8b817f7e137fc648e373ae4614a2f"><div class="ttname"><a href="#a2cf8b817f7e137fc648e373ae4614a2f">smacc2::ISmaccStateMachine::getNode</a></div><div class="ttdeci">rclcpp::Node::SharedPtr getNode()</div><div class="ttdef"><b>Definition</b> <a href="smacc__state__machine_8cpp_source.html#l00099">smacc_state_machine.cpp:99</a></div></div>
-<div class="ttc" id="aclasssmacc2_1_1ISmaccStateMachine_html_abe8e52eb644f51ee2a50f8a3dbf01b58"><div class="ttname"><a href="#abe8e52eb644f51ee2a50f8a3dbf01b58">smacc2::ISmaccStateMachine::checkStateMachineConsistence</a></div><div class="ttdeci">void checkStateMachineConsistence()</div><div class="ttdef"><b>Definition</b> <a href="smacc__state__machine_8cpp_source.html#l00276">smacc_state_machine.cpp:276</a></div></div>
+<div class="ttc" id="aclasssmacc2_1_1ISmaccStateMachine_html_a2cf8b817f7e137fc648e373ae4614a2f"><div class="ttname"><a href="#a2cf8b817f7e137fc648e373ae4614a2f">smacc2::ISmaccStateMachine::getNode</a></div><div class="ttdeci">rclcpp::Node::SharedPtr getNode()</div><div class="ttdef"><b>Definition</b> <a href="smacc__state__machine_8cpp_source.html#l00098">smacc_state_machine.cpp:98</a></div></div>
+<div class="ttc" id="aclasssmacc2_1_1ISmaccStateMachine_html_abe8e52eb644f51ee2a50f8a3dbf01b58"><div class="ttname"><a href="#abe8e52eb644f51ee2a50f8a3dbf01b58">smacc2::ISmaccStateMachine::checkStateMachineConsistence</a></div><div class="ttdeci">void checkStateMachineConsistence()</div><div class="ttdef"><b>Definition</b> <a href="smacc__state__machine_8cpp_source.html#l00275">smacc_state_machine.cpp:275</a></div></div>
 <div class="ttc" id="aclasssmacc2_1_1ISmaccStateMachine_html_ae4156760ffcfaad1fe5ccd685d850d3c"><div class="ttname"><a href="#ae4156760ffcfaad1fe5ccd685d850d3c">smacc2::ISmaccStateMachine::stateMachineInfo_</a></div><div class="ttdeci">std::shared_ptr&lt; SmaccStateMachineInfo &gt; stateMachineInfo_</div><div class="ttdef"><b>Definition</b> <a href="smacc__state__machine_8hpp_source.html#l00225">smacc_state_machine.hpp:225</a></div></div>
 </div><!-- fragment -->
-<p class="reference">References <a class="el" href="smacc__state__machine_8cpp_source.html#l00276">checkStateMachineConsistence()</a>, <a class="el" href="smacc__state__machine_8cpp_source.html#l00099">getNode()</a>, and <a class="el" href="smacc__state__machine_8hpp_source.html#l00225">stateMachineInfo_</a>.</p>
+<p class="reference">References <a class="el" href="smacc__state__machine_8cpp_source.html#l00275">checkStateMachineConsistence()</a>, <a class="el" href="smacc__state__machine_8cpp_source.html#l00098">getNode()</a>, and <a class="el" href="smacc__state__machine_8hpp_source.html#l00225">stateMachineInfo_</a>.</p>
 
 <p class="reference">Referenced by <a class="el" href="smacc__state__machine__base_8hpp_source.html#l00067">smacc2::SmaccStateMachineBase&lt; DerivedStateMachine, InitialStateType &gt;::initiate_impl()</a>.</p>
 <div class="dynheader">
@@ -582,8 +580,8 @@ Here is the caller graph for this function:</div>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="smacc__state__machine_8cpp_source.html#l00276">276</a> of file <a class="el" href="smacc__state__machine_8cpp_source.html">smacc_state_machine.cpp</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">  276</span>{}</div>
+<p class="definition">Definition at line <a class="el" href="smacc__state__machine_8cpp_source.html#l00275">275</a> of file <a class="el" href="smacc__state__machine_8cpp_source.html">smacc_state_machine.cpp</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">  275</span>{}</div>
 </div><!-- fragment -->
 <p class="reference">Referenced by <a class="el" href="smacc__state__machine__impl_8hpp_source.html#l00800">buildStateMachineInfo()</a>.</p>
 <div class="dynheader">
@@ -1107,9 +1105,9 @@ template&lt;typename T &gt; </div>
 <div class="fragment"><div class="line"><span class="lineno">  154</span>  {</div>
 <div class="line"><span class="lineno">  155</span>    <a class="code hl_function" href="#a5712dfda3bc591a404cf1e896da4e681">disconnectSmaccSignalObject</a>(<span class="keyword">dynamic_cast&lt;</span><span class="keywordtype">void</span> *<span class="keyword">&gt;</span>(<span class="keywordtype">object</span>));</div>
 <div class="line"><span class="lineno">  156</span>  }</div>
-<div class="ttc" id="aclasssmacc2_1_1ISmaccStateMachine_html_a5712dfda3bc591a404cf1e896da4e681"><div class="ttname"><a href="#a5712dfda3bc591a404cf1e896da4e681">smacc2::ISmaccStateMachine::disconnectSmaccSignalObject</a></div><div class="ttdeci">void disconnectSmaccSignalObject(void *object_ptr)</div><div class="ttdef"><b>Definition</b> <a href="smacc__state__machine_8cpp_source.html#l00083">smacc_state_machine.cpp:83</a></div></div>
+<div class="ttc" id="aclasssmacc2_1_1ISmaccStateMachine_html_a5712dfda3bc591a404cf1e896da4e681"><div class="ttname"><a href="#a5712dfda3bc591a404cf1e896da4e681">smacc2::ISmaccStateMachine::disconnectSmaccSignalObject</a></div><div class="ttdeci">void disconnectSmaccSignalObject(void *object_ptr)</div><div class="ttdef"><b>Definition</b> <a href="smacc__state__machine_8cpp_source.html#l00082">smacc_state_machine.cpp:82</a></div></div>
 </div><!-- fragment -->
-<p class="reference">References <a class="el" href="smacc__state__machine_8cpp_source.html#l00083">disconnectSmaccSignalObject()</a>.</p>
+<p class="reference">References <a class="el" href="smacc__state__machine_8cpp_source.html#l00082">disconnectSmaccSignalObject()</a>.</p>
 <div class="dynheader">
 Here is the call graph for this function:</div>
 <div class="dyncontent">
@@ -1138,21 +1136,21 @@ Here is the call graph for this function:</div>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="smacc__state__machine_8cpp_source.html#l00083">83</a> of file <a class="el" href="smacc__state__machine_8cpp_source.html">smacc_state_machine.cpp</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">   84</span>{</div>
-<div class="line"><span class="lineno">   85</span>  <span class="comment">// DEBUG: this runs for every disposed behavior, reactor, generator and state.</span></div>
-<div class="line"><span class="lineno">   86</span>  RCLCPP_DEBUG(<a class="code hl_variable" href="#a8b441209151e301f66e62844994946ff">nh_</a>-&gt;get_logger(), <span class="stringliteral">&quot;[SmaccSignal] Object signal disconnecting %p&quot;</span>, object_ptr);</div>
-<div class="line"><span class="lineno">   87</span>  <span class="keywordflow">if</span> (<a class="code hl_variable" href="#ac9597ff781fb3d9510e2824e3274dda2">stateCallbackConnections</a>.count(object_ptr) &gt; 0)</div>
-<div class="line"><span class="lineno">   88</span>  {</div>
-<div class="line"><span class="lineno">   89</span>    <span class="keyword">auto</span> callbackSemaphore = <a class="code hl_variable" href="#ac9597ff781fb3d9510e2824e3274dda2">stateCallbackConnections</a>[object_ptr];</div>
-<div class="line"><span class="lineno">   90</span>    callbackSemaphore-&gt;finalize();</div>
-<div class="line"><span class="lineno">   91</span>    <a class="code hl_variable" href="#ac9597ff781fb3d9510e2824e3274dda2">stateCallbackConnections</a>.erase(object_ptr);</div>
-<div class="line"><span class="lineno">   92</span>  }</div>
-<div class="line"><span class="lineno">   93</span>  <span class="keywordflow">else</span></div>
-<div class="line"><span class="lineno">   94</span>  {</div>
-<div class="line"><span class="lineno">   95</span>    RCLCPP_DEBUG(<a class="code hl_variable" href="#a8b441209151e301f66e62844994946ff">nh_</a>-&gt;get_logger(), <span class="stringliteral">&quot;[SmaccSignal] No signals found %p&quot;</span>, object_ptr);</div>
-<div class="line"><span class="lineno">   96</span>  }</div>
-<div class="line"><span class="lineno">   97</span>}</div>
+<p class="definition">Definition at line <a class="el" href="smacc__state__machine_8cpp_source.html#l00082">82</a> of file <a class="el" href="smacc__state__machine_8cpp_source.html">smacc_state_machine.cpp</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">   83</span>{</div>
+<div class="line"><span class="lineno">   84</span>  <span class="comment">// DEBUG: this runs for every disposed behavior, reactor, generator and state.</span></div>
+<div class="line"><span class="lineno">   85</span>  RCLCPP_DEBUG(<a class="code hl_variable" href="#a8b441209151e301f66e62844994946ff">nh_</a>-&gt;get_logger(), <span class="stringliteral">&quot;[SmaccSignal] Object signal disconnecting %p&quot;</span>, object_ptr);</div>
+<div class="line"><span class="lineno">   86</span>  <span class="keywordflow">if</span> (<a class="code hl_variable" href="#ac9597ff781fb3d9510e2824e3274dda2">stateCallbackConnections</a>.count(object_ptr) &gt; 0)</div>
+<div class="line"><span class="lineno">   87</span>  {</div>
+<div class="line"><span class="lineno">   88</span>    <span class="keyword">auto</span> callbackSemaphore = <a class="code hl_variable" href="#ac9597ff781fb3d9510e2824e3274dda2">stateCallbackConnections</a>[object_ptr];</div>
+<div class="line"><span class="lineno">   89</span>    callbackSemaphore-&gt;finalize();</div>
+<div class="line"><span class="lineno">   90</span>    <a class="code hl_variable" href="#ac9597ff781fb3d9510e2824e3274dda2">stateCallbackConnections</a>.erase(object_ptr);</div>
+<div class="line"><span class="lineno">   91</span>  }</div>
+<div class="line"><span class="lineno">   92</span>  <span class="keywordflow">else</span></div>
+<div class="line"><span class="lineno">   93</span>  {</div>
+<div class="line"><span class="lineno">   94</span>    RCLCPP_DEBUG(<a class="code hl_variable" href="#a8b441209151e301f66e62844994946ff">nh_</a>-&gt;get_logger(), <span class="stringliteral">&quot;[SmaccSignal] No signals found %p&quot;</span>, object_ptr);</div>
+<div class="line"><span class="lineno">   95</span>  }</div>
+<div class="line"><span class="lineno">   96</span>}</div>
 </div><!-- fragment -->
 <p class="reference">References <a class="el" href="smacc__state__machine_8hpp_source.html#l00202">nh_</a>, and <a class="el" href="smacc__state__machine_8hpp_source.html#l00238">stateCallbackConnections</a>.</p>
 
@@ -1201,8 +1199,8 @@ Here is the caller graph for this function:</div>
 
 <p>Reimplemented in <a class="el" href="structsmacc2_1_1SmaccStateMachineBase.html#a8f12ffda32b12e469ac33a3a7e68a988">smacc2::SmaccStateMachineBase&lt; DerivedStateMachine, InitialStateType &gt;</a>.</p>
 
-<p class="definition">Definition at line <a class="el" href="smacc__state__machine_8cpp_source.html#l00105">105</a> of file <a class="el" href="smacc__state__machine_8cpp_source.html">smacc_state_machine.cpp</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">  105</span>{}</div>
+<p class="definition">Definition at line <a class="el" href="smacc__state__machine_8cpp_source.html#l00104">104</a> of file <a class="el" href="smacc__state__machine_8cpp_source.html">smacc_state_machine.cpp</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">  104</span>{}</div>
 </div><!-- fragment -->
 <p class="reference">Referenced by <a class="el" href="smacc__state__machine__base_8hpp_source.html#l00061">smacc2::SmaccStateMachineBase&lt; DerivedStateMachine, InitialStateType &gt;::eStop()</a>.</p>
 <div class="dynheader">
@@ -1361,6 +1359,7 @@ Here is the caller graph for this function:</div>
 
 <p class="definition">Definition at line <a class="el" href="smacc__state__machine__impl_8hpp_source.html#l00808">808</a> of file <a class="el" href="smacc__state__machine__impl_8hpp_source.html">smacc_state_machine_impl.hpp</a>.</p>
 <div class="fragment"><div class="line"><span class="lineno">  808</span>{ <span class="keywordflow">return</span> this-&gt;<a class="code hl_variable" href="#aac622c4cfb76a88f94d12cf27e745655">stateSeqCounter_</a>; }</div>
+<div class="ttc" id="aclasssmacc2_1_1ISmaccStateMachine_html_aac622c4cfb76a88f94d12cf27e745655"><div class="ttname"><a href="#aac622c4cfb76a88f94d12cf27e745655">smacc2::ISmaccStateMachine::stateSeqCounter_</a></div><div class="ttdeci">int64_t stateSeqCounter_</div><div class="ttdef"><b>Definition</b> <a href="smacc__state__machine_8hpp_source.html#l00255">smacc_state_machine.hpp:255</a></div></div>
 </div><!-- fragment -->
 <p class="reference">References <a class="el" href="smacc__state__machine_8hpp_source.html#l00255">stateSeqCounter_</a>.</p>
 
@@ -1898,12 +1897,12 @@ Here is the caller graph for this function:</div>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="smacc__state__machine_8cpp_source.html#l00099">99</a> of file <a class="el" href="smacc__state__machine_8cpp_source.html">smacc_state_machine.cpp</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">   99</span>{ <span class="keywordflow">return</span> this-&gt;<a class="code hl_variable" href="#a8b441209151e301f66e62844994946ff">nh_</a>; }</div>
+<p class="definition">Definition at line <a class="el" href="smacc__state__machine_8cpp_source.html#l00098">98</a> of file <a class="el" href="smacc__state__machine_8cpp_source.html">smacc_state_machine.cpp</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">   98</span>{ <span class="keywordflow">return</span> this-&gt;<a class="code hl_variable" href="#a8b441209151e301f66e62844994946ff">nh_</a>; }</div>
 </div><!-- fragment -->
 <p class="reference">References <a class="el" href="smacc__state__machine_8hpp_source.html#l00202">nh_</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="smacc__state__machine__impl_8hpp_source.html#l00800">buildStateMachineInfo()</a>, <a class="el" href="client_8cpp_source.html#l00060">smacc2::ISmaccClient::getNode()</a>, <a class="el" href="smacc__client__behavior__base_8cpp_source.html#l00038">smacc2::ISmaccClientBehavior::getNode()</a>, <a class="el" href="orthogonal_8cpp_source.html#l00047">smacc2::ISmaccOrthogonal::getNode()</a>, <a class="el" href="signal__detector_8cpp_source.html#l00074">smacc2::SignalDetector::getNode()</a>, <a class="el" href="smacc__state__machine__base_8hpp_source.html#l00067">smacc2::SmaccStateMachineBase&lt; DerivedStateMachine, InitialStateType &gt;::initiate_impl()</a>, <a class="el" href="signal__detector_8cpp_source.html#l00282">smacc2::SignalDetector::pollOnce()</a>, and <a class="el" href="smacc__state__base_8hpp_source.html#l00065">smacc2::SmaccState&lt; MostDerived, Context, InnerInitial, historyMode &gt;::SmaccState()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="smacc__state__machine__impl_8hpp_source.html#l00800">buildStateMachineInfo()</a>, <a class="el" href="client_8cpp_source.html#l00060">smacc2::ISmaccClient::getNode()</a>, <a class="el" href="smacc__client__behavior__base_8cpp_source.html#l00034">smacc2::ISmaccClientBehavior::getNode()</a>, <a class="el" href="orthogonal_8cpp_source.html#l00047">smacc2::ISmaccOrthogonal::getNode()</a>, <a class="el" href="signal__detector_8cpp_source.html#l00068">smacc2::SignalDetector::getNode()</a>, <a class="el" href="smacc__state__machine__base_8hpp_source.html#l00067">smacc2::SmaccStateMachineBase&lt; DerivedStateMachine, InitialStateType &gt;::initiate_impl()</a>, <a class="el" href="signal__detector_8cpp_source.html#l00276">smacc2::SignalDetector::pollOnce()</a>, and <a class="el" href="smacc__state__base_8hpp_source.html#l00065">smacc2::SmaccState&lt; MostDerived, Context, InnerInitial, historyMode &gt;::SmaccState()</a>.</p>
 <div class="dynheader">
 Here is the caller graph for this function:</div>
 <div class="dyncontent">
@@ -2423,14 +2422,14 @@ Here is the caller graph for this function:</div>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="smacc__state__machine_8cpp_source.html#l00128">128</a> of file <a class="el" href="smacc__state__machine_8cpp_source.html">smacc_state_machine.cpp</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">  129</span>{</div>
-<div class="line"><span class="lineno">  130</span>  <span class="keywordflow">return</span> this-&gt;<a class="code hl_variable" href="#a00c314c742c2ab90d9ff5cf262d160ac">orthogonals_</a>;</div>
-<div class="line"><span class="lineno">  131</span>}</div>
+<p class="definition">Definition at line <a class="el" href="smacc__state__machine_8cpp_source.html#l00127">127</a> of file <a class="el" href="smacc__state__machine_8cpp_source.html">smacc_state_machine.cpp</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">  128</span>{</div>
+<div class="line"><span class="lineno">  129</span>  <span class="keywordflow">return</span> this-&gt;<a class="code hl_variable" href="#a00c314c742c2ab90d9ff5cf262d160ac">orthogonals_</a>;</div>
+<div class="line"><span class="lineno">  130</span>}</div>
 </div><!-- fragment -->
 <p class="reference">References <a class="el" href="smacc__state__machine_8hpp_source.html#l00222">orthogonals_</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="smacc__state__machine__info_8cpp_source.html#l00026">smacc2::introspection::SmaccStateMachineInfo::assembleSMStructureMessage()</a>, <a class="el" href="signal__detector_8cpp_source.html#l00103">smacc2::SignalDetector::findUpdatableClientsAndComponents()</a>, <a class="el" href="signal__detector_8cpp_source.html#l00146">smacc2::SignalDetector::findUpdatableStateElements()</a>, and <a class="el" href="smacc__state__impl_8hpp_source.html#l00077">smacc2::ISmaccState::requiresClient()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="smacc__state__machine__info_8cpp_source.html#l00026">smacc2::introspection::SmaccStateMachineInfo::assembleSMStructureMessage()</a>, <a class="el" href="signal__detector_8cpp_source.html#l00097">smacc2::SignalDetector::findUpdatableClientsAndComponents()</a>, <a class="el" href="signal__detector_8cpp_source.html#l00140">smacc2::SignalDetector::findUpdatableStateElements()</a>, and <a class="el" href="smacc__state__impl_8hpp_source.html#l00077">smacc2::ISmaccState::requiresClient()</a>.</p>
 <div class="dynheader">
 Here is the caller graph for this function:</div>
 <div class="dyncontent">
@@ -2533,10 +2532,10 @@ Here is the caller graph for this function:</div>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="smacc__state__machine_8cpp_source.html#l00271">271</a> of file <a class="el" href="smacc__state__machine_8cpp_source.html">smacc_state_machine.cpp</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">  272</span>{</div>
-<div class="line"><span class="lineno">  273</span>  <span class="keywordflow">return</span> <a class="code hl_function" href="namespacesmacc2_1_1introspection.html#aba19132e50f25adee919c2504ae6a3a2">demangleSymbol</a>(<span class="keyword">typeid</span>(*this).name());</div>
-<div class="line"><span class="lineno">  274</span>}</div>
+<p class="definition">Definition at line <a class="el" href="smacc__state__machine_8cpp_source.html#l00270">270</a> of file <a class="el" href="smacc__state__machine_8cpp_source.html">smacc_state_machine.cpp</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">  271</span>{</div>
+<div class="line"><span class="lineno">  272</span>  <span class="keywordflow">return</span> <a class="code hl_function" href="namespacesmacc2_1_1introspection.html#aba19132e50f25adee919c2504ae6a3a2">demangleSymbol</a>(<span class="keyword">typeid</span>(*this).name());</div>
+<div class="line"><span class="lineno">  273</span>}</div>
 </div><!-- fragment -->
 <p class="reference">References <a class="el" href="introspection_8hpp_source.html#l00093">smacc2::introspection::demangleSymbol()</a>.</p>
 <div class="dynheader">
@@ -2577,20 +2576,20 @@ Here is the call graph for this function:</div>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="smacc__state__machine_8cpp_source.html#l00231">231</a> of file <a class="el" href="smacc__state__machine_8cpp_source.html">smacc_state_machine.cpp</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">  235</span>{</div>
-<div class="line"><span class="lineno">  236</span>  std::lock_guard&lt;std::mutex&gt; guard(<a class="code hl_variable" href="#ad06a71331e822958685220f907cc6439">transitionLogMutex_</a>);</div>
-<div class="line"><span class="lineno">  237</span>  RCLCPP_WARN(</div>
-<div class="line"><span class="lineno">  238</span>    <a class="code hl_variable" href="#a8b441209151e301f66e62844994946ff">nh_</a>-&gt;get_logger(), <span class="stringliteral">&quot;Requesting transition log history, current size: %ld&quot;</span>,</div>
-<div class="line"><span class="lineno">  239</span>    this-&gt;transitionLogHistory_.size());</div>
-<div class="line"><span class="lineno">  240</span>  res-&gt;history.assign(this-&gt;<a class="code hl_variable" href="#a31c0b4f7705928c6a07d6cca3c8c5cb2">transitionLogHistory_</a>.begin(), this-&gt;transitionLogHistory_.end());</div>
-<div class="line"><span class="lineno">  241</span>}</div>
+<p class="definition">Definition at line <a class="el" href="smacc__state__machine_8cpp_source.html#l00230">230</a> of file <a class="el" href="smacc__state__machine_8cpp_source.html">smacc_state_machine.cpp</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">  234</span>{</div>
+<div class="line"><span class="lineno">  235</span>  std::lock_guard&lt;std::mutex&gt; guard(<a class="code hl_variable" href="#ad06a71331e822958685220f907cc6439">transitionLogMutex_</a>);</div>
+<div class="line"><span class="lineno">  236</span>  RCLCPP_WARN(</div>
+<div class="line"><span class="lineno">  237</span>    <a class="code hl_variable" href="#a8b441209151e301f66e62844994946ff">nh_</a>-&gt;get_logger(), <span class="stringliteral">&quot;Requesting transition log history, current size: %ld&quot;</span>,</div>
+<div class="line"><span class="lineno">  238</span>    this-&gt;transitionLogHistory_.size());</div>
+<div class="line"><span class="lineno">  239</span>  res-&gt;history.assign(this-&gt;<a class="code hl_variable" href="#a31c0b4f7705928c6a07d6cca3c8c5cb2">transitionLogHistory_</a>.begin(), this-&gt;transitionLogHistory_.end());</div>
+<div class="line"><span class="lineno">  240</span>}</div>
 <div class="ttc" id="aclasssmacc2_1_1ISmaccStateMachine_html_a31c0b4f7705928c6a07d6cca3c8c5cb2"><div class="ttname"><a href="#a31c0b4f7705928c6a07d6cca3c8c5cb2">smacc2::ISmaccStateMachine::transitionLogHistory_</a></div><div class="ttdeci">std::deque&lt; smacc2_msgs::msg::SmaccTransitionLogEntry &gt; transitionLogHistory_</div><div class="ttdef"><b>Definition</b> <a href="smacc__state__machine_8hpp_source.html#l00246">smacc_state_machine.hpp:246</a></div></div>
 <div class="ttc" id="aclasssmacc2_1_1ISmaccStateMachine_html_ad06a71331e822958685220f907cc6439"><div class="ttname"><a href="#ad06a71331e822958685220f907cc6439">smacc2::ISmaccStateMachine::transitionLogMutex_</a></div><div class="ttdeci">std::mutex transitionLogMutex_</div><div class="ttdef"><b>Definition</b> <a href="smacc__state__machine_8hpp_source.html#l00247">smacc_state_machine.hpp:247</a></div></div>
 </div><!-- fragment -->
 <p class="reference">References <a class="el" href="smacc__state__machine_8hpp_source.html#l00202">nh_</a>, <a class="el" href="smacc__state__machine_8hpp_source.html#l00246">transitionLogHistory_</a>, and <a class="el" href="smacc__state__machine_8hpp_source.html#l00247">transitionLogMutex_</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="smacc__state__machine_8cpp_source.html#l00197">initializeROS()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="smacc__state__machine_8cpp_source.html#l00196">initializeROS()</a>.</p>
 <div class="dynheader">
 Here is the caller graph for this function:</div>
 <div class="dyncontent">
@@ -2629,49 +2628,49 @@ Here is the caller graph for this function:</div>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="smacc__state__machine_8cpp_source.html#l00197">197</a> of file <a class="el" href="smacc__state__machine_8cpp_source.html">smacc_state_machine.cpp</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">  198</span>{</div>
-<div class="line"><span class="lineno">  199</span>  RCLCPP_WARN_STREAM(<a class="code hl_variable" href="#a8b441209151e301f66e62844994946ff">nh_</a>-&gt;get_logger(), <span class="stringliteral">&quot;State machine base creation: &quot;</span> &lt;&lt; shortname);</div>
-<div class="line"><span class="lineno">  200</span>  <span class="comment">// STATE MACHINE TOPICS</span></div>
-<div class="line"><span class="lineno">  201</span>  <a class="code hl_variable" href="#a27836343c7e1c3efd339a30305e465a7">stateMachinePub_</a> = <a class="code hl_variable" href="#a8b441209151e301f66e62844994946ff">nh_</a>-&gt;create_publisher&lt;smacc2_msgs::msg::SmaccStateMachine&gt;(</div>
-<div class="line"><span class="lineno">  202</span>    shortname + <span class="stringliteral">&quot;/smacc/state_machine_description&quot;</span>, rclcpp::QoS(1));</div>
-<div class="line"><span class="lineno">  203</span>  <a class="code hl_variable" href="#a6267edbd9d853218f12808465f65463d">stateMachineStatusPub_</a> = <a class="code hl_variable" href="#a8b441209151e301f66e62844994946ff">nh_</a>-&gt;create_publisher&lt;smacc2_msgs::msg::SmaccStatus&gt;(</div>
-<div class="line"><span class="lineno">  204</span>    shortname + <span class="stringliteral">&quot;/smacc/status&quot;</span>, rclcpp::QoS(1));</div>
-<div class="line"><span class="lineno">  205</span>  <a class="code hl_variable" href="#ab73d97a7f4dfb7f05c2d7599b55afe47">transitionLogPub_</a> = <a class="code hl_variable" href="#a8b441209151e301f66e62844994946ff">nh_</a>-&gt;create_publisher&lt;smacc2_msgs::msg::SmaccTransitionLogEntry&gt;(</div>
-<div class="line"><span class="lineno">  206</span>    shortname + <span class="stringliteral">&quot;/smacc/transition_log&quot;</span>, rclcpp::QoS(1));</div>
-<div class="line"><span class="lineno">  207</span>  <span class="comment">// How many transitions the history service keeps; 0 keeps none. The topic carries every transition.</span></div>
-<div class="line"><span class="lineno">  208</span>  int64_t historySize = <a class="code hl_variable" href="#a8b441209151e301f66e62844994946ff">nh_</a>-&gt;declare_parameter&lt;int64_t&gt;(<span class="stringliteral">&quot;transition_log_history_size&quot;</span>, 1000);</div>
-<div class="line"><span class="lineno">  209</span>  <span class="keywordflow">if</span> (historySize &lt; 0)</div>
-<div class="line"><span class="lineno">  210</span>  {</div>
-<div class="line"><span class="lineno">  211</span>    RCLCPP_WARN(<a class="code hl_variable" href="#a8b441209151e301f66e62844994946ff">nh_</a>-&gt;get_logger(), <span class="stringliteral">&quot;transition_log_history_size %ld clamped to 0&quot;</span>, historySize);</div>
-<div class="line"><span class="lineno">  212</span>    historySize = 0;</div>
-<div class="line"><span class="lineno">  213</span>  }</div>
-<div class="line"><span class="lineno">  214</span>  <a class="code hl_variable" href="#a94d1383da3bdbb7a5da633c2fdfe36bc">transitionLogHistorySize_</a> = <span class="keyword">static_cast&lt;</span><span class="keywordtype">size_t</span><span class="keyword">&gt;</span>(historySize);</div>
-<div class="line"><span class="lineno">  215</span> </div>
-<div class="line"><span class="lineno">  216</span>  <a class="code hl_variable" href="#aef1b343fc7276d3c6c1f5bbc1415efb3">eventsLogPub_</a> = <a class="code hl_variable" href="#a8b441209151e301f66e62844994946ff">nh_</a>-&gt;create_publisher&lt;smacc2_msgs::msg::SmaccEvent&gt;(</div>
-<div class="line"><span class="lineno">  217</span>    shortname + <span class="stringliteral">&quot;/smacc/event_log&quot;</span>, rclcpp::QoS(100));</div>
-<div class="line"><span class="lineno">  218</span> </div>
-<div class="line"><span class="lineno">  219</span>  <span class="comment">// STATE MACHINE SERVICES</span></div>
-<div class="line"><span class="lineno">  220</span>  <a class="code hl_variable" href="#a39187adf895b3dfee4ca5e82a8849318">transitionHistoryService_</a> = <a class="code hl_variable" href="#a8b441209151e301f66e62844994946ff">nh_</a>-&gt;create_service&lt;smacc2_msgs::srv::SmaccGetTransitionHistory&gt;(</div>
-<div class="line"><span class="lineno">  221</span>    shortname + <span class="stringliteral">&quot;/smacc/transition_log_history&quot;</span>,</div>
-<div class="line"><span class="lineno">  222</span>    std::bind(</div>
-<div class="line"><span class="lineno">  223</span>      &amp;<a class="code hl_function" href="#af8e9186bd647fbd9c4fdf5679c00b08e">ISmaccStateMachine::getTransitionLogHistory</a>, <span class="keyword">this</span>, std::placeholders::_1,</div>
-<div class="line"><span class="lineno">  224</span>      std::placeholders::_2, std::placeholders::_3));</div>
-<div class="line"><span class="lineno">  225</span> </div>
-<div class="line"><span class="lineno">  226</span>  <span class="comment">// Notify signal detector that ROS initialization is complete</span></div>
-<div class="line"><span class="lineno">  227</span>  <span class="comment">// This allows the polling loop to start safely accessing ROS objects</span></div>
-<div class="line"><span class="lineno">  228</span>  <a class="code hl_variable" href="#ac14b83c6cb61b7fb5ed56ca2dbe5ff3e">signalDetector_</a>-&gt;<a class="code hl_function" href="classsmacc2_1_1SignalDetector.html#ad621cb54a515f0d8f4863f1e8a608c0b">notifyRosInitialized</a>();</div>
-<div class="line"><span class="lineno">  229</span>}</div>
+<p class="definition">Definition at line <a class="el" href="smacc__state__machine_8cpp_source.html#l00196">196</a> of file <a class="el" href="smacc__state__machine_8cpp_source.html">smacc_state_machine.cpp</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">  197</span>{</div>
+<div class="line"><span class="lineno">  198</span>  RCLCPP_WARN_STREAM(<a class="code hl_variable" href="#a8b441209151e301f66e62844994946ff">nh_</a>-&gt;get_logger(), <span class="stringliteral">&quot;State machine base creation: &quot;</span> &lt;&lt; shortname);</div>
+<div class="line"><span class="lineno">  199</span>  <span class="comment">// STATE MACHINE TOPICS</span></div>
+<div class="line"><span class="lineno">  200</span>  <a class="code hl_variable" href="#a27836343c7e1c3efd339a30305e465a7">stateMachinePub_</a> = <a class="code hl_variable" href="#a8b441209151e301f66e62844994946ff">nh_</a>-&gt;create_publisher&lt;smacc2_msgs::msg::SmaccStateMachine&gt;(</div>
+<div class="line"><span class="lineno">  201</span>    shortname + <span class="stringliteral">&quot;/smacc/state_machine_description&quot;</span>, rclcpp::QoS(1));</div>
+<div class="line"><span class="lineno">  202</span>  <a class="code hl_variable" href="#a6267edbd9d853218f12808465f65463d">stateMachineStatusPub_</a> = <a class="code hl_variable" href="#a8b441209151e301f66e62844994946ff">nh_</a>-&gt;create_publisher&lt;smacc2_msgs::msg::SmaccStatus&gt;(</div>
+<div class="line"><span class="lineno">  203</span>    shortname + <span class="stringliteral">&quot;/smacc/status&quot;</span>, rclcpp::QoS(1));</div>
+<div class="line"><span class="lineno">  204</span>  <a class="code hl_variable" href="#ab73d97a7f4dfb7f05c2d7599b55afe47">transitionLogPub_</a> = <a class="code hl_variable" href="#a8b441209151e301f66e62844994946ff">nh_</a>-&gt;create_publisher&lt;smacc2_msgs::msg::SmaccTransitionLogEntry&gt;(</div>
+<div class="line"><span class="lineno">  205</span>    shortname + <span class="stringliteral">&quot;/smacc/transition_log&quot;</span>, rclcpp::QoS(1));</div>
+<div class="line"><span class="lineno">  206</span>  <span class="comment">// How many transitions the history service keeps; 0 keeps none. The topic carries every transition.</span></div>
+<div class="line"><span class="lineno">  207</span>  int64_t historySize = <a class="code hl_variable" href="#a8b441209151e301f66e62844994946ff">nh_</a>-&gt;declare_parameter&lt;int64_t&gt;(<span class="stringliteral">&quot;transition_log_history_size&quot;</span>, 1000);</div>
+<div class="line"><span class="lineno">  208</span>  <span class="keywordflow">if</span> (historySize &lt; 0)</div>
+<div class="line"><span class="lineno">  209</span>  {</div>
+<div class="line"><span class="lineno">  210</span>    RCLCPP_WARN(<a class="code hl_variable" href="#a8b441209151e301f66e62844994946ff">nh_</a>-&gt;get_logger(), <span class="stringliteral">&quot;transition_log_history_size %ld clamped to 0&quot;</span>, historySize);</div>
+<div class="line"><span class="lineno">  211</span>    historySize = 0;</div>
+<div class="line"><span class="lineno">  212</span>  }</div>
+<div class="line"><span class="lineno">  213</span>  <a class="code hl_variable" href="#a94d1383da3bdbb7a5da633c2fdfe36bc">transitionLogHistorySize_</a> = <span class="keyword">static_cast&lt;</span><span class="keywordtype">size_t</span><span class="keyword">&gt;</span>(historySize);</div>
+<div class="line"><span class="lineno">  214</span> </div>
+<div class="line"><span class="lineno">  215</span>  <a class="code hl_variable" href="#aef1b343fc7276d3c6c1f5bbc1415efb3">eventsLogPub_</a> = <a class="code hl_variable" href="#a8b441209151e301f66e62844994946ff">nh_</a>-&gt;create_publisher&lt;smacc2_msgs::msg::SmaccEvent&gt;(</div>
+<div class="line"><span class="lineno">  216</span>    shortname + <span class="stringliteral">&quot;/smacc/event_log&quot;</span>, rclcpp::QoS(100));</div>
+<div class="line"><span class="lineno">  217</span> </div>
+<div class="line"><span class="lineno">  218</span>  <span class="comment">// STATE MACHINE SERVICES</span></div>
+<div class="line"><span class="lineno">  219</span>  <a class="code hl_variable" href="#a39187adf895b3dfee4ca5e82a8849318">transitionHistoryService_</a> = <a class="code hl_variable" href="#a8b441209151e301f66e62844994946ff">nh_</a>-&gt;create_service&lt;smacc2_msgs::srv::SmaccGetTransitionHistory&gt;(</div>
+<div class="line"><span class="lineno">  220</span>    shortname + <span class="stringliteral">&quot;/smacc/transition_log_history&quot;</span>,</div>
+<div class="line"><span class="lineno">  221</span>    std::bind(</div>
+<div class="line"><span class="lineno">  222</span>      &amp;<a class="code hl_function" href="#af8e9186bd647fbd9c4fdf5679c00b08e">ISmaccStateMachine::getTransitionLogHistory</a>, <span class="keyword">this</span>, std::placeholders::_1,</div>
+<div class="line"><span class="lineno">  223</span>      std::placeholders::_2, std::placeholders::_3));</div>
+<div class="line"><span class="lineno">  224</span> </div>
+<div class="line"><span class="lineno">  225</span>  <span class="comment">// Notify signal detector that ROS initialization is complete</span></div>
+<div class="line"><span class="lineno">  226</span>  <span class="comment">// This allows the polling loop to start safely accessing ROS objects</span></div>
+<div class="line"><span class="lineno">  227</span>  <a class="code hl_variable" href="#ac14b83c6cb61b7fb5ed56ca2dbe5ff3e">signalDetector_</a>-&gt;<a class="code hl_function" href="classsmacc2_1_1SignalDetector.html#ad621cb54a515f0d8f4863f1e8a608c0b">notifyRosInitialized</a>();</div>
+<div class="line"><span class="lineno">  228</span>}</div>
 <div class="ttc" id="aclasssmacc2_1_1ISmaccStateMachine_html_a27836343c7e1c3efd339a30305e465a7"><div class="ttname"><a href="#a27836343c7e1c3efd339a30305e465a7">smacc2::ISmaccStateMachine::stateMachinePub_</a></div><div class="ttdeci">rclcpp::Publisher&lt; smacc2_msgs::msg::SmaccStateMachine &gt;::SharedPtr stateMachinePub_</div><div class="ttdef"><b>Definition</b> <a href="smacc__state__machine_8hpp_source.html#l00205">smacc_state_machine.hpp:205</a></div></div>
 <div class="ttc" id="aclasssmacc2_1_1ISmaccStateMachine_html_a39187adf895b3dfee4ca5e82a8849318"><div class="ttname"><a href="#a39187adf895b3dfee4ca5e82a8849318">smacc2::ISmaccStateMachine::transitionHistoryService_</a></div><div class="ttdeci">rclcpp::Service&lt; smacc2_msgs::srv::SmaccGetTransitionHistory &gt;::SharedPtr transitionHistoryService_</div><div class="ttdef"><b>Definition</b> <a href="smacc__state__machine_8hpp_source.html#l00211">smacc_state_machine.hpp:211</a></div></div>
 <div class="ttc" id="aclasssmacc2_1_1ISmaccStateMachine_html_a6267edbd9d853218f12808465f65463d"><div class="ttname"><a href="#a6267edbd9d853218f12808465f65463d">smacc2::ISmaccStateMachine::stateMachineStatusPub_</a></div><div class="ttdeci">rclcpp::Publisher&lt; smacc2_msgs::msg::SmaccStatus &gt;::SharedPtr stateMachineStatusPub_</div><div class="ttdef"><b>Definition</b> <a href="smacc__state__machine_8hpp_source.html#l00206">smacc_state_machine.hpp:206</a></div></div>
 <div class="ttc" id="aclasssmacc2_1_1ISmaccStateMachine_html_a94d1383da3bdbb7a5da633c2fdfe36bc"><div class="ttname"><a href="#a94d1383da3bdbb7a5da633c2fdfe36bc">smacc2::ISmaccStateMachine::transitionLogHistorySize_</a></div><div class="ttdeci">size_t transitionLogHistorySize_</div><div class="ttdef"><b>Definition</b> <a href="smacc__state__machine_8hpp_source.html#l00248">smacc_state_machine.hpp:248</a></div></div>
 <div class="ttc" id="aclasssmacc2_1_1ISmaccStateMachine_html_ab73d97a7f4dfb7f05c2d7599b55afe47"><div class="ttname"><a href="#ab73d97a7f4dfb7f05c2d7599b55afe47">smacc2::ISmaccStateMachine::transitionLogPub_</a></div><div class="ttdeci">rclcpp::Publisher&lt; smacc2_msgs::msg::SmaccTransitionLogEntry &gt;::SharedPtr transitionLogPub_</div><div class="ttdef"><b>Definition</b> <a href="smacc__state__machine_8hpp_source.html#l00207">smacc_state_machine.hpp:207</a></div></div>
 <div class="ttc" id="aclasssmacc2_1_1ISmaccStateMachine_html_aef1b343fc7276d3c6c1f5bbc1415efb3"><div class="ttname"><a href="#aef1b343fc7276d3c6c1f5bbc1415efb3">smacc2::ISmaccStateMachine::eventsLogPub_</a></div><div class="ttdeci">rclcpp::Publisher&lt; smacc2_msgs::msg::SmaccEvent &gt;::SharedPtr eventsLogPub_</div><div class="ttdef"><b>Definition</b> <a href="smacc__state__machine_8hpp_source.html#l00209">smacc_state_machine.hpp:209</a></div></div>
-<div class="ttc" id="aclasssmacc2_1_1ISmaccStateMachine_html_af8e9186bd647fbd9c4fdf5679c00b08e"><div class="ttname"><a href="#af8e9186bd647fbd9c4fdf5679c00b08e">smacc2::ISmaccStateMachine::getTransitionLogHistory</a></div><div class="ttdeci">void getTransitionLogHistory(const std::shared_ptr&lt; rmw_request_id_t &gt; request_header, const std::shared_ptr&lt; smacc2_msgs::srv::SmaccGetTransitionHistory::Request &gt; req, std::shared_ptr&lt; smacc2_msgs::srv::SmaccGetTransitionHistory::Response &gt; res)</div><div class="ttdef"><b>Definition</b> <a href="smacc__state__machine_8cpp_source.html#l00231">smacc_state_machine.cpp:231</a></div></div>
-<div class="ttc" id="aclasssmacc2_1_1SignalDetector_html_ad621cb54a515f0d8f4863f1e8a608c0b"><div class="ttname"><a href="classsmacc2_1_1SignalDetector.html#ad621cb54a515f0d8f4863f1e8a608c0b">smacc2::SignalDetector::notifyRosInitialized</a></div><div class="ttdeci">void notifyRosInitialized()</div><div class="ttdef"><b>Definition</b> <a href="signal__detector_8cpp_source.html#l00215">signal_detector.cpp:215</a></div></div>
+<div class="ttc" id="aclasssmacc2_1_1ISmaccStateMachine_html_af8e9186bd647fbd9c4fdf5679c00b08e"><div class="ttname"><a href="#af8e9186bd647fbd9c4fdf5679c00b08e">smacc2::ISmaccStateMachine::getTransitionLogHistory</a></div><div class="ttdeci">void getTransitionLogHistory(const std::shared_ptr&lt; rmw_request_id_t &gt; request_header, const std::shared_ptr&lt; smacc2_msgs::srv::SmaccGetTransitionHistory::Request &gt; req, std::shared_ptr&lt; smacc2_msgs::srv::SmaccGetTransitionHistory::Response &gt; res)</div><div class="ttdef"><b>Definition</b> <a href="smacc__state__machine_8cpp_source.html#l00230">smacc_state_machine.cpp:230</a></div></div>
+<div class="ttc" id="aclasssmacc2_1_1SignalDetector_html_ad621cb54a515f0d8f4863f1e8a608c0b"><div class="ttname"><a href="classsmacc2_1_1SignalDetector.html#ad621cb54a515f0d8f4863f1e8a608c0b">smacc2::SignalDetector::notifyRosInitialized</a></div><div class="ttdeci">void notifyRosInitialized()</div><div class="ttdef"><b>Definition</b> <a href="signal__detector_8cpp_source.html#l00209">signal_detector.cpp:209</a></div></div>
 </div><!-- fragment -->
-<p class="reference">References <a class="el" href="smacc__state__machine_8hpp_source.html#l00209">eventsLogPub_</a>, <a class="el" href="smacc__state__machine_8cpp_source.html#l00231">getTransitionLogHistory()</a>, <a class="el" href="smacc__state__machine_8hpp_source.html#l00202">nh_</a>, <a class="el" href="signal__detector_8cpp_source.html#l00215">smacc2::SignalDetector::notifyRosInitialized()</a>, <a class="el" href="smacc__state__machine_8hpp_source.html#l00253">signalDetector_</a>, <a class="el" href="smacc__state__machine_8hpp_source.html#l00205">stateMachinePub_</a>, <a class="el" href="smacc__state__machine_8hpp_source.html#l00206">stateMachineStatusPub_</a>, <a class="el" href="smacc__state__machine_8hpp_source.html#l00211">transitionHistoryService_</a>, <a class="el" href="smacc__state__machine_8hpp_source.html#l00248">transitionLogHistorySize_</a>, and <a class="el" href="smacc__state__machine_8hpp_source.html#l00207">transitionLogPub_</a>.</p>
+<p class="reference">References <a class="el" href="smacc__state__machine_8hpp_source.html#l00209">eventsLogPub_</a>, <a class="el" href="smacc__state__machine_8cpp_source.html#l00230">getTransitionLogHistory()</a>, <a class="el" href="smacc__state__machine_8hpp_source.html#l00202">nh_</a>, <a class="el" href="signal__detector_8cpp_source.html#l00209">smacc2::SignalDetector::notifyRosInitialized()</a>, <a class="el" href="smacc__state__machine_8hpp_source.html#l00253">signalDetector_</a>, <a class="el" href="smacc__state__machine_8hpp_source.html#l00205">stateMachinePub_</a>, <a class="el" href="smacc__state__machine_8hpp_source.html#l00206">stateMachineStatusPub_</a>, <a class="el" href="smacc__state__machine_8hpp_source.html#l00211">transitionHistoryService_</a>, <a class="el" href="smacc__state__machine_8hpp_source.html#l00248">transitionLogHistorySize_</a>, and <a class="el" href="smacc__state__machine_8hpp_source.html#l00207">transitionLogPub_</a>.</p>
 
 <p class="reference">Referenced by <a class="el" href="smacc__state__machine__base_8hpp_source.html#l00067">smacc2::SmaccStateMachineBase&lt; DerivedStateMachine, InitialStateType &gt;::initiate_impl()</a>.</p>
 <div class="dynheader">
@@ -2720,29 +2719,29 @@ Here is the caller graph for this function:</div>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="smacc__state__machine_8cpp_source.html#l00107">107</a> of file <a class="el" href="smacc__state__machine_8cpp_source.html">smacc_state_machine.cpp</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">  108</span>{</div>
-<div class="line"><span class="lineno">  109</span>  <span class="comment">// No lock: the scheduler thread has joined, so no transition touches the orthogonals, and</span></div>
-<div class="line"><span class="lineno">  110</span>  <span class="comment">// the threads being joined must never take m_mutex_ (Async Thread Locking Rule).</span></div>
-<div class="line"><span class="lineno">  111</span>  <span class="keywordflow">for</span> (<span class="keyword">auto</span> &amp; orthogonalEntry : this-&gt;<a class="code hl_variable" href="#a00c314c742c2ab90d9ff5cf262d160ac">orthogonals_</a>)</div>
-<div class="line"><span class="lineno">  112</span>  {</div>
-<div class="line"><span class="lineno">  113</span>    <span class="keywordflow">for</span> (<span class="keyword">auto</span> &amp; behaviorsOfOneState : orthogonalEntry.second-&gt;getClientBehaviors())</div>
-<div class="line"><span class="lineno">  114</span>    {</div>
-<div class="line"><span class="lineno">  115</span>      <span class="keywordflow">for</span> (<span class="keyword">auto</span> &amp; clBehavior : behaviorsOfOneState)</div>
-<div class="line"><span class="lineno">  116</span>      {</div>
-<div class="line"><span class="lineno">  117</span>        <span class="keyword">auto</span> * asyncBehavior = <span class="keyword">dynamic_cast&lt;</span>SmaccAsyncClientBehavior *<span class="keyword">&gt;</span>(clBehavior.get());</div>
-<div class="line"><span class="lineno">  118</span>        <span class="keywordflow">if</span> (asyncBehavior != <span class="keyword">nullptr</span>)</div>
-<div class="line"><span class="lineno">  119</span>        {</div>
-<div class="line"><span class="lineno">  120</span>          asyncBehavior-&gt;waitOnEntryThread(<span class="keyword">true</span>);</div>
-<div class="line"><span class="lineno">  121</span>        }</div>
-<div class="line"><span class="lineno">  122</span>      }</div>
-<div class="line"><span class="lineno">  123</span>    }</div>
-<div class="line"><span class="lineno">  124</span>  }</div>
-<div class="line"><span class="lineno">  125</span>}</div>
+<p class="definition">Definition at line <a class="el" href="smacc__state__machine_8cpp_source.html#l00106">106</a> of file <a class="el" href="smacc__state__machine_8cpp_source.html">smacc_state_machine.cpp</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">  107</span>{</div>
+<div class="line"><span class="lineno">  108</span>  <span class="comment">// No lock: the scheduler thread has joined, so no transition touches the orthogonals, and</span></div>
+<div class="line"><span class="lineno">  109</span>  <span class="comment">// the threads being joined must never take m_mutex_ (Async Thread Locking Rule).</span></div>
+<div class="line"><span class="lineno">  110</span>  <span class="keywordflow">for</span> (<span class="keyword">auto</span> &amp; orthogonalEntry : this-&gt;<a class="code hl_variable" href="#a00c314c742c2ab90d9ff5cf262d160ac">orthogonals_</a>)</div>
+<div class="line"><span class="lineno">  111</span>  {</div>
+<div class="line"><span class="lineno">  112</span>    <span class="keywordflow">for</span> (<span class="keyword">auto</span> &amp; behaviorsOfOneState : orthogonalEntry.second-&gt;getClientBehaviors())</div>
+<div class="line"><span class="lineno">  113</span>    {</div>
+<div class="line"><span class="lineno">  114</span>      <span class="keywordflow">for</span> (<span class="keyword">auto</span> &amp; clBehavior : behaviorsOfOneState)</div>
+<div class="line"><span class="lineno">  115</span>      {</div>
+<div class="line"><span class="lineno">  116</span>        <span class="keyword">auto</span> * asyncBehavior = <span class="keyword">dynamic_cast&lt;</span>SmaccAsyncClientBehavior *<span class="keyword">&gt;</span>(clBehavior.get());</div>
+<div class="line"><span class="lineno">  117</span>        <span class="keywordflow">if</span> (asyncBehavior != <span class="keyword">nullptr</span>)</div>
+<div class="line"><span class="lineno">  118</span>        {</div>
+<div class="line"><span class="lineno">  119</span>          asyncBehavior-&gt;waitOnEntryThread(<span class="keyword">true</span>);</div>
+<div class="line"><span class="lineno">  120</span>        }</div>
+<div class="line"><span class="lineno">  121</span>      }</div>
+<div class="line"><span class="lineno">  122</span>    }</div>
+<div class="line"><span class="lineno">  123</span>  }</div>
+<div class="line"><span class="lineno">  124</span>}</div>
 </div><!-- fragment -->
 <p class="reference">References <a class="el" href="smacc__state__machine_8hpp_source.html#l00222">orthogonals_</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="signal__detector_8cpp_source.html#l00255">smacc2::SignalDetector::joinAsyncClientBehaviorThreads()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="signal__detector_8cpp_source.html#l00249">smacc2::SignalDetector::joinAsyncClientBehaviorThreads()</a>.</p>
 <div class="dynheader">
 Here is the caller graph for this function:</div>
 <div class="dyncontent">
@@ -2783,11 +2782,11 @@ Here is the caller graph for this function:</div>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="smacc__state__machine_8cpp_source.html#l00259">259</a> of file <a class="el" href="smacc__state__machine_8cpp_source.html">smacc_state_machine.cpp</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">  260</span>{</div>
-<div class="line"><span class="lineno">  261</span>  RCLCPP_DEBUG(<a class="code hl_variable" href="#a8b441209151e301f66e62844994946ff">nh_</a>-&gt;get_logger(), <span class="stringliteral">&quot;-- locking SM: %s&quot;</span>, msg.c_str());</div>
-<div class="line"><span class="lineno">  262</span>  <a class="code hl_variable" href="#a5c3c7701e263d0dda0a1a4d74a4217c0">m_mutex_</a>.lock();</div>
-<div class="line"><span class="lineno">  263</span>}</div>
+<p class="definition">Definition at line <a class="el" href="smacc__state__machine_8cpp_source.html#l00258">258</a> of file <a class="el" href="smacc__state__machine_8cpp_source.html">smacc_state_machine.cpp</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">  259</span>{</div>
+<div class="line"><span class="lineno">  260</span>  RCLCPP_DEBUG(<a class="code hl_variable" href="#a8b441209151e301f66e62844994946ff">nh_</a>-&gt;get_logger(), <span class="stringliteral">&quot;-- locking SM: %s&quot;</span>, msg.c_str());</div>
+<div class="line"><span class="lineno">  261</span>  <a class="code hl_variable" href="#a5c3c7701e263d0dda0a1a4d74a4217c0">m_mutex_</a>.lock();</div>
+<div class="line"><span class="lineno">  262</span>}</div>
 </div><!-- fragment -->
 <p class="reference">References <a class="el" href="smacc__state__machine_8hpp_source.html#l00228">m_mutex_</a>, and <a class="el" href="smacc__state__machine_8hpp_source.html#l00202">nh_</a>.</p>
 
@@ -2842,11 +2841,11 @@ template&lt;typename StateType &gt; </div>
 <div class="line"><span class="lineno">  607</span>  }</div>
 <div class="line"><span class="lineno">  608</span>}</div>
 <div class="ttc" id="aclasssmacc2_1_1ISmaccStateMachine_html_a4eefdac6604da303dd60bea35ceb3d43"><div class="ttname"><a href="#a4eefdac6604da303dd60bea35ceb3d43">smacc2::ISmaccStateMachine::stateMachineCurrentAction</a></div><div class="ttdeci">std::atomic&lt; StateMachineInternalAction &gt; stateMachineCurrentAction</div><div class="ttdef"><b>Definition</b> <a href="smacc__state__machine_8hpp_source.html#l00235">smacc_state_machine.hpp:235</a></div></div>
-<div class="ttc" id="aclasssmacc2_1_1ISmaccStateMachine_html_af4f58396fd87d4f94299ddb624f154fa"><div class="ttname"><a href="#af4f58396fd87d4f94299ddb624f154fa">smacc2::ISmaccStateMachine::updateStatusMessage</a></div><div class="ttdeci">void updateStatusMessage()</div><div class="ttdef"><b>Definition</b> <a href="smacc__state__machine_8cpp_source.html#l00133">smacc_state_machine.cpp:133</a></div></div>
-<div class="ttc" id="aclasssmacc2_1_1SignalDetector_html_af9a0197754ac252b657a8785ac1ef84d"><div class="ttname"><a href="classsmacc2_1_1SignalDetector.html#af9a0197754ac252b657a8785ac1ef84d">smacc2::SignalDetector::notifyStateConfigured</a></div><div class="ttdeci">void notifyStateConfigured(ISmaccState *currentState)</div><div class="ttdef"><b>Definition</b> <a href="signal__detector_8cpp_source.html#l00205">signal_detector.cpp:205</a></div></div>
+<div class="ttc" id="aclasssmacc2_1_1ISmaccStateMachine_html_af4f58396fd87d4f94299ddb624f154fa"><div class="ttname"><a href="#af4f58396fd87d4f94299ddb624f154fa">smacc2::ISmaccStateMachine::updateStatusMessage</a></div><div class="ttdeci">void updateStatusMessage()</div><div class="ttdef"><b>Definition</b> <a href="smacc__state__machine_8cpp_source.html#l00132">smacc_state_machine.cpp:132</a></div></div>
+<div class="ttc" id="aclasssmacc2_1_1SignalDetector_html_af9a0197754ac252b657a8785ac1ef84d"><div class="ttname"><a href="classsmacc2_1_1SignalDetector.html#af9a0197754ac252b657a8785ac1ef84d">smacc2::SignalDetector::notifyStateConfigured</a></div><div class="ttdeci">void notifyStateConfigured(ISmaccState *currentState)</div><div class="ttdef"><b>Definition</b> <a href="signal__detector_8cpp_source.html#l00199">signal_detector.cpp:199</a></div></div>
 <div class="ttc" id="anamespacesmacc2_html_af13b5c45bc293d2492a93482c86d179faef27ae3e54b805b81e1efacea3c02575"><div class="ttname"><a href="namespacesmacc2.html#af13b5c45bc293d2492a93482c86d179faef27ae3e54b805b81e1efacea3c02575">smacc2::StateMachineInternalAction::STATE_ENTERING</a></div><div class="ttdeci">@ STATE_ENTERING</div></div>
 </div><!-- fragment -->
-<p class="reference">References <a class="el" href="smacc__state__machine_8hpp_source.html#l00215">currentState_</a>, <a class="el" href="smacc__state__machine_8hpp_source.html#l00228">m_mutex_</a>, <a class="el" href="signal__detector_8cpp_source.html#l00205">smacc2::SignalDetector::notifyStateConfigured()</a>, <a class="el" href="smacc__state__machine_8hpp_source.html#l00222">orthogonals_</a>, <a class="el" href="smacc__state__machine_8hpp_source.html#l00253">signalDetector_</a>, <a class="el" href="namespacesmacc2.html#af13b5c45bc293d2492a93482c86d179faef27ae3e54b805b81e1efacea3c02575">smacc2::STATE_ENTERING</a>, <a class="el" href="smacc__state__machine_8hpp_source.html#l00235">stateMachineCurrentAction</a>, and <a class="el" href="smacc__state__machine_8cpp_source.html#l00133">updateStatusMessage()</a>.</p>
+<p class="reference">References <a class="el" href="smacc__state__machine_8hpp_source.html#l00215">currentState_</a>, <a class="el" href="smacc__state__machine_8hpp_source.html#l00228">m_mutex_</a>, <a class="el" href="signal__detector_8cpp_source.html#l00199">smacc2::SignalDetector::notifyStateConfigured()</a>, <a class="el" href="smacc__state__machine_8hpp_source.html#l00222">orthogonals_</a>, <a class="el" href="smacc__state__machine_8hpp_source.html#l00253">signalDetector_</a>, <a class="el" href="namespacesmacc2.html#af13b5c45bc293d2492a93482c86d179faef27ae3e54b805b81e1efacea3c02575">smacc2::STATE_ENTERING</a>, <a class="el" href="smacc__state__machine_8hpp_source.html#l00235">stateMachineCurrentAction</a>, and <a class="el" href="smacc__state__machine_8cpp_source.html#l00132">updateStatusMessage()</a>.</p>
 
 <p class="reference">Referenced by <a class="el" href="smacc__state__base_8hpp_source.html#l00399">smacc2::SmaccState&lt; MostDerived, Context, InnerInitial, historyMode &gt;::entryStateInternal()</a>.</p>
 <div class="dynheader">
@@ -3017,7 +3016,7 @@ template&lt;typename StateType &gt; </div>
 <div class="line"><span class="lineno">  589</span>}</div>
 <div class="ttc" id="anamespacesmacc2_html_af13b5c45bc293d2492a93482c86d179fad8a3bbc9a845117a56f75c0f8e74f09e"><div class="ttname"><a href="namespacesmacc2.html#af13b5c45bc293d2492a93482c86d179fad8a3bbc9a845117a56f75c0f8e74f09e">smacc2::StateMachineInternalAction::STATE_RUNNING</a></div><div class="ttdeci">@ STATE_RUNNING</div></div>
 </div><!-- fragment -->
-<p class="reference">References <a class="el" href="smacc__state__machine_8hpp_source.html#l00215">currentState_</a>, <a class="el" href="introspection_8hpp_source.html#l00093">smacc2::introspection::demangleSymbol()</a>, <a class="el" href="smacc__state__machine_8hpp_source.html#l00187">getLogger()</a>, <a class="el" href="smacc__state__machine_8hpp_source.html#l00228">m_mutex_</a>, <a class="el" href="smacc__state__machine_8hpp_source.html#l00222">orthogonals_</a>, <a class="el" href="namespacesmacc2.html#af13b5c45bc293d2492a93482c86d179fad8a3bbc9a845117a56f75c0f8e74f09e">smacc2::STATE_RUNNING</a>, <a class="el" href="smacc__state__machine_8hpp_source.html#l00235">stateMachineCurrentAction</a>, and <a class="el" href="smacc__state__machine_8cpp_source.html#l00133">updateStatusMessage()</a>.</p>
+<p class="reference">References <a class="el" href="smacc__state__machine_8hpp_source.html#l00215">currentState_</a>, <a class="el" href="introspection_8hpp_source.html#l00093">smacc2::introspection::demangleSymbol()</a>, <a class="el" href="smacc__state__machine_8hpp_source.html#l00187">getLogger()</a>, <a class="el" href="smacc__state__machine_8hpp_source.html#l00228">m_mutex_</a>, <a class="el" href="smacc__state__machine_8hpp_source.html#l00222">orthogonals_</a>, <a class="el" href="namespacesmacc2.html#af13b5c45bc293d2492a93482c86d179fad8a3bbc9a845117a56f75c0f8e74f09e">smacc2::STATE_RUNNING</a>, <a class="el" href="smacc__state__machine_8hpp_source.html#l00235">stateMachineCurrentAction</a>, and <a class="el" href="smacc__state__machine_8cpp_source.html#l00132">updateStatusMessage()</a>.</p>
 
 <p class="reference">Referenced by <a class="el" href="smacc__state__base_8hpp_source.html#l00399">smacc2::SmaccState&lt; MostDerived, Context, InnerInitial, historyMode &gt;::entryStateInternal()</a>.</p>
 <div class="dynheader">
@@ -3212,12 +3211,12 @@ template&lt;typename StateType &gt; </div>
 <div class="line"><span class="lineno">  761</span>  <a class="code hl_variable" href="#a4eefdac6604da303dd60bea35ceb3d43">stateMachineCurrentAction</a> = <a class="code hl_enumvalue" href="namespacesmacc2.html#af13b5c45bc293d2492a93482c86d179fa5e174e130ee1847f37541ba5786207a3">StateMachineInternalAction::TRANSITIONING</a>;</div>
 <div class="line"><span class="lineno">  762</span>  this-&gt;<a class="code hl_function" href="#aa44b10c52d75d14482d23cda7e31b718">unlockStateMachine</a>(<span class="stringliteral">&quot;state exit&quot;</span>);</div>
 <div class="line"><span class="lineno">  763</span>}</div>
-<div class="ttc" id="aclasssmacc2_1_1ISmaccStateMachine_html_a79e82f5c2ff6e8110577b87142ce6989"><div class="ttname"><a href="#a79e82f5c2ff6e8110577b87142ce6989">smacc2::ISmaccStateMachine::lockStateMachine</a></div><div class="ttdeci">void lockStateMachine(std::string msg)</div><div class="ttdef"><b>Definition</b> <a href="smacc__state__machine_8cpp_source.html#l00259">smacc_state_machine.cpp:259</a></div></div>
-<div class="ttc" id="aclasssmacc2_1_1ISmaccStateMachine_html_aa44b10c52d75d14482d23cda7e31b718"><div class="ttname"><a href="#aa44b10c52d75d14482d23cda7e31b718">smacc2::ISmaccStateMachine::unlockStateMachine</a></div><div class="ttdeci">void unlockStateMachine(std::string msg)</div><div class="ttdef"><b>Definition</b> <a href="smacc__state__machine_8cpp_source.html#l00265">smacc_state_machine.cpp:265</a></div></div>
-<div class="ttc" id="aclasssmacc2_1_1SignalDetector_html_a5bba754f0a9e2366034da17501a6b490"><div class="ttname"><a href="classsmacc2_1_1SignalDetector.html#a5bba754f0a9e2366034da17501a6b490">smacc2::SignalDetector::notifyStateExited</a></div><div class="ttdeci">void notifyStateExited(ISmaccState *currentState)</div><div class="ttdef"><b>Definition</b> <a href="signal__detector_8cpp_source.html#l00210">signal_detector.cpp:210</a></div></div>
+<div class="ttc" id="aclasssmacc2_1_1ISmaccStateMachine_html_a79e82f5c2ff6e8110577b87142ce6989"><div class="ttname"><a href="#a79e82f5c2ff6e8110577b87142ce6989">smacc2::ISmaccStateMachine::lockStateMachine</a></div><div class="ttdeci">void lockStateMachine(std::string msg)</div><div class="ttdef"><b>Definition</b> <a href="smacc__state__machine_8cpp_source.html#l00258">smacc_state_machine.cpp:258</a></div></div>
+<div class="ttc" id="aclasssmacc2_1_1ISmaccStateMachine_html_aa44b10c52d75d14482d23cda7e31b718"><div class="ttname"><a href="#aa44b10c52d75d14482d23cda7e31b718">smacc2::ISmaccStateMachine::unlockStateMachine</a></div><div class="ttdeci">void unlockStateMachine(std::string msg)</div><div class="ttdef"><b>Definition</b> <a href="smacc__state__machine_8cpp_source.html#l00264">smacc_state_machine.cpp:264</a></div></div>
+<div class="ttc" id="aclasssmacc2_1_1SignalDetector_html_a5bba754f0a9e2366034da17501a6b490"><div class="ttname"><a href="classsmacc2_1_1SignalDetector.html#a5bba754f0a9e2366034da17501a6b490">smacc2::SignalDetector::notifyStateExited</a></div><div class="ttdeci">void notifyStateExited(ISmaccState *currentState)</div><div class="ttdef"><b>Definition</b> <a href="signal__detector_8cpp_source.html#l00204">signal_detector.cpp:204</a></div></div>
 <div class="ttc" id="anamespacesmacc2_html_af13b5c45bc293d2492a93482c86d179fa5e174e130ee1847f37541ba5786207a3"><div class="ttname"><a href="namespacesmacc2.html#af13b5c45bc293d2492a93482c86d179fa5e174e130ee1847f37541ba5786207a3">smacc2::StateMachineInternalAction::TRANSITIONING</a></div><div class="ttdeci">@ TRANSITIONING</div></div>
 </div><!-- fragment -->
-<p class="reference">References <a class="el" href="smacc__state__machine_8hpp_source.html#l00215">currentState_</a>, <a class="el" href="introspection_8hpp_source.html#l00093">smacc2::introspection::demangleSymbol()</a>, <a class="el" href="smacc__state__machine_8cpp_source.html#l00083">disconnectSmaccSignalObject()</a>, <a class="el" href="smacc__state__machine_8hpp_source.html#l00187">getLogger()</a>, <a class="el" href="smacc__state__machine_8cpp_source.html#l00259">lockStateMachine()</a>, <a class="el" href="signal__detector_8cpp_source.html#l00210">smacc2::SignalDetector::notifyStateExited()</a>, <a class="el" href="smacc__state__machine_8hpp_source.html#l00222">orthogonals_</a>, <a class="el" href="smacc__state__machine_8hpp_source.html#l00253">signalDetector_</a>, <a class="el" href="smacc__state__machine_8hpp_source.html#l00235">stateMachineCurrentAction</a>, <a class="el" href="namespacesmacc2.html#af13b5c45bc293d2492a93482c86d179fa5e174e130ee1847f37541ba5786207a3">smacc2::TRANSITIONING</a>, and <a class="el" href="smacc__state__machine_8cpp_source.html#l00265">unlockStateMachine()</a>.</p>
+<p class="reference">References <a class="el" href="smacc__state__machine_8hpp_source.html#l00215">currentState_</a>, <a class="el" href="introspection_8hpp_source.html#l00093">smacc2::introspection::demangleSymbol()</a>, <a class="el" href="smacc__state__machine_8cpp_source.html#l00082">disconnectSmaccSignalObject()</a>, <a class="el" href="smacc__state__machine_8hpp_source.html#l00187">getLogger()</a>, <a class="el" href="smacc__state__machine_8cpp_source.html#l00258">lockStateMachine()</a>, <a class="el" href="signal__detector_8cpp_source.html#l00204">smacc2::SignalDetector::notifyStateExited()</a>, <a class="el" href="smacc__state__machine_8hpp_source.html#l00222">orthogonals_</a>, <a class="el" href="smacc__state__machine_8hpp_source.html#l00253">signalDetector_</a>, <a class="el" href="smacc__state__machine_8hpp_source.html#l00235">stateMachineCurrentAction</a>, <a class="el" href="namespacesmacc2.html#af13b5c45bc293d2492a93482c86d179fa5e174e130ee1847f37541ba5786207a3">smacc2::TRANSITIONING</a>, and <a class="el" href="smacc__state__machine_8cpp_source.html#l00264">unlockStateMachine()</a>.</p>
 
 <p class="reference">Referenced by <a class="el" href="smacc__state__base_8hpp_source.html#l00112">smacc2::SmaccState&lt; MostDerived, Context, InnerInitial, historyMode &gt;::exit()</a>.</p>
 <div class="dynheader">
@@ -3386,8 +3385,8 @@ Here is the caller graph for this function:</div>
 
 <p>this function should be implemented by the user to create the orthogonals </p>
 
-<p class="definition">Definition at line <a class="el" href="smacc__state__machine_8cpp_source.html#l00188">188</a> of file <a class="el" href="smacc__state__machine_8cpp_source.html">smacc_state_machine.cpp</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">  188</span>{}</div>
+<p class="definition">Definition at line <a class="el" href="smacc__state__machine_8cpp_source.html#l00187">187</a> of file <a class="el" href="smacc__state__machine_8cpp_source.html">smacc_state_machine.cpp</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">  187</span>{}</div>
 </div><!-- fragment -->
 <p class="reference">Referenced by <a class="el" href="smacc__state__machine__base_8hpp_source.html#l00067">smacc2::SmaccStateMachineBase&lt; DerivedStateMachine, InitialStateType &gt;::initiate_impl()</a>.</p>
 <div class="dynheader">
@@ -3426,16 +3425,16 @@ Here is the caller graph for this function:</div>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="smacc__state__machine_8cpp_source.html#l00190">190</a> of file <a class="el" href="smacc__state__machine_8cpp_source.html">smacc_state_machine.cpp</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">  191</span>{</div>
-<div class="line"><span class="lineno">  192</span>  <span class="keyword">auto</span> ros_clock = rclcpp::Clock::make_shared();</div>
-<div class="line"><span class="lineno">  193</span>  <a class="code hl_variable" href="#ab60e7438f1c8823a61972f069bf266ed">timer_</a> =</div>
-<div class="line"><span class="lineno">  194</span>    rclcpp::create_timer(<a class="code hl_variable" href="#a8b441209151e301f66e62844994946ff">nh_</a>, ros_clock, 0.5s, [<span class="keyword">this</span>]() { this-&gt;<a class="code hl_function" href="#ae26457963398831232033d3054bc94c7">state_machine_visualization</a>(); });</div>
-<div class="line"><span class="lineno">  195</span>}</div>
+<p class="definition">Definition at line <a class="el" href="smacc__state__machine_8cpp_source.html#l00189">189</a> of file <a class="el" href="smacc__state__machine_8cpp_source.html">smacc_state_machine.cpp</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">  190</span>{</div>
+<div class="line"><span class="lineno">  191</span>  <span class="keyword">auto</span> ros_clock = rclcpp::Clock::make_shared();</div>
+<div class="line"><span class="lineno">  192</span>  <a class="code hl_variable" href="#ab60e7438f1c8823a61972f069bf266ed">timer_</a> =</div>
+<div class="line"><span class="lineno">  193</span>    rclcpp::create_timer(<a class="code hl_variable" href="#a8b441209151e301f66e62844994946ff">nh_</a>, ros_clock, 0.5s, [<span class="keyword">this</span>]() { this-&gt;<a class="code hl_function" href="#ae26457963398831232033d3054bc94c7">state_machine_visualization</a>(); });</div>
+<div class="line"><span class="lineno">  194</span>}</div>
 <div class="ttc" id="aclasssmacc2_1_1ISmaccStateMachine_html_ab60e7438f1c8823a61972f069bf266ed"><div class="ttname"><a href="#ab60e7438f1c8823a61972f069bf266ed">smacc2::ISmaccStateMachine::timer_</a></div><div class="ttdeci">rclcpp::TimerBase::SharedPtr timer_</div><div class="ttdef"><b>Definition</b> <a href="smacc__state__machine_8hpp_source.html#l00204">smacc_state_machine.hpp:204</a></div></div>
-<div class="ttc" id="aclasssmacc2_1_1ISmaccStateMachine_html_ae26457963398831232033d3054bc94c7"><div class="ttname"><a href="#ae26457963398831232033d3054bc94c7">smacc2::ISmaccStateMachine::state_machine_visualization</a></div><div class="ttdeci">void state_machine_visualization()</div><div class="ttdef"><b>Definition</b> <a href="smacc__state__machine_8cpp_source.html#l00243">smacc_state_machine.cpp:243</a></div></div>
+<div class="ttc" id="aclasssmacc2_1_1ISmaccStateMachine_html_ae26457963398831232033d3054bc94c7"><div class="ttname"><a href="#ae26457963398831232033d3054bc94c7">smacc2::ISmaccStateMachine::state_machine_visualization</a></div><div class="ttdeci">void state_machine_visualization()</div><div class="ttdef"><b>Definition</b> <a href="smacc__state__machine_8cpp_source.html#l00242">smacc_state_machine.cpp:242</a></div></div>
 </div><!-- fragment -->
-<p class="reference">References <a class="el" href="smacc__state__machine_8hpp_source.html#l00202">nh_</a>, <a class="el" href="smacc__state__machine_8cpp_source.html#l00243">state_machine_visualization()</a>, and <a class="el" href="smacc__state__machine_8hpp_source.html#l00204">timer_</a>.</p>
+<p class="reference">References <a class="el" href="smacc__state__machine_8hpp_source.html#l00202">nh_</a>, <a class="el" href="smacc__state__machine_8cpp_source.html#l00242">state_machine_visualization()</a>, and <a class="el" href="smacc__state__machine_8hpp_source.html#l00204">timer_</a>.</p>
 
 <p class="reference">Referenced by <a class="el" href="smacc__state__machine__base_8hpp_source.html#l00067">smacc2::SmaccStateMachineBase&lt; DerivedStateMachine, InitialStateType &gt;::initiate_impl()</a>.</p>
 <div class="dynheader">
@@ -4027,23 +4026,23 @@ Here is the caller graph for this function:</div>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="smacc__state__machine_8cpp_source.html#l00170">170</a> of file <a class="el" href="smacc__state__machine_8cpp_source.html">smacc_state_machine.cpp</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">  171</span>{</div>
-<div class="line"><span class="lineno">  172</span>  smacc2_msgs::msg::SmaccTransitionLogEntry transitionLogEntry;</div>
-<div class="line"><span class="lineno">  173</span>  transitionLogEntry.timestamp = this-&gt;<a class="code hl_variable" href="#a8b441209151e301f66e62844994946ff">nh_</a>-&gt;now();</div>
-<div class="line"><span class="lineno">  174</span>  <a class="code hl_function" href="namespacesmacc2_1_1introspection.html#aff63647843caf0176c8dac4c8cbfd04f">transitionInfoToMsg</a>(transitionInfo, transitionLogEntry.transition);</div>
-<div class="line"><span class="lineno">  175</span>  {</div>
-<div class="line"><span class="lineno">  176</span>    <span class="comment">// Bounded: the vector this used to be grew 1 KB per transition for the life of the process (X).</span></div>
-<div class="line"><span class="lineno">  177</span>    std::lock_guard&lt;std::mutex&gt; guard(<a class="code hl_variable" href="#ad06a71331e822958685220f907cc6439">transitionLogMutex_</a>);</div>
-<div class="line"><span class="lineno">  178</span>    this-&gt;<a class="code hl_variable" href="#a31c0b4f7705928c6a07d6cca3c8c5cb2">transitionLogHistory_</a>.push_back(transitionLogEntry);</div>
-<div class="line"><span class="lineno">  179</span>    <span class="keywordflow">while</span> (this-&gt;<a class="code hl_variable" href="#a31c0b4f7705928c6a07d6cca3c8c5cb2">transitionLogHistory_</a>.size() &gt; <a class="code hl_variable" href="#a94d1383da3bdbb7a5da633c2fdfe36bc">transitionLogHistorySize_</a>)</div>
-<div class="line"><span class="lineno">  180</span>    {</div>
-<div class="line"><span class="lineno">  181</span>      this-&gt;<a class="code hl_variable" href="#a31c0b4f7705928c6a07d6cca3c8c5cb2">transitionLogHistory_</a>.pop_front();</div>
-<div class="line"><span class="lineno">  182</span>    }</div>
-<div class="line"><span class="lineno">  183</span>  }</div>
-<div class="line"><span class="lineno">  184</span> </div>
-<div class="line"><span class="lineno">  185</span>  <a class="code hl_variable" href="#ab73d97a7f4dfb7f05c2d7599b55afe47">transitionLogPub_</a>-&gt;publish(transitionLogEntry);</div>
-<div class="line"><span class="lineno">  186</span>}</div>
+<p class="definition">Definition at line <a class="el" href="smacc__state__machine_8cpp_source.html#l00169">169</a> of file <a class="el" href="smacc__state__machine_8cpp_source.html">smacc_state_machine.cpp</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">  170</span>{</div>
+<div class="line"><span class="lineno">  171</span>  smacc2_msgs::msg::SmaccTransitionLogEntry transitionLogEntry;</div>
+<div class="line"><span class="lineno">  172</span>  transitionLogEntry.timestamp = this-&gt;<a class="code hl_variable" href="#a8b441209151e301f66e62844994946ff">nh_</a>-&gt;now();</div>
+<div class="line"><span class="lineno">  173</span>  <a class="code hl_function" href="namespacesmacc2_1_1introspection.html#aff63647843caf0176c8dac4c8cbfd04f">transitionInfoToMsg</a>(transitionInfo, transitionLogEntry.transition);</div>
+<div class="line"><span class="lineno">  174</span>  {</div>
+<div class="line"><span class="lineno">  175</span>    <span class="comment">// Bounded: the vector this used to be grew 1 KB per transition for the life of the process (X).</span></div>
+<div class="line"><span class="lineno">  176</span>    std::lock_guard&lt;std::mutex&gt; guard(<a class="code hl_variable" href="#ad06a71331e822958685220f907cc6439">transitionLogMutex_</a>);</div>
+<div class="line"><span class="lineno">  177</span>    this-&gt;<a class="code hl_variable" href="#a31c0b4f7705928c6a07d6cca3c8c5cb2">transitionLogHistory_</a>.push_back(transitionLogEntry);</div>
+<div class="line"><span class="lineno">  178</span>    <span class="keywordflow">while</span> (this-&gt;<a class="code hl_variable" href="#a31c0b4f7705928c6a07d6cca3c8c5cb2">transitionLogHistory_</a>.size() &gt; <a class="code hl_variable" href="#a94d1383da3bdbb7a5da633c2fdfe36bc">transitionLogHistorySize_</a>)</div>
+<div class="line"><span class="lineno">  179</span>    {</div>
+<div class="line"><span class="lineno">  180</span>      this-&gt;<a class="code hl_variable" href="#a31c0b4f7705928c6a07d6cca3c8c5cb2">transitionLogHistory_</a>.pop_front();</div>
+<div class="line"><span class="lineno">  181</span>    }</div>
+<div class="line"><span class="lineno">  182</span>  }</div>
+<div class="line"><span class="lineno">  183</span> </div>
+<div class="line"><span class="lineno">  184</span>  <a class="code hl_variable" href="#ab73d97a7f4dfb7f05c2d7599b55afe47">transitionLogPub_</a>-&gt;publish(transitionLogEntry);</div>
+<div class="line"><span class="lineno">  185</span>}</div>
 <div class="ttc" id="anamespacesmacc2_1_1introspection_html_aff63647843caf0176c8dac4c8cbfd04f"><div class="ttname"><a href="namespacesmacc2_1_1introspection.html#aff63647843caf0176c8dac4c8cbfd04f">smacc2::introspection::transitionInfoToMsg</a></div><div class="ttdeci">void transitionInfoToMsg(const SmaccTransitionInfo &amp;transition, smacc2_msgs::msg::SmaccTransition &amp;transitionMsg)</div><div class="ttdef"><b>Definition</b> <a href="reflection_8cpp_source.html#l00030">reflection.cpp:30</a></div></div>
 </div><!-- fragment -->
 <p class="reference">References <a class="el" href="smacc__state__machine_8hpp_source.html#l00202">nh_</a>, <a class="el" href="reflection_8cpp_source.html#l00030">smacc2::introspection::transitionInfoToMsg()</a>, <a class="el" href="smacc__state__machine_8hpp_source.html#l00246">transitionLogHistory_</a>, <a class="el" href="smacc__state__machine_8hpp_source.html#l00248">transitionLogHistorySize_</a>, <a class="el" href="smacc__state__machine_8hpp_source.html#l00247">transitionLogMutex_</a>, and <a class="el" href="smacc__state__machine_8hpp_source.html#l00207">transitionLogPub_</a>.</p>
@@ -4383,8 +4382,8 @@ Here is the call graph for this function:</div>
 
 <p>Reimplemented in <a class="el" href="structsmacc2_1_1SmaccStateMachineBase.html#a95f28ac45b64124d5fe40069758bc072">smacc2::SmaccStateMachineBase&lt; DerivedStateMachine, InitialStateType &gt;</a>.</p>
 
-<p class="definition">Definition at line <a class="el" href="smacc__state__machine_8cpp_source.html#l00101">101</a> of file <a class="el" href="smacc__state__machine_8cpp_source.html">smacc_state_machine.cpp</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">  101</span>{}</div>
+<p class="definition">Definition at line <a class="el" href="smacc__state__machine_8cpp_source.html#l00100">100</a> of file <a class="el" href="smacc__state__machine_8cpp_source.html">smacc_state_machine.cpp</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">  100</span>{}</div>
 </div><!-- fragment -->
 <p class="reference">Referenced by <a class="el" href="smacc__state__machine__base_8hpp_source.html#l00048">smacc2::SmaccStateMachineBase&lt; DerivedStateMachine, InitialStateType &gt;::reset()</a>.</p>
 <div class="dynheader">
@@ -4441,7 +4440,7 @@ template&lt;typename T &gt; </div>
 <div class="line"><span class="lineno">  318</span>  this-&gt;<a class="code hl_function" href="#af4f58396fd87d4f94299ddb624f154fa">updateStatusMessage</a>();</div>
 <div class="line"><span class="lineno">  319</span>}</div>
 </div><!-- fragment -->
-<p class="reference">References <a class="el" href="smacc__state__machine_8hpp_source.html#l00241">globalData_</a>, <a class="el" href="smacc__state__machine_8hpp_source.html#l00228">m_mutex_</a>, and <a class="el" href="smacc__state__machine_8cpp_source.html#l00133">updateStatusMessage()</a>.</p>
+<p class="reference">References <a class="el" href="smacc__state__machine_8hpp_source.html#l00241">globalData_</a>, <a class="el" href="smacc__state__machine_8hpp_source.html#l00228">m_mutex_</a>, and <a class="el" href="smacc__state__machine_8cpp_source.html#l00132">updateStatusMessage()</a>.</p>
 
 <p class="reference">Referenced by <a class="el" href="smacc__orthogonal__impl_8hpp_source.html#l00121">smacc2::ISmaccOrthogonal::setGlobalSMData()</a>, and <a class="el" href="smacc__state__impl_8hpp_source.html#l00108">smacc2::ISmaccState::setGlobalSMData()</a>.</p>
 <div class="dynheader">
@@ -4484,26 +4483,26 @@ Here is the caller graph for this function:</div>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="smacc__state__machine_8cpp_source.html#l00243">243</a> of file <a class="el" href="smacc__state__machine_8cpp_source.html">smacc_state_machine.cpp</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">  244</span>{</div>
-<div class="line"><span class="lineno">  245</span>  std::lock_guard&lt;std::recursive_mutex&gt; lock(<a class="code hl_variable" href="#a5c3c7701e263d0dda0a1a4d74a4217c0">m_mutex_</a>);</div>
-<div class="line"><span class="lineno">  246</span> </div>
-<div class="line"><span class="lineno">  247</span>  smacc2_msgs::msg::SmaccStateMachine state_machine_msg;</div>
-<div class="line"><span class="lineno">  248</span>  state_machine_msg.states = <a class="code hl_variable" href="#ae4156760ffcfaad1fe5ccd685d850d3c">stateMachineInfo_</a>-&gt;stateMsgs;</div>
-<div class="line"><span class="lineno">  249</span> </div>
-<div class="line"><span class="lineno">  250</span>  std::sort(</div>
-<div class="line"><span class="lineno">  251</span>    state_machine_msg.states.begin(), state_machine_msg.states.end(),</div>
-<div class="line"><span class="lineno">  252</span>    [](<span class="keyword">auto</span> &amp; a, <span class="keyword">auto</span> &amp; b) { return a.index &lt; b.index; });</div>
-<div class="line"><span class="lineno">  253</span>  <a class="code hl_variable" href="#a27836343c7e1c3efd339a30305e465a7">stateMachinePub_</a>-&gt;publish(state_machine_msg);</div>
-<div class="line"><span class="lineno">  254</span> </div>
-<div class="line"><span class="lineno">  255</span>  <a class="code hl_variable" href="#adbc25bce965af4e74f262ec1b9e2dc55">status_msg_</a>.header.stamp = this-&gt;<a class="code hl_variable" href="#a8b441209151e301f66e62844994946ff">nh_</a>-&gt;now();</div>
-<div class="line"><span class="lineno">  256</span>  <a class="code hl_variable" href="#a6267edbd9d853218f12808465f65463d">stateMachineStatusPub_</a>-&gt;publish(<a class="code hl_variable" href="#adbc25bce965af4e74f262ec1b9e2dc55">status_msg_</a>);</div>
-<div class="line"><span class="lineno">  257</span>}</div>
+<p class="definition">Definition at line <a class="el" href="smacc__state__machine_8cpp_source.html#l00242">242</a> of file <a class="el" href="smacc__state__machine_8cpp_source.html">smacc_state_machine.cpp</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">  243</span>{</div>
+<div class="line"><span class="lineno">  244</span>  std::lock_guard&lt;std::recursive_mutex&gt; lock(<a class="code hl_variable" href="#a5c3c7701e263d0dda0a1a4d74a4217c0">m_mutex_</a>);</div>
+<div class="line"><span class="lineno">  245</span> </div>
+<div class="line"><span class="lineno">  246</span>  smacc2_msgs::msg::SmaccStateMachine state_machine_msg;</div>
+<div class="line"><span class="lineno">  247</span>  state_machine_msg.states = <a class="code hl_variable" href="#ae4156760ffcfaad1fe5ccd685d850d3c">stateMachineInfo_</a>-&gt;stateMsgs;</div>
+<div class="line"><span class="lineno">  248</span> </div>
+<div class="line"><span class="lineno">  249</span>  std::sort(</div>
+<div class="line"><span class="lineno">  250</span>    state_machine_msg.states.begin(), state_machine_msg.states.end(),</div>
+<div class="line"><span class="lineno">  251</span>    [](<span class="keyword">auto</span> &amp; a, <span class="keyword">auto</span> &amp; b) { return a.index &lt; b.index; });</div>
+<div class="line"><span class="lineno">  252</span>  <a class="code hl_variable" href="#a27836343c7e1c3efd339a30305e465a7">stateMachinePub_</a>-&gt;publish(state_machine_msg);</div>
+<div class="line"><span class="lineno">  253</span> </div>
+<div class="line"><span class="lineno">  254</span>  <a class="code hl_variable" href="#adbc25bce965af4e74f262ec1b9e2dc55">status_msg_</a>.header.stamp = this-&gt;<a class="code hl_variable" href="#a8b441209151e301f66e62844994946ff">nh_</a>-&gt;now();</div>
+<div class="line"><span class="lineno">  255</span>  <a class="code hl_variable" href="#a6267edbd9d853218f12808465f65463d">stateMachineStatusPub_</a>-&gt;publish(<a class="code hl_variable" href="#adbc25bce965af4e74f262ec1b9e2dc55">status_msg_</a>);</div>
+<div class="line"><span class="lineno">  256</span>}</div>
 <div class="ttc" id="aclasssmacc2_1_1ISmaccStateMachine_html_adbc25bce965af4e74f262ec1b9e2dc55"><div class="ttname"><a href="#adbc25bce965af4e74f262ec1b9e2dc55">smacc2::ISmaccStateMachine::status_msg_</a></div><div class="ttdeci">smacc2_msgs::msg::SmaccStatus status_msg_</div><div class="ttdef"><b>Definition</b> <a href="smacc__state__machine_8hpp_source.html#l00219">smacc_state_machine.hpp:219</a></div></div>
 </div><!-- fragment -->
 <p class="reference">References <a class="el" href="smacc__state__machine_8hpp_source.html#l00228">m_mutex_</a>, <a class="el" href="smacc__state__machine_8hpp_source.html#l00202">nh_</a>, <a class="el" href="smacc__state__machine_8hpp_source.html#l00225">stateMachineInfo_</a>, <a class="el" href="smacc__state__machine_8hpp_source.html#l00205">stateMachinePub_</a>, <a class="el" href="smacc__state__machine_8hpp_source.html#l00206">stateMachineStatusPub_</a>, and <a class="el" href="smacc__state__machine_8hpp_source.html#l00219">status_msg_</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="smacc__state__machine_8cpp_source.html#l00190">onInitialized()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="smacc__state__machine_8cpp_source.html#l00189">onInitialized()</a>.</p>
 <div class="dynheader">
 Here is the caller graph for this function:</div>
 <div class="dyncontent">
@@ -4544,8 +4543,8 @@ Here is the caller graph for this function:</div>
 
 <p>Reimplemented in <a class="el" href="structsmacc2_1_1SmaccStateMachineBase.html#ab67f99b7c2cbe021f1adb0ed95d3c364">smacc2::SmaccStateMachineBase&lt; DerivedStateMachine, InitialStateType &gt;</a>.</p>
 
-<p class="definition">Definition at line <a class="el" href="smacc__state__machine_8cpp_source.html#l00103">103</a> of file <a class="el" href="smacc__state__machine_8cpp_source.html">smacc_state_machine.cpp</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">  103</span>{}</div>
+<p class="definition">Definition at line <a class="el" href="smacc__state__machine_8cpp_source.html#l00102">102</a> of file <a class="el" href="smacc__state__machine_8cpp_source.html">smacc_state_machine.cpp</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">  102</span>{}</div>
 </div><!-- fragment -->
 <p class="reference">Referenced by <a class="el" href="smacc__state__machine__base_8hpp_source.html#l00055">smacc2::SmaccStateMachineBase&lt; DerivedStateMachine, InitialStateType &gt;::stop()</a>.</p>
 <div class="dynheader">
@@ -4584,11 +4583,11 @@ Here is the caller graph for this function:</div>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="smacc__state__machine_8cpp_source.html#l00265">265</a> of file <a class="el" href="smacc__state__machine_8cpp_source.html">smacc_state_machine.cpp</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">  266</span>{</div>
-<div class="line"><span class="lineno">  267</span>  RCLCPP_DEBUG(<a class="code hl_variable" href="#a8b441209151e301f66e62844994946ff">nh_</a>-&gt;get_logger(), <span class="stringliteral">&quot;-- unlocking SM: %s&quot;</span>, msg.c_str());</div>
-<div class="line"><span class="lineno">  268</span>  <a class="code hl_variable" href="#a5c3c7701e263d0dda0a1a4d74a4217c0">m_mutex_</a>.unlock();</div>
-<div class="line"><span class="lineno">  269</span>}</div>
+<p class="definition">Definition at line <a class="el" href="smacc__state__machine_8cpp_source.html#l00264">264</a> of file <a class="el" href="smacc__state__machine_8cpp_source.html">smacc_state_machine.cpp</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">  265</span>{</div>
+<div class="line"><span class="lineno">  266</span>  RCLCPP_DEBUG(<a class="code hl_variable" href="#a8b441209151e301f66e62844994946ff">nh_</a>-&gt;get_logger(), <span class="stringliteral">&quot;-- unlocking SM: %s&quot;</span>, msg.c_str());</div>
+<div class="line"><span class="lineno">  267</span>  <a class="code hl_variable" href="#a5c3c7701e263d0dda0a1a4d74a4217c0">m_mutex_</a>.unlock();</div>
+<div class="line"><span class="lineno">  268</span>}</div>
 </div><!-- fragment -->
 <p class="reference">References <a class="el" href="smacc__state__machine_8hpp_source.html#l00228">m_mutex_</a>, and <a class="el" href="smacc__state__machine_8hpp_source.html#l00202">nh_</a>.</p>
 
@@ -4631,42 +4630,42 @@ Here is the caller graph for this function:</div>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="smacc__state__machine_8cpp_source.html#l00133">133</a> of file <a class="el" href="smacc__state__machine_8cpp_source.html">smacc_state_machine.cpp</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">  134</span>{</div>
-<div class="line"><span class="lineno">  135</span>  std::lock_guard&lt;std::recursive_mutex&gt; lock(<a class="code hl_variable" href="#a5c3c7701e263d0dda0a1a4d74a4217c0">m_mutex_</a>);</div>
-<div class="line"><span class="lineno">  136</span> </div>
-<div class="line"><span class="lineno">  137</span>  <span class="keywordflow">if</span> (<a class="code hl_variable" href="#a2a3a7b822ebda2458d335bd7a8aa582b">currentStateInfo_</a> != <span class="keyword">nullptr</span>)</div>
-<div class="line"><span class="lineno">  138</span>  {</div>
-<div class="line"><span class="lineno">  139</span>    RCLCPP_WARN_STREAM(</div>
-<div class="line"><span class="lineno">  140</span>      <a class="code hl_variable" href="#a8b441209151e301f66e62844994946ff">nh_</a>-&gt;get_logger(),</div>
-<div class="line"><span class="lineno">  141</span>      <span class="stringliteral">&quot;[StateMachine] Setting state active: &quot;</span> &lt;&lt; <a class="code hl_variable" href="#a2a3a7b822ebda2458d335bd7a8aa582b">currentStateInfo_</a>-&gt;getFullPath());</div>
-<div class="line"><span class="lineno">  142</span> </div>
-<div class="line"><span class="lineno">  143</span>    <span class="keywordflow">if</span> (<a class="code hl_variable" href="#a0391578b8ec4dbbe1c4a93f2905d59f1">runMode_</a> == <a class="code hl_enumvalue" href="namespacesmacc2.html#a7322c034df3cc8d5a5d8f0fc7737fc2eadc30ec20708ef7b0f641ef78b7880a15">SMRunMode::DEBUG</a>)</div>
-<div class="line"><span class="lineno">  144</span>    {</div>
-<div class="line"><span class="lineno">  145</span>      <a class="code hl_variable" href="#adbc25bce965af4e74f262ec1b9e2dc55">status_msg_</a>.current_states.clear();</div>
-<div class="line"><span class="lineno">  146</span>      std::list&lt;const SmaccStateInfo *&gt; ancestorList;</div>
-<div class="line"><span class="lineno">  147</span>      <a class="code hl_variable" href="#a2a3a7b822ebda2458d335bd7a8aa582b">currentStateInfo_</a>-&gt;getAncestors(ancestorList);</div>
-<div class="line"><span class="lineno">  148</span> </div>
-<div class="line"><span class="lineno">  149</span>      <span class="keywordflow">for</span> (<span class="keyword">auto</span> &amp; ancestor : ancestorList)</div>
-<div class="line"><span class="lineno">  150</span>      {</div>
-<div class="line"><span class="lineno">  151</span>        <a class="code hl_variable" href="#adbc25bce965af4e74f262ec1b9e2dc55">status_msg_</a>.current_states.push_back(ancestor-&gt;toShortName());</div>
-<div class="line"><span class="lineno">  152</span>      }</div>
-<div class="line"><span class="lineno">  153</span> </div>
-<div class="line"><span class="lineno">  154</span>      <a class="code hl_variable" href="#adbc25bce965af4e74f262ec1b9e2dc55">status_msg_</a>.global_variable_names.clear();</div>
-<div class="line"><span class="lineno">  155</span>      <a class="code hl_variable" href="#adbc25bce965af4e74f262ec1b9e2dc55">status_msg_</a>.global_variable_values.clear();</div>
-<div class="line"><span class="lineno">  156</span> </div>
-<div class="line"><span class="lineno">  157</span>      <span class="keywordflow">for</span> (<span class="keyword">auto</span> entry : this-&gt;<a class="code hl_variable" href="#a2d3dad66888a8e17a49f7fbf66175816">globalData_</a>)</div>
-<div class="line"><span class="lineno">  158</span>      {</div>
-<div class="line"><span class="lineno">  159</span>        <a class="code hl_variable" href="#adbc25bce965af4e74f262ec1b9e2dc55">status_msg_</a>.global_variable_names.push_back(entry.first);</div>
-<div class="line"><span class="lineno">  160</span>        <a class="code hl_variable" href="#adbc25bce965af4e74f262ec1b9e2dc55">status_msg_</a>.global_variable_values.push_back(</div>
-<div class="line"><span class="lineno">  161</span>          entry.second.first());  <span class="comment">// &lt;- invoke to_string()</span></div>
-<div class="line"><span class="lineno">  162</span>      }</div>
-<div class="line"><span class="lineno">  163</span> </div>
-<div class="line"><span class="lineno">  164</span>      <a class="code hl_variable" href="#adbc25bce965af4e74f262ec1b9e2dc55">status_msg_</a>.header.stamp = this-&gt;<a class="code hl_variable" href="#a8b441209151e301f66e62844994946ff">nh_</a>-&gt;now();</div>
-<div class="line"><span class="lineno">  165</span>      <a class="code hl_variable" href="#a6267edbd9d853218f12808465f65463d">stateMachineStatusPub_</a>-&gt;publish(<a class="code hl_variable" href="#adbc25bce965af4e74f262ec1b9e2dc55">status_msg_</a>);</div>
-<div class="line"><span class="lineno">  166</span>    }</div>
-<div class="line"><span class="lineno">  167</span>  }</div>
-<div class="line"><span class="lineno">  168</span>}</div>
+<p class="definition">Definition at line <a class="el" href="smacc__state__machine_8cpp_source.html#l00132">132</a> of file <a class="el" href="smacc__state__machine_8cpp_source.html">smacc_state_machine.cpp</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">  133</span>{</div>
+<div class="line"><span class="lineno">  134</span>  std::lock_guard&lt;std::recursive_mutex&gt; lock(<a class="code hl_variable" href="#a5c3c7701e263d0dda0a1a4d74a4217c0">m_mutex_</a>);</div>
+<div class="line"><span class="lineno">  135</span> </div>
+<div class="line"><span class="lineno">  136</span>  <span class="keywordflow">if</span> (<a class="code hl_variable" href="#a2a3a7b822ebda2458d335bd7a8aa582b">currentStateInfo_</a> != <span class="keyword">nullptr</span>)</div>
+<div class="line"><span class="lineno">  137</span>  {</div>
+<div class="line"><span class="lineno">  138</span>    RCLCPP_WARN_STREAM(</div>
+<div class="line"><span class="lineno">  139</span>      <a class="code hl_variable" href="#a8b441209151e301f66e62844994946ff">nh_</a>-&gt;get_logger(),</div>
+<div class="line"><span class="lineno">  140</span>      <span class="stringliteral">&quot;[StateMachine] Setting state active: &quot;</span> &lt;&lt; <a class="code hl_variable" href="#a2a3a7b822ebda2458d335bd7a8aa582b">currentStateInfo_</a>-&gt;getFullPath());</div>
+<div class="line"><span class="lineno">  141</span> </div>
+<div class="line"><span class="lineno">  142</span>    <span class="keywordflow">if</span> (<a class="code hl_variable" href="#a0391578b8ec4dbbe1c4a93f2905d59f1">runMode_</a> == <a class="code hl_enumvalue" href="namespacesmacc2.html#a7322c034df3cc8d5a5d8f0fc7737fc2eadc30ec20708ef7b0f641ef78b7880a15">SMRunMode::DEBUG</a>)</div>
+<div class="line"><span class="lineno">  143</span>    {</div>
+<div class="line"><span class="lineno">  144</span>      <a class="code hl_variable" href="#adbc25bce965af4e74f262ec1b9e2dc55">status_msg_</a>.current_states.clear();</div>
+<div class="line"><span class="lineno">  145</span>      std::list&lt;const SmaccStateInfo *&gt; ancestorList;</div>
+<div class="line"><span class="lineno">  146</span>      <a class="code hl_variable" href="#a2a3a7b822ebda2458d335bd7a8aa582b">currentStateInfo_</a>-&gt;getAncestors(ancestorList);</div>
+<div class="line"><span class="lineno">  147</span> </div>
+<div class="line"><span class="lineno">  148</span>      <span class="keywordflow">for</span> (<span class="keyword">auto</span> &amp; ancestor : ancestorList)</div>
+<div class="line"><span class="lineno">  149</span>      {</div>
+<div class="line"><span class="lineno">  150</span>        <a class="code hl_variable" href="#adbc25bce965af4e74f262ec1b9e2dc55">status_msg_</a>.current_states.push_back(ancestor-&gt;toShortName());</div>
+<div class="line"><span class="lineno">  151</span>      }</div>
+<div class="line"><span class="lineno">  152</span> </div>
+<div class="line"><span class="lineno">  153</span>      <a class="code hl_variable" href="#adbc25bce965af4e74f262ec1b9e2dc55">status_msg_</a>.global_variable_names.clear();</div>
+<div class="line"><span class="lineno">  154</span>      <a class="code hl_variable" href="#adbc25bce965af4e74f262ec1b9e2dc55">status_msg_</a>.global_variable_values.clear();</div>
+<div class="line"><span class="lineno">  155</span> </div>
+<div class="line"><span class="lineno">  156</span>      <span class="keywordflow">for</span> (<span class="keyword">auto</span> entry : this-&gt;<a class="code hl_variable" href="#a2d3dad66888a8e17a49f7fbf66175816">globalData_</a>)</div>
+<div class="line"><span class="lineno">  157</span>      {</div>
+<div class="line"><span class="lineno">  158</span>        <a class="code hl_variable" href="#adbc25bce965af4e74f262ec1b9e2dc55">status_msg_</a>.global_variable_names.push_back(entry.first);</div>
+<div class="line"><span class="lineno">  159</span>        <a class="code hl_variable" href="#adbc25bce965af4e74f262ec1b9e2dc55">status_msg_</a>.global_variable_values.push_back(</div>
+<div class="line"><span class="lineno">  160</span>          entry.second.first());  <span class="comment">// &lt;- invoke to_string()</span></div>
+<div class="line"><span class="lineno">  161</span>      }</div>
+<div class="line"><span class="lineno">  162</span> </div>
+<div class="line"><span class="lineno">  163</span>      <a class="code hl_variable" href="#adbc25bce965af4e74f262ec1b9e2dc55">status_msg_</a>.header.stamp = this-&gt;<a class="code hl_variable" href="#a8b441209151e301f66e62844994946ff">nh_</a>-&gt;now();</div>
+<div class="line"><span class="lineno">  164</span>      <a class="code hl_variable" href="#a6267edbd9d853218f12808465f65463d">stateMachineStatusPub_</a>-&gt;publish(<a class="code hl_variable" href="#adbc25bce965af4e74f262ec1b9e2dc55">status_msg_</a>);</div>
+<div class="line"><span class="lineno">  165</span>    }</div>
+<div class="line"><span class="lineno">  166</span>  }</div>
+<div class="line"><span class="lineno">  167</span>}</div>
 </div><!-- fragment -->
 <p class="reference">References <a class="el" href="smacc__state__machine_8hpp_source.html#l00217">currentStateInfo_</a>, <a class="el" href="namespacesmacc2.html#a7322c034df3cc8d5a5d8f0fc7737fc2eadc30ec20708ef7b0f641ef78b7880a15">smacc2::DEBUG</a>, <a class="el" href="smacc__state__machine_8hpp_source.html#l00241">globalData_</a>, <a class="el" href="smacc__state__machine_8hpp_source.html#l00228">m_mutex_</a>, <a class="el" href="smacc__state__machine_8hpp_source.html#l00202">nh_</a>, <a class="el" href="smacc__state__machine_8hpp_source.html#l00250">runMode_</a>, <a class="el" href="smacc__state__machine_8hpp_source.html#l00206">stateMachineStatusPub_</a>, and <a class="el" href="smacc__state__machine_8hpp_source.html#l00219">status_msg_</a>.</p>
 
@@ -4793,7 +4792,7 @@ Here is the caller graph for this function:</div>
 
 <p class="definition">Definition at line <a class="el" href="smacc__state__machine_8hpp_source.html#l00217">217</a> of file <a class="el" href="smacc__state__machine_8hpp_source.html">smacc_state_machine.hpp</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="smacc__state__machine_8hpp_source.html#l00130">getCurrentStateInfo()</a>, <a class="el" href="smacc__state__machine__impl_8hpp_source.html#l00508">notifyOnStateEntryStart()</a>, and <a class="el" href="smacc__state__machine_8cpp_source.html#l00133">updateStatusMessage()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="smacc__state__machine_8hpp_source.html#l00130">getCurrentStateInfo()</a>, <a class="el" href="smacc__state__machine__impl_8hpp_source.html#l00508">notifyOnStateEntryStart()</a>, and <a class="el" href="smacc__state__machine_8cpp_source.html#l00132">updateStatusMessage()</a>.</p>
 
 </div>
 </div>
@@ -4845,7 +4844,7 @@ Here is the caller graph for this function:</div>
 
 <p class="definition">Definition at line <a class="el" href="smacc__state__machine_8hpp_source.html#l00209">209</a> of file <a class="el" href="smacc__state__machine_8hpp_source.html">smacc_state_machine.hpp</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="smacc__state__machine_8cpp_source.html#l00197">initializeROS()</a>, and <a class="el" href="smacc__state__machine__impl_8hpp_source.html#l00178">postEvent()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="smacc__state__machine_8cpp_source.html#l00196">initializeROS()</a>, and <a class="el" href="smacc__state__machine__impl_8hpp_source.html#l00178">postEvent()</a>.</p>
 
 </div>
 </div>
@@ -4871,7 +4870,7 @@ Here is the caller graph for this function:</div>
 
 <p class="definition">Definition at line <a class="el" href="smacc__state__machine_8hpp_source.html#l00241">241</a> of file <a class="el" href="smacc__state__machine_8hpp_source.html">smacc_state_machine.hpp</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="smacc__state__machine__impl_8hpp_source.html#l00266">getGlobalSMData()</a>, <a class="el" href="smacc__state__machine__impl_8hpp_source.html#l00301">setGlobalSMData()</a>, and <a class="el" href="smacc__state__machine_8cpp_source.html#l00133">updateStatusMessage()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="smacc__state__machine__impl_8hpp_source.html#l00266">getGlobalSMData()</a>, <a class="el" href="smacc__state__machine__impl_8hpp_source.html#l00301">setGlobalSMData()</a>, and <a class="el" href="smacc__state__machine_8cpp_source.html#l00132">updateStatusMessage()</a>.</p>
 
 </div>
 </div>
@@ -4897,7 +4896,7 @@ Here is the caller graph for this function:</div>
 
 <p class="definition">Definition at line <a class="el" href="smacc__state__machine_8hpp_source.html#l00228">228</a> of file <a class="el" href="smacc__state__machine_8hpp_source.html">smacc_state_machine.hpp</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="smacc__state__machine__impl_8hpp_source.html#l00086">createOrthogonal()</a>, <a class="el" href="smacc__state__machine__impl_8hpp_source.html#l00432">createSignalConnection()</a>, <a class="el" href="smacc__state__machine__impl_8hpp_source.html#l00266">getGlobalSMData()</a>, <a class="el" href="smacc__state__machine_8hpp_source.html#l00189">getMutex()</a>, <a class="el" href="smacc__state__machine__impl_8hpp_source.html#l00048">getOrthogonal()</a>, <a class="el" href="smacc__state__machine_8cpp_source.html#l00259">lockStateMachine()</a>, <a class="el" href="smacc__state__machine__impl_8hpp_source.html#l00592">notifyOnRuntimeConfigurationFinished()</a>, <a class="el" href="smacc__state__machine__impl_8hpp_source.html#l00524">notifyOnStateEntryEnd()</a>, <a class="el" href="smacc__state__machine__impl_8hpp_source.html#l00508">notifyOnStateEntryStart()</a>, <a class="el" href="signal__detector_8cpp_source.html#l00282">smacc2::SignalDetector::pollOnce()</a>, <a class="el" href="smacc__state__machine__impl_8hpp_source.html#l00118">requiresComponent()</a>, <a class="el" href="smacc__state__machine__impl_8hpp_source.html#l00148">requiresComponent()</a>, <a class="el" href="smacc__state__machine__impl_8hpp_source.html#l00301">setGlobalSMData()</a>, <a class="el" href="smacc__state__machine_8cpp_source.html#l00243">state_machine_visualization()</a>, <a class="el" href="smacc__state__machine_8cpp_source.html#l00265">unlockStateMachine()</a>, and <a class="el" href="smacc__state__machine_8cpp_source.html#l00133">updateStatusMessage()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="smacc__state__machine__impl_8hpp_source.html#l00086">createOrthogonal()</a>, <a class="el" href="smacc__state__machine__impl_8hpp_source.html#l00432">createSignalConnection()</a>, <a class="el" href="smacc__state__machine__impl_8hpp_source.html#l00266">getGlobalSMData()</a>, <a class="el" href="smacc__state__machine_8hpp_source.html#l00189">getMutex()</a>, <a class="el" href="smacc__state__machine__impl_8hpp_source.html#l00048">getOrthogonal()</a>, <a class="el" href="smacc__state__machine_8cpp_source.html#l00258">lockStateMachine()</a>, <a class="el" href="smacc__state__machine__impl_8hpp_source.html#l00592">notifyOnRuntimeConfigurationFinished()</a>, <a class="el" href="smacc__state__machine__impl_8hpp_source.html#l00524">notifyOnStateEntryEnd()</a>, <a class="el" href="smacc__state__machine__impl_8hpp_source.html#l00508">notifyOnStateEntryStart()</a>, <a class="el" href="signal__detector_8cpp_source.html#l00276">smacc2::SignalDetector::pollOnce()</a>, <a class="el" href="smacc__state__machine__impl_8hpp_source.html#l00118">requiresComponent()</a>, <a class="el" href="smacc__state__machine__impl_8hpp_source.html#l00148">requiresComponent()</a>, <a class="el" href="smacc__state__machine__impl_8hpp_source.html#l00301">setGlobalSMData()</a>, <a class="el" href="smacc__state__machine_8cpp_source.html#l00242">state_machine_visualization()</a>, <a class="el" href="smacc__state__machine_8cpp_source.html#l00264">unlockStateMachine()</a>, and <a class="el" href="smacc__state__machine_8cpp_source.html#l00132">updateStatusMessage()</a>.</p>
 
 </div>
 </div>
@@ -4923,7 +4922,7 @@ Here is the caller graph for this function:</div>
 
 <p class="definition">Definition at line <a class="el" href="smacc__state__machine_8hpp_source.html#l00202">202</a> of file <a class="el" href="smacc__state__machine_8hpp_source.html">smacc_state_machine.hpp</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="smacc__state__machine_8cpp_source.html#l00083">disconnectSmaccSignalObject()</a>, <a class="el" href="smacc__state__machine_8hpp_source.html#l00187">getLogger()</a>, <a class="el" href="smacc__state__machine_8cpp_source.html#l00099">getNode()</a>, <a class="el" href="smacc__state__machine_8cpp_source.html#l00231">getTransitionLogHistory()</a>, <a class="el" href="smacc__state__machine_8cpp_source.html#l00197">initializeROS()</a>, <a class="el" href="smacc__state__machine_8cpp_source.html#l00038">ISmaccStateMachine()</a>, <a class="el" href="smacc__state__machine_8cpp_source.html#l00259">lockStateMachine()</a>, <a class="el" href="smacc__state__machine_8cpp_source.html#l00190">onInitialized()</a>, <a class="el" href="smacc__state__machine_8cpp_source.html#l00170">publishTransition()</a>, <a class="el" href="smacc__state__machine_8cpp_source.html#l00243">state_machine_visualization()</a>, <a class="el" href="smacc__state__machine_8cpp_source.html#l00265">unlockStateMachine()</a>, <a class="el" href="smacc__state__machine_8cpp_source.html#l00133">updateStatusMessage()</a>, and <a class="el" href="smacc__state__machine_8cpp_source.html#l00071">~ISmaccStateMachine()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="smacc__state__machine_8cpp_source.html#l00082">disconnectSmaccSignalObject()</a>, <a class="el" href="smacc__state__machine_8hpp_source.html#l00187">getLogger()</a>, <a class="el" href="smacc__state__machine_8cpp_source.html#l00098">getNode()</a>, <a class="el" href="smacc__state__machine_8cpp_source.html#l00230">getTransitionLogHistory()</a>, <a class="el" href="smacc__state__machine_8cpp_source.html#l00196">initializeROS()</a>, <a class="el" href="smacc__state__machine_8cpp_source.html#l00038">ISmaccStateMachine()</a>, <a class="el" href="smacc__state__machine_8cpp_source.html#l00258">lockStateMachine()</a>, <a class="el" href="smacc__state__machine_8cpp_source.html#l00189">onInitialized()</a>, <a class="el" href="smacc__state__machine_8cpp_source.html#l00169">publishTransition()</a>, <a class="el" href="smacc__state__machine_8cpp_source.html#l00242">state_machine_visualization()</a>, <a class="el" href="smacc__state__machine_8cpp_source.html#l00264">unlockStateMachine()</a>, <a class="el" href="smacc__state__machine_8cpp_source.html#l00132">updateStatusMessage()</a>, and <a class="el" href="smacc__state__machine_8cpp_source.html#l00070">~ISmaccStateMachine()</a>.</p>
 
 </div>
 </div>
@@ -4949,7 +4948,7 @@ Here is the caller graph for this function:</div>
 
 <p class="definition">Definition at line <a class="el" href="smacc__state__machine_8hpp_source.html#l00222">222</a> of file <a class="el" href="smacc__state__machine_8hpp_source.html">smacc_state_machine.hpp</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="smacc__state__machine__impl_8hpp_source.html#l00086">createOrthogonal()</a>, <a class="el" href="smacc__state__machine__impl_8hpp_source.html#l00048">getOrthogonal()</a>, <a class="el" href="smacc__state__machine_8cpp_source.html#l00128">getOrthogonals()</a>, <a class="el" href="smacc__state__machine_8cpp_source.html#l00107">joinAsyncClientBehaviorThreads()</a>, <a class="el" href="smacc__state__machine__impl_8hpp_source.html#l00592">notifyOnRuntimeConfigurationFinished()</a>, <a class="el" href="smacc__state__machine__impl_8hpp_source.html#l00524">notifyOnStateEntryEnd()</a>, <a class="el" href="smacc__state__machine__impl_8hpp_source.html#l00508">notifyOnStateEntryStart()</a>, <a class="el" href="smacc__state__machine__impl_8hpp_source.html#l00678">notifyOnStateExited()</a>, <a class="el" href="smacc__state__machine__impl_8hpp_source.html#l00617">notifyOnStateExiting()</a>, <a class="el" href="smacc__state__machine__impl_8hpp_source.html#l00118">requiresComponent()</a>, and <a class="el" href="smacc__state__machine__impl_8hpp_source.html#l00148">requiresComponent()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="smacc__state__machine__impl_8hpp_source.html#l00086">createOrthogonal()</a>, <a class="el" href="smacc__state__machine__impl_8hpp_source.html#l00048">getOrthogonal()</a>, <a class="el" href="smacc__state__machine_8cpp_source.html#l00127">getOrthogonals()</a>, <a class="el" href="smacc__state__machine_8cpp_source.html#l00106">joinAsyncClientBehaviorThreads()</a>, <a class="el" href="smacc__state__machine__impl_8hpp_source.html#l00592">notifyOnRuntimeConfigurationFinished()</a>, <a class="el" href="smacc__state__machine__impl_8hpp_source.html#l00524">notifyOnStateEntryEnd()</a>, <a class="el" href="smacc__state__machine__impl_8hpp_source.html#l00508">notifyOnStateEntryStart()</a>, <a class="el" href="smacc__state__machine__impl_8hpp_source.html#l00678">notifyOnStateExited()</a>, <a class="el" href="smacc__state__machine__impl_8hpp_source.html#l00617">notifyOnStateExiting()</a>, <a class="el" href="smacc__state__machine__impl_8hpp_source.html#l00118">requiresComponent()</a>, and <a class="el" href="smacc__state__machine__impl_8hpp_source.html#l00148">requiresComponent()</a>.</p>
 
 </div>
 </div>
@@ -5001,7 +5000,7 @@ Here is the caller graph for this function:</div>
 
 <p class="definition">Definition at line <a class="el" href="smacc__state__machine_8hpp_source.html#l00250">250</a> of file <a class="el" href="smacc__state__machine_8hpp_source.html">smacc_state_machine.hpp</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="smacc__state__machine_8cpp_source.html#l00038">ISmaccStateMachine()</a>, and <a class="el" href="smacc__state__machine_8cpp_source.html#l00133">updateStatusMessage()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="smacc__state__machine_8cpp_source.html#l00038">ISmaccStateMachine()</a>, and <a class="el" href="smacc__state__machine_8cpp_source.html#l00132">updateStatusMessage()</a>.</p>
 
 </div>
 </div>
@@ -5027,7 +5026,7 @@ Here is the caller graph for this function:</div>
 
 <p class="definition">Definition at line <a class="el" href="smacc__state__machine_8hpp_source.html#l00253">253</a> of file <a class="el" href="smacc__state__machine_8hpp_source.html">smacc_state_machine.hpp</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="smacc__state__machine_8cpp_source.html#l00197">initializeROS()</a>, <a class="el" href="smacc__state__machine_8cpp_source.html#l00038">ISmaccStateMachine()</a>, <a class="el" href="smacc__state__machine__impl_8hpp_source.html#l00592">notifyOnRuntimeConfigurationFinished()</a>, <a class="el" href="smacc__state__machine__impl_8hpp_source.html#l00678">notifyOnStateExited()</a>, and <a class="el" href="smacc__state__machine__impl_8hpp_source.html#l00178">postEvent()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="smacc__state__machine_8cpp_source.html#l00196">initializeROS()</a>, <a class="el" href="smacc__state__machine_8cpp_source.html#l00038">ISmaccStateMachine()</a>, <a class="el" href="smacc__state__machine__impl_8hpp_source.html#l00592">notifyOnRuntimeConfigurationFinished()</a>, <a class="el" href="smacc__state__machine__impl_8hpp_source.html#l00678">notifyOnStateExited()</a>, and <a class="el" href="smacc__state__machine__impl_8hpp_source.html#l00178">postEvent()</a>.</p>
 
 </div>
 </div>
@@ -5053,7 +5052,7 @@ Here is the caller graph for this function:</div>
 
 <p class="definition">Definition at line <a class="el" href="smacc__state__machine_8hpp_source.html#l00238">238</a> of file <a class="el" href="smacc__state__machine_8hpp_source.html">smacc_state_machine.hpp</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="smacc__state__machine__impl_8hpp_source.html#l00432">createSignalConnection()</a>, and <a class="el" href="smacc__state__machine_8cpp_source.html#l00083">disconnectSmaccSignalObject()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="smacc__state__machine__impl_8hpp_source.html#l00432">createSignalConnection()</a>, and <a class="el" href="smacc__state__machine_8cpp_source.html#l00082">disconnectSmaccSignalObject()</a>.</p>
 
 </div>
 </div>
@@ -5084,7 +5083,7 @@ Here is the caller graph for this function:</div>
 <div class="fragment"><div class="line"><span class="lineno">  235</span>                                                                 {</div>
 <div class="line"><span class="lineno">  236</span>    <a class="code hl_enumvalue" href="namespacesmacc2.html#af13b5c45bc293d2492a93482c86d179fa4cc51fd7b517d163828fb5f6eb0bb463">StateMachineInternalAction::STATE_MACHINE_INITIALIZING</a>};</div>
 </div><!-- fragment -->
-<p class="reference">Referenced by <a class="el" href="smacc__state__machine__impl_8hpp_source.html#l00592">notifyOnRuntimeConfigurationFinished()</a>, <a class="el" href="smacc__state__machine__impl_8hpp_source.html#l00611">notifyOnRuntimeConfigured()</a>, <a class="el" href="smacc__state__machine__impl_8hpp_source.html#l00524">notifyOnStateEntryEnd()</a>, <a class="el" href="smacc__state__machine__impl_8hpp_source.html#l00678">notifyOnStateExited()</a>, <a class="el" href="smacc__state__machine__impl_8hpp_source.html#l00617">notifyOnStateExiting()</a>, <a class="el" href="signal__detector_8cpp_source.html#l00282">smacc2::SignalDetector::pollOnce()</a>, and <a class="el" href="smacc__state__machine__impl_8hpp_source.html#l00178">postEvent()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="smacc__state__machine__impl_8hpp_source.html#l00592">notifyOnRuntimeConfigurationFinished()</a>, <a class="el" href="smacc__state__machine__impl_8hpp_source.html#l00611">notifyOnRuntimeConfigured()</a>, <a class="el" href="smacc__state__machine__impl_8hpp_source.html#l00524">notifyOnStateEntryEnd()</a>, <a class="el" href="smacc__state__machine__impl_8hpp_source.html#l00678">notifyOnStateExited()</a>, <a class="el" href="smacc__state__machine__impl_8hpp_source.html#l00617">notifyOnStateExiting()</a>, <a class="el" href="signal__detector_8cpp_source.html#l00276">smacc2::SignalDetector::pollOnce()</a>, and <a class="el" href="smacc__state__machine__impl_8hpp_source.html#l00178">postEvent()</a>.</p>
 
 </div>
 </div>
@@ -5110,7 +5109,7 @@ Here is the caller graph for this function:</div>
 
 <p class="definition">Definition at line <a class="el" href="smacc__state__machine_8hpp_source.html#l00225">225</a> of file <a class="el" href="smacc__state__machine_8hpp_source.html">smacc_state_machine.hpp</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="smacc__state__machine__impl_8hpp_source.html#l00800">buildStateMachineInfo()</a>, <a class="el" href="smacc__state__machine__impl_8hpp_source.html#l00812">getStateMachineInfo()</a>, <a class="el" href="smacc__state__machine__base_8hpp_source.html#l00067">smacc2::SmaccStateMachineBase&lt; DerivedStateMachine, InitialStateType &gt;::initiate_impl()</a>, <a class="el" href="smacc__state__machine__impl_8hpp_source.html#l00508">notifyOnStateEntryStart()</a>, and <a class="el" href="smacc__state__machine_8cpp_source.html#l00243">state_machine_visualization()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="smacc__state__machine__impl_8hpp_source.html#l00800">buildStateMachineInfo()</a>, <a class="el" href="smacc__state__machine__impl_8hpp_source.html#l00812">getStateMachineInfo()</a>, <a class="el" href="smacc__state__machine__base_8hpp_source.html#l00067">smacc2::SmaccStateMachineBase&lt; DerivedStateMachine, InitialStateType &gt;::initiate_impl()</a>, <a class="el" href="smacc__state__machine__impl_8hpp_source.html#l00508">notifyOnStateEntryStart()</a>, and <a class="el" href="smacc__state__machine_8cpp_source.html#l00242">state_machine_visualization()</a>.</p>
 
 </div>
 </div>
@@ -5136,7 +5135,7 @@ Here is the caller graph for this function:</div>
 
 <p class="definition">Definition at line <a class="el" href="smacc__state__machine_8hpp_source.html#l00205">205</a> of file <a class="el" href="smacc__state__machine_8hpp_source.html">smacc_state_machine.hpp</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="smacc__state__machine_8cpp_source.html#l00197">initializeROS()</a>, and <a class="el" href="smacc__state__machine_8cpp_source.html#l00243">state_machine_visualization()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="smacc__state__machine_8cpp_source.html#l00196">initializeROS()</a>, and <a class="el" href="smacc__state__machine_8cpp_source.html#l00242">state_machine_visualization()</a>.</p>
 
 </div>
 </div>
@@ -5162,7 +5161,7 @@ Here is the caller graph for this function:</div>
 
 <p class="definition">Definition at line <a class="el" href="smacc__state__machine_8hpp_source.html#l00206">206</a> of file <a class="el" href="smacc__state__machine_8hpp_source.html">smacc_state_machine.hpp</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="smacc__state__machine_8cpp_source.html#l00197">initializeROS()</a>, <a class="el" href="smacc__state__machine_8cpp_source.html#l00243">state_machine_visualization()</a>, and <a class="el" href="smacc__state__machine_8cpp_source.html#l00133">updateStatusMessage()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="smacc__state__machine_8cpp_source.html#l00196">initializeROS()</a>, <a class="el" href="smacc__state__machine_8cpp_source.html#l00242">state_machine_visualization()</a>, and <a class="el" href="smacc__state__machine_8cpp_source.html#l00132">updateStatusMessage()</a>.</p>
 
 </div>
 </div>
@@ -5176,7 +5175,7 @@ Here is the caller graph for this function:</div>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">int64_t smacc2::ISmaccStateMachine::stateSeqCounter_</td>
+          <td class="memname">int64_t smacc2::ISmaccStateMachine::stateSeqCounter_ = 0</td>
         </tr>
       </table>
   </td>
@@ -5214,7 +5213,7 @@ Here is the caller graph for this function:</div>
 
 <p class="definition">Definition at line <a class="el" href="smacc__state__machine_8hpp_source.html#l00219">219</a> of file <a class="el" href="smacc__state__machine_8hpp_source.html">smacc_state_machine.hpp</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="smacc__state__machine_8cpp_source.html#l00243">state_machine_visualization()</a>, and <a class="el" href="smacc__state__machine_8cpp_source.html#l00133">updateStatusMessage()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="smacc__state__machine_8cpp_source.html#l00242">state_machine_visualization()</a>, and <a class="el" href="smacc__state__machine_8cpp_source.html#l00132">updateStatusMessage()</a>.</p>
 
 </div>
 </div>
@@ -5240,7 +5239,7 @@ Here is the caller graph for this function:</div>
 
 <p class="definition">Definition at line <a class="el" href="smacc__state__machine_8hpp_source.html#l00204">204</a> of file <a class="el" href="smacc__state__machine_8hpp_source.html">smacc_state_machine.hpp</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="smacc__state__machine_8cpp_source.html#l00190">onInitialized()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="smacc__state__machine_8cpp_source.html#l00189">onInitialized()</a>.</p>
 
 </div>
 </div>
@@ -5266,7 +5265,7 @@ Here is the caller graph for this function:</div>
 
 <p class="definition">Definition at line <a class="el" href="smacc__state__machine_8hpp_source.html#l00211">211</a> of file <a class="el" href="smacc__state__machine_8hpp_source.html">smacc_state_machine.hpp</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="smacc__state__machine_8cpp_source.html#l00197">initializeROS()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="smacc__state__machine_8cpp_source.html#l00196">initializeROS()</a>.</p>
 
 </div>
 </div>
@@ -5292,7 +5291,7 @@ Here is the caller graph for this function:</div>
 
 <p class="definition">Definition at line <a class="el" href="smacc__state__machine_8hpp_source.html#l00246">246</a> of file <a class="el" href="smacc__state__machine_8hpp_source.html">smacc_state_machine.hpp</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="smacc__state__machine_8cpp_source.html#l00231">getTransitionLogHistory()</a>, and <a class="el" href="smacc__state__machine_8cpp_source.html#l00170">publishTransition()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="smacc__state__machine_8cpp_source.html#l00230">getTransitionLogHistory()</a>, and <a class="el" href="smacc__state__machine_8cpp_source.html#l00169">publishTransition()</a>.</p>
 
 </div>
 </div>
@@ -5318,7 +5317,7 @@ Here is the caller graph for this function:</div>
 
 <p class="definition">Definition at line <a class="el" href="smacc__state__machine_8hpp_source.html#l00248">248</a> of file <a class="el" href="smacc__state__machine_8hpp_source.html">smacc_state_machine.hpp</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="smacc__state__machine_8cpp_source.html#l00197">initializeROS()</a>, and <a class="el" href="smacc__state__machine_8cpp_source.html#l00170">publishTransition()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="smacc__state__machine_8cpp_source.html#l00196">initializeROS()</a>, and <a class="el" href="smacc__state__machine_8cpp_source.html#l00169">publishTransition()</a>.</p>
 
 </div>
 </div>
@@ -5344,7 +5343,7 @@ Here is the caller graph for this function:</div>
 
 <p class="definition">Definition at line <a class="el" href="smacc__state__machine_8hpp_source.html#l00247">247</a> of file <a class="el" href="smacc__state__machine_8hpp_source.html">smacc_state_machine.hpp</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="smacc__state__machine_8cpp_source.html#l00231">getTransitionLogHistory()</a>, and <a class="el" href="smacc__state__machine_8cpp_source.html#l00170">publishTransition()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="smacc__state__machine_8cpp_source.html#l00230">getTransitionLogHistory()</a>, and <a class="el" href="smacc__state__machine_8cpp_source.html#l00169">publishTransition()</a>.</p>
 
 </div>
 </div>
@@ -5370,7 +5369,7 @@ Here is the caller graph for this function:</div>
 
 <p class="definition">Definition at line <a class="el" href="smacc__state__machine_8hpp_source.html#l00207">207</a> of file <a class="el" href="smacc__state__machine_8hpp_source.html">smacc_state_machine.hpp</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="smacc__state__machine_8cpp_source.html#l00197">initializeROS()</a>, and <a class="el" href="smacc__state__machine_8cpp_source.html#l00170">publishTransition()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="smacc__state__machine_8cpp_source.html#l00196">initializeROS()</a>, and <a class="el" href="smacc__state__machine_8cpp_source.html#l00169">publishTransition()</a>.</p>
 
 </div>
 </div>
