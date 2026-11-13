@@ -638,94 +638,97 @@ Definition at line \mbox{\hyperlink{signal__detector_8cpp_source_l00382}{382}} o
 \DoxyCodeLine{00405\ }
 \DoxyCodeLine{00406\ \ \ \textcolor{keyword}{auto}\ nh\ =\ \mbox{\hyperlink{classsmacc2_1_1SignalDetector_aa774a30b0118ee411ba423fc668405b3}{getNode}}();}
 \DoxyCodeLine{00407\ }
-\DoxyCodeLine{00408\ \ \ \textcolor{keywordflow}{if}\ (!nh-\/>get\_parameter(\textcolor{stringliteral}{"{}signal\_detector\_loop\_freq"{}},\ this-\/>loop\_rate\_hz))}
-\DoxyCodeLine{00409\ \ \ \{}
-\DoxyCodeLine{00410\ \ \ \ \ RCLCPP\_WARN(}
-\DoxyCodeLine{00411\ \ \ \ \ \ \ \mbox{\hyperlink{classsmacc2_1_1SignalDetector_a97db4ee81e1e63ab67ea40775fd57302}{getLogger}}(),}
-\DoxyCodeLine{00412\ \ \ \ \ \ \ \textcolor{stringliteral}{"{}Signal\ Detector\ frequency\ (ros\ param\ signal\_detector\_loop\_freq)\ was\ not\ set,\ using\ default\ "{}}}
-\DoxyCodeLine{00413\ \ \ \ \ \ \ \textcolor{stringliteral}{"{}frequency:\ "{}}}
-\DoxyCodeLine{00414\ \ \ \ \ \ \ \textcolor{stringliteral}{"{}\%lf"{}},}
-\DoxyCodeLine{00415\ \ \ \ \ \ \ this-\/>\mbox{\hyperlink{classsmacc2_1_1SignalDetector_ac67b27bde2d30322b6792bafa0522274}{loop\_rate\_hz}});}
-\DoxyCodeLine{00416\ \ \ \}}
-\DoxyCodeLine{00417\ \ \ \textcolor{keywordflow}{else}}
-\DoxyCodeLine{00418\ \ \ \{}
-\DoxyCodeLine{00419\ \ \ \ \ RCLCPP\_WARN(}
-\DoxyCodeLine{00420\ \ \ \ \ \ \ \mbox{\hyperlink{classsmacc2_1_1SignalDetector_a97db4ee81e1e63ab67ea40775fd57302}{getLogger}}(),\ \textcolor{stringliteral}{"{}Signal\ Detector\ frequency\ (ros\ param\ signal\_detector\_loop\_freq):\ \%lf"{}},}
-\DoxyCodeLine{00421\ \ \ \ \ \ \ this-\/>\mbox{\hyperlink{classsmacc2_1_1SignalDetector_ac67b27bde2d30322b6792bafa0522274}{loop\_rate\_hz}});}
-\DoxyCodeLine{00422\ \ \ \}}
-\DoxyCodeLine{00423\ }
-\DoxyCodeLine{00424\ \ \ \textcolor{comment}{//\ A\ rate\ of\ zero\ or\ less\ has\ no\ period,\ and\ spin\_all(0)\ below\ spins\ forever:\ use\ the\ default.}}
-\DoxyCodeLine{00425\ \ \ \textcolor{keywordflow}{if}\ (!(this-\/>\mbox{\hyperlink{classsmacc2_1_1SignalDetector_ac67b27bde2d30322b6792bafa0522274}{loop\_rate\_hz}}\ >\ 0.0))}
-\DoxyCodeLine{00426\ \ \ \{}
-\DoxyCodeLine{00427\ \ \ \ \ RCLCPP\_ERROR(}
-\DoxyCodeLine{00428\ \ \ \ \ \ \ \mbox{\hyperlink{classsmacc2_1_1SignalDetector_a97db4ee81e1e63ab67ea40775fd57302}{getLogger}}(),\ \textcolor{stringliteral}{"{}Signal\ Detector\ frequency\ \%lf\ is\ not\ positive,\ using\ the\ default\ \%lf\ Hz"{}},}
-\DoxyCodeLine{00429\ \ \ \ \ \ \ this-\/>\mbox{\hyperlink{classsmacc2_1_1SignalDetector_ac67b27bde2d30322b6792bafa0522274}{loop\_rate\_hz}},\ \mbox{\hyperlink{classsmacc2_1_1SignalDetector_a83898a6da7183362a1b0b6f53738574b}{kDefaultLoopRateHz}});}
-\DoxyCodeLine{00430\ \ \ \ \ this-\/>\mbox{\hyperlink{classsmacc2_1_1SignalDetector_ac67b27bde2d30322b6792bafa0522274}{loop\_rate\_hz}}\ =\ \mbox{\hyperlink{classsmacc2_1_1SignalDetector_a83898a6da7183362a1b0b6f53738574b}{kDefaultLoopRateHz}};}
-\DoxyCodeLine{00431\ \ \ \}}
-\DoxyCodeLine{00432\ }
-\DoxyCodeLine{00433\ \ \ nh-\/>set\_parameter(rclcpp::Parameter(\textcolor{stringliteral}{"{}signal\_detector\_loop\_freq"{}},\ this-\/>\mbox{\hyperlink{classsmacc2_1_1SignalDetector_ac67b27bde2d30322b6792bafa0522274}{loop\_rate\_hz}}));}
-\DoxyCodeLine{00434\ }
-\DoxyCodeLine{00435\ \ \ RCLCPP\_INFO\_STREAM(\mbox{\hyperlink{classsmacc2_1_1SignalDetector_a97db4ee81e1e63ab67ea40775fd57302}{getLogger}}(),\ \textcolor{stringliteral}{"{}[SignalDetector]\ Loop\ rate\ hz:"{}}\ <<\ \mbox{\hyperlink{classsmacc2_1_1SignalDetector_ac67b27bde2d30322b6792bafa0522274}{loop\_rate\_hz}});}
-\DoxyCodeLine{00436\ }
-\DoxyCodeLine{00437\ \ \ \textcolor{keywordflow}{if}\ (this-\/>\mbox{\hyperlink{classsmacc2_1_1SignalDetector_a5f38c4c3bab961791a5b6268c1948619}{executionModel\_}}\ ==\ \mbox{\hyperlink{namespacesmacc2_a1a2b312e55d319400e73bbf7ec27d6daab4c3af830a31cbfd165e744c166b9ee7}{ExecutionModel::SINGLE\_THREAD\_SPINNER}})}
-\DoxyCodeLine{00438\ \ \ \{}
-\DoxyCodeLine{00439\ \ \ \ \ RCLCPP\_INFO\_STREAM(\mbox{\hyperlink{classsmacc2_1_1SignalDetector_a97db4ee81e1e63ab67ea40775fd57302}{getLogger}}(),\ \textcolor{stringliteral}{"{}[SignalDetector]\ Running\ in\ single-\/threaded\ mode."{}});}
-\DoxyCodeLine{00440\ }
-\DoxyCodeLine{00441\ \ \ \ \ \textcolor{comment}{//\ One\ executor\ for\ the\ whole\ loop.\ rclcpp::spin\_some(nh)\ built\ a\ new\ executor\ on\ every}}
-\DoxyCodeLine{00442\ \ \ \ \ \textcolor{comment}{//\ iteration,\ and\ an\ executor\ constructor\ creates\ a\ guard\ condition,\ which\ throws}}
-\DoxyCodeLine{00443\ \ \ \ \ \textcolor{comment}{//\ RCLError\ if\ rclcpp::shutdown()\ lands\ between\ the\ loop\ condition\ and\ that\ call.}}
-\DoxyCodeLine{00444\ \ \ \ \ \textcolor{comment}{//\ Shutdown\ now\ runs\ on\ rclcpp's\ signal\ thread,\ concurrently\ with\ this\ loop,\ so\ the\ loop}}
-\DoxyCodeLine{00445\ \ \ \ \ \textcolor{comment}{//\ must\ tolerate\ it:\ an\ existing\ executor's\ spin\_all()\ simply\ returns\ once\ the\ context}}
-\DoxyCodeLine{00446\ \ \ \ \ \textcolor{comment}{//\ is\ invalid.}}
-\DoxyCodeLine{00447\ \ \ \ \ rclcpp::executors::SingleThreadedExecutor\ executor;}
-\DoxyCodeLine{00448\ \ \ \ \ executor.add\_node(nh);}
-\DoxyCodeLine{00449\ \ \ \ \ rclcpp::Rate\ r(\mbox{\hyperlink{classsmacc2_1_1SignalDetector_ac67b27bde2d30322b6792bafa0522274}{loop\_rate\_hz}});}
-\DoxyCodeLine{00450\ \ \ \ \ \textcolor{comment}{//\ Drain\ every\ ready\ callback\ each\ iteration,\ as\ ROS\ 1's\ spinOnce\ did,\ bounded\ by\ one\ loop}}
-\DoxyCodeLine{00451\ \ \ \ \ \textcolor{comment}{//\ period.\ spin\_some()\ took\ one\ callback\ per\ entity\ per\ iteration,\ sampling\ faster\ topics.}}
-\DoxyCodeLine{00452\ \ \ \ \ \textcolor{keyword}{const}\ \textcolor{keyword}{auto}\ spinBudget\ =\ std::chrono::duration\_cast<std::chrono::nanoseconds>(}
-\DoxyCodeLine{00453\ \ \ \ \ \ \ std::chrono::duration<double>(1.0\ /\ \mbox{\hyperlink{classsmacc2_1_1SignalDetector_ac67b27bde2d30322b6792bafa0522274}{loop\_rate\_hz}}));}
-\DoxyCodeLine{00454\ \ \ \ \ \textcolor{keyword}{const}\ \textcolor{keywordtype}{double}\ spinBudgetMs\ =\ std::chrono::duration<double,\ std::milli>(spinBudget).count();}
-\DoxyCodeLine{00455\ \ \ \ \ \textcolor{keywordflow}{while}\ (rclcpp::ok()\ \&\&\ !\mbox{\hyperlink{classsmacc2_1_1SignalDetector_ac8756409452924cdd2cc9a99ca2fdd30}{end\_}})}
-\DoxyCodeLine{00456\ \ \ \ \ \{}
-\DoxyCodeLine{00457\ \ \ \ \ \ \ RCLCPP\_INFO\_STREAM\_THROTTLE(}
-\DoxyCodeLine{00458\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{classsmacc2_1_1SignalDetector_a97db4ee81e1e63ab67ea40775fd57302}{getLogger}}(),\ *\mbox{\hyperlink{classsmacc2_1_1SignalDetector_aa774a30b0118ee411ba423fc668405b3}{getNode}}()-\/>get\_clock(),\ 10000,\ \textcolor{stringliteral}{"{}[SignalDetector]\ Heartbeat"{}});}
-\DoxyCodeLine{00459\ \ \ \ \ \ \ \mbox{\hyperlink{classsmacc2_1_1SignalDetector_af363cea3f8228eeb68b25ad21903dc74}{pollOnce}}();}
-\DoxyCodeLine{00460\ \ \ \ \ \ \ \textcolor{comment}{//\ A\ timer\ or\ subscription\ created\ on\ another\ thread\ reaches\ a\ kept\ executor\ only\ through\ the}}
-\DoxyCodeLine{00461\ \ \ \ \ \ \ \textcolor{comment}{//\ notify\ guard\ condition,\ and\ that\ hand-\/off\ was\ missed\ about\ once\ in\ fifty\ state\ entries,\ leaving}}
-\DoxyCodeLine{00462\ \ \ \ \ \ \ \textcolor{comment}{//\ the\ entity\ ready\ and\ never\ executed\ (W).\ Asking\ for\ a\ rebuild\ every\ iteration\ closes\ it.}}
-\DoxyCodeLine{00463\ \ \ \ \ \ \ nh-\/>get\_node\_base\_interface()-\/>trigger\_notify\_guard\_condition();}
-\DoxyCodeLine{00464\ \ \ \ \ \ \ \textcolor{keyword}{const}\ \textcolor{keyword}{auto}\ spinStart\ =\ std::chrono::steady\_clock::now();}
-\DoxyCodeLine{00465\ \ \ \ \ \ \ executor.spin\_all(spinBudget);}
-\DoxyCodeLine{00466\ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (std::chrono::steady\_clock::now()\ -\/\ spinStart\ >=\ spinBudget)}
-\DoxyCodeLine{00467\ \ \ \ \ \ \ \{}
-\DoxyCodeLine{00468\ \ \ \ \ \ \ \ \ RCLCPP\_WARN\_THROTTLE(}
-\DoxyCodeLine{00469\ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{classsmacc2_1_1SignalDetector_a97db4ee81e1e63ab67ea40775fd57302}{getLogger}}(),\ *\mbox{\hyperlink{classsmacc2_1_1SignalDetector_aa774a30b0118ee411ba423fc668405b3}{getNode}}()-\/>get\_clock(),\ 5000,}
-\DoxyCodeLine{00470\ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}[SignalDetector]\ callbacks\ filled\ the\ whole\ loop\ period\ (\%.1f\ ms):\ the\ loop\ is\ "{}}}
-\DoxyCodeLine{00471\ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}saturated\ and\ runs\ below\ \%.1f\ Hz"{}},}
-\DoxyCodeLine{00472\ \ \ \ \ \ \ \ \ \ \ spinBudgetMs,\ \mbox{\hyperlink{classsmacc2_1_1SignalDetector_ac67b27bde2d30322b6792bafa0522274}{loop\_rate\_hz}});}
-\DoxyCodeLine{00473\ \ \ \ \ \ \ \}}
-\DoxyCodeLine{00474\ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (!\mbox{\hyperlink{namespacesmacc2_aff9a6ebdf866d76c68848bb62bbd6c18}{sleepUnlessShutdown}}(r))}
-\DoxyCodeLine{00475\ \ \ \ \ \ \ \{}
-\DoxyCodeLine{00476\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{break};}
-\DoxyCodeLine{00477\ \ \ \ \ \ \ \}}
-\DoxyCodeLine{00478\ \ \ \ \ \}}
-\DoxyCodeLine{00479\ \ \ \ \ executor.remove\_node(nh);}
-\DoxyCodeLine{00480\ \ \ \}}
-\DoxyCodeLine{00481\ \ \ \textcolor{keywordflow}{else}}
-\DoxyCodeLine{00482\ \ \ \{}
-\DoxyCodeLine{00483\ \ \ \ \ RCLCPP\_INFO\_STREAM(\mbox{\hyperlink{classsmacc2_1_1SignalDetector_a97db4ee81e1e63ab67ea40775fd57302}{getLogger}}(),\ \textcolor{stringliteral}{"{}[SignalDetector]\ Running\ in\ multi-\/threaded\ mode."{}});}
-\DoxyCodeLine{00484\ }
-\DoxyCodeLine{00485\ \ \ \ \ rclcpp::executors::MultiThreadedExecutor\ executor;}
-\DoxyCodeLine{00486\ \ \ \ \ \textcolor{comment}{//\ Same\ hand-\/off\ hazard\ as\ the\ single-\/threaded\ loop\ (W);\ here\ a\ timer\ created\ before\ the\ node\ is}}
-\DoxyCodeLine{00487\ \ \ \ \ \textcolor{comment}{//\ added,\ so\ it\ is\ in\ the\ executor's\ first\ collection,\ asks\ for\ a\ rebuild\ once\ per\ loop\ period.}}
-\DoxyCodeLine{00488\ \ \ \ \ \textcolor{keyword}{auto}\ rebuildTimer\ =\ nh-\/>create\_wall\_timer(}
-\DoxyCodeLine{00489\ \ \ \ \ \ \ std::chrono::duration\_cast<std::chrono::nanoseconds>(}
-\DoxyCodeLine{00490\ \ \ \ \ \ \ \ \ std::chrono::duration<double>(1.0\ /\ \mbox{\hyperlink{classsmacc2_1_1SignalDetector_ac67b27bde2d30322b6792bafa0522274}{loop\_rate\_hz}})),}
-\DoxyCodeLine{00491\ \ \ \ \ \ \ [nh]()\ \{\ nh-\/>get\_node\_base\_interface()-\/>trigger\_notify\_guard\_condition();\ \});}
-\DoxyCodeLine{00492\ \ \ \ \ executor.add\_node(nh);}
-\DoxyCodeLine{00493\ \ \ \ \ executor.spin();}
-\DoxyCodeLine{00494\ \ \ \}}
-\DoxyCodeLine{00495\ \}}
+\DoxyCodeLine{00408\ \ \ \textcolor{comment}{//\ The\ parameter\ is\ declared\ with\ the\ default,\ so\ reading\ it\ always\ succeeds;\ whether\ the\ machine's}}
+\DoxyCodeLine{00409\ \ \ \textcolor{comment}{//\ configuration\ set\ it\ is\ in\ the\ node's\ parameter\ overrides\ (params\ file,\ command\ line).}}
+\DoxyCodeLine{00410\ \ \ nh-\/>get\_parameter(\textcolor{stringliteral}{"{}signal\_detector\_loop\_freq"{}},\ this-\/>\mbox{\hyperlink{classsmacc2_1_1SignalDetector_ac67b27bde2d30322b6792bafa0522274}{loop\_rate\_hz}});}
+\DoxyCodeLine{00411\ \ \ \textcolor{keyword}{const}\ \textcolor{keyword}{auto}\ \&\ overrides\ =\ nh-\/>get\_node\_parameters\_interface()-\/>get\_parameter\_overrides();}
+\DoxyCodeLine{00412\ \ \ \textcolor{keywordflow}{if}\ (overrides.count(\textcolor{stringliteral}{"{}signal\_detector\_loop\_freq"{}})\ ==\ 0)}
+\DoxyCodeLine{00413\ \ \ \{}
+\DoxyCodeLine{00414\ \ \ \ \ RCLCPP\_WARN(}
+\DoxyCodeLine{00415\ \ \ \ \ \ \ \mbox{\hyperlink{classsmacc2_1_1SignalDetector_a97db4ee81e1e63ab67ea40775fd57302}{getLogger}}(),}
+\DoxyCodeLine{00416\ \ \ \ \ \ \ \textcolor{stringliteral}{"{}Signal\ Detector\ frequency\ (ros\ param\ signal\_detector\_loop\_freq)\ was\ not\ set,\ using\ default\ "{}}}
+\DoxyCodeLine{00417\ \ \ \ \ \ \ \textcolor{stringliteral}{"{}frequency:\ \%lf"{}},}
+\DoxyCodeLine{00418\ \ \ \ \ \ \ this-\/>\mbox{\hyperlink{classsmacc2_1_1SignalDetector_ac67b27bde2d30322b6792bafa0522274}{loop\_rate\_hz}});}
+\DoxyCodeLine{00419\ \ \ \}}
+\DoxyCodeLine{00420\ \ \ \textcolor{keywordflow}{else}}
+\DoxyCodeLine{00421\ \ \ \{}
+\DoxyCodeLine{00422\ \ \ \ \ RCLCPP\_WARN(}
+\DoxyCodeLine{00423\ \ \ \ \ \ \ \mbox{\hyperlink{classsmacc2_1_1SignalDetector_a97db4ee81e1e63ab67ea40775fd57302}{getLogger}}(),\ \textcolor{stringliteral}{"{}Signal\ Detector\ frequency\ (ros\ param\ signal\_detector\_loop\_freq):\ \%lf"{}},}
+\DoxyCodeLine{00424\ \ \ \ \ \ \ this-\/>\mbox{\hyperlink{classsmacc2_1_1SignalDetector_ac67b27bde2d30322b6792bafa0522274}{loop\_rate\_hz}});}
+\DoxyCodeLine{00425\ \ \ \}}
+\DoxyCodeLine{00426\ }
+\DoxyCodeLine{00427\ \ \ \textcolor{comment}{//\ A\ rate\ of\ zero\ or\ less\ has\ no\ period,\ and\ spin\_all(0)\ below\ spins\ forever:\ use\ the\ default.}}
+\DoxyCodeLine{00428\ \ \ \textcolor{keywordflow}{if}\ (!(this-\/>\mbox{\hyperlink{classsmacc2_1_1SignalDetector_ac67b27bde2d30322b6792bafa0522274}{loop\_rate\_hz}}\ >\ 0.0))}
+\DoxyCodeLine{00429\ \ \ \{}
+\DoxyCodeLine{00430\ \ \ \ \ RCLCPP\_ERROR(}
+\DoxyCodeLine{00431\ \ \ \ \ \ \ \mbox{\hyperlink{classsmacc2_1_1SignalDetector_a97db4ee81e1e63ab67ea40775fd57302}{getLogger}}(),\ \textcolor{stringliteral}{"{}Signal\ Detector\ frequency\ \%lf\ is\ not\ positive,\ using\ the\ default\ \%lf\ Hz"{}},}
+\DoxyCodeLine{00432\ \ \ \ \ \ \ this-\/>\mbox{\hyperlink{classsmacc2_1_1SignalDetector_ac67b27bde2d30322b6792bafa0522274}{loop\_rate\_hz}},\ \mbox{\hyperlink{classsmacc2_1_1SignalDetector_a83898a6da7183362a1b0b6f53738574b}{kDefaultLoopRateHz}});}
+\DoxyCodeLine{00433\ \ \ \ \ this-\/>\mbox{\hyperlink{classsmacc2_1_1SignalDetector_ac67b27bde2d30322b6792bafa0522274}{loop\_rate\_hz}}\ =\ \mbox{\hyperlink{classsmacc2_1_1SignalDetector_a83898a6da7183362a1b0b6f53738574b}{kDefaultLoopRateHz}};}
+\DoxyCodeLine{00434\ \ \ \}}
+\DoxyCodeLine{00435\ }
+\DoxyCodeLine{00436\ \ \ nh-\/>set\_parameter(rclcpp::Parameter(\textcolor{stringliteral}{"{}signal\_detector\_loop\_freq"{}},\ this-\/>\mbox{\hyperlink{classsmacc2_1_1SignalDetector_ac67b27bde2d30322b6792bafa0522274}{loop\_rate\_hz}}));}
+\DoxyCodeLine{00437\ }
+\DoxyCodeLine{00438\ \ \ RCLCPP\_INFO\_STREAM(\mbox{\hyperlink{classsmacc2_1_1SignalDetector_a97db4ee81e1e63ab67ea40775fd57302}{getLogger}}(),\ \textcolor{stringliteral}{"{}[SignalDetector]\ Loop\ rate\ hz:"{}}\ <<\ \mbox{\hyperlink{classsmacc2_1_1SignalDetector_ac67b27bde2d30322b6792bafa0522274}{loop\_rate\_hz}});}
+\DoxyCodeLine{00439\ }
+\DoxyCodeLine{00440\ \ \ \textcolor{keywordflow}{if}\ (this-\/>\mbox{\hyperlink{classsmacc2_1_1SignalDetector_a5f38c4c3bab961791a5b6268c1948619}{executionModel\_}}\ ==\ \mbox{\hyperlink{namespacesmacc2_a1a2b312e55d319400e73bbf7ec27d6daab4c3af830a31cbfd165e744c166b9ee7}{ExecutionModel::SINGLE\_THREAD\_SPINNER}})}
+\DoxyCodeLine{00441\ \ \ \{}
+\DoxyCodeLine{00442\ \ \ \ \ RCLCPP\_INFO\_STREAM(\mbox{\hyperlink{classsmacc2_1_1SignalDetector_a97db4ee81e1e63ab67ea40775fd57302}{getLogger}}(),\ \textcolor{stringliteral}{"{}[SignalDetector]\ Running\ in\ single-\/threaded\ mode."{}});}
+\DoxyCodeLine{00443\ }
+\DoxyCodeLine{00444\ \ \ \ \ \textcolor{comment}{//\ One\ executor\ for\ the\ whole\ loop.\ rclcpp::spin\_some(nh)\ built\ a\ new\ executor\ on\ every}}
+\DoxyCodeLine{00445\ \ \ \ \ \textcolor{comment}{//\ iteration,\ and\ an\ executor\ constructor\ creates\ a\ guard\ condition,\ which\ throws}}
+\DoxyCodeLine{00446\ \ \ \ \ \textcolor{comment}{//\ RCLError\ if\ rclcpp::shutdown()\ lands\ between\ the\ loop\ condition\ and\ that\ call.}}
+\DoxyCodeLine{00447\ \ \ \ \ \textcolor{comment}{//\ Shutdown\ now\ runs\ on\ rclcpp's\ signal\ thread,\ concurrently\ with\ this\ loop,\ so\ the\ loop}}
+\DoxyCodeLine{00448\ \ \ \ \ \textcolor{comment}{//\ must\ tolerate\ it:\ an\ existing\ executor's\ spin\_all()\ simply\ returns\ once\ the\ context}}
+\DoxyCodeLine{00449\ \ \ \ \ \textcolor{comment}{//\ is\ invalid.}}
+\DoxyCodeLine{00450\ \ \ \ \ rclcpp::executors::SingleThreadedExecutor\ executor;}
+\DoxyCodeLine{00451\ \ \ \ \ executor.add\_node(nh);}
+\DoxyCodeLine{00452\ \ \ \ \ rclcpp::Rate\ r(\mbox{\hyperlink{classsmacc2_1_1SignalDetector_ac67b27bde2d30322b6792bafa0522274}{loop\_rate\_hz}});}
+\DoxyCodeLine{00453\ \ \ \ \ \textcolor{comment}{//\ Drain\ every\ ready\ callback\ each\ iteration,\ as\ ROS\ 1's\ spinOnce\ did,\ bounded\ by\ one\ loop}}
+\DoxyCodeLine{00454\ \ \ \ \ \textcolor{comment}{//\ period.\ spin\_some()\ took\ one\ callback\ per\ entity\ per\ iteration,\ sampling\ faster\ topics.}}
+\DoxyCodeLine{00455\ \ \ \ \ \textcolor{keyword}{const}\ \textcolor{keyword}{auto}\ spinBudget\ =\ std::chrono::duration\_cast<std::chrono::nanoseconds>(}
+\DoxyCodeLine{00456\ \ \ \ \ \ \ std::chrono::duration<double>(1.0\ /\ \mbox{\hyperlink{classsmacc2_1_1SignalDetector_ac67b27bde2d30322b6792bafa0522274}{loop\_rate\_hz}}));}
+\DoxyCodeLine{00457\ \ \ \ \ \textcolor{keyword}{const}\ \textcolor{keywordtype}{double}\ spinBudgetMs\ =\ std::chrono::duration<double,\ std::milli>(spinBudget).count();}
+\DoxyCodeLine{00458\ \ \ \ \ \textcolor{keywordflow}{while}\ (rclcpp::ok()\ \&\&\ !\mbox{\hyperlink{classsmacc2_1_1SignalDetector_ac8756409452924cdd2cc9a99ca2fdd30}{end\_}})}
+\DoxyCodeLine{00459\ \ \ \ \ \{}
+\DoxyCodeLine{00460\ \ \ \ \ \ \ RCLCPP\_INFO\_STREAM\_THROTTLE(}
+\DoxyCodeLine{00461\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{classsmacc2_1_1SignalDetector_a97db4ee81e1e63ab67ea40775fd57302}{getLogger}}(),\ *\mbox{\hyperlink{classsmacc2_1_1SignalDetector_aa774a30b0118ee411ba423fc668405b3}{getNode}}()-\/>get\_clock(),\ 10000,\ \textcolor{stringliteral}{"{}[SignalDetector]\ Heartbeat"{}});}
+\DoxyCodeLine{00462\ \ \ \ \ \ \ \mbox{\hyperlink{classsmacc2_1_1SignalDetector_af363cea3f8228eeb68b25ad21903dc74}{pollOnce}}();}
+\DoxyCodeLine{00463\ \ \ \ \ \ \ \textcolor{comment}{//\ A\ timer\ or\ subscription\ created\ on\ another\ thread\ reaches\ a\ kept\ executor\ only\ through\ the}}
+\DoxyCodeLine{00464\ \ \ \ \ \ \ \textcolor{comment}{//\ notify\ guard\ condition,\ and\ that\ hand-\/off\ was\ missed\ about\ once\ in\ fifty\ state\ entries,\ leaving}}
+\DoxyCodeLine{00465\ \ \ \ \ \ \ \textcolor{comment}{//\ the\ entity\ ready\ and\ never\ executed\ (W).\ Asking\ for\ a\ rebuild\ every\ iteration\ closes\ it.}}
+\DoxyCodeLine{00466\ \ \ \ \ \ \ nh-\/>get\_node\_base\_interface()-\/>trigger\_notify\_guard\_condition();}
+\DoxyCodeLine{00467\ \ \ \ \ \ \ \textcolor{keyword}{const}\ \textcolor{keyword}{auto}\ spinStart\ =\ std::chrono::steady\_clock::now();}
+\DoxyCodeLine{00468\ \ \ \ \ \ \ executor.spin\_all(spinBudget);}
+\DoxyCodeLine{00469\ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (std::chrono::steady\_clock::now()\ -\/\ spinStart\ >=\ spinBudget)}
+\DoxyCodeLine{00470\ \ \ \ \ \ \ \{}
+\DoxyCodeLine{00471\ \ \ \ \ \ \ \ \ RCLCPP\_WARN\_THROTTLE(}
+\DoxyCodeLine{00472\ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{classsmacc2_1_1SignalDetector_a97db4ee81e1e63ab67ea40775fd57302}{getLogger}}(),\ *\mbox{\hyperlink{classsmacc2_1_1SignalDetector_aa774a30b0118ee411ba423fc668405b3}{getNode}}()-\/>get\_clock(),\ 5000,}
+\DoxyCodeLine{00473\ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}[SignalDetector]\ callbacks\ filled\ the\ whole\ loop\ period\ (\%.1f\ ms):\ the\ loop\ is\ "{}}}
+\DoxyCodeLine{00474\ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}saturated\ and\ runs\ below\ \%.1f\ Hz"{}},}
+\DoxyCodeLine{00475\ \ \ \ \ \ \ \ \ \ \ spinBudgetMs,\ \mbox{\hyperlink{classsmacc2_1_1SignalDetector_ac67b27bde2d30322b6792bafa0522274}{loop\_rate\_hz}});}
+\DoxyCodeLine{00476\ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00477\ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (!\mbox{\hyperlink{namespacesmacc2_aff9a6ebdf866d76c68848bb62bbd6c18}{sleepUnlessShutdown}}(r))}
+\DoxyCodeLine{00478\ \ \ \ \ \ \ \{}
+\DoxyCodeLine{00479\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{break};}
+\DoxyCodeLine{00480\ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00481\ \ \ \ \ \}}
+\DoxyCodeLine{00482\ \ \ \ \ executor.remove\_node(nh);}
+\DoxyCodeLine{00483\ \ \ \}}
+\DoxyCodeLine{00484\ \ \ \textcolor{keywordflow}{else}}
+\DoxyCodeLine{00485\ \ \ \{}
+\DoxyCodeLine{00486\ \ \ \ \ RCLCPP\_INFO\_STREAM(\mbox{\hyperlink{classsmacc2_1_1SignalDetector_a97db4ee81e1e63ab67ea40775fd57302}{getLogger}}(),\ \textcolor{stringliteral}{"{}[SignalDetector]\ Running\ in\ multi-\/threaded\ mode."{}});}
+\DoxyCodeLine{00487\ }
+\DoxyCodeLine{00488\ \ \ \ \ rclcpp::executors::MultiThreadedExecutor\ executor;}
+\DoxyCodeLine{00489\ \ \ \ \ \textcolor{comment}{//\ Same\ hand-\/off\ hazard\ as\ the\ single-\/threaded\ loop\ (W);\ here\ a\ timer\ created\ before\ the\ node\ is}}
+\DoxyCodeLine{00490\ \ \ \ \ \textcolor{comment}{//\ added,\ so\ it\ is\ in\ the\ executor's\ first\ collection,\ asks\ for\ a\ rebuild\ once\ per\ loop\ period.}}
+\DoxyCodeLine{00491\ \ \ \ \ \textcolor{keyword}{auto}\ rebuildTimer\ =\ nh-\/>create\_wall\_timer(}
+\DoxyCodeLine{00492\ \ \ \ \ \ \ std::chrono::duration\_cast<std::chrono::nanoseconds>(}
+\DoxyCodeLine{00493\ \ \ \ \ \ \ \ \ std::chrono::duration<double>(1.0\ /\ \mbox{\hyperlink{classsmacc2_1_1SignalDetector_ac67b27bde2d30322b6792bafa0522274}{loop\_rate\_hz}})),}
+\DoxyCodeLine{00494\ \ \ \ \ \ \ [nh]()\ \{\ nh-\/>get\_node\_base\_interface()-\/>trigger\_notify\_guard\_condition();\ \});}
+\DoxyCodeLine{00495\ \ \ \ \ executor.add\_node(nh);}
+\DoxyCodeLine{00496\ \ \ \ \ executor.spin();}
+\DoxyCodeLine{00497\ \ \ \}}
+\DoxyCodeLine{00498\ \}}
 
 \end{DoxyCode}
 
