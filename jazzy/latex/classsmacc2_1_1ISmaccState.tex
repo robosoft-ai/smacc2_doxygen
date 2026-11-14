@@ -171,21 +171,30 @@ Definition at line \mbox{\hyperlink{smacc__state__impl_8hpp_source_l00035}{35}} 
 \DoxyCodeLine{00046\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ behavior\ constructor\ parameters\ right?}}
 \DoxyCodeLine{00047\ \ \ \ \ orthogonal-\/>addClientBehavior(clientBehavior);}
 \DoxyCodeLine{00048\ \ \ \ \ clientBehavior-\/>template\ onStateOrthogonalAllocation<TOrthogonal,\ TBehavior>();}
-\DoxyCodeLine{00049\ \ \ \ \ \textcolor{keywordflow}{return}\ clientBehavior;}
-\DoxyCodeLine{00050\ \ \ \}}
-\DoxyCodeLine{00051\ \ \ \textcolor{keywordflow}{else}}
-\DoxyCodeLine{00052\ \ \ \{}
-\DoxyCodeLine{00053\ \ \ \ \ RCLCPP\_ERROR(}
-\DoxyCodeLine{00054\ \ \ \ \ \ \ \mbox{\hyperlink{classsmacc2_1_1ISmaccState_a197a2c11b2510484138af98b55761fc3}{getLogger}}(),\ \textcolor{stringliteral}{"{}[\%s]\ Skipping\ client\ behavior\ creation\ in\ orthogonal\ [\%s].\ It\ does\ not\ exist."{}},}
-\DoxyCodeLine{00055\ \ \ \ \ \ \ \mbox{\hyperlink{smacc__state__impl_8hpp_ad0127799795db099b49dd8d9025ba574}{THIS\_STATE\_NAME}},\ orthogonalkey.c\_str());}
-\DoxyCodeLine{00056\ \ \ \ \ \textcolor{keywordflow}{return}\ \textcolor{keyword}{nullptr};}
-\DoxyCodeLine{00057\ \ \ \}}
-\DoxyCodeLine{00058\ \}}
+\DoxyCodeLine{00049\ \ \ \ \ \textcolor{comment}{//\ Set\ here\ and\ not\ in\ onStateOrthogonalAllocation,\ which\ a\ derived\ behavior\ may\ hide.}}
+\DoxyCodeLine{00050\ \ \ \ \ ISmaccClientBehavior\ *\ behavior\ =\ clientBehavior.get();}
+\DoxyCodeLine{00051\ \ \ \ \ behavior-\/>postInitializationFailureEventFn\_\ =\ [behavior](\textcolor{keyword}{const}\ std::string\ \&\ what)}
+\DoxyCodeLine{00052\ \ \ \ \ \{}
+\DoxyCodeLine{00053\ \ \ \ \ \ \ \textcolor{keyword}{auto}\ *\ ev\ =\ \textcolor{keyword}{new}\ default\_events::EvCbInitializationFailure<TBehavior,\ TOrthogonal>();}
+\DoxyCodeLine{00054\ \ \ \ \ \ \ ev-\/>behaviorName\ =\ behavior-\/>getName();}
+\DoxyCodeLine{00055\ \ \ \ \ \ \ ev-\/>what\ =\ what;}
+\DoxyCodeLine{00056\ \ \ \ \ \ \ behavior-\/>postEvent(ev);}
+\DoxyCodeLine{00057\ \ \ \ \ \};}
+\DoxyCodeLine{00058\ \ \ \ \ \textcolor{keywordflow}{return}\ clientBehavior;}
+\DoxyCodeLine{00059\ \ \ \}}
+\DoxyCodeLine{00060\ \ \ \textcolor{keywordflow}{else}}
+\DoxyCodeLine{00061\ \ \ \{}
+\DoxyCodeLine{00062\ \ \ \ \ RCLCPP\_ERROR(}
+\DoxyCodeLine{00063\ \ \ \ \ \ \ \mbox{\hyperlink{classsmacc2_1_1ISmaccState_a197a2c11b2510484138af98b55761fc3}{getLogger}}(),\ \textcolor{stringliteral}{"{}[\%s]\ Skipping\ client\ behavior\ creation\ in\ orthogonal\ [\%s].\ It\ does\ not\ exist."{}},}
+\DoxyCodeLine{00064\ \ \ \ \ \ \ \mbox{\hyperlink{smacc__state__impl_8hpp_ad0127799795db099b49dd8d9025ba574}{THIS\_STATE\_NAME}},\ orthogonalkey.c\_str());}
+\DoxyCodeLine{00065\ \ \ \ \ \textcolor{keywordflow}{return}\ \textcolor{keyword}{nullptr};}
+\DoxyCodeLine{00066\ \ \ \}}
+\DoxyCodeLine{00067\ \}}
 
 \end{DoxyCode}
 
 
-References \mbox{\hyperlink{introspection_8hpp_source_l00100}{smacc2\+::introspection\+::demangled\+Type\+Name()}}, \mbox{\hyperlink{smacc__state_8hpp_source_l00046}{get\+Logger()}}, \mbox{\hyperlink{smacc__state__impl_8hpp_source_l00178}{get\+Orthogonal()}}, and \mbox{\hyperlink{smacc__state__impl_8hpp_source_l00033}{THIS\+\_\+\+STATE\+\_\+\+NAME}}.
+References \mbox{\hyperlink{introspection_8hpp_source_l00100}{smacc2\+::introspection\+::demangled\+Type\+Name()}}, \mbox{\hyperlink{smacc__state_8hpp_source_l00046}{get\+Logger()}}, \mbox{\hyperlink{smacc__client__behavior__base_8cpp_source_l00037}{smacc2\+::\+ISmacc\+Client\+Behavior\+::get\+Name()}}, \mbox{\hyperlink{smacc__state__impl_8hpp_source_l00187}{get\+Orthogonal()}}, \mbox{\hyperlink{smacc__client__behavior__impl_8hpp_source_l00031}{smacc2\+::\+ISmacc\+Client\+Behavior\+::post\+Event()}}, \mbox{\hyperlink{smacc__client__behavior__base_8hpp_source_l00102}{smacc2\+::\+ISmacc\+Client\+Behavior\+::post\+Initialization\+Failure\+Event\+Fn\+\_\+}}, and \mbox{\hyperlink{smacc__state__impl_8hpp_source_l00033}{THIS\+\_\+\+STATE\+\_\+\+NAME}}.
 
 
 
@@ -216,15 +225,15 @@ std\+::shared\+\_\+ptr$<$ TEvent\+Generator $>$ smacc2\+::\+ISmacc\+State\+::cre
 
 
 
-Definition at line \mbox{\hyperlink{smacc__state__impl_8hpp_source_l00123}{123}} of file \mbox{\hyperlink{smacc__state__impl_8hpp_source}{smacc\+\_\+state\+\_\+impl.\+hpp}}.
+Definition at line \mbox{\hyperlink{smacc__state__impl_8hpp_source_l00132}{132}} of file \mbox{\hyperlink{smacc__state__impl_8hpp_source}{smacc\+\_\+state\+\_\+impl.\+hpp}}.
 
 
 \begin{DoxyCode}{0}
-\DoxyCodeLine{00124\ \{}
-\DoxyCodeLine{00125\ \ \ \textcolor{keyword}{auto}\ eg\ =\ std::make\_shared<TEventGenerator>(args...);}
-\DoxyCodeLine{00126\ \ \ \mbox{\hyperlink{classsmacc2_1_1ISmaccState_ac0814ba28c1adfb56c830271b104bce9}{eventGenerators\_}}.push\_back(eg);}
-\DoxyCodeLine{00127\ \ \ \textcolor{keywordflow}{return}\ eg;}
-\DoxyCodeLine{00128\ \}}
+\DoxyCodeLine{00133\ \{}
+\DoxyCodeLine{00134\ \ \ \textcolor{keyword}{auto}\ eg\ =\ std::make\_shared<TEventGenerator>(args...);}
+\DoxyCodeLine{00135\ \ \ \mbox{\hyperlink{classsmacc2_1_1ISmaccState_ac0814ba28c1adfb56c830271b104bce9}{eventGenerators\_}}.push\_back(eg);}
+\DoxyCodeLine{00136\ \ \ \textcolor{keywordflow}{return}\ eg;}
+\DoxyCodeLine{00137\ \}}
 
 \end{DoxyCode}
 
@@ -240,23 +249,23 @@ std\+::shared\+\_\+ptr$<$ TState\+Reactor $>$ smacc2\+::\+ISmacc\+State\+::creat
 
 
 
-Definition at line \mbox{\hyperlink{smacc__state__impl_8hpp_source_l00162}{162}} of file \mbox{\hyperlink{smacc__state__impl_8hpp_source}{smacc\+\_\+state\+\_\+impl.\+hpp}}.
+Definition at line \mbox{\hyperlink{smacc__state__impl_8hpp_source_l00171}{171}} of file \mbox{\hyperlink{smacc__state__impl_8hpp_source}{smacc\+\_\+state\+\_\+impl.\+hpp}}.
 
 
 \begin{DoxyCode}{0}
-\DoxyCodeLine{00163\ \{}
-\DoxyCodeLine{00164\ \ \ \textcolor{keyword}{auto}\ sr\ =\ std::make\_shared<TStateReactor>(args...);}
-\DoxyCodeLine{00165\ \ \ sr-\/>initialize(\textcolor{keyword}{this});}
-\DoxyCodeLine{00166\ \ \ sr-\/>template\ setOutputEvent<TTriggerEvent>();}
-\DoxyCodeLine{00167\ }
-\DoxyCodeLine{00168\ \ \ \textcolor{keyword}{using\ }boost::mpl::\_1;}
-\DoxyCodeLine{00169\ \ \ \textcolor{keyword}{using\ }wrappedList\ =\ \textcolor{keyword}{typename}\ boost::mpl::transform<TEventList,\ \_1>::type;}
-\DoxyCodeLine{00170\ \ \ AddTEventTypeStateReactor<TEventList>\ op(sr.get());}
-\DoxyCodeLine{00171\ \ \ boost::mpl::for\_each<wrappedList>(op);}
-\DoxyCodeLine{00172\ }
-\DoxyCodeLine{00173\ \ \ \mbox{\hyperlink{classsmacc2_1_1ISmaccState_a3ad516d6032464fafb60169cb4736b24}{stateReactors\_}}.push\_back(sr);}
-\DoxyCodeLine{00174\ \ \ \textcolor{keywordflow}{return}\ sr;}
-\DoxyCodeLine{00175\ \}}
+\DoxyCodeLine{00172\ \{}
+\DoxyCodeLine{00173\ \ \ \textcolor{keyword}{auto}\ sr\ =\ std::make\_shared<TStateReactor>(args...);}
+\DoxyCodeLine{00174\ \ \ sr-\/>initialize(\textcolor{keyword}{this});}
+\DoxyCodeLine{00175\ \ \ sr-\/>template\ setOutputEvent<TTriggerEvent>();}
+\DoxyCodeLine{00176\ }
+\DoxyCodeLine{00177\ \ \ \textcolor{keyword}{using\ }boost::mpl::\_1;}
+\DoxyCodeLine{00178\ \ \ \textcolor{keyword}{using\ }wrappedList\ =\ \textcolor{keyword}{typename}\ boost::mpl::transform<TEventList,\ \_1>::type;}
+\DoxyCodeLine{00179\ \ \ AddTEventTypeStateReactor<TEventList>\ op(sr.get());}
+\DoxyCodeLine{00180\ \ \ boost::mpl::for\_each<wrappedList>(op);}
+\DoxyCodeLine{00181\ }
+\DoxyCodeLine{00182\ \ \ \mbox{\hyperlink{classsmacc2_1_1ISmaccState_a3ad516d6032464fafb60169cb4736b24}{stateReactors\_}}.push\_back(sr);}
+\DoxyCodeLine{00183\ \ \ \textcolor{keywordflow}{return}\ sr;}
+\DoxyCodeLine{00184\ \}}
 
 \end{DoxyCode}
 
@@ -272,15 +281,15 @@ std\+::shared\+\_\+ptr$<$ TState\+Reactor $>$ smacc2\+::\+ISmacc\+State\+::creat
 
 
 
-Definition at line \mbox{\hyperlink{smacc__state__impl_8hpp_source_l00115}{115}} of file \mbox{\hyperlink{smacc__state__impl_8hpp_source}{smacc\+\_\+state\+\_\+impl.\+hpp}}.
+Definition at line \mbox{\hyperlink{smacc__state__impl_8hpp_source_l00124}{124}} of file \mbox{\hyperlink{smacc__state__impl_8hpp_source}{smacc\+\_\+state\+\_\+impl.\+hpp}}.
 
 
 \begin{DoxyCode}{0}
-\DoxyCodeLine{00116\ \{}
-\DoxyCodeLine{00117\ \ \ \textcolor{keyword}{auto}\ sr\ =\ std::make\_shared<TStateReactor>(args...);}
-\DoxyCodeLine{00118\ \ \ \mbox{\hyperlink{classsmacc2_1_1ISmaccState_a3ad516d6032464fafb60169cb4736b24}{stateReactors\_}}.push\_back(sr);}
-\DoxyCodeLine{00119\ \ \ \textcolor{keywordflow}{return}\ sr;}
-\DoxyCodeLine{00120\ \}}
+\DoxyCodeLine{00125\ \{}
+\DoxyCodeLine{00126\ \ \ \textcolor{keyword}{auto}\ sr\ =\ std::make\_shared<TStateReactor>(args...);}
+\DoxyCodeLine{00127\ \ \ \mbox{\hyperlink{classsmacc2_1_1ISmaccState_a3ad516d6032464fafb60169cb4736b24}{stateReactors\_}}.push\_back(sr);}
+\DoxyCodeLine{00128\ \ \ \textcolor{keywordflow}{return}\ sr;}
+\DoxyCodeLine{00129\ \}}
 
 \end{DoxyCode}
 
@@ -335,13 +344,13 @@ TClient\+Behavior \texorpdfstring{$\ast$}{*} smacc2\+::\+ISmacc\+State\+::get\+C
 
 
 
-Definition at line \mbox{\hyperlink{smacc__state__impl_8hpp_source_l00184}{184}} of file \mbox{\hyperlink{smacc__state__impl_8hpp_source}{smacc\+\_\+state\+\_\+impl.\+hpp}}.
+Definition at line \mbox{\hyperlink{smacc__state__impl_8hpp_source_l00193}{193}} of file \mbox{\hyperlink{smacc__state__impl_8hpp_source}{smacc\+\_\+state\+\_\+impl.\+hpp}}.
 
 
 \begin{DoxyCode}{0}
-\DoxyCodeLine{00185\ \{}
-\DoxyCodeLine{00186\ \ \ \textcolor{keywordflow}{return}\ this-\/>\mbox{\hyperlink{classsmacc2_1_1ISmaccState_aba03aa66e4a505ef1cae701ad49374ac}{getStateMachine}}().\mbox{\hyperlink{classsmacc2_1_1ISmaccStateMachine_a2b872a872d38bedbfb83ceafdf610660}{getClientBehavior}}<TOrthogonal,\ TClientBehavior>(index);}
-\DoxyCodeLine{00187\ \}}
+\DoxyCodeLine{00194\ \{}
+\DoxyCodeLine{00195\ \ \ \textcolor{keywordflow}{return}\ this-\/>\mbox{\hyperlink{classsmacc2_1_1ISmaccState_aba03aa66e4a505ef1cae701ad49374ac}{getStateMachine}}().\mbox{\hyperlink{classsmacc2_1_1ISmaccStateMachine_a2b872a872d38bedbfb83ceafdf610660}{getClientBehavior}}<TOrthogonal,\ TClientBehavior>(index);}
+\DoxyCodeLine{00196\ \}}
 
 \end{DoxyCode}
 
@@ -365,19 +374,19 @@ TEvent\+Generator \texorpdfstring{$\ast$}{*} smacc2\+::\+ISmacc\+State\+::get\+E
 
 
 
-Definition at line \mbox{\hyperlink{smacc__state__impl_8hpp_source_l00190}{190}} of file \mbox{\hyperlink{smacc__state__impl_8hpp_source}{smacc\+\_\+state\+\_\+impl.\+hpp}}.
+Definition at line \mbox{\hyperlink{smacc__state__impl_8hpp_source_l00199}{199}} of file \mbox{\hyperlink{smacc__state__impl_8hpp_source}{smacc\+\_\+state\+\_\+impl.\+hpp}}.
 
 
 \begin{DoxyCode}{0}
-\DoxyCodeLine{00191\ \{}
-\DoxyCodeLine{00192\ \ \ TEventGenerator\ *\ ret\ =\ \textcolor{keyword}{nullptr};}
-\DoxyCodeLine{00193\ \ \ \textcolor{keywordflow}{for}\ (\textcolor{keyword}{auto}\ \&\ evg\ :\ this-\/>\mbox{\hyperlink{classsmacc2_1_1ISmaccState_ac0814ba28c1adfb56c830271b104bce9}{eventGenerators\_}})}
-\DoxyCodeLine{00194\ \ \ \{}
-\DoxyCodeLine{00195\ \ \ \ \ ret\ =\ \textcolor{keyword}{dynamic\_cast<}TEventGenerator\ *\textcolor{keyword}{>}(evg.get());}
-\DoxyCodeLine{00196\ \ \ \ \ \textcolor{keywordflow}{if}\ (ret\ !=\ \textcolor{keyword}{nullptr})\ \textcolor{keywordflow}{break};}
-\DoxyCodeLine{00197\ \ \ \}}
-\DoxyCodeLine{00198\ \ \ \textcolor{keywordflow}{return}\ ret;}
-\DoxyCodeLine{00199\ \}}
+\DoxyCodeLine{00200\ \{}
+\DoxyCodeLine{00201\ \ \ TEventGenerator\ *\ ret\ =\ \textcolor{keyword}{nullptr};}
+\DoxyCodeLine{00202\ \ \ \textcolor{keywordflow}{for}\ (\textcolor{keyword}{auto}\ \&\ evg\ :\ this-\/>\mbox{\hyperlink{classsmacc2_1_1ISmaccState_ac0814ba28c1adfb56c830271b104bce9}{eventGenerators\_}})}
+\DoxyCodeLine{00203\ \ \ \{}
+\DoxyCodeLine{00204\ \ \ \ \ ret\ =\ \textcolor{keyword}{dynamic\_cast<}TEventGenerator\ *\textcolor{keyword}{>}(evg.get());}
+\DoxyCodeLine{00205\ \ \ \ \ \textcolor{keywordflow}{if}\ (ret\ !=\ \textcolor{keyword}{nullptr})\ \textcolor{keywordflow}{break};}
+\DoxyCodeLine{00206\ \ \ \}}
+\DoxyCodeLine{00207\ \ \ \textcolor{keywordflow}{return}\ ret;}
+\DoxyCodeLine{00208\ \}}
 
 \end{DoxyCode}
 
@@ -426,13 +435,13 @@ template$<$typename T $>$ \\
 
 
 
-Definition at line \mbox{\hyperlink{smacc__state__impl_8hpp_source_l00100}{100}} of file \mbox{\hyperlink{smacc__state__impl_8hpp_source}{smacc\+\_\+state\+\_\+impl.\+hpp}}.
+Definition at line \mbox{\hyperlink{smacc__state__impl_8hpp_source_l00109}{109}} of file \mbox{\hyperlink{smacc__state__impl_8hpp_source}{smacc\+\_\+state\+\_\+impl.\+hpp}}.
 
 
 \begin{DoxyCode}{0}
-\DoxyCodeLine{00101\ \{}
-\DoxyCodeLine{00102\ \ \ \textcolor{keywordflow}{return}\ this-\/>\mbox{\hyperlink{classsmacc2_1_1ISmaccState_aba03aa66e4a505ef1cae701ad49374ac}{getStateMachine}}().\mbox{\hyperlink{classsmacc2_1_1ISmaccStateMachine_a71e4d14a86d09c0bb11316d7432d6639}{getGlobalSMData}}(name,\ ret);}
-\DoxyCodeLine{00103\ \}}
+\DoxyCodeLine{00110\ \{}
+\DoxyCodeLine{00111\ \ \ \textcolor{keywordflow}{return}\ this-\/>\mbox{\hyperlink{classsmacc2_1_1ISmaccState_aba03aa66e4a505ef1cae701ad49374ac}{getStateMachine}}().\mbox{\hyperlink{classsmacc2_1_1ISmaccStateMachine_a71e4d14a86d09c0bb11316d7432d6639}{getGlobalSMData}}(name,\ ret);}
+\DoxyCodeLine{00112\ \}}
 
 \end{DoxyCode}
 
@@ -468,7 +477,7 @@ References \mbox{\hyperlink{smacc__state_8hpp_source_l00128}{logger\+\_\+}}.
 
 
 
-Referenced by \mbox{\hyperlink{smacc__state__base_8hpp_source_l00336}{smacc2\+::\+Smacc\+State$<$ Most\+Derived, Context, Inner\+Initial, history\+Mode $>$\+::check\+While\+Loop\+Condition\+And\+Throw\+Event()}}, \mbox{\hyperlink{smacc__state__impl_8hpp_source_l00035}{configure()}}, \mbox{\hyperlink{smacc__state__base_8hpp_source_l00419}{smacc2\+::\+Smacc\+State$<$ Most\+Derived, Context, Inner\+Initial, history\+Mode $>$\+::entry\+State\+Internal()}}, \mbox{\hyperlink{smacc__state__base_8hpp_source_l00131}{smacc2\+::\+Smacc\+State$<$ Most\+Derived, Context, Inner\+Initial, history\+Mode $>$\+::exit()}}, \mbox{\hyperlink{state__reactor_8cpp_source_l00058}{smacc2\+::\+State\+Reactor\+::get\+Logger()}}, \mbox{\hyperlink{smacc__state_8cpp_source_l00028}{notify\+Transition\+From\+Transition\+Type\+Info()}}, \mbox{\hyperlink{smacc__state__base_8hpp_source_l00553}{smacc2\+::\+Smacc\+State$<$ Most\+Derived, Context, Inner\+Initial, history\+Mode $>$\+::on\+Initialization\+Failure()}}, \mbox{\hyperlink{smacc__state__impl_8hpp_source_l00077}{requires\+Client()}}, and \mbox{\hyperlink{smacc__state__base_8hpp_source_l00084}{smacc2\+::\+Smacc\+State$<$ Most\+Derived, Context, Inner\+Initial, history\+Mode $>$\+::\+Smacc\+State()}}.
+Referenced by \mbox{\hyperlink{smacc__state__base_8hpp_source_l00336}{smacc2\+::\+Smacc\+State$<$ Most\+Derived, Context, Inner\+Initial, history\+Mode $>$\+::check\+While\+Loop\+Condition\+And\+Throw\+Event()}}, \mbox{\hyperlink{smacc__state__impl_8hpp_source_l00035}{configure()}}, \mbox{\hyperlink{smacc__state__base_8hpp_source_l00419}{smacc2\+::\+Smacc\+State$<$ Most\+Derived, Context, Inner\+Initial, history\+Mode $>$\+::entry\+State\+Internal()}}, \mbox{\hyperlink{smacc__state__base_8hpp_source_l00131}{smacc2\+::\+Smacc\+State$<$ Most\+Derived, Context, Inner\+Initial, history\+Mode $>$\+::exit()}}, \mbox{\hyperlink{state__reactor_8cpp_source_l00058}{smacc2\+::\+State\+Reactor\+::get\+Logger()}}, \mbox{\hyperlink{smacc__state_8cpp_source_l00028}{notify\+Transition\+From\+Transition\+Type\+Info()}}, \mbox{\hyperlink{smacc__state__base_8hpp_source_l00553}{smacc2\+::\+Smacc\+State$<$ Most\+Derived, Context, Inner\+Initial, history\+Mode $>$\+::on\+Initialization\+Failure()}}, \mbox{\hyperlink{smacc__state__impl_8hpp_source_l00086}{requires\+Client()}}, and \mbox{\hyperlink{smacc__state__base_8hpp_source_l00084}{smacc2\+::\+Smacc\+State$<$ Most\+Derived, Context, Inner\+Initial, history\+Mode $>$\+::\+Smacc\+State()}}.
 
 Here is the caller graph for this function\+:
 \nopagebreak
@@ -540,13 +549,13 @@ TOrthogonal \texorpdfstring{$\ast$}{*} smacc2\+::\+ISmacc\+State\+::get\+Orthogo
 
 
 
-Definition at line \mbox{\hyperlink{smacc__state__impl_8hpp_source_l00178}{178}} of file \mbox{\hyperlink{smacc__state__impl_8hpp_source}{smacc\+\_\+state\+\_\+impl.\+hpp}}.
+Definition at line \mbox{\hyperlink{smacc__state__impl_8hpp_source_l00187}{187}} of file \mbox{\hyperlink{smacc__state__impl_8hpp_source}{smacc\+\_\+state\+\_\+impl.\+hpp}}.
 
 
 \begin{DoxyCode}{0}
-\DoxyCodeLine{00179\ \{}
-\DoxyCodeLine{00180\ \ \ \textcolor{keywordflow}{return}\ this-\/>\mbox{\hyperlink{classsmacc2_1_1ISmaccState_aba03aa66e4a505ef1cae701ad49374ac}{getStateMachine}}().\mbox{\hyperlink{classsmacc2_1_1ISmaccStateMachine_a45b7a0ad7fb9e02ab13f3af8fb183f41}{getOrthogonal}}<TOrthogonal>();}
-\DoxyCodeLine{00181\ \}}
+\DoxyCodeLine{00188\ \{}
+\DoxyCodeLine{00189\ \ \ \textcolor{keywordflow}{return}\ this-\/>\mbox{\hyperlink{classsmacc2_1_1ISmaccState_aba03aa66e4a505ef1cae701ad49374ac}{getStateMachine}}().\mbox{\hyperlink{classsmacc2_1_1ISmaccStateMachine_a45b7a0ad7fb9e02ab13f3af8fb183f41}{getOrthogonal}}<TOrthogonal>();}
+\DoxyCodeLine{00190\ \}}
 
 \end{DoxyCode}
 
@@ -616,7 +625,7 @@ Implemented in \mbox{\hyperlink{classsmacc2_1_1SmaccState_a5d4c6a7ca27204c325f6e
 
 
 
-Referenced by \mbox{\hyperlink{smacc__state__impl_8hpp_source_l00184}{get\+Client\+Behavior()}}, \mbox{\hyperlink{smacc__state__impl_8hpp_source_l00100}{get\+Global\+SMData()}}, \mbox{\hyperlink{smacc__state__impl_8hpp_source_l00178}{get\+Orthogonal()}}, \mbox{\hyperlink{smacc__state_8cpp_source_l00028}{notify\+Transition\+From\+Transition\+Type\+Info()}}, \mbox{\hyperlink{smacc__state__impl_8hpp_source_l00222}{post\+Event()}}, \mbox{\hyperlink{smacc__state__impl_8hpp_source_l00216}{post\+Event()}}, \mbox{\hyperlink{smacc__state__impl_8hpp_source_l00077}{requires\+Client()}}, \mbox{\hyperlink{smacc__state__impl_8hpp_source_l00069}{requires\+Component()}}, \mbox{\hyperlink{smacc__state__impl_8hpp_source_l00062}{requires\+Component()}}, \mbox{\hyperlink{smacc__state__impl_8hpp_source_l00108}{set\+Global\+SMData()}}, and \mbox{\hyperlink{smacc__state__reactor__impl_8hpp_source_l00040}{smacc2\+::\+State\+Reactor\+::set\+Output\+Event()}}.
+Referenced by \mbox{\hyperlink{smacc__state__impl_8hpp_source_l00193}{get\+Client\+Behavior()}}, \mbox{\hyperlink{smacc__state__impl_8hpp_source_l00109}{get\+Global\+SMData()}}, \mbox{\hyperlink{smacc__state__impl_8hpp_source_l00187}{get\+Orthogonal()}}, \mbox{\hyperlink{smacc__state_8cpp_source_l00028}{notify\+Transition\+From\+Transition\+Type\+Info()}}, \mbox{\hyperlink{smacc__state__impl_8hpp_source_l00231}{post\+Event()}}, \mbox{\hyperlink{smacc__state__impl_8hpp_source_l00225}{post\+Event()}}, \mbox{\hyperlink{smacc__state__impl_8hpp_source_l00086}{requires\+Client()}}, \mbox{\hyperlink{smacc__state__impl_8hpp_source_l00078}{requires\+Component()}}, \mbox{\hyperlink{smacc__state__impl_8hpp_source_l00071}{requires\+Component()}}, \mbox{\hyperlink{smacc__state__impl_8hpp_source_l00117}{set\+Global\+SMData()}}, and \mbox{\hyperlink{smacc__state__reactor__impl_8hpp_source_l00040}{smacc2\+::\+State\+Reactor\+::set\+Output\+Event()}}.
 
 Here is the caller graph for this function\+:
 \nopagebreak
@@ -635,19 +644,19 @@ TState\+Reactor \texorpdfstring{$\ast$}{*} smacc2\+::\+ISmacc\+State\+::get\+Sta
 
 
 
-Definition at line \mbox{\hyperlink{smacc__state__impl_8hpp_source_l00202}{202}} of file \mbox{\hyperlink{smacc__state__impl_8hpp_source}{smacc\+\_\+state\+\_\+impl.\+hpp}}.
+Definition at line \mbox{\hyperlink{smacc__state__impl_8hpp_source_l00211}{211}} of file \mbox{\hyperlink{smacc__state__impl_8hpp_source}{smacc\+\_\+state\+\_\+impl.\+hpp}}.
 
 
 \begin{DoxyCode}{0}
-\DoxyCodeLine{00203\ \{}
-\DoxyCodeLine{00204\ \ \ TStateReactor\ *\ ret\ =\ \textcolor{keyword}{nullptr};}
-\DoxyCodeLine{00205\ \ \ \textcolor{keywordflow}{for}\ (\textcolor{keyword}{auto}\ \&\ sr\ :\ this-\/>\mbox{\hyperlink{classsmacc2_1_1ISmaccState_ac0814ba28c1adfb56c830271b104bce9}{eventGenerators\_}})}
-\DoxyCodeLine{00206\ \ \ \{}
-\DoxyCodeLine{00207\ \ \ \ \ ret\ =\ \textcolor{keyword}{dynamic\_cast<}TStateReactor\ *\textcolor{keyword}{>}(sr.get());}
-\DoxyCodeLine{00208\ \ \ \ \ \textcolor{keywordflow}{if}\ (ret\ !=\ \textcolor{keyword}{nullptr})\ \textcolor{keywordflow}{break};}
-\DoxyCodeLine{00209\ \ \ \}}
-\DoxyCodeLine{00210\ \ \ \textcolor{keywordflow}{return}\ ret;}
-\DoxyCodeLine{00211\ \}}
+\DoxyCodeLine{00212\ \{}
+\DoxyCodeLine{00213\ \ \ TStateReactor\ *\ ret\ =\ \textcolor{keyword}{nullptr};}
+\DoxyCodeLine{00214\ \ \ \textcolor{keywordflow}{for}\ (\textcolor{keyword}{auto}\ \&\ sr\ :\ this-\/>\mbox{\hyperlink{classsmacc2_1_1ISmaccState_ac0814ba28c1adfb56c830271b104bce9}{eventGenerators\_}})}
+\DoxyCodeLine{00215\ \ \ \{}
+\DoxyCodeLine{00216\ \ \ \ \ ret\ =\ \textcolor{keyword}{dynamic\_cast<}TStateReactor\ *\textcolor{keyword}{>}(sr.get());}
+\DoxyCodeLine{00217\ \ \ \ \ \textcolor{keywordflow}{if}\ (ret\ !=\ \textcolor{keyword}{nullptr})\ \textcolor{keywordflow}{break};}
+\DoxyCodeLine{00218\ \ \ \}}
+\DoxyCodeLine{00219\ \ \ \textcolor{keywordflow}{return}\ ret;}
+\DoxyCodeLine{00220\ \}}
 
 \end{DoxyCode}
 
@@ -725,14 +734,14 @@ void smacc2\+::\+ISmacc\+State\+::notify\+Transition (\begin{DoxyParamCaption}{}
 
 
 
-Definition at line \mbox{\hyperlink{smacc__state__impl_8hpp_source_l00229}{229}} of file \mbox{\hyperlink{smacc__state__impl_8hpp_source}{smacc\+\_\+state\+\_\+impl.\+hpp}}.
+Definition at line \mbox{\hyperlink{smacc__state__impl_8hpp_source_l00238}{238}} of file \mbox{\hyperlink{smacc__state__impl_8hpp_source}{smacc\+\_\+state\+\_\+impl.\+hpp}}.
 
 
 \begin{DoxyCode}{0}
-\DoxyCodeLine{00230\ \{}
-\DoxyCodeLine{00231\ \ \ \textcolor{keyword}{auto}\ transitionType\ =\ \mbox{\hyperlink{classsmacc2_1_1introspection_1_1TypeInfo_a3374ef7a2f3e000d18ebceb8483655b9}{TypeInfo::getTypeInfoFromType<TransitionType>}}();}
-\DoxyCodeLine{00232\ \ \ this-\/>\mbox{\hyperlink{classsmacc2_1_1ISmaccState_af07000235dbc0541fe4cd9cc08790dd1}{notifyTransitionFromTransitionTypeInfo}}(transitionType);}
-\DoxyCodeLine{00233\ \}}
+\DoxyCodeLine{00239\ \{}
+\DoxyCodeLine{00240\ \ \ \textcolor{keyword}{auto}\ transitionType\ =\ \mbox{\hyperlink{classsmacc2_1_1introspection_1_1TypeInfo_a3374ef7a2f3e000d18ebceb8483655b9}{TypeInfo::getTypeInfoFromType<TransitionType>}}();}
+\DoxyCodeLine{00241\ \ \ this-\/>\mbox{\hyperlink{classsmacc2_1_1ISmaccState_af07000235dbc0541fe4cd9cc08790dd1}{notifyTransitionFromTransitionTypeInfo}}(transitionType);}
+\DoxyCodeLine{00242\ \}}
 
 \end{DoxyCode}
 
@@ -828,7 +837,7 @@ References \mbox{\hyperlink{smacc__state_8hpp_source_l00046}{get\+Logger()}}, \m
 
 
 
-Referenced by \mbox{\hyperlink{smacc__state__impl_8hpp_source_l00229}{notify\+Transition()}}.
+Referenced by \mbox{\hyperlink{smacc__state__impl_8hpp_source_l00238}{notify\+Transition()}}.
 
 Here is the call graph for this function\+:
 \nopagebreak
@@ -867,13 +876,13 @@ void smacc2\+::\+ISmacc\+State\+::post\+Event (\begin{DoxyParamCaption}{}{}\end{
 
 
 
-Definition at line \mbox{\hyperlink{smacc__state__impl_8hpp_source_l00222}{222}} of file \mbox{\hyperlink{smacc__state__impl_8hpp_source}{smacc\+\_\+state\+\_\+impl.\+hpp}}.
+Definition at line \mbox{\hyperlink{smacc__state__impl_8hpp_source_l00231}{231}} of file \mbox{\hyperlink{smacc__state__impl_8hpp_source}{smacc\+\_\+state\+\_\+impl.\+hpp}}.
 
 
 \begin{DoxyCode}{0}
-\DoxyCodeLine{00223\ \{}
-\DoxyCodeLine{00224\ \ \ \mbox{\hyperlink{classsmacc2_1_1ISmaccState_aba03aa66e4a505ef1cae701ad49374ac}{getStateMachine}}().\mbox{\hyperlink{classsmacc2_1_1ISmaccStateMachine_aec0535bd51c1343b5465fc4d5755ae3c}{postEvent}}<EventType>();}
-\DoxyCodeLine{00225\ \}}
+\DoxyCodeLine{00232\ \{}
+\DoxyCodeLine{00233\ \ \ \mbox{\hyperlink{classsmacc2_1_1ISmaccState_aba03aa66e4a505ef1cae701ad49374ac}{getStateMachine}}().\mbox{\hyperlink{classsmacc2_1_1ISmaccStateMachine_aec0535bd51c1343b5465fc4d5755ae3c}{postEvent}}<EventType>();}
+\DoxyCodeLine{00234\ \}}
 
 \end{DoxyCode}
 
@@ -909,13 +918,13 @@ void smacc2\+::\+ISmacc\+State\+::post\+Event (\begin{DoxyParamCaption}\item[{co
 
 
 
-Definition at line \mbox{\hyperlink{smacc__state__impl_8hpp_source_l00216}{216}} of file \mbox{\hyperlink{smacc__state__impl_8hpp_source}{smacc\+\_\+state\+\_\+impl.\+hpp}}.
+Definition at line \mbox{\hyperlink{smacc__state__impl_8hpp_source_l00225}{225}} of file \mbox{\hyperlink{smacc__state__impl_8hpp_source}{smacc\+\_\+state\+\_\+impl.\+hpp}}.
 
 
 \begin{DoxyCode}{0}
-\DoxyCodeLine{00217\ \{}
-\DoxyCodeLine{00218\ \ \ \mbox{\hyperlink{classsmacc2_1_1ISmaccState_aba03aa66e4a505ef1cae701ad49374ac}{getStateMachine}}().\mbox{\hyperlink{classsmacc2_1_1ISmaccStateMachine_aec0535bd51c1343b5465fc4d5755ae3c}{postEvent}}(ev);}
-\DoxyCodeLine{00219\ \}}
+\DoxyCodeLine{00226\ \{}
+\DoxyCodeLine{00227\ \ \ \mbox{\hyperlink{classsmacc2_1_1ISmaccState_aba03aa66e4a505ef1cae701ad49374ac}{getStateMachine}}().\mbox{\hyperlink{classsmacc2_1_1ISmaccStateMachine_aec0535bd51c1343b5465fc4d5755ae3c}{postEvent}}(ev);}
+\DoxyCodeLine{00228\ \}}
 
 \end{DoxyCode}
 
@@ -951,29 +960,29 @@ void smacc2\+::\+ISmacc\+State\+::requires\+Client (\begin{DoxyParamCaption}\ite
 
 
 
-Definition at line \mbox{\hyperlink{smacc__state__impl_8hpp_source_l00077}{77}} of file \mbox{\hyperlink{smacc__state__impl_8hpp_source}{smacc\+\_\+state\+\_\+impl.\+hpp}}.
+Definition at line \mbox{\hyperlink{smacc__state__impl_8hpp_source_l00086}{86}} of file \mbox{\hyperlink{smacc__state__impl_8hpp_source}{smacc\+\_\+state\+\_\+impl.\+hpp}}.
 
 
 \begin{DoxyCode}{0}
-\DoxyCodeLine{00078\ \{}
-\DoxyCodeLine{00079\ \ \ storage\ =\ \textcolor{keyword}{nullptr};}
-\DoxyCodeLine{00080\ \ \ \textcolor{keyword}{auto}\ \&\ orthogonals\ =\ this-\/>\mbox{\hyperlink{classsmacc2_1_1ISmaccState_aba03aa66e4a505ef1cae701ad49374ac}{getStateMachine}}().\mbox{\hyperlink{classsmacc2_1_1ISmaccStateMachine_a5add78b13865291a7d167cbc496d0d35}{getOrthogonals}}();}
-\DoxyCodeLine{00081\ \ \ \textcolor{keywordflow}{for}\ (\textcolor{keyword}{auto}\ \&\ ortho\ :\ orthogonals)}
-\DoxyCodeLine{00082\ \ \ \{}
-\DoxyCodeLine{00083\ \ \ \ \ ortho.second-\/>requiresClient(storage);}
-\DoxyCodeLine{00084\ \ \ \ \ \textcolor{keywordflow}{if}\ (storage\ !=\ \textcolor{keyword}{nullptr})\ \textcolor{keywordflow}{return};}
-\DoxyCodeLine{00085\ \ \ \}}
-\DoxyCodeLine{00086\ }
-\DoxyCodeLine{00087\ \ \ \textcolor{comment}{//\ Keep\ the\ std::string\ alive\ across\ the\ log\ call.\ This\ used\ to\ take\ c\_str()\ of\ the\ temporary}}
-\DoxyCodeLine{00088\ \ \ \textcolor{comment}{//\ returned\ by\ demangleSymbol\ into\ a\ const\ char\ *,\ which\ read\ freed\ memory\ here.\ The\ name\ is}}
-\DoxyCodeLine{00089\ \ \ \textcolor{comment}{//\ only\ needed\ on\ this\ path,\ so\ it\ is\ demangled\ here\ rather\ than\ on\ every\ lookup.}}
-\DoxyCodeLine{00090\ \ \ \textcolor{keyword}{const}\ std::string\ sname\ =\ \mbox{\hyperlink{namespacesmacc2_1_1introspection_aba19132e50f25adee919c2504ae6a3a2}{demangleSymbol}}(\textcolor{keyword}{typeid}(*this).name());}
-\DoxyCodeLine{00091\ \ \ RCLCPP\_ERROR(}
-\DoxyCodeLine{00092\ \ \ \ \ \mbox{\hyperlink{classsmacc2_1_1ISmaccState_a197a2c11b2510484138af98b55761fc3}{getLogger}}(),}
-\DoxyCodeLine{00093\ \ \ \ \ \textcolor{stringliteral}{"{}[\%s]\ Client\ of\ type\ '\%s'\ not\ found\ in\ any\ orthogonal\ of\ the\ current\ state\ machine.\ This\ may\ "{}}}
-\DoxyCodeLine{00094\ \ \ \ \ \textcolor{stringliteral}{"{}produce\ a\ segmentation\ fault\ if\ the\ returned\ reference\ is\ used."{}},}
-\DoxyCodeLine{00095\ \ \ \ \ sname.c\_str(),\ \mbox{\hyperlink{namespacesmacc2_1_1introspection_aba19132e50f25adee919c2504ae6a3a2}{demangleSymbol<SmaccClientType>}}().c\_str());}
-\DoxyCodeLine{00096\ \}}
+\DoxyCodeLine{00087\ \{}
+\DoxyCodeLine{00088\ \ \ storage\ =\ \textcolor{keyword}{nullptr};}
+\DoxyCodeLine{00089\ \ \ \textcolor{keyword}{auto}\ \&\ orthogonals\ =\ this-\/>\mbox{\hyperlink{classsmacc2_1_1ISmaccState_aba03aa66e4a505ef1cae701ad49374ac}{getStateMachine}}().\mbox{\hyperlink{classsmacc2_1_1ISmaccStateMachine_a5add78b13865291a7d167cbc496d0d35}{getOrthogonals}}();}
+\DoxyCodeLine{00090\ \ \ \textcolor{keywordflow}{for}\ (\textcolor{keyword}{auto}\ \&\ ortho\ :\ orthogonals)}
+\DoxyCodeLine{00091\ \ \ \{}
+\DoxyCodeLine{00092\ \ \ \ \ ortho.second-\/>requiresClient(storage);}
+\DoxyCodeLine{00093\ \ \ \ \ \textcolor{keywordflow}{if}\ (storage\ !=\ \textcolor{keyword}{nullptr})\ \textcolor{keywordflow}{return};}
+\DoxyCodeLine{00094\ \ \ \}}
+\DoxyCodeLine{00095\ }
+\DoxyCodeLine{00096\ \ \ \textcolor{comment}{//\ Keep\ the\ std::string\ alive\ across\ the\ log\ call.\ This\ used\ to\ take\ c\_str()\ of\ the\ temporary}}
+\DoxyCodeLine{00097\ \ \ \textcolor{comment}{//\ returned\ by\ demangleSymbol\ into\ a\ const\ char\ *,\ which\ read\ freed\ memory\ here.\ The\ name\ is}}
+\DoxyCodeLine{00098\ \ \ \textcolor{comment}{//\ only\ needed\ on\ this\ path,\ so\ it\ is\ demangled\ here\ rather\ than\ on\ every\ lookup.}}
+\DoxyCodeLine{00099\ \ \ \textcolor{keyword}{const}\ std::string\ sname\ =\ \mbox{\hyperlink{namespacesmacc2_1_1introspection_aba19132e50f25adee919c2504ae6a3a2}{demangleSymbol}}(\textcolor{keyword}{typeid}(*this).name());}
+\DoxyCodeLine{00100\ \ \ RCLCPP\_ERROR(}
+\DoxyCodeLine{00101\ \ \ \ \ \mbox{\hyperlink{classsmacc2_1_1ISmaccState_a197a2c11b2510484138af98b55761fc3}{getLogger}}(),}
+\DoxyCodeLine{00102\ \ \ \ \ \textcolor{stringliteral}{"{}[\%s]\ Client\ of\ type\ '\%s'\ not\ found\ in\ any\ orthogonal\ of\ the\ current\ state\ machine.\ This\ may\ "{}}}
+\DoxyCodeLine{00103\ \ \ \ \ \textcolor{stringliteral}{"{}produce\ a\ segmentation\ fault\ if\ the\ returned\ reference\ is\ used."{}},}
+\DoxyCodeLine{00104\ \ \ \ \ sname.c\_str(),\ \mbox{\hyperlink{namespacesmacc2_1_1introspection_aba19132e50f25adee919c2504ae6a3a2}{demangleSymbol<SmaccClientType>}}().c\_str());}
+\DoxyCodeLine{00105\ \}}
 
 \end{DoxyCode}
 
@@ -997,13 +1006,13 @@ void smacc2\+::\+ISmacc\+State\+::requires\+Component (\begin{DoxyParamCaption}\
 
 
 
-Definition at line \mbox{\hyperlink{smacc__state__impl_8hpp_source_l00069}{69}} of file \mbox{\hyperlink{smacc__state__impl_8hpp_source}{smacc\+\_\+state\+\_\+impl.\+hpp}}.
+Definition at line \mbox{\hyperlink{smacc__state__impl_8hpp_source_l00078}{78}} of file \mbox{\hyperlink{smacc__state__impl_8hpp_source}{smacc\+\_\+state\+\_\+impl.\+hpp}}.
 
 
 \begin{DoxyCode}{0}
-\DoxyCodeLine{00071\ \{}
-\DoxyCodeLine{00072\ \ \ this-\/>\mbox{\hyperlink{classsmacc2_1_1ISmaccState_aba03aa66e4a505ef1cae701ad49374ac}{getStateMachine}}().\mbox{\hyperlink{classsmacc2_1_1ISmaccStateMachine_a37c10cc3ff9e4dffc9f75e3f32fe35f2}{requiresComponent}}(name,\ storage,\ requirementType);}
-\DoxyCodeLine{00073\ \}}
+\DoxyCodeLine{00080\ \{}
+\DoxyCodeLine{00081\ \ \ this-\/>\mbox{\hyperlink{classsmacc2_1_1ISmaccState_aba03aa66e4a505ef1cae701ad49374ac}{getStateMachine}}().\mbox{\hyperlink{classsmacc2_1_1ISmaccStateMachine_a37c10cc3ff9e4dffc9f75e3f32fe35f2}{requiresComponent}}(name,\ storage,\ requirementType);}
+\DoxyCodeLine{00082\ \}}
 
 \end{DoxyCode}
 
@@ -1027,13 +1036,13 @@ void smacc2\+::\+ISmacc\+State\+::requires\+Component (\begin{DoxyParamCaption}\
 
 
 
-Definition at line \mbox{\hyperlink{smacc__state__impl_8hpp_source_l00062}{62}} of file \mbox{\hyperlink{smacc__state__impl_8hpp_source}{smacc\+\_\+state\+\_\+impl.\+hpp}}.
+Definition at line \mbox{\hyperlink{smacc__state__impl_8hpp_source_l00071}{71}} of file \mbox{\hyperlink{smacc__state__impl_8hpp_source}{smacc\+\_\+state\+\_\+impl.\+hpp}}.
 
 
 \begin{DoxyCode}{0}
-\DoxyCodeLine{00064\ \{}
-\DoxyCodeLine{00065\ \ \ this-\/>\mbox{\hyperlink{classsmacc2_1_1ISmaccState_aba03aa66e4a505ef1cae701ad49374ac}{getStateMachine}}().\mbox{\hyperlink{classsmacc2_1_1ISmaccStateMachine_a37c10cc3ff9e4dffc9f75e3f32fe35f2}{requiresComponent}}(storage,\ requirementType);}
-\DoxyCodeLine{00066\ \}}
+\DoxyCodeLine{00073\ \{}
+\DoxyCodeLine{00074\ \ \ this-\/>\mbox{\hyperlink{classsmacc2_1_1ISmaccState_aba03aa66e4a505ef1cae701ad49374ac}{getStateMachine}}().\mbox{\hyperlink{classsmacc2_1_1ISmaccStateMachine_a37c10cc3ff9e4dffc9f75e3f32fe35f2}{requiresComponent}}(storage,\ requirementType);}
+\DoxyCodeLine{00075\ \}}
 
 \end{DoxyCode}
 
@@ -1057,13 +1066,13 @@ void smacc2\+::\+ISmacc\+State\+::set\+Global\+SMData (\begin{DoxyParamCaption}\
 
 
 
-Definition at line \mbox{\hyperlink{smacc__state__impl_8hpp_source_l00108}{108}} of file \mbox{\hyperlink{smacc__state__impl_8hpp_source}{smacc\+\_\+state\+\_\+impl.\+hpp}}.
+Definition at line \mbox{\hyperlink{smacc__state__impl_8hpp_source_l00117}{117}} of file \mbox{\hyperlink{smacc__state__impl_8hpp_source}{smacc\+\_\+state\+\_\+impl.\+hpp}}.
 
 
 \begin{DoxyCode}{0}
-\DoxyCodeLine{00109\ \{}
-\DoxyCodeLine{00110\ \ \ this-\/>\mbox{\hyperlink{classsmacc2_1_1ISmaccState_aba03aa66e4a505ef1cae701ad49374ac}{getStateMachine}}().\mbox{\hyperlink{classsmacc2_1_1ISmaccStateMachine_a011a1907716a79bc3506316cc6193de9}{setGlobalSMData}}(name,\ value);}
-\DoxyCodeLine{00111\ \}}
+\DoxyCodeLine{00118\ \{}
+\DoxyCodeLine{00119\ \ \ this-\/>\mbox{\hyperlink{classsmacc2_1_1ISmaccState_aba03aa66e4a505ef1cae701ad49374ac}{getStateMachine}}().\mbox{\hyperlink{classsmacc2_1_1ISmaccStateMachine_a011a1907716a79bc3506316cc6193de9}{setGlobalSMData}}(name,\ value);}
+\DoxyCodeLine{00120\ \}}
 
 \end{DoxyCode}
 
@@ -1093,7 +1102,7 @@ Definition at line \mbox{\hyperlink{smacc__state_8hpp_source_l00130}{130}} of fi
 
 
 
-Referenced by \mbox{\hyperlink{smacc__state__impl_8hpp_source_l00123}{create\+Event\+Generator()}}, \mbox{\hyperlink{smacc__state__impl_8hpp_source_l00190}{get\+Event\+Generator()}}, \mbox{\hyperlink{smacc__state_8hpp_source_l00106}{get\+Event\+Generators()}}, and \mbox{\hyperlink{smacc__state__impl_8hpp_source_l00202}{get\+State\+Reactor()}}.
+Referenced by \mbox{\hyperlink{smacc__state__impl_8hpp_source_l00132}{create\+Event\+Generator()}}, \mbox{\hyperlink{smacc__state__impl_8hpp_source_l00199}{get\+Event\+Generator()}}, \mbox{\hyperlink{smacc__state_8hpp_source_l00106}{get\+Event\+Generators()}}, and \mbox{\hyperlink{smacc__state__impl_8hpp_source_l00211}{get\+State\+Reactor()}}.
 
 \Hypertarget{classsmacc2_1_1ISmaccState_a8e6bff9829281146f9a46cbdfb8f69ab}\index{smacc2::ISmaccState@{smacc2::ISmaccState}!initializationFailed\_@{initializationFailed\_}}
 \index{initializationFailed\_@{initializationFailed\_}!smacc2::ISmaccState@{smacc2::ISmaccState}}
@@ -1177,7 +1186,7 @@ Definition at line \mbox{\hyperlink{smacc__state_8hpp_source_l00129}{129}} of fi
 
 
 
-Referenced by \mbox{\hyperlink{smacc__state__impl_8hpp_source_l00115}{create\+State\+Reactor()}}, and \mbox{\hyperlink{smacc__state_8hpp_source_l00104}{get\+State\+Reactors()}}.
+Referenced by \mbox{\hyperlink{smacc__state__impl_8hpp_source_l00124}{create\+State\+Reactor()}}, and \mbox{\hyperlink{smacc__state_8hpp_source_l00104}{get\+State\+Reactors()}}.
 
 
 

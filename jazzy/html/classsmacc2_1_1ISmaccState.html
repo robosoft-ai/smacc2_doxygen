@@ -387,22 +387,31 @@ template&lt;typename TOrthogonal , typename TBehavior , typename... Args&gt; </d
 <div class="line"><span class="lineno">   46</span>                                                           <span class="comment">// behavior constructor parameters right?</span></div>
 <div class="line"><span class="lineno">   47</span>    orthogonal-&gt;addClientBehavior(clientBehavior);</div>
 <div class="line"><span class="lineno">   48</span>    clientBehavior-&gt;template onStateOrthogonalAllocation&lt;TOrthogonal, TBehavior&gt;();</div>
-<div class="line"><span class="lineno">   49</span>    <span class="keywordflow">return</span> clientBehavior;</div>
-<div class="line"><span class="lineno">   50</span>  }</div>
-<div class="line"><span class="lineno">   51</span>  <span class="keywordflow">else</span></div>
-<div class="line"><span class="lineno">   52</span>  {</div>
-<div class="line"><span class="lineno">   53</span>    RCLCPP_ERROR(</div>
-<div class="line"><span class="lineno">   54</span>      <a class="code hl_function" href="#a197a2c11b2510484138af98b55761fc3">getLogger</a>(), <span class="stringliteral">&quot;[%s] Skipping client behavior creation in orthogonal [%s]. It does not exist.&quot;</span>,</div>
-<div class="line"><span class="lineno">   55</span>      <a class="code hl_define" href="smacc__state__impl_8hpp.html#ad0127799795db099b49dd8d9025ba574">THIS_STATE_NAME</a>, orthogonalkey.c_str());</div>
-<div class="line"><span class="lineno">   56</span>    <span class="keywordflow">return</span> <span class="keyword">nullptr</span>;</div>
-<div class="line"><span class="lineno">   57</span>  }</div>
-<div class="line"><span class="lineno">   58</span>}</div>
+<div class="line"><span class="lineno">   49</span>    <span class="comment">// Set here and not in onStateOrthogonalAllocation, which a derived behavior may hide.</span></div>
+<div class="line"><span class="lineno">   50</span>    ISmaccClientBehavior * behavior = clientBehavior.get();</div>
+<div class="line"><span class="lineno">   51</span>    behavior-&gt;postInitializationFailureEventFn_ = [behavior](<span class="keyword">const</span> std::string &amp; what)</div>
+<div class="line"><span class="lineno">   52</span>    {</div>
+<div class="line"><span class="lineno">   53</span>      <span class="keyword">auto</span> * ev = <span class="keyword">new</span> default_events::EvCbInitializationFailure&lt;TBehavior, TOrthogonal&gt;();</div>
+<div class="line"><span class="lineno">   54</span>      ev-&gt;behaviorName = behavior-&gt;getName();</div>
+<div class="line"><span class="lineno">   55</span>      ev-&gt;what = what;</div>
+<div class="line"><span class="lineno">   56</span>      behavior-&gt;postEvent(ev);</div>
+<div class="line"><span class="lineno">   57</span>    };</div>
+<div class="line"><span class="lineno">   58</span>    <span class="keywordflow">return</span> clientBehavior;</div>
+<div class="line"><span class="lineno">   59</span>  }</div>
+<div class="line"><span class="lineno">   60</span>  <span class="keywordflow">else</span></div>
+<div class="line"><span class="lineno">   61</span>  {</div>
+<div class="line"><span class="lineno">   62</span>    RCLCPP_ERROR(</div>
+<div class="line"><span class="lineno">   63</span>      <a class="code hl_function" href="#a197a2c11b2510484138af98b55761fc3">getLogger</a>(), <span class="stringliteral">&quot;[%s] Skipping client behavior creation in orthogonal [%s]. It does not exist.&quot;</span>,</div>
+<div class="line"><span class="lineno">   64</span>      <a class="code hl_define" href="smacc__state__impl_8hpp.html#ad0127799795db099b49dd8d9025ba574">THIS_STATE_NAME</a>, orthogonalkey.c_str());</div>
+<div class="line"><span class="lineno">   65</span>    <span class="keywordflow">return</span> <span class="keyword">nullptr</span>;</div>
+<div class="line"><span class="lineno">   66</span>  }</div>
+<div class="line"><span class="lineno">   67</span>}</div>
 <div class="ttc" id="aclasssmacc2_1_1ISmaccState_html_a197a2c11b2510484138af98b55761fc3"><div class="ttname"><a href="#a197a2c11b2510484138af98b55761fc3">smacc2::ISmaccState::getLogger</a></div><div class="ttdeci">rclcpp::Logger getLogger()</div><div class="ttdef"><b>Definition</b> <a href="smacc__state_8hpp_source.html#l00046">smacc_state.hpp:46</a></div></div>
-<div class="ttc" id="aclasssmacc2_1_1ISmaccState_html_aab04cff8d200dd9a5dfa07a2a1e0d868"><div class="ttname"><a href="#aab04cff8d200dd9a5dfa07a2a1e0d868">smacc2::ISmaccState::getOrthogonal</a></div><div class="ttdeci">TOrthogonal * getOrthogonal()</div><div class="ttdef"><b>Definition</b> <a href="smacc__state__impl_8hpp_source.html#l00178">smacc_state_impl.hpp:178</a></div></div>
+<div class="ttc" id="aclasssmacc2_1_1ISmaccState_html_aab04cff8d200dd9a5dfa07a2a1e0d868"><div class="ttname"><a href="#aab04cff8d200dd9a5dfa07a2a1e0d868">smacc2::ISmaccState::getOrthogonal</a></div><div class="ttdeci">TOrthogonal * getOrthogonal()</div><div class="ttdef"><b>Definition</b> <a href="smacc__state__impl_8hpp_source.html#l00187">smacc_state_impl.hpp:187</a></div></div>
 <div class="ttc" id="anamespacesmacc2_1_1introspection_html_ad91d35c248d6c8b934c8daeee553af8a"><div class="ttname"><a href="namespacesmacc2_1_1introspection.html#ad91d35c248d6c8b934c8daeee553af8a">smacc2::introspection::demangledTypeName</a></div><div class="ttdeci">std::string demangledTypeName()</div><div class="ttdef"><b>Definition</b> <a href="introspection_8hpp_source.html#l00100">introspection.hpp:100</a></div></div>
 <div class="ttc" id="asmacc__state__impl_8hpp_html_ad0127799795db099b49dd8d9025ba574"><div class="ttname"><a href="smacc__state__impl_8hpp.html#ad0127799795db099b49dd8d9025ba574">THIS_STATE_NAME</a></div><div class="ttdeci">#define THIS_STATE_NAME</div><div class="ttdef"><b>Definition</b> <a href="smacc__state__impl_8hpp_source.html#l00033">smacc_state_impl.hpp:33</a></div></div>
 </div><!-- fragment -->
-<p class="reference">References <a class="el" href="introspection_8hpp_source.html#l00100">smacc2::introspection::demangledTypeName()</a>, <a class="el" href="smacc__state_8hpp_source.html#l00046">getLogger()</a>, <a class="el" href="smacc__state__impl_8hpp_source.html#l00178">getOrthogonal()</a>, and <a class="el" href="smacc__state__impl_8hpp_source.html#l00033">THIS_STATE_NAME</a>.</p>
+<p class="reference">References <a class="el" href="introspection_8hpp_source.html#l00100">smacc2::introspection::demangledTypeName()</a>, <a class="el" href="smacc__state_8hpp_source.html#l00046">getLogger()</a>, <a class="el" href="smacc__client__behavior__base_8cpp_source.html#l00037">smacc2::ISmaccClientBehavior::getName()</a>, <a class="el" href="smacc__state__impl_8hpp_source.html#l00187">getOrthogonal()</a>, <a class="el" href="smacc__client__behavior__impl_8hpp_source.html#l00031">smacc2::ISmaccClientBehavior::postEvent()</a>, <a class="el" href="smacc__client__behavior__base_8hpp_source.html#l00102">smacc2::ISmaccClientBehavior::postInitializationFailureEventFn_</a>, and <a class="el" href="smacc__state__impl_8hpp_source.html#l00033">THIS_STATE_NAME</a>.</p>
 
 <p class="reference">Referenced by <a class="el" href="smacc__state__base_8hpp_source.html#l00213">smacc2::SmaccState&lt; MostDerived, Context, InnerInitial, historyMode &gt;::configure_orthogonal()</a>, <a class="el" href="smacc__state__base_8hpp_source.html#l00201">smacc2::SmaccState&lt; MostDerived, Context, InnerInitial, historyMode &gt;::configure_orthogonal_runtime()</a>, and <a class="el" href="smacc__state__base_8hpp_source.html#l00189">smacc2::SmaccState&lt; MostDerived, Context, InnerInitial, historyMode &gt;::configure_orthogonal_runtime()</a>.</p>
 <div class="dynheader">
@@ -410,23 +419,70 @@ Here is the call graph for this function:</div>
 <div class="dyncontent">
 <div class="center"><img src="classsmacc2_1_1ISmaccState_a4fb93a9c3933ad7a2755da758634d00d_cgraph.png" border="0" usemap="#aclasssmacc2_1_1ISmaccState_a4fb93a9c3933ad7a2755da758634d00d_cgraph" alt=""/></div>
 <map name="aclasssmacc2_1_1ISmaccState_a4fb93a9c3933ad7a2755da758634d00d_cgraph" id="aclasssmacc2_1_1ISmaccState_a4fb93a9c3933ad7a2755da758634d00d_cgraph">
-<area shape="rect" title=" " alt="" coords="5,87,155,127"/>
-<area shape="rect" href="namespacesmacc2_1_1introspection.html#ad91d35c248d6c8b934c8daeee553af8a" title=" " alt="" coords="669,29,822,70"/>
-<area shape="poly" title=" " alt="" coords="150,83,202,72,324,58,446,50,654,45,654,51,447,55,325,63,203,78,151,89"/>
-<area shape="rect" href="classsmacc2_1_1ISmaccState.html#a197a2c11b2510484138af98b55761fc3" title=" " alt="" coords="203,87,352,127"/>
-<area shape="poly" title=" " alt="" coords="155,104,187,104,187,110,155,110"/>
-<area shape="rect" href="classsmacc2_1_1ISmaccState.html#aab04cff8d200dd9a5dfa07a2a1e0d868" title=" " alt="" coords="203,152,352,193"/>
-<area shape="poly" title=" " alt="" coords="144,125,200,144,198,149,143,130"/>
-<area shape="rect" href="namespacesmacc2_1_1introspection.html#aba19132e50f25adee919c2504ae6a3a2" title=" " alt="" coords="893,29,1040,70"/>
-<area shape="poly" title=" " alt="" coords="823,47,877,47,877,52,823,52"/>
-<area shape="poly" title=" " alt="" coords="925,29,923,19,929,10,944,5,966,3,990,5,1004,11,1002,16,989,10,966,8,945,10,933,15,928,21,930,28"/>
-<area shape="rect" href="classsmacc2_1_1ISmaccStateMachine.html#a45b7a0ad7fb9e02ab13f3af8fb183f41" title=" " alt="" coords="400,91,598,131"/>
-<area shape="poly" title=" " alt="" coords="352,149,408,134,409,139,353,154"/>
-<area shape="rect" href="classsmacc2_1_1ISmaccState.html#aba03aa66e4a505ef1cae701ad49374ac" title=" " alt="" coords="424,156,574,197"/>
-<area shape="poly" title=" " alt="" coords="352,171,409,172,409,177,352,176"/>
-<area shape="poly" title=" " alt="" coords="583,87,653,70,654,75,584,93"/>
-<area shape="rect" href="classsmacc2_1_1ISmaccStateMachine.html#acc4b310700e4256383d28f56217c3ce1" title=" " alt="" coords="646,95,845,135"/>
-<area shape="poly" title=" " alt="" coords="599,110,630,110,630,116,599,115"/>
+<area shape="rect" title=" " alt="" coords="5,364,155,405"/>
+<area shape="rect" href="namespacesmacc2_1_1introspection.html#ad91d35c248d6c8b934c8daeee553af8a" title=" " alt="" coords="734,637,888,678"/>
+<area shape="poly" title=" " alt="" coords="95,403,138,469,168,505,204,537,265,575,332,604,401,626,472,642,541,652,606,658,719,660,719,666,606,663,540,657,471,647,400,631,330,609,263,579,201,541,165,509,133,472,90,406"/>
+<area shape="rect" href="classsmacc2_1_1ISmaccState.html#a197a2c11b2510484138af98b55761fc3" title=" " alt="" coords="229,299,378,339"/>
+<area shape="poly" title=" " alt="" coords="151,361,216,342,218,347,153,366"/>
+<area shape="rect" href="classsmacc2_1_1ISmaccClientBehavior.html#a3feaa9c382a7d376b7ba0017a63e294e" title=" " alt="" coords="203,136,405,177"/>
+<area shape="poly" title=" " alt="" coords="99,362,271,186,274,189,103,366"/>
+<area shape="rect" href="classsmacc2_1_1ISmaccState.html#aab04cff8d200dd9a5dfa07a2a1e0d868" title=" " alt="" coords="229,487,378,527"/>
+<area shape="poly" title=" " alt="" coords="120,403,253,477,250,481,118,408"/>
+<area shape="rect" href="classsmacc2_1_1ISmaccClientBehavior.html#a400af032797d2461602187cd52590287" title=" " alt="" coords="203,364,405,405"/>
+<area shape="poly" title=" " alt="" coords="155,382,187,382,187,387,155,387"/>
+<area shape="rect" href="namespacesmacc2_1_1introspection.html#aba19132e50f25adee919c2504ae6a3a2" title=" " alt="" coords="1233,272,1380,313"/>
+<area shape="poly" title=" " alt="" coords="888,661,953,660,1027,651,1100,630,1135,614,1166,593,1196,565,1222,533,1243,497,1260,460,1284,387,1297,328,1303,329,1289,388,1265,461,1247,499,1226,536,1200,569,1170,597,1137,618,1102,635,1028,656,954,665,888,666"/>
+<area shape="poly" title=" " alt="" coords="1266,272,1264,262,1271,253,1285,247,1307,245,1330,248,1343,254,1341,259,1328,253,1307,251,1287,253,1274,257,1270,263,1272,271"/>
+<area shape="poly" title=" " alt="" coords="347,133,411,106,496,74,598,42,711,17,830,4,890,3,949,7,1008,17,1064,34,1119,57,1170,88,1186,103,1195,119,1200,153,1202,189,1208,207,1218,226,1236,245,1256,261,1252,265,1232,248,1214,229,1203,209,1197,189,1195,153,1190,121,1182,106,1166,92,1116,62,1063,39,1007,23,949,13,890,9,830,9,712,23,599,48,498,79,413,111,349,138"/>
+<area shape="rect" href="classsmacc2_1_1ISmaccStateMachine.html#a45b7a0ad7fb9e02ab13f3af8fb183f41" title=" " alt="" coords="455,580,653,621"/>
+<area shape="poly" title=" " alt="" coords="362,526,484,572,482,577,360,531"/>
+<area shape="rect" href="classsmacc2_1_1ISmaccState.html#aba03aa66e4a505ef1cae701ad49374ac" title=" " alt="" coords="480,487,629,527"/>
+<area shape="poly" title=" " alt="" coords="379,504,464,504,464,510,379,510"/>
+<area shape="poly" title=" " alt="" coords="649,619,720,635,718,640,648,624"/>
+<area shape="rect" href="classsmacc2_1_1ISmaccStateMachine.html#acc4b310700e4256383d28f56217c3ce1" title=" " alt="" coords="968,543,1166,583"/>
+<area shape="poly" title=" " alt="" coords="654,591,918,572,952,570,953,575,919,578,654,597"/>
+<area shape="rect" href="classsmacc2_1_1ISmaccClientBehavior.html#a9c3d82542c800e2ba5207c5cff0e63e8" title=" " alt="" coords="453,203,655,243"/>
+<area shape="poly" title=" " alt="" coords="377,361,404,349,437,327,469,302,522,253,525,257,473,306,441,331,406,353,380,366"/>
+<area shape="rect" href="classsmacc2_1_1ISmaccStateMachine.html#aec0535bd51c1343b5465fc4d5755ae3c" title=" " alt="" coords="455,364,653,405"/>
+<area shape="poly" title=" " alt="" coords="406,382,439,382,439,387,406,387"/>
+<area shape="rect" href="classsmacc2_1_1ISmaccClientBehavior.html#aa1b28d5e8a5208fff8160f9df9a89dc6" title=" " alt="" coords="710,104,912,145"/>
+<area shape="poly" title=" " alt="" coords="607,200,702,162,738,148,740,153,704,167,609,205"/>
+<area shape="rect" href="classsmacc2_1_1ISmaccStateMachine.html#a2cf8b817f7e137fc648e373ae4614a2f" title=" " alt="" coords="968,101,1166,142"/>
+<area shape="poly" title=" " alt="" coords="913,121,953,120,953,126,913,126"/>
+<area shape="poly" title=" " alt="" coords="616,361,684,345,764,337,805,338,846,345,885,358,920,378,937,395,946,413,948,452,949,491,955,510,969,528,972,531,969,535,965,532,950,512,944,492,943,452,940,415,933,398,917,383,882,363,844,350,804,343,764,342,685,350,617,366"/>
+<area shape="rect" href="namespacesmacc2_1_1introspection.html#a7cd35422e0a0d002cd75b1744b9898b5" title=" " alt="" coords="737,523,885,563"/>
+<area shape="poly" title=" " alt="" coords="579,403,645,462,705,508,724,517,722,522,702,512,641,466,576,407"/>
+<area shape="rect" href="classsmacc2_1_1introspection_1_1TypeInfo.html#a3374ef7a2f3e000d18ebceb8483655b9" title=" " alt="" coords="706,176,916,217"/>
+<area shape="poly" title=" " alt="" coords="571,362,626,303,662,269,702,240,735,221,738,226,705,244,666,274,629,307,575,365"/>
+<area shape="rect" href="classsmacc2_1_1SignalDetector.html#a55b22524dba6a544cf35604b7feac20c" title=" " alt="" coords="732,392,890,433"/>
+<area shape="poly" title=" " alt="" coords="654,393,716,400,716,405,653,398"/>
+<area shape="rect" href="classsmacc2_1_1ISmaccStateMachine.html#a8273f9d1364a6e59ef5da7032d34f8da" title=" " alt="" coords="703,277,919,318"/>
+<area shape="poly" title=" " alt="" coords="616,361,733,321,735,326,618,366"/>
+<area shape="rect" href="classsmacc2_1_1SignalDetector.html#a5413f6a6d6d72312221bf9268549f5b0" title=" " alt="" coords="732,457,890,498"/>
+<area shape="poly" title=" " alt="" coords="605,403,704,442,727,450,725,455,702,447,603,408"/>
+<area shape="rect" href="classsmacc2_1_1introspection_1_1TypeInfo.html#a5d6befc2666d265b9d5056a5f0810b47" title=" " alt="" coords="967,167,1168,207"/>
+<area shape="poly" title=" " alt="" coords="916,190,951,189,951,194,916,195"/>
+<area shape="poly" title=" " alt="" coords="1126,206,1169,223,1252,262,1250,267,1167,228,1124,210"/>
+<area shape="rect" href="classsmacc2_1_1introspection_1_1TypeInfo.html#a33b53d23a85b262fd4c485ac6a20cd2a" title=" " alt="" coords="1216,159,1397,215"/>
+<area shape="poly" title=" " alt="" coords="1168,184,1201,184,1201,190,1168,190"/>
+<area shape="rect" href="namespacesmacc2_1_1introspection.html#a8e84e2d02c21826a4dfe6c4239f6c1be" title=" " alt="" coords="1641,168,1788,209"/>
+<area shape="poly" title=" " alt="" coords="1398,182,1593,182,1625,183,1625,188,1593,187,1398,188"/>
+<area shape="rect" href="namespacesmacc2_1_1introspection.html#a971789ff75872c4bf482ad2e6a999ee1" title=" " alt="" coords="1445,196,1593,237"/>
+<area shape="poly" title=" " alt="" coords="1398,197,1430,202,1430,207,1397,202"/>
+<area shape="poly" title=" " alt="" coords="1593,203,1625,199,1625,204,1594,209"/>
+<area shape="poly" title=" " alt="" coords="913,274,966,267,1067,261,1168,267,1218,273,1217,278,1168,272,1067,267,967,272,914,279"/>
+<area shape="poly" title=" " alt="" coords="897,317,921,335,938,360,945,385,947,409,945,434,943,457,945,481,952,504,969,528,972,531,968,535,965,532,947,507,940,482,938,457,940,433,941,409,940,386,933,362,917,338,894,321"/>
+<area shape="poly" title=" " alt="" coords="763,278,761,267,769,258,785,253,811,251,839,253,855,259,853,264,837,258,811,256,786,258,771,263,766,269,768,276"/>
+<area shape="rect" href="namespacesmacc2_1_1introspection.html#af0776d8076fe19b4f806405e9ab08cfe" title=" " alt="" coords="994,281,1141,322"/>
+<area shape="poly" title=" " alt="" coords="919,297,978,298,978,303,919,302"/>
+<area shape="rect" href="classsmacc2_1_1ISmaccState.html#a5a3be081c0b0da5fd9b918bc52aba0d7" title=" " alt="" coords="993,347,1142,387"/>
+<area shape="poly" title=" " alt="" coords="890,316,978,340,977,345,888,321"/>
+<area shape="rect" href="classsmacc2_1_1ISmaccState.html#a2fd9ee3739fcffe568eba27474fa7ded" title=" " alt="" coords="993,412,1142,453"/>
+<area shape="poly" title=" " alt="" coords="888,316,920,334,936,351,945,367,953,382,968,397,980,404,977,409,965,401,949,385,940,369,932,354,917,339,885,321"/>
+<area shape="rect" href="classsmacc2_1_1ISmaccState.html#a7831b97a7a61146977dad18c9891aa79" title=" " alt="" coords="993,477,1142,518"/>
+<area shape="poly" title=" " alt="" coords="895,316,921,335,934,351,941,368,945,400,949,432,956,447,969,463,981,472,977,476,965,466,952,450,944,433,940,401,936,369,929,354,917,338,892,321"/>
+<area shape="poly" title=" " alt="" coords="1142,296,1217,293,1217,299,1142,302"/>
+<area shape="poly" title=" " alt="" coords="1134,344,1224,315,1225,321,1136,349"/>
 </map>
 </div>
 <div class="dynheader">
@@ -463,12 +519,12 @@ template&lt;typename TEventGenerator , typename... TEvArgs&gt; </div>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="smacc__state__impl_8hpp_source.html#l00123">123</a> of file <a class="el" href="smacc__state__impl_8hpp_source.html">smacc_state_impl.hpp</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">  124</span>{</div>
-<div class="line"><span class="lineno">  125</span>  <span class="keyword">auto</span> eg = std::make_shared&lt;TEventGenerator&gt;(args...);</div>
-<div class="line"><span class="lineno">  126</span>  <a class="code hl_variable" href="#ac0814ba28c1adfb56c830271b104bce9">eventGenerators_</a>.push_back(eg);</div>
-<div class="line"><span class="lineno">  127</span>  <span class="keywordflow">return</span> eg;</div>
-<div class="line"><span class="lineno">  128</span>}</div>
+<p class="definition">Definition at line <a class="el" href="smacc__state__impl_8hpp_source.html#l00132">132</a> of file <a class="el" href="smacc__state__impl_8hpp_source.html">smacc_state_impl.hpp</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">  133</span>{</div>
+<div class="line"><span class="lineno">  134</span>  <span class="keyword">auto</span> eg = std::make_shared&lt;TEventGenerator&gt;(args...);</div>
+<div class="line"><span class="lineno">  135</span>  <a class="code hl_variable" href="#ac0814ba28c1adfb56c830271b104bce9">eventGenerators_</a>.push_back(eg);</div>
+<div class="line"><span class="lineno">  136</span>  <span class="keywordflow">return</span> eg;</div>
+<div class="line"><span class="lineno">  137</span>}</div>
 <div class="ttc" id="aclasssmacc2_1_1ISmaccState_html_ac0814ba28c1adfb56c830271b104bce9"><div class="ttname"><a href="#ac0814ba28c1adfb56c830271b104bce9">smacc2::ISmaccState::eventGenerators_</a></div><div class="ttdeci">std::vector&lt; std::shared_ptr&lt; smacc2::SmaccEventGenerator &gt; &gt; eventGenerators_</div><div class="ttdef"><b>Definition</b> <a href="smacc__state_8hpp_source.html#l00130">smacc_state.hpp:130</a></div></div>
 </div><!-- fragment -->
 <p class="reference">References <a class="el" href="smacc__state_8hpp_source.html#l00130">eventGenerators_</a>.</p>
@@ -492,20 +548,20 @@ template&lt;typename TStateReactor , typename TTriggerEvent , typename TEventLis
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="smacc__state__impl_8hpp_source.html#l00162">162</a> of file <a class="el" href="smacc__state__impl_8hpp_source.html">smacc_state_impl.hpp</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">  163</span>{</div>
-<div class="line"><span class="lineno">  164</span>  <span class="keyword">auto</span> sr = std::make_shared&lt;TStateReactor&gt;(args...);</div>
-<div class="line"><span class="lineno">  165</span>  sr-&gt;initialize(<span class="keyword">this</span>);</div>
-<div class="line"><span class="lineno">  166</span>  sr-&gt;template setOutputEvent&lt;TTriggerEvent&gt;();</div>
-<div class="line"><span class="lineno">  167</span> </div>
-<div class="line"><span class="lineno">  168</span>  <span class="keyword">using </span>boost::mpl::_1;</div>
-<div class="line"><span class="lineno">  169</span>  <span class="keyword">using </span>wrappedList = <span class="keyword">typename</span> boost::mpl::transform&lt;TEventList, _1&gt;::type;</div>
-<div class="line"><span class="lineno">  170</span>  AddTEventTypeStateReactor&lt;TEventList&gt; op(sr.get());</div>
-<div class="line"><span class="lineno">  171</span>  boost::mpl::for_each&lt;wrappedList&gt;(op);</div>
-<div class="line"><span class="lineno">  172</span> </div>
-<div class="line"><span class="lineno">  173</span>  <a class="code hl_variable" href="#a3ad516d6032464fafb60169cb4736b24">stateReactors_</a>.push_back(sr);</div>
-<div class="line"><span class="lineno">  174</span>  <span class="keywordflow">return</span> sr;</div>
-<div class="line"><span class="lineno">  175</span>}</div>
+<p class="definition">Definition at line <a class="el" href="smacc__state__impl_8hpp_source.html#l00171">171</a> of file <a class="el" href="smacc__state__impl_8hpp_source.html">smacc_state_impl.hpp</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">  172</span>{</div>
+<div class="line"><span class="lineno">  173</span>  <span class="keyword">auto</span> sr = std::make_shared&lt;TStateReactor&gt;(args...);</div>
+<div class="line"><span class="lineno">  174</span>  sr-&gt;initialize(<span class="keyword">this</span>);</div>
+<div class="line"><span class="lineno">  175</span>  sr-&gt;template setOutputEvent&lt;TTriggerEvent&gt;();</div>
+<div class="line"><span class="lineno">  176</span> </div>
+<div class="line"><span class="lineno">  177</span>  <span class="keyword">using </span>boost::mpl::_1;</div>
+<div class="line"><span class="lineno">  178</span>  <span class="keyword">using </span>wrappedList = <span class="keyword">typename</span> boost::mpl::transform&lt;TEventList, _1&gt;::type;</div>
+<div class="line"><span class="lineno">  179</span>  AddTEventTypeStateReactor&lt;TEventList&gt; op(sr.get());</div>
+<div class="line"><span class="lineno">  180</span>  boost::mpl::for_each&lt;wrappedList&gt;(op);</div>
+<div class="line"><span class="lineno">  181</span> </div>
+<div class="line"><span class="lineno">  182</span>  <a class="code hl_variable" href="#a3ad516d6032464fafb60169cb4736b24">stateReactors_</a>.push_back(sr);</div>
+<div class="line"><span class="lineno">  183</span>  <span class="keywordflow">return</span> sr;</div>
+<div class="line"><span class="lineno">  184</span>}</div>
 <div class="ttc" id="aclasssmacc2_1_1ISmaccState_html_a3ad516d6032464fafb60169cb4736b24"><div class="ttname"><a href="#a3ad516d6032464fafb60169cb4736b24">smacc2::ISmaccState::stateReactors_</a></div><div class="ttdeci">std::vector&lt; std::shared_ptr&lt; StateReactor &gt; &gt; stateReactors_</div><div class="ttdef"><b>Definition</b> <a href="smacc__state_8hpp_source.html#l00129">smacc_state.hpp:129</a></div></div>
 </div><!-- fragment -->
 <p class="reference">References <a class="el" href="smacc__state_8hpp_source.html#l00129">stateReactors_</a>.</p>
@@ -529,12 +585,12 @@ template&lt;typename TStateReactor , typename... TEvArgs&gt; </div>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="smacc__state__impl_8hpp_source.html#l00115">115</a> of file <a class="el" href="smacc__state__impl_8hpp_source.html">smacc_state_impl.hpp</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">  116</span>{</div>
-<div class="line"><span class="lineno">  117</span>  <span class="keyword">auto</span> sr = std::make_shared&lt;TStateReactor&gt;(args...);</div>
-<div class="line"><span class="lineno">  118</span>  <a class="code hl_variable" href="#a3ad516d6032464fafb60169cb4736b24">stateReactors_</a>.push_back(sr);</div>
-<div class="line"><span class="lineno">  119</span>  <span class="keywordflow">return</span> sr;</div>
-<div class="line"><span class="lineno">  120</span>}</div>
+<p class="definition">Definition at line <a class="el" href="smacc__state__impl_8hpp_source.html#l00124">124</a> of file <a class="el" href="smacc__state__impl_8hpp_source.html">smacc_state_impl.hpp</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">  125</span>{</div>
+<div class="line"><span class="lineno">  126</span>  <span class="keyword">auto</span> sr = std::make_shared&lt;TStateReactor&gt;(args...);</div>
+<div class="line"><span class="lineno">  127</span>  <a class="code hl_variable" href="#a3ad516d6032464fafb60169cb4736b24">stateReactors_</a>.push_back(sr);</div>
+<div class="line"><span class="lineno">  128</span>  <span class="keywordflow">return</span> sr;</div>
+<div class="line"><span class="lineno">  129</span>}</div>
 </div><!-- fragment -->
 <p class="reference">References <a class="el" href="smacc__state_8hpp_source.html#l00129">stateReactors_</a>.</p>
 
@@ -586,121 +642,129 @@ Here is the caller graph for this function:</div>
 <div class="dyncontent">
 <div class="center"><img src="classsmacc2_1_1ISmaccState_a5a3be081c0b0da5fd9b918bc52aba0d7_icgraph.png" border="0" usemap="#aclasssmacc2_1_1ISmaccState_a5a3be081c0b0da5fd9b918bc52aba0d7_icgraph" alt=""/></div>
 <map name="aclasssmacc2_1_1ISmaccState_a5a3be081c0b0da5fd9b918bc52aba0d7_icgraph" id="aclasssmacc2_1_1ISmaccState_a5a3be081c0b0da5fd9b918bc52aba0d7_icgraph">
-<area shape="rect" title=" " alt="" coords="2024,1445,2173,1486"/>
-<area shape="rect" href="classsmacc2_1_1ISmaccOrthogonal.html#ad4a171dc54e352c960a3bad943c168d0" title=" " alt="" coords="1778,1400,1959,1440"/>
-<area shape="poly" title=" " alt="" coords="2008,1450,1959,1440,1960,1435,2009,1445"/>
-<area shape="rect" href="classsmacc2_1_1ISmaccStateMachine.html#a8273f9d1364a6e59ef5da7032d34f8da" title=" " alt="" coords="1761,1489,1976,1530"/>
-<area shape="poly" title=" " alt="" coords="2009,1485,1977,1491,1976,1486,2008,1480"/>
-<area shape="poly" title=" " alt="" coords="1906,1476,1892,1470,1868,1467,1846,1469,1833,1474,1828,1480,1830,1488,1825,1489,1823,1479,1830,1470,1845,1464,1868,1462,1893,1465,1908,1471"/>
-<area shape="rect" href="classsmacc2_1_1ISmaccStateMachine.html#aec0535bd51c1343b5465fc4d5755ae3c" title=" " alt="" coords="1514,1489,1713,1530"/>
-<area shape="poly" title=" " alt="" coords="1745,1512,1713,1512,1713,1506,1745,1506"/>
-<area shape="rect" href="classsmacc2_1_1ISmaccClient.html#aa418b74359c805a881f11d3db9f1dcd3" title=" " alt="" coords="1290,126,1441,167"/>
-<area shape="poly" title=" " alt="" coords="1603,1474,1368,168,1373,167,1608,1473"/>
-<area shape="rect" href="classsmacc2_1_1ISmaccClient.html#a69344d3bdf6a20ff76a6b66f81fab028" title=" " alt="" coords="1290,810,1441,851"/>
-<area shape="poly" title=" " alt="" coords="1606,1474,1590,1340,1561,1158,1542,1066,1519,982,1493,913,1479,886,1464,866,1439,848,1443,843,1468,862,1484,883,1498,910,1524,980,1547,1064,1567,1157,1595,1339,1611,1473"/>
-<area shape="rect" href="classsmacc2_1_1ISmaccClientBehavior.html#a400af032797d2461602187cd52590287" title=" " alt="" coords="1264,876,1466,916"/>
-<area shape="poly" title=" " alt="" coords="1605,1474,1587,1352,1557,1190,1538,1108,1516,1033,1491,972,1464,931,1449,919,1453,915,1468,927,1496,970,1521,1032,1543,1106,1562,1189,1593,1351,1610,1473"/>
-<area shape="rect" href="classsmacc2_1_1ISmaccComponent.html#a03dd302448a2e186b1059822cff8c669" title=" " alt="" coords="1273,941,1457,982"/>
-<area shape="poly" title=" " alt="" coords="1594,1476,1373,983,1378,981,1599,1473"/>
-<area shape="rect" href="classsmacc2_1_1ISmaccComponent.html#aaaff9fc7df1f88e9736438932a5ec0e4" title=" " alt="" coords="1273,1456,1457,1496"/>
-<area shape="poly" title=" " alt="" coords="1499,1496,1457,1491,1458,1486,1499,1491"/>
-<area shape="rect" href="classsmacc2_1_1ISmaccState.html#ad6079ae8e83b1897a92fc1e68f11c992" title=" " alt="" coords="1290,1521,1440,1562"/>
-<area shape="poly" title=" " alt="" coords="1499,1527,1441,1534,1440,1529,1499,1521"/>
-<area shape="rect" href="classsmacc2_1_1ISmaccState.html#ad676e7d68ec31e1d4fa271832bdde076" title=" " alt="" coords="1290,1629,1440,1670"/>
-<area shape="poly" title=" " alt="" coords="1563,1540,1404,1631,1402,1626,1561,1535"/>
-<area shape="rect" href="classsmacc2_1_1ISmaccStateMachine.html#a46ecff5248c013535244afae7dfacabb" title=" " alt="" coords="1266,1694,1464,1735"/>
-<area shape="poly" title=" " alt="" coords="1594,1544,1542,1614,1507,1651,1468,1683,1445,1696,1442,1691,1465,1679,1504,1647,1538,1611,1590,1541"/>
-<area shape="rect" href="namespacesmacc2.html#a4155b0a766602ef90b8fd15532349bcc" title=" " alt="" coords="1276,1784,1455,1824"/>
-<area shape="poly" title=" " alt="" coords="1600,1545,1579,1589,1549,1643,1512,1698,1468,1748,1442,1769,1415,1785,1412,1781,1439,1765,1464,1745,1508,1695,1545,1640,1574,1587,1595,1543"/>
-<area shape="rect" href="classsmacc2_1_1StateReactor.html#a5dc683e0ff3ae610d88555881d9ff5d6" title=" " alt="" coords="1290,1849,1440,1890"/>
-<area shape="poly" title=" " alt="" coords="1609,1546,1594,1608,1567,1686,1548,1727,1526,1767,1499,1805,1468,1838,1442,1855,1439,1850,1465,1834,1495,1801,1521,1765,1543,1725,1562,1684,1588,1607,1603,1544"/>
-<area shape="rect" href="classsmacc2_1_1client__bases_1_1SmaccActionClientBase.html#ae377de843039fc0cb008a60178f6b9bb" title=" " alt="" coords="725,79,918,134"/>
-<area shape="poly" title=" " alt="" coords="1274,159,1134,166,1054,164,976,156,900,137,901,132,977,151,1055,158,1134,160,1274,154"/>
-<area shape="rect" href="classsmacc2_1_1client__bases_1_1SmaccSubscriberClient.html#ab83c4392bf7c6cf3800f8b5a01a9d47c" title=" " alt="" coords="1000,85,1192,141"/>
-<area shape="poly" title=" " alt="" coords="1274,138,1193,128,1193,122,1274,133"/>
+<area shape="rect" title=" " alt="" coords="2024,1518,2173,1559"/>
+<area shape="rect" href="classsmacc2_1_1ISmaccOrthogonal.html#ad4a171dc54e352c960a3bad943c168d0" title=" " alt="" coords="1778,1473,1959,1514"/>
+<area shape="poly" title=" " alt="" coords="2008,1523,1959,1514,1960,1508,2009,1518"/>
+<area shape="rect" href="classsmacc2_1_1ISmaccStateMachine.html#a8273f9d1364a6e59ef5da7032d34f8da" title=" " alt="" coords="1761,1562,1976,1603"/>
+<area shape="poly" title=" " alt="" coords="2009,1558,1977,1565,1976,1559,2008,1553"/>
+<area shape="poly" title=" " alt="" coords="1906,1549,1892,1543,1868,1541,1846,1543,1833,1547,1828,1553,1830,1561,1825,1562,1823,1552,1830,1543,1845,1538,1868,1536,1893,1538,1908,1544"/>
+<area shape="rect" href="classsmacc2_1_1ISmaccStateMachine.html#aec0535bd51c1343b5465fc4d5755ae3c" title=" " alt="" coords="1514,1562,1713,1603"/>
+<area shape="poly" title=" " alt="" coords="1745,1585,1713,1585,1713,1580,1745,1580"/>
+<area shape="rect" href="classsmacc2_1_1ISmaccClient.html#aa418b74359c805a881f11d3db9f1dcd3" title=" " alt="" coords="1290,112,1441,152"/>
+<area shape="poly" title=" " alt="" coords="1604,1548,1367,153,1373,152,1609,1547"/>
+<area shape="rect" href="classsmacc2_1_1ISmaccClient.html#a69344d3bdf6a20ff76a6b66f81fab028" title=" " alt="" coords="1290,833,1441,874"/>
+<area shape="poly" title=" " alt="" coords="1607,1547,1592,1404,1565,1207,1545,1106,1522,1015,1495,939,1480,910,1464,888,1440,870,1443,866,1468,885,1485,908,1500,937,1527,1013,1551,1105,1570,1206,1598,1403,1612,1546"/>
+<area shape="rect" href="classsmacc2_1_1ISmaccClientBehavior.html#a400af032797d2461602187cd52590287" title=" " alt="" coords="1264,898,1466,939"/>
+<area shape="poly" title=" " alt="" coords="1606,1547,1590,1416,1560,1238,1541,1148,1519,1066,1493,999,1479,973,1464,954,1449,941,1453,937,1468,950,1483,971,1498,997,1524,1065,1546,1147,1566,1237,1595,1415,1611,1546"/>
+<area shape="rect" href="classsmacc2_1_1ISmaccComponent.html#a03dd302448a2e186b1059822cff8c669" title=" " alt="" coords="1273,964,1457,1004"/>
+<area shape="poly" title=" " alt="" coords="1595,1548,1372,1005,1377,1003,1600,1546"/>
+<area shape="rect" href="classsmacc2_1_1ISmaccComponent.html#aaaff9fc7df1f88e9736438932a5ec0e4" title=" " alt="" coords="1273,1529,1457,1570"/>
+<area shape="poly" title=" " alt="" coords="1499,1570,1457,1564,1458,1559,1499,1565"/>
+<area shape="rect" href="classsmacc2_1_1ISmaccState.html#ad6079ae8e83b1897a92fc1e68f11c992" title=" " alt="" coords="1290,1594,1440,1635"/>
+<area shape="poly" title=" " alt="" coords="1499,1600,1441,1608,1440,1602,1499,1595"/>
+<area shape="rect" href="classsmacc2_1_1ISmaccState.html#ad676e7d68ec31e1d4fa271832bdde076" title=" " alt="" coords="1290,1696,1440,1736"/>
+<area shape="poly" title=" " alt="" coords="1562,1613,1406,1697,1404,1693,1559,1608"/>
+<area shape="rect" href="classsmacc2_1_1ISmaccStateMachine.html#a46ecff5248c013535244afae7dfacabb" title=" " alt="" coords="1266,1761,1464,1802"/>
+<area shape="poly" title=" " alt="" coords="1593,1618,1541,1684,1506,1720,1468,1750,1444,1763,1442,1758,1465,1746,1503,1716,1537,1681,1589,1614"/>
+<area shape="rect" href="namespacesmacc2.html#a4155b0a766602ef90b8fd15532349bcc" title=" " alt="" coords="1276,1850,1455,1891"/>
+<area shape="poly" title=" " alt="" coords="1599,1618,1548,1713,1511,1766,1468,1815,1442,1836,1415,1852,1412,1847,1439,1831,1465,1811,1507,1763,1544,1710,1595,1616"/>
+<area shape="rect" href="classsmacc2_1_1StateReactor.html#a5dc683e0ff3ae610d88555881d9ff5d6" title=" " alt="" coords="1290,1916,1440,1956"/>
+<area shape="poly" title=" " alt="" coords="1608,1619,1593,1680,1566,1757,1547,1797,1525,1836,1499,1872,1468,1905,1442,1921,1439,1917,1465,1900,1495,1869,1521,1833,1542,1794,1561,1755,1588,1679,1603,1618"/>
+<area shape="rect" href="classsmacc2_1_1client__bases_1_1SmaccActionClientBase.html#ae377de843039fc0cb008a60178f6b9bb" title=" " alt="" coords="725,35,918,90"/>
+<area shape="poly" title=" " alt="" coords="1274,123,918,77,918,72,1275,118"/>
+<area shape="rect" href="classsmacc2_1_1client__bases_1_1SmaccSubscriberClient.html#ab83c4392bf7c6cf3800f8b5a01a9d47c" title=" " alt="" coords="1000,136,1192,192"/>
+<area shape="poly" title=" " alt="" coords="1274,145,1193,155,1193,150,1274,140"/>
 <area shape="rect" href="classsmacc2_1_1client__bases_1_1SmaccActionClientBase.html#ae2ad7fdec791d8733ab06392134ede20" title=" " alt="" coords="1012,5,1180,61"/>
-<area shape="poly" title=" " alt="" coords="1311,121,1215,76,1180,62,1182,57,1217,71,1313,116"/>
-<area shape="poly" title=" " alt="" coords="998,62,919,83,918,78,997,57"/>
-<area shape="rect" href="classcl__nav2z_1_1CpWaypointNavigatorBase.html#aa98aa1c40fe6f2e10de07a1171456c86" title=" " alt="" coords="995,905,1198,946"/>
-<area shape="poly" title=" " alt="" coords="1257,949,1198,941,1199,936,1258,944"/>
-<area shape="rect" href="classcl__generic__sensor_1_1components_1_1CpMessageTimeout.html#a81d13ea6daa946420705f18e7bdc4616" title=" " alt="" coords="989,1049,1204,1105"/>
-<area shape="poly" title=" " alt="" coords="1315,992,1217,1040,1187,1051,1185,1046,1215,1035,1313,987"/>
-<area shape="rect" href="classcl__nav2z_1_1components_1_1CpNav2ActionInterface.html#a70ef4892592aa97221afdb24516f3d8c" title=" " alt="" coords="1009,1129,1184,1185"/>
-<area shape="poly" title=" " alt="" coords="1343,996,1290,1058,1255,1091,1217,1119,1186,1136,1183,1131,1215,1115,1252,1087,1286,1054,1339,992"/>
-<area shape="rect" href="classsmacc2_1_1client__core__components_1_1CpActionClient.html#a22f48b4b5b5cbc324935328c79e176aa" title=" " alt="" coords="726,1155,917,1210"/>
-<area shape="poly" title=" " alt="" coords="1356,998,1338,1046,1310,1103,1270,1157,1245,1181,1217,1199,1181,1216,1142,1227,1101,1232,1061,1234,982,1228,912,1214,913,1208,983,1222,1061,1229,1101,1227,1140,1221,1179,1211,1215,1195,1242,1176,1266,1154,1305,1100,1333,1044,1351,996"/>
-<area shape="rect" href="classsmacc2_1_1client__core__components_1_1CpServiceClient.html#a0213a55ae2e79cb5671261cb973a3d79" title="Configure event posting with proper template parameters." alt="" coords="997,1260,1196,1316"/>
-<area shape="poly" title=" " alt="" coords="1357,997,1338,1051,1309,1116,1270,1184,1245,1215,1218,1243,1191,1262,1188,1257,1214,1239,1241,1212,1265,1181,1305,1114,1333,1049,1352,996"/>
-<area shape="rect" href="classcl__foundation__pose_1_1CpObjectTracker1.html#ad876238eee690679aaaf4c54861b142b" title=" " alt="" coords="1001,1340,1192,1396"/>
-<area shape="poly" title=" " alt="" coords="1362,997,1349,1067,1323,1156,1304,1203,1280,1249,1252,1292,1218,1330,1193,1347,1190,1343,1214,1326,1248,1288,1276,1246,1299,1200,1318,1154,1344,1065,1357,996"/>
-<area shape="rect" href="classcl__gcalcli_1_1CpCalendarEventListener.html#a72298bb216720c1a354bff11aa4da3d1" title="Template method for type&#45;safe event posting setup." alt="" coords="977,1420,1216,1460"/>
-<area shape="poly" title=" " alt="" coords="1366,997,1358,1081,1349,1135,1335,1192,1317,1251,1291,1309,1259,1363,1218,1410,1203,1421,1200,1417,1214,1406,1254,1360,1287,1307,1312,1249,1330,1191,1344,1134,1352,1081,1360,997"/>
-<area shape="rect" href="classcl__gcalcli_1_1CpCalendarPoller.html#a5dd34735c5ebf23a94689d9014eacaa6" title="Template method for type&#45;safe event posting setup." alt="" coords="1000,216,1192,256"/>
-<area shape="poly" title=" " alt="" coords="1264,932,1262,929,1247,904,1237,871,1229,792,1231,698,1238,597,1246,497,1247,404,1245,363,1238,326,1228,295,1214,271,1191,253,1194,249,1218,267,1233,293,1244,325,1250,362,1253,404,1251,497,1244,598,1236,699,1234,792,1243,870,1252,902,1266,926,1268,928"/>
-<area shape="rect" href="classcl__gcalcli_1_1CpGcalcliConnection.html#ad09ef2d29ecc2ad68e4ccd89c3965474" title="Template method for type&#45;safe event posting setup." alt="" coords="995,281,1198,322"/>
-<area shape="poly" title=" " alt="" coords="1264,932,1262,929,1248,906,1239,877,1231,805,1233,721,1238,629,1244,539,1245,455,1236,384,1227,357,1214,335,1196,320,1199,316,1218,331,1232,354,1242,383,1250,454,1250,539,1244,630,1238,721,1237,805,1245,876,1253,904,1266,926,1268,929"/>
-<area shape="rect" href="classcl__lifecycle__node_1_1CpLifecycleEventMonitor.html#a9d2eeaff699b7bfdf97ecca9f8cd7bf2" title="Configure event posting with orthogonal template parameter This is called from the client&#39;s onStateOr..." alt="" coords="1000,345,1192,401"/>
-<area shape="poly" title=" " alt="" coords="1264,932,1262,929,1239,896,1224,862,1216,829,1214,797,1221,733,1237,670,1254,607,1261,544,1258,513,1251,481,1236,448,1214,415,1191,396,1195,392,1218,411,1241,445,1256,479,1264,512,1266,544,1259,608,1242,671,1226,734,1219,797,1221,829,1229,861,1244,893,1266,926,1268,929"/>
-<area shape="rect" href="classcl__modbus__tcp__relay_1_1CpModbusConnection.html#adc4cfba901bf688a064421027cea6b3a" title="Configure component for event posting during orthogonal allocation." alt="" coords="1000,425,1192,481"/>
-<area shape="poly" title=" " alt="" coords="1264,932,1262,929,1242,901,1229,873,1222,845,1219,817,1225,763,1237,710,1250,657,1255,604,1253,577,1246,550,1233,523,1214,495,1191,476,1194,472,1218,491,1238,520,1251,548,1258,576,1260,604,1255,658,1242,711,1230,764,1225,817,1227,844,1234,871,1247,898,1266,926,1268,929"/>
-<area shape="rect" href="classcl__modbus__tcp__relay_1_1CpModbusRelay.html#abc989b20afab951adbf4e2af1ee9a1c8" title="Configure component for event posting during orthogonal allocation." alt="" coords="979,505,1214,561"/>
-<area shape="poly" title=" " alt="" coords="1264,932,1262,929,1246,906,1234,883,1225,838,1228,794,1237,750,1246,707,1249,663,1240,619,1230,597,1214,575,1202,563,1206,560,1218,571,1234,595,1245,618,1255,663,1252,707,1243,751,1234,794,1231,838,1239,882,1250,904,1266,926,1268,929"/>
-<area shape="rect" href="classcl__moveit2z_1_1CpMoveGroupInterface.html#a41c92bb82b548b83ef028a04585015e6" title=" " alt="" coords="1003,585,1190,641"/>
-<area shape="poly" title=" " alt="" coords="1265,933,1262,929,1240,894,1231,859,1232,824,1237,790,1243,756,1244,723,1235,689,1214,655,1188,635,1192,631,1218,651,1240,687,1249,722,1248,757,1243,791,1237,825,1236,858,1244,892,1266,926,1269,929"/>
-<area shape="rect" href="classsmacc2_1_1client__core__components_1_1CpTopicSubscriber.html#ac2221d84e501c0db7736abbbee838b9e" title=" " alt="" coords="989,665,1204,721"/>
-<area shape="poly" title=" " alt="" coords="1266,933,1262,930,1245,905,1237,879,1235,855,1237,830,1239,806,1238,783,1230,759,1214,735,1201,724,1205,720,1218,731,1235,757,1243,782,1244,806,1243,831,1241,855,1242,879,1249,902,1266,926,1269,929"/>
-<area shape="rect" href="classcl__keyboard_1_1components_1_1CpKeyboardListener1.html#add1cc212c6093f62b212721323c5a181" title=" " alt="" coords="1013,745,1180,801"/>
-<area shape="poly" title=" " alt="" coords="1267,934,1262,930,1250,915,1243,900,1237,871,1232,843,1226,829,1214,815,1179,793,1182,789,1218,811,1230,826,1237,841,1243,870,1248,899,1254,912,1266,926,1271,930"/>
-<area shape="rect" href="classsmacc2_1_1client__core__components_1_1CpActionClient.html#a8238b4c629433e62f302de2cd12c6213" title=" " alt="" coords="1001,969,1192,1025"/>
-<area shape="poly" title=" " alt="" coords="1258,978,1193,987,1192,982,1257,973"/>
-<area shape="rect" href="classcl__foundation__pose_1_1CpObjectTrackerTf.html#a012d34f833642a33bf3f5261b84f2c17" title=" " alt="" coords="1008,825,1185,881"/>
-<area shape="poly" title=" " alt="" coords="1277,937,1263,930,1238,913,1215,895,1184,882,1187,877,1217,891,1242,908,1265,926,1279,932"/>
-<area shape="rect" href="classcl__nav2z_1_1CpWaypointNavigator.html#a03d4faa10afc384023dd1b3ffe693f1c" title=" " alt="" coords="720,1010,923,1051"/>
-<area shape="poly" title=" " alt="" coords="990,954,978,959,964,969,954,979,945,989,930,999,902,1012,900,1007,927,995,941,985,951,975,960,965,975,955,987,949"/>
-<area shape="rect" href="classcl__nav2z_1_1CbNavigateNextWaypointFree.html#aa70907c580aaa15dfc1a0bc8e301c1ae" title=" " alt="" coords="714,945,929,986"/>
-<area shape="poly" title=" " alt="" coords="979,945,929,952,929,947,979,940"/>
-<area shape="rect" href="classcl__nav2z_1_1CpWaypointNavigator.html#a8b3a667099cc654de794420fde0e141c" title=" " alt="" coords="463,978,666,1019"/>
-<area shape="poly" title=" " alt="" coords="704,1019,666,1014,667,1009,705,1013"/>
-<area shape="rect" href="classcl__nav2z_1_1CpWaypointNavigator.html#abc1ff5c646297da55d9811f5cced3d93" title=" " alt="" coords="463,1044,666,1084"/>
-<area shape="poly" title=" " alt="" coords="705,1048,667,1053,666,1048,704,1043"/>
-<area shape="rect" href="classcl__nav2z_1_1CbNavigateNextWaypoint.html#ac546e1622eb9894228846b814e48afea" title=" " alt="" coords="242,1044,415,1084"/>
-<area shape="poly" title=" " alt="" coords="447,1066,415,1066,415,1061,447,1061"/>
-<area shape="rect" href="classcl__nav2z_1_1CbNavigateNamedWaypoint.html#a08fc01469398220c035e7c3fac4ae598" title=" " alt="" coords="5,1008,194,1048"/>
-<area shape="poly" title=" " alt="" coords="226,1050,194,1045,194,1040,227,1045"/>
-<area shape="rect" href="classcl__nav2z_1_1CbNavigateNextWaypointUntilReached.html#a8768836e087f12cbb477aa509e28a947" title=" " alt="" coords="13,1072,186,1128"/>
-<area shape="poly" title=" " alt="" coords="227,1082,187,1089,186,1084,226,1077"/>
-<area shape="rect" href="classcl__foundation__pose_1_1CpObjectTracker1.html#a1c4af41d3e926433cfffafb99e14ed67" title=" " alt="" coords="752,1340,891,1396"/>
-<area shape="poly" title=" " alt="" coords="986,1370,891,1370,891,1365,986,1365"/>
-<area shape="rect" href="classcl__keyboard_1_1components_1_1CpKeyboardListener1.html#aaeeb8897208f6218e49952f4a827055d" title=" " alt="" coords="734,625,909,681"/>
-<area shape="poly" title=" " alt="" coords="997,746,975,735,951,715,927,695,905,684,907,679,930,691,954,711,978,731,1000,742"/>
-<area shape="poly" title=" " alt="" coords="988,1034,978,1039,940,1066,904,1097,848,1156,844,1152,900,1093,936,1062,975,1035,985,1029"/>
-<area shape="rect" href="classcl__foundation__pose_1_1CbTrackObjectPose.html#adba4ca592dd27fe5d7b4824a4430ea4d" title=" " alt="" coords="749,705,894,761"/>
-<area shape="poly" title=" " alt="" coords="992,824,975,815,951,795,927,775,893,759,895,754,930,771,954,791,978,811,995,819"/>
-<area shape="rect" href="classcl__foundation__pose_1_1CbTrackObjectPose.html#ac1e3398dfcf0a34d2edeb14859df21d8" title=" " alt="" coords="749,785,894,841"/>
-<area shape="poly" title=" " alt="" coords="992,841,894,826,895,821,993,835"/>
-<area shape="rect" href="classcl__foundation__pose_1_1CpObjectTrackerTf.html#a3ac39049abde97fc6c7f52df2044076c" title=" " alt="" coords="753,865,890,921"/>
-<area shape="poly" title=" " alt="" coords="993,871,891,886,890,881,992,866"/>
-<area shape="rect" href="classsmacc2_1_1SmaccState.html#a379a8f1b99b10d7aec9a6526baea44e4" title=" " alt="" coords="996,1549,1196,1605"/>
-<area shape="poly" title=" " alt="" coords="1275,1556,1197,1566,1197,1561,1274,1551"/>
-<area shape="rect" href="classsmacc2_1_1SmaccState.html#acecda8c2c57b6040834d47de9845fe08" title=" " alt="" coords="997,1485,1196,1526"/>
-<area shape="poly" title=" " alt="" coords="1275,1532,1196,1521,1197,1516,1275,1527"/>
-<area shape="rect" href="classsmacc2_1_1SmaccEventGenerator.html#a2d5caf3b91d6c24f83b5b14df9abcb9b" title=" " alt="" coords="994,1825,1198,1866"/>
-<area shape="poly" title=" " alt="" coords="1279,1674,1266,1684,1253,1700,1247,1716,1243,1748,1239,1781,1231,1798,1218,1814,1200,1826,1197,1822,1214,1810,1227,1795,1234,1779,1238,1747,1242,1714,1249,1697,1262,1681,1275,1670"/>
-<area shape="rect" href="classsmacc2_1_1SmaccEventGenerator.html#a8383a8c6d1ccd4bfb77b3389ea6d0dab" title=" " alt="" coords="994,1629,1198,1670"/>
-<area shape="poly" title=" " alt="" coords="1275,1652,1199,1652,1199,1646,1275,1646"/>
-<area shape="rect" href="classsmacc2_1_1StateReactor.html#a9485320cbc7f9b830e4d177af3c80b0e" title=" " alt="" coords="1022,1694,1171,1735"/>
-<area shape="poly" title=" " alt="" coords="1276,1673,1172,1699,1171,1694,1275,1668"/>
-<area shape="rect" href="classsmacc2_1_1StateReactor.html#ab4b8fe1d7d79eebffa16b4b478678625" title=" " alt="" coords="1022,1760,1171,1800"/>
-<area shape="poly" title=" " alt="" coords="1278,1677,1266,1685,1251,1700,1243,1716,1234,1733,1218,1749,1196,1761,1172,1770,1170,1765,1193,1756,1214,1744,1230,1729,1238,1714,1246,1697,1262,1680,1275,1672"/>
-<area shape="rect" href="classsmacc2_1_1event__generators_1_1EgConditionalGenerator.html#a686a9a4523ed1c18d67dae6d99cc917b" title=" " alt="" coords="725,1737,918,1793"/>
-<area shape="poly" title=" " alt="" coords="1004,1823,976,1814,915,1796,916,1791,977,1809,1006,1818"/>
-<area shape="rect" href="classsmacc2_1_1state__reactors_1_1EgRandomGenerator.html#abcd1e84cb0fcfec9d77f67b3cca09d74" title=" " alt="" coords="722,1817,921,1873"/>
-<area shape="poly" title=" " alt="" coords="978,1848,921,1848,921,1842,978,1842"/>
-<area shape="poly" title=" " alt="" coords="1406,1770,1391,1764,1365,1762,1341,1764,1327,1769,1321,1775,1324,1782,1319,1784,1316,1773,1324,1764,1340,1759,1365,1757,1392,1759,1408,1765"/>
-<area shape="rect" href="classsmacc2_1_1SmaccState.html#a5ea05b3f18d2e1ad6bcbc441ee80db15" title=" " alt="" coords="1022,1893,1170,1934"/>
-<area shape="poly" title=" " alt="" coords="1278,1833,1265,1839,1242,1859,1232,1869,1217,1880,1172,1898,1170,1893,1215,1875,1229,1865,1238,1855,1263,1835,1275,1828"/>
-<area shape="rect" href="classsmacc2_1_1SmaccState.html#aeeaa708975d375657bf294a2935d5c9e" title=" " alt="" coords="749,1897,894,1938"/>
-<area shape="poly" title=" " alt="" coords="1007,1917,894,1919,894,1913,1006,1912"/>
+<area shape="poly" title=" " alt="" coords="1292,108,1173,64,1175,59,1294,103"/>
+<area shape="poly" title=" " alt="" coords="997,46,919,55,918,50,996,41"/>
+<area shape="rect" href="classsmacc2_1_1ISmaccState.html#a4fb93a9c3933ad7a2755da758634d00d" title=" " alt="" coords="1022,216,1171,256"/>
+<area shape="poly" title=" " alt="" coords="1264,889,1262,887,1248,863,1239,833,1230,758,1232,671,1238,576,1245,482,1246,395,1237,322,1228,294,1214,271,1194,255,1170,245,1172,240,1197,250,1218,267,1232,291,1242,321,1251,395,1250,482,1244,577,1237,671,1236,758,1244,831,1253,861,1266,884,1268,886"/>
+<area shape="rect" href="classsmacc2_1_1SmaccState.html#aeb080a6a67b39552c31e3ee16ae5336b" title=" " alt="" coords="748,144,895,184"/>
+<area shape="poly" title=" " alt="" coords="1006,215,894,186,896,180,1007,210"/>
+<area shape="rect" href="classsmacc2_1_1SmaccState.html#ac0b4b415cf28e1e275a47459a564d16c" title=" " alt="" coords="748,208,895,264"/>
+<area shape="poly" title=" " alt="" coords="1006,238,895,238,895,233,1006,233"/>
+<area shape="rect" href="classsmacc2_1_1SmaccState.html#ae85964a63b9b2da623ee6f851fb0ffb4" title=" " alt="" coords="748,288,895,344"/>
+<area shape="poly" title=" " alt="" coords="1007,263,977,272,896,296,894,291,976,267,1006,258"/>
+<area shape="rect" href="classcl__nav2z_1_1CpWaypointNavigatorBase.html#aa98aa1c40fe6f2e10de07a1171456c86" title=" " alt="" coords="995,1326,1198,1367"/>
+<area shape="poly" title=" " alt="" coords="1361,1020,1346,1084,1319,1164,1301,1206,1278,1246,1250,1284,1218,1317,1200,1329,1197,1324,1214,1312,1246,1280,1273,1243,1296,1203,1314,1162,1341,1083,1356,1019"/>
+<area shape="rect" href="classcl__generic__sensor_1_1components_1_1CpMessageTimeout.html#a81d13ea6daa946420705f18e7bdc4616" title=" " alt="" coords="989,1167,1204,1222"/>
+<area shape="poly" title=" " alt="" coords="1345,1018,1293,1088,1257,1125,1218,1157,1197,1168,1195,1164,1214,1152,1254,1121,1289,1084,1341,1015"/>
+<area shape="rect" href="classcl__nav2z_1_1components_1_1CpNav2ActionInterface.html#a70ef4892592aa97221afdb24516f3d8c" title=" " alt="" coords="1009,1247,1184,1302"/>
+<area shape="poly" title=" " alt="" coords="1355,1020,1335,1068,1306,1126,1267,1185,1244,1213,1218,1237,1186,1256,1183,1251,1214,1232,1240,1209,1263,1182,1301,1124,1330,1066,1350,1018"/>
+<area shape="rect" href="classsmacc2_1_1client__core__components_1_1CpActionClient.html#a22f48b4b5b5cbc324935328c79e176aa" title=" " alt="" coords="726,1101,917,1157"/>
+<area shape="poly" title=" " alt="" coords="1276,1011,1217,1026,1096,1050,1044,1060,977,1077,897,1103,896,1098,976,1072,1043,1055,1095,1045,1215,1021,1274,1006"/>
+<area shape="rect" href="classsmacc2_1_1client__core__components_1_1CpServiceClient.html#a0213a55ae2e79cb5671261cb973a3d79" title="Configure event posting with proper template parameters." alt="" coords="997,1391,1196,1446"/>
+<area shape="poly" title=" " alt="" coords="1363,1020,1351,1095,1326,1191,1308,1242,1284,1292,1254,1339,1218,1380,1198,1395,1194,1391,1214,1377,1250,1336,1279,1289,1303,1240,1321,1189,1346,1094,1358,1020"/>
+<area shape="rect" href="classcl__foundation__pose_1_1CpObjectTracker1.html#ad876238eee690679aaaf4c54861b142b" title=" " alt="" coords="1001,1471,1192,1526"/>
+<area shape="poly" title=" " alt="" coords="1366,1020,1359,1108,1350,1164,1337,1226,1318,1288,1293,1350,1260,1409,1218,1460,1193,1478,1190,1474,1214,1457,1255,1406,1288,1348,1313,1287,1332,1224,1345,1163,1353,1107,1361,1020"/>
+<area shape="rect" href="classcl__gcalcli_1_1CpCalendarEventListener.html#a72298bb216720c1a354bff11aa4da3d1" title="Template method for type&#45;safe event posting setup." alt="" coords="977,281,1216,322"/>
+<area shape="poly" title=" " alt="" coords="1264,954,1262,952,1248,928,1239,898,1230,824,1232,736,1238,642,1245,547,1246,460,1237,388,1228,359,1214,336,1201,324,1204,320,1218,333,1232,357,1242,386,1251,460,1250,548,1244,642,1237,736,1236,823,1244,897,1253,926,1266,949,1268,951"/>
+<area shape="rect" href="classcl__gcalcli_1_1CpCalendarPoller.html#a5dd34735c5ebf23a94689d9014eacaa6" title="Template method for type&#45;safe event posting setup." alt="" coords="1000,346,1192,387"/>
+<area shape="poly" title=" " alt="" coords="1264,955,1262,952,1249,931,1241,904,1233,837,1233,759,1238,674,1243,590,1243,512,1235,447,1226,422,1214,402,1191,384,1194,379,1218,398,1231,419,1240,446,1249,512,1248,590,1244,675,1239,759,1238,837,1246,902,1254,928,1266,949,1268,951"/>
+<area shape="rect" href="classcl__gcalcli_1_1CpGcalcliConnection.html#ad09ef2d29ecc2ad68e4ccd89c3965474" title="Template method for type&#45;safe event posting setup." alt="" coords="995,412,1198,452"/>
+<area shape="poly" title=" " alt="" coords="1264,955,1262,952,1240,920,1226,888,1219,857,1216,826,1224,765,1239,705,1255,645,1261,586,1258,556,1250,526,1236,496,1214,466,1196,451,1200,447,1218,462,1240,493,1255,524,1264,555,1266,586,1260,646,1244,706,1229,766,1222,826,1224,856,1231,887,1245,918,1266,949,1268,951"/>
+<area shape="rect" href="classcl__lifecycle__node_1_1CpLifecycleEventMonitor.html#a9d2eeaff699b7bfdf97ecca9f8cd7bf2" title="Configure event posting with orthogonal template parameter This is called from the client&#39;s onStateOr..." alt="" coords="1000,476,1192,532"/>
+<area shape="poly" title=" " alt="" coords="1264,955,1262,952,1243,926,1231,899,1224,873,1221,847,1226,797,1237,747,1249,697,1253,647,1251,622,1244,597,1232,571,1214,546,1191,527,1194,522,1218,542,1236,569,1249,595,1256,621,1258,647,1254,698,1243,748,1231,797,1227,847,1229,872,1236,897,1248,923,1266,949,1268,951"/>
+<area shape="rect" href="classcl__modbus__tcp__relay_1_1CpModbusConnection.html#adc4cfba901bf688a064421027cea6b3a" title="Configure component for event posting during orthogonal allocation." alt="" coords="1000,556,1192,612"/>
+<area shape="poly" title=" " alt="" coords="1264,955,1262,952,1247,931,1236,910,1227,868,1230,827,1237,787,1245,747,1247,707,1239,666,1229,646,1214,626,1191,607,1195,603,1218,622,1233,643,1244,665,1253,706,1250,747,1243,788,1235,828,1233,868,1241,908,1251,928,1266,949,1268,951"/>
+<area shape="rect" href="classcl__modbus__tcp__relay_1_1CpModbusRelay.html#abc989b20afab951adbf4e2af1ee9a1c8" title="Configure component for event posting during orthogonal allocation." alt="" coords="979,636,1214,692"/>
+<area shape="poly" title=" " alt="" coords="1265,955,1262,952,1241,920,1233,889,1233,858,1237,827,1241,797,1242,766,1234,736,1214,706,1201,694,1205,690,1218,702,1239,734,1247,766,1247,797,1243,828,1238,858,1238,888,1246,918,1266,949,1269,952"/>
+<area shape="rect" href="classcl__moveit2z_1_1CpMoveGroupInterface.html#a41c92bb82b548b83ef028a04585015e6" title=" " alt="" coords="1003,716,1190,772"/>
+<area shape="poly" title=" " alt="" coords="1266,956,1262,952,1246,931,1239,909,1237,867,1236,826,1229,806,1214,786,1188,767,1191,762,1218,782,1234,803,1241,825,1243,867,1244,908,1251,928,1266,949,1269,952"/>
+<area shape="rect" href="classsmacc2_1_1client__core__components_1_1CpTopicSubscriber.html#ac2221d84e501c0db7736abbbee838b9e" title=" " alt="" coords="989,796,1204,852"/>
+<area shape="poly" title=" " alt="" coords="1269,957,1262,952,1245,930,1237,908,1231,887,1214,866,1198,854,1201,850,1218,862,1235,884,1243,906,1249,928,1266,949,1272,953"/>
+<area shape="rect" href="classcl__keyboard_1_1components_1_1CpKeyboardListener1.html#add1cc212c6093f62b212721323c5a181" title=" " alt="" coords="1013,876,1180,932"/>
+<area shape="poly" title=" " alt="" coords="1279,961,1180,931,1181,926,1280,956"/>
+<area shape="rect" href="classsmacc2_1_1client__core__components_1_1CpActionClient.html#a8238b4c629433e62f302de2cd12c6213" title=" " alt="" coords="1001,1087,1192,1142"/>
+<area shape="poly" title=" " alt="" coords="1319,1015,1217,1070,1175,1089,1173,1084,1215,1065,1316,1010"/>
+<area shape="rect" href="classcl__foundation__pose_1_1CpObjectTrackerTf.html#a012d34f833642a33bf3f5261b84f2c17" title=" " alt="" coords="1008,956,1185,1012"/>
+<area shape="poly" title=" " alt="" coords="1258,986,1186,986,1186,981,1258,981"/>
+<area shape="rect" href="classcl__nav2z_1_1CpWaypointNavigator.html#a03d4faa10afc384023dd1b3ffe693f1c" title=" " alt="" coords="720,1360,923,1400"/>
+<area shape="poly" title=" " alt="" coords="980,1363,924,1370,923,1365,979,1358"/>
+<area shape="rect" href="classcl__nav2z_1_1CbNavigateNextWaypointFree.html#aa70907c580aaa15dfc1a0bc8e301c1ae" title=" " alt="" coords="714,1294,929,1335"/>
+<area shape="poly" title=" " alt="" coords="979,1336,929,1330,929,1324,979,1330"/>
+<area shape="rect" href="classcl__nav2z_1_1CpWaypointNavigator.html#a8b3a667099cc654de794420fde0e141c" title=" " alt="" coords="463,1328,666,1368"/>
+<area shape="poly" title=" " alt="" coords="704,1368,666,1363,667,1358,705,1363"/>
+<area shape="rect" href="classcl__nav2z_1_1CpWaypointNavigator.html#abc1ff5c646297da55d9811f5cced3d93" title=" " alt="" coords="463,1393,666,1434"/>
+<area shape="poly" title=" " alt="" coords="705,1398,667,1403,666,1397,704,1392"/>
+<area shape="rect" href="classcl__nav2z_1_1CbNavigateNextWaypoint.html#ac546e1622eb9894228846b814e48afea" title=" " alt="" coords="242,1393,415,1434"/>
+<area shape="poly" title=" " alt="" coords="447,1416,415,1416,415,1410,447,1410"/>
+<area shape="rect" href="classcl__nav2z_1_1CbNavigateNamedWaypoint.html#a08fc01469398220c035e7c3fac4ae598" title=" " alt="" coords="5,1357,194,1398"/>
+<area shape="poly" title=" " alt="" coords="226,1400,194,1395,194,1389,227,1395"/>
+<area shape="rect" href="classcl__nav2z_1_1CbNavigateNextWaypointUntilReached.html#a8768836e087f12cbb477aa509e28a947" title=" " alt="" coords="13,1421,186,1477"/>
+<area shape="poly" title=" " alt="" coords="227,1432,187,1438,186,1433,226,1427"/>
+<area shape="rect" href="classcl__foundation__pose_1_1CpObjectTracker1.html#a1c4af41d3e926433cfffafb99e14ed67" title=" " alt="" coords="752,1471,891,1526"/>
+<area shape="poly" title=" " alt="" coords="986,1501,891,1501,891,1496,986,1496"/>
+<area shape="rect" href="classcl__keyboard_1_1components_1_1CpKeyboardListener1.html#aaeeb8897208f6218e49952f4a827055d" title=" " alt="" coords="734,781,909,837"/>
+<area shape="poly" title=" " alt="" coords="997,874,976,866,901,840,903,835,978,861,999,869"/>
+<area shape="poly" title=" " alt="" coords="985,1123,918,1127,918,1121,985,1118"/>
+<area shape="rect" href="classcl__foundation__pose_1_1CbTrackObjectPose.html#adba4ca592dd27fe5d7b4824a4430ea4d" title=" " alt="" coords="749,861,894,917"/>
+<area shape="poly" title=" " alt="" coords="995,953,976,946,893,917,895,912,978,941,997,948"/>
+<area shape="rect" href="classcl__foundation__pose_1_1CbTrackObjectPose.html#ac1e3398dfcf0a34d2edeb14859df21d8" title=" " alt="" coords="749,941,894,997"/>
+<area shape="poly" title=" " alt="" coords="992,981,894,976,894,970,992,976"/>
+<area shape="rect" href="classcl__foundation__pose_1_1CpObjectTrackerTf.html#a3ac39049abde97fc6c7f52df2044076c" title=" " alt="" coords="753,1021,890,1077"/>
+<area shape="poly" title=" " alt="" coords="993,1011,891,1035,890,1030,992,1006"/>
+<area shape="rect" href="classsmacc2_1_1SmaccState.html#a379a8f1b99b10d7aec9a6526baea44e4" title=" " alt="" coords="996,1551,1196,1606"/>
+<area shape="poly" title=" " alt="" coords="1274,1605,1197,1595,1197,1589,1275,1600"/>
+<area shape="rect" href="classsmacc2_1_1SmaccState.html#acecda8c2c57b6040834d47de9845fe08" title=" " alt="" coords="997,1630,1196,1671"/>
+<area shape="poly" title=" " alt="" coords="1275,1629,1197,1640,1196,1634,1275,1624"/>
+<area shape="rect" href="classsmacc2_1_1SmaccEventGenerator.html#a2d5caf3b91d6c24f83b5b14df9abcb9b" title=" " alt="" coords="994,1696,1198,1736"/>
+<area shape="poly" title=" " alt="" coords="1275,1718,1199,1718,1199,1713,1275,1713"/>
+<area shape="rect" href="classsmacc2_1_1SmaccEventGenerator.html#a8383a8c6d1ccd4bfb77b3389ea6d0dab" title=" " alt="" coords="994,1761,1198,1802"/>
+<area shape="poly" title=" " alt="" coords="1276,1740,1184,1763,1182,1758,1275,1735"/>
+<area shape="rect" href="classsmacc2_1_1StateReactor.html#a9485320cbc7f9b830e4d177af3c80b0e" title=" " alt="" coords="1022,1826,1171,1867"/>
+<area shape="poly" title=" " alt="" coords="1278,1744,1266,1751,1251,1767,1243,1783,1234,1799,1218,1815,1196,1828,1172,1836,1170,1831,1193,1823,1214,1811,1230,1796,1238,1780,1246,1764,1262,1747,1275,1739"/>
+<area shape="rect" href="classsmacc2_1_1StateReactor.html#ab4b8fe1d7d79eebffa16b4b478678625" title=" " alt="" coords="1022,1892,1171,1932"/>
+<area shape="poly" title=" " alt="" coords="1279,1741,1266,1751,1253,1767,1247,1782,1243,1815,1239,1847,1231,1864,1218,1880,1196,1895,1172,1905,1170,1900,1194,1891,1214,1877,1227,1861,1234,1846,1238,1814,1242,1781,1249,1764,1262,1747,1275,1737"/>
+<area shape="rect" href="classsmacc2_1_1event__generators_1_1EgConditionalGenerator.html#a686a9a4523ed1c18d67dae6d99cc917b" title=" " alt="" coords="725,1728,918,1784"/>
+<area shape="poly" title=" " alt="" coords="979,1736,918,1744,918,1739,979,1730"/>
+<area shape="rect" href="classsmacc2_1_1state__reactors_1_1EgRandomGenerator.html#abcd1e84cb0fcfec9d77f67b3cca09d74" title=" " alt="" coords="722,1648,921,1704"/>
+<area shape="poly" title=" " alt="" coords="978,1701,921,1693,921,1688,979,1696"/>
+<area shape="poly" title=" " alt="" coords="1406,1837,1391,1831,1365,1829,1341,1831,1327,1836,1321,1841,1324,1849,1319,1850,1316,1840,1324,1831,1340,1826,1365,1824,1392,1826,1408,1832"/>
+<area shape="rect" href="classsmacc2_1_1SmaccState.html#a5ea05b3f18d2e1ad6bcbc441ee80db15" title=" " alt="" coords="1022,1957,1170,1998"/>
+<area shape="poly" title=" " alt="" coords="1278,1900,1265,1906,1251,1916,1242,1926,1232,1936,1217,1946,1172,1964,1170,1959,1215,1941,1229,1932,1238,1922,1248,1912,1263,1902,1275,1895"/>
+<area shape="rect" href="classsmacc2_1_1SmaccState.html#aeeaa708975d375657bf294a2935d5c9e" title=" " alt="" coords="749,1957,894,1998"/>
+<area shape="poly" title=" " alt="" coords="1006,1980,894,1980,894,1974,1006,1974"/>
 </map>
 </div>
 
@@ -723,10 +787,10 @@ template&lt;typename TOrthogonal , typename TClientBehavior &gt; </div>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="smacc__state__impl_8hpp_source.html#l00184">184</a> of file <a class="el" href="smacc__state__impl_8hpp_source.html">smacc_state_impl.hpp</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">  185</span>{</div>
-<div class="line"><span class="lineno">  186</span>  <span class="keywordflow">return</span> this-&gt;<a class="code hl_function" href="#aba03aa66e4a505ef1cae701ad49374ac">getStateMachine</a>().<a class="code hl_function" href="classsmacc2_1_1ISmaccStateMachine.html#a2b872a872d38bedbfb83ceafdf610660">getClientBehavior</a>&lt;TOrthogonal, TClientBehavior&gt;(index);</div>
-<div class="line"><span class="lineno">  187</span>}</div>
+<p class="definition">Definition at line <a class="el" href="smacc__state__impl_8hpp_source.html#l00193">193</a> of file <a class="el" href="smacc__state__impl_8hpp_source.html">smacc_state_impl.hpp</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">  194</span>{</div>
+<div class="line"><span class="lineno">  195</span>  <span class="keywordflow">return</span> this-&gt;<a class="code hl_function" href="#aba03aa66e4a505ef1cae701ad49374ac">getStateMachine</a>().<a class="code hl_function" href="classsmacc2_1_1ISmaccStateMachine.html#a2b872a872d38bedbfb83ceafdf610660">getClientBehavior</a>&lt;TOrthogonal, TClientBehavior&gt;(index);</div>
+<div class="line"><span class="lineno">  196</span>}</div>
 <div class="ttc" id="aclasssmacc2_1_1ISmaccStateMachine_html_a2b872a872d38bedbfb83ceafdf610660"><div class="ttname"><a href="classsmacc2_1_1ISmaccStateMachine.html#a2b872a872d38bedbfb83ceafdf610660">smacc2::ISmaccStateMachine::getClientBehavior</a></div><div class="ttdeci">TClientBehavior * getClientBehavior(int index=0)</div><div class="ttdef"><b>Definition</b> <a href="smacc__state__machine_8hpp_source.html#l00101">smacc_state_machine.hpp:101</a></div></div>
 <div class="ttc" id="aclasssmacc2_1_1ISmaccState_html_aba03aa66e4a505ef1cae701ad49374ac"><div class="ttname"><a href="#aba03aa66e4a505ef1cae701ad49374ac">smacc2::ISmaccState::getStateMachine</a></div><div class="ttdeci">virtual ISmaccStateMachine &amp; getStateMachine()=0</div></div>
 </div><!-- fragment -->
@@ -773,16 +837,16 @@ template&lt;typename TEventGenerator &gt; </div>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="smacc__state__impl_8hpp_source.html#l00190">190</a> of file <a class="el" href="smacc__state__impl_8hpp_source.html">smacc_state_impl.hpp</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">  191</span>{</div>
-<div class="line"><span class="lineno">  192</span>  TEventGenerator * ret = <span class="keyword">nullptr</span>;</div>
-<div class="line"><span class="lineno">  193</span>  <span class="keywordflow">for</span> (<span class="keyword">auto</span> &amp; evg : this-&gt;<a class="code hl_variable" href="#ac0814ba28c1adfb56c830271b104bce9">eventGenerators_</a>)</div>
-<div class="line"><span class="lineno">  194</span>  {</div>
-<div class="line"><span class="lineno">  195</span>    ret = <span class="keyword">dynamic_cast&lt;</span>TEventGenerator *<span class="keyword">&gt;</span>(evg.get());</div>
-<div class="line"><span class="lineno">  196</span>    <span class="keywordflow">if</span> (ret != <span class="keyword">nullptr</span>) <span class="keywordflow">break</span>;</div>
-<div class="line"><span class="lineno">  197</span>  }</div>
-<div class="line"><span class="lineno">  198</span>  <span class="keywordflow">return</span> ret;</div>
-<div class="line"><span class="lineno">  199</span>}</div>
+<p class="definition">Definition at line <a class="el" href="smacc__state__impl_8hpp_source.html#l00199">199</a> of file <a class="el" href="smacc__state__impl_8hpp_source.html">smacc_state_impl.hpp</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">  200</span>{</div>
+<div class="line"><span class="lineno">  201</span>  TEventGenerator * ret = <span class="keyword">nullptr</span>;</div>
+<div class="line"><span class="lineno">  202</span>  <span class="keywordflow">for</span> (<span class="keyword">auto</span> &amp; evg : this-&gt;<a class="code hl_variable" href="#ac0814ba28c1adfb56c830271b104bce9">eventGenerators_</a>)</div>
+<div class="line"><span class="lineno">  203</span>  {</div>
+<div class="line"><span class="lineno">  204</span>    ret = <span class="keyword">dynamic_cast&lt;</span>TEventGenerator *<span class="keyword">&gt;</span>(evg.get());</div>
+<div class="line"><span class="lineno">  205</span>    <span class="keywordflow">if</span> (ret != <span class="keyword">nullptr</span>) <span class="keywordflow">break</span>;</div>
+<div class="line"><span class="lineno">  206</span>  }</div>
+<div class="line"><span class="lineno">  207</span>  <span class="keywordflow">return</span> ret;</div>
+<div class="line"><span class="lineno">  208</span>}</div>
 </div><!-- fragment -->
 <p class="reference">References <a class="el" href="smacc__state_8hpp_source.html#l00130">eventGenerators_</a>.</p>
 
@@ -859,10 +923,10 @@ template&lt;typename T &gt; </div>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="smacc__state__impl_8hpp_source.html#l00100">100</a> of file <a class="el" href="smacc__state__impl_8hpp_source.html">smacc_state_impl.hpp</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">  101</span>{</div>
-<div class="line"><span class="lineno">  102</span>  <span class="keywordflow">return</span> this-&gt;<a class="code hl_function" href="#aba03aa66e4a505ef1cae701ad49374ac">getStateMachine</a>().<a class="code hl_function" href="classsmacc2_1_1ISmaccStateMachine.html#a71e4d14a86d09c0bb11316d7432d6639">getGlobalSMData</a>(name, ret);</div>
-<div class="line"><span class="lineno">  103</span>}</div>
+<p class="definition">Definition at line <a class="el" href="smacc__state__impl_8hpp_source.html#l00109">109</a> of file <a class="el" href="smacc__state__impl_8hpp_source.html">smacc_state_impl.hpp</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">  110</span>{</div>
+<div class="line"><span class="lineno">  111</span>  <span class="keywordflow">return</span> this-&gt;<a class="code hl_function" href="#aba03aa66e4a505ef1cae701ad49374ac">getStateMachine</a>().<a class="code hl_function" href="classsmacc2_1_1ISmaccStateMachine.html#a71e4d14a86d09c0bb11316d7432d6639">getGlobalSMData</a>(name, ret);</div>
+<div class="line"><span class="lineno">  112</span>}</div>
 <div class="ttc" id="aclasssmacc2_1_1ISmaccStateMachine_html_a71e4d14a86d09c0bb11316d7432d6639"><div class="ttname"><a href="classsmacc2_1_1ISmaccStateMachine.html#a71e4d14a86d09c0bb11316d7432d6639">smacc2::ISmaccStateMachine::getGlobalSMData</a></div><div class="ttdeci">bool getGlobalSMData(const std::string &amp;name, T &amp;ret)</div><div class="ttdef"><b>Definition</b> <a href="smacc__state__machine__impl_8hpp_source.html#l00266">smacc_state_machine_impl.hpp:266</a></div></div>
 </div><!-- fragment -->
 <p class="reference">References <a class="el" href="smacc__state__machine__impl_8hpp_source.html#l00266">smacc2::ISmaccStateMachine::getGlobalSMData()</a>, and <a class="el" href="#aba03aa66e4a505ef1cae701ad49374ac">getStateMachine()</a>.</p>
@@ -912,7 +976,7 @@ Here is the call graph for this function:</div>
 </div><!-- fragment -->
 <p class="reference">References <a class="el" href="smacc__state_8hpp_source.html#l00128">logger_</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="smacc__state__base_8hpp_source.html#l00336">smacc2::SmaccState&lt; MostDerived, Context, InnerInitial, historyMode &gt;::checkWhileLoopConditionAndThrowEvent()</a>, <a class="el" href="smacc__state__impl_8hpp_source.html#l00035">configure()</a>, <a class="el" href="smacc__state__base_8hpp_source.html#l00419">smacc2::SmaccState&lt; MostDerived, Context, InnerInitial, historyMode &gt;::entryStateInternal()</a>, <a class="el" href="smacc__state__base_8hpp_source.html#l00131">smacc2::SmaccState&lt; MostDerived, Context, InnerInitial, historyMode &gt;::exit()</a>, <a class="el" href="state__reactor_8cpp_source.html#l00058">smacc2::StateReactor::getLogger()</a>, <a class="el" href="smacc__state_8cpp_source.html#l00028">notifyTransitionFromTransitionTypeInfo()</a>, <a class="el" href="smacc__state__base_8hpp_source.html#l00553">smacc2::SmaccState&lt; MostDerived, Context, InnerInitial, historyMode &gt;::onInitializationFailure()</a>, <a class="el" href="smacc__state__impl_8hpp_source.html#l00077">requiresClient()</a>, and <a class="el" href="smacc__state__base_8hpp_source.html#l00084">smacc2::SmaccState&lt; MostDerived, Context, InnerInitial, historyMode &gt;::SmaccState()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="smacc__state__base_8hpp_source.html#l00336">smacc2::SmaccState&lt; MostDerived, Context, InnerInitial, historyMode &gt;::checkWhileLoopConditionAndThrowEvent()</a>, <a class="el" href="smacc__state__impl_8hpp_source.html#l00035">configure()</a>, <a class="el" href="smacc__state__base_8hpp_source.html#l00419">smacc2::SmaccState&lt; MostDerived, Context, InnerInitial, historyMode &gt;::entryStateInternal()</a>, <a class="el" href="smacc__state__base_8hpp_source.html#l00131">smacc2::SmaccState&lt; MostDerived, Context, InnerInitial, historyMode &gt;::exit()</a>, <a class="el" href="state__reactor_8cpp_source.html#l00058">smacc2::StateReactor::getLogger()</a>, <a class="el" href="smacc__state_8cpp_source.html#l00028">notifyTransitionFromTransitionTypeInfo()</a>, <a class="el" href="smacc__state__base_8hpp_source.html#l00553">smacc2::SmaccState&lt; MostDerived, Context, InnerInitial, historyMode &gt;::onInitializationFailure()</a>, <a class="el" href="smacc__state__impl_8hpp_source.html#l00086">requiresClient()</a>, and <a class="el" href="smacc__state__base_8hpp_source.html#l00084">smacc2::SmaccState&lt; MostDerived, Context, InnerInitial, historyMode &gt;::SmaccState()</a>.</p>
 <div class="dynheader">
 Here is the caller graph for this function:</div>
 <div class="dyncontent">
@@ -1082,10 +1146,10 @@ template&lt;typename TOrthogonal &gt; </div>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="smacc__state__impl_8hpp_source.html#l00178">178</a> of file <a class="el" href="smacc__state__impl_8hpp_source.html">smacc_state_impl.hpp</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">  179</span>{</div>
-<div class="line"><span class="lineno">  180</span>  <span class="keywordflow">return</span> this-&gt;<a class="code hl_function" href="#aba03aa66e4a505ef1cae701ad49374ac">getStateMachine</a>().<a class="code hl_function" href="classsmacc2_1_1ISmaccStateMachine.html#a45b7a0ad7fb9e02ab13f3af8fb183f41">getOrthogonal</a>&lt;TOrthogonal&gt;();</div>
-<div class="line"><span class="lineno">  181</span>}</div>
+<p class="definition">Definition at line <a class="el" href="smacc__state__impl_8hpp_source.html#l00187">187</a> of file <a class="el" href="smacc__state__impl_8hpp_source.html">smacc_state_impl.hpp</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">  188</span>{</div>
+<div class="line"><span class="lineno">  189</span>  <span class="keywordflow">return</span> this-&gt;<a class="code hl_function" href="#aba03aa66e4a505ef1cae701ad49374ac">getStateMachine</a>().<a class="code hl_function" href="classsmacc2_1_1ISmaccStateMachine.html#a45b7a0ad7fb9e02ab13f3af8fb183f41">getOrthogonal</a>&lt;TOrthogonal&gt;();</div>
+<div class="line"><span class="lineno">  190</span>}</div>
 <div class="ttc" id="aclasssmacc2_1_1ISmaccStateMachine_html_a45b7a0ad7fb9e02ab13f3af8fb183f41"><div class="ttname"><a href="classsmacc2_1_1ISmaccStateMachine.html#a45b7a0ad7fb9e02ab13f3af8fb183f41">smacc2::ISmaccStateMachine::getOrthogonal</a></div><div class="ttdeci">TOrthogonal * getOrthogonal()</div><div class="ttdef"><b>Definition</b> <a href="smacc__state__machine__impl_8hpp_source.html#l00048">smacc_state_machine_impl.hpp:48</a></div></div>
 </div><!-- fragment -->
 <p class="reference">References <a class="el" href="smacc__state__machine__impl_8hpp_source.html#l00048">smacc2::ISmaccStateMachine::getOrthogonal()</a>, and <a class="el" href="#aba03aa66e4a505ef1cae701ad49374ac">getStateMachine()</a>.</p>
@@ -1166,119 +1230,127 @@ Here is the caller graph for this function:</div>
 <div class="dyncontent">
 <div class="center"><img src="classsmacc2_1_1ISmaccState_a2fd9ee3739fcffe568eba27474fa7ded_icgraph.png" border="0" usemap="#aclasssmacc2_1_1ISmaccState_a2fd9ee3739fcffe568eba27474fa7ded_icgraph" alt=""/></div>
 <map name="aclasssmacc2_1_1ISmaccState_a2fd9ee3739fcffe568eba27474fa7ded_icgraph" id="aclasssmacc2_1_1ISmaccState_a2fd9ee3739fcffe568eba27474fa7ded_icgraph">
-<area shape="rect" title=" " alt="" coords="2024,1489,2173,1530"/>
-<area shape="rect" href="classsmacc2_1_1ISmaccStateMachine.html#a8273f9d1364a6e59ef5da7032d34f8da" title=" " alt="" coords="1761,1489,1976,1530"/>
-<area shape="poly" title=" " alt="" coords="2008,1512,1976,1512,1976,1506,2008,1506"/>
-<area shape="poly" title=" " alt="" coords="1906,1476,1892,1470,1868,1467,1846,1469,1833,1474,1828,1480,1830,1488,1825,1489,1823,1479,1830,1470,1845,1464,1868,1462,1893,1465,1908,1471"/>
-<area shape="rect" href="classsmacc2_1_1ISmaccStateMachine.html#aec0535bd51c1343b5465fc4d5755ae3c" title=" " alt="" coords="1514,1489,1713,1530"/>
-<area shape="poly" title=" " alt="" coords="1745,1512,1713,1512,1713,1506,1745,1506"/>
-<area shape="rect" href="classsmacc2_1_1ISmaccClient.html#aa418b74359c805a881f11d3db9f1dcd3" title=" " alt="" coords="1290,126,1441,167"/>
-<area shape="poly" title=" " alt="" coords="1603,1474,1368,168,1373,167,1608,1473"/>
-<area shape="rect" href="classsmacc2_1_1ISmaccClient.html#a69344d3bdf6a20ff76a6b66f81fab028" title=" " alt="" coords="1290,810,1441,851"/>
-<area shape="poly" title=" " alt="" coords="1606,1474,1590,1340,1561,1158,1542,1066,1519,982,1493,913,1479,886,1464,866,1439,848,1443,843,1468,862,1484,883,1498,910,1524,980,1547,1064,1567,1157,1595,1339,1611,1473"/>
-<area shape="rect" href="classsmacc2_1_1ISmaccClientBehavior.html#a400af032797d2461602187cd52590287" title=" " alt="" coords="1264,876,1466,916"/>
-<area shape="poly" title=" " alt="" coords="1605,1474,1587,1352,1557,1190,1538,1108,1516,1033,1491,972,1464,931,1449,919,1453,915,1468,927,1496,970,1521,1032,1543,1106,1562,1189,1593,1351,1610,1473"/>
-<area shape="rect" href="classsmacc2_1_1ISmaccComponent.html#a03dd302448a2e186b1059822cff8c669" title=" " alt="" coords="1273,941,1457,982"/>
-<area shape="poly" title=" " alt="" coords="1594,1476,1373,983,1378,981,1599,1473"/>
-<area shape="rect" href="classsmacc2_1_1ISmaccComponent.html#aaaff9fc7df1f88e9736438932a5ec0e4" title=" " alt="" coords="1273,1456,1457,1496"/>
-<area shape="poly" title=" " alt="" coords="1499,1496,1457,1491,1458,1486,1499,1491"/>
-<area shape="rect" href="classsmacc2_1_1ISmaccState.html#ad6079ae8e83b1897a92fc1e68f11c992" title=" " alt="" coords="1290,1521,1440,1562"/>
-<area shape="poly" title=" " alt="" coords="1499,1527,1441,1534,1440,1529,1499,1521"/>
-<area shape="rect" href="classsmacc2_1_1ISmaccState.html#ad676e7d68ec31e1d4fa271832bdde076" title=" " alt="" coords="1290,1629,1440,1670"/>
-<area shape="poly" title=" " alt="" coords="1563,1540,1404,1631,1402,1626,1561,1535"/>
-<area shape="rect" href="classsmacc2_1_1ISmaccStateMachine.html#a46ecff5248c013535244afae7dfacabb" title=" " alt="" coords="1266,1694,1464,1735"/>
-<area shape="poly" title=" " alt="" coords="1594,1544,1542,1614,1507,1651,1468,1683,1445,1696,1442,1691,1465,1679,1504,1647,1538,1611,1590,1541"/>
-<area shape="rect" href="namespacesmacc2.html#a4155b0a766602ef90b8fd15532349bcc" title=" " alt="" coords="1276,1784,1455,1824"/>
-<area shape="poly" title=" " alt="" coords="1600,1545,1579,1589,1549,1643,1512,1698,1468,1748,1442,1769,1415,1785,1412,1781,1439,1765,1464,1745,1508,1695,1545,1640,1574,1587,1595,1543"/>
-<area shape="rect" href="classsmacc2_1_1StateReactor.html#a5dc683e0ff3ae610d88555881d9ff5d6" title=" " alt="" coords="1290,1849,1440,1890"/>
-<area shape="poly" title=" " alt="" coords="1609,1546,1594,1608,1567,1686,1548,1727,1526,1767,1499,1805,1468,1838,1442,1855,1439,1850,1465,1834,1495,1801,1521,1765,1543,1725,1562,1684,1588,1607,1603,1544"/>
-<area shape="rect" href="classsmacc2_1_1client__bases_1_1SmaccActionClientBase.html#ae377de843039fc0cb008a60178f6b9bb" title=" " alt="" coords="725,79,918,134"/>
-<area shape="poly" title=" " alt="" coords="1274,159,1134,166,1054,164,976,156,900,137,901,132,977,151,1055,158,1134,160,1274,154"/>
-<area shape="rect" href="classsmacc2_1_1client__bases_1_1SmaccSubscriberClient.html#ab83c4392bf7c6cf3800f8b5a01a9d47c" title=" " alt="" coords="1000,85,1192,141"/>
-<area shape="poly" title=" " alt="" coords="1274,138,1193,128,1193,122,1274,133"/>
+<area shape="rect" title=" " alt="" coords="2024,1562,2173,1603"/>
+<area shape="rect" href="classsmacc2_1_1ISmaccStateMachine.html#a8273f9d1364a6e59ef5da7032d34f8da" title=" " alt="" coords="1761,1562,1976,1603"/>
+<area shape="poly" title=" " alt="" coords="2008,1585,1976,1585,1976,1580,2008,1580"/>
+<area shape="poly" title=" " alt="" coords="1906,1549,1892,1543,1868,1541,1846,1543,1833,1547,1828,1553,1830,1561,1825,1562,1823,1552,1830,1543,1845,1538,1868,1536,1893,1538,1908,1544"/>
+<area shape="rect" href="classsmacc2_1_1ISmaccStateMachine.html#aec0535bd51c1343b5465fc4d5755ae3c" title=" " alt="" coords="1514,1562,1713,1603"/>
+<area shape="poly" title=" " alt="" coords="1745,1585,1713,1585,1713,1580,1745,1580"/>
+<area shape="rect" href="classsmacc2_1_1ISmaccClient.html#aa418b74359c805a881f11d3db9f1dcd3" title=" " alt="" coords="1290,112,1441,152"/>
+<area shape="poly" title=" " alt="" coords="1604,1548,1367,153,1373,152,1609,1547"/>
+<area shape="rect" href="classsmacc2_1_1ISmaccClient.html#a69344d3bdf6a20ff76a6b66f81fab028" title=" " alt="" coords="1290,833,1441,874"/>
+<area shape="poly" title=" " alt="" coords="1607,1547,1592,1404,1565,1207,1545,1106,1522,1015,1495,939,1480,910,1464,888,1440,870,1443,866,1468,885,1485,908,1500,937,1527,1013,1551,1105,1570,1206,1598,1403,1612,1546"/>
+<area shape="rect" href="classsmacc2_1_1ISmaccClientBehavior.html#a400af032797d2461602187cd52590287" title=" " alt="" coords="1264,898,1466,939"/>
+<area shape="poly" title=" " alt="" coords="1606,1547,1590,1416,1560,1238,1541,1148,1519,1066,1493,999,1479,973,1464,954,1449,941,1453,937,1468,950,1483,971,1498,997,1524,1065,1546,1147,1566,1237,1595,1415,1611,1546"/>
+<area shape="rect" href="classsmacc2_1_1ISmaccComponent.html#a03dd302448a2e186b1059822cff8c669" title=" " alt="" coords="1273,964,1457,1004"/>
+<area shape="poly" title=" " alt="" coords="1595,1548,1372,1005,1377,1003,1600,1546"/>
+<area shape="rect" href="classsmacc2_1_1ISmaccComponent.html#aaaff9fc7df1f88e9736438932a5ec0e4" title=" " alt="" coords="1273,1529,1457,1570"/>
+<area shape="poly" title=" " alt="" coords="1499,1570,1457,1564,1458,1559,1499,1565"/>
+<area shape="rect" href="classsmacc2_1_1ISmaccState.html#ad6079ae8e83b1897a92fc1e68f11c992" title=" " alt="" coords="1290,1594,1440,1635"/>
+<area shape="poly" title=" " alt="" coords="1499,1600,1441,1608,1440,1602,1499,1595"/>
+<area shape="rect" href="classsmacc2_1_1ISmaccState.html#ad676e7d68ec31e1d4fa271832bdde076" title=" " alt="" coords="1290,1696,1440,1736"/>
+<area shape="poly" title=" " alt="" coords="1562,1613,1406,1697,1404,1693,1559,1608"/>
+<area shape="rect" href="classsmacc2_1_1ISmaccStateMachine.html#a46ecff5248c013535244afae7dfacabb" title=" " alt="" coords="1266,1761,1464,1802"/>
+<area shape="poly" title=" " alt="" coords="1593,1618,1541,1684,1506,1720,1468,1750,1444,1763,1442,1758,1465,1746,1503,1716,1537,1681,1589,1614"/>
+<area shape="rect" href="namespacesmacc2.html#a4155b0a766602ef90b8fd15532349bcc" title=" " alt="" coords="1276,1850,1455,1891"/>
+<area shape="poly" title=" " alt="" coords="1599,1618,1548,1713,1511,1766,1468,1815,1442,1836,1415,1852,1412,1847,1439,1831,1465,1811,1507,1763,1544,1710,1595,1616"/>
+<area shape="rect" href="classsmacc2_1_1StateReactor.html#a5dc683e0ff3ae610d88555881d9ff5d6" title=" " alt="" coords="1290,1916,1440,1956"/>
+<area shape="poly" title=" " alt="" coords="1608,1619,1593,1680,1566,1757,1547,1797,1525,1836,1499,1872,1468,1905,1442,1921,1439,1917,1465,1900,1495,1869,1521,1833,1542,1794,1561,1755,1588,1679,1603,1618"/>
+<area shape="rect" href="classsmacc2_1_1client__bases_1_1SmaccActionClientBase.html#ae377de843039fc0cb008a60178f6b9bb" title=" " alt="" coords="725,35,918,90"/>
+<area shape="poly" title=" " alt="" coords="1274,123,918,77,918,72,1275,118"/>
+<area shape="rect" href="classsmacc2_1_1client__bases_1_1SmaccSubscriberClient.html#ab83c4392bf7c6cf3800f8b5a01a9d47c" title=" " alt="" coords="1000,136,1192,192"/>
+<area shape="poly" title=" " alt="" coords="1274,145,1193,155,1193,150,1274,140"/>
 <area shape="rect" href="classsmacc2_1_1client__bases_1_1SmaccActionClientBase.html#ae2ad7fdec791d8733ab06392134ede20" title=" " alt="" coords="1012,5,1180,61"/>
-<area shape="poly" title=" " alt="" coords="1311,121,1215,76,1180,62,1182,57,1217,71,1313,116"/>
-<area shape="poly" title=" " alt="" coords="998,62,919,83,918,78,997,57"/>
-<area shape="rect" href="classcl__nav2z_1_1CpWaypointNavigatorBase.html#aa98aa1c40fe6f2e10de07a1171456c86" title=" " alt="" coords="995,905,1198,946"/>
-<area shape="poly" title=" " alt="" coords="1257,949,1198,941,1199,936,1258,944"/>
-<area shape="rect" href="classcl__generic__sensor_1_1components_1_1CpMessageTimeout.html#a81d13ea6daa946420705f18e7bdc4616" title=" " alt="" coords="989,1049,1204,1105"/>
-<area shape="poly" title=" " alt="" coords="1315,992,1217,1040,1187,1051,1185,1046,1215,1035,1313,987"/>
-<area shape="rect" href="classcl__nav2z_1_1components_1_1CpNav2ActionInterface.html#a70ef4892592aa97221afdb24516f3d8c" title=" " alt="" coords="1009,1129,1184,1185"/>
-<area shape="poly" title=" " alt="" coords="1343,996,1290,1058,1255,1091,1217,1119,1186,1136,1183,1131,1215,1115,1252,1087,1286,1054,1339,992"/>
-<area shape="rect" href="classsmacc2_1_1client__core__components_1_1CpActionClient.html#a22f48b4b5b5cbc324935328c79e176aa" title=" " alt="" coords="726,1155,917,1210"/>
-<area shape="poly" title=" " alt="" coords="1356,998,1338,1046,1310,1103,1270,1157,1245,1181,1217,1199,1181,1216,1142,1227,1101,1232,1061,1234,982,1228,912,1214,913,1208,983,1222,1061,1229,1101,1227,1140,1221,1179,1211,1215,1195,1242,1176,1266,1154,1305,1100,1333,1044,1351,996"/>
-<area shape="rect" href="classsmacc2_1_1client__core__components_1_1CpServiceClient.html#a0213a55ae2e79cb5671261cb973a3d79" title="Configure event posting with proper template parameters." alt="" coords="997,1260,1196,1316"/>
-<area shape="poly" title=" " alt="" coords="1357,997,1338,1051,1309,1116,1270,1184,1245,1215,1218,1243,1191,1262,1188,1257,1214,1239,1241,1212,1265,1181,1305,1114,1333,1049,1352,996"/>
-<area shape="rect" href="classcl__foundation__pose_1_1CpObjectTracker1.html#ad876238eee690679aaaf4c54861b142b" title=" " alt="" coords="1001,1340,1192,1396"/>
-<area shape="poly" title=" " alt="" coords="1362,997,1349,1067,1323,1156,1304,1203,1280,1249,1252,1292,1218,1330,1193,1347,1190,1343,1214,1326,1248,1288,1276,1246,1299,1200,1318,1154,1344,1065,1357,996"/>
-<area shape="rect" href="classcl__gcalcli_1_1CpCalendarEventListener.html#a72298bb216720c1a354bff11aa4da3d1" title="Template method for type&#45;safe event posting setup." alt="" coords="977,1420,1216,1460"/>
-<area shape="poly" title=" " alt="" coords="1366,997,1358,1081,1349,1135,1335,1192,1317,1251,1291,1309,1259,1363,1218,1410,1203,1421,1200,1417,1214,1406,1254,1360,1287,1307,1312,1249,1330,1191,1344,1134,1352,1081,1360,997"/>
-<area shape="rect" href="classcl__gcalcli_1_1CpCalendarPoller.html#a5dd34735c5ebf23a94689d9014eacaa6" title="Template method for type&#45;safe event posting setup." alt="" coords="1000,216,1192,256"/>
-<area shape="poly" title=" " alt="" coords="1264,932,1262,929,1247,904,1237,871,1229,792,1231,698,1238,597,1246,497,1247,404,1245,363,1238,326,1228,295,1214,271,1191,253,1194,249,1218,267,1233,293,1244,325,1250,362,1253,404,1251,497,1244,598,1236,699,1234,792,1243,870,1252,902,1266,926,1268,928"/>
-<area shape="rect" href="classcl__gcalcli_1_1CpGcalcliConnection.html#ad09ef2d29ecc2ad68e4ccd89c3965474" title="Template method for type&#45;safe event posting setup." alt="" coords="995,281,1198,322"/>
-<area shape="poly" title=" " alt="" coords="1264,932,1262,929,1248,906,1239,877,1231,805,1233,721,1238,629,1244,539,1245,455,1236,384,1227,357,1214,335,1196,320,1199,316,1218,331,1232,354,1242,383,1250,454,1250,539,1244,630,1238,721,1237,805,1245,876,1253,904,1266,926,1268,929"/>
-<area shape="rect" href="classcl__lifecycle__node_1_1CpLifecycleEventMonitor.html#a9d2eeaff699b7bfdf97ecca9f8cd7bf2" title="Configure event posting with orthogonal template parameter This is called from the client&#39;s onStateOr..." alt="" coords="1000,345,1192,401"/>
-<area shape="poly" title=" " alt="" coords="1264,932,1262,929,1239,896,1224,862,1216,829,1214,797,1221,733,1237,670,1254,607,1261,544,1258,513,1251,481,1236,448,1214,415,1191,396,1195,392,1218,411,1241,445,1256,479,1264,512,1266,544,1259,608,1242,671,1226,734,1219,797,1221,829,1229,861,1244,893,1266,926,1268,929"/>
-<area shape="rect" href="classcl__modbus__tcp__relay_1_1CpModbusConnection.html#adc4cfba901bf688a064421027cea6b3a" title="Configure component for event posting during orthogonal allocation." alt="" coords="1000,425,1192,481"/>
-<area shape="poly" title=" " alt="" coords="1264,932,1262,929,1242,901,1229,873,1222,845,1219,817,1225,763,1237,710,1250,657,1255,604,1253,577,1246,550,1233,523,1214,495,1191,476,1194,472,1218,491,1238,520,1251,548,1258,576,1260,604,1255,658,1242,711,1230,764,1225,817,1227,844,1234,871,1247,898,1266,926,1268,929"/>
-<area shape="rect" href="classcl__modbus__tcp__relay_1_1CpModbusRelay.html#abc989b20afab951adbf4e2af1ee9a1c8" title="Configure component for event posting during orthogonal allocation." alt="" coords="979,505,1214,561"/>
-<area shape="poly" title=" " alt="" coords="1264,932,1262,929,1246,906,1234,883,1225,838,1228,794,1237,750,1246,707,1249,663,1240,619,1230,597,1214,575,1202,563,1206,560,1218,571,1234,595,1245,618,1255,663,1252,707,1243,751,1234,794,1231,838,1239,882,1250,904,1266,926,1268,929"/>
-<area shape="rect" href="classcl__moveit2z_1_1CpMoveGroupInterface.html#a41c92bb82b548b83ef028a04585015e6" title=" " alt="" coords="1003,585,1190,641"/>
-<area shape="poly" title=" " alt="" coords="1265,933,1262,929,1240,894,1231,859,1232,824,1237,790,1243,756,1244,723,1235,689,1214,655,1188,635,1192,631,1218,651,1240,687,1249,722,1248,757,1243,791,1237,825,1236,858,1244,892,1266,926,1269,929"/>
-<area shape="rect" href="classsmacc2_1_1client__core__components_1_1CpTopicSubscriber.html#ac2221d84e501c0db7736abbbee838b9e" title=" " alt="" coords="989,665,1204,721"/>
-<area shape="poly" title=" " alt="" coords="1266,933,1262,930,1245,905,1237,879,1235,855,1237,830,1239,806,1238,783,1230,759,1214,735,1201,724,1205,720,1218,731,1235,757,1243,782,1244,806,1243,831,1241,855,1242,879,1249,902,1266,926,1269,929"/>
-<area shape="rect" href="classcl__keyboard_1_1components_1_1CpKeyboardListener1.html#add1cc212c6093f62b212721323c5a181" title=" " alt="" coords="1013,745,1180,801"/>
-<area shape="poly" title=" " alt="" coords="1267,934,1262,930,1250,915,1243,900,1237,871,1232,843,1226,829,1214,815,1179,793,1182,789,1218,811,1230,826,1237,841,1243,870,1248,899,1254,912,1266,926,1271,930"/>
-<area shape="rect" href="classsmacc2_1_1client__core__components_1_1CpActionClient.html#a8238b4c629433e62f302de2cd12c6213" title=" " alt="" coords="1001,969,1192,1025"/>
-<area shape="poly" title=" " alt="" coords="1258,978,1193,987,1192,982,1257,973"/>
-<area shape="rect" href="classcl__foundation__pose_1_1CpObjectTrackerTf.html#a012d34f833642a33bf3f5261b84f2c17" title=" " alt="" coords="1008,825,1185,881"/>
-<area shape="poly" title=" " alt="" coords="1277,937,1263,930,1238,913,1215,895,1184,882,1187,877,1217,891,1242,908,1265,926,1279,932"/>
-<area shape="rect" href="classcl__nav2z_1_1CpWaypointNavigator.html#a03d4faa10afc384023dd1b3ffe693f1c" title=" " alt="" coords="720,1010,923,1051"/>
-<area shape="poly" title=" " alt="" coords="990,954,978,959,964,969,954,979,945,989,930,999,902,1012,900,1007,927,995,941,985,951,975,960,965,975,955,987,949"/>
-<area shape="rect" href="classcl__nav2z_1_1CbNavigateNextWaypointFree.html#aa70907c580aaa15dfc1a0bc8e301c1ae" title=" " alt="" coords="714,945,929,986"/>
-<area shape="poly" title=" " alt="" coords="979,945,929,952,929,947,979,940"/>
-<area shape="rect" href="classcl__nav2z_1_1CpWaypointNavigator.html#a8b3a667099cc654de794420fde0e141c" title=" " alt="" coords="463,978,666,1019"/>
-<area shape="poly" title=" " alt="" coords="704,1019,666,1014,667,1009,705,1013"/>
-<area shape="rect" href="classcl__nav2z_1_1CpWaypointNavigator.html#abc1ff5c646297da55d9811f5cced3d93" title=" " alt="" coords="463,1044,666,1084"/>
-<area shape="poly" title=" " alt="" coords="705,1048,667,1053,666,1048,704,1043"/>
-<area shape="rect" href="classcl__nav2z_1_1CbNavigateNextWaypoint.html#ac546e1622eb9894228846b814e48afea" title=" " alt="" coords="242,1044,415,1084"/>
-<area shape="poly" title=" " alt="" coords="447,1066,415,1066,415,1061,447,1061"/>
-<area shape="rect" href="classcl__nav2z_1_1CbNavigateNamedWaypoint.html#a08fc01469398220c035e7c3fac4ae598" title=" " alt="" coords="5,1008,194,1048"/>
-<area shape="poly" title=" " alt="" coords="226,1050,194,1045,194,1040,227,1045"/>
-<area shape="rect" href="classcl__nav2z_1_1CbNavigateNextWaypointUntilReached.html#a8768836e087f12cbb477aa509e28a947" title=" " alt="" coords="13,1072,186,1128"/>
-<area shape="poly" title=" " alt="" coords="227,1082,187,1089,186,1084,226,1077"/>
-<area shape="rect" href="classcl__foundation__pose_1_1CpObjectTracker1.html#a1c4af41d3e926433cfffafb99e14ed67" title=" " alt="" coords="752,1340,891,1396"/>
-<area shape="poly" title=" " alt="" coords="986,1370,891,1370,891,1365,986,1365"/>
-<area shape="rect" href="classcl__keyboard_1_1components_1_1CpKeyboardListener1.html#aaeeb8897208f6218e49952f4a827055d" title=" " alt="" coords="734,625,909,681"/>
-<area shape="poly" title=" " alt="" coords="997,746,975,735,951,715,927,695,905,684,907,679,930,691,954,711,978,731,1000,742"/>
-<area shape="poly" title=" " alt="" coords="988,1034,978,1039,940,1066,904,1097,848,1156,844,1152,900,1093,936,1062,975,1035,985,1029"/>
-<area shape="rect" href="classcl__foundation__pose_1_1CbTrackObjectPose.html#adba4ca592dd27fe5d7b4824a4430ea4d" title=" " alt="" coords="749,705,894,761"/>
-<area shape="poly" title=" " alt="" coords="992,824,975,815,951,795,927,775,893,759,895,754,930,771,954,791,978,811,995,819"/>
-<area shape="rect" href="classcl__foundation__pose_1_1CbTrackObjectPose.html#ac1e3398dfcf0a34d2edeb14859df21d8" title=" " alt="" coords="749,785,894,841"/>
-<area shape="poly" title=" " alt="" coords="992,841,894,826,895,821,993,835"/>
-<area shape="rect" href="classcl__foundation__pose_1_1CpObjectTrackerTf.html#a3ac39049abde97fc6c7f52df2044076c" title=" " alt="" coords="753,865,890,921"/>
-<area shape="poly" title=" " alt="" coords="993,871,891,886,890,881,992,866"/>
-<area shape="rect" href="classsmacc2_1_1SmaccState.html#a379a8f1b99b10d7aec9a6526baea44e4" title=" " alt="" coords="996,1549,1196,1605"/>
-<area shape="poly" title=" " alt="" coords="1275,1556,1197,1566,1197,1561,1274,1551"/>
-<area shape="rect" href="classsmacc2_1_1SmaccState.html#acecda8c2c57b6040834d47de9845fe08" title=" " alt="" coords="997,1485,1196,1526"/>
-<area shape="poly" title=" " alt="" coords="1275,1532,1196,1521,1197,1516,1275,1527"/>
-<area shape="rect" href="classsmacc2_1_1SmaccEventGenerator.html#a2d5caf3b91d6c24f83b5b14df9abcb9b" title=" " alt="" coords="994,1825,1198,1866"/>
-<area shape="poly" title=" " alt="" coords="1279,1674,1266,1684,1253,1700,1247,1716,1243,1748,1239,1781,1231,1798,1218,1814,1200,1826,1197,1822,1214,1810,1227,1795,1234,1779,1238,1747,1242,1714,1249,1697,1262,1681,1275,1670"/>
-<area shape="rect" href="classsmacc2_1_1SmaccEventGenerator.html#a8383a8c6d1ccd4bfb77b3389ea6d0dab" title=" " alt="" coords="994,1629,1198,1670"/>
-<area shape="poly" title=" " alt="" coords="1275,1652,1199,1652,1199,1646,1275,1646"/>
-<area shape="rect" href="classsmacc2_1_1StateReactor.html#a9485320cbc7f9b830e4d177af3c80b0e" title=" " alt="" coords="1022,1694,1171,1735"/>
-<area shape="poly" title=" " alt="" coords="1276,1673,1172,1699,1171,1694,1275,1668"/>
-<area shape="rect" href="classsmacc2_1_1StateReactor.html#ab4b8fe1d7d79eebffa16b4b478678625" title=" " alt="" coords="1022,1760,1171,1800"/>
-<area shape="poly" title=" " alt="" coords="1278,1677,1266,1685,1251,1700,1243,1716,1234,1733,1218,1749,1196,1761,1172,1770,1170,1765,1193,1756,1214,1744,1230,1729,1238,1714,1246,1697,1262,1680,1275,1672"/>
-<area shape="rect" href="classsmacc2_1_1event__generators_1_1EgConditionalGenerator.html#a686a9a4523ed1c18d67dae6d99cc917b" title=" " alt="" coords="725,1737,918,1793"/>
-<area shape="poly" title=" " alt="" coords="1004,1823,976,1814,915,1796,916,1791,977,1809,1006,1818"/>
-<area shape="rect" href="classsmacc2_1_1state__reactors_1_1EgRandomGenerator.html#abcd1e84cb0fcfec9d77f67b3cca09d74" title=" " alt="" coords="722,1817,921,1873"/>
-<area shape="poly" title=" " alt="" coords="978,1848,921,1848,921,1842,978,1842"/>
-<area shape="poly" title=" " alt="" coords="1406,1770,1391,1764,1365,1762,1341,1764,1327,1769,1321,1775,1324,1782,1319,1784,1316,1773,1324,1764,1340,1759,1365,1757,1392,1759,1408,1765"/>
-<area shape="rect" href="classsmacc2_1_1SmaccState.html#a5ea05b3f18d2e1ad6bcbc441ee80db15" title=" " alt="" coords="1022,1893,1170,1934"/>
-<area shape="poly" title=" " alt="" coords="1278,1833,1265,1839,1242,1859,1232,1869,1217,1880,1172,1898,1170,1893,1215,1875,1229,1865,1238,1855,1263,1835,1275,1828"/>
-<area shape="rect" href="classsmacc2_1_1SmaccState.html#aeeaa708975d375657bf294a2935d5c9e" title=" " alt="" coords="749,1897,894,1938"/>
-<area shape="poly" title=" " alt="" coords="1007,1917,894,1919,894,1913,1006,1912"/>
+<area shape="poly" title=" " alt="" coords="1292,108,1173,64,1175,59,1294,103"/>
+<area shape="poly" title=" " alt="" coords="997,46,919,55,918,50,996,41"/>
+<area shape="rect" href="classsmacc2_1_1ISmaccState.html#a4fb93a9c3933ad7a2755da758634d00d" title=" " alt="" coords="1022,216,1171,256"/>
+<area shape="poly" title=" " alt="" coords="1264,889,1262,887,1248,863,1239,833,1230,758,1232,671,1238,576,1245,482,1246,395,1237,322,1228,294,1214,271,1194,255,1170,245,1172,240,1197,250,1218,267,1232,291,1242,321,1251,395,1250,482,1244,577,1237,671,1236,758,1244,831,1253,861,1266,884,1268,886"/>
+<area shape="rect" href="classsmacc2_1_1SmaccState.html#aeb080a6a67b39552c31e3ee16ae5336b" title=" " alt="" coords="748,144,895,184"/>
+<area shape="poly" title=" " alt="" coords="1006,215,894,186,896,180,1007,210"/>
+<area shape="rect" href="classsmacc2_1_1SmaccState.html#ac0b4b415cf28e1e275a47459a564d16c" title=" " alt="" coords="748,208,895,264"/>
+<area shape="poly" title=" " alt="" coords="1006,238,895,238,895,233,1006,233"/>
+<area shape="rect" href="classsmacc2_1_1SmaccState.html#ae85964a63b9b2da623ee6f851fb0ffb4" title=" " alt="" coords="748,288,895,344"/>
+<area shape="poly" title=" " alt="" coords="1007,263,977,272,896,296,894,291,976,267,1006,258"/>
+<area shape="rect" href="classcl__nav2z_1_1CpWaypointNavigatorBase.html#aa98aa1c40fe6f2e10de07a1171456c86" title=" " alt="" coords="995,1326,1198,1367"/>
+<area shape="poly" title=" " alt="" coords="1361,1020,1346,1084,1319,1164,1301,1206,1278,1246,1250,1284,1218,1317,1200,1329,1197,1324,1214,1312,1246,1280,1273,1243,1296,1203,1314,1162,1341,1083,1356,1019"/>
+<area shape="rect" href="classcl__generic__sensor_1_1components_1_1CpMessageTimeout.html#a81d13ea6daa946420705f18e7bdc4616" title=" " alt="" coords="989,1167,1204,1222"/>
+<area shape="poly" title=" " alt="" coords="1345,1018,1293,1088,1257,1125,1218,1157,1197,1168,1195,1164,1214,1152,1254,1121,1289,1084,1341,1015"/>
+<area shape="rect" href="classcl__nav2z_1_1components_1_1CpNav2ActionInterface.html#a70ef4892592aa97221afdb24516f3d8c" title=" " alt="" coords="1009,1247,1184,1302"/>
+<area shape="poly" title=" " alt="" coords="1355,1020,1335,1068,1306,1126,1267,1185,1244,1213,1218,1237,1186,1256,1183,1251,1214,1232,1240,1209,1263,1182,1301,1124,1330,1066,1350,1018"/>
+<area shape="rect" href="classsmacc2_1_1client__core__components_1_1CpActionClient.html#a22f48b4b5b5cbc324935328c79e176aa" title=" " alt="" coords="726,1101,917,1157"/>
+<area shape="poly" title=" " alt="" coords="1276,1011,1217,1026,1096,1050,1044,1060,977,1077,897,1103,896,1098,976,1072,1043,1055,1095,1045,1215,1021,1274,1006"/>
+<area shape="rect" href="classsmacc2_1_1client__core__components_1_1CpServiceClient.html#a0213a55ae2e79cb5671261cb973a3d79" title="Configure event posting with proper template parameters." alt="" coords="997,1391,1196,1446"/>
+<area shape="poly" title=" " alt="" coords="1363,1020,1351,1095,1326,1191,1308,1242,1284,1292,1254,1339,1218,1380,1198,1395,1194,1391,1214,1377,1250,1336,1279,1289,1303,1240,1321,1189,1346,1094,1358,1020"/>
+<area shape="rect" href="classcl__foundation__pose_1_1CpObjectTracker1.html#ad876238eee690679aaaf4c54861b142b" title=" " alt="" coords="1001,1471,1192,1526"/>
+<area shape="poly" title=" " alt="" coords="1366,1020,1359,1108,1350,1164,1337,1226,1318,1288,1293,1350,1260,1409,1218,1460,1193,1478,1190,1474,1214,1457,1255,1406,1288,1348,1313,1287,1332,1224,1345,1163,1353,1107,1361,1020"/>
+<area shape="rect" href="classcl__gcalcli_1_1CpCalendarEventListener.html#a72298bb216720c1a354bff11aa4da3d1" title="Template method for type&#45;safe event posting setup." alt="" coords="977,281,1216,322"/>
+<area shape="poly" title=" " alt="" coords="1264,954,1262,952,1248,928,1239,898,1230,824,1232,736,1238,642,1245,547,1246,460,1237,388,1228,359,1214,336,1201,324,1204,320,1218,333,1232,357,1242,386,1251,460,1250,548,1244,642,1237,736,1236,823,1244,897,1253,926,1266,949,1268,951"/>
+<area shape="rect" href="classcl__gcalcli_1_1CpCalendarPoller.html#a5dd34735c5ebf23a94689d9014eacaa6" title="Template method for type&#45;safe event posting setup." alt="" coords="1000,346,1192,387"/>
+<area shape="poly" title=" " alt="" coords="1264,955,1262,952,1249,931,1241,904,1233,837,1233,759,1238,674,1243,590,1243,512,1235,447,1226,422,1214,402,1191,384,1194,379,1218,398,1231,419,1240,446,1249,512,1248,590,1244,675,1239,759,1238,837,1246,902,1254,928,1266,949,1268,951"/>
+<area shape="rect" href="classcl__gcalcli_1_1CpGcalcliConnection.html#ad09ef2d29ecc2ad68e4ccd89c3965474" title="Template method for type&#45;safe event posting setup." alt="" coords="995,412,1198,452"/>
+<area shape="poly" title=" " alt="" coords="1264,955,1262,952,1240,920,1226,888,1219,857,1216,826,1224,765,1239,705,1255,645,1261,586,1258,556,1250,526,1236,496,1214,466,1196,451,1200,447,1218,462,1240,493,1255,524,1264,555,1266,586,1260,646,1244,706,1229,766,1222,826,1224,856,1231,887,1245,918,1266,949,1268,951"/>
+<area shape="rect" href="classcl__lifecycle__node_1_1CpLifecycleEventMonitor.html#a9d2eeaff699b7bfdf97ecca9f8cd7bf2" title="Configure event posting with orthogonal template parameter This is called from the client&#39;s onStateOr..." alt="" coords="1000,476,1192,532"/>
+<area shape="poly" title=" " alt="" coords="1264,955,1262,952,1243,926,1231,899,1224,873,1221,847,1226,797,1237,747,1249,697,1253,647,1251,622,1244,597,1232,571,1214,546,1191,527,1194,522,1218,542,1236,569,1249,595,1256,621,1258,647,1254,698,1243,748,1231,797,1227,847,1229,872,1236,897,1248,923,1266,949,1268,951"/>
+<area shape="rect" href="classcl__modbus__tcp__relay_1_1CpModbusConnection.html#adc4cfba901bf688a064421027cea6b3a" title="Configure component for event posting during orthogonal allocation." alt="" coords="1000,556,1192,612"/>
+<area shape="poly" title=" " alt="" coords="1264,955,1262,952,1247,931,1236,910,1227,868,1230,827,1237,787,1245,747,1247,707,1239,666,1229,646,1214,626,1191,607,1195,603,1218,622,1233,643,1244,665,1253,706,1250,747,1243,788,1235,828,1233,868,1241,908,1251,928,1266,949,1268,951"/>
+<area shape="rect" href="classcl__modbus__tcp__relay_1_1CpModbusRelay.html#abc989b20afab951adbf4e2af1ee9a1c8" title="Configure component for event posting during orthogonal allocation." alt="" coords="979,636,1214,692"/>
+<area shape="poly" title=" " alt="" coords="1265,955,1262,952,1241,920,1233,889,1233,858,1237,827,1241,797,1242,766,1234,736,1214,706,1201,694,1205,690,1218,702,1239,734,1247,766,1247,797,1243,828,1238,858,1238,888,1246,918,1266,949,1269,952"/>
+<area shape="rect" href="classcl__moveit2z_1_1CpMoveGroupInterface.html#a41c92bb82b548b83ef028a04585015e6" title=" " alt="" coords="1003,716,1190,772"/>
+<area shape="poly" title=" " alt="" coords="1266,956,1262,952,1246,931,1239,909,1237,867,1236,826,1229,806,1214,786,1188,767,1191,762,1218,782,1234,803,1241,825,1243,867,1244,908,1251,928,1266,949,1269,952"/>
+<area shape="rect" href="classsmacc2_1_1client__core__components_1_1CpTopicSubscriber.html#ac2221d84e501c0db7736abbbee838b9e" title=" " alt="" coords="989,796,1204,852"/>
+<area shape="poly" title=" " alt="" coords="1269,957,1262,952,1245,930,1237,908,1231,887,1214,866,1198,854,1201,850,1218,862,1235,884,1243,906,1249,928,1266,949,1272,953"/>
+<area shape="rect" href="classcl__keyboard_1_1components_1_1CpKeyboardListener1.html#add1cc212c6093f62b212721323c5a181" title=" " alt="" coords="1013,876,1180,932"/>
+<area shape="poly" title=" " alt="" coords="1279,961,1180,931,1181,926,1280,956"/>
+<area shape="rect" href="classsmacc2_1_1client__core__components_1_1CpActionClient.html#a8238b4c629433e62f302de2cd12c6213" title=" " alt="" coords="1001,1087,1192,1142"/>
+<area shape="poly" title=" " alt="" coords="1319,1015,1217,1070,1175,1089,1173,1084,1215,1065,1316,1010"/>
+<area shape="rect" href="classcl__foundation__pose_1_1CpObjectTrackerTf.html#a012d34f833642a33bf3f5261b84f2c17" title=" " alt="" coords="1008,956,1185,1012"/>
+<area shape="poly" title=" " alt="" coords="1258,986,1186,986,1186,981,1258,981"/>
+<area shape="rect" href="classcl__nav2z_1_1CpWaypointNavigator.html#a03d4faa10afc384023dd1b3ffe693f1c" title=" " alt="" coords="720,1360,923,1400"/>
+<area shape="poly" title=" " alt="" coords="980,1363,924,1370,923,1365,979,1358"/>
+<area shape="rect" href="classcl__nav2z_1_1CbNavigateNextWaypointFree.html#aa70907c580aaa15dfc1a0bc8e301c1ae" title=" " alt="" coords="714,1294,929,1335"/>
+<area shape="poly" title=" " alt="" coords="979,1336,929,1330,929,1324,979,1330"/>
+<area shape="rect" href="classcl__nav2z_1_1CpWaypointNavigator.html#a8b3a667099cc654de794420fde0e141c" title=" " alt="" coords="463,1328,666,1368"/>
+<area shape="poly" title=" " alt="" coords="704,1368,666,1363,667,1358,705,1363"/>
+<area shape="rect" href="classcl__nav2z_1_1CpWaypointNavigator.html#abc1ff5c646297da55d9811f5cced3d93" title=" " alt="" coords="463,1393,666,1434"/>
+<area shape="poly" title=" " alt="" coords="705,1398,667,1403,666,1397,704,1392"/>
+<area shape="rect" href="classcl__nav2z_1_1CbNavigateNextWaypoint.html#ac546e1622eb9894228846b814e48afea" title=" " alt="" coords="242,1393,415,1434"/>
+<area shape="poly" title=" " alt="" coords="447,1416,415,1416,415,1410,447,1410"/>
+<area shape="rect" href="classcl__nav2z_1_1CbNavigateNamedWaypoint.html#a08fc01469398220c035e7c3fac4ae598" title=" " alt="" coords="5,1357,194,1398"/>
+<area shape="poly" title=" " alt="" coords="226,1400,194,1395,194,1389,227,1395"/>
+<area shape="rect" href="classcl__nav2z_1_1CbNavigateNextWaypointUntilReached.html#a8768836e087f12cbb477aa509e28a947" title=" " alt="" coords="13,1421,186,1477"/>
+<area shape="poly" title=" " alt="" coords="227,1432,187,1438,186,1433,226,1427"/>
+<area shape="rect" href="classcl__foundation__pose_1_1CpObjectTracker1.html#a1c4af41d3e926433cfffafb99e14ed67" title=" " alt="" coords="752,1471,891,1526"/>
+<area shape="poly" title=" " alt="" coords="986,1501,891,1501,891,1496,986,1496"/>
+<area shape="rect" href="classcl__keyboard_1_1components_1_1CpKeyboardListener1.html#aaeeb8897208f6218e49952f4a827055d" title=" " alt="" coords="734,781,909,837"/>
+<area shape="poly" title=" " alt="" coords="997,874,976,866,901,840,903,835,978,861,999,869"/>
+<area shape="poly" title=" " alt="" coords="985,1123,918,1127,918,1121,985,1118"/>
+<area shape="rect" href="classcl__foundation__pose_1_1CbTrackObjectPose.html#adba4ca592dd27fe5d7b4824a4430ea4d" title=" " alt="" coords="749,861,894,917"/>
+<area shape="poly" title=" " alt="" coords="995,953,976,946,893,917,895,912,978,941,997,948"/>
+<area shape="rect" href="classcl__foundation__pose_1_1CbTrackObjectPose.html#ac1e3398dfcf0a34d2edeb14859df21d8" title=" " alt="" coords="749,941,894,997"/>
+<area shape="poly" title=" " alt="" coords="992,981,894,976,894,970,992,976"/>
+<area shape="rect" href="classcl__foundation__pose_1_1CpObjectTrackerTf.html#a3ac39049abde97fc6c7f52df2044076c" title=" " alt="" coords="753,1021,890,1077"/>
+<area shape="poly" title=" " alt="" coords="993,1011,891,1035,890,1030,992,1006"/>
+<area shape="rect" href="classsmacc2_1_1SmaccState.html#a379a8f1b99b10d7aec9a6526baea44e4" title=" " alt="" coords="996,1551,1196,1606"/>
+<area shape="poly" title=" " alt="" coords="1274,1605,1197,1595,1197,1589,1275,1600"/>
+<area shape="rect" href="classsmacc2_1_1SmaccState.html#acecda8c2c57b6040834d47de9845fe08" title=" " alt="" coords="997,1630,1196,1671"/>
+<area shape="poly" title=" " alt="" coords="1275,1629,1197,1640,1196,1634,1275,1624"/>
+<area shape="rect" href="classsmacc2_1_1SmaccEventGenerator.html#a2d5caf3b91d6c24f83b5b14df9abcb9b" title=" " alt="" coords="994,1696,1198,1736"/>
+<area shape="poly" title=" " alt="" coords="1275,1718,1199,1718,1199,1713,1275,1713"/>
+<area shape="rect" href="classsmacc2_1_1SmaccEventGenerator.html#a8383a8c6d1ccd4bfb77b3389ea6d0dab" title=" " alt="" coords="994,1761,1198,1802"/>
+<area shape="poly" title=" " alt="" coords="1276,1740,1184,1763,1182,1758,1275,1735"/>
+<area shape="rect" href="classsmacc2_1_1StateReactor.html#a9485320cbc7f9b830e4d177af3c80b0e" title=" " alt="" coords="1022,1826,1171,1867"/>
+<area shape="poly" title=" " alt="" coords="1278,1744,1266,1751,1251,1767,1243,1783,1234,1799,1218,1815,1196,1828,1172,1836,1170,1831,1193,1823,1214,1811,1230,1796,1238,1780,1246,1764,1262,1747,1275,1739"/>
+<area shape="rect" href="classsmacc2_1_1StateReactor.html#ab4b8fe1d7d79eebffa16b4b478678625" title=" " alt="" coords="1022,1892,1171,1932"/>
+<area shape="poly" title=" " alt="" coords="1279,1741,1266,1751,1253,1767,1247,1782,1243,1815,1239,1847,1231,1864,1218,1880,1196,1895,1172,1905,1170,1900,1194,1891,1214,1877,1227,1861,1234,1846,1238,1814,1242,1781,1249,1764,1262,1747,1275,1737"/>
+<area shape="rect" href="classsmacc2_1_1event__generators_1_1EgConditionalGenerator.html#a686a9a4523ed1c18d67dae6d99cc917b" title=" " alt="" coords="725,1728,918,1784"/>
+<area shape="poly" title=" " alt="" coords="979,1736,918,1744,918,1739,979,1730"/>
+<area shape="rect" href="classsmacc2_1_1state__reactors_1_1EgRandomGenerator.html#abcd1e84cb0fcfec9d77f67b3cca09d74" title=" " alt="" coords="722,1648,921,1704"/>
+<area shape="poly" title=" " alt="" coords="978,1701,921,1693,921,1688,979,1696"/>
+<area shape="poly" title=" " alt="" coords="1406,1837,1391,1831,1365,1829,1341,1831,1327,1836,1321,1841,1324,1849,1319,1850,1316,1840,1324,1831,1340,1826,1365,1824,1392,1826,1408,1832"/>
+<area shape="rect" href="classsmacc2_1_1SmaccState.html#a5ea05b3f18d2e1ad6bcbc441ee80db15" title=" " alt="" coords="1022,1957,1170,1998"/>
+<area shape="poly" title=" " alt="" coords="1278,1900,1265,1906,1251,1916,1242,1926,1232,1936,1217,1946,1172,1964,1170,1959,1215,1941,1229,1932,1238,1922,1248,1912,1263,1902,1275,1895"/>
+<area shape="rect" href="classsmacc2_1_1SmaccState.html#aeeaa708975d375657bf294a2935d5c9e" title=" " alt="" coords="749,1957,894,1998"/>
+<area shape="poly" title=" " alt="" coords="1006,1980,894,1980,894,1974,1006,1974"/>
 </map>
 </div>
 
@@ -1309,7 +1381,7 @@ Here is the caller graph for this function:</div>
 
 <p>Implemented in <a class="el" href="classsmacc2_1_1SmaccState.html#a5d4c6a7ca27204c325f6e951942c839a">smacc2::SmaccState&lt; MostDerived, Context, InnerInitial, historyMode &gt;</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="smacc__state__impl_8hpp_source.html#l00184">getClientBehavior()</a>, <a class="el" href="smacc__state__impl_8hpp_source.html#l00100">getGlobalSMData()</a>, <a class="el" href="smacc__state__impl_8hpp_source.html#l00178">getOrthogonal()</a>, <a class="el" href="smacc__state_8cpp_source.html#l00028">notifyTransitionFromTransitionTypeInfo()</a>, <a class="el" href="smacc__state__impl_8hpp_source.html#l00222">postEvent()</a>, <a class="el" href="smacc__state__impl_8hpp_source.html#l00216">postEvent()</a>, <a class="el" href="smacc__state__impl_8hpp_source.html#l00077">requiresClient()</a>, <a class="el" href="smacc__state__impl_8hpp_source.html#l00069">requiresComponent()</a>, <a class="el" href="smacc__state__impl_8hpp_source.html#l00062">requiresComponent()</a>, <a class="el" href="smacc__state__impl_8hpp_source.html#l00108">setGlobalSMData()</a>, and <a class="el" href="smacc__state__reactor__impl_8hpp_source.html#l00040">smacc2::StateReactor::setOutputEvent()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="smacc__state__impl_8hpp_source.html#l00193">getClientBehavior()</a>, <a class="el" href="smacc__state__impl_8hpp_source.html#l00109">getGlobalSMData()</a>, <a class="el" href="smacc__state__impl_8hpp_source.html#l00187">getOrthogonal()</a>, <a class="el" href="smacc__state_8cpp_source.html#l00028">notifyTransitionFromTransitionTypeInfo()</a>, <a class="el" href="smacc__state__impl_8hpp_source.html#l00231">postEvent()</a>, <a class="el" href="smacc__state__impl_8hpp_source.html#l00225">postEvent()</a>, <a class="el" href="smacc__state__impl_8hpp_source.html#l00086">requiresClient()</a>, <a class="el" href="smacc__state__impl_8hpp_source.html#l00078">requiresComponent()</a>, <a class="el" href="smacc__state__impl_8hpp_source.html#l00071">requiresComponent()</a>, <a class="el" href="smacc__state__impl_8hpp_source.html#l00117">setGlobalSMData()</a>, and <a class="el" href="smacc__state__reactor__impl_8hpp_source.html#l00040">smacc2::StateReactor::setOutputEvent()</a>.</p>
 <div class="dynheader">
 Here is the caller graph for this function:</div>
 <div class="dyncontent">
@@ -1388,16 +1460,16 @@ template&lt;typename TStateReactor &gt; </div>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="smacc__state__impl_8hpp_source.html#l00202">202</a> of file <a class="el" href="smacc__state__impl_8hpp_source.html">smacc_state_impl.hpp</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">  203</span>{</div>
-<div class="line"><span class="lineno">  204</span>  TStateReactor * ret = <span class="keyword">nullptr</span>;</div>
-<div class="line"><span class="lineno">  205</span>  <span class="keywordflow">for</span> (<span class="keyword">auto</span> &amp; sr : this-&gt;<a class="code hl_variable" href="#ac0814ba28c1adfb56c830271b104bce9">eventGenerators_</a>)</div>
-<div class="line"><span class="lineno">  206</span>  {</div>
-<div class="line"><span class="lineno">  207</span>    ret = <span class="keyword">dynamic_cast&lt;</span>TStateReactor *<span class="keyword">&gt;</span>(sr.get());</div>
-<div class="line"><span class="lineno">  208</span>    <span class="keywordflow">if</span> (ret != <span class="keyword">nullptr</span>) <span class="keywordflow">break</span>;</div>
-<div class="line"><span class="lineno">  209</span>  }</div>
-<div class="line"><span class="lineno">  210</span>  <span class="keywordflow">return</span> ret;</div>
-<div class="line"><span class="lineno">  211</span>}</div>
+<p class="definition">Definition at line <a class="el" href="smacc__state__impl_8hpp_source.html#l00211">211</a> of file <a class="el" href="smacc__state__impl_8hpp_source.html">smacc_state_impl.hpp</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">  212</span>{</div>
+<div class="line"><span class="lineno">  213</span>  TStateReactor * ret = <span class="keyword">nullptr</span>;</div>
+<div class="line"><span class="lineno">  214</span>  <span class="keywordflow">for</span> (<span class="keyword">auto</span> &amp; sr : this-&gt;<a class="code hl_variable" href="#ac0814ba28c1adfb56c830271b104bce9">eventGenerators_</a>)</div>
+<div class="line"><span class="lineno">  215</span>  {</div>
+<div class="line"><span class="lineno">  216</span>    ret = <span class="keyword">dynamic_cast&lt;</span>TStateReactor *<span class="keyword">&gt;</span>(sr.get());</div>
+<div class="line"><span class="lineno">  217</span>    <span class="keywordflow">if</span> (ret != <span class="keyword">nullptr</span>) <span class="keywordflow">break</span>;</div>
+<div class="line"><span class="lineno">  218</span>  }</div>
+<div class="line"><span class="lineno">  219</span>  <span class="keywordflow">return</span> ret;</div>
+<div class="line"><span class="lineno">  220</span>}</div>
 </div><!-- fragment -->
 <p class="reference">References <a class="el" href="smacc__state_8hpp_source.html#l00130">eventGenerators_</a>.</p>
 
@@ -1437,126 +1509,134 @@ Here is the caller graph for this function:</div>
 <div class="dyncontent">
 <div class="center"><img src="classsmacc2_1_1ISmaccState_a7831b97a7a61146977dad18c9891aa79_icgraph.png" border="0" usemap="#aclasssmacc2_1_1ISmaccState_a7831b97a7a61146977dad18c9891aa79_icgraph" alt=""/></div>
 <map name="aclasssmacc2_1_1ISmaccState_a7831b97a7a61146977dad18c9891aa79_icgraph" id="aclasssmacc2_1_1ISmaccState_a7831b97a7a61146977dad18c9891aa79_icgraph">
-<area shape="rect" title=" " alt="" coords="2069,503,2218,543"/>
-<area shape="rect" href="classsmacc2_1_1SignalDetector.html#af12c85d2ec8747c891f7490086d2d6a2" title=" " alt="" coords="1818,261,2009,302"/>
-<area shape="poly" title=" " alt="" coords="2111,493,1932,304,1936,301,2115,490"/>
-<area shape="rect" href="classsmacc2_1_1ISmaccStateMachine.html#a8273f9d1364a6e59ef5da7032d34f8da" title=" " alt="" coords="1806,547,2021,587"/>
-<area shape="poly" title=" " alt="" coords="2054,543,2022,549,2021,544,2053,538"/>
-<area shape="rect" href="classsmacc2_1_1SignalDetector.html#af9a0197754ac252b657a8785ac1ef84d" title=" " alt="" coords="1579,124,1738,165"/>
-<area shape="poly" title=" " alt="" coords="1859,256,1697,168,1699,163,1862,251"/>
+<area shape="rect" title=" " alt="" coords="2069,535,2218,575"/>
+<area shape="rect" href="classsmacc2_1_1SignalDetector.html#af12c85d2ec8747c891f7490086d2d6a2" title=" " alt="" coords="1818,293,2009,334"/>
+<area shape="poly" title=" " alt="" coords="2111,525,1932,336,1936,333,2115,522"/>
+<area shape="rect" href="classsmacc2_1_1ISmaccStateMachine.html#a8273f9d1364a6e59ef5da7032d34f8da" title=" " alt="" coords="1806,579,2021,619"/>
+<area shape="poly" title=" " alt="" coords="2054,575,2022,581,2021,576,2053,570"/>
+<area shape="rect" href="classsmacc2_1_1SignalDetector.html#af9a0197754ac252b657a8785ac1ef84d" title=" " alt="" coords="1579,156,1738,197"/>
+<area shape="poly" title=" " alt="" coords="1859,288,1697,200,1699,195,1862,283"/>
 <area shape="rect" href="classsmacc2_1_1ISmaccStateMachine.html#a4f7ee7ef3de845c21d44c73a4e472826" title=" " alt="" coords="1264,5,1511,46"/>
-<area shape="poly" title=" " alt="" coords="1595,120,1435,49,1437,44,1597,115"/>
-<area shape="rect" href="classsmacc2_1_1SmaccState.html#aeeaa708975d375657bf294a2935d5c9e" title=" " alt="" coords="749,21,894,62"/>
-<area shape="poly" title=" " alt="" coords="1248,32,895,42,895,37,1248,27"/>
-<area shape="poly" title=" " alt="" coords="1951,534,1937,528,1913,525,1891,527,1878,532,1873,538,1875,545,1870,547,1868,537,1875,528,1890,522,1913,520,1938,522,1953,529"/>
-<area shape="rect" href="classsmacc2_1_1ISmaccStateMachine.html#aec0535bd51c1343b5465fc4d5755ae3c" title=" " alt="" coords="1559,937,1758,978"/>
-<area shape="poly" title=" " alt="" coords="1893,602,1675,938,1671,935,1888,599"/>
+<area shape="poly" title=" " alt="" coords="1612,150,1510,88,1433,49,1436,44,1513,83,1614,145"/>
+<area shape="rect" href="classsmacc2_1_1SmaccState.html#aeeaa708975d375657bf294a2935d5c9e" title=" " alt="" coords="749,13,894,54"/>
+<area shape="poly" title=" " alt="" coords="1248,30,895,35,895,30,1248,25"/>
+<area shape="poly" title=" " alt="" coords="1951,566,1937,560,1913,557,1891,559,1878,564,1873,570,1875,577,1870,579,1868,569,1875,560,1890,554,1913,552,1938,554,1953,561"/>
+<area shape="rect" href="classsmacc2_1_1ISmaccStateMachine.html#aec0535bd51c1343b5465fc4d5755ae3c" title=" " alt="" coords="1559,969,1758,1010"/>
+<area shape="poly" title=" " alt="" coords="1893,634,1675,970,1671,967,1888,631"/>
 <area shape="rect" href="classsmacc2_1_1ISmaccClient.html#aa418b74359c805a881f11d3db9f1dcd3" title=" " alt="" coords="1312,239,1463,279"/>
-<area shape="poly" title=" " alt="" coords="1641,924,1395,281,1399,279,1646,922"/>
-<area shape="rect" href="classsmacc2_1_1ISmaccClient.html#a69344d3bdf6a20ff76a6b66f81fab028" title=" " alt="" coords="1312,807,1463,847"/>
-<area shape="poly" title=" " alt="" coords="1618,930,1568,895,1510,863,1463,846,1464,841,1512,858,1571,890,1621,926"/>
-<area shape="rect" href="classsmacc2_1_1ISmaccClientBehavior.html#a400af032797d2461602187cd52590287" title=" " alt="" coords="1286,872,1489,913"/>
-<area shape="poly" title=" " alt="" coords="1556,936,1474,916,1476,911,1557,931"/>
-<area shape="rect" href="classsmacc2_1_1ISmaccComponent.html#a03dd302448a2e186b1059822cff8c669" title=" " alt="" coords="1296,937,1480,978"/>
-<area shape="poly" title=" " alt="" coords="1544,960,1480,960,1480,955,1544,955"/>
-<area shape="rect" href="classsmacc2_1_1ISmaccComponent.html#aaaff9fc7df1f88e9736438932a5ec0e4" title=" " alt="" coords="1296,1003,1480,1043"/>
-<area shape="poly" title=" " alt="" coords="1557,985,1476,1005,1474,999,1556,980"/>
-<area shape="rect" href="classsmacc2_1_1ISmaccState.html#ad6079ae8e83b1897a92fc1e68f11c992" title=" " alt="" coords="1313,1601,1462,1642"/>
-<area shape="poly" title=" " alt="" coords="1645,994,1400,1602,1395,1600,1640,992"/>
-<area shape="rect" href="classsmacc2_1_1ISmaccState.html#ad676e7d68ec31e1d4fa271832bdde076" title=" " alt="" coords="1313,1739,1462,1779"/>
-<area shape="poly" title=" " alt="" coords="1660,993,1656,1110,1649,1190,1637,1279,1618,1375,1593,1471,1558,1566,1514,1655,1495,1681,1472,1704,1426,1740,1422,1736,1469,1700,1491,1678,1509,1652,1553,1564,1588,1470,1613,1373,1631,1279,1643,1189,1650,1110,1655,993"/>
-<area shape="rect" href="classsmacc2_1_1ISmaccStateMachine.html#a46ecff5248c013535244afae7dfacabb" title=" " alt="" coords="1288,1804,1487,1845"/>
-<area shape="poly" title=" " alt="" coords="1659,994,1649,1163,1625,1402,1606,1525,1582,1637,1551,1729,1533,1765,1513,1793,1489,1811,1486,1807,1509,1789,1529,1763,1546,1727,1577,1636,1601,1524,1620,1401,1643,1162,1653,994"/>
+<area shape="poly" title=" " alt="" coords="1642,956,1394,281,1399,279,1647,954"/>
+<area shape="rect" href="classsmacc2_1_1ISmaccClient.html#a69344d3bdf6a20ff76a6b66f81fab028" title=" " alt="" coords="1312,839,1463,879"/>
+<area shape="poly" title=" " alt="" coords="1618,962,1568,927,1510,895,1463,878,1464,873,1512,890,1571,922,1621,958"/>
+<area shape="rect" href="classsmacc2_1_1ISmaccClientBehavior.html#a400af032797d2461602187cd52590287" title=" " alt="" coords="1286,904,1489,945"/>
+<area shape="poly" title=" " alt="" coords="1556,968,1474,948,1476,943,1557,963"/>
+<area shape="rect" href="classsmacc2_1_1ISmaccComponent.html#a03dd302448a2e186b1059822cff8c669" title=" " alt="" coords="1296,969,1480,1010"/>
+<area shape="poly" title=" " alt="" coords="1544,992,1480,992,1480,987,1544,987"/>
+<area shape="rect" href="classsmacc2_1_1ISmaccComponent.html#aaaff9fc7df1f88e9736438932a5ec0e4" title=" " alt="" coords="1296,1035,1480,1075"/>
+<area shape="poly" title=" " alt="" coords="1557,1017,1476,1037,1474,1031,1556,1012"/>
+<area shape="rect" href="classsmacc2_1_1ISmaccState.html#ad6079ae8e83b1897a92fc1e68f11c992" title=" " alt="" coords="1313,1667,1462,1707"/>
+<area shape="poly" title=" " alt="" coords="1646,1025,1399,1667,1395,1665,1641,1024"/>
+<area shape="rect" href="classsmacc2_1_1ISmaccState.html#ad676e7d68ec31e1d4fa271832bdde076" title=" " alt="" coords="1313,1804,1462,1845"/>
+<area shape="poly" title=" " alt="" coords="1661,1026,1657,1148,1651,1232,1639,1326,1621,1426,1595,1527,1560,1627,1514,1720,1495,1747,1472,1770,1426,1806,1423,1801,1469,1766,1491,1743,1509,1718,1555,1625,1590,1526,1616,1425,1634,1325,1646,1231,1652,1148,1655,1026"/>
+<area shape="rect" href="classsmacc2_1_1ISmaccStateMachine.html#a46ecff5248c013535244afae7dfacabb" title=" " alt="" coords="1288,1869,1487,1910"/>
+<area shape="poly" title=" " alt="" coords="1659,1026,1650,1201,1641,1321,1627,1450,1608,1578,1584,1695,1552,1792,1534,1829,1513,1858,1489,1876,1486,1872,1509,1854,1529,1827,1547,1790,1579,1694,1603,1577,1622,1449,1635,1320,1645,1200,1653,1026"/>
 <area shape="rect" href="namespacesmacc2.html#a4155b0a766602ef90b8fd15532349bcc" title=" " alt="" coords="1298,121,1477,162"/>
-<area shape="poly" title=" " alt="" coords="1651,922,1634,775,1604,570,1584,465,1562,368,1537,286,1509,228,1493,209,1474,192,1433,165,1436,160,1478,187,1497,205,1514,226,1542,284,1567,366,1589,464,1609,569,1639,775,1656,922"/>
-<area shape="rect" href="classsmacc2_1_1StateReactor.html#a5dc683e0ff3ae610d88555881d9ff5d6" title=" " alt="" coords="1313,1869,1462,1910"/>
-<area shape="poly" title=" " alt="" coords="1659,994,1651,1174,1642,1299,1629,1433,1610,1566,1586,1688,1554,1789,1535,1828,1513,1858,1490,1876,1463,1886,1461,1881,1488,1871,1509,1854,1530,1825,1549,1787,1580,1687,1605,1565,1624,1433,1637,1299,1646,1174,1654,994"/>
-<area shape="rect" href="classsmacc2_1_1client__bases_1_1SmaccActionClientBase.html#ae377de843039fc0cb008a60178f6b9bb" title=" " alt="" coords="725,132,918,188"/>
-<area shape="poly" title=" " alt="" coords="1344,232,1274,185,1241,166,1215,155,1139,140,1060,135,985,138,918,146,918,140,985,133,1060,130,1140,135,1217,150,1243,161,1277,181,1347,227"/>
+<area shape="poly" title=" " alt="" coords="1651,954,1635,802,1605,587,1586,477,1563,375,1537,289,1509,228,1493,209,1474,192,1433,165,1436,160,1478,187,1497,205,1514,226,1542,287,1568,373,1591,476,1611,586,1640,801,1657,954"/>
+<area shape="rect" href="classsmacc2_1_1StateReactor.html#a5dc683e0ff3ae610d88555881d9ff5d6" title=" " alt="" coords="1313,1935,1462,1975"/>
+<area shape="poly" title=" " alt="" coords="1659,1026,1652,1212,1644,1341,1631,1481,1613,1620,1588,1747,1572,1803,1555,1851,1535,1892,1513,1924,1490,1941,1463,1952,1462,1947,1488,1936,1509,1920,1531,1890,1550,1849,1567,1801,1582,1745,1607,1619,1626,1480,1639,1341,1647,1212,1654,1026"/>
+<area shape="rect" href="classsmacc2_1_1client__bases_1_1SmaccActionClientBase.html#ae377de843039fc0cb008a60178f6b9bb" title=" " alt="" coords="725,99,918,155"/>
+<area shape="poly" title=" " alt="" coords="1344,232,1274,186,1215,155,1139,136,1061,126,985,122,918,123,918,118,985,117,1061,121,1140,131,1217,150,1276,181,1346,228"/>
 <area shape="rect" href="classsmacc2_1_1client__bases_1_1SmaccSubscriberClient.html#ab83c4392bf7c6cf3800f8b5a01a9d47c" title=" " alt="" coords="1000,244,1192,300"/>
 <area shape="poly" title=" " alt="" coords="1296,266,1193,271,1193,265,1296,260"/>
 <area shape="rect" href="classsmacc2_1_1client__bases_1_1SmaccActionClientBase.html#ae2ad7fdec791d8733ab06392134ede20" title=" " alt="" coords="1012,164,1180,220"/>
 <area shape="poly" title=" " alt="" coords="1296,241,1180,214,1181,209,1297,236"/>
-<area shape="poly" title=" " alt="" coords="996,183,918,174,919,169,997,178"/>
-<area shape="rect" href="classcl__nav2z_1_1CpWaypointNavigatorBase.html#aa98aa1c40fe6f2e10de07a1171456c86" title=" " alt="" coords="995,324,1198,365"/>
-<area shape="poly" title=" " alt="" coords="1280,942,1262,926,1249,905,1240,878,1232,812,1232,734,1237,650,1242,566,1243,488,1235,424,1226,398,1214,378,1196,363,1200,359,1218,375,1231,396,1240,422,1248,488,1248,566,1243,650,1238,735,1237,812,1245,877,1254,903,1266,923,1284,938"/>
-<area shape="rect" href="classcl__generic__sensor_1_1components_1_1CpMessageTimeout.html#a81d13ea6daa946420705f18e7bdc4616" title=" " alt="" coords="989,388,1204,444"/>
-<area shape="poly" title=" " alt="" coords="1280,942,1262,926,1240,896,1226,866,1218,836,1215,807,1221,749,1236,691,1250,634,1257,576,1255,547,1247,518,1234,488,1214,458,1202,446,1206,443,1218,455,1239,485,1252,516,1260,546,1262,576,1255,635,1241,692,1226,750,1220,807,1223,835,1231,864,1245,893,1266,923,1284,937"/>
-<area shape="rect" href="classcl__nav2z_1_1components_1_1CpNav2ActionInterface.html#a70ef4892592aa97221afdb24516f3d8c" title=" " alt="" coords="1009,468,1184,524"/>
-<area shape="poly" title=" " alt="" coords="1280,941,1262,926,1244,902,1232,877,1224,853,1221,829,1225,782,1235,735,1245,689,1249,641,1247,618,1241,594,1230,569,1214,545,1200,531,1183,520,1186,516,1203,527,1218,541,1235,567,1246,592,1252,617,1255,641,1250,689,1240,736,1230,783,1227,829,1230,852,1237,875,1248,899,1266,923,1283,937"/>
-<area shape="rect" href="classsmacc2_1_1client__core__components_1_1CpActionClient.html#a22f48b4b5b5cbc324935328c79e176aa" title=" " alt="" coords="726,567,917,623"/>
-<area shape="poly" title=" " alt="" coords="1280,941,1262,926,1246,904,1235,882,1230,860,1228,838,1232,793,1243,750,1252,707,1255,666,1252,646,1244,627,1232,608,1214,589,1180,566,1141,551,1100,543,1057,541,1015,544,973,550,899,569,898,564,972,545,1014,538,1057,535,1101,537,1143,546,1182,561,1218,585,1236,604,1249,624,1257,645,1260,665,1258,708,1248,751,1238,794,1233,838,1235,859,1240,880,1250,902,1266,923,1284,937"/>
-<area shape="rect" href="classsmacc2_1_1client__core__components_1_1CpServiceClient.html#a0213a55ae2e79cb5671261cb973a3d79" title="Configure event posting with proper template parameters." alt="" coords="997,679,1196,735"/>
-<area shape="poly" title=" " alt="" coords="1280,940,1262,926,1245,904,1237,881,1237,836,1236,792,1229,771,1214,749,1194,733,1198,729,1218,745,1234,768,1242,791,1242,836,1243,880,1250,901,1266,922,1283,936"/>
-<area shape="rect" href="classcl__foundation__pose_1_1CpObjectTracker1.html#ad876238eee690679aaaf4c54861b142b" title=" " alt="" coords="1001,759,1192,815"/>
-<area shape="poly" title=" " alt="" coords="1280,938,1262,926,1251,914,1243,902,1237,877,1231,852,1225,841,1214,829,1190,813,1193,809,1218,825,1229,838,1236,850,1242,875,1248,900,1255,911,1266,922,1283,934"/>
-<area shape="rect" href="classcl__gcalcli_1_1CpCalendarEventListener.html#a72298bb216720c1a354bff11aa4da3d1" title="Template method for type&#45;safe event posting setup." alt="" coords="977,839,1216,879"/>
-<area shape="poly" title=" " alt="" coords="1281,934,1263,927,1239,911,1215,895,1183,882,1185,877,1217,890,1241,906,1265,922,1283,929"/>
-<area shape="rect" href="classcl__gcalcli_1_1CpCalendarPoller.html#a5dd34735c5ebf23a94689d9014eacaa6" title="Template method for type&#45;safe event posting setup." alt="" coords="1000,904,1192,945"/>
-<area shape="poly" title=" " alt="" coords="1280,948,1193,938,1193,933,1280,943"/>
-<area shape="rect" href="classcl__gcalcli_1_1CpGcalcliConnection.html#ad09ef2d29ecc2ad68e4ccd89c3965474" title="Template method for type&#45;safe event posting setup." alt="" coords="995,969,1198,1010"/>
-<area shape="poly" title=" " alt="" coords="1280,972,1198,981,1198,976,1280,967"/>
-<area shape="rect" href="classcl__lifecycle__node_1_1CpLifecycleEventMonitor.html#a9d2eeaff699b7bfdf97ecca9f8cd7bf2" title="Configure event posting with orthogonal template parameter This is called from the client&#39;s onStateOr..." alt="" coords="1000,1034,1192,1090"/>
-<area shape="poly" title=" " alt="" coords="1284,986,1265,993,1241,1008,1217,1024,1190,1036,1188,1031,1215,1019,1238,1004,1263,989,1282,981"/>
-<area shape="rect" href="classcl__modbus__tcp__relay_1_1CpModbusConnection.html#adc4cfba901bf688a064421027cea6b3a" title="Configure component for event posting during orthogonal allocation." alt="" coords="1000,1114,1192,1170"/>
-<area shape="poly" title=" " alt="" coords="1283,981,1266,993,1254,1006,1247,1019,1242,1046,1237,1075,1230,1089,1218,1104,1194,1120,1191,1116,1214,1100,1225,1086,1232,1073,1237,1045,1242,1017,1250,1003,1262,989,1280,977"/>
-<area shape="rect" href="classcl__modbus__tcp__relay_1_1CpModbusRelay.html#abc989b20afab951adbf4e2af1ee9a1c8" title="Configure component for event posting during orthogonal allocation." alt="" coords="979,1194,1214,1250"/>
-<area shape="poly" title=" " alt="" coords="1284,979,1266,993,1249,1016,1242,1039,1240,1062,1242,1085,1244,1110,1243,1134,1235,1159,1218,1183,1205,1195,1201,1191,1214,1180,1230,1156,1237,1133,1238,1110,1237,1086,1235,1062,1236,1038,1244,1013,1262,989,1281,975"/>
-<area shape="rect" href="classcl__moveit2z_1_1CpMoveGroupInterface.html#a41c92bb82b548b83ef028a04585015e6" title=" " alt="" coords="1003,1274,1190,1330"/>
-<area shape="poly" title=" " alt="" coords="1284,979,1266,993,1244,1026,1236,1059,1236,1092,1242,1125,1247,1159,1248,1193,1240,1228,1218,1263,1192,1284,1188,1280,1214,1260,1235,1226,1243,1193,1242,1159,1236,1126,1231,1092,1230,1058,1239,1024,1262,989,1280,974"/>
-<area shape="rect" href="classsmacc2_1_1client__core__components_1_1CpTopicSubscriber.html#ac2221d84e501c0db7736abbbee838b9e" title=" " alt="" coords="989,1354,1204,1410"/>
-<area shape="poly" title=" " alt="" coords="1283,978,1266,993,1250,1014,1239,1036,1229,1079,1232,1122,1241,1165,1250,1208,1254,1252,1245,1297,1234,1320,1218,1343,1206,1355,1202,1351,1214,1340,1230,1318,1240,1296,1249,1252,1245,1209,1236,1166,1227,1122,1224,1078,1234,1034,1245,1012,1262,989,1280,974"/>
-<area shape="rect" href="classcl__keyboard_1_1components_1_1CpKeyboardListener1.html#add1cc212c6093f62b212721323c5a181" title=" " alt="" coords="1013,1434,1180,1490"/>
-<area shape="poly" title=" " alt="" coords="1283,978,1266,993,1246,1020,1233,1046,1226,1073,1223,1099,1228,1152,1241,1204,1254,1258,1260,1312,1257,1339,1250,1367,1237,1395,1218,1423,1201,1439,1182,1450,1179,1445,1198,1434,1214,1420,1233,1392,1245,1365,1252,1338,1254,1312,1249,1259,1236,1206,1223,1152,1218,1099,1221,1072,1228,1044,1242,1017,1262,989,1280,974"/>
-<area shape="rect" href="classsmacc2_1_1client__core__components_1_1CpActionClient.html#a8238b4c629433e62f302de2cd12c6213" title=" " alt="" coords="1001,599,1192,655"/>
-<area shape="poly" title=" " alt="" coords="1280,940,1262,926,1240,893,1231,861,1232,828,1236,796,1241,764,1242,733,1234,701,1214,669,1190,650,1194,646,1218,665,1239,699,1247,732,1247,765,1242,797,1237,829,1237,860,1245,891,1266,923,1283,936"/>
-<area shape="rect" href="classcl__foundation__pose_1_1CpObjectTrackerTf.html#a012d34f833642a33bf3f5261b84f2c17" title=" " alt="" coords="1008,1514,1185,1570"/>
-<area shape="poly" title=" " alt="" coords="1284,978,1266,993,1255,1011,1246,1035,1238,1095,1238,1167,1242,1245,1246,1324,1246,1397,1238,1458,1230,1483,1218,1503,1204,1517,1187,1527,1184,1523,1200,1513,1214,1500,1225,1481,1233,1457,1240,1396,1240,1324,1236,1246,1233,1167,1233,1095,1241,1034,1250,1009,1262,989,1280,974"/>
-<area shape="rect" href="classcl__nav2z_1_1CpWaypointNavigator.html#a03d4faa10afc384023dd1b3ffe693f1c" title=" " alt="" coords="720,292,923,333"/>
-<area shape="poly" title=" " alt="" coords="979,333,923,327,924,322,980,328"/>
-<area shape="rect" href="classcl__nav2z_1_1CbNavigateNextWaypointFree.html#aa70907c580aaa15dfc1a0bc8e301c1ae" title=" " alt="" coords="714,357,929,398"/>
-<area shape="poly" title=" " alt="" coords="979,361,929,367,929,362,979,356"/>
-<area shape="rect" href="classcl__nav2z_1_1CpWaypointNavigator.html#a8b3a667099cc654de794420fde0e141c" title=" " alt="" coords="463,260,666,301"/>
-<area shape="poly" title=" " alt="" coords="704,300,666,296,667,290,705,295"/>
-<area shape="rect" href="classcl__nav2z_1_1CpWaypointNavigator.html#abc1ff5c646297da55d9811f5cced3d93" title=" " alt="" coords="463,325,666,366"/>
-<area shape="poly" title=" " alt="" coords="705,330,667,335,666,330,704,325"/>
-<area shape="rect" href="classcl__nav2z_1_1CbNavigateNextWaypoint.html#ac546e1622eb9894228846b814e48afea" title=" " alt="" coords="242,325,415,366"/>
-<area shape="poly" title=" " alt="" coords="447,348,415,348,415,343,447,343"/>
-<area shape="rect" href="classcl__nav2z_1_1CbNavigateNamedWaypoint.html#a08fc01469398220c035e7c3fac4ae598" title=" " alt="" coords="5,289,194,330"/>
-<area shape="poly" title=" " alt="" coords="226,332,194,327,194,322,227,327"/>
-<area shape="rect" href="classcl__nav2z_1_1CbNavigateNextWaypointUntilReached.html#a8768836e087f12cbb477aa509e28a947" title=" " alt="" coords="13,354,186,410"/>
-<area shape="poly" title=" " alt="" coords="227,364,187,371,186,365,226,359"/>
-<area shape="rect" href="classcl__foundation__pose_1_1CpObjectTracker1.html#a1c4af41d3e926433cfffafb99e14ed67" title=" " alt="" coords="752,759,891,815"/>
-<area shape="poly" title=" " alt="" coords="986,790,891,790,891,784,986,784"/>
-<area shape="rect" href="classcl__keyboard_1_1components_1_1CpKeyboardListener1.html#aaeeb8897208f6218e49952f4a827055d" title=" " alt="" coords="734,1382,909,1438"/>
-<area shape="poly" title=" " alt="" coords="997,1446,909,1429,910,1424,998,1440"/>
-<area shape="poly" title=" " alt="" coords="985,617,917,609,918,604,985,611"/>
-<area shape="rect" href="classcl__foundation__pose_1_1CbTrackObjectPose.html#adba4ca592dd27fe5d7b4824a4430ea4d" title=" " alt="" coords="749,1462,894,1518"/>
-<area shape="poly" title=" " alt="" coords="992,1525,894,1506,895,1501,993,1519"/>
-<area shape="rect" href="classcl__foundation__pose_1_1CbTrackObjectPose.html#ac1e3398dfcf0a34d2edeb14859df21d8" title=" " alt="" coords="749,1542,894,1598"/>
-<area shape="poly" title=" " alt="" coords="992,1555,894,1565,894,1560,992,1550"/>
-<area shape="rect" href="classcl__foundation__pose_1_1CpObjectTrackerTf.html#a3ac39049abde97fc6c7f52df2044076c" title=" " alt="" coords="753,1622,890,1678"/>
-<area shape="poly" title=" " alt="" coords="994,1577,978,1584,930,1612,892,1628,890,1623,927,1607,975,1579,992,1572"/>
-<area shape="rect" href="classsmacc2_1_1SmaccState.html#a379a8f1b99b10d7aec9a6526baea44e4" title=" " alt="" coords="996,1594,1196,1650"/>
-<area shape="poly" title=" " alt="" coords="1297,1624,1197,1624,1197,1619,1297,1619"/>
-<area shape="rect" href="classsmacc2_1_1SmaccState.html#acecda8c2c57b6040834d47de9845fe08" title=" " alt="" coords="997,1673,1196,1714"/>
-<area shape="poly" title=" " alt="" coords="1298,1646,1182,1675,1181,1670,1297,1641"/>
-<area shape="rect" href="classsmacc2_1_1SmaccEventGenerator.html#a2d5caf3b91d6c24f83b5b14df9abcb9b" title=" " alt="" coords="994,1739,1198,1779"/>
-<area shape="poly" title=" " alt="" coords="1297,1762,1199,1762,1199,1756,1297,1756"/>
-<area shape="rect" href="classsmacc2_1_1SmaccEventGenerator.html#a8383a8c6d1ccd4bfb77b3389ea6d0dab" title=" " alt="" coords="994,1804,1198,1845"/>
-<area shape="poly" title=" " alt="" coords="1298,1782,1191,1806,1189,1801,1297,1776"/>
-<area shape="rect" href="classsmacc2_1_1StateReactor.html#a9485320cbc7f9b830e4d177af3c80b0e" title=" " alt="" coords="1022,1869,1171,1910"/>
-<area shape="poly" title=" " alt="" coords="1299,1778,1266,1795,1250,1810,1242,1825,1234,1842,1218,1858,1196,1871,1172,1880,1170,1875,1193,1866,1214,1854,1230,1839,1238,1823,1246,1806,1262,1790,1297,1773"/>
-<area shape="rect" href="classsmacc2_1_1StateReactor.html#ab4b8fe1d7d79eebffa16b4b478678625" title=" " alt="" coords="1022,1935,1171,1975"/>
-<area shape="poly" title=" " alt="" coords="1299,1774,1281,1783,1266,1794,1253,1809,1246,1825,1243,1857,1239,1890,1231,1907,1218,1924,1196,1938,1172,1948,1170,1943,1194,1934,1214,1920,1227,1904,1234,1889,1237,1857,1241,1823,1249,1807,1262,1790,1279,1778,1297,1770"/>
-<area shape="rect" href="classsmacc2_1_1event__generators_1_1EgConditionalGenerator.html#a686a9a4523ed1c18d67dae6d99cc917b" title=" " alt="" coords="725,1716,918,1772"/>
-<area shape="poly" title=" " alt="" coords="978,1755,918,1752,918,1747,979,1750"/>
-<area shape="rect" href="classsmacc2_1_1state__reactors_1_1EgRandomGenerator.html#abcd1e84cb0fcfec9d77f67b3cca09d74" title=" " alt="" coords="722,1796,921,1852"/>
-<area shape="poly" title=" " alt="" coords="994,1786,922,1803,920,1798,992,1781"/>
+<area shape="poly" title=" " alt="" coords="996,171,918,153,919,147,998,166"/>
+<area shape="rect" href="classsmacc2_1_1ISmaccState.html#a4fb93a9c3933ad7a2755da758634d00d" title=" " alt="" coords="1022,324,1171,365"/>
+<area shape="poly" title=" " alt="" coords="1272,902,1262,893,1250,873,1241,848,1233,786,1233,713,1237,634,1241,556,1241,483,1233,422,1225,398,1214,379,1194,363,1170,353,1172,348,1197,359,1218,376,1230,396,1239,421,1247,483,1247,556,1243,635,1238,713,1238,786,1246,847,1255,871,1266,889,1275,898"/>
+<area shape="rect" href="classsmacc2_1_1SmaccState.html#aeb080a6a67b39552c31e3ee16ae5336b" title=" " alt="" coords="748,179,895,219"/>
+<area shape="poly" title=" " alt="" coords="1006,331,975,314,957,294,950,273,943,252,927,233,894,215,897,211,930,229,948,250,955,271,962,291,978,310,1008,327"/>
+<area shape="rect" href="classsmacc2_1_1SmaccState.html#ac0b4b415cf28e1e275a47459a564d16c" title=" " alt="" coords="748,243,895,299"/>
+<area shape="poly" title=" " alt="" coords="1006,323,894,293,896,288,1007,318"/>
+<area shape="rect" href="classsmacc2_1_1SmaccState.html#ae85964a63b9b2da623ee6f851fb0ffb4" title=" " alt="" coords="748,323,895,379"/>
+<area shape="poly" title=" " alt="" coords="1006,349,895,352,895,347,1006,344"/>
+<area shape="rect" href="classcl__nav2z_1_1CpWaypointNavigatorBase.html#aa98aa1c40fe6f2e10de07a1171456c86" title=" " alt="" coords="995,389,1198,430"/>
+<area shape="poly" title=" " alt="" coords="1280,974,1262,958,1250,938,1241,913,1233,851,1233,778,1237,699,1242,620,1242,547,1234,486,1226,462,1214,443,1196,429,1200,425,1218,440,1230,460,1239,485,1247,547,1247,620,1243,699,1239,778,1238,851,1246,912,1255,936,1266,955,1284,970"/>
+<area shape="rect" href="classcl__generic__sensor_1_1components_1_1CpMessageTimeout.html#a81d13ea6daa946420705f18e7bdc4616" title=" " alt="" coords="989,454,1204,510"/>
+<area shape="poly" title=" " alt="" coords="1280,973,1262,958,1242,930,1228,902,1220,875,1218,847,1223,793,1236,740,1249,686,1254,633,1252,606,1245,579,1233,551,1214,523,1202,512,1206,508,1218,520,1238,549,1250,577,1257,605,1260,633,1254,687,1241,741,1228,794,1223,847,1226,874,1233,901,1246,927,1266,955,1283,969"/>
+<area shape="rect" href="classcl__nav2z_1_1components_1_1CpNav2ActionInterface.html#a70ef4892592aa97221afdb24516f3d8c" title=" " alt="" coords="1009,534,1184,590"/>
+<area shape="poly" title=" " alt="" coords="1280,973,1262,958,1245,936,1234,914,1224,870,1226,827,1235,784,1244,741,1247,698,1239,655,1229,632,1214,610,1200,596,1183,585,1186,581,1203,592,1218,607,1234,630,1244,653,1252,698,1249,742,1240,785,1232,827,1229,870,1239,912,1250,933,1266,954,1283,969"/>
+<area shape="rect" href="classsmacc2_1_1client__core__components_1_1CpActionClient.html#a22f48b4b5b5cbc324935328c79e176aa" title=" " alt="" coords="726,632,917,688"/>
+<area shape="poly" title=" " alt="" coords="1280,973,1262,958,1247,939,1237,919,1230,878,1233,838,1242,799,1250,760,1252,723,1242,688,1231,671,1214,654,1180,631,1141,616,1100,609,1058,607,1015,609,974,616,900,634,898,629,973,610,1014,604,1057,601,1101,603,1143,611,1182,627,1218,650,1235,668,1247,686,1257,723,1255,761,1247,800,1239,839,1235,878,1243,917,1252,936,1266,954,1284,969"/>
+<area shape="rect" href="classsmacc2_1_1client__core__components_1_1CpServiceClient.html#a0213a55ae2e79cb5671261cb973a3d79" title="Configure event posting with proper template parameters." alt="" coords="997,744,1196,800"/>
+<area shape="poly" title=" " alt="" coords="1280,971,1262,958,1248,940,1240,922,1237,885,1234,849,1227,832,1214,814,1194,799,1197,795,1218,810,1232,829,1239,848,1242,885,1245,920,1252,937,1266,954,1283,967"/>
+<area shape="rect" href="classcl__foundation__pose_1_1CpObjectTracker1.html#ad876238eee690679aaaf4c54861b142b" title=" " alt="" coords="1001,824,1192,880"/>
+<area shape="poly" title=" " alt="" coords="1280,969,1262,958,1246,942,1237,926,1229,910,1214,894,1191,881,1193,876,1218,890,1234,907,1242,923,1250,939,1266,954,1283,964"/>
+<area shape="rect" href="classcl__gcalcli_1_1CpCalendarEventListener.html#a72298bb216720c1a354bff11aa4da3d1" title="Template method for type&#45;safe event posting setup." alt="" coords="977,904,1216,945"/>
+<area shape="poly" title=" " alt="" coords="1280,968,1190,948,1191,943,1281,963"/>
+<area shape="rect" href="classcl__gcalcli_1_1CpCalendarPoller.html#a5dd34735c5ebf23a94689d9014eacaa6" title="Template method for type&#45;safe event posting setup." alt="" coords="1000,969,1192,1010"/>
+<area shape="poly" title=" " alt="" coords="1280,992,1193,992,1193,987,1280,987"/>
+<area shape="rect" href="classcl__gcalcli_1_1CpGcalcliConnection.html#ad09ef2d29ecc2ad68e4ccd89c3965474" title="Template method for type&#45;safe event posting setup." alt="" coords="995,1035,1198,1075"/>
+<area shape="poly" title=" " alt="" coords="1281,1016,1191,1037,1190,1031,1280,1011"/>
+<area shape="rect" href="classcl__lifecycle__node_1_1CpLifecycleEventMonitor.html#a9d2eeaff699b7bfdf97ecca9f8cd7bf2" title="Configure event posting with orthogonal template parameter This is called from the client&#39;s onStateOr..." alt="" coords="1000,1099,1192,1155"/>
+<area shape="poly" title=" " alt="" coords="1283,1015,1266,1025,1250,1040,1242,1056,1234,1073,1218,1089,1194,1103,1191,1098,1214,1085,1229,1069,1237,1053,1246,1037,1262,1021,1280,1011"/>
+<area shape="rect" href="classcl__modbus__tcp__relay_1_1CpModbusConnection.html#adc4cfba901bf688a064421027cea6b3a" title="Configure component for event posting during orthogonal allocation." alt="" coords="1000,1179,1192,1235"/>
+<area shape="poly" title=" " alt="" coords="1283,1012,1266,1025,1252,1042,1245,1059,1242,1095,1239,1131,1232,1150,1218,1169,1194,1186,1191,1182,1214,1165,1227,1148,1234,1130,1237,1094,1240,1058,1248,1039,1262,1021,1280,1008"/>
+<area shape="rect" href="classcl__modbus__tcp__relay_1_1CpModbusRelay.html#abc989b20afab951adbf4e2af1ee9a1c8" title="Configure component for event posting during orthogonal allocation." alt="" coords="979,1259,1214,1315"/>
+<area shape="poly" title=" " alt="" coords="1284,1011,1266,1025,1247,1052,1239,1079,1239,1106,1242,1134,1245,1162,1245,1191,1237,1220,1218,1249,1205,1261,1201,1257,1214,1245,1232,1217,1240,1190,1240,1162,1237,1135,1233,1106,1234,1078,1242,1050,1262,1021,1280,1007"/>
+<area shape="rect" href="classcl__moveit2z_1_1CpMoveGroupInterface.html#a41c92bb82b548b83ef028a04585015e6" title=" " alt="" coords="1003,1339,1190,1395"/>
+<area shape="poly" title=" " alt="" coords="1284,1010,1266,1025,1242,1062,1233,1099,1235,1136,1241,1174,1249,1211,1251,1250,1242,1289,1218,1329,1192,1349,1188,1345,1214,1325,1237,1287,1245,1250,1243,1212,1236,1174,1229,1137,1228,1099,1237,1060,1262,1021,1280,1006"/>
+<area shape="rect" href="classsmacc2_1_1client__core__components_1_1CpTopicSubscriber.html#ac2221d84e501c0db7736abbbee838b9e" title=" " alt="" coords="989,1419,1204,1475"/>
+<area shape="poly" title=" " alt="" coords="1283,1010,1266,1025,1248,1049,1237,1072,1230,1096,1227,1119,1231,1166,1241,1213,1252,1261,1256,1309,1254,1334,1247,1358,1236,1383,1218,1409,1206,1421,1202,1417,1214,1405,1231,1381,1242,1357,1249,1333,1251,1309,1247,1262,1236,1214,1225,1167,1222,1119,1224,1095,1232,1070,1244,1046,1262,1021,1280,1006"/>
+<area shape="rect" href="classcl__keyboard_1_1components_1_1CpKeyboardListener1.html#add1cc212c6093f62b212721323c5a181" title=" " alt="" coords="1013,1499,1180,1555"/>
+<area shape="poly" title=" " alt="" coords="1284,1010,1266,1025,1245,1054,1231,1083,1223,1111,1221,1139,1227,1196,1241,1253,1255,1310,1262,1368,1260,1398,1252,1428,1239,1458,1218,1489,1201,1504,1182,1515,1179,1510,1198,1500,1214,1485,1234,1456,1247,1426,1254,1397,1257,1368,1250,1311,1236,1254,1221,1197,1215,1139,1218,1110,1226,1081,1240,1051,1262,1021,1280,1006"/>
+<area shape="rect" href="classsmacc2_1_1client__core__components_1_1CpActionClient.html#a8238b4c629433e62f302de2cd12c6213" title=" " alt="" coords="1001,664,1192,720"/>
+<area shape="poly" title=" " alt="" coords="1280,973,1262,958,1242,930,1234,901,1233,873,1237,845,1240,817,1240,789,1232,762,1214,734,1191,716,1194,712,1218,731,1237,760,1245,789,1245,817,1242,845,1239,873,1239,900,1247,927,1266,955,1284,968"/>
+<area shape="rect" href="classcl__foundation__pose_1_1CpObjectTrackerTf.html#a012d34f833642a33bf3f5261b84f2c17" title=" " alt="" coords="1008,1579,1185,1635"/>
+<area shape="poly" title=" " alt="" coords="1284,1010,1266,1025,1254,1045,1245,1070,1237,1134,1237,1211,1242,1294,1246,1377,1247,1455,1239,1521,1230,1547,1218,1569,1204,1583,1187,1593,1184,1588,1200,1578,1214,1565,1226,1545,1234,1519,1242,1455,1241,1378,1236,1294,1232,1211,1232,1134,1240,1069,1249,1042,1262,1021,1280,1006"/>
+<area shape="rect" href="classcl__nav2z_1_1CpWaypointNavigator.html#a03d4faa10afc384023dd1b3ffe693f1c" title=" " alt="" coords="720,403,923,443"/>
+<area shape="poly" title=" " alt="" coords="979,418,924,421,923,415,979,413"/>
+<area shape="rect" href="classcl__nav2z_1_1CbNavigateNextWaypointFree.html#aa70907c580aaa15dfc1a0bc8e301c1ae" title=" " alt="" coords="714,468,929,509"/>
+<area shape="poly" title=" " alt="" coords="1003,437,977,444,891,470,889,465,976,439,1001,432"/>
+<area shape="rect" href="classcl__nav2z_1_1CpWaypointNavigator.html#a8b3a667099cc654de794420fde0e141c" title=" " alt="" coords="463,371,666,411"/>
+<area shape="poly" title=" " alt="" coords="704,411,666,406,667,401,705,406"/>
+<area shape="rect" href="classcl__nav2z_1_1CpWaypointNavigator.html#abc1ff5c646297da55d9811f5cced3d93" title=" " alt="" coords="463,436,666,477"/>
+<area shape="poly" title=" " alt="" coords="705,441,667,446,666,440,704,436"/>
+<area shape="rect" href="classcl__nav2z_1_1CbNavigateNextWaypoint.html#ac546e1622eb9894228846b814e48afea" title=" " alt="" coords="242,436,415,477"/>
+<area shape="poly" title=" " alt="" coords="447,459,415,459,415,454,447,454"/>
+<area shape="rect" href="classcl__nav2z_1_1CbNavigateNamedWaypoint.html#a08fc01469398220c035e7c3fac4ae598" title=" " alt="" coords="5,400,194,441"/>
+<area shape="poly" title=" " alt="" coords="226,443,194,438,194,433,227,438"/>
+<area shape="rect" href="classcl__nav2z_1_1CbNavigateNextWaypointUntilReached.html#a8768836e087f12cbb477aa509e28a947" title=" " alt="" coords="13,464,186,520"/>
+<area shape="poly" title=" " alt="" coords="227,475,187,481,186,476,226,470"/>
+<area shape="rect" href="classcl__foundation__pose_1_1CpObjectTracker1.html#a1c4af41d3e926433cfffafb99e14ed67" title=" " alt="" coords="752,824,891,880"/>
+<area shape="poly" title=" " alt="" coords="986,855,891,855,891,850,986,850"/>
+<area shape="rect" href="classcl__keyboard_1_1components_1_1CpKeyboardListener1.html#aaeeb8897208f6218e49952f4a827055d" title=" " alt="" coords="734,1447,909,1503"/>
+<area shape="poly" title=" " alt="" coords="997,1511,909,1494,910,1489,998,1506"/>
+<area shape="poly" title=" " alt="" coords="985,682,917,674,918,669,985,677"/>
+<area shape="rect" href="classcl__foundation__pose_1_1CbTrackObjectPose.html#adba4ca592dd27fe5d7b4824a4430ea4d" title=" " alt="" coords="749,1527,894,1583"/>
+<area shape="poly" title=" " alt="" coords="992,1590,894,1571,895,1566,993,1585"/>
+<area shape="rect" href="classcl__foundation__pose_1_1CbTrackObjectPose.html#ac1e3398dfcf0a34d2edeb14859df21d8" title=" " alt="" coords="749,1607,894,1663"/>
+<area shape="poly" title=" " alt="" coords="992,1620,894,1630,894,1625,992,1615"/>
+<area shape="rect" href="classcl__foundation__pose_1_1CpObjectTrackerTf.html#a3ac39049abde97fc6c7f52df2044076c" title=" " alt="" coords="753,1687,890,1743"/>
+<area shape="poly" title=" " alt="" coords="994,1642,978,1649,930,1677,892,1694,890,1689,927,1673,975,1645,992,1637"/>
+<area shape="rect" href="classsmacc2_1_1SmaccState.html#a379a8f1b99b10d7aec9a6526baea44e4" title=" " alt="" coords="996,1659,1196,1715"/>
+<area shape="poly" title=" " alt="" coords="1297,1690,1197,1690,1197,1684,1297,1684"/>
+<area shape="rect" href="classsmacc2_1_1SmaccState.html#acecda8c2c57b6040834d47de9845fe08" title=" " alt="" coords="997,1739,1196,1779"/>
+<area shape="poly" title=" " alt="" coords="1298,1712,1182,1741,1181,1735,1297,1707"/>
+<area shape="rect" href="classsmacc2_1_1SmaccEventGenerator.html#a2d5caf3b91d6c24f83b5b14df9abcb9b" title=" " alt="" coords="994,1804,1198,1845"/>
+<area shape="poly" title=" " alt="" coords="1297,1827,1199,1827,1199,1822,1297,1822"/>
+<area shape="rect" href="classsmacc2_1_1SmaccEventGenerator.html#a8383a8c6d1ccd4bfb77b3389ea6d0dab" title=" " alt="" coords="994,1869,1198,1910"/>
+<area shape="poly" title=" " alt="" coords="1298,1847,1191,1871,1189,1866,1297,1842"/>
+<area shape="rect" href="classsmacc2_1_1StateReactor.html#a9485320cbc7f9b830e4d177af3c80b0e" title=" " alt="" coords="1022,1935,1171,1975"/>
+<area shape="poly" title=" " alt="" coords="1299,1843,1266,1860,1250,1875,1242,1891,1234,1908,1218,1924,1196,1936,1172,1945,1170,1940,1193,1931,1214,1920,1230,1904,1238,1888,1246,1872,1262,1855,1297,1838"/>
+<area shape="rect" href="classsmacc2_1_1StateReactor.html#ab4b8fe1d7d79eebffa16b4b478678625" title=" " alt="" coords="1022,2000,1171,2041"/>
+<area shape="poly" title=" " alt="" coords="1299,1840,1281,1848,1266,1860,1253,1875,1246,1890,1243,1923,1239,1956,1231,1973,1218,1989,1196,2004,1172,2013,1170,2008,1194,1999,1214,1985,1227,1970,1234,1954,1237,1922,1241,1889,1249,1872,1262,1856,1279,1844,1297,1835"/>
+<area shape="rect" href="classsmacc2_1_1event__generators_1_1EgConditionalGenerator.html#a686a9a4523ed1c18d67dae6d99cc917b" title=" " alt="" coords="725,1782,918,1838"/>
+<area shape="poly" title=" " alt="" coords="978,1821,918,1817,918,1812,979,1815"/>
+<area shape="rect" href="classsmacc2_1_1state__reactors_1_1EgRandomGenerator.html#abcd1e84cb0fcfec9d77f67b3cca09d74" title=" " alt="" coords="722,1862,921,1918"/>
+<area shape="poly" title=" " alt="" coords="994,1851,922,1869,920,1864,992,1846"/>
 <area shape="poly" title=" " alt="" coords="1432,108,1416,102,1388,100,1362,102,1346,107,1340,113,1342,120,1337,121,1335,111,1343,102,1361,97,1388,95,1417,97,1434,103"/>
 <area shape="rect" href="classsmacc2_1_1SmaccState.html#a5ea05b3f18d2e1ad6bcbc441ee80db15" title=" " alt="" coords="1022,49,1170,90"/>
 <area shape="poly" title=" " alt="" coords="1287,120,1170,91,1172,85,1289,115"/>
-<area shape="poly" title=" " alt="" coords="1006,63,894,52,895,46,1007,58"/>
+<area shape="poly" title=" " alt="" coords="1006,61,894,46,895,40,1007,55"/>
 </map>
 </div>
 
@@ -1622,11 +1702,11 @@ template&lt;typename TransitionType &gt; </div>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="smacc__state__impl_8hpp_source.html#l00229">229</a> of file <a class="el" href="smacc__state__impl_8hpp_source.html">smacc_state_impl.hpp</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">  230</span>{</div>
-<div class="line"><span class="lineno">  231</span>  <span class="keyword">auto</span> transitionType = <a class="code hl_function" href="classsmacc2_1_1introspection_1_1TypeInfo.html#a3374ef7a2f3e000d18ebceb8483655b9">TypeInfo::getTypeInfoFromType&lt;TransitionType&gt;</a>();</div>
-<div class="line"><span class="lineno">  232</span>  this-&gt;<a class="code hl_function" href="#af07000235dbc0541fe4cd9cc08790dd1">notifyTransitionFromTransitionTypeInfo</a>(transitionType);</div>
-<div class="line"><span class="lineno">  233</span>}</div>
+<p class="definition">Definition at line <a class="el" href="smacc__state__impl_8hpp_source.html#l00238">238</a> of file <a class="el" href="smacc__state__impl_8hpp_source.html">smacc_state_impl.hpp</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">  239</span>{</div>
+<div class="line"><span class="lineno">  240</span>  <span class="keyword">auto</span> transitionType = <a class="code hl_function" href="classsmacc2_1_1introspection_1_1TypeInfo.html#a3374ef7a2f3e000d18ebceb8483655b9">TypeInfo::getTypeInfoFromType&lt;TransitionType&gt;</a>();</div>
+<div class="line"><span class="lineno">  241</span>  this-&gt;<a class="code hl_function" href="#af07000235dbc0541fe4cd9cc08790dd1">notifyTransitionFromTransitionTypeInfo</a>(transitionType);</div>
+<div class="line"><span class="lineno">  242</span>}</div>
 <div class="ttc" id="aclasssmacc2_1_1ISmaccState_html_af07000235dbc0541fe4cd9cc08790dd1"><div class="ttname"><a href="#af07000235dbc0541fe4cd9cc08790dd1">smacc2::ISmaccState::notifyTransitionFromTransitionTypeInfo</a></div><div class="ttdeci">void notifyTransitionFromTransitionTypeInfo(std::shared_ptr&lt; smacc2::introspection::TypeInfo &gt; &amp;transitionTypeInfo)</div><div class="ttdef"><b>Definition</b> <a href="smacc__state_8cpp_source.html#l00028">smacc_state.cpp:28</a></div></div>
 <div class="ttc" id="aclasssmacc2_1_1introspection_1_1TypeInfo_html_a3374ef7a2f3e000d18ebceb8483655b9"><div class="ttname"><a href="classsmacc2_1_1introspection_1_1TypeInfo.html#a3374ef7a2f3e000d18ebceb8483655b9">smacc2::introspection::TypeInfo::getTypeInfoFromType</a></div><div class="ttdeci">static TypeInfo::Ptr getTypeInfoFromType()</div><div class="ttdef"><b>Definition</b> <a href="smacc__type__info_8hpp_source.html#l00042">smacc_type_info.hpp:42</a></div></div>
 </div><!-- fragment -->
@@ -1748,7 +1828,7 @@ Here is the call graph for this function:</div>
 </div><!-- fragment -->
 <p class="reference">References <a class="el" href="smacc__state_8hpp_source.html#l00046">getLogger()</a>, <a class="el" href="#aba03aa66e4a505ef1cae701ad49374ac">getStateMachine()</a>, <a class="el" href="smacc__state__machine_8cpp_source.html#l00169">smacc2::ISmaccStateMachine::publishTransition()</a>, and <a class="el" href="smacc__state_8hpp_source.html#l00137">stateInfo_</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="smacc__state__impl_8hpp_source.html#l00229">notifyTransition()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="smacc__state__impl_8hpp_source.html#l00238">notifyTransition()</a>.</p>
 <div class="dynheader">
 Here is the call graph for this function:</div>
 <div class="dyncontent">
@@ -1845,10 +1925,10 @@ template&lt;typename EventType &gt; </div>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="smacc__state__impl_8hpp_source.html#l00222">222</a> of file <a class="el" href="smacc__state__impl_8hpp_source.html">smacc_state_impl.hpp</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">  223</span>{</div>
-<div class="line"><span class="lineno">  224</span>  <a class="code hl_function" href="#aba03aa66e4a505ef1cae701ad49374ac">getStateMachine</a>().<a class="code hl_function" href="classsmacc2_1_1ISmaccStateMachine.html#aec0535bd51c1343b5465fc4d5755ae3c">postEvent</a>&lt;EventType&gt;();</div>
-<div class="line"><span class="lineno">  225</span>}</div>
+<p class="definition">Definition at line <a class="el" href="smacc__state__impl_8hpp_source.html#l00231">231</a> of file <a class="el" href="smacc__state__impl_8hpp_source.html">smacc_state_impl.hpp</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">  232</span>{</div>
+<div class="line"><span class="lineno">  233</span>  <a class="code hl_function" href="#aba03aa66e4a505ef1cae701ad49374ac">getStateMachine</a>().<a class="code hl_function" href="classsmacc2_1_1ISmaccStateMachine.html#aec0535bd51c1343b5465fc4d5755ae3c">postEvent</a>&lt;EventType&gt;();</div>
+<div class="line"><span class="lineno">  234</span>}</div>
 <div class="ttc" id="aclasssmacc2_1_1ISmaccStateMachine_html_aec0535bd51c1343b5465fc4d5755ae3c"><div class="ttname"><a href="classsmacc2_1_1ISmaccStateMachine.html#aec0535bd51c1343b5465fc4d5755ae3c">smacc2::ISmaccStateMachine::postEvent</a></div><div class="ttdeci">void postEvent(EventType *ev, EventLifeTime evlifetime=EventLifeTime::ABSOLUTE)</div><div class="ttdef"><b>Definition</b> <a href="smacc__state__machine__impl_8hpp_source.html#l00178">smacc_state_machine_impl.hpp:178</a></div></div>
 </div><!-- fragment -->
 <p class="reference">References <a class="el" href="#aba03aa66e4a505ef1cae701ad49374ac">getStateMachine()</a>, and <a class="el" href="smacc__state__machine__impl_8hpp_source.html#l00178">smacc2::ISmaccStateMachine::postEvent()</a>.</p>
@@ -1935,10 +2015,10 @@ template&lt;typename EventType &gt; </div>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="smacc__state__impl_8hpp_source.html#l00216">216</a> of file <a class="el" href="smacc__state__impl_8hpp_source.html">smacc_state_impl.hpp</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">  217</span>{</div>
-<div class="line"><span class="lineno">  218</span>  <a class="code hl_function" href="#aba03aa66e4a505ef1cae701ad49374ac">getStateMachine</a>().<a class="code hl_function" href="classsmacc2_1_1ISmaccStateMachine.html#aec0535bd51c1343b5465fc4d5755ae3c">postEvent</a>(ev);</div>
-<div class="line"><span class="lineno">  219</span>}</div>
+<p class="definition">Definition at line <a class="el" href="smacc__state__impl_8hpp_source.html#l00225">225</a> of file <a class="el" href="smacc__state__impl_8hpp_source.html">smacc_state_impl.hpp</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">  226</span>{</div>
+<div class="line"><span class="lineno">  227</span>  <a class="code hl_function" href="#aba03aa66e4a505ef1cae701ad49374ac">getStateMachine</a>().<a class="code hl_function" href="classsmacc2_1_1ISmaccStateMachine.html#aec0535bd51c1343b5465fc4d5755ae3c">postEvent</a>(ev);</div>
+<div class="line"><span class="lineno">  228</span>}</div>
 </div><!-- fragment -->
 <p class="reference">References <a class="el" href="#aba03aa66e4a505ef1cae701ad49374ac">getStateMachine()</a>, and <a class="el" href="smacc__state__machine__impl_8hpp_source.html#l00178">smacc2::ISmaccStateMachine::postEvent()</a>.</p>
 
@@ -2032,26 +2112,26 @@ template&lt;typename SmaccClientType &gt; </div>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="smacc__state__impl_8hpp_source.html#l00077">77</a> of file <a class="el" href="smacc__state__impl_8hpp_source.html">smacc_state_impl.hpp</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">   78</span>{</div>
-<div class="line"><span class="lineno">   79</span>  storage = <span class="keyword">nullptr</span>;</div>
-<div class="line"><span class="lineno">   80</span>  <span class="keyword">auto</span> &amp; orthogonals = this-&gt;<a class="code hl_function" href="#aba03aa66e4a505ef1cae701ad49374ac">getStateMachine</a>().<a class="code hl_function" href="classsmacc2_1_1ISmaccStateMachine.html#a5add78b13865291a7d167cbc496d0d35">getOrthogonals</a>();</div>
-<div class="line"><span class="lineno">   81</span>  <span class="keywordflow">for</span> (<span class="keyword">auto</span> &amp; ortho : orthogonals)</div>
-<div class="line"><span class="lineno">   82</span>  {</div>
-<div class="line"><span class="lineno">   83</span>    ortho.second-&gt;requiresClient(storage);</div>
-<div class="line"><span class="lineno">   84</span>    <span class="keywordflow">if</span> (storage != <span class="keyword">nullptr</span>) <span class="keywordflow">return</span>;</div>
-<div class="line"><span class="lineno">   85</span>  }</div>
-<div class="line"><span class="lineno">   86</span> </div>
-<div class="line"><span class="lineno">   87</span>  <span class="comment">// Keep the std::string alive across the log call. This used to take c_str() of the temporary</span></div>
-<div class="line"><span class="lineno">   88</span>  <span class="comment">// returned by demangleSymbol into a const char *, which read freed memory here. The name is</span></div>
-<div class="line"><span class="lineno">   89</span>  <span class="comment">// only needed on this path, so it is demangled here rather than on every lookup.</span></div>
-<div class="line"><span class="lineno">   90</span>  <span class="keyword">const</span> std::string sname = <a class="code hl_function" href="namespacesmacc2_1_1introspection.html#aba19132e50f25adee919c2504ae6a3a2">demangleSymbol</a>(<span class="keyword">typeid</span>(*this).name());</div>
-<div class="line"><span class="lineno">   91</span>  RCLCPP_ERROR(</div>
-<div class="line"><span class="lineno">   92</span>    <a class="code hl_function" href="#a197a2c11b2510484138af98b55761fc3">getLogger</a>(),</div>
-<div class="line"><span class="lineno">   93</span>    <span class="stringliteral">&quot;[%s] Client of type &#39;%s&#39; not found in any orthogonal of the current state machine. This may &quot;</span></div>
-<div class="line"><span class="lineno">   94</span>    <span class="stringliteral">&quot;produce a segmentation fault if the returned reference is used.&quot;</span>,</div>
-<div class="line"><span class="lineno">   95</span>    sname.c_str(), <a class="code hl_function" href="namespacesmacc2_1_1introspection.html#aba19132e50f25adee919c2504ae6a3a2">demangleSymbol&lt;SmaccClientType&gt;</a>().c_str());</div>
-<div class="line"><span class="lineno">   96</span>}</div>
+<p class="definition">Definition at line <a class="el" href="smacc__state__impl_8hpp_source.html#l00086">86</a> of file <a class="el" href="smacc__state__impl_8hpp_source.html">smacc_state_impl.hpp</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">   87</span>{</div>
+<div class="line"><span class="lineno">   88</span>  storage = <span class="keyword">nullptr</span>;</div>
+<div class="line"><span class="lineno">   89</span>  <span class="keyword">auto</span> &amp; orthogonals = this-&gt;<a class="code hl_function" href="#aba03aa66e4a505ef1cae701ad49374ac">getStateMachine</a>().<a class="code hl_function" href="classsmacc2_1_1ISmaccStateMachine.html#a5add78b13865291a7d167cbc496d0d35">getOrthogonals</a>();</div>
+<div class="line"><span class="lineno">   90</span>  <span class="keywordflow">for</span> (<span class="keyword">auto</span> &amp; ortho : orthogonals)</div>
+<div class="line"><span class="lineno">   91</span>  {</div>
+<div class="line"><span class="lineno">   92</span>    ortho.second-&gt;requiresClient(storage);</div>
+<div class="line"><span class="lineno">   93</span>    <span class="keywordflow">if</span> (storage != <span class="keyword">nullptr</span>) <span class="keywordflow">return</span>;</div>
+<div class="line"><span class="lineno">   94</span>  }</div>
+<div class="line"><span class="lineno">   95</span> </div>
+<div class="line"><span class="lineno">   96</span>  <span class="comment">// Keep the std::string alive across the log call. This used to take c_str() of the temporary</span></div>
+<div class="line"><span class="lineno">   97</span>  <span class="comment">// returned by demangleSymbol into a const char *, which read freed memory here. The name is</span></div>
+<div class="line"><span class="lineno">   98</span>  <span class="comment">// only needed on this path, so it is demangled here rather than on every lookup.</span></div>
+<div class="line"><span class="lineno">   99</span>  <span class="keyword">const</span> std::string sname = <a class="code hl_function" href="namespacesmacc2_1_1introspection.html#aba19132e50f25adee919c2504ae6a3a2">demangleSymbol</a>(<span class="keyword">typeid</span>(*this).name());</div>
+<div class="line"><span class="lineno">  100</span>  RCLCPP_ERROR(</div>
+<div class="line"><span class="lineno">  101</span>    <a class="code hl_function" href="#a197a2c11b2510484138af98b55761fc3">getLogger</a>(),</div>
+<div class="line"><span class="lineno">  102</span>    <span class="stringliteral">&quot;[%s] Client of type &#39;%s&#39; not found in any orthogonal of the current state machine. This may &quot;</span></div>
+<div class="line"><span class="lineno">  103</span>    <span class="stringliteral">&quot;produce a segmentation fault if the returned reference is used.&quot;</span>,</div>
+<div class="line"><span class="lineno">  104</span>    sname.c_str(), <a class="code hl_function" href="namespacesmacc2_1_1introspection.html#aba19132e50f25adee919c2504ae6a3a2">demangleSymbol&lt;SmaccClientType&gt;</a>().c_str());</div>
+<div class="line"><span class="lineno">  105</span>}</div>
 <div class="ttc" id="aclasssmacc2_1_1ISmaccStateMachine_html_a5add78b13865291a7d167cbc496d0d35"><div class="ttname"><a href="classsmacc2_1_1ISmaccStateMachine.html#a5add78b13865291a7d167cbc496d0d35">smacc2::ISmaccStateMachine::getOrthogonals</a></div><div class="ttdeci">const std::map&lt; std::string, std::shared_ptr&lt; smacc2::ISmaccOrthogonal &gt; &gt; &amp; getOrthogonals() const</div><div class="ttdef"><b>Definition</b> <a href="smacc__state__machine_8cpp_source.html#l00127">smacc_state_machine.cpp:127</a></div></div>
 </div><!-- fragment -->
 <p class="reference">References <a class="el" href="introspection_8hpp_source.html#l00094">smacc2::introspection::demangleSymbol()</a>, <a class="el" href="smacc__state_8hpp_source.html#l00046">getLogger()</a>, <a class="el" href="smacc__state__machine_8cpp_source.html#l00127">smacc2::ISmaccStateMachine::getOrthogonals()</a>, and <a class="el" href="#aba03aa66e4a505ef1cae701ad49374ac">getStateMachine()</a>.</p>
@@ -2101,10 +2181,10 @@ template&lt;typename SmaccComponentType &gt; </div>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="smacc__state__impl_8hpp_source.html#l00069">69</a> of file <a class="el" href="smacc__state__impl_8hpp_source.html">smacc_state_impl.hpp</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">   71</span>{</div>
-<div class="line"><span class="lineno">   72</span>  this-&gt;<a class="code hl_function" href="#aba03aa66e4a505ef1cae701ad49374ac">getStateMachine</a>().<a class="code hl_function" href="classsmacc2_1_1ISmaccStateMachine.html#a37c10cc3ff9e4dffc9f75e3f32fe35f2">requiresComponent</a>(name, storage, requirementType);</div>
-<div class="line"><span class="lineno">   73</span>}</div>
+<p class="definition">Definition at line <a class="el" href="smacc__state__impl_8hpp_source.html#l00078">78</a> of file <a class="el" href="smacc__state__impl_8hpp_source.html">smacc_state_impl.hpp</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">   80</span>{</div>
+<div class="line"><span class="lineno">   81</span>  this-&gt;<a class="code hl_function" href="#aba03aa66e4a505ef1cae701ad49374ac">getStateMachine</a>().<a class="code hl_function" href="classsmacc2_1_1ISmaccStateMachine.html#a37c10cc3ff9e4dffc9f75e3f32fe35f2">requiresComponent</a>(name, storage, requirementType);</div>
+<div class="line"><span class="lineno">   82</span>}</div>
 <div class="ttc" id="aclasssmacc2_1_1ISmaccStateMachine_html_a37c10cc3ff9e4dffc9f75e3f32fe35f2"><div class="ttname"><a href="classsmacc2_1_1ISmaccStateMachine.html#a37c10cc3ff9e4dffc9f75e3f32fe35f2">smacc2::ISmaccStateMachine::requiresComponent</a></div><div class="ttdeci">void requiresComponent(SmaccComponentType *&amp;storage, ComponentRequirement requirementType)</div><div class="ttdef"><b>Definition</b> <a href="smacc__state__machine__impl_8hpp_source.html#l00118">smacc_state_machine_impl.hpp:118</a></div></div>
 </div><!-- fragment -->
 <p class="reference">References <a class="el" href="#aba03aa66e4a505ef1cae701ad49374ac">getStateMachine()</a>, and <a class="el" href="smacc__state__machine__impl_8hpp_source.html#l00118">smacc2::ISmaccStateMachine::requiresComponent()</a>.</p>
@@ -2149,10 +2229,10 @@ template&lt;typename SmaccComponentType &gt; </div>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="smacc__state__impl_8hpp_source.html#l00062">62</a> of file <a class="el" href="smacc__state__impl_8hpp_source.html">smacc_state_impl.hpp</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">   64</span>{</div>
-<div class="line"><span class="lineno">   65</span>  this-&gt;<a class="code hl_function" href="#aba03aa66e4a505ef1cae701ad49374ac">getStateMachine</a>().<a class="code hl_function" href="classsmacc2_1_1ISmaccStateMachine.html#a37c10cc3ff9e4dffc9f75e3f32fe35f2">requiresComponent</a>(storage, requirementType);</div>
-<div class="line"><span class="lineno">   66</span>}</div>
+<p class="definition">Definition at line <a class="el" href="smacc__state__impl_8hpp_source.html#l00071">71</a> of file <a class="el" href="smacc__state__impl_8hpp_source.html">smacc_state_impl.hpp</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">   73</span>{</div>
+<div class="line"><span class="lineno">   74</span>  this-&gt;<a class="code hl_function" href="#aba03aa66e4a505ef1cae701ad49374ac">getStateMachine</a>().<a class="code hl_function" href="classsmacc2_1_1ISmaccStateMachine.html#a37c10cc3ff9e4dffc9f75e3f32fe35f2">requiresComponent</a>(storage, requirementType);</div>
+<div class="line"><span class="lineno">   75</span>}</div>
 </div><!-- fragment -->
 <p class="reference">References <a class="el" href="#aba03aa66e4a505ef1cae701ad49374ac">getStateMachine()</a>, and <a class="el" href="smacc__state__machine__impl_8hpp_source.html#l00118">smacc2::ISmaccStateMachine::requiresComponent()</a>.</p>
 <div class="dynheader">
@@ -2196,10 +2276,10 @@ template&lt;typename T &gt; </div>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="smacc__state__impl_8hpp_source.html#l00108">108</a> of file <a class="el" href="smacc__state__impl_8hpp_source.html">smacc_state_impl.hpp</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">  109</span>{</div>
-<div class="line"><span class="lineno">  110</span>  this-&gt;<a class="code hl_function" href="#aba03aa66e4a505ef1cae701ad49374ac">getStateMachine</a>().<a class="code hl_function" href="classsmacc2_1_1ISmaccStateMachine.html#a011a1907716a79bc3506316cc6193de9">setGlobalSMData</a>(name, value);</div>
-<div class="line"><span class="lineno">  111</span>}</div>
+<p class="definition">Definition at line <a class="el" href="smacc__state__impl_8hpp_source.html#l00117">117</a> of file <a class="el" href="smacc__state__impl_8hpp_source.html">smacc_state_impl.hpp</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">  118</span>{</div>
+<div class="line"><span class="lineno">  119</span>  this-&gt;<a class="code hl_function" href="#aba03aa66e4a505ef1cae701ad49374ac">getStateMachine</a>().<a class="code hl_function" href="classsmacc2_1_1ISmaccStateMachine.html#a011a1907716a79bc3506316cc6193de9">setGlobalSMData</a>(name, value);</div>
+<div class="line"><span class="lineno">  120</span>}</div>
 <div class="ttc" id="aclasssmacc2_1_1ISmaccStateMachine_html_a011a1907716a79bc3506316cc6193de9"><div class="ttname"><a href="classsmacc2_1_1ISmaccStateMachine.html#a011a1907716a79bc3506316cc6193de9">smacc2::ISmaccStateMachine::setGlobalSMData</a></div><div class="ttdeci">void setGlobalSMData(const std::string &amp;name, T value)</div><div class="ttdef"><b>Definition</b> <a href="smacc__state__machine__impl_8hpp_source.html#l00301">smacc_state_machine_impl.hpp:301</a></div></div>
 </div><!-- fragment -->
 <p class="reference">References <a class="el" href="#aba03aa66e4a505ef1cae701ad49374ac">getStateMachine()</a>, and <a class="el" href="smacc__state__machine__impl_8hpp_source.html#l00301">smacc2::ISmaccStateMachine::setGlobalSMData()</a>.</p>
@@ -2243,7 +2323,7 @@ Here is the call graph for this function:</div>
 
 <p class="definition">Definition at line <a class="el" href="smacc__state_8hpp_source.html#l00130">130</a> of file <a class="el" href="smacc__state_8hpp_source.html">smacc_state.hpp</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="smacc__state__impl_8hpp_source.html#l00123">createEventGenerator()</a>, <a class="el" href="smacc__state__impl_8hpp_source.html#l00190">getEventGenerator()</a>, <a class="el" href="smacc__state_8hpp_source.html#l00106">getEventGenerators()</a>, and <a class="el" href="smacc__state__impl_8hpp_source.html#l00202">getStateReactor()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="smacc__state__impl_8hpp_source.html#l00132">createEventGenerator()</a>, <a class="el" href="smacc__state__impl_8hpp_source.html#l00199">getEventGenerator()</a>, <a class="el" href="smacc__state_8hpp_source.html#l00106">getEventGenerators()</a>, and <a class="el" href="smacc__state__impl_8hpp_source.html#l00211">getStateReactor()</a>.</p>
 
 </div>
 </div>
@@ -2399,7 +2479,7 @@ Here is the call graph for this function:</div>
 
 <p class="definition">Definition at line <a class="el" href="smacc__state_8hpp_source.html#l00129">129</a> of file <a class="el" href="smacc__state_8hpp_source.html">smacc_state.hpp</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="smacc__state__impl_8hpp_source.html#l00115">createStateReactor()</a>, and <a class="el" href="smacc__state_8hpp_source.html#l00104">getStateReactors()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="smacc__state__impl_8hpp_source.html#l00124">createStateReactor()</a>, and <a class="el" href="smacc__state_8hpp_source.html#l00104">getStateReactors()</a>.</p>
 
 </div>
 </div>

@@ -164,185 +164,205 @@
 \DoxyCodeLine{\Hypertarget{cp__action__client_8hpp_source_l00160}00160\ \ \ \ \ \textcolor{comment}{//\ Same\ rule\ as\ sendGoal:\ the\ cancel\ call\ runs\ outside\ actionMutex\_.\ A\ goal\ whose\ sendGoal\ is}}
 \DoxyCodeLine{\Hypertarget{cp__action__client_8hpp_source_l00161}00161\ \ \ \ \ \textcolor{comment}{//\ between\ its\ two\ lock\ scopes\ is\ not\ seen\ here;\ no\ caller\ cancels\ while\ another\ thread\ sends.}}
 \DoxyCodeLine{\Hypertarget{cp__action__client_8hpp_source_l00162}00162\ \ \ \ \ std::shared\_ptr<ActionClient>\ client;}
-\DoxyCodeLine{\Hypertarget{cp__action__client_8hpp_source_l00163}00163\ \ \ \ \ \{}
-\DoxyCodeLine{\Hypertarget{cp__action__client_8hpp_source_l00164}00164\ \ \ \ \ \ \ std::lock\_guard<std::mutex>\ lock(\mbox{\hyperlink{classsmacc2_1_1client__core__components_1_1CpActionClient_a806cfb164cf4bd9c87ff5e95ba95a042}{actionMutex\_}});}
-\DoxyCodeLine{\Hypertarget{cp__action__client_8hpp_source_l00165}00165\ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (\mbox{\hyperlink{classsmacc2_1_1client__core__components_1_1CpActionClient_acb7dcdf359483f1cab4990cdad727bd9}{client\_}}\ !=\ \textcolor{keyword}{nullptr}\ \&\&\ \mbox{\hyperlink{classsmacc2_1_1client__core__components_1_1CpActionClient_a30be4b55466ed0e7416af7342fe27532}{lastRequest\_}}\ \&\&\ \mbox{\hyperlink{classsmacc2_1_1client__core__components_1_1CpActionClient_a30be4b55466ed0e7416af7342fe27532}{lastRequest\_}}-\/>valid())}
-\DoxyCodeLine{\Hypertarget{cp__action__client_8hpp_source_l00166}00166\ \ \ \ \ \ \ \{}
-\DoxyCodeLine{\Hypertarget{cp__action__client_8hpp_source_l00167}00167\ \ \ \ \ \ \ \ \ client\ =\ \mbox{\hyperlink{classsmacc2_1_1client__core__components_1_1CpActionClient_acb7dcdf359483f1cab4990cdad727bd9}{client\_}};}
-\DoxyCodeLine{\Hypertarget{cp__action__client_8hpp_source_l00168}00168\ \ \ \ \ \ \ \}}
-\DoxyCodeLine{\Hypertarget{cp__action__client_8hpp_source_l00169}00169\ \ \ \ \ \}}
-\DoxyCodeLine{\Hypertarget{cp__action__client_8hpp_source_l00170}00170\ }
-\DoxyCodeLine{\Hypertarget{cp__action__client_8hpp_source_l00171}00171\ \ \ \ \ \textcolor{keywordflow}{if}\ (client\ ==\ \textcolor{keyword}{nullptr})}
-\DoxyCodeLine{\Hypertarget{cp__action__client_8hpp_source_l00172}00172\ \ \ \ \ \{}
-\DoxyCodeLine{\Hypertarget{cp__action__client_8hpp_source_l00173}00173\ \ \ \ \ \ \ RCLCPP\_WARN\_STREAM(\mbox{\hyperlink{classsmacc2_1_1ISmaccComponent_a77ee85823bab8d84edcdf5d28782b728}{getLogger}}(),\ \textcolor{stringliteral}{"{}["{}}\ <<\ this-\/>\mbox{\hyperlink{classsmacc2_1_1ISmaccComponent_a6fea938740f0c9ffc082b2ff076c900b}{getName}}()\ <<\ \textcolor{stringliteral}{"{}]\ No\ active\ goal\ to\ cancel"{}});}
-\DoxyCodeLine{\Hypertarget{cp__action__client_8hpp_source_l00174}00174\ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \textcolor{keyword}{false};}
-\DoxyCodeLine{\Hypertarget{cp__action__client_8hpp_source_l00175}00175\ \ \ \ \ \}}
-\DoxyCodeLine{\Hypertarget{cp__action__client_8hpp_source_l00176}00176\ }
-\DoxyCodeLine{\Hypertarget{cp__action__client_8hpp_source_l00177}00177\ \ \ \ \ RCLCPP\_INFO\_STREAM(\mbox{\hyperlink{classsmacc2_1_1ISmaccComponent_a77ee85823bab8d84edcdf5d28782b728}{getLogger}}(),\ \textcolor{stringliteral}{"{}["{}}\ <<\ this-\/>\mbox{\hyperlink{classsmacc2_1_1ISmaccComponent_a6fea938740f0c9ffc082b2ff076c900b}{getName}}()\ <<\ \textcolor{stringliteral}{"{}]\ Cancelling\ current\ goal"{}});}
+\DoxyCodeLine{\Hypertarget{cp__action__client_8hpp_source_l00163}00163\ \ \ \ \ std::shared\_future<typename\ GoalHandle::SharedPtr>\ request;}
+\DoxyCodeLine{\Hypertarget{cp__action__client_8hpp_source_l00164}00164\ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{cp__action__client_8hpp_source_l00165}00165\ \ \ \ \ \ \ std::lock\_guard<std::mutex>\ lock(\mbox{\hyperlink{classsmacc2_1_1client__core__components_1_1CpActionClient_a806cfb164cf4bd9c87ff5e95ba95a042}{actionMutex\_}});}
+\DoxyCodeLine{\Hypertarget{cp__action__client_8hpp_source_l00166}00166\ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (\mbox{\hyperlink{classsmacc2_1_1client__core__components_1_1CpActionClient_acb7dcdf359483f1cab4990cdad727bd9}{client\_}}\ !=\ \textcolor{keyword}{nullptr}\ \&\&\ \mbox{\hyperlink{classsmacc2_1_1client__core__components_1_1CpActionClient_a30be4b55466ed0e7416af7342fe27532}{lastRequest\_}}\ \&\&\ \mbox{\hyperlink{classsmacc2_1_1client__core__components_1_1CpActionClient_a30be4b55466ed0e7416af7342fe27532}{lastRequest\_}}-\/>valid())}
+\DoxyCodeLine{\Hypertarget{cp__action__client_8hpp_source_l00167}00167\ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{cp__action__client_8hpp_source_l00168}00168\ \ \ \ \ \ \ \ \ client\ =\ \mbox{\hyperlink{classsmacc2_1_1client__core__components_1_1CpActionClient_acb7dcdf359483f1cab4990cdad727bd9}{client\_}};}
+\DoxyCodeLine{\Hypertarget{cp__action__client_8hpp_source_l00169}00169\ \ \ \ \ \ \ \ \ request\ =\ *\mbox{\hyperlink{classsmacc2_1_1client__core__components_1_1CpActionClient_a30be4b55466ed0e7416af7342fe27532}{lastRequest\_}};}
+\DoxyCodeLine{\Hypertarget{cp__action__client_8hpp_source_l00170}00170\ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{cp__action__client_8hpp_source_l00171}00171\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{cp__action__client_8hpp_source_l00172}00172\ }
+\DoxyCodeLine{\Hypertarget{cp__action__client_8hpp_source_l00173}00173\ \ \ \ \ \textcolor{keywordflow}{if}\ (client\ ==\ \textcolor{keyword}{nullptr})}
+\DoxyCodeLine{\Hypertarget{cp__action__client_8hpp_source_l00174}00174\ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{cp__action__client_8hpp_source_l00175}00175\ \ \ \ \ \ \ RCLCPP\_WARN\_STREAM(\mbox{\hyperlink{classsmacc2_1_1ISmaccComponent_a77ee85823bab8d84edcdf5d28782b728}{getLogger}}(),\ \textcolor{stringliteral}{"{}["{}}\ <<\ this-\/>\mbox{\hyperlink{classsmacc2_1_1ISmaccComponent_a6fea938740f0c9ffc082b2ff076c900b}{getName}}()\ <<\ \textcolor{stringliteral}{"{}]\ No\ active\ goal\ to\ cancel"{}});}
+\DoxyCodeLine{\Hypertarget{cp__action__client_8hpp_source_l00176}00176\ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \textcolor{keyword}{false};}
+\DoxyCodeLine{\Hypertarget{cp__action__client_8hpp_source_l00177}00177\ \ \ \ \ \}}
 \DoxyCodeLine{\Hypertarget{cp__action__client_8hpp_source_l00178}00178\ }
-\DoxyCodeLine{\Hypertarget{cp__action__client_8hpp_source_l00179}00179\ \ \ \ \ \textcolor{keyword}{auto}\ cancelFuture\ =\ client-\/>async\_cancel\_all\_goals();}
-\DoxyCodeLine{\Hypertarget{cp__action__client_8hpp_source_l00180}00180\ \ \ \ \ \{}
-\DoxyCodeLine{\Hypertarget{cp__action__client_8hpp_source_l00181}00181\ \ \ \ \ \ \ std::lock\_guard<std::mutex>\ lock(\mbox{\hyperlink{classsmacc2_1_1client__core__components_1_1CpActionClient_a806cfb164cf4bd9c87ff5e95ba95a042}{actionMutex\_}});}
-\DoxyCodeLine{\Hypertarget{cp__action__client_8hpp_source_l00182}00182\ \ \ \ \ \ \ \mbox{\hyperlink{classsmacc2_1_1client__core__components_1_1CpActionClient_afb8623b9e60d19126902246ce42c062f}{lastCancelResponse\_}}\ =\ cancelFuture;}
-\DoxyCodeLine{\Hypertarget{cp__action__client_8hpp_source_l00183}00183\ \ \ \ \ \}}
-\DoxyCodeLine{\Hypertarget{cp__action__client_8hpp_source_l00184}00184\ \ \ \ \ \textcolor{keywordflow}{return}\ \textcolor{keyword}{true};}
-\DoxyCodeLine{\Hypertarget{cp__action__client_8hpp_source_l00185}00185\ \ \ \}}
-\DoxyCodeLine{\Hypertarget{cp__action__client_8hpp_source_l00186}00186\ }
-\DoxyCodeLine{\Hypertarget{cp__action__client_8hpp_source_l00187}\mbox{\hyperlink{classsmacc2_1_1client__core__components_1_1CpActionClient_acf4fe4452c6e1cacc89219e81a6dda94}{00187}}\ \ \ \textcolor{keywordtype}{bool}\ \mbox{\hyperlink{classsmacc2_1_1client__core__components_1_1CpActionClient_acf4fe4452c6e1cacc89219e81a6dda94}{isServerReady}}()\textcolor{keyword}{\ const\ }\{\ \textcolor{keywordflow}{return}\ \mbox{\hyperlink{classsmacc2_1_1client__core__components_1_1CpActionClient_acb7dcdf359483f1cab4990cdad727bd9}{client\_}}\ \&\&\ \mbox{\hyperlink{classsmacc2_1_1client__core__components_1_1CpActionClient_acb7dcdf359483f1cab4990cdad727bd9}{client\_}}-\/>action\_server\_is\_ready();\ \}}
-\DoxyCodeLine{\Hypertarget{cp__action__client_8hpp_source_l00188}00188\ }
-\DoxyCodeLine{\Hypertarget{cp__action__client_8hpp_source_l00189}\mbox{\hyperlink{classsmacc2_1_1client__core__components_1_1CpActionClient_a8ee403b2d8fac24584fcbc4ac79bbcf1}{00189}}\ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{classsmacc2_1_1client__core__components_1_1CpActionClient_a8ee403b2d8fac24584fcbc4ac79bbcf1}{waitForServer}}()}
-\DoxyCodeLine{\Hypertarget{cp__action__client_8hpp_source_l00190}00190\ \ \ \{}
-\DoxyCodeLine{\Hypertarget{cp__action__client_8hpp_source_l00191}00191\ \ \ \ \ \textcolor{keywordflow}{if}\ (\mbox{\hyperlink{classsmacc2_1_1client__core__components_1_1CpActionClient_acb7dcdf359483f1cab4990cdad727bd9}{client\_}})}
-\DoxyCodeLine{\Hypertarget{cp__action__client_8hpp_source_l00192}00192\ \ \ \ \ \{}
-\DoxyCodeLine{\Hypertarget{cp__action__client_8hpp_source_l00193}00193\ \ \ \ \ \ \ RCLCPP\_INFO\_STREAM(}
-\DoxyCodeLine{\Hypertarget{cp__action__client_8hpp_source_l00194}00194\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{classsmacc2_1_1ISmaccComponent_a77ee85823bab8d84edcdf5d28782b728}{getLogger}}(),}
-\DoxyCodeLine{\Hypertarget{cp__action__client_8hpp_source_l00195}00195\ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}["{}}\ <<\ this-\/>\mbox{\hyperlink{classsmacc2_1_1ISmaccComponent_a6fea938740f0c9ffc082b2ff076c900b}{getName}}()\ <<\ \textcolor{stringliteral}{"{}]\ Waiting\ for\ action\ server:\ "{}}\ <<\ *actionServerName);}
-\DoxyCodeLine{\Hypertarget{cp__action__client_8hpp_source_l00196}00196\ \ \ \ \ \ \ \mbox{\hyperlink{classsmacc2_1_1client__core__components_1_1CpActionClient_acb7dcdf359483f1cab4990cdad727bd9}{client\_}}-\/>wait\_for\_action\_server();}
-\DoxyCodeLine{\Hypertarget{cp__action__client_8hpp_source_l00197}00197\ \ \ \ \ \}}
-\DoxyCodeLine{\Hypertarget{cp__action__client_8hpp_source_l00198}00198\ \ \ \}}
-\DoxyCodeLine{\Hypertarget{cp__action__client_8hpp_source_l00199}00199\ }
-\DoxyCodeLine{\Hypertarget{cp__action__client_8hpp_source_l00200}00200\ \ \ \textcolor{comment}{//\ Component\ lifecycle}}
-\DoxyCodeLine{\Hypertarget{cp__action__client_8hpp_source_l00201}\mbox{\hyperlink{classsmacc2_1_1client__core__components_1_1CpActionClient_aa6678e766eea6914967dc6686219f24a}{00201}}\ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{classsmacc2_1_1client__core__components_1_1CpActionClient_aa6678e766eea6914967dc6686219f24a}{onInitialize}}()\textcolor{keyword}{\ override}}
-\DoxyCodeLine{\Hypertarget{cp__action__client_8hpp_source_l00202}00202\ \textcolor{keyword}{\ \ }\{}
-\DoxyCodeLine{\Hypertarget{cp__action__client_8hpp_source_l00203}00203\ \ \ \ \ \textcolor{keywordflow}{if}\ (!\mbox{\hyperlink{classsmacc2_1_1client__core__components_1_1CpActionClient_a0cbd335fa72b603f0f06257b3beed17d}{actionServerName}})}
-\DoxyCodeLine{\Hypertarget{cp__action__client_8hpp_source_l00204}00204\ \ \ \ \ \{}
-\DoxyCodeLine{\Hypertarget{cp__action__client_8hpp_source_l00205}00205\ \ \ \ \ \ \ RCLCPP\_ERROR\_STREAM(\mbox{\hyperlink{classsmacc2_1_1ISmaccComponent_a77ee85823bab8d84edcdf5d28782b728}{getLogger}}(),\ \textcolor{stringliteral}{"{}["{}}\ <<\ this-\/>\mbox{\hyperlink{classsmacc2_1_1ISmaccComponent_a6fea938740f0c9ffc082b2ff076c900b}{getName}}()\ <<\ \textcolor{stringliteral}{"{}]\ Action\ server\ name\ not\ set!"{}});}
-\DoxyCodeLine{\Hypertarget{cp__action__client_8hpp_source_l00206}00206\ \ \ \ \ \ \ \textcolor{keywordflow}{return};}
-\DoxyCodeLine{\Hypertarget{cp__action__client_8hpp_source_l00207}00207\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{cp__action__client_8hpp_source_l00179}00179\ \ \ \ \ RCLCPP\_INFO\_STREAM(\mbox{\hyperlink{classsmacc2_1_1ISmaccComponent_a77ee85823bab8d84edcdf5d28782b728}{getLogger}}(),\ \textcolor{stringliteral}{"{}["{}}\ <<\ this-\/>\mbox{\hyperlink{classsmacc2_1_1ISmaccComponent_a6fea938740f0c9ffc082b2ff076c900b}{getName}}()\ <<\ \textcolor{stringliteral}{"{}]\ Cancelling\ current\ goal"{}});}
+\DoxyCodeLine{\Hypertarget{cp__action__client_8hpp_source_l00180}00180\ }
+\DoxyCodeLine{\Hypertarget{cp__action__client_8hpp_source_l00181}00181\ \ \ \ \ \textcolor{comment}{//\ Only\ the\ last\ goal\ is\ cancelled,\ never\ every\ goal\ of\ the\ server:\ the\ next\ state\ may\ already}}
+\DoxyCodeLine{\Hypertarget{cp__action__client_8hpp_source_l00182}00182\ \ \ \ \ \textcolor{comment}{//\ have\ sent\ its\ own\ through\ this\ component\ when\ the\ server\ processes\ the\ request.}}
+\DoxyCodeLine{\Hypertarget{cp__action__client_8hpp_source_l00183}00183\ \ \ \ \ std::shared\_future<typename\ ActionClient::CancelResponse::SharedPtr>\ cancelFuture;}
+\DoxyCodeLine{\Hypertarget{cp__action__client_8hpp_source_l00184}00184\ \ \ \ \ \textcolor{keyword}{typename}\ GoalHandle::SharedPtr\ goalHandle;}
+\DoxyCodeLine{\Hypertarget{cp__action__client_8hpp_source_l00185}00185\ \ \ \ \ \textcolor{keywordflow}{if}\ (request.wait\_for(std::chrono::seconds(0))\ ==\ std::future\_status::ready)}
+\DoxyCodeLine{\Hypertarget{cp__action__client_8hpp_source_l00186}00186\ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{cp__action__client_8hpp_source_l00187}00187\ \ \ \ \ \ \ goalHandle\ =\ request.get();}
+\DoxyCodeLine{\Hypertarget{cp__action__client_8hpp_source_l00188}00188\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{cp__action__client_8hpp_source_l00189}00189\ \ \ \ \ \textcolor{keywordflow}{try}}
+\DoxyCodeLine{\Hypertarget{cp__action__client_8hpp_source_l00190}00190\ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{cp__action__client_8hpp_source_l00191}00191\ \ \ \ \ \ \ \textcolor{comment}{//\ A\ goal\ whose\ response\ has\ not\ arrived\ yet\ has\ no\ handle;\ it\ is\ cancelled\ by\ its\ send\ time.}}
+\DoxyCodeLine{\Hypertarget{cp__action__client_8hpp_source_l00192}00192\ \ \ \ \ \ \ cancelFuture\ =\ goalHandle\ !=\ \textcolor{keyword}{nullptr}\ ?\ client-\/>async\_cancel\_goal(goalHandle)}
+\DoxyCodeLine{\Hypertarget{cp__action__client_8hpp_source_l00193}00193\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ :\ client-\/>async\_cancel\_goals\_before(\mbox{\hyperlink{classsmacc2_1_1ISmaccComponent_aaac68614687bed658c59f8f15746ab91}{getNode}}()-\/>now());}
+\DoxyCodeLine{\Hypertarget{cp__action__client_8hpp_source_l00194}00194\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{cp__action__client_8hpp_source_l00195}00195\ \ \ \ \ \textcolor{keywordflow}{catch}\ (\textcolor{keyword}{const}\ rclcpp\_action::exceptions::UnknownGoalHandleError\ \&)}
+\DoxyCodeLine{\Hypertarget{cp__action__client_8hpp_source_l00196}00196\ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{cp__action__client_8hpp_source_l00197}00197\ \ \ \ \ \ \ RCLCPP\_INFO\_STREAM(\mbox{\hyperlink{classsmacc2_1_1ISmaccComponent_a77ee85823bab8d84edcdf5d28782b728}{getLogger}}(),\ \textcolor{stringliteral}{"{}["{}}\ <<\ this-\/>\mbox{\hyperlink{classsmacc2_1_1ISmaccComponent_a6fea938740f0c9ffc082b2ff076c900b}{getName}}()\ <<\ \textcolor{stringliteral}{"{}]\ The\ goal\ has\ already\ finished"{}});}
+\DoxyCodeLine{\Hypertarget{cp__action__client_8hpp_source_l00198}00198\ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \textcolor{keyword}{false};}
+\DoxyCodeLine{\Hypertarget{cp__action__client_8hpp_source_l00199}00199\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{cp__action__client_8hpp_source_l00200}00200\ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{cp__action__client_8hpp_source_l00201}00201\ \ \ \ \ \ \ std::lock\_guard<std::mutex>\ lock(\mbox{\hyperlink{classsmacc2_1_1client__core__components_1_1CpActionClient_a806cfb164cf4bd9c87ff5e95ba95a042}{actionMutex\_}});}
+\DoxyCodeLine{\Hypertarget{cp__action__client_8hpp_source_l00202}00202\ \ \ \ \ \ \ \mbox{\hyperlink{classsmacc2_1_1client__core__components_1_1CpActionClient_afb8623b9e60d19126902246ce42c062f}{lastCancelResponse\_}}\ =\ cancelFuture;}
+\DoxyCodeLine{\Hypertarget{cp__action__client_8hpp_source_l00203}00203\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{cp__action__client_8hpp_source_l00204}00204\ \ \ \ \ \textcolor{keywordflow}{return}\ \textcolor{keyword}{true};}
+\DoxyCodeLine{\Hypertarget{cp__action__client_8hpp_source_l00205}00205\ \ \ \}}
+\DoxyCodeLine{\Hypertarget{cp__action__client_8hpp_source_l00206}00206\ }
+\DoxyCodeLine{\Hypertarget{cp__action__client_8hpp_source_l00207}\mbox{\hyperlink{classsmacc2_1_1client__core__components_1_1CpActionClient_acf4fe4452c6e1cacc89219e81a6dda94}{00207}}\ \ \ \textcolor{keywordtype}{bool}\ \mbox{\hyperlink{classsmacc2_1_1client__core__components_1_1CpActionClient_acf4fe4452c6e1cacc89219e81a6dda94}{isServerReady}}()\textcolor{keyword}{\ const\ }\{\ \textcolor{keywordflow}{return}\ \mbox{\hyperlink{classsmacc2_1_1client__core__components_1_1CpActionClient_acb7dcdf359483f1cab4990cdad727bd9}{client\_}}\ \&\&\ \mbox{\hyperlink{classsmacc2_1_1client__core__components_1_1CpActionClient_acb7dcdf359483f1cab4990cdad727bd9}{client\_}}-\/>action\_server\_is\_ready();\ \}}
 \DoxyCodeLine{\Hypertarget{cp__action__client_8hpp_source_l00208}00208\ }
-\DoxyCodeLine{\Hypertarget{cp__action__client_8hpp_source_l00209}00209\ \ \ \ \ RCLCPP\_INFO\_STREAM(}
-\DoxyCodeLine{\Hypertarget{cp__action__client_8hpp_source_l00210}00210\ \ \ \ \ \ \ \mbox{\hyperlink{classsmacc2_1_1ISmaccComponent_a77ee85823bab8d84edcdf5d28782b728}{getLogger}}(),}
-\DoxyCodeLine{\Hypertarget{cp__action__client_8hpp_source_l00211}00211\ \ \ \ \ \ \ \textcolor{stringliteral}{"{}["{}}\ <<\ this-\/>\mbox{\hyperlink{classsmacc2_1_1ISmaccComponent_a6fea938740f0c9ffc082b2ff076c900b}{getName}}()\ <<\ \textcolor{stringliteral}{"{}]\ Initializing\ action\ client\ for:\ "{}}\ <<\ *actionServerName);}
-\DoxyCodeLine{\Hypertarget{cp__action__client_8hpp_source_l00212}00212\ }
-\DoxyCodeLine{\Hypertarget{cp__action__client_8hpp_source_l00213}00213\ \ \ \ \ \mbox{\hyperlink{classsmacc2_1_1client__core__components_1_1CpActionClient_acb7dcdf359483f1cab4990cdad727bd9}{client\_}}\ =\ rclcpp\_action::create\_client<ActionType>(\mbox{\hyperlink{classsmacc2_1_1ISmaccComponent_aaac68614687bed658c59f8f15746ab91}{getNode}}(),\ *\mbox{\hyperlink{classsmacc2_1_1client__core__components_1_1CpActionClient_a0cbd335fa72b603f0f06257b3beed17d}{actionServerName}});}
-\DoxyCodeLine{\Hypertarget{cp__action__client_8hpp_source_l00214}00214\ \ \ \ \ RCLCPP\_INFO\_STREAM(}
-\DoxyCodeLine{\Hypertarget{cp__action__client_8hpp_source_l00215}00215\ \ \ \ \ \ \ \mbox{\hyperlink{classsmacc2_1_1ISmaccComponent_a77ee85823bab8d84edcdf5d28782b728}{getLogger}}(),}
-\DoxyCodeLine{\Hypertarget{cp__action__client_8hpp_source_l00216}00216\ \ \ \ \ \ \ \textcolor{stringliteral}{"{}["{}}\ <<\ this-\/>\mbox{\hyperlink{classsmacc2_1_1ISmaccComponent_a6fea938740f0c9ffc082b2ff076c900b}{getName}}()\ <<\ \textcolor{stringliteral}{"{}]\ DONE\ Initializing\ action\ client\ for:\ "{}}\ <<\ *actionServerName);}
-\DoxyCodeLine{\Hypertarget{cp__action__client_8hpp_source_l00217}00217\ }
-\DoxyCodeLine{\Hypertarget{cp__action__client_8hpp_source_l00218}00218\ \ \ \ \ \textcolor{comment}{//\ Set\ up\ feedback\ callback}}
-\DoxyCodeLine{\Hypertarget{cp__action__client_8hpp_source_l00219}00219\ \ \ \ \ \mbox{\hyperlink{classsmacc2_1_1client__core__components_1_1CpActionClient_a53f323d92f865155adb867fbe0547435}{feedbackCallback\_}}\ =\ [\textcolor{keyword}{this}](\textcolor{keyword}{auto}\ goalHandle,\ \textcolor{keyword}{auto}\ feedback)}
-\DoxyCodeLine{\Hypertarget{cp__action__client_8hpp_source_l00220}00220\ \ \ \ \ \{\ this-\/>\mbox{\hyperlink{classsmacc2_1_1client__core__components_1_1CpActionClient_a5117b959a754381785dbcc1075e52193}{onFeedback}}(goalHandle,\ feedback);\ \};}
-\DoxyCodeLine{\Hypertarget{cp__action__client_8hpp_source_l00221}00221\ \ \ \}}
-\DoxyCodeLine{\Hypertarget{cp__action__client_8hpp_source_l00222}00222\ }
-\DoxyCodeLine{\Hypertarget{cp__action__client_8hpp_source_l00223}00223\ \ \ \textcolor{keyword}{template}\ <\textcolor{keyword}{typename}\ TOrthogonal,\ \textcolor{keyword}{typename}\ TSourceObject>}
-\DoxyCodeLine{\Hypertarget{cp__action__client_8hpp_source_l00224}\mbox{\hyperlink{classsmacc2_1_1client__core__components_1_1CpActionClient_a22f48b4b5b5cbc324935328c79e176aa}{00224}}\ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{classsmacc2_1_1client__core__components_1_1CpActionClient_a22f48b4b5b5cbc324935328c79e176aa}{onComponentInitialization}}()}
-\DoxyCodeLine{\Hypertarget{cp__action__client_8hpp_source_l00225}00225\ \ \ \{}
-\DoxyCodeLine{\Hypertarget{cp__action__client_8hpp_source_l00226}00226\ \ \ \ \ \textcolor{comment}{//\ Event\ source\ type\ is\ THIS\ COMPONENT,\ not\ the\ owning\ client:\ the\ event}}
-\DoxyCodeLine{\Hypertarget{cp__action__client_8hpp_source_l00227}00227\ \ \ \ \ \textcolor{comment}{//\ payload\ type\ is\ TSource::WrappedResult,\ and\ typing\ it\ on\ the\ client\ would}}
-\DoxyCodeLine{\Hypertarget{cp__action__client_8hpp_source_l00228}00228\ \ \ \ \ \textcolor{comment}{//\ wrongly\ assume\ the\ client's\ WrappedResult\ typedef\ matches\ this\ component's}}
-\DoxyCodeLine{\Hypertarget{cp__action__client_8hpp_source_l00229}00229\ \ \ \ \ \textcolor{comment}{//\ action\ -\/\ which\ breaks\ as\ soon\ as\ a\ client\ owns\ action\ clients\ of\ more\ than}}
-\DoxyCodeLine{\Hypertarget{cp__action__client_8hpp_source_l00230}00230\ \ \ \ \ \textcolor{comment}{//\ one\ action\ type.\ Nothing\ in-\/tree\ listens\ to\ client-\/typed\ events\ from\ this}}
-\DoxyCodeLine{\Hypertarget{cp__action__client_8hpp_source_l00231}00231\ \ \ \ \ \textcolor{comment}{//\ component\ (domain\ interfaces\ like\ CpNav2ActionInterface\ post\ those).}}
-\DoxyCodeLine{\Hypertarget{cp__action__client_8hpp_source_l00232}00232\ \ \ \ \ \mbox{\hyperlink{classsmacc2_1_1client__core__components_1_1CpActionClient_a7e764141a3f8848a5cd0b575003a2342}{postSuccessEvent}}\ =\ [\textcolor{keyword}{this}](\textcolor{keyword}{const}\ \mbox{\hyperlink{classsmacc2_1_1client__core__components_1_1CpActionClient_a0a229dae04d4dc9b3be9aed4c5b93c79}{WrappedResult}}\ \&\ result)}
-\DoxyCodeLine{\Hypertarget{cp__action__client_8hpp_source_l00233}00233\ \ \ \ \ \{\ this-\/>\mbox{\hyperlink{classsmacc2_1_1client__core__components_1_1CpActionClient_a8238b4c629433e62f302de2cd12c6213}{postResultEvent<EvActionSucceeded<CpActionClient<ActionType>}},\ TOrthogonal>>(result);\ \};}
-\DoxyCodeLine{\Hypertarget{cp__action__client_8hpp_source_l00234}00234\ }
-\DoxyCodeLine{\Hypertarget{cp__action__client_8hpp_source_l00235}00235\ \ \ \ \ \mbox{\hyperlink{classsmacc2_1_1client__core__components_1_1CpActionClient_ad4fa3603798fce22a3f2cc8a5cab21bb}{postAbortedEvent}}\ =\ [\textcolor{keyword}{this}](\textcolor{keyword}{const}\ \mbox{\hyperlink{classsmacc2_1_1client__core__components_1_1CpActionClient_a0a229dae04d4dc9b3be9aed4c5b93c79}{WrappedResult}}\ \&\ result)}
-\DoxyCodeLine{\Hypertarget{cp__action__client_8hpp_source_l00236}00236\ \ \ \ \ \{\ this-\/>\mbox{\hyperlink{classsmacc2_1_1client__core__components_1_1CpActionClient_a8238b4c629433e62f302de2cd12c6213}{postResultEvent<EvActionAborted<CpActionClient<ActionType>}},\ TOrthogonal>>(result);\ \};}
+\DoxyCodeLine{\Hypertarget{cp__action__client_8hpp_source_l00209}\mbox{\hyperlink{classsmacc2_1_1client__core__components_1_1CpActionClient_a8ee403b2d8fac24584fcbc4ac79bbcf1}{00209}}\ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{classsmacc2_1_1client__core__components_1_1CpActionClient_a8ee403b2d8fac24584fcbc4ac79bbcf1}{waitForServer}}()}
+\DoxyCodeLine{\Hypertarget{cp__action__client_8hpp_source_l00210}00210\ \ \ \{}
+\DoxyCodeLine{\Hypertarget{cp__action__client_8hpp_source_l00211}00211\ \ \ \ \ \textcolor{keywordflow}{if}\ (\mbox{\hyperlink{classsmacc2_1_1client__core__components_1_1CpActionClient_acb7dcdf359483f1cab4990cdad727bd9}{client\_}})}
+\DoxyCodeLine{\Hypertarget{cp__action__client_8hpp_source_l00212}00212\ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{cp__action__client_8hpp_source_l00213}00213\ \ \ \ \ \ \ RCLCPP\_INFO\_STREAM(}
+\DoxyCodeLine{\Hypertarget{cp__action__client_8hpp_source_l00214}00214\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{classsmacc2_1_1ISmaccComponent_a77ee85823bab8d84edcdf5d28782b728}{getLogger}}(),}
+\DoxyCodeLine{\Hypertarget{cp__action__client_8hpp_source_l00215}00215\ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}["{}}\ <<\ this-\/>\mbox{\hyperlink{classsmacc2_1_1ISmaccComponent_a6fea938740f0c9ffc082b2ff076c900b}{getName}}()\ <<\ \textcolor{stringliteral}{"{}]\ Waiting\ for\ action\ server:\ "{}}\ <<\ *actionServerName);}
+\DoxyCodeLine{\Hypertarget{cp__action__client_8hpp_source_l00216}00216\ \ \ \ \ \ \ \mbox{\hyperlink{classsmacc2_1_1client__core__components_1_1CpActionClient_acb7dcdf359483f1cab4990cdad727bd9}{client\_}}-\/>wait\_for\_action\_server();}
+\DoxyCodeLine{\Hypertarget{cp__action__client_8hpp_source_l00217}00217\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{cp__action__client_8hpp_source_l00218}00218\ \ \ \}}
+\DoxyCodeLine{\Hypertarget{cp__action__client_8hpp_source_l00219}00219\ }
+\DoxyCodeLine{\Hypertarget{cp__action__client_8hpp_source_l00220}00220\ \ \ \textcolor{comment}{//\ Component\ lifecycle}}
+\DoxyCodeLine{\Hypertarget{cp__action__client_8hpp_source_l00221}\mbox{\hyperlink{classsmacc2_1_1client__core__components_1_1CpActionClient_aa6678e766eea6914967dc6686219f24a}{00221}}\ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{classsmacc2_1_1client__core__components_1_1CpActionClient_aa6678e766eea6914967dc6686219f24a}{onInitialize}}()\textcolor{keyword}{\ override}}
+\DoxyCodeLine{\Hypertarget{cp__action__client_8hpp_source_l00222}00222\ \textcolor{keyword}{\ \ }\{}
+\DoxyCodeLine{\Hypertarget{cp__action__client_8hpp_source_l00223}00223\ \ \ \ \ \textcolor{keywordflow}{if}\ (!\mbox{\hyperlink{classsmacc2_1_1client__core__components_1_1CpActionClient_a0cbd335fa72b603f0f06257b3beed17d}{actionServerName}})}
+\DoxyCodeLine{\Hypertarget{cp__action__client_8hpp_source_l00224}00224\ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{cp__action__client_8hpp_source_l00225}00225\ \ \ \ \ \ \ RCLCPP\_ERROR\_STREAM(\mbox{\hyperlink{classsmacc2_1_1ISmaccComponent_a77ee85823bab8d84edcdf5d28782b728}{getLogger}}(),\ \textcolor{stringliteral}{"{}["{}}\ <<\ this-\/>\mbox{\hyperlink{classsmacc2_1_1ISmaccComponent_a6fea938740f0c9ffc082b2ff076c900b}{getName}}()\ <<\ \textcolor{stringliteral}{"{}]\ Action\ server\ name\ not\ set!"{}});}
+\DoxyCodeLine{\Hypertarget{cp__action__client_8hpp_source_l00226}00226\ \ \ \ \ \ \ \textcolor{keywordflow}{return};}
+\DoxyCodeLine{\Hypertarget{cp__action__client_8hpp_source_l00227}00227\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{cp__action__client_8hpp_source_l00228}00228\ }
+\DoxyCodeLine{\Hypertarget{cp__action__client_8hpp_source_l00229}00229\ \ \ \ \ RCLCPP\_INFO\_STREAM(}
+\DoxyCodeLine{\Hypertarget{cp__action__client_8hpp_source_l00230}00230\ \ \ \ \ \ \ \mbox{\hyperlink{classsmacc2_1_1ISmaccComponent_a77ee85823bab8d84edcdf5d28782b728}{getLogger}}(),}
+\DoxyCodeLine{\Hypertarget{cp__action__client_8hpp_source_l00231}00231\ \ \ \ \ \ \ \textcolor{stringliteral}{"{}["{}}\ <<\ this-\/>\mbox{\hyperlink{classsmacc2_1_1ISmaccComponent_a6fea938740f0c9ffc082b2ff076c900b}{getName}}()\ <<\ \textcolor{stringliteral}{"{}]\ Initializing\ action\ client\ for:\ "{}}\ <<\ *actionServerName);}
+\DoxyCodeLine{\Hypertarget{cp__action__client_8hpp_source_l00232}00232\ }
+\DoxyCodeLine{\Hypertarget{cp__action__client_8hpp_source_l00233}00233\ \ \ \ \ \mbox{\hyperlink{classsmacc2_1_1client__core__components_1_1CpActionClient_acb7dcdf359483f1cab4990cdad727bd9}{client\_}}\ =\ rclcpp\_action::create\_client<ActionType>(\mbox{\hyperlink{classsmacc2_1_1ISmaccComponent_aaac68614687bed658c59f8f15746ab91}{getNode}}(),\ *\mbox{\hyperlink{classsmacc2_1_1client__core__components_1_1CpActionClient_a0cbd335fa72b603f0f06257b3beed17d}{actionServerName}});}
+\DoxyCodeLine{\Hypertarget{cp__action__client_8hpp_source_l00234}00234\ \ \ \ \ RCLCPP\_INFO\_STREAM(}
+\DoxyCodeLine{\Hypertarget{cp__action__client_8hpp_source_l00235}00235\ \ \ \ \ \ \ \mbox{\hyperlink{classsmacc2_1_1ISmaccComponent_a77ee85823bab8d84edcdf5d28782b728}{getLogger}}(),}
+\DoxyCodeLine{\Hypertarget{cp__action__client_8hpp_source_l00236}00236\ \ \ \ \ \ \ \textcolor{stringliteral}{"{}["{}}\ <<\ this-\/>\mbox{\hyperlink{classsmacc2_1_1ISmaccComponent_a6fea938740f0c9ffc082b2ff076c900b}{getName}}()\ <<\ \textcolor{stringliteral}{"{}]\ DONE\ Initializing\ action\ client\ for:\ "{}}\ <<\ *actionServerName);}
 \DoxyCodeLine{\Hypertarget{cp__action__client_8hpp_source_l00237}00237\ }
-\DoxyCodeLine{\Hypertarget{cp__action__client_8hpp_source_l00238}00238\ \ \ \ \ \mbox{\hyperlink{classsmacc2_1_1client__core__components_1_1CpActionClient_a0174b96e7ae1e10aafb274fed7d5f925}{postCancelledEvent}}\ =\ [\textcolor{keyword}{this}](\textcolor{keyword}{const}\ \mbox{\hyperlink{classsmacc2_1_1client__core__components_1_1CpActionClient_a0a229dae04d4dc9b3be9aed4c5b93c79}{WrappedResult}}\ \&\ result)}
-\DoxyCodeLine{\Hypertarget{cp__action__client_8hpp_source_l00239}00239\ \ \ \ \ \{\ this-\/>\mbox{\hyperlink{classsmacc2_1_1client__core__components_1_1CpActionClient_a8238b4c629433e62f302de2cd12c6213}{postResultEvent<EvActionCancelled<CpActionClient<ActionType>}},\ TOrthogonal>>(result);\ \};}
-\DoxyCodeLine{\Hypertarget{cp__action__client_8hpp_source_l00240}00240\ }
-\DoxyCodeLine{\Hypertarget{cp__action__client_8hpp_source_l00241}00241\ \ \ \ \ \mbox{\hyperlink{classsmacc2_1_1client__core__components_1_1CpActionClient_ae907291c7d81a611e22d620c2f422089}{postFeedbackEvent}}\ =\ [\textcolor{keyword}{this}](\textcolor{keyword}{const}\ \mbox{\hyperlink{classsmacc2_1_1client__core__components_1_1CpActionClient_a5ea235a7fad45ca941b594bdfba581fb}{Feedback}}\ \&\ feedback)}
-\DoxyCodeLine{\Hypertarget{cp__action__client_8hpp_source_l00242}00242\ \ \ \ \ \{}
-\DoxyCodeLine{\Hypertarget{cp__action__client_8hpp_source_l00243}00243\ \ \ \ \ \ \ \textcolor{keyword}{auto}\ actionFeedbackEvent\ =\ \textcolor{keyword}{new}\ \mbox{\hyperlink{structsmacc2_1_1default__events_1_1EvActionFeedback}{EvActionFeedback<Feedback,\ TOrthogonal>}}();}
-\DoxyCodeLine{\Hypertarget{cp__action__client_8hpp_source_l00244}00244\ \ \ \ \ \ \ actionFeedbackEvent-\/>feedbackMessage\ =\ feedback;}
-\DoxyCodeLine{\Hypertarget{cp__action__client_8hpp_source_l00245}00245\ \ \ \ \ \ \ this-\/>\mbox{\hyperlink{classsmacc2_1_1ISmaccComponent_a03dd302448a2e186b1059822cff8c669}{postEvent}}(actionFeedbackEvent);}
-\DoxyCodeLine{\Hypertarget{cp__action__client_8hpp_source_l00246}00246\ \ \ \ \ \ \ RCLCPP\_DEBUG(\mbox{\hyperlink{classsmacc2_1_1ISmaccComponent_a77ee85823bab8d84edcdf5d28782b728}{getLogger}}(),\ \textcolor{stringliteral}{"{}[\%s]\ FEEDBACK\ EVENT"{}},\ this-\/>\mbox{\hyperlink{classsmacc2_1_1ISmaccComponent_a6fea938740f0c9ffc082b2ff076c900b}{getName}}().c\_str());}
-\DoxyCodeLine{\Hypertarget{cp__action__client_8hpp_source_l00247}00247\ \ \ \ \ \};}
-\DoxyCodeLine{\Hypertarget{cp__action__client_8hpp_source_l00248}00248\ \ \ \}}
-\DoxyCodeLine{\Hypertarget{cp__action__client_8hpp_source_l00249}00249\ }
-\DoxyCodeLine{\Hypertarget{cp__action__client_8hpp_source_l00250}00250\ \ \ \textcolor{comment}{//\ Signal\ connection\ methods}}
-\DoxyCodeLine{\Hypertarget{cp__action__client_8hpp_source_l00251}00251\ \ \ \textcolor{keyword}{template}\ <\textcolor{keyword}{typename}\ T>}
-\DoxyCodeLine{\Hypertarget{cp__action__client_8hpp_source_l00252}\mbox{\hyperlink{classsmacc2_1_1client__core__components_1_1CpActionClient_a3bf70751326e9ceb15886ff19cdad900}{00252}}\ \ \ \mbox{\hyperlink{namespacesmacc2_a5a5bb8f06eff3a799445f680c8e22c88}{smacc2::SmaccSignalConnection}}\ \mbox{\hyperlink{classsmacc2_1_1client__core__components_1_1CpActionClient_a3bf70751326e9ceb15886ff19cdad900}{onSucceeded}}(\textcolor{keywordtype}{void}\ (T::*callback)(\textcolor{keyword}{const}\ \mbox{\hyperlink{classsmacc2_1_1client__core__components_1_1CpActionClient_a0a229dae04d4dc9b3be9aed4c5b93c79}{WrappedResult}}\ \&),\ T\ *\ \textcolor{keywordtype}{object})}
-\DoxyCodeLine{\Hypertarget{cp__action__client_8hpp_source_l00253}00253\ \ \ \{}
-\DoxyCodeLine{\Hypertarget{cp__action__client_8hpp_source_l00254}00254\ \ \ \ \ \textcolor{keywordflow}{return}\ this-\/>\mbox{\hyperlink{classsmacc2_1_1ISmaccComponent_a420ef07087efcdc74fb233f11ae3a517}{getStateMachine}}()-\/>\mbox{\hyperlink{classsmacc2_1_1ISmaccStateMachine_a5a7796e13095b776bdd9a112d018e0f0}{createSignalConnection}}(onActionSucceeded\_,\ callback,\ \textcolor{keywordtype}{object});}
-\DoxyCodeLine{\Hypertarget{cp__action__client_8hpp_source_l00255}00255\ \ \ \}}
-\DoxyCodeLine{\Hypertarget{cp__action__client_8hpp_source_l00256}00256\ }
-\DoxyCodeLine{\Hypertarget{cp__action__client_8hpp_source_l00257}00257\ \ \ \textcolor{keyword}{template}\ <\textcolor{keyword}{typename}\ T>}
-\DoxyCodeLine{\Hypertarget{cp__action__client_8hpp_source_l00258}\mbox{\hyperlink{classsmacc2_1_1client__core__components_1_1CpActionClient_a9cdc37bb59f88285afb77ce38bc7e47a}{00258}}\ \ \ \mbox{\hyperlink{namespacesmacc2_a5a5bb8f06eff3a799445f680c8e22c88}{smacc2::SmaccSignalConnection}}\ \mbox{\hyperlink{classsmacc2_1_1client__core__components_1_1CpActionClient_a9cdc37bb59f88285afb77ce38bc7e47a}{onAborted}}(\textcolor{keywordtype}{void}\ (T::*callback)(\textcolor{keyword}{const}\ \mbox{\hyperlink{classsmacc2_1_1client__core__components_1_1CpActionClient_a0a229dae04d4dc9b3be9aed4c5b93c79}{WrappedResult}}\ \&),\ T\ *\ \textcolor{keywordtype}{object})}
-\DoxyCodeLine{\Hypertarget{cp__action__client_8hpp_source_l00259}00259\ \ \ \{}
-\DoxyCodeLine{\Hypertarget{cp__action__client_8hpp_source_l00260}00260\ \ \ \ \ \textcolor{keywordflow}{return}\ this-\/>\mbox{\hyperlink{classsmacc2_1_1ISmaccComponent_a420ef07087efcdc74fb233f11ae3a517}{getStateMachine}}()-\/>\mbox{\hyperlink{classsmacc2_1_1ISmaccStateMachine_a5a7796e13095b776bdd9a112d018e0f0}{createSignalConnection}}(onActionAborted\_,\ callback,\ \textcolor{keywordtype}{object});}
-\DoxyCodeLine{\Hypertarget{cp__action__client_8hpp_source_l00261}00261\ \ \ \}}
-\DoxyCodeLine{\Hypertarget{cp__action__client_8hpp_source_l00262}00262\ }
-\DoxyCodeLine{\Hypertarget{cp__action__client_8hpp_source_l00263}00263\ \ \ \textcolor{keyword}{template}\ <\textcolor{keyword}{typename}\ T>}
-\DoxyCodeLine{\Hypertarget{cp__action__client_8hpp_source_l00264}\mbox{\hyperlink{classsmacc2_1_1client__core__components_1_1CpActionClient_abc4cdd97a3fe4b36196ef5cad24aec61}{00264}}\ \ \ \mbox{\hyperlink{namespacesmacc2_a5a5bb8f06eff3a799445f680c8e22c88}{smacc2::SmaccSignalConnection}}\ \mbox{\hyperlink{classsmacc2_1_1client__core__components_1_1CpActionClient_abc4cdd97a3fe4b36196ef5cad24aec61}{onCancelled}}(\textcolor{keywordtype}{void}\ (T::*callback)(\textcolor{keyword}{const}\ \mbox{\hyperlink{classsmacc2_1_1client__core__components_1_1CpActionClient_a0a229dae04d4dc9b3be9aed4c5b93c79}{WrappedResult}}\ \&),\ T\ *\ \textcolor{keywordtype}{object})}
-\DoxyCodeLine{\Hypertarget{cp__action__client_8hpp_source_l00265}00265\ \ \ \{}
-\DoxyCodeLine{\Hypertarget{cp__action__client_8hpp_source_l00266}00266\ \ \ \ \ \textcolor{keywordflow}{return}\ this-\/>\mbox{\hyperlink{classsmacc2_1_1ISmaccComponent_a420ef07087efcdc74fb233f11ae3a517}{getStateMachine}}()-\/>\mbox{\hyperlink{classsmacc2_1_1ISmaccStateMachine_a5a7796e13095b776bdd9a112d018e0f0}{createSignalConnection}}(onActionCancelled\_,\ callback,\ \textcolor{keywordtype}{object});}
-\DoxyCodeLine{\Hypertarget{cp__action__client_8hpp_source_l00267}00267\ \ \ \}}
-\DoxyCodeLine{\Hypertarget{cp__action__client_8hpp_source_l00268}00268\ }
-\DoxyCodeLine{\Hypertarget{cp__action__client_8hpp_source_l00269}00269\ \ \ \textcolor{keyword}{template}\ <\textcolor{keyword}{typename}\ T>}
-\DoxyCodeLine{\Hypertarget{cp__action__client_8hpp_source_l00270}\mbox{\hyperlink{classsmacc2_1_1client__core__components_1_1CpActionClient_a5117b959a754381785dbcc1075e52193}{00270}}\ \ \ \mbox{\hyperlink{namespacesmacc2_a5a5bb8f06eff3a799445f680c8e22c88}{smacc2::SmaccSignalConnection}}\ \mbox{\hyperlink{classsmacc2_1_1client__core__components_1_1CpActionClient_a5117b959a754381785dbcc1075e52193}{onFeedback}}(\textcolor{keywordtype}{void}\ (T::*callback)(\textcolor{keyword}{const}\ \mbox{\hyperlink{classsmacc2_1_1client__core__components_1_1CpActionClient_a5ea235a7fad45ca941b594bdfba581fb}{Feedback}}\ \&),\ T\ *\ \textcolor{keywordtype}{object})}
-\DoxyCodeLine{\Hypertarget{cp__action__client_8hpp_source_l00271}00271\ \ \ \{}
-\DoxyCodeLine{\Hypertarget{cp__action__client_8hpp_source_l00272}00272\ \ \ \ \ \textcolor{keywordflow}{return}\ this-\/>\mbox{\hyperlink{classsmacc2_1_1ISmaccComponent_a420ef07087efcdc74fb233f11ae3a517}{getStateMachine}}()-\/>\mbox{\hyperlink{classsmacc2_1_1ISmaccStateMachine_a5a7796e13095b776bdd9a112d018e0f0}{createSignalConnection}}(onActionFeedback\_,\ callback,\ \textcolor{keywordtype}{object});}
-\DoxyCodeLine{\Hypertarget{cp__action__client_8hpp_source_l00273}00273\ \ \ \}}
-\DoxyCodeLine{\Hypertarget{cp__action__client_8hpp_source_l00274}00274\ }
-\DoxyCodeLine{\Hypertarget{cp__action__client_8hpp_source_l00275}00275\ \ \ \textcolor{comment}{//\ Access\ to\ underlying\ client\ for\ advanced\ usage}}
-\DoxyCodeLine{\Hypertarget{cp__action__client_8hpp_source_l00276}\mbox{\hyperlink{classsmacc2_1_1client__core__components_1_1CpActionClient_ad4519f612157d1b8ea888a6d6c081ad5}{00276}}\ \ \ std::shared\_ptr<ActionClient>\ \mbox{\hyperlink{classsmacc2_1_1client__core__components_1_1CpActionClient_ad4519f612157d1b8ea888a6d6c081ad5}{getActionClient}}()\textcolor{keyword}{\ const\ }\{\ \textcolor{keywordflow}{return}\ \mbox{\hyperlink{classsmacc2_1_1client__core__components_1_1CpActionClient_acb7dcdf359483f1cab4990cdad727bd9}{client\_}};\ \}}
-\DoxyCodeLine{\Hypertarget{cp__action__client_8hpp_source_l00277}00277\ }
-\DoxyCodeLine{\Hypertarget{cp__action__client_8hpp_source_l00278}00278\ \textcolor{keyword}{private}:}
-\DoxyCodeLine{\Hypertarget{cp__action__client_8hpp_source_l00279}\mbox{\hyperlink{classsmacc2_1_1client__core__components_1_1CpActionClient_acb7dcdf359483f1cab4990cdad727bd9}{00279}}\ \ \ std::shared\_ptr<ActionClient>\ \mbox{\hyperlink{classsmacc2_1_1client__core__components_1_1CpActionClient_acb7dcdf359483f1cab4990cdad727bd9}{client\_}}\ =\ \textcolor{keyword}{nullptr};}
-\DoxyCodeLine{\Hypertarget{cp__action__client_8hpp_source_l00280}\mbox{\hyperlink{classsmacc2_1_1client__core__components_1_1CpActionClient_a30be4b55466ed0e7416af7342fe27532}{00280}}\ \ \ std::optional<std::shared\_future<typename\ GoalHandle::SharedPtr>>\ \mbox{\hyperlink{classsmacc2_1_1client__core__components_1_1CpActionClient_a30be4b55466ed0e7416af7342fe27532}{lastRequest\_}};}
-\DoxyCodeLine{\Hypertarget{cp__action__client_8hpp_source_l00281}00281\ \ \ std::optional<}
-\DoxyCodeLine{\Hypertarget{cp__action__client_8hpp_source_l00282}00282\ \ \ \ \ std::shared\_future<typename\ rclcpp\_action::Client<ActionType>::CancelResponse::SharedPtr>>}
-\DoxyCodeLine{\Hypertarget{cp__action__client_8hpp_source_l00283}\mbox{\hyperlink{classsmacc2_1_1client__core__components_1_1CpActionClient_afb8623b9e60d19126902246ce42c062f}{00283}}\ \ \ \ \ \mbox{\hyperlink{classsmacc2_1_1client__core__components_1_1CpActionClient_afb8623b9e60d19126902246ce42c062f}{lastCancelResponse\_}};}
-\DoxyCodeLine{\Hypertarget{cp__action__client_8hpp_source_l00284}\mbox{\hyperlink{classsmacc2_1_1client__core__components_1_1CpActionClient_a53f323d92f865155adb867fbe0547435}{00284}}\ \ \ \mbox{\hyperlink{classsmacc2_1_1client__core__components_1_1CpActionClient_a900318c592fa0ae377cb5439fa0662b3}{FeedbackCallback}}\ \mbox{\hyperlink{classsmacc2_1_1client__core__components_1_1CpActionClient_a53f323d92f865155adb867fbe0547435}{feedbackCallback\_}};}
-\DoxyCodeLine{\Hypertarget{cp__action__client_8hpp_source_l00285}\mbox{\hyperlink{classsmacc2_1_1client__core__components_1_1CpActionClient_a806cfb164cf4bd9c87ff5e95ba95a042}{00285}}\ \ \ std::mutex\ \mbox{\hyperlink{classsmacc2_1_1client__core__components_1_1CpActionClient_a806cfb164cf4bd9c87ff5e95ba95a042}{actionMutex\_}};}
-\DoxyCodeLine{\Hypertarget{cp__action__client_8hpp_source_l00286}00286\ }
-\DoxyCodeLine{\Hypertarget{cp__action__client_8hpp_source_l00287}\mbox{\hyperlink{classsmacc2_1_1client__core__components_1_1CpActionClient_acc7518527bde724664457c876c0117fe}{00287}}\ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{classsmacc2_1_1client__core__components_1_1CpActionClient_acc7518527bde724664457c876c0117fe}{onFeedback}}(}
-\DoxyCodeLine{\Hypertarget{cp__action__client_8hpp_source_l00288}00288\ \ \ \ \ \textcolor{keyword}{typename}\ GoalHandle::SharedPtr\ \textcolor{comment}{/*\ goalHandle\ */},}
-\DoxyCodeLine{\Hypertarget{cp__action__client_8hpp_source_l00289}00289\ \ \ \ \ \textcolor{keyword}{const}\ std::shared\_ptr<const\ Feedback>\ feedback\_msg)}
-\DoxyCodeLine{\Hypertarget{cp__action__client_8hpp_source_l00290}00290\ \ \ \{}
-\DoxyCodeLine{\Hypertarget{cp__action__client_8hpp_source_l00291}00291\ \ \ \ \ \mbox{\hyperlink{classsmacc2_1_1client__core__components_1_1CpActionClient_a5d2b32a381c049cdf47f8c1046d07d4b}{onActionFeedback\_}}(*feedback\_msg);}
-\DoxyCodeLine{\Hypertarget{cp__action__client_8hpp_source_l00292}00292\ \ \ \ \ \mbox{\hyperlink{classsmacc2_1_1client__core__components_1_1CpActionClient_ae907291c7d81a611e22d620c2f422089}{postFeedbackEvent}}(*feedback\_msg);}
+\DoxyCodeLine{\Hypertarget{cp__action__client_8hpp_source_l00238}00238\ \ \ \ \ \textcolor{comment}{//\ Set\ up\ feedback\ callback}}
+\DoxyCodeLine{\Hypertarget{cp__action__client_8hpp_source_l00239}00239\ \ \ \ \ \mbox{\hyperlink{classsmacc2_1_1client__core__components_1_1CpActionClient_a53f323d92f865155adb867fbe0547435}{feedbackCallback\_}}\ =\ [\textcolor{keyword}{this}](\textcolor{keyword}{auto}\ goalHandle,\ \textcolor{keyword}{auto}\ feedback)}
+\DoxyCodeLine{\Hypertarget{cp__action__client_8hpp_source_l00240}00240\ \ \ \ \ \{\ this-\/>\mbox{\hyperlink{classsmacc2_1_1client__core__components_1_1CpActionClient_a5117b959a754381785dbcc1075e52193}{onFeedback}}(goalHandle,\ feedback);\ \};}
+\DoxyCodeLine{\Hypertarget{cp__action__client_8hpp_source_l00241}00241\ \ \ \}}
+\DoxyCodeLine{\Hypertarget{cp__action__client_8hpp_source_l00242}00242\ }
+\DoxyCodeLine{\Hypertarget{cp__action__client_8hpp_source_l00243}00243\ \ \ \textcolor{keyword}{template}\ <\textcolor{keyword}{typename}\ TOrthogonal,\ \textcolor{keyword}{typename}\ TSourceObject>}
+\DoxyCodeLine{\Hypertarget{cp__action__client_8hpp_source_l00244}\mbox{\hyperlink{classsmacc2_1_1client__core__components_1_1CpActionClient_a22f48b4b5b5cbc324935328c79e176aa}{00244}}\ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{classsmacc2_1_1client__core__components_1_1CpActionClient_a22f48b4b5b5cbc324935328c79e176aa}{onComponentInitialization}}()}
+\DoxyCodeLine{\Hypertarget{cp__action__client_8hpp_source_l00245}00245\ \ \ \{}
+\DoxyCodeLine{\Hypertarget{cp__action__client_8hpp_source_l00246}00246\ \ \ \ \ \textcolor{comment}{//\ Event\ source\ type\ is\ THIS\ COMPONENT,\ not\ the\ owning\ client:\ the\ event}}
+\DoxyCodeLine{\Hypertarget{cp__action__client_8hpp_source_l00247}00247\ \ \ \ \ \textcolor{comment}{//\ payload\ type\ is\ TSource::WrappedResult,\ and\ typing\ it\ on\ the\ client\ would}}
+\DoxyCodeLine{\Hypertarget{cp__action__client_8hpp_source_l00248}00248\ \ \ \ \ \textcolor{comment}{//\ wrongly\ assume\ the\ client's\ WrappedResult\ typedef\ matches\ this\ component's}}
+\DoxyCodeLine{\Hypertarget{cp__action__client_8hpp_source_l00249}00249\ \ \ \ \ \textcolor{comment}{//\ action\ -\/\ which\ breaks\ as\ soon\ as\ a\ client\ owns\ action\ clients\ of\ more\ than}}
+\DoxyCodeLine{\Hypertarget{cp__action__client_8hpp_source_l00250}00250\ \ \ \ \ \textcolor{comment}{//\ one\ action\ type.\ Nothing\ in-\/tree\ listens\ to\ client-\/typed\ events\ from\ this}}
+\DoxyCodeLine{\Hypertarget{cp__action__client_8hpp_source_l00251}00251\ \ \ \ \ \textcolor{comment}{//\ component\ (domain\ interfaces\ like\ CpNav2ActionInterface\ post\ those).}}
+\DoxyCodeLine{\Hypertarget{cp__action__client_8hpp_source_l00252}00252\ \ \ \ \ \mbox{\hyperlink{classsmacc2_1_1client__core__components_1_1CpActionClient_a7e764141a3f8848a5cd0b575003a2342}{postSuccessEvent}}\ =\ [\textcolor{keyword}{this}](\textcolor{keyword}{const}\ \mbox{\hyperlink{classsmacc2_1_1client__core__components_1_1CpActionClient_a0a229dae04d4dc9b3be9aed4c5b93c79}{WrappedResult}}\ \&\ result)}
+\DoxyCodeLine{\Hypertarget{cp__action__client_8hpp_source_l00253}00253\ \ \ \ \ \{\ this-\/>\mbox{\hyperlink{classsmacc2_1_1client__core__components_1_1CpActionClient_a8238b4c629433e62f302de2cd12c6213}{postResultEvent<EvActionSucceeded<CpActionClient<ActionType>}},\ TOrthogonal>>(result);\ \};}
+\DoxyCodeLine{\Hypertarget{cp__action__client_8hpp_source_l00254}00254\ }
+\DoxyCodeLine{\Hypertarget{cp__action__client_8hpp_source_l00255}00255\ \ \ \ \ \mbox{\hyperlink{classsmacc2_1_1client__core__components_1_1CpActionClient_ad4fa3603798fce22a3f2cc8a5cab21bb}{postAbortedEvent}}\ =\ [\textcolor{keyword}{this}](\textcolor{keyword}{const}\ \mbox{\hyperlink{classsmacc2_1_1client__core__components_1_1CpActionClient_a0a229dae04d4dc9b3be9aed4c5b93c79}{WrappedResult}}\ \&\ result)}
+\DoxyCodeLine{\Hypertarget{cp__action__client_8hpp_source_l00256}00256\ \ \ \ \ \{\ this-\/>\mbox{\hyperlink{classsmacc2_1_1client__core__components_1_1CpActionClient_a8238b4c629433e62f302de2cd12c6213}{postResultEvent<EvActionAborted<CpActionClient<ActionType>}},\ TOrthogonal>>(result);\ \};}
+\DoxyCodeLine{\Hypertarget{cp__action__client_8hpp_source_l00257}00257\ }
+\DoxyCodeLine{\Hypertarget{cp__action__client_8hpp_source_l00258}00258\ \ \ \ \ \mbox{\hyperlink{classsmacc2_1_1client__core__components_1_1CpActionClient_a0174b96e7ae1e10aafb274fed7d5f925}{postCancelledEvent}}\ =\ [\textcolor{keyword}{this}](\textcolor{keyword}{const}\ \mbox{\hyperlink{classsmacc2_1_1client__core__components_1_1CpActionClient_a0a229dae04d4dc9b3be9aed4c5b93c79}{WrappedResult}}\ \&\ result)}
+\DoxyCodeLine{\Hypertarget{cp__action__client_8hpp_source_l00259}00259\ \ \ \ \ \{\ this-\/>\mbox{\hyperlink{classsmacc2_1_1client__core__components_1_1CpActionClient_a8238b4c629433e62f302de2cd12c6213}{postResultEvent<EvActionCancelled<CpActionClient<ActionType>}},\ TOrthogonal>>(result);\ \};}
+\DoxyCodeLine{\Hypertarget{cp__action__client_8hpp_source_l00260}00260\ }
+\DoxyCodeLine{\Hypertarget{cp__action__client_8hpp_source_l00261}00261\ \ \ \ \ \mbox{\hyperlink{classsmacc2_1_1client__core__components_1_1CpActionClient_ae907291c7d81a611e22d620c2f422089}{postFeedbackEvent}}\ =\ [\textcolor{keyword}{this}](\textcolor{keyword}{const}\ \mbox{\hyperlink{classsmacc2_1_1client__core__components_1_1CpActionClient_a5ea235a7fad45ca941b594bdfba581fb}{Feedback}}\ \&\ feedback)}
+\DoxyCodeLine{\Hypertarget{cp__action__client_8hpp_source_l00262}00262\ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{cp__action__client_8hpp_source_l00263}00263\ \ \ \ \ \ \ \textcolor{keyword}{auto}\ actionFeedbackEvent\ =\ \textcolor{keyword}{new}\ \mbox{\hyperlink{structsmacc2_1_1default__events_1_1EvActionFeedback}{EvActionFeedback<Feedback,\ TOrthogonal>}}();}
+\DoxyCodeLine{\Hypertarget{cp__action__client_8hpp_source_l00264}00264\ \ \ \ \ \ \ actionFeedbackEvent-\/>feedbackMessage\ =\ feedback;}
+\DoxyCodeLine{\Hypertarget{cp__action__client_8hpp_source_l00265}00265\ \ \ \ \ \ \ this-\/>\mbox{\hyperlink{classsmacc2_1_1ISmaccComponent_a03dd302448a2e186b1059822cff8c669}{postEvent}}(actionFeedbackEvent);}
+\DoxyCodeLine{\Hypertarget{cp__action__client_8hpp_source_l00266}00266\ \ \ \ \ \ \ RCLCPP\_DEBUG(\mbox{\hyperlink{classsmacc2_1_1ISmaccComponent_a77ee85823bab8d84edcdf5d28782b728}{getLogger}}(),\ \textcolor{stringliteral}{"{}[\%s]\ FEEDBACK\ EVENT"{}},\ this-\/>\mbox{\hyperlink{classsmacc2_1_1ISmaccComponent_a6fea938740f0c9ffc082b2ff076c900b}{getName}}().c\_str());}
+\DoxyCodeLine{\Hypertarget{cp__action__client_8hpp_source_l00267}00267\ \ \ \ \ \};}
+\DoxyCodeLine{\Hypertarget{cp__action__client_8hpp_source_l00268}00268\ \ \ \}}
+\DoxyCodeLine{\Hypertarget{cp__action__client_8hpp_source_l00269}00269\ }
+\DoxyCodeLine{\Hypertarget{cp__action__client_8hpp_source_l00270}00270\ \ \ \textcolor{comment}{//\ Signal\ connection\ methods}}
+\DoxyCodeLine{\Hypertarget{cp__action__client_8hpp_source_l00271}00271\ \ \ \textcolor{keyword}{template}\ <\textcolor{keyword}{typename}\ T>}
+\DoxyCodeLine{\Hypertarget{cp__action__client_8hpp_source_l00272}\mbox{\hyperlink{classsmacc2_1_1client__core__components_1_1CpActionClient_a3bf70751326e9ceb15886ff19cdad900}{00272}}\ \ \ \mbox{\hyperlink{namespacesmacc2_a5a5bb8f06eff3a799445f680c8e22c88}{smacc2::SmaccSignalConnection}}\ \mbox{\hyperlink{classsmacc2_1_1client__core__components_1_1CpActionClient_a3bf70751326e9ceb15886ff19cdad900}{onSucceeded}}(\textcolor{keywordtype}{void}\ (T::*callback)(\textcolor{keyword}{const}\ \mbox{\hyperlink{classsmacc2_1_1client__core__components_1_1CpActionClient_a0a229dae04d4dc9b3be9aed4c5b93c79}{WrappedResult}}\ \&),\ T\ *\ \textcolor{keywordtype}{object})}
+\DoxyCodeLine{\Hypertarget{cp__action__client_8hpp_source_l00273}00273\ \ \ \{}
+\DoxyCodeLine{\Hypertarget{cp__action__client_8hpp_source_l00274}00274\ \ \ \ \ \textcolor{keywordflow}{return}\ this-\/>\mbox{\hyperlink{classsmacc2_1_1ISmaccComponent_a420ef07087efcdc74fb233f11ae3a517}{getStateMachine}}()-\/>\mbox{\hyperlink{classsmacc2_1_1ISmaccStateMachine_a5a7796e13095b776bdd9a112d018e0f0}{createSignalConnection}}(onActionSucceeded\_,\ callback,\ \textcolor{keywordtype}{object});}
+\DoxyCodeLine{\Hypertarget{cp__action__client_8hpp_source_l00275}00275\ \ \ \}}
+\DoxyCodeLine{\Hypertarget{cp__action__client_8hpp_source_l00276}00276\ }
+\DoxyCodeLine{\Hypertarget{cp__action__client_8hpp_source_l00277}00277\ \ \ \textcolor{keyword}{template}\ <\textcolor{keyword}{typename}\ T>}
+\DoxyCodeLine{\Hypertarget{cp__action__client_8hpp_source_l00278}\mbox{\hyperlink{classsmacc2_1_1client__core__components_1_1CpActionClient_a9cdc37bb59f88285afb77ce38bc7e47a}{00278}}\ \ \ \mbox{\hyperlink{namespacesmacc2_a5a5bb8f06eff3a799445f680c8e22c88}{smacc2::SmaccSignalConnection}}\ \mbox{\hyperlink{classsmacc2_1_1client__core__components_1_1CpActionClient_a9cdc37bb59f88285afb77ce38bc7e47a}{onAborted}}(\textcolor{keywordtype}{void}\ (T::*callback)(\textcolor{keyword}{const}\ \mbox{\hyperlink{classsmacc2_1_1client__core__components_1_1CpActionClient_a0a229dae04d4dc9b3be9aed4c5b93c79}{WrappedResult}}\ \&),\ T\ *\ \textcolor{keywordtype}{object})}
+\DoxyCodeLine{\Hypertarget{cp__action__client_8hpp_source_l00279}00279\ \ \ \{}
+\DoxyCodeLine{\Hypertarget{cp__action__client_8hpp_source_l00280}00280\ \ \ \ \ \textcolor{keywordflow}{return}\ this-\/>\mbox{\hyperlink{classsmacc2_1_1ISmaccComponent_a420ef07087efcdc74fb233f11ae3a517}{getStateMachine}}()-\/>\mbox{\hyperlink{classsmacc2_1_1ISmaccStateMachine_a5a7796e13095b776bdd9a112d018e0f0}{createSignalConnection}}(onActionAborted\_,\ callback,\ \textcolor{keywordtype}{object});}
+\DoxyCodeLine{\Hypertarget{cp__action__client_8hpp_source_l00281}00281\ \ \ \}}
+\DoxyCodeLine{\Hypertarget{cp__action__client_8hpp_source_l00282}00282\ }
+\DoxyCodeLine{\Hypertarget{cp__action__client_8hpp_source_l00283}00283\ \ \ \textcolor{keyword}{template}\ <\textcolor{keyword}{typename}\ T>}
+\DoxyCodeLine{\Hypertarget{cp__action__client_8hpp_source_l00284}\mbox{\hyperlink{classsmacc2_1_1client__core__components_1_1CpActionClient_abc4cdd97a3fe4b36196ef5cad24aec61}{00284}}\ \ \ \mbox{\hyperlink{namespacesmacc2_a5a5bb8f06eff3a799445f680c8e22c88}{smacc2::SmaccSignalConnection}}\ \mbox{\hyperlink{classsmacc2_1_1client__core__components_1_1CpActionClient_abc4cdd97a3fe4b36196ef5cad24aec61}{onCancelled}}(\textcolor{keywordtype}{void}\ (T::*callback)(\textcolor{keyword}{const}\ \mbox{\hyperlink{classsmacc2_1_1client__core__components_1_1CpActionClient_a0a229dae04d4dc9b3be9aed4c5b93c79}{WrappedResult}}\ \&),\ T\ *\ \textcolor{keywordtype}{object})}
+\DoxyCodeLine{\Hypertarget{cp__action__client_8hpp_source_l00285}00285\ \ \ \{}
+\DoxyCodeLine{\Hypertarget{cp__action__client_8hpp_source_l00286}00286\ \ \ \ \ \textcolor{keywordflow}{return}\ this-\/>\mbox{\hyperlink{classsmacc2_1_1ISmaccComponent_a420ef07087efcdc74fb233f11ae3a517}{getStateMachine}}()-\/>\mbox{\hyperlink{classsmacc2_1_1ISmaccStateMachine_a5a7796e13095b776bdd9a112d018e0f0}{createSignalConnection}}(onActionCancelled\_,\ callback,\ \textcolor{keywordtype}{object});}
+\DoxyCodeLine{\Hypertarget{cp__action__client_8hpp_source_l00287}00287\ \ \ \}}
+\DoxyCodeLine{\Hypertarget{cp__action__client_8hpp_source_l00288}00288\ }
+\DoxyCodeLine{\Hypertarget{cp__action__client_8hpp_source_l00289}00289\ \ \ \textcolor{keyword}{template}\ <\textcolor{keyword}{typename}\ T>}
+\DoxyCodeLine{\Hypertarget{cp__action__client_8hpp_source_l00290}\mbox{\hyperlink{classsmacc2_1_1client__core__components_1_1CpActionClient_a5117b959a754381785dbcc1075e52193}{00290}}\ \ \ \mbox{\hyperlink{namespacesmacc2_a5a5bb8f06eff3a799445f680c8e22c88}{smacc2::SmaccSignalConnection}}\ \mbox{\hyperlink{classsmacc2_1_1client__core__components_1_1CpActionClient_a5117b959a754381785dbcc1075e52193}{onFeedback}}(\textcolor{keywordtype}{void}\ (T::*callback)(\textcolor{keyword}{const}\ \mbox{\hyperlink{classsmacc2_1_1client__core__components_1_1CpActionClient_a5ea235a7fad45ca941b594bdfba581fb}{Feedback}}\ \&),\ T\ *\ \textcolor{keywordtype}{object})}
+\DoxyCodeLine{\Hypertarget{cp__action__client_8hpp_source_l00291}00291\ \ \ \{}
+\DoxyCodeLine{\Hypertarget{cp__action__client_8hpp_source_l00292}00292\ \ \ \ \ \textcolor{keywordflow}{return}\ this-\/>\mbox{\hyperlink{classsmacc2_1_1ISmaccComponent_a420ef07087efcdc74fb233f11ae3a517}{getStateMachine}}()-\/>\mbox{\hyperlink{classsmacc2_1_1ISmaccStateMachine_a5a7796e13095b776bdd9a112d018e0f0}{createSignalConnection}}(onActionFeedback\_,\ callback,\ \textcolor{keywordtype}{object});}
 \DoxyCodeLine{\Hypertarget{cp__action__client_8hpp_source_l00293}00293\ \ \ \}}
 \DoxyCodeLine{\Hypertarget{cp__action__client_8hpp_source_l00294}00294\ }
-\DoxyCodeLine{\Hypertarget{cp__action__client_8hpp_source_l00295}\mbox{\hyperlink{classsmacc2_1_1client__core__components_1_1CpActionClient_a336b68e5ea465fa9e8b90a7c03392c95}{00295}}\ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{classsmacc2_1_1client__core__components_1_1CpActionClient_a336b68e5ea465fa9e8b90a7c03392c95}{onResult}}(\textcolor{keyword}{const}\ \mbox{\hyperlink{classsmacc2_1_1client__core__components_1_1CpActionClient_a0a229dae04d4dc9b3be9aed4c5b93c79}{WrappedResult}}\ \&\ result\_msg)}
-\DoxyCodeLine{\Hypertarget{cp__action__client_8hpp_source_l00296}00296\ \ \ \{}
-\DoxyCodeLine{\Hypertarget{cp__action__client_8hpp_source_l00297}00297\ \ \ \ \ \textcolor{keyword}{const}\ \textcolor{keyword}{auto}\ \&\ resultType\ =\ result\_msg.code;}
-\DoxyCodeLine{\Hypertarget{cp__action__client_8hpp_source_l00298}00298\ }
-\DoxyCodeLine{\Hypertarget{cp__action__client_8hpp_source_l00299}00299\ \ \ \ \ RCLCPP\_INFO\_STREAM(}
-\DoxyCodeLine{\Hypertarget{cp__action__client_8hpp_source_l00300}00300\ \ \ \ \ \ \ \mbox{\hyperlink{classsmacc2_1_1ISmaccComponent_a77ee85823bab8d84edcdf5d28782b728}{getLogger}}(),\ \textcolor{stringliteral}{"{}["{}}\ <<\ this-\/>\mbox{\hyperlink{classsmacc2_1_1ISmaccComponent_a6fea938740f0c9ffc082b2ff076c900b}{getName}}()\ <<\ \textcolor{stringliteral}{"{}]\ Action\ result\ ["{}}}
-\DoxyCodeLine{\Hypertarget{cp__action__client_8hpp_source_l00301}00301\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ <<\ rclcpp\_action::to\_string(result\_msg.goal\_id)\ <<\ \textcolor{stringliteral}{"{}]:\ "{}}\ <<\ (\textcolor{keywordtype}{int})resultType);}
-\DoxyCodeLine{\Hypertarget{cp__action__client_8hpp_source_l00302}00302\ }
-\DoxyCodeLine{\Hypertarget{cp__action__client_8hpp_source_l00303}00303\ \ \ \ \ \textcolor{keywordflow}{if}\ (resultType\ ==\ rclcpp\_action::ResultCode::SUCCEEDED)}
-\DoxyCodeLine{\Hypertarget{cp__action__client_8hpp_source_l00304}00304\ \ \ \ \ \{}
-\DoxyCodeLine{\Hypertarget{cp__action__client_8hpp_source_l00305}00305\ \ \ \ \ \ \ RCLCPP\_INFO(\mbox{\hyperlink{classsmacc2_1_1ISmaccComponent_a77ee85823bab8d84edcdf5d28782b728}{getLogger}}(),\ \textcolor{stringliteral}{"{}[\%s]\ Action\ result:\ Success"{}},\ this-\/>\mbox{\hyperlink{classsmacc2_1_1ISmaccComponent_a6fea938740f0c9ffc082b2ff076c900b}{getName}}().c\_str());}
-\DoxyCodeLine{\Hypertarget{cp__action__client_8hpp_source_l00306}00306\ \ \ \ \ \ \ \mbox{\hyperlink{classsmacc2_1_1client__core__components_1_1CpActionClient_ac81c82bc455201adc6ac0128e23df4a4}{onActionSucceeded\_}}(result\_msg);}
-\DoxyCodeLine{\Hypertarget{cp__action__client_8hpp_source_l00307}00307\ \ \ \ \ \ \ \mbox{\hyperlink{classsmacc2_1_1client__core__components_1_1CpActionClient_a7e764141a3f8848a5cd0b575003a2342}{postSuccessEvent}}(result\_msg);}
-\DoxyCodeLine{\Hypertarget{cp__action__client_8hpp_source_l00308}00308\ \ \ \ \ \}}
-\DoxyCodeLine{\Hypertarget{cp__action__client_8hpp_source_l00309}00309\ \ \ \ \ \textcolor{keywordflow}{else}\ \textcolor{keywordflow}{if}\ (resultType\ ==\ rclcpp\_action::ResultCode::ABORTED)}
-\DoxyCodeLine{\Hypertarget{cp__action__client_8hpp_source_l00310}00310\ \ \ \ \ \{}
-\DoxyCodeLine{\Hypertarget{cp__action__client_8hpp_source_l00311}00311\ \ \ \ \ \ \ RCLCPP\_INFO(\mbox{\hyperlink{classsmacc2_1_1ISmaccComponent_a77ee85823bab8d84edcdf5d28782b728}{getLogger}}(),\ \textcolor{stringliteral}{"{}[\%s]\ Action\ result:\ Aborted"{}},\ this-\/>\mbox{\hyperlink{classsmacc2_1_1ISmaccComponent_a6fea938740f0c9ffc082b2ff076c900b}{getName}}().c\_str());}
-\DoxyCodeLine{\Hypertarget{cp__action__client_8hpp_source_l00312}00312\ \ \ \ \ \ \ \mbox{\hyperlink{classsmacc2_1_1client__core__components_1_1CpActionClient_ae73410f338febd82abc1ee25c37247d8}{onActionAborted\_}}(result\_msg);}
-\DoxyCodeLine{\Hypertarget{cp__action__client_8hpp_source_l00313}00313\ \ \ \ \ \ \ \mbox{\hyperlink{classsmacc2_1_1client__core__components_1_1CpActionClient_ad4fa3603798fce22a3f2cc8a5cab21bb}{postAbortedEvent}}(result\_msg);}
-\DoxyCodeLine{\Hypertarget{cp__action__client_8hpp_source_l00314}00314\ \ \ \ \ \}}
-\DoxyCodeLine{\Hypertarget{cp__action__client_8hpp_source_l00315}00315\ \ \ \ \ \textcolor{keywordflow}{else}\ \textcolor{keywordflow}{if}\ (resultType\ ==\ rclcpp\_action::ResultCode::CANCELED)}
-\DoxyCodeLine{\Hypertarget{cp__action__client_8hpp_source_l00316}00316\ \ \ \ \ \{}
-\DoxyCodeLine{\Hypertarget{cp__action__client_8hpp_source_l00317}00317\ \ \ \ \ \ \ RCLCPP\_INFO(\mbox{\hyperlink{classsmacc2_1_1ISmaccComponent_a77ee85823bab8d84edcdf5d28782b728}{getLogger}}(),\ \textcolor{stringliteral}{"{}[\%s]\ Action\ result:\ Cancelled"{}},\ this-\/>\mbox{\hyperlink{classsmacc2_1_1ISmaccComponent_a6fea938740f0c9ffc082b2ff076c900b}{getName}}().c\_str());}
-\DoxyCodeLine{\Hypertarget{cp__action__client_8hpp_source_l00318}00318\ \ \ \ \ \ \ \mbox{\hyperlink{classsmacc2_1_1client__core__components_1_1CpActionClient_a573e2509ab90b8817e902d7f932193e0}{onActionCancelled\_}}(result\_msg);}
-\DoxyCodeLine{\Hypertarget{cp__action__client_8hpp_source_l00319}00319\ \ \ \ \ \ \ \mbox{\hyperlink{classsmacc2_1_1client__core__components_1_1CpActionClient_a0174b96e7ae1e10aafb274fed7d5f925}{postCancelledEvent}}(result\_msg);}
-\DoxyCodeLine{\Hypertarget{cp__action__client_8hpp_source_l00320}00320\ \ \ \ \ \}}
-\DoxyCodeLine{\Hypertarget{cp__action__client_8hpp_source_l00321}00321\ \ \ \ \ \textcolor{keywordflow}{else}}
-\DoxyCodeLine{\Hypertarget{cp__action__client_8hpp_source_l00322}00322\ \ \ \ \ \{}
-\DoxyCodeLine{\Hypertarget{cp__action__client_8hpp_source_l00323}00323\ \ \ \ \ \ \ RCLCPP\_WARN(}
-\DoxyCodeLine{\Hypertarget{cp__action__client_8hpp_source_l00324}00324\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{classsmacc2_1_1ISmaccComponent_a77ee85823bab8d84edcdf5d28782b728}{getLogger}}(),\ \textcolor{stringliteral}{"{}[\%s]\ Action\ result:\ Unhandled\ type:\ \%d"{}},\ this-\/>\mbox{\hyperlink{classsmacc2_1_1ISmaccComponent_a6fea938740f0c9ffc082b2ff076c900b}{getName}}().c\_str(),}
-\DoxyCodeLine{\Hypertarget{cp__action__client_8hpp_source_l00325}00325\ \ \ \ \ \ \ \ \ (\textcolor{keywordtype}{int})resultType);}
-\DoxyCodeLine{\Hypertarget{cp__action__client_8hpp_source_l00326}00326\ \ \ \ \ \}}
-\DoxyCodeLine{\Hypertarget{cp__action__client_8hpp_source_l00327}00327\ \ \ \}}
-\DoxyCodeLine{\Hypertarget{cp__action__client_8hpp_source_l00328}00328\ }
-\DoxyCodeLine{\Hypertarget{cp__action__client_8hpp_source_l00329}00329\ \ \ \textcolor{keyword}{template}\ <\textcolor{keyword}{typename}\ EvType>}
-\DoxyCodeLine{\Hypertarget{cp__action__client_8hpp_source_l00330}\mbox{\hyperlink{classsmacc2_1_1client__core__components_1_1CpActionClient_a8238b4c629433e62f302de2cd12c6213}{00330}}\ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{classsmacc2_1_1client__core__components_1_1CpActionClient_a8238b4c629433e62f302de2cd12c6213}{postResultEvent}}(\textcolor{keyword}{const}\ \mbox{\hyperlink{classsmacc2_1_1client__core__components_1_1CpActionClient_a0a229dae04d4dc9b3be9aed4c5b93c79}{WrappedResult}}\ \&\ result)}
-\DoxyCodeLine{\Hypertarget{cp__action__client_8hpp_source_l00331}00331\ \ \ \{}
-\DoxyCodeLine{\Hypertarget{cp__action__client_8hpp_source_l00332}00332\ \ \ \ \ \textcolor{keyword}{auto}\ *\ ev\ =\ \textcolor{keyword}{new}\ EvType();}
-\DoxyCodeLine{\Hypertarget{cp__action__client_8hpp_source_l00333}00333\ \ \ \ \ ev-\/>resultMessage\ =\ result;}
-\DoxyCodeLine{\Hypertarget{cp__action__client_8hpp_source_l00334}00334\ \ \ \ \ RCLCPP\_INFO(}
-\DoxyCodeLine{\Hypertarget{cp__action__client_8hpp_source_l00335}00335\ \ \ \ \ \ \ \mbox{\hyperlink{classsmacc2_1_1ISmaccComponent_a77ee85823bab8d84edcdf5d28782b728}{getLogger}}(),\ \textcolor{stringliteral}{"{}[\%s]\ Posting\ event:\ \%s"{}},\ this-\/>\mbox{\hyperlink{classsmacc2_1_1ISmaccComponent_a6fea938740f0c9ffc082b2ff076c900b}{getName}}().c\_str(),}
-\DoxyCodeLine{\Hypertarget{cp__action__client_8hpp_source_l00336}00336\ \ \ \ \ \ \ \mbox{\hyperlink{namespacesmacc2_1_1introspection_aba19132e50f25adee919c2504ae6a3a2}{smacc2::demangleSymbol}}(\textcolor{keyword}{typeid}(ev).name()).c\_str());}
-\DoxyCodeLine{\Hypertarget{cp__action__client_8hpp_source_l00337}00337\ \ \ \ \ this-\/>\mbox{\hyperlink{classsmacc2_1_1ISmaccComponent_a03dd302448a2e186b1059822cff8c669}{postEvent}}(ev);}
-\DoxyCodeLine{\Hypertarget{cp__action__client_8hpp_source_l00338}00338\ \ \ \}}
-\DoxyCodeLine{\Hypertarget{cp__action__client_8hpp_source_l00339}00339\ \};}
-\DoxyCodeLine{\Hypertarget{cp__action__client_8hpp_source_l00340}00340\ }
-\DoxyCodeLine{\Hypertarget{cp__action__client_8hpp_source_l00341}00341\ \}\ \ \textcolor{comment}{//\ namespace\ client\_core\_components}}
-\DoxyCodeLine{\Hypertarget{cp__action__client_8hpp_source_l00342}00342\ \}\ \ \textcolor{comment}{//\ namespace\ smacc2}}
+\DoxyCodeLine{\Hypertarget{cp__action__client_8hpp_source_l00295}00295\ \ \ \textcolor{comment}{//\ Access\ to\ underlying\ client\ for\ advanced\ usage}}
+\DoxyCodeLine{\Hypertarget{cp__action__client_8hpp_source_l00296}\mbox{\hyperlink{classsmacc2_1_1client__core__components_1_1CpActionClient_ad4519f612157d1b8ea888a6d6c081ad5}{00296}}\ \ \ std::shared\_ptr<ActionClient>\ \mbox{\hyperlink{classsmacc2_1_1client__core__components_1_1CpActionClient_ad4519f612157d1b8ea888a6d6c081ad5}{getActionClient}}()\textcolor{keyword}{\ const\ }\{\ \textcolor{keywordflow}{return}\ \mbox{\hyperlink{classsmacc2_1_1client__core__components_1_1CpActionClient_acb7dcdf359483f1cab4990cdad727bd9}{client\_}};\ \}}
+\DoxyCodeLine{\Hypertarget{cp__action__client_8hpp_source_l00297}00297\ }
+\DoxyCodeLine{\Hypertarget{cp__action__client_8hpp_source_l00298}00298\ \textcolor{keyword}{private}:}
+\DoxyCodeLine{\Hypertarget{cp__action__client_8hpp_source_l00299}\mbox{\hyperlink{classsmacc2_1_1client__core__components_1_1CpActionClient_acb7dcdf359483f1cab4990cdad727bd9}{00299}}\ \ \ std::shared\_ptr<ActionClient>\ \mbox{\hyperlink{classsmacc2_1_1client__core__components_1_1CpActionClient_acb7dcdf359483f1cab4990cdad727bd9}{client\_}}\ =\ \textcolor{keyword}{nullptr};}
+\DoxyCodeLine{\Hypertarget{cp__action__client_8hpp_source_l00300}\mbox{\hyperlink{classsmacc2_1_1client__core__components_1_1CpActionClient_a30be4b55466ed0e7416af7342fe27532}{00300}}\ \ \ std::optional<std::shared\_future<typename\ GoalHandle::SharedPtr>>\ \mbox{\hyperlink{classsmacc2_1_1client__core__components_1_1CpActionClient_a30be4b55466ed0e7416af7342fe27532}{lastRequest\_}};}
+\DoxyCodeLine{\Hypertarget{cp__action__client_8hpp_source_l00301}00301\ \ \ std::optional<}
+\DoxyCodeLine{\Hypertarget{cp__action__client_8hpp_source_l00302}00302\ \ \ \ \ std::shared\_future<typename\ rclcpp\_action::Client<ActionType>::CancelResponse::SharedPtr>>}
+\DoxyCodeLine{\Hypertarget{cp__action__client_8hpp_source_l00303}\mbox{\hyperlink{classsmacc2_1_1client__core__components_1_1CpActionClient_afb8623b9e60d19126902246ce42c062f}{00303}}\ \ \ \ \ \mbox{\hyperlink{classsmacc2_1_1client__core__components_1_1CpActionClient_afb8623b9e60d19126902246ce42c062f}{lastCancelResponse\_}};}
+\DoxyCodeLine{\Hypertarget{cp__action__client_8hpp_source_l00304}\mbox{\hyperlink{classsmacc2_1_1client__core__components_1_1CpActionClient_a53f323d92f865155adb867fbe0547435}{00304}}\ \ \ \mbox{\hyperlink{classsmacc2_1_1client__core__components_1_1CpActionClient_a900318c592fa0ae377cb5439fa0662b3}{FeedbackCallback}}\ \mbox{\hyperlink{classsmacc2_1_1client__core__components_1_1CpActionClient_a53f323d92f865155adb867fbe0547435}{feedbackCallback\_}};}
+\DoxyCodeLine{\Hypertarget{cp__action__client_8hpp_source_l00305}\mbox{\hyperlink{classsmacc2_1_1client__core__components_1_1CpActionClient_a806cfb164cf4bd9c87ff5e95ba95a042}{00305}}\ \ \ std::mutex\ \mbox{\hyperlink{classsmacc2_1_1client__core__components_1_1CpActionClient_a806cfb164cf4bd9c87ff5e95ba95a042}{actionMutex\_}};}
+\DoxyCodeLine{\Hypertarget{cp__action__client_8hpp_source_l00306}00306\ }
+\DoxyCodeLine{\Hypertarget{cp__action__client_8hpp_source_l00307}\mbox{\hyperlink{classsmacc2_1_1client__core__components_1_1CpActionClient_acc7518527bde724664457c876c0117fe}{00307}}\ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{classsmacc2_1_1client__core__components_1_1CpActionClient_acc7518527bde724664457c876c0117fe}{onFeedback}}(}
+\DoxyCodeLine{\Hypertarget{cp__action__client_8hpp_source_l00308}00308\ \ \ \ \ \textcolor{keyword}{typename}\ GoalHandle::SharedPtr\ \textcolor{comment}{/*\ goalHandle\ */},}
+\DoxyCodeLine{\Hypertarget{cp__action__client_8hpp_source_l00309}00309\ \ \ \ \ \textcolor{keyword}{const}\ std::shared\_ptr<const\ Feedback>\ feedback\_msg)}
+\DoxyCodeLine{\Hypertarget{cp__action__client_8hpp_source_l00310}00310\ \ \ \{}
+\DoxyCodeLine{\Hypertarget{cp__action__client_8hpp_source_l00311}00311\ \ \ \ \ \mbox{\hyperlink{classsmacc2_1_1client__core__components_1_1CpActionClient_a5d2b32a381c049cdf47f8c1046d07d4b}{onActionFeedback\_}}(*feedback\_msg);}
+\DoxyCodeLine{\Hypertarget{cp__action__client_8hpp_source_l00312}00312\ \ \ \ \ \mbox{\hyperlink{classsmacc2_1_1client__core__components_1_1CpActionClient_ae907291c7d81a611e22d620c2f422089}{postFeedbackEvent}}(*feedback\_msg);}
+\DoxyCodeLine{\Hypertarget{cp__action__client_8hpp_source_l00313}00313\ \ \ \}}
+\DoxyCodeLine{\Hypertarget{cp__action__client_8hpp_source_l00314}00314\ }
+\DoxyCodeLine{\Hypertarget{cp__action__client_8hpp_source_l00315}\mbox{\hyperlink{classsmacc2_1_1client__core__components_1_1CpActionClient_a336b68e5ea465fa9e8b90a7c03392c95}{00315}}\ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{classsmacc2_1_1client__core__components_1_1CpActionClient_a336b68e5ea465fa9e8b90a7c03392c95}{onResult}}(\textcolor{keyword}{const}\ \mbox{\hyperlink{classsmacc2_1_1client__core__components_1_1CpActionClient_a0a229dae04d4dc9b3be9aed4c5b93c79}{WrappedResult}}\ \&\ result\_msg)}
+\DoxyCodeLine{\Hypertarget{cp__action__client_8hpp_source_l00316}00316\ \ \ \{}
+\DoxyCodeLine{\Hypertarget{cp__action__client_8hpp_source_l00317}00317\ \ \ \ \ \textcolor{keyword}{const}\ \textcolor{keyword}{auto}\ \&\ resultType\ =\ result\_msg.code;}
+\DoxyCodeLine{\Hypertarget{cp__action__client_8hpp_source_l00318}00318\ }
+\DoxyCodeLine{\Hypertarget{cp__action__client_8hpp_source_l00319}00319\ \ \ \ \ RCLCPP\_INFO\_STREAM(}
+\DoxyCodeLine{\Hypertarget{cp__action__client_8hpp_source_l00320}00320\ \ \ \ \ \ \ \mbox{\hyperlink{classsmacc2_1_1ISmaccComponent_a77ee85823bab8d84edcdf5d28782b728}{getLogger}}(),\ \textcolor{stringliteral}{"{}["{}}\ <<\ this-\/>\mbox{\hyperlink{classsmacc2_1_1ISmaccComponent_a6fea938740f0c9ffc082b2ff076c900b}{getName}}()\ <<\ \textcolor{stringliteral}{"{}]\ Action\ result\ ["{}}}
+\DoxyCodeLine{\Hypertarget{cp__action__client_8hpp_source_l00321}00321\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ <<\ rclcpp\_action::to\_string(result\_msg.goal\_id)\ <<\ \textcolor{stringliteral}{"{}]:\ "{}}\ <<\ (\textcolor{keywordtype}{int})resultType);}
+\DoxyCodeLine{\Hypertarget{cp__action__client_8hpp_source_l00322}00322\ }
+\DoxyCodeLine{\Hypertarget{cp__action__client_8hpp_source_l00323}00323\ \ \ \ \ \textcolor{keywordflow}{if}\ (resultType\ ==\ rclcpp\_action::ResultCode::SUCCEEDED)}
+\DoxyCodeLine{\Hypertarget{cp__action__client_8hpp_source_l00324}00324\ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{cp__action__client_8hpp_source_l00325}00325\ \ \ \ \ \ \ RCLCPP\_INFO(\mbox{\hyperlink{classsmacc2_1_1ISmaccComponent_a77ee85823bab8d84edcdf5d28782b728}{getLogger}}(),\ \textcolor{stringliteral}{"{}[\%s]\ Action\ result:\ Success"{}},\ this-\/>\mbox{\hyperlink{classsmacc2_1_1ISmaccComponent_a6fea938740f0c9ffc082b2ff076c900b}{getName}}().c\_str());}
+\DoxyCodeLine{\Hypertarget{cp__action__client_8hpp_source_l00326}00326\ \ \ \ \ \ \ \mbox{\hyperlink{classsmacc2_1_1client__core__components_1_1CpActionClient_ac81c82bc455201adc6ac0128e23df4a4}{onActionSucceeded\_}}(result\_msg);}
+\DoxyCodeLine{\Hypertarget{cp__action__client_8hpp_source_l00327}00327\ \ \ \ \ \ \ \mbox{\hyperlink{classsmacc2_1_1client__core__components_1_1CpActionClient_a7e764141a3f8848a5cd0b575003a2342}{postSuccessEvent}}(result\_msg);}
+\DoxyCodeLine{\Hypertarget{cp__action__client_8hpp_source_l00328}00328\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{cp__action__client_8hpp_source_l00329}00329\ \ \ \ \ \textcolor{keywordflow}{else}\ \textcolor{keywordflow}{if}\ (resultType\ ==\ rclcpp\_action::ResultCode::ABORTED)}
+\DoxyCodeLine{\Hypertarget{cp__action__client_8hpp_source_l00330}00330\ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{cp__action__client_8hpp_source_l00331}00331\ \ \ \ \ \ \ RCLCPP\_INFO(\mbox{\hyperlink{classsmacc2_1_1ISmaccComponent_a77ee85823bab8d84edcdf5d28782b728}{getLogger}}(),\ \textcolor{stringliteral}{"{}[\%s]\ Action\ result:\ Aborted"{}},\ this-\/>\mbox{\hyperlink{classsmacc2_1_1ISmaccComponent_a6fea938740f0c9ffc082b2ff076c900b}{getName}}().c\_str());}
+\DoxyCodeLine{\Hypertarget{cp__action__client_8hpp_source_l00332}00332\ \ \ \ \ \ \ \mbox{\hyperlink{classsmacc2_1_1client__core__components_1_1CpActionClient_ae73410f338febd82abc1ee25c37247d8}{onActionAborted\_}}(result\_msg);}
+\DoxyCodeLine{\Hypertarget{cp__action__client_8hpp_source_l00333}00333\ \ \ \ \ \ \ \mbox{\hyperlink{classsmacc2_1_1client__core__components_1_1CpActionClient_ad4fa3603798fce22a3f2cc8a5cab21bb}{postAbortedEvent}}(result\_msg);}
+\DoxyCodeLine{\Hypertarget{cp__action__client_8hpp_source_l00334}00334\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{cp__action__client_8hpp_source_l00335}00335\ \ \ \ \ \textcolor{keywordflow}{else}\ \textcolor{keywordflow}{if}\ (resultType\ ==\ rclcpp\_action::ResultCode::CANCELED)}
+\DoxyCodeLine{\Hypertarget{cp__action__client_8hpp_source_l00336}00336\ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{cp__action__client_8hpp_source_l00337}00337\ \ \ \ \ \ \ RCLCPP\_INFO(\mbox{\hyperlink{classsmacc2_1_1ISmaccComponent_a77ee85823bab8d84edcdf5d28782b728}{getLogger}}(),\ \textcolor{stringliteral}{"{}[\%s]\ Action\ result:\ Cancelled"{}},\ this-\/>\mbox{\hyperlink{classsmacc2_1_1ISmaccComponent_a6fea938740f0c9ffc082b2ff076c900b}{getName}}().c\_str());}
+\DoxyCodeLine{\Hypertarget{cp__action__client_8hpp_source_l00338}00338\ \ \ \ \ \ \ \mbox{\hyperlink{classsmacc2_1_1client__core__components_1_1CpActionClient_a573e2509ab90b8817e902d7f932193e0}{onActionCancelled\_}}(result\_msg);}
+\DoxyCodeLine{\Hypertarget{cp__action__client_8hpp_source_l00339}00339\ \ \ \ \ \ \ \mbox{\hyperlink{classsmacc2_1_1client__core__components_1_1CpActionClient_a0174b96e7ae1e10aafb274fed7d5f925}{postCancelledEvent}}(result\_msg);}
+\DoxyCodeLine{\Hypertarget{cp__action__client_8hpp_source_l00340}00340\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{cp__action__client_8hpp_source_l00341}00341\ \ \ \ \ \textcolor{keywordflow}{else}}
+\DoxyCodeLine{\Hypertarget{cp__action__client_8hpp_source_l00342}00342\ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{cp__action__client_8hpp_source_l00343}00343\ \ \ \ \ \ \ RCLCPP\_WARN(}
+\DoxyCodeLine{\Hypertarget{cp__action__client_8hpp_source_l00344}00344\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{classsmacc2_1_1ISmaccComponent_a77ee85823bab8d84edcdf5d28782b728}{getLogger}}(),\ \textcolor{stringliteral}{"{}[\%s]\ Action\ result:\ Unhandled\ type:\ \%d"{}},\ this-\/>\mbox{\hyperlink{classsmacc2_1_1ISmaccComponent_a6fea938740f0c9ffc082b2ff076c900b}{getName}}().c\_str(),}
+\DoxyCodeLine{\Hypertarget{cp__action__client_8hpp_source_l00345}00345\ \ \ \ \ \ \ \ \ (\textcolor{keywordtype}{int})resultType);}
+\DoxyCodeLine{\Hypertarget{cp__action__client_8hpp_source_l00346}00346\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{cp__action__client_8hpp_source_l00347}00347\ \ \ \}}
+\DoxyCodeLine{\Hypertarget{cp__action__client_8hpp_source_l00348}00348\ }
+\DoxyCodeLine{\Hypertarget{cp__action__client_8hpp_source_l00349}00349\ \ \ \textcolor{keyword}{template}\ <\textcolor{keyword}{typename}\ EvType>}
+\DoxyCodeLine{\Hypertarget{cp__action__client_8hpp_source_l00350}\mbox{\hyperlink{classsmacc2_1_1client__core__components_1_1CpActionClient_a8238b4c629433e62f302de2cd12c6213}{00350}}\ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{classsmacc2_1_1client__core__components_1_1CpActionClient_a8238b4c629433e62f302de2cd12c6213}{postResultEvent}}(\textcolor{keyword}{const}\ \mbox{\hyperlink{classsmacc2_1_1client__core__components_1_1CpActionClient_a0a229dae04d4dc9b3be9aed4c5b93c79}{WrappedResult}}\ \&\ result)}
+\DoxyCodeLine{\Hypertarget{cp__action__client_8hpp_source_l00351}00351\ \ \ \{}
+\DoxyCodeLine{\Hypertarget{cp__action__client_8hpp_source_l00352}00352\ \ \ \ \ \textcolor{keyword}{auto}\ *\ ev\ =\ \textcolor{keyword}{new}\ EvType();}
+\DoxyCodeLine{\Hypertarget{cp__action__client_8hpp_source_l00353}00353\ \ \ \ \ ev-\/>resultMessage\ =\ result;}
+\DoxyCodeLine{\Hypertarget{cp__action__client_8hpp_source_l00354}00354\ \ \ \ \ RCLCPP\_INFO(}
+\DoxyCodeLine{\Hypertarget{cp__action__client_8hpp_source_l00355}00355\ \ \ \ \ \ \ \mbox{\hyperlink{classsmacc2_1_1ISmaccComponent_a77ee85823bab8d84edcdf5d28782b728}{getLogger}}(),\ \textcolor{stringliteral}{"{}[\%s]\ Posting\ event:\ \%s"{}},\ this-\/>\mbox{\hyperlink{classsmacc2_1_1ISmaccComponent_a6fea938740f0c9ffc082b2ff076c900b}{getName}}().c\_str(),}
+\DoxyCodeLine{\Hypertarget{cp__action__client_8hpp_source_l00356}00356\ \ \ \ \ \ \ \mbox{\hyperlink{namespacesmacc2_1_1introspection_aba19132e50f25adee919c2504ae6a3a2}{smacc2::demangleSymbol}}(\textcolor{keyword}{typeid}(ev).name()).c\_str());}
+\DoxyCodeLine{\Hypertarget{cp__action__client_8hpp_source_l00357}00357\ \ \ \ \ this-\/>\mbox{\hyperlink{classsmacc2_1_1ISmaccComponent_a03dd302448a2e186b1059822cff8c669}{postEvent}}(ev);}
+\DoxyCodeLine{\Hypertarget{cp__action__client_8hpp_source_l00358}00358\ \ \ \}}
+\DoxyCodeLine{\Hypertarget{cp__action__client_8hpp_source_l00359}00359\ \};}
+\DoxyCodeLine{\Hypertarget{cp__action__client_8hpp_source_l00360}00360\ }
+\DoxyCodeLine{\Hypertarget{cp__action__client_8hpp_source_l00361}00361\ \}\ \ \textcolor{comment}{//\ namespace\ client\_core\_components}}
+\DoxyCodeLine{\Hypertarget{cp__action__client_8hpp_source_l00362}00362\ \}\ \ \textcolor{comment}{//\ namespace\ smacc2}}
 
 \end{DoxyCode}
