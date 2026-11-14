@@ -14,7 +14,8 @@ var searchData=
   ['notifyrosinitialized_11',['notifyRosInitialized',['../classsmacc2_1_1SignalDetector.html#ad621cb54a515f0d8f4863f1e8a608c0b',1,'smacc2::SignalDetector']]],
   ['notifystateconfigured_12',['notifyStateConfigured',['../classsmacc2_1_1SignalDetector.html#af9a0197754ac252b657a8785ac1ef84d',1,'smacc2::SignalDetector']]],
   ['notifystateexited_13',['notifyStateExited',['../classsmacc2_1_1SignalDetector.html#a5bba754f0a9e2366034da17501a6b490',1,'smacc2::SignalDetector']]],
-  ['notifytransition_14',['notifyTransition',['../classsmacc2_1_1ISmaccState.html#ad5349c83f7a9455a07113e088ad295d3',1,'smacc2::ISmaccState']]],
-  ['notifytransitionfromtransitiontypeinfo_15',['notifyTransitionFromTransitionTypeInfo',['../classsmacc2_1_1ISmaccState.html#af07000235dbc0541fe4cd9cc08790dd1',1,'smacc2::ISmaccState']]],
-  ['nowns_16',['nowNs',['../namespacecl__px4__mr_1_1anonymous__namespace_02cp__tunnel__centering_8cpp_03.html#ae8f62ea8a6380ca6d9ff65514bc19730',1,'cl_px4_mr::anonymous_namespace{cp_tunnel_centering.cpp}']]]
+  ['notifystateinitializationfailed_14',['notifyStateInitializationFailed',['../classsmacc2_1_1SignalDetector.html#a1e9eaa0710c7450234149d061832735c',1,'smacc2::SignalDetector']]],
+  ['notifytransition_15',['notifyTransition',['../classsmacc2_1_1ISmaccState.html#ad5349c83f7a9455a07113e088ad295d3',1,'smacc2::ISmaccState']]],
+  ['notifytransitionfromtransitiontypeinfo_16',['notifyTransitionFromTransitionTypeInfo',['../classsmacc2_1_1ISmaccState.html#af07000235dbc0541fe4cd9cc08790dd1',1,'smacc2::ISmaccState']]],
+  ['nowns_17',['nowNs',['../namespacecl__px4__mr_1_1anonymous__namespace_02cp__tunnel__centering_8cpp_03.html#ae8f62ea8a6380ca6d9ff65514bc19730',1,'cl_px4_mr::anonymous_namespace{cp_tunnel_centering.cpp}']]]
 ];

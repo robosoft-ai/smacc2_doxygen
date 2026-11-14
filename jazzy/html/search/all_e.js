@@ -30,12 +30,13 @@ var searchData=
   ['notifyrosinitialized_27',['notifyRosInitialized',['../classsmacc2_1_1SignalDetector.html#ad621cb54a515f0d8f4863f1e8a608c0b',1,'smacc2::SignalDetector']]],
   ['notifystateconfigured_28',['notifyStateConfigured',['../classsmacc2_1_1SignalDetector.html#af9a0197754ac252b657a8785ac1ef84d',1,'smacc2::SignalDetector']]],
   ['notifystateexited_29',['notifyStateExited',['../classsmacc2_1_1SignalDetector.html#a5bba754f0a9e2366034da17501a6b490',1,'smacc2::SignalDetector']]],
-  ['notifytransition_30',['notifyTransition',['../classsmacc2_1_1ISmaccState.html#ad5349c83f7a9455a07113e088ad295d3',1,'smacc2::ISmaccState']]],
-  ['notifytransitionfromtransitiontypeinfo_31',['notifyTransitionFromTransitionTypeInfo',['../classsmacc2_1_1ISmaccState.html#af07000235dbc0541fe4cd9cc08790dd1',1,'smacc2::ISmaccState']]],
-  ['notype_32',['NoType',['../classsmacc2_1_1introspection_1_1HasEventLabel.html#a0973f948b562743c65b39e12ffe9c775',1,'smacc2::introspection::HasEventLabel::NoType'],['../classsmacc2_1_1introspection_1_1HasAutomaticTransitionTag.html#a983b787ff58c39af95ff1805fbb5ad57',1,'smacc2::introspection::HasAutomaticTransitionTag::NoType'],['../classsmacc2_1_1introspection_1_1HasAutomaticTransitionType.html#a316cb7ee6873684e1a6c8b29b7cab23c',1,'smacc2::introspection::HasAutomaticTransitionType::NoType'],['../classsmacc2_1_1introspection_1_1HasOnDefinition.html#a76b4dccd8aad5886eddb0e350213cfee',1,'smacc2::introspection::HasOnDefinition::NoType']]],
-  ['nowns_33',['nowNs',['../namespacecl__px4__mr_1_1anonymous__namespace_02cp__tunnel__centering_8cpp_03.html#ae8f62ea8a6380ca6d9ff65514bc19730',1,'cl_px4_mr::anonymous_namespace{cp_tunnel_centering.cpp}']]],
-  ['num_5fchannels_34',['NUM_CHANNELS',['../classcl__modbus__tcp__relay_1_1CpModbusRelay.html#ad2c40e5b134d93b5fe99d182b11366fb',1,'cl_modbus_tcp_relay::CpModbusRelay']]],
-  ['numlegs_35',['numLegs',['../structcl__px4__mr_1_1FlightPatternSquareSpiralParams.html#a3e189b6b013f4ee7d1335cfafba096f8',1,'cl_px4_mr::FlightPatternSquareSpiralParams']]],
-  ['numloops_5f_36',['numLoops_',['../classcl__px4__mr_1_1CbFigureEight.html#a6c66eeac6019432fd1475b7abb59d2d2',1,'cl_px4_mr::CbFigureEight']]],
-  ['numorbits_5f_37',['numOrbits_',['../classcl__px4__mr_1_1CbOrbitLocation.html#aa63323a7836cec44a47fda0616868428',1,'cl_px4_mr::CbOrbitLocation']]]
+  ['notifystateinitializationfailed_30',['notifyStateInitializationFailed',['../classsmacc2_1_1SignalDetector.html#a1e9eaa0710c7450234149d061832735c',1,'smacc2::SignalDetector']]],
+  ['notifytransition_31',['notifyTransition',['../classsmacc2_1_1ISmaccState.html#ad5349c83f7a9455a07113e088ad295d3',1,'smacc2::ISmaccState']]],
+  ['notifytransitionfromtransitiontypeinfo_32',['notifyTransitionFromTransitionTypeInfo',['../classsmacc2_1_1ISmaccState.html#af07000235dbc0541fe4cd9cc08790dd1',1,'smacc2::ISmaccState']]],
+  ['notype_33',['NoType',['../classsmacc2_1_1introspection_1_1HasEventLabel.html#a0973f948b562743c65b39e12ffe9c775',1,'smacc2::introspection::HasEventLabel::NoType'],['../classsmacc2_1_1introspection_1_1HasAutomaticTransitionTag.html#a983b787ff58c39af95ff1805fbb5ad57',1,'smacc2::introspection::HasAutomaticTransitionTag::NoType'],['../classsmacc2_1_1introspection_1_1HasAutomaticTransitionType.html#a316cb7ee6873684e1a6c8b29b7cab23c',1,'smacc2::introspection::HasAutomaticTransitionType::NoType'],['../classsmacc2_1_1introspection_1_1HasOnDefinition.html#a76b4dccd8aad5886eddb0e350213cfee',1,'smacc2::introspection::HasOnDefinition::NoType']]],
+  ['nowns_34',['nowNs',['../namespacecl__px4__mr_1_1anonymous__namespace_02cp__tunnel__centering_8cpp_03.html#ae8f62ea8a6380ca6d9ff65514bc19730',1,'cl_px4_mr::anonymous_namespace{cp_tunnel_centering.cpp}']]],
+  ['num_5fchannels_35',['NUM_CHANNELS',['../classcl__modbus__tcp__relay_1_1CpModbusRelay.html#ad2c40e5b134d93b5fe99d182b11366fb',1,'cl_modbus_tcp_relay::CpModbusRelay']]],
+  ['numlegs_36',['numLegs',['../structcl__px4__mr_1_1FlightPatternSquareSpiralParams.html#a3e189b6b013f4ee7d1335cfafba096f8',1,'cl_px4_mr::FlightPatternSquareSpiralParams']]],
+  ['numloops_5f_37',['numLoops_',['../classcl__px4__mr_1_1CbFigureEight.html#a6c66eeac6019432fd1475b7abb59d2d2',1,'cl_px4_mr::CbFigureEight']]],
+  ['numorbits_5f_38',['numOrbits_',['../classcl__px4__mr_1_1CbOrbitLocation.html#aa63323a7836cec44a47fda0616868428',1,'cl_px4_mr::CbOrbitLocation']]]
 ];
