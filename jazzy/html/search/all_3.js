@@ -457,7 +457,7 @@ var searchData=
   ['clearpointdistancethreshold_5f_454',['clearPointDistanceThreshold_',['../classcl__nav2z_1_1odom__tracker_1_1CpOdomTracker.html#a20602212ef2f1baaccdf6b887b867597',1,'cl_nav2z::odom_tracker::CpOdomTracker']]],
   ['clearrangem_455',['clearRangeM',['../structcl__px4__mr_1_1ForwardObstacleGuardParams.html#a275b5a317622d16bb00e61bbbd882d2a',1,'cl_px4_mr::ForwardObstacleGuardParams']]],
   ['clearselectedtag_456',['clearSelectedTag',['../classcl__isaac__apriltag_1_1CpAprilTagMissionState.html#aa6390034bf85cb3703fdc944c9db1aef',1,'cl_isaac_apriltag::CpAprilTagMissionState']]],
-  ['clearstreak_5f_457',['clearStreak_',['../classcl__px4__mr_1_1CpForwardObstacleGuard.html#a013fb3751e37aada0b592f37e748a132',1,'cl_px4_mr::CpForwardObstacleGuard']]],
+  ['clearstreak_5f_457',['clearStreak_',['../classcl__px4__mr_1_1CpForwardObstacleGuard.html#a85e05970bccf06664159b56fc919d711',1,'cl_px4_mr::CpForwardObstacleGuard']]],
   ['clearvisitedtags_458',['clearVisitedTags',['../classcl__isaac__apriltag_1_1CpAprilTagMissionState.html#aff6700ee133fac6e5800b53ea2a43ec9',1,'cl_isaac_apriltag::CpAprilTagMissionState']]],
   ['clearwatches_459',['clearWatches',['../classcl__gcalcli_1_1CpCalendarEventListener.html#aa2125c99ad83829a383f0ea7dc974717',1,'cl_gcalcli::CpCalendarEventListener']]],
   ['clfoundationpose_460',['ClFoundationPose',['../classcl__foundation__pose_1_1ClFoundationPose.html',1,'cl_foundation_pose::ClFoundationPose'],['../classcl__foundation__pose_1_1ClFoundationPose.html#ad1a67ea983cf69c670f86dc1750b5842',1,'cl_foundation_pose::ClFoundationPose::ClFoundationPose()']]],
