@@ -13,7 +13,7 @@ var searchData=
   ['keyboardlistener_5f_10',['keyboardListener_',['../classcl__keyboard_1_1CbKeyboardTwistTeleop.html#aebcd877a02e84022200daa1be56338f1',1,'cl_keyboard::CbKeyboardTwistTeleop']]],
   ['kfrdfluq_11',['kFrdFluQ',['../namespacecl__px4__mr_1_1anonymous__namespace_02cp__tf__broadcaster_8cpp_03.html#aefb4a6b8b510acf6eb6b97d06600cc7a',1,'cl_px4_mr::anonymous_namespace{cp_tf_broadcaster.cpp}']]],
   ['killgrandchildren_12',['killGrandchildren',['../namespacesmacc2_1_1client__bases.html#a1a82d22a82ec20a6c8ae7a2c679e49b8',1,'smacc2::client_bases']]],
-  ['killprocessesrecursive_13',['killProcessesRecursive',['../classcl__px4__mr_1_1CpMicroRosAgent.html#afec60a790888ac7698eb9519a6187ad3',1,'cl_px4_mr::CpMicroRosAgent::killProcessesRecursive()'],['../namespacesmacc2_1_1client__bases.html#a69252b7282d90f069ab71a854f5e46e8',1,'smacc2::client_bases::killProcessesRecursive()']]],
+  ['killprocessesrecursive_13',['killProcessesRecursive',['../namespacesmacc2_1_1client__bases.html#a69252b7282d90f069ab71a854f5e46e8',1,'smacc2::client_bases']]],
   ['kinf_14',['kInf',['../namespacecl__px4__mr_1_1anonymous__namespace_02cp__tunnel__centering_8cpp_03.html#a2ef338fd1b7ca1b131d4f97f951581c3',1,'cl_px4_mr::anonymous_namespace{cp_tunnel_centering.cpp}']]],
   ['kinitializationpollratehz_15',['kInitializationPollRateHz',['../classsmacc2_1_1SignalDetector.html#a42a36bbfe1e1d2c2639f860dab17a9b6',1,'smacc2::SignalDetector']]],
   ['kmlloader_5f_16',['kmlLoader_',['../classcl__px4__mr_1_1CbLoadKmlMission.html#a4e185c5089560911259d9192bad0d3c4',1,'cl_px4_mr::CbLoadKmlMission']]],

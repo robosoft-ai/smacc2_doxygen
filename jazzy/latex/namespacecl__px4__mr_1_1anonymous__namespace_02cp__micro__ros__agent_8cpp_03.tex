@@ -1,0 +1,63 @@
+\doxysection{cl\+\_\+px4\+\_\+mr\+::anonymous\+\_\+namespace\{cp\+\_\+micro\+\_\+ros\+\_\+agent.\+cpp\} Namespace Reference}
+\hypertarget{namespacecl__px4__mr_1_1anonymous__namespace_02cp__micro__ros__agent_8cpp_03}{}\label{namespacecl__px4__mr_1_1anonymous__namespace_02cp__micro__ros__agent_8cpp_03}\index{cl\_px4\_mr::anonymous\_namespace\lcurly{}cp\_micro\_ros\_agent.cpp\rcurly{}@{cl\_px4\_mr::anonymous\_namespace\lcurly{}cp\_micro\_ros\_agent.cpp\rcurly{}}}
+\doxysubsubsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{classbool}{bool}} \mbox{\hyperlink{namespacecl__px4__mr_1_1anonymous__namespace_02cp__micro__ros__agent_8cpp_03_a522b701e14cb963fa58466e30a614374}{wait\+For\+Group\+Exit}} (pid\+\_\+t group, \mbox{\hyperlink{classbool}{bool}} \&leader\+Reaped, std\+::chrono\+::milliseconds limit)
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{Function Documentation}
+\Hypertarget{namespacecl__px4__mr_1_1anonymous__namespace_02cp__micro__ros__agent_8cpp_03_a522b701e14cb963fa58466e30a614374}\index{cl\_px4\_mr::anonymous\_namespace\lcurly{}cp\_micro\_ros\_agent.cpp\rcurly{}@{cl\_px4\_mr::anonymous\_namespace\lcurly{}cp\_micro\_ros\_agent.cpp\rcurly{}}!waitForGroupExit@{waitForGroupExit}}
+\index{waitForGroupExit@{waitForGroupExit}!cl\_px4\_mr::anonymous\_namespace\lcurly{}cp\_micro\_ros\_agent.cpp\rcurly{}@{cl\_px4\_mr::anonymous\_namespace\lcurly{}cp\_micro\_ros\_agent.cpp\rcurly{}}}
+\doxysubsubsection{\texorpdfstring{waitForGroupExit()}{waitForGroupExit()}}
+{\footnotesize\ttfamily \label{namespacecl__px4__mr_1_1anonymous__namespace_02cp__micro__ros__agent_8cpp_03_a522b701e14cb963fa58466e30a614374} 
+\mbox{\hyperlink{classbool}{bool}} cl\+\_\+px4\+\_\+mr\+::anonymous\+\_\+namespace\{cp\+\_\+micro\+\_\+ros\+\_\+agent.\+cpp\}\+::wait\+For\+Group\+Exit (\begin{DoxyParamCaption}\item[{pid\+\_\+t}]{group}{, }\item[{\mbox{\hyperlink{classbool}{bool}} \&}]{leader\+Reaped}{, }\item[{std\+::chrono\+::milliseconds}]{limit}{}\end{DoxyParamCaption})}
+
+
+
+Definition at line \mbox{\hyperlink{cp__micro__ros__agent_8cpp_source_l00032}{32}} of file \mbox{\hyperlink{cp__micro__ros__agent_8cpp_source}{cp\+\_\+micro\+\_\+ros\+\_\+agent.\+cpp}}.
+
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00033\ \{}
+\DoxyCodeLine{00034\ \ \ \textcolor{keyword}{const}\ \textcolor{keyword}{auto}\ deadline\ =\ std::chrono::steady\_clock::now()\ +\ limit;}
+\DoxyCodeLine{00035\ \ \ \textcolor{keywordflow}{while}\ (\textcolor{keyword}{true})}
+\DoxyCodeLine{00036\ \ \ \{}
+\DoxyCodeLine{00037\ \ \ \ \ \textcolor{keywordflow}{if}\ (!leaderReaped)}
+\DoxyCodeLine{00038\ \ \ \ \ \{}
+\DoxyCodeLine{00039\ \ \ \ \ \ \ \textcolor{keywordtype}{int}\ status\ =\ 0;}
+\DoxyCodeLine{00040\ \ \ \ \ \ \ \textcolor{keyword}{const}\ pid\_t\ result\ =\ waitpid(group,\ \&status,\ WNOHANG);}
+\DoxyCodeLine{00041\ \ \ \ \ \ \ leaderReaped\ =\ result\ ==\ group\ ||\ (result\ ==\ -\/1\ \&\&\ errno\ ==\ ECHILD);}
+\DoxyCodeLine{00042\ \ \ \ \ \}}
+\DoxyCodeLine{00043\ \ \ \ \ \textcolor{keywordflow}{if}\ (leaderReaped\ \&\&\ kill(-\/group,\ 0)\ ==\ -\/1\ \&\&\ errno\ ==\ ESRCH)\ \textcolor{keywordflow}{return}\ \textcolor{keyword}{true};}
+\DoxyCodeLine{00044\ \ \ \ \ \textcolor{keywordflow}{if}\ (std::chrono::steady\_clock::now()\ >=\ deadline)\ \textcolor{keywordflow}{return}\ \textcolor{keyword}{false};}
+\DoxyCodeLine{00045\ \ \ \ \ std::this\_thread::sleep\_for(std::chrono::milliseconds(20));}
+\DoxyCodeLine{00046\ \ \ \}}
+\DoxyCodeLine{00047\ \}}
+
+\end{DoxyCode}
+
+
+References \mbox{\hyperlink{cp__micro__ros__agent_8cpp_source_l00032}{wait\+For\+Group\+Exit()}}.
+
+
+
+Referenced by \mbox{\hyperlink{cp__micro__ros__agent_8cpp_source_l00032}{wait\+For\+Group\+Exit()}}.
+
+Here is the call graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=227pt]{namespacecl__px4__mr_1_1anonymous__namespace_02cp__micro__ros__agent_8cpp_03_a522b701e14cb963fa58466e30a614374_cgraph}
+\end{center}
+\end{figure}
+Here is the caller graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=227pt]{namespacecl__px4__mr_1_1anonymous__namespace_02cp__micro__ros__agent_8cpp_03_a522b701e14cb963fa58466e30a614374_icgraph}
+\end{center}
+\end{figure}

@@ -110,235 +110,213 @@ $(function(){ initResizable(false); });
 <div class="line"><a id="l00017" name="l00017"></a><span class="lineno">   17</span><span class="preprocessor">#include &lt;errno.h&gt;</span></div>
 <div class="line"><a id="l00018" name="l00018"></a><span class="lineno">   18</span><span class="preprocessor">#include &lt;fcntl.h&gt;</span></div>
 <div class="line"><a id="l00019" name="l00019"></a><span class="lineno">   19</span><span class="preprocessor">#include &lt;signal.h&gt;</span></div>
-<div class="line"><a id="l00020" name="l00020"></a><span class="lineno">   20</span><span class="preprocessor">#include &lt;stdio.h&gt;</span></div>
-<div class="line"><a id="l00021" name="l00021"></a><span class="lineno">   21</span><span class="preprocessor">#include &lt;sys/types.h&gt;</span></div>
-<div class="line"><a id="l00022" name="l00022"></a><span class="lineno">   22</span><span class="preprocessor">#include &lt;sys/wait.h&gt;</span></div>
-<div class="line"><a id="l00023" name="l00023"></a><span class="lineno">   23</span><span class="preprocessor">#include &lt;unistd.h&gt;</span></div>
-<div class="line"><a id="l00024" name="l00024"></a><span class="lineno">   24</span><span class="preprocessor">#include &lt;sstream&gt;</span></div>
-<div class="line"><a id="l00025" name="l00025"></a><span class="lineno">   25</span><span class="preprocessor">#include &lt;system_error&gt;</span></div>
-<div class="line"><a id="l00026" name="l00026"></a><span class="lineno">   26</span><span class="preprocessor">#include &lt;thread&gt;</span></div>
-<div class="line"><a id="l00027" name="l00027"></a><span class="lineno">   27</span><span class="preprocessor">#include &lt;vector&gt;</span></div>
-<div class="line"><a id="l00028" name="l00028"></a><span class="lineno">   28</span> </div>
-<div class="line"><a id="l00029" name="l00029"></a><span class="lineno">   29</span><span class="keyword">namespace </span><a class="code hl_namespace" href="namespacecl__px4__mr.html">cl_px4_mr</a></div>
+<div class="line"><a id="l00020" name="l00020"></a><span class="lineno">   20</span><span class="preprocessor">#include &lt;sys/types.h&gt;</span></div>
+<div class="line"><a id="l00021" name="l00021"></a><span class="lineno">   21</span><span class="preprocessor">#include &lt;sys/wait.h&gt;</span></div>
+<div class="line"><a id="l00022" name="l00022"></a><span class="lineno">   22</span><span class="preprocessor">#include &lt;unistd.h&gt;</span></div>
+<div class="line"><a id="l00023" name="l00023"></a><span class="lineno">   23</span><span class="preprocessor">#include &lt;chrono&gt;</span></div>
+<div class="line"><a id="l00024" name="l00024"></a><span class="lineno">   24</span><span class="preprocessor">#include &lt;system_error&gt;</span></div>
+<div class="line"><a id="l00025" name="l00025"></a><span class="lineno">   25</span><span class="preprocessor">#include &lt;thread&gt;</span></div>
+<div class="line"><a id="l00026" name="l00026"></a><span class="lineno">   26</span> </div>
+<div class="line"><a id="l00027" name="l00027"></a><span class="lineno">   27</span><span class="keyword">namespace </span><a class="code hl_namespace" href="namespacecl__px4__mr.html">cl_px4_mr</a></div>
+<div class="line"><a id="l00028" name="l00028"></a><span class="lineno">   28</span>{</div>
+<div class="foldopen" id="foldopen00029" data-start="{" data-end="}">
+<div class="line"><a id="l00029" name="l00029"></a><span class="lineno"><a class="line" href="namespacecl__px4__mr_1_1anonymous__namespace_02cp__micro__ros__agent_8cpp_03.html">   29</a></span><span class="keyword">namespace</span></div>
 <div class="line"><a id="l00030" name="l00030"></a><span class="lineno">   30</span>{</div>
-<div class="line"><a id="l00031" name="l00031"></a><span class="lineno">   31</span> </div>
+<div class="line"><a id="l00031" name="l00031"></a><span class="lineno">   31</span><span class="comment">// Reaps the group leader and returns true once no process of the group is left.</span></div>
 <div class="foldopen" id="foldopen00032" data-start="{" data-end="}">
-<div class="line"><a id="l00032" name="l00032"></a><span class="lineno"><a class="line" href="classcl__px4__mr_1_1CpMicroRosAgent.html#a22a93c2518b0f0e00e001172a239c8fe">   32</a></span><a class="code hl_function" href="classcl__px4__mr_1_1CpMicroRosAgent.html#a22a93c2518b0f0e00e001172a239c8fe">CpMicroRosAgent::CpMicroRosAgent</a>(std::string command, std::string nodeName)</div>
-<div class="line"><a id="l00033" name="l00033"></a><span class="lineno">   33</span>: command_(std::move(command)), nodeName_(std::move(nodeName))</div>
-<div class="line"><a id="l00034" name="l00034"></a><span class="lineno">   34</span>{</div>
-<div class="line"><a id="l00035" name="l00035"></a><span class="lineno">   35</span>}</div>
+<div class="line"><a id="l00032" name="l00032"></a><span class="lineno"><a class="line" href="namespacecl__px4__mr_1_1anonymous__namespace_02cp__micro__ros__agent_8cpp_03.html#a522b701e14cb963fa58466e30a614374">   32</a></span><span class="keywordtype">bool</span> <a class="code hl_function" href="namespacecl__px4__mr_1_1anonymous__namespace_02cp__micro__ros__agent_8cpp_03.html#a522b701e14cb963fa58466e30a614374">waitForGroupExit</a>(pid_t group, <span class="keywordtype">bool</span> &amp; leaderReaped, std::chrono::milliseconds limit)</div>
+<div class="line"><a id="l00033" name="l00033"></a><span class="lineno">   33</span>{</div>
+<div class="line"><a id="l00034" name="l00034"></a><span class="lineno">   34</span>  <span class="keyword">const</span> <span class="keyword">auto</span> deadline = std::chrono::steady_clock::now() + limit;</div>
+<div class="line"><a id="l00035" name="l00035"></a><span class="lineno">   35</span>  <span class="keywordflow">while</span> (<span class="keyword">true</span>)</div>
+<div class="line"><a id="l00036" name="l00036"></a><span class="lineno">   36</span>  {</div>
+<div class="line"><a id="l00037" name="l00037"></a><span class="lineno">   37</span>    <span class="keywordflow">if</span> (!leaderReaped)</div>
+<div class="line"><a id="l00038" name="l00038"></a><span class="lineno">   38</span>    {</div>
+<div class="line"><a id="l00039" name="l00039"></a><span class="lineno">   39</span>      <span class="keywordtype">int</span> status = 0;</div>
+<div class="line"><a id="l00040" name="l00040"></a><span class="lineno">   40</span>      <span class="keyword">const</span> pid_t result = waitpid(group, &amp;status, WNOHANG);</div>
+<div class="line"><a id="l00041" name="l00041"></a><span class="lineno">   41</span>      leaderReaped = result == group || (result == -1 &amp;&amp; errno == ECHILD);</div>
+<div class="line"><a id="l00042" name="l00042"></a><span class="lineno">   42</span>    }</div>
+<div class="line"><a id="l00043" name="l00043"></a><span class="lineno">   43</span>    <span class="keywordflow">if</span> (leaderReaped &amp;&amp; kill(-group, 0) == -1 &amp;&amp; errno == ESRCH) <span class="keywordflow">return</span> <span class="keyword">true</span>;</div>
+<div class="line"><a id="l00044" name="l00044"></a><span class="lineno">   44</span>    <span class="keywordflow">if</span> (std::chrono::steady_clock::now() &gt;= deadline) <span class="keywordflow">return</span> <span class="keyword">false</span>;</div>
+<div class="line"><a id="l00045" name="l00045"></a><span class="lineno">   45</span>    std::this_thread::sleep_for(std::chrono::milliseconds(20));</div>
+<div class="line"><a id="l00046" name="l00046"></a><span class="lineno">   46</span>  }</div>
+<div class="line"><a id="l00047" name="l00047"></a><span class="lineno">   47</span>}</div>
 </div>
-<div class="line"><a id="l00036" name="l00036"></a><span class="lineno">   36</span> </div>
-<div class="line"><a id="l00037" name="l00037"></a><span class="lineno"><a class="line" href="classcl__px4__mr_1_1CpMicroRosAgent.html#ae920f60db91e66fcbcf336228f5ecb04">   37</a></span><a class="code hl_function" href="classcl__px4__mr_1_1CpMicroRosAgent.html#ae920f60db91e66fcbcf336228f5ecb04">CpMicroRosAgent::~CpMicroRosAgent</a>() { <a class="code hl_function" href="classcl__px4__mr_1_1CpMicroRosAgent.html#add7dac82b912a25832616ad27c15bb7d">shutdown</a>(); }</div>
-<div class="line"><a id="l00038" name="l00038"></a><span class="lineno">   38</span> </div>
-<div class="foldopen" id="foldopen00039" data-start="{" data-end="}">
-<div class="line"><a id="l00039" name="l00039"></a><span class="lineno"><a class="line" href="classcl__px4__mr_1_1CpMicroRosAgent.html#a5412947da4bf691ae59c0fbb21918ca8">   39</a></span><span class="keywordtype">void</span> <a class="code hl_function" href="classcl__px4__mr_1_1CpMicroRosAgent.html#a5412947da4bf691ae59c0fbb21918ca8">CpMicroRosAgent::launch</a>()</div>
-<div class="line"><a id="l00040" name="l00040"></a><span class="lineno">   40</span>{</div>
-<div class="line"><a id="l00041" name="l00041"></a><span class="lineno">   41</span>  std::lock_guard&lt;std::mutex&gt; lock(<a class="code hl_variable" href="classcl__px4__mr_1_1CpMicroRosAgent.html#a5b425a5b7d0769f86b7c5241c5a04478">mutex_</a>);</div>
-<div class="line"><a id="l00042" name="l00042"></a><span class="lineno">   42</span> </div>
-<div class="line"><a id="l00043" name="l00043"></a><span class="lineno">   43</span>  <span class="keywordflow">if</span> (<a class="code hl_variable" href="classcl__px4__mr_1_1CpMicroRosAgent.html#aef475f4bc372beecaae8df7b19c79153">launched_</a>)</div>
-<div class="line"><a id="l00044" name="l00044"></a><span class="lineno">   44</span>  {</div>
-<div class="line"><a id="l00045" name="l00045"></a><span class="lineno">   45</span>    RCLCPP_INFO(<a class="code hl_function" href="classsmacc2_1_1ISmaccComponent.html#a77ee85823bab8d84edcdf5d28782b728">getLogger</a>(), <span class="stringliteral">&quot;CpMicroRosAgent: already launched, skipping&quot;</span>);</div>
-<div class="line"><a id="l00046" name="l00046"></a><span class="lineno">   46</span>    <span class="keywordflow">return</span>;</div>
-<div class="line"><a id="l00047" name="l00047"></a><span class="lineno">   47</span>  }</div>
-<div class="line"><a id="l00048" name="l00048"></a><span class="lineno">   48</span> </div>
-<div class="line"><a id="l00049" name="l00049"></a><span class="lineno">   49</span>  RCLCPP_INFO(<a class="code hl_function" href="classsmacc2_1_1ISmaccComponent.html#a77ee85823bab8d84edcdf5d28782b728">getLogger</a>(), <span class="stringliteral">&quot;CpMicroRosAgent: launching &#39;%s&#39;&quot;</span>, <a class="code hl_variable" href="classcl__px4__mr_1_1CpMicroRosAgent.html#a23e3560a2472df1520661a9189b79334">command_</a>.c_str());</div>
-<div class="line"><a id="l00050" name="l00050"></a><span class="lineno">   50</span> </div>
-<div class="line"><a id="l00051" name="l00051"></a><span class="lineno">   51</span>  <span class="keywordtype">int</span> pipefd[2];</div>
-<div class="line"><a id="l00052" name="l00052"></a><span class="lineno">   52</span>  <span class="keywordflow">if</span> (pipe(pipefd) == -1)</div>
-<div class="line"><a id="l00053" name="l00053"></a><span class="lineno">   53</span>  {</div>
-<div class="line"><a id="l00054" name="l00054"></a><span class="lineno">   54</span>    RCLCPP_ERROR(</div>
-<div class="line"><a id="l00055" name="l00055"></a><span class="lineno">   55</span>      <a class="code hl_function" href="classsmacc2_1_1ISmaccComponent.html#a77ee85823bab8d84edcdf5d28782b728">getLogger</a>(), <span class="stringliteral">&quot;CpMicroRosAgent: pipe() failed: %s&quot;</span>,</div>
-<div class="line"><a id="l00056" name="l00056"></a><span class="lineno">   56</span>      std::system_category().message(errno).c_str());</div>
-<div class="line"><a id="l00057" name="l00057"></a><span class="lineno">   57</span>    <span class="keywordflow">return</span>;</div>
-<div class="line"><a id="l00058" name="l00058"></a><span class="lineno">   58</span>  }</div>
-<div class="line"><a id="l00059" name="l00059"></a><span class="lineno">   59</span> </div>
-<div class="line"><a id="l00060" name="l00060"></a><span class="lineno">   60</span>  pid_t pid = fork();</div>
-<div class="line"><a id="l00061" name="l00061"></a><span class="lineno">   61</span> </div>
-<div class="line"><a id="l00062" name="l00062"></a><span class="lineno">   62</span>  <span class="keywordflow">if</span> (pid == 0)</div>
-<div class="line"><a id="l00063" name="l00063"></a><span class="lineno">   63</span>  {</div>
-<div class="line"><a id="l00064" name="l00064"></a><span class="lineno">   64</span>    <span class="comment">// Child process</span></div>
-<div class="line"><a id="l00065" name="l00065"></a><span class="lineno">   65</span>    close(pipefd[0]);</div>
-<div class="line"><a id="l00066" name="l00066"></a><span class="lineno">   66</span>    dup2(pipefd[1], STDOUT_FILENO);</div>
-<div class="line"><a id="l00067" name="l00067"></a><span class="lineno">   67</span>    dup2(pipefd[1], STDERR_FILENO);</div>
-<div class="line"><a id="l00068" name="l00068"></a><span class="lineno">   68</span>    close(pipefd[1]);</div>
-<div class="line"><a id="l00069" name="l00069"></a><span class="lineno">   69</span> </div>
-<div class="line"><a id="l00070" name="l00070"></a><span class="lineno">   70</span>    execl(<span class="stringliteral">&quot;/bin/sh&quot;</span>, <span class="stringliteral">&quot;/bin/sh&quot;</span>, <span class="stringliteral">&quot;-c&quot;</span>, <a class="code hl_variable" href="classcl__px4__mr_1_1CpMicroRosAgent.html#a23e3560a2472df1520661a9189b79334">command_</a>.c_str(), <span class="keyword">nullptr</span>);</div>
-<div class="line"><a id="l00071" name="l00071"></a><span class="lineno">   71</span> </div>
-<div class="line"><a id="l00072" name="l00072"></a><span class="lineno">   72</span>    <span class="comment">// If execl returns, it failed</span></div>
-<div class="line"><a id="l00073" name="l00073"></a><span class="lineno">   73</span>    _exit(1);</div>
-<div class="line"><a id="l00074" name="l00074"></a><span class="lineno">   74</span>  }</div>
-<div class="line"><a id="l00075" name="l00075"></a><span class="lineno">   75</span>  <span class="keywordflow">else</span> <span class="keywordflow">if</span> (pid &gt; 0)</div>
-<div class="line"><a id="l00076" name="l00076"></a><span class="lineno">   76</span>  {</div>
-<div class="line"><a id="l00077" name="l00077"></a><span class="lineno">   77</span>    <span class="comment">// Parent process</span></div>
-<div class="line"><a id="l00078" name="l00078"></a><span class="lineno">   78</span>    close(pipefd[1]);</div>
-<div class="line"><a id="l00079" name="l00079"></a><span class="lineno">   79</span>    <a class="code hl_variable" href="classcl__px4__mr_1_1CpMicroRosAgent.html#afcae667e0404dffebb23992af5667814">agentPid_</a> = pid;</div>
-<div class="line"><a id="l00080" name="l00080"></a><span class="lineno">   80</span>    <a class="code hl_variable" href="classcl__px4__mr_1_1CpMicroRosAgent.html#ab0bc3dc67d87513f4a451e2f5754f482">pipeFd_</a> = pipefd[0];</div>
-<div class="line"><a id="l00081" name="l00081"></a><span class="lineno">   81</span> </div>
-<div class="line"><a id="l00082" name="l00082"></a><span class="lineno">   82</span>    <span class="comment">// Set pipe to non-blocking</span></div>
-<div class="line"><a id="l00083" name="l00083"></a><span class="lineno">   83</span>    <span class="keywordtype">int</span> flags = fcntl(<a class="code hl_variable" href="classcl__px4__mr_1_1CpMicroRosAgent.html#ab0bc3dc67d87513f4a451e2f5754f482">pipeFd_</a>, F_GETFL, 0);</div>
-<div class="line"><a id="l00084" name="l00084"></a><span class="lineno">   84</span>    fcntl(<a class="code hl_variable" href="classcl__px4__mr_1_1CpMicroRosAgent.html#ab0bc3dc67d87513f4a451e2f5754f482">pipeFd_</a>, F_SETFL, flags | O_NONBLOCK);</div>
-<div class="line"><a id="l00085" name="l00085"></a><span class="lineno">   85</span> </div>
-<div class="line"><a id="l00086" name="l00086"></a><span class="lineno">   86</span>    <span class="comment">// Reader thread draining the pipe (prevents buffer fill); joined in shutdown()</span></div>
-<div class="line"><a id="l00087" name="l00087"></a><span class="lineno">   87</span>    <a class="code hl_variable" href="classcl__px4__mr_1_1CpMicroRosAgent.html#a7e11b8a5374a3e9686a1783e4548b002">shutdownRequested_</a> = <span class="keyword">false</span>;</div>
-<div class="line"><a id="l00088" name="l00088"></a><span class="lineno">   88</span>    <a class="code hl_variable" href="classcl__px4__mr_1_1CpMicroRosAgent.html#a3e040875cff7a820343aa47842890b8e">readerThread_</a> = std::thread(</div>
-<div class="line"><a id="l00089" name="l00089"></a><span class="lineno">   89</span>      [<span class="keyword">this</span>]()</div>
-<div class="line"><a id="l00090" name="l00090"></a><span class="lineno">   90</span>      {</div>
-<div class="line"><a id="l00091" name="l00091"></a><span class="lineno">   91</span>        <span class="keywordtype">char</span> buf[256];</div>
-<div class="line"><a id="l00092" name="l00092"></a><span class="lineno">   92</span>        <span class="keywordflow">while</span> (!<a class="code hl_variable" href="classcl__px4__mr_1_1CpMicroRosAgent.html#a7e11b8a5374a3e9686a1783e4548b002">shutdownRequested_</a>)</div>
-<div class="line"><a id="l00093" name="l00093"></a><span class="lineno">   93</span>        {</div>
-<div class="line"><a id="l00094" name="l00094"></a><span class="lineno">   94</span>          ssize_t n = read(<a class="code hl_variable" href="classcl__px4__mr_1_1CpMicroRosAgent.html#ab0bc3dc67d87513f4a451e2f5754f482">pipeFd_</a>, buf, <span class="keyword">sizeof</span>(buf) - 1);</div>
-<div class="line"><a id="l00095" name="l00095"></a><span class="lineno">   95</span>          <span class="keywordflow">if</span> (n &gt; 0)</div>
-<div class="line"><a id="l00096" name="l00096"></a><span class="lineno">   96</span>          {</div>
-<div class="line"><a id="l00097" name="l00097"></a><span class="lineno">   97</span>            buf[n] = <span class="charliteral">&#39;\0&#39;</span>;</div>
-<div class="line"><a id="l00098" name="l00098"></a><span class="lineno">   98</span>            RCLCPP_DEBUG(<a class="code hl_function" href="classsmacc2_1_1ISmaccComponent.html#a77ee85823bab8d84edcdf5d28782b728">getLogger</a>(), <span class="stringliteral">&quot;[micro_ros_agent] %s&quot;</span>, buf);</div>
-<div class="line"><a id="l00099" name="l00099"></a><span class="lineno">   99</span>          }</div>
-<div class="line"><a id="l00100" name="l00100"></a><span class="lineno">  100</span>          <span class="keywordflow">else</span></div>
-<div class="line"><a id="l00101" name="l00101"></a><span class="lineno">  101</span>          {</div>
-<div class="line"><a id="l00102" name="l00102"></a><span class="lineno">  102</span>            std::this_thread::sleep_for(std::chrono::milliseconds(100));</div>
-<div class="line"><a id="l00103" name="l00103"></a><span class="lineno">  103</span>          }</div>
-<div class="line"><a id="l00104" name="l00104"></a><span class="lineno">  104</span>        }</div>
-<div class="line"><a id="l00105" name="l00105"></a><span class="lineno">  105</span>      });</div>
-<div class="line"><a id="l00106" name="l00106"></a><span class="lineno">  106</span> </div>
-<div class="line"><a id="l00107" name="l00107"></a><span class="lineno">  107</span>    <a class="code hl_variable" href="classcl__px4__mr_1_1CpMicroRosAgent.html#aef475f4bc372beecaae8df7b19c79153">launched_</a> = <span class="keyword">true</span>;</div>
-<div class="line"><a id="l00108" name="l00108"></a><span class="lineno">  108</span>    RCLCPP_INFO(<a class="code hl_function" href="classsmacc2_1_1ISmaccComponent.html#a77ee85823bab8d84edcdf5d28782b728">getLogger</a>(), <span class="stringliteral">&quot;CpMicroRosAgent: launched with PID %d&quot;</span>, <a class="code hl_variable" href="classcl__px4__mr_1_1CpMicroRosAgent.html#afcae667e0404dffebb23992af5667814">agentPid_</a>);</div>
-<div class="line"><a id="l00109" name="l00109"></a><span class="lineno">  109</span>  }</div>
-<div class="line"><a id="l00110" name="l00110"></a><span class="lineno">  110</span>  <span class="keywordflow">else</span></div>
-<div class="line"><a id="l00111" name="l00111"></a><span class="lineno">  111</span>  {</div>
-<div class="line"><a id="l00112" name="l00112"></a><span class="lineno">  112</span>    RCLCPP_ERROR(</div>
-<div class="line"><a id="l00113" name="l00113"></a><span class="lineno">  113</span>      <a class="code hl_function" href="classsmacc2_1_1ISmaccComponent.html#a77ee85823bab8d84edcdf5d28782b728">getLogger</a>(), <span class="stringliteral">&quot;CpMicroRosAgent: fork() failed: %s&quot;</span>,</div>
-<div class="line"><a id="l00114" name="l00114"></a><span class="lineno">  114</span>      std::system_category().message(errno).c_str());</div>
-<div class="line"><a id="l00115" name="l00115"></a><span class="lineno">  115</span>    close(pipefd[0]);</div>
-<div class="line"><a id="l00116" name="l00116"></a><span class="lineno">  116</span>    close(pipefd[1]);</div>
-<div class="line"><a id="l00117" name="l00117"></a><span class="lineno">  117</span>  }</div>
-<div class="line"><a id="l00118" name="l00118"></a><span class="lineno">  118</span>}</div>
+<div class="line"><a id="l00048" name="l00048"></a><span class="lineno">   48</span>}  <span class="comment">// namespace</span></div>
 </div>
-<div class="line"><a id="l00119" name="l00119"></a><span class="lineno">  119</span> </div>
-<div class="foldopen" id="foldopen00120" data-start="{" data-end="}">
-<div class="line"><a id="l00120" name="l00120"></a><span class="lineno"><a class="line" href="classcl__px4__mr_1_1CpMicroRosAgent.html#add7dac82b912a25832616ad27c15bb7d">  120</a></span><span class="keywordtype">void</span> <a class="code hl_function" href="classcl__px4__mr_1_1CpMicroRosAgent.html#add7dac82b912a25832616ad27c15bb7d">CpMicroRosAgent::shutdown</a>()</div>
-<div class="line"><a id="l00121" name="l00121"></a><span class="lineno">  121</span>{</div>
-<div class="line"><a id="l00122" name="l00122"></a><span class="lineno">  122</span>  std::lock_guard&lt;std::mutex&gt; lock(<a class="code hl_variable" href="classcl__px4__mr_1_1CpMicroRosAgent.html#a5b425a5b7d0769f86b7c5241c5a04478">mutex_</a>);</div>
-<div class="line"><a id="l00123" name="l00123"></a><span class="lineno">  123</span> </div>
-<div class="line"><a id="l00124" name="l00124"></a><span class="lineno">  124</span>  <span class="comment">// The reader checks the flag every 100 ms, so the join is bounded; it must happen before the</span></div>
-<div class="line"><a id="l00125" name="l00125"></a><span class="lineno">  125</span>  <span class="comment">// pipe is closed and before this object is destroyed.</span></div>
-<div class="line"><a id="l00126" name="l00126"></a><span class="lineno">  126</span>  <a class="code hl_variable" href="classcl__px4__mr_1_1CpMicroRosAgent.html#a7e11b8a5374a3e9686a1783e4548b002">shutdownRequested_</a> = <span class="keyword">true</span>;</div>
-<div class="line"><a id="l00127" name="l00127"></a><span class="lineno">  127</span>  <span class="keywordflow">if</span> (<a class="code hl_variable" href="classcl__px4__mr_1_1CpMicroRosAgent.html#a3e040875cff7a820343aa47842890b8e">readerThread_</a>.joinable())</div>
-<div class="line"><a id="l00128" name="l00128"></a><span class="lineno">  128</span>  {</div>
-<div class="line"><a id="l00129" name="l00129"></a><span class="lineno">  129</span>    <a class="code hl_variable" href="classcl__px4__mr_1_1CpMicroRosAgent.html#a3e040875cff7a820343aa47842890b8e">readerThread_</a>.join();</div>
-<div class="line"><a id="l00130" name="l00130"></a><span class="lineno">  130</span>  }</div>
-<div class="line"><a id="l00131" name="l00131"></a><span class="lineno">  131</span> </div>
-<div class="line"><a id="l00132" name="l00132"></a><span class="lineno">  132</span>  <span class="keywordflow">if</span> (<a class="code hl_variable" href="classcl__px4__mr_1_1CpMicroRosAgent.html#afcae667e0404dffebb23992af5667814">agentPid_</a> &lt;= 0)</div>
-<div class="line"><a id="l00133" name="l00133"></a><span class="lineno">  133</span>  {</div>
-<div class="line"><a id="l00134" name="l00134"></a><span class="lineno">  134</span>    <span class="keywordflow">return</span>;</div>
-<div class="line"><a id="l00135" name="l00135"></a><span class="lineno">  135</span>  }</div>
-<div class="line"><a id="l00136" name="l00136"></a><span class="lineno">  136</span> </div>
-<div class="line"><a id="l00137" name="l00137"></a><span class="lineno">  137</span>  RCLCPP_INFO(<a class="code hl_function" href="classsmacc2_1_1ISmaccComponent.html#a77ee85823bab8d84edcdf5d28782b728">getLogger</a>(), <span class="stringliteral">&quot;CpMicroRosAgent: shutting down agent (PID %d)&quot;</span>, <a class="code hl_variable" href="classcl__px4__mr_1_1CpMicroRosAgent.html#afcae667e0404dffebb23992af5667814">agentPid_</a>);</div>
-<div class="line"><a id="l00138" name="l00138"></a><span class="lineno">  138</span> </div>
-<div class="line"><a id="l00139" name="l00139"></a><span class="lineno">  139</span>  <span class="comment">// Kill process tree recursively</span></div>
-<div class="line"><a id="l00140" name="l00140"></a><span class="lineno">  140</span>  <a class="code hl_function" href="classcl__px4__mr_1_1CpMicroRosAgent.html#afec60a790888ac7698eb9519a6187ad3">killProcessesRecursive</a>(<a class="code hl_variable" href="classcl__px4__mr_1_1CpMicroRosAgent.html#afcae667e0404dffebb23992af5667814">agentPid_</a>);</div>
-<div class="line"><a id="l00141" name="l00141"></a><span class="lineno">  141</span> </div>
-<div class="line"><a id="l00142" name="l00142"></a><span class="lineno">  142</span>  <span class="comment">// Reap zombie with brief retry loop</span></div>
-<div class="line"><a id="l00143" name="l00143"></a><span class="lineno">  143</span>  <span class="keywordflow">for</span> (<span class="keywordtype">int</span> i = 0; i &lt; 10; i++)</div>
-<div class="line"><a id="l00144" name="l00144"></a><span class="lineno">  144</span>  {</div>
-<div class="line"><a id="l00145" name="l00145"></a><span class="lineno">  145</span>    <span class="keywordtype">int</span> status = 0;</div>
-<div class="line"><a id="l00146" name="l00146"></a><span class="lineno">  146</span>    pid_t result = waitpid(<a class="code hl_variable" href="classcl__px4__mr_1_1CpMicroRosAgent.html#afcae667e0404dffebb23992af5667814">agentPid_</a>, &amp;status, WNOHANG);</div>
-<div class="line"><a id="l00147" name="l00147"></a><span class="lineno">  147</span>    <span class="keywordflow">if</span> (result == <a class="code hl_variable" href="classcl__px4__mr_1_1CpMicroRosAgent.html#afcae667e0404dffebb23992af5667814">agentPid_</a> || result == -1)</div>
-<div class="line"><a id="l00148" name="l00148"></a><span class="lineno">  148</span>    {</div>
-<div class="line"><a id="l00149" name="l00149"></a><span class="lineno">  149</span>      <span class="keywordflow">break</span>;</div>
-<div class="line"><a id="l00150" name="l00150"></a><span class="lineno">  150</span>    }</div>
-<div class="line"><a id="l00151" name="l00151"></a><span class="lineno">  151</span>    std::this_thread::sleep_for(std::chrono::milliseconds(100));</div>
-<div class="line"><a id="l00152" name="l00152"></a><span class="lineno">  152</span>  }</div>
-<div class="line"><a id="l00153" name="l00153"></a><span class="lineno">  153</span> </div>
-<div class="line"><a id="l00154" name="l00154"></a><span class="lineno">  154</span>  <span class="comment">// Close pipe</span></div>
-<div class="line"><a id="l00155" name="l00155"></a><span class="lineno">  155</span>  <span class="keywordflow">if</span> (<a class="code hl_variable" href="classcl__px4__mr_1_1CpMicroRosAgent.html#ab0bc3dc67d87513f4a451e2f5754f482">pipeFd_</a> &gt;= 0)</div>
-<div class="line"><a id="l00156" name="l00156"></a><span class="lineno">  156</span>  {</div>
-<div class="line"><a id="l00157" name="l00157"></a><span class="lineno">  157</span>    close(<a class="code hl_variable" href="classcl__px4__mr_1_1CpMicroRosAgent.html#ab0bc3dc67d87513f4a451e2f5754f482">pipeFd_</a>);</div>
-<div class="line"><a id="l00158" name="l00158"></a><span class="lineno">  158</span>    <a class="code hl_variable" href="classcl__px4__mr_1_1CpMicroRosAgent.html#ab0bc3dc67d87513f4a451e2f5754f482">pipeFd_</a> = -1;</div>
-<div class="line"><a id="l00159" name="l00159"></a><span class="lineno">  159</span>  }</div>
-<div class="line"><a id="l00160" name="l00160"></a><span class="lineno">  160</span> </div>
-<div class="line"><a id="l00161" name="l00161"></a><span class="lineno">  161</span>  <a class="code hl_variable" href="classcl__px4__mr_1_1CpMicroRosAgent.html#afcae667e0404dffebb23992af5667814">agentPid_</a> = -1;</div>
-<div class="line"><a id="l00162" name="l00162"></a><span class="lineno">  162</span>  <a class="code hl_variable" href="classcl__px4__mr_1_1CpMicroRosAgent.html#aef475f4bc372beecaae8df7b19c79153">launched_</a> = <span class="keyword">false</span>;</div>
-<div class="line"><a id="l00163" name="l00163"></a><span class="lineno">  163</span> </div>
-<div class="line"><a id="l00164" name="l00164"></a><span class="lineno">  164</span>  RCLCPP_INFO(<a class="code hl_function" href="classsmacc2_1_1ISmaccComponent.html#a77ee85823bab8d84edcdf5d28782b728">getLogger</a>(), <span class="stringliteral">&quot;CpMicroRosAgent: shutdown complete&quot;</span>);</div>
-<div class="line"><a id="l00165" name="l00165"></a><span class="lineno">  165</span>}</div>
+<div class="line"><a id="l00049" name="l00049"></a><span class="lineno">   49</span> </div>
+<div class="foldopen" id="foldopen00050" data-start="{" data-end="}">
+<div class="line"><a id="l00050" name="l00050"></a><span class="lineno"><a class="line" href="classcl__px4__mr_1_1CpMicroRosAgent.html#a22a93c2518b0f0e00e001172a239c8fe">   50</a></span><a class="code hl_function" href="classcl__px4__mr_1_1CpMicroRosAgent.html#a22a93c2518b0f0e00e001172a239c8fe">CpMicroRosAgent::CpMicroRosAgent</a>(std::string command, std::string nodeName)</div>
+<div class="line"><a id="l00051" name="l00051"></a><span class="lineno">   51</span>: command_(std::move(command)), nodeName_(std::move(nodeName))</div>
+<div class="line"><a id="l00052" name="l00052"></a><span class="lineno">   52</span>{</div>
+<div class="line"><a id="l00053" name="l00053"></a><span class="lineno">   53</span>}</div>
 </div>
-<div class="line"><a id="l00166" name="l00166"></a><span class="lineno">  166</span> </div>
-<div class="line"><a id="l00167" name="l00167"></a><span class="lineno"><a class="line" href="classcl__px4__mr_1_1CpMicroRosAgent.html#a99bc6b0e65be40436f9fc42bb6f7cba5">  167</a></span><span class="keywordtype">bool</span> <a class="code hl_function" href="classcl__px4__mr_1_1CpMicroRosAgent.html#a99bc6b0e65be40436f9fc42bb6f7cba5">CpMicroRosAgent::isLaunched</a>()<span class="keyword"> const </span>{ <span class="keywordflow">return</span> <a class="code hl_variable" href="classcl__px4__mr_1_1CpMicroRosAgent.html#aef475f4bc372beecaae8df7b19c79153">launched_</a>; }</div>
-<div class="line"><a id="l00168" name="l00168"></a><span class="lineno">  168</span> </div>
-<div class="foldopen" id="foldopen00169" data-start="{" data-end="}">
-<div class="line"><a id="l00169" name="l00169"></a><span class="lineno"><a class="line" href="classcl__px4__mr_1_1CpMicroRosAgent.html#a9ad16bcbf6328d20292feef618518675">  169</a></span>pid_t <a class="code hl_function" href="classcl__px4__mr_1_1CpMicroRosAgent.html#a9ad16bcbf6328d20292feef618518675">CpMicroRosAgent::getPid</a>()<span class="keyword"> const</span></div>
-<div class="line"><a id="l00170" name="l00170"></a><span class="lineno">  170</span><span class="keyword"></span>{</div>
-<div class="line"><a id="l00171" name="l00171"></a><span class="lineno">  171</span>  std::lock_guard&lt;std::mutex&gt; lock(<a class="code hl_variable" href="classcl__px4__mr_1_1CpMicroRosAgent.html#a5b425a5b7d0769f86b7c5241c5a04478">mutex_</a>);</div>
-<div class="line"><a id="l00172" name="l00172"></a><span class="lineno">  172</span>  <span class="keywordflow">return</span> <a class="code hl_variable" href="classcl__px4__mr_1_1CpMicroRosAgent.html#afcae667e0404dffebb23992af5667814">agentPid_</a>;</div>
-<div class="line"><a id="l00173" name="l00173"></a><span class="lineno">  173</span>}</div>
+<div class="line"><a id="l00054" name="l00054"></a><span class="lineno">   54</span> </div>
+<div class="line"><a id="l00055" name="l00055"></a><span class="lineno"><a class="line" href="classcl__px4__mr_1_1CpMicroRosAgent.html#ae920f60db91e66fcbcf336228f5ecb04">   55</a></span><a class="code hl_function" href="classcl__px4__mr_1_1CpMicroRosAgent.html#ae920f60db91e66fcbcf336228f5ecb04">CpMicroRosAgent::~CpMicroRosAgent</a>() { <a class="code hl_function" href="classcl__px4__mr_1_1CpMicroRosAgent.html#add7dac82b912a25832616ad27c15bb7d">shutdown</a>(); }</div>
+<div class="line"><a id="l00056" name="l00056"></a><span class="lineno">   56</span> </div>
+<div class="foldopen" id="foldopen00057" data-start="{" data-end="}">
+<div class="line"><a id="l00057" name="l00057"></a><span class="lineno"><a class="line" href="classcl__px4__mr_1_1CpMicroRosAgent.html#a5412947da4bf691ae59c0fbb21918ca8">   57</a></span><span class="keywordtype">void</span> <a class="code hl_function" href="classcl__px4__mr_1_1CpMicroRosAgent.html#a5412947da4bf691ae59c0fbb21918ca8">CpMicroRosAgent::launch</a>()</div>
+<div class="line"><a id="l00058" name="l00058"></a><span class="lineno">   58</span>{</div>
+<div class="line"><a id="l00059" name="l00059"></a><span class="lineno">   59</span>  std::lock_guard&lt;std::mutex&gt; lock(<a class="code hl_variable" href="classcl__px4__mr_1_1CpMicroRosAgent.html#a5b425a5b7d0769f86b7c5241c5a04478">mutex_</a>);</div>
+<div class="line"><a id="l00060" name="l00060"></a><span class="lineno">   60</span> </div>
+<div class="line"><a id="l00061" name="l00061"></a><span class="lineno">   61</span>  <span class="keywordflow">if</span> (<a class="code hl_variable" href="classcl__px4__mr_1_1CpMicroRosAgent.html#aef475f4bc372beecaae8df7b19c79153">launched_</a>)</div>
+<div class="line"><a id="l00062" name="l00062"></a><span class="lineno">   62</span>  {</div>
+<div class="line"><a id="l00063" name="l00063"></a><span class="lineno">   63</span>    RCLCPP_INFO(<a class="code hl_function" href="classsmacc2_1_1ISmaccComponent.html#a77ee85823bab8d84edcdf5d28782b728">getLogger</a>(), <span class="stringliteral">&quot;CpMicroRosAgent: already launched, skipping&quot;</span>);</div>
+<div class="line"><a id="l00064" name="l00064"></a><span class="lineno">   64</span>    <span class="keywordflow">return</span>;</div>
+<div class="line"><a id="l00065" name="l00065"></a><span class="lineno">   65</span>  }</div>
+<div class="line"><a id="l00066" name="l00066"></a><span class="lineno">   66</span> </div>
+<div class="line"><a id="l00067" name="l00067"></a><span class="lineno">   67</span>  RCLCPP_INFO(<a class="code hl_function" href="classsmacc2_1_1ISmaccComponent.html#a77ee85823bab8d84edcdf5d28782b728">getLogger</a>(), <span class="stringliteral">&quot;CpMicroRosAgent: launching &#39;%s&#39;&quot;</span>, <a class="code hl_variable" href="classcl__px4__mr_1_1CpMicroRosAgent.html#a23e3560a2472df1520661a9189b79334">command_</a>.c_str());</div>
+<div class="line"><a id="l00068" name="l00068"></a><span class="lineno">   68</span> </div>
+<div class="line"><a id="l00069" name="l00069"></a><span class="lineno">   69</span>  <span class="keywordtype">int</span> pipefd[2];</div>
+<div class="line"><a id="l00070" name="l00070"></a><span class="lineno">   70</span>  <span class="keywordflow">if</span> (pipe(pipefd) == -1)</div>
+<div class="line"><a id="l00071" name="l00071"></a><span class="lineno">   71</span>  {</div>
+<div class="line"><a id="l00072" name="l00072"></a><span class="lineno">   72</span>    RCLCPP_ERROR(</div>
+<div class="line"><a id="l00073" name="l00073"></a><span class="lineno">   73</span>      <a class="code hl_function" href="classsmacc2_1_1ISmaccComponent.html#a77ee85823bab8d84edcdf5d28782b728">getLogger</a>(), <span class="stringliteral">&quot;CpMicroRosAgent: pipe() failed: %s&quot;</span>,</div>
+<div class="line"><a id="l00074" name="l00074"></a><span class="lineno">   74</span>      std::system_category().message(errno).c_str());</div>
+<div class="line"><a id="l00075" name="l00075"></a><span class="lineno">   75</span>    <span class="keywordflow">return</span>;</div>
+<div class="line"><a id="l00076" name="l00076"></a><span class="lineno">   76</span>  }</div>
+<div class="line"><a id="l00077" name="l00077"></a><span class="lineno">   77</span> </div>
+<div class="line"><a id="l00078" name="l00078"></a><span class="lineno">   78</span>  pid_t pid = fork();</div>
+<div class="line"><a id="l00079" name="l00079"></a><span class="lineno">   79</span> </div>
+<div class="line"><a id="l00080" name="l00080"></a><span class="lineno">   80</span>  <span class="keywordflow">if</span> (pid == 0)</div>
+<div class="line"><a id="l00081" name="l00081"></a><span class="lineno">   81</span>  {</div>
+<div class="line"><a id="l00082" name="l00082"></a><span class="lineno">   82</span>    <span class="comment">// Child process: its own process group, so shutdown() can signal the shell and all it starts</span></div>
+<div class="line"><a id="l00083" name="l00083"></a><span class="lineno">   83</span>    setpgid(0, 0);</div>
+<div class="line"><a id="l00084" name="l00084"></a><span class="lineno">   84</span>    dup2(pipefd[1], STDOUT_FILENO);</div>
+<div class="line"><a id="l00085" name="l00085"></a><span class="lineno">   85</span>    dup2(pipefd[1], STDERR_FILENO);</div>
+<div class="line"><a id="l00086" name="l00086"></a><span class="lineno">   86</span>    <span class="comment">// The agent keeps none of this process&#39;s descriptors (sockets, DDS shared memory, the pipe)</span></div>
+<div class="line"><a id="l00087" name="l00087"></a><span class="lineno">   87</span>    close_range(3, ~0U, 0);</div>
+<div class="line"><a id="l00088" name="l00088"></a><span class="lineno">   88</span> </div>
+<div class="line"><a id="l00089" name="l00089"></a><span class="lineno">   89</span>    execl(<span class="stringliteral">&quot;/bin/sh&quot;</span>, <span class="stringliteral">&quot;/bin/sh&quot;</span>, <span class="stringliteral">&quot;-c&quot;</span>, <a class="code hl_variable" href="classcl__px4__mr_1_1CpMicroRosAgent.html#a23e3560a2472df1520661a9189b79334">command_</a>.c_str(), <span class="keyword">nullptr</span>);</div>
+<div class="line"><a id="l00090" name="l00090"></a><span class="lineno">   90</span> </div>
+<div class="line"><a id="l00091" name="l00091"></a><span class="lineno">   91</span>    <span class="comment">// If execl returns, it failed</span></div>
+<div class="line"><a id="l00092" name="l00092"></a><span class="lineno">   92</span>    _exit(1);</div>
+<div class="line"><a id="l00093" name="l00093"></a><span class="lineno">   93</span>  }</div>
+<div class="line"><a id="l00094" name="l00094"></a><span class="lineno">   94</span>  <span class="keywordflow">else</span> <span class="keywordflow">if</span> (pid &gt; 0)</div>
+<div class="line"><a id="l00095" name="l00095"></a><span class="lineno">   95</span>  {</div>
+<div class="line"><a id="l00096" name="l00096"></a><span class="lineno">   96</span>    <span class="comment">// Parent process</span></div>
+<div class="line"><a id="l00097" name="l00097"></a><span class="lineno">   97</span>    close(pipefd[1]);</div>
+<div class="line"><a id="l00098" name="l00098"></a><span class="lineno">   98</span>    setpgid(pid, pid);  <span class="comment">// also here, so the group exists whichever process runs first</span></div>
+<div class="line"><a id="l00099" name="l00099"></a><span class="lineno">   99</span>    <a class="code hl_variable" href="classcl__px4__mr_1_1CpMicroRosAgent.html#afcae667e0404dffebb23992af5667814">agentPid_</a> = pid;</div>
+<div class="line"><a id="l00100" name="l00100"></a><span class="lineno">  100</span>    <a class="code hl_variable" href="classcl__px4__mr_1_1CpMicroRosAgent.html#ab0bc3dc67d87513f4a451e2f5754f482">pipeFd_</a> = pipefd[0];</div>
+<div class="line"><a id="l00101" name="l00101"></a><span class="lineno">  101</span> </div>
+<div class="line"><a id="l00102" name="l00102"></a><span class="lineno">  102</span>    <span class="comment">// Set pipe to non-blocking</span></div>
+<div class="line"><a id="l00103" name="l00103"></a><span class="lineno">  103</span>    <span class="keywordtype">int</span> flags = fcntl(<a class="code hl_variable" href="classcl__px4__mr_1_1CpMicroRosAgent.html#ab0bc3dc67d87513f4a451e2f5754f482">pipeFd_</a>, F_GETFL, 0);</div>
+<div class="line"><a id="l00104" name="l00104"></a><span class="lineno">  104</span>    fcntl(<a class="code hl_variable" href="classcl__px4__mr_1_1CpMicroRosAgent.html#ab0bc3dc67d87513f4a451e2f5754f482">pipeFd_</a>, F_SETFL, flags | O_NONBLOCK);</div>
+<div class="line"><a id="l00105" name="l00105"></a><span class="lineno">  105</span> </div>
+<div class="line"><a id="l00106" name="l00106"></a><span class="lineno">  106</span>    <span class="comment">// Reader thread draining the pipe (prevents buffer fill); joined in shutdown()</span></div>
+<div class="line"><a id="l00107" name="l00107"></a><span class="lineno">  107</span>    <a class="code hl_variable" href="classcl__px4__mr_1_1CpMicroRosAgent.html#a7e11b8a5374a3e9686a1783e4548b002">shutdownRequested_</a> = <span class="keyword">false</span>;</div>
+<div class="line"><a id="l00108" name="l00108"></a><span class="lineno">  108</span>    <a class="code hl_variable" href="classcl__px4__mr_1_1CpMicroRosAgent.html#a3e040875cff7a820343aa47842890b8e">readerThread_</a> = std::thread(</div>
+<div class="line"><a id="l00109" name="l00109"></a><span class="lineno">  109</span>      [<span class="keyword">this</span>]()</div>
+<div class="line"><a id="l00110" name="l00110"></a><span class="lineno">  110</span>      {</div>
+<div class="line"><a id="l00111" name="l00111"></a><span class="lineno">  111</span>        <span class="keywordtype">char</span> buf[256];</div>
+<div class="line"><a id="l00112" name="l00112"></a><span class="lineno">  112</span>        <span class="keywordflow">while</span> (!<a class="code hl_variable" href="classcl__px4__mr_1_1CpMicroRosAgent.html#a7e11b8a5374a3e9686a1783e4548b002">shutdownRequested_</a>)</div>
+<div class="line"><a id="l00113" name="l00113"></a><span class="lineno">  113</span>        {</div>
+<div class="line"><a id="l00114" name="l00114"></a><span class="lineno">  114</span>          ssize_t n = read(<a class="code hl_variable" href="classcl__px4__mr_1_1CpMicroRosAgent.html#ab0bc3dc67d87513f4a451e2f5754f482">pipeFd_</a>, buf, <span class="keyword">sizeof</span>(buf) - 1);</div>
+<div class="line"><a id="l00115" name="l00115"></a><span class="lineno">  115</span>          <span class="keywordflow">if</span> (n &gt; 0)</div>
+<div class="line"><a id="l00116" name="l00116"></a><span class="lineno">  116</span>          {</div>
+<div class="line"><a id="l00117" name="l00117"></a><span class="lineno">  117</span>            buf[n] = <span class="charliteral">&#39;\0&#39;</span>;</div>
+<div class="line"><a id="l00118" name="l00118"></a><span class="lineno">  118</span>            RCLCPP_DEBUG(<a class="code hl_function" href="classsmacc2_1_1ISmaccComponent.html#a77ee85823bab8d84edcdf5d28782b728">getLogger</a>(), <span class="stringliteral">&quot;[micro_ros_agent] %s&quot;</span>, buf);</div>
+<div class="line"><a id="l00119" name="l00119"></a><span class="lineno">  119</span>          }</div>
+<div class="line"><a id="l00120" name="l00120"></a><span class="lineno">  120</span>          <span class="keywordflow">else</span></div>
+<div class="line"><a id="l00121" name="l00121"></a><span class="lineno">  121</span>          {</div>
+<div class="line"><a id="l00122" name="l00122"></a><span class="lineno">  122</span>            std::this_thread::sleep_for(std::chrono::milliseconds(100));</div>
+<div class="line"><a id="l00123" name="l00123"></a><span class="lineno">  123</span>          }</div>
+<div class="line"><a id="l00124" name="l00124"></a><span class="lineno">  124</span>        }</div>
+<div class="line"><a id="l00125" name="l00125"></a><span class="lineno">  125</span>      });</div>
+<div class="line"><a id="l00126" name="l00126"></a><span class="lineno">  126</span> </div>
+<div class="line"><a id="l00127" name="l00127"></a><span class="lineno">  127</span>    <a class="code hl_variable" href="classcl__px4__mr_1_1CpMicroRosAgent.html#aef475f4bc372beecaae8df7b19c79153">launched_</a> = <span class="keyword">true</span>;</div>
+<div class="line"><a id="l00128" name="l00128"></a><span class="lineno">  128</span>    RCLCPP_INFO(<a class="code hl_function" href="classsmacc2_1_1ISmaccComponent.html#a77ee85823bab8d84edcdf5d28782b728">getLogger</a>(), <span class="stringliteral">&quot;CpMicroRosAgent: launched with PID %d&quot;</span>, <a class="code hl_variable" href="classcl__px4__mr_1_1CpMicroRosAgent.html#afcae667e0404dffebb23992af5667814">agentPid_</a>);</div>
+<div class="line"><a id="l00129" name="l00129"></a><span class="lineno">  129</span>  }</div>
+<div class="line"><a id="l00130" name="l00130"></a><span class="lineno">  130</span>  <span class="keywordflow">else</span></div>
+<div class="line"><a id="l00131" name="l00131"></a><span class="lineno">  131</span>  {</div>
+<div class="line"><a id="l00132" name="l00132"></a><span class="lineno">  132</span>    RCLCPP_ERROR(</div>
+<div class="line"><a id="l00133" name="l00133"></a><span class="lineno">  133</span>      <a class="code hl_function" href="classsmacc2_1_1ISmaccComponent.html#a77ee85823bab8d84edcdf5d28782b728">getLogger</a>(), <span class="stringliteral">&quot;CpMicroRosAgent: fork() failed: %s&quot;</span>,</div>
+<div class="line"><a id="l00134" name="l00134"></a><span class="lineno">  134</span>      std::system_category().message(errno).c_str());</div>
+<div class="line"><a id="l00135" name="l00135"></a><span class="lineno">  135</span>    close(pipefd[0]);</div>
+<div class="line"><a id="l00136" name="l00136"></a><span class="lineno">  136</span>    close(pipefd[1]);</div>
+<div class="line"><a id="l00137" name="l00137"></a><span class="lineno">  137</span>  }</div>
+<div class="line"><a id="l00138" name="l00138"></a><span class="lineno">  138</span>}</div>
 </div>
-<div class="line"><a id="l00174" name="l00174"></a><span class="lineno">  174</span> </div>
-<div class="line"><a id="l00175" name="l00175"></a><span class="lineno"><a class="line" href="classcl__px4__mr_1_1CpMicroRosAgent.html#a7b3316983da24fa3f1aa5f244ce0fd65">  175</a></span>std::string <a class="code hl_function" href="classcl__px4__mr_1_1CpMicroRosAgent.html#a7b3316983da24fa3f1aa5f244ce0fd65">CpMicroRosAgent::getNodeName</a>()<span class="keyword"> const </span>{ <span class="keywordflow">return</span> <a class="code hl_variable" href="classcl__px4__mr_1_1CpMicroRosAgent.html#a2e4296f1186b063ca497a7d7fcee85c2">nodeName_</a>; }</div>
-<div class="line"><a id="l00176" name="l00176"></a><span class="lineno">  176</span> </div>
-<div class="foldopen" id="foldopen00177" data-start="{" data-end="}">
-<div class="line"><a id="l00177" name="l00177"></a><span class="lineno"><a class="line" href="classcl__px4__mr_1_1CpMicroRosAgent.html#afec60a790888ac7698eb9519a6187ad3">  177</a></span><span class="keywordtype">void</span> <a class="code hl_function" href="classcl__px4__mr_1_1CpMicroRosAgent.html#afec60a790888ac7698eb9519a6187ad3">CpMicroRosAgent::killProcessesRecursive</a>(pid_t pid)</div>
-<div class="line"><a id="l00178" name="l00178"></a><span class="lineno">  178</span>{</div>
-<div class="line"><a id="l00179" name="l00179"></a><span class="lineno">  179</span>  std::string command = <span class="stringliteral">&quot;pgrep -P &quot;</span> + std::to_string(pid);</div>
-<div class="line"><a id="l00180" name="l00180"></a><span class="lineno">  180</span>  FILE * pipe = popen(command.c_str(), <span class="stringliteral">&quot;r&quot;</span>);</div>
-<div class="line"><a id="l00181" name="l00181"></a><span class="lineno">  181</span> </div>
-<div class="line"><a id="l00182" name="l00182"></a><span class="lineno">  182</span>  <span class="keywordflow">if</span> (!pipe)</div>
-<div class="line"><a id="l00183" name="l00183"></a><span class="lineno">  183</span>  {</div>
-<div class="line"><a id="l00184" name="l00184"></a><span class="lineno">  184</span>    <span class="keywordflow">return</span>;</div>
-<div class="line"><a id="l00185" name="l00185"></a><span class="lineno">  185</span>  }</div>
-<div class="line"><a id="l00186" name="l00186"></a><span class="lineno">  186</span> </div>
-<div class="line"><a id="l00187" name="l00187"></a><span class="lineno">  187</span>  <span class="keywordtype">char</span> buffer[128];</div>
-<div class="line"><a id="l00188" name="l00188"></a><span class="lineno">  188</span>  std::string result;</div>
-<div class="line"><a id="l00189" name="l00189"></a><span class="lineno">  189</span> </div>
-<div class="line"><a id="l00190" name="l00190"></a><span class="lineno">  190</span>  <span class="keywordflow">while</span> (fgets(buffer, <span class="keyword">sizeof</span>(buffer), pipe) != <span class="keyword">nullptr</span>)</div>
-<div class="line"><a id="l00191" name="l00191"></a><span class="lineno">  191</span>  {</div>
-<div class="line"><a id="l00192" name="l00192"></a><span class="lineno">  192</span>    result += buffer;</div>
-<div class="line"><a id="l00193" name="l00193"></a><span class="lineno">  193</span>  }</div>
-<div class="line"><a id="l00194" name="l00194"></a><span class="lineno">  194</span> </div>
-<div class="line"><a id="l00195" name="l00195"></a><span class="lineno">  195</span>  pclose(pipe);</div>
-<div class="line"><a id="l00196" name="l00196"></a><span class="lineno">  196</span> </div>
-<div class="line"><a id="l00197" name="l00197"></a><span class="lineno">  197</span>  std::istringstream iss(result);</div>
-<div class="line"><a id="l00198" name="l00198"></a><span class="lineno">  198</span>  pid_t childPid = 0;</div>
-<div class="line"><a id="l00199" name="l00199"></a><span class="lineno">  199</span>  std::vector&lt;pid_t&gt; childPids;</div>
-<div class="line"><a id="l00200" name="l00200"></a><span class="lineno">  200</span> </div>
-<div class="line"><a id="l00201" name="l00201"></a><span class="lineno">  201</span>  <span class="keywordflow">while</span> (iss &gt;&gt; childPid)</div>
-<div class="line"><a id="l00202" name="l00202"></a><span class="lineno">  202</span>  {</div>
-<div class="line"><a id="l00203" name="l00203"></a><span class="lineno">  203</span>    childPids.push_back(childPid);</div>
-<div class="line"><a id="l00204" name="l00204"></a><span class="lineno">  204</span>  }</div>
-<div class="line"><a id="l00205" name="l00205"></a><span class="lineno">  205</span> </div>
-<div class="line"><a id="l00206" name="l00206"></a><span class="lineno">  206</span>  <span class="comment">// Kill child processes before killing the parent process</span></div>
-<div class="line"><a id="l00207" name="l00207"></a><span class="lineno">  207</span>  <span class="keywordflow">for</span> (<span class="keyword">const</span> pid_t &amp; child : childPids)</div>
-<div class="line"><a id="l00208" name="l00208"></a><span class="lineno">  208</span>  {</div>
-<div class="line"><a id="l00209" name="l00209"></a><span class="lineno">  209</span>    <a class="code hl_function" href="classcl__px4__mr_1_1CpMicroRosAgent.html#afec60a790888ac7698eb9519a6187ad3">killProcessesRecursive</a>(child);</div>
-<div class="line"><a id="l00210" name="l00210"></a><span class="lineno">  210</span>  }</div>
-<div class="line"><a id="l00211" name="l00211"></a><span class="lineno">  211</span> </div>
-<div class="line"><a id="l00212" name="l00212"></a><span class="lineno">  212</span>  <span class="comment">// After killing all children, kill the parent process</span></div>
-<div class="line"><a id="l00213" name="l00213"></a><span class="lineno">  213</span>  <span class="keywordtype">int</span> res = kill(pid, SIGTERM);</div>
-<div class="line"><a id="l00214" name="l00214"></a><span class="lineno">  214</span>  <span class="keywordflow">if</span> (res == 0)</div>
-<div class="line"><a id="l00215" name="l00215"></a><span class="lineno">  215</span>  {</div>
-<div class="line"><a id="l00216" name="l00216"></a><span class="lineno">  216</span>    RCLCPP_INFO(<a class="code hl_function" href="classsmacc2_1_1ISmaccComponent.html#a77ee85823bab8d84edcdf5d28782b728">getLogger</a>(), <span class="stringliteral">&quot;CpMicroRosAgent: killed process %d&quot;</span>, pid);</div>
-<div class="line"><a id="l00217" name="l00217"></a><span class="lineno">  217</span>  }</div>
-<div class="line"><a id="l00218" name="l00218"></a><span class="lineno">  218</span>}</div>
+<div class="line"><a id="l00139" name="l00139"></a><span class="lineno">  139</span> </div>
+<div class="foldopen" id="foldopen00140" data-start="{" data-end="}">
+<div class="line"><a id="l00140" name="l00140"></a><span class="lineno"><a class="line" href="classcl__px4__mr_1_1CpMicroRosAgent.html#add7dac82b912a25832616ad27c15bb7d">  140</a></span><span class="keywordtype">void</span> <a class="code hl_function" href="classcl__px4__mr_1_1CpMicroRosAgent.html#add7dac82b912a25832616ad27c15bb7d">CpMicroRosAgent::shutdown</a>()</div>
+<div class="line"><a id="l00141" name="l00141"></a><span class="lineno">  141</span>{</div>
+<div class="line"><a id="l00142" name="l00142"></a><span class="lineno">  142</span>  std::lock_guard&lt;std::mutex&gt; lock(<a class="code hl_variable" href="classcl__px4__mr_1_1CpMicroRosAgent.html#a5b425a5b7d0769f86b7c5241c5a04478">mutex_</a>);</div>
+<div class="line"><a id="l00143" name="l00143"></a><span class="lineno">  143</span> </div>
+<div class="line"><a id="l00144" name="l00144"></a><span class="lineno">  144</span>  <span class="comment">// The reader checks the flag every 100 ms, so the join is bounded; it must happen before the</span></div>
+<div class="line"><a id="l00145" name="l00145"></a><span class="lineno">  145</span>  <span class="comment">// pipe is closed and before this object is destroyed.</span></div>
+<div class="line"><a id="l00146" name="l00146"></a><span class="lineno">  146</span>  <a class="code hl_variable" href="classcl__px4__mr_1_1CpMicroRosAgent.html#a7e11b8a5374a3e9686a1783e4548b002">shutdownRequested_</a> = <span class="keyword">true</span>;</div>
+<div class="line"><a id="l00147" name="l00147"></a><span class="lineno">  147</span>  <span class="keywordflow">if</span> (<a class="code hl_variable" href="classcl__px4__mr_1_1CpMicroRosAgent.html#a3e040875cff7a820343aa47842890b8e">readerThread_</a>.joinable())</div>
+<div class="line"><a id="l00148" name="l00148"></a><span class="lineno">  148</span>  {</div>
+<div class="line"><a id="l00149" name="l00149"></a><span class="lineno">  149</span>    <a class="code hl_variable" href="classcl__px4__mr_1_1CpMicroRosAgent.html#a3e040875cff7a820343aa47842890b8e">readerThread_</a>.join();</div>
+<div class="line"><a id="l00150" name="l00150"></a><span class="lineno">  150</span>  }</div>
+<div class="line"><a id="l00151" name="l00151"></a><span class="lineno">  151</span> </div>
+<div class="line"><a id="l00152" name="l00152"></a><span class="lineno">  152</span>  <span class="keywordflow">if</span> (<a class="code hl_variable" href="classcl__px4__mr_1_1CpMicroRosAgent.html#afcae667e0404dffebb23992af5667814">agentPid_</a> &lt;= 0)</div>
+<div class="line"><a id="l00153" name="l00153"></a><span class="lineno">  153</span>  {</div>
+<div class="line"><a id="l00154" name="l00154"></a><span class="lineno">  154</span>    <span class="keywordflow">return</span>;</div>
+<div class="line"><a id="l00155" name="l00155"></a><span class="lineno">  155</span>  }</div>
+<div class="line"><a id="l00156" name="l00156"></a><span class="lineno">  156</span> </div>
+<div class="line"><a id="l00157" name="l00157"></a><span class="lineno">  157</span>  RCLCPP_INFO(<a class="code hl_function" href="classsmacc2_1_1ISmaccComponent.html#a77ee85823bab8d84edcdf5d28782b728">getLogger</a>(), <span class="stringliteral">&quot;CpMicroRosAgent: shutting down agent (PID %d)&quot;</span>, <a class="code hl_variable" href="classcl__px4__mr_1_1CpMicroRosAgent.html#afcae667e0404dffebb23992af5667814">agentPid_</a>);</div>
+<div class="line"><a id="l00158" name="l00158"></a><span class="lineno">  158</span> </div>
+<div class="line"><a id="l00159" name="l00159"></a><span class="lineno">  159</span>  <span class="comment">// SIGTERM to the whole group, SIGKILL to whatever is left after two seconds</span></div>
+<div class="line"><a id="l00160" name="l00160"></a><span class="lineno">  160</span>  <span class="keywordtype">bool</span> leaderReaped = <span class="keyword">false</span>;</div>
+<div class="line"><a id="l00161" name="l00161"></a><span class="lineno">  161</span>  kill(-<a class="code hl_variable" href="classcl__px4__mr_1_1CpMicroRosAgent.html#afcae667e0404dffebb23992af5667814">agentPid_</a>, SIGTERM);</div>
+<div class="line"><a id="l00162" name="l00162"></a><span class="lineno">  162</span>  <span class="keywordflow">if</span> (!waitForGroupExit(<a class="code hl_variable" href="classcl__px4__mr_1_1CpMicroRosAgent.html#afcae667e0404dffebb23992af5667814">agentPid_</a>, leaderReaped, std::chrono::seconds(2)))</div>
+<div class="line"><a id="l00163" name="l00163"></a><span class="lineno">  163</span>  {</div>
+<div class="line"><a id="l00164" name="l00164"></a><span class="lineno">  164</span>    RCLCPP_WARN(<a class="code hl_function" href="classsmacc2_1_1ISmaccComponent.html#a77ee85823bab8d84edcdf5d28782b728">getLogger</a>(), <span class="stringliteral">&quot;CpMicroRosAgent: agent still running after SIGTERM, sending SIGKILL&quot;</span>);</div>
+<div class="line"><a id="l00165" name="l00165"></a><span class="lineno">  165</span>    kill(-<a class="code hl_variable" href="classcl__px4__mr_1_1CpMicroRosAgent.html#afcae667e0404dffebb23992af5667814">agentPid_</a>, SIGKILL);</div>
+<div class="line"><a id="l00166" name="l00166"></a><span class="lineno">  166</span>    <span class="keywordflow">if</span> (!waitForGroupExit(<a class="code hl_variable" href="classcl__px4__mr_1_1CpMicroRosAgent.html#afcae667e0404dffebb23992af5667814">agentPid_</a>, leaderReaped, std::chrono::seconds(2)))</div>
+<div class="line"><a id="l00167" name="l00167"></a><span class="lineno">  167</span>    {</div>
+<div class="line"><a id="l00168" name="l00168"></a><span class="lineno">  168</span>      RCLCPP_ERROR(</div>
+<div class="line"><a id="l00169" name="l00169"></a><span class="lineno">  169</span>        <a class="code hl_function" href="classsmacc2_1_1ISmaccComponent.html#a77ee85823bab8d84edcdf5d28782b728">getLogger</a>(), <span class="stringliteral">&quot;CpMicroRosAgent: process group %d still exists after SIGKILL&quot;</span>, <a class="code hl_variable" href="classcl__px4__mr_1_1CpMicroRosAgent.html#afcae667e0404dffebb23992af5667814">agentPid_</a>);</div>
+<div class="line"><a id="l00170" name="l00170"></a><span class="lineno">  170</span>    }</div>
+<div class="line"><a id="l00171" name="l00171"></a><span class="lineno">  171</span>  }</div>
+<div class="line"><a id="l00172" name="l00172"></a><span class="lineno">  172</span> </div>
+<div class="line"><a id="l00173" name="l00173"></a><span class="lineno">  173</span>  <span class="comment">// Close pipe</span></div>
+<div class="line"><a id="l00174" name="l00174"></a><span class="lineno">  174</span>  <span class="keywordflow">if</span> (<a class="code hl_variable" href="classcl__px4__mr_1_1CpMicroRosAgent.html#ab0bc3dc67d87513f4a451e2f5754f482">pipeFd_</a> &gt;= 0)</div>
+<div class="line"><a id="l00175" name="l00175"></a><span class="lineno">  175</span>  {</div>
+<div class="line"><a id="l00176" name="l00176"></a><span class="lineno">  176</span>    close(<a class="code hl_variable" href="classcl__px4__mr_1_1CpMicroRosAgent.html#ab0bc3dc67d87513f4a451e2f5754f482">pipeFd_</a>);</div>
+<div class="line"><a id="l00177" name="l00177"></a><span class="lineno">  177</span>    <a class="code hl_variable" href="classcl__px4__mr_1_1CpMicroRosAgent.html#ab0bc3dc67d87513f4a451e2f5754f482">pipeFd_</a> = -1;</div>
+<div class="line"><a id="l00178" name="l00178"></a><span class="lineno">  178</span>  }</div>
+<div class="line"><a id="l00179" name="l00179"></a><span class="lineno">  179</span> </div>
+<div class="line"><a id="l00180" name="l00180"></a><span class="lineno">  180</span>  <a class="code hl_variable" href="classcl__px4__mr_1_1CpMicroRosAgent.html#afcae667e0404dffebb23992af5667814">agentPid_</a> = -1;</div>
+<div class="line"><a id="l00181" name="l00181"></a><span class="lineno">  181</span>  <a class="code hl_variable" href="classcl__px4__mr_1_1CpMicroRosAgent.html#aef475f4bc372beecaae8df7b19c79153">launched_</a> = <span class="keyword">false</span>;</div>
+<div class="line"><a id="l00182" name="l00182"></a><span class="lineno">  182</span> </div>
+<div class="line"><a id="l00183" name="l00183"></a><span class="lineno">  183</span>  RCLCPP_INFO(<a class="code hl_function" href="classsmacc2_1_1ISmaccComponent.html#a77ee85823bab8d84edcdf5d28782b728">getLogger</a>(), <span class="stringliteral">&quot;CpMicroRosAgent: shutdown complete&quot;</span>);</div>
+<div class="line"><a id="l00184" name="l00184"></a><span class="lineno">  184</span>}</div>
 </div>
-<div class="line"><a id="l00219" name="l00219"></a><span class="lineno">  219</span> </div>
-<div class="line"><a id="l00220" name="l00220"></a><span class="lineno">  220</span>}  <span class="comment">// namespace cl_px4_mr</span></div>
-<div class="ttc" id="aclasscl__px4__mr_1_1CpMicroRosAgent_html_a22a93c2518b0f0e00e001172a239c8fe"><div class="ttname"><a href="classcl__px4__mr_1_1CpMicroRosAgent.html#a22a93c2518b0f0e00e001172a239c8fe">cl_px4_mr::CpMicroRosAgent::CpMicroRosAgent</a></div><div class="ttdeci">CpMicroRosAgent(std::string command=&quot;ros2 run micro_ros_agent micro_ros_agent udp4 -p 8888 2&gt;&amp;1 | tee /tmp/xrce_agent.log&quot;, std::string nodeName=&quot;/px4_micro_xrce_dds&quot;)</div><div class="ttdef"><b>Definition</b> <a href="#l00032">cp_micro_ros_agent.cpp:32</a></div></div>
-<div class="ttc" id="aclasscl__px4__mr_1_1CpMicroRosAgent_html_a23e3560a2472df1520661a9189b79334"><div class="ttname"><a href="classcl__px4__mr_1_1CpMicroRosAgent.html#a23e3560a2472df1520661a9189b79334">cl_px4_mr::CpMicroRosAgent::command_</a></div><div class="ttdeci">std::string command_</div><div class="ttdef"><b>Definition</b> <a href="cp__micro__ros__agent_8hpp_source.html#l00048">cp_micro_ros_agent.hpp:48</a></div></div>
-<div class="ttc" id="aclasscl__px4__mr_1_1CpMicroRosAgent_html_a2e4296f1186b063ca497a7d7fcee85c2"><div class="ttname"><a href="classcl__px4__mr_1_1CpMicroRosAgent.html#a2e4296f1186b063ca497a7d7fcee85c2">cl_px4_mr::CpMicroRosAgent::nodeName_</a></div><div class="ttdeci">std::string nodeName_</div><div class="ttdef"><b>Definition</b> <a href="cp__micro__ros__agent_8hpp_source.html#l00049">cp_micro_ros_agent.hpp:49</a></div></div>
-<div class="ttc" id="aclasscl__px4__mr_1_1CpMicroRosAgent_html_a3e040875cff7a820343aa47842890b8e"><div class="ttname"><a href="classcl__px4__mr_1_1CpMicroRosAgent.html#a3e040875cff7a820343aa47842890b8e">cl_px4_mr::CpMicroRosAgent::readerThread_</a></div><div class="ttdeci">std::thread readerThread_</div><div class="ttdef"><b>Definition</b> <a href="cp__micro__ros__agent_8hpp_source.html#l00053">cp_micro_ros_agent.hpp:53</a></div></div>
-<div class="ttc" id="aclasscl__px4__mr_1_1CpMicroRosAgent_html_a5412947da4bf691ae59c0fbb21918ca8"><div class="ttname"><a href="classcl__px4__mr_1_1CpMicroRosAgent.html#a5412947da4bf691ae59c0fbb21918ca8">cl_px4_mr::CpMicroRosAgent::launch</a></div><div class="ttdeci">void launch()</div><div class="ttdef"><b>Definition</b> <a href="#l00039">cp_micro_ros_agent.cpp:39</a></div></div>
-<div class="ttc" id="aclasscl__px4__mr_1_1CpMicroRosAgent_html_a5b425a5b7d0769f86b7c5241c5a04478"><div class="ttname"><a href="classcl__px4__mr_1_1CpMicroRosAgent.html#a5b425a5b7d0769f86b7c5241c5a04478">cl_px4_mr::CpMicroRosAgent::mutex_</a></div><div class="ttdeci">std::mutex mutex_</div><div class="ttdef"><b>Definition</b> <a href="cp__micro__ros__agent_8hpp_source.html#l00050">cp_micro_ros_agent.hpp:50</a></div></div>
-<div class="ttc" id="aclasscl__px4__mr_1_1CpMicroRosAgent_html_a7b3316983da24fa3f1aa5f244ce0fd65"><div class="ttname"><a href="classcl__px4__mr_1_1CpMicroRosAgent.html#a7b3316983da24fa3f1aa5f244ce0fd65">cl_px4_mr::CpMicroRosAgent::getNodeName</a></div><div class="ttdeci">std::string getNodeName() const</div><div class="ttdef"><b>Definition</b> <a href="#l00175">cp_micro_ros_agent.cpp:175</a></div></div>
-<div class="ttc" id="aclasscl__px4__mr_1_1CpMicroRosAgent_html_a7e11b8a5374a3e9686a1783e4548b002"><div class="ttname"><a href="classcl__px4__mr_1_1CpMicroRosAgent.html#a7e11b8a5374a3e9686a1783e4548b002">cl_px4_mr::CpMicroRosAgent::shutdownRequested_</a></div><div class="ttdeci">std::atomic&lt; bool &gt; shutdownRequested_</div><div class="ttdef"><b>Definition</b> <a href="cp__micro__ros__agent_8hpp_source.html#l00047">cp_micro_ros_agent.hpp:47</a></div></div>
-<div class="ttc" id="aclasscl__px4__mr_1_1CpMicroRosAgent_html_a99bc6b0e65be40436f9fc42bb6f7cba5"><div class="ttname"><a href="classcl__px4__mr_1_1CpMicroRosAgent.html#a99bc6b0e65be40436f9fc42bb6f7cba5">cl_px4_mr::CpMicroRosAgent::isLaunched</a></div><div class="ttdeci">bool isLaunched() const</div><div class="ttdef"><b>Definition</b> <a href="#l00167">cp_micro_ros_agent.cpp:167</a></div></div>
-<div class="ttc" id="aclasscl__px4__mr_1_1CpMicroRosAgent_html_a9ad16bcbf6328d20292feef618518675"><div class="ttname"><a href="classcl__px4__mr_1_1CpMicroRosAgent.html#a9ad16bcbf6328d20292feef618518675">cl_px4_mr::CpMicroRosAgent::getPid</a></div><div class="ttdeci">pid_t getPid() const</div><div class="ttdef"><b>Definition</b> <a href="#l00169">cp_micro_ros_agent.cpp:169</a></div></div>
-<div class="ttc" id="aclasscl__px4__mr_1_1CpMicroRosAgent_html_ab0bc3dc67d87513f4a451e2f5754f482"><div class="ttname"><a href="classcl__px4__mr_1_1CpMicroRosAgent.html#ab0bc3dc67d87513f4a451e2f5754f482">cl_px4_mr::CpMicroRosAgent::pipeFd_</a></div><div class="ttdeci">int pipeFd_</div><div class="ttdef"><b>Definition</b> <a href="cp__micro__ros__agent_8hpp_source.html#l00051">cp_micro_ros_agent.hpp:51</a></div></div>
-<div class="ttc" id="aclasscl__px4__mr_1_1CpMicroRosAgent_html_add7dac82b912a25832616ad27c15bb7d"><div class="ttname"><a href="classcl__px4__mr_1_1CpMicroRosAgent.html#add7dac82b912a25832616ad27c15bb7d">cl_px4_mr::CpMicroRosAgent::shutdown</a></div><div class="ttdeci">void shutdown()</div><div class="ttdef"><b>Definition</b> <a href="#l00120">cp_micro_ros_agent.cpp:120</a></div></div>
-<div class="ttc" id="aclasscl__px4__mr_1_1CpMicroRosAgent_html_ae920f60db91e66fcbcf336228f5ecb04"><div class="ttname"><a href="classcl__px4__mr_1_1CpMicroRosAgent.html#ae920f60db91e66fcbcf336228f5ecb04">cl_px4_mr::CpMicroRosAgent::~CpMicroRosAgent</a></div><div class="ttdeci">~CpMicroRosAgent() override</div><div class="ttdef"><b>Definition</b> <a href="#l00037">cp_micro_ros_agent.cpp:37</a></div></div>
-<div class="ttc" id="aclasscl__px4__mr_1_1CpMicroRosAgent_html_aef475f4bc372beecaae8df7b19c79153"><div class="ttname"><a href="classcl__px4__mr_1_1CpMicroRosAgent.html#aef475f4bc372beecaae8df7b19c79153">cl_px4_mr::CpMicroRosAgent::launched_</a></div><div class="ttdeci">std::atomic&lt; bool &gt; launched_</div><div class="ttdef"><b>Definition</b> <a href="cp__micro__ros__agent_8hpp_source.html#l00046">cp_micro_ros_agent.hpp:46</a></div></div>
-<div class="ttc" id="aclasscl__px4__mr_1_1CpMicroRosAgent_html_afcae667e0404dffebb23992af5667814"><div class="ttname"><a href="classcl__px4__mr_1_1CpMicroRosAgent.html#afcae667e0404dffebb23992af5667814">cl_px4_mr::CpMicroRosAgent::agentPid_</a></div><div class="ttdeci">pid_t agentPid_</div><div class="ttdef"><b>Definition</b> <a href="cp__micro__ros__agent_8hpp_source.html#l00045">cp_micro_ros_agent.hpp:45</a></div></div>
-<div class="ttc" id="aclasscl__px4__mr_1_1CpMicroRosAgent_html_afec60a790888ac7698eb9519a6187ad3"><div class="ttname"><a href="classcl__px4__mr_1_1CpMicroRosAgent.html#afec60a790888ac7698eb9519a6187ad3">cl_px4_mr::CpMicroRosAgent::killProcessesRecursive</a></div><div class="ttdeci">void killProcessesRecursive(pid_t pid)</div><div class="ttdef"><b>Definition</b> <a href="#l00177">cp_micro_ros_agent.cpp:177</a></div></div>
+<div class="line"><a id="l00185" name="l00185"></a><span class="lineno">  185</span> </div>
+<div class="line"><a id="l00186" name="l00186"></a><span class="lineno"><a class="line" href="classcl__px4__mr_1_1CpMicroRosAgent.html#a99bc6b0e65be40436f9fc42bb6f7cba5">  186</a></span><span class="keywordtype">bool</span> <a class="code hl_function" href="classcl__px4__mr_1_1CpMicroRosAgent.html#a99bc6b0e65be40436f9fc42bb6f7cba5">CpMicroRosAgent::isLaunched</a>()<span class="keyword"> const </span>{ <span class="keywordflow">return</span> <a class="code hl_variable" href="classcl__px4__mr_1_1CpMicroRosAgent.html#aef475f4bc372beecaae8df7b19c79153">launched_</a>; }</div>
+<div class="line"><a id="l00187" name="l00187"></a><span class="lineno">  187</span> </div>
+<div class="foldopen" id="foldopen00188" data-start="{" data-end="}">
+<div class="line"><a id="l00188" name="l00188"></a><span class="lineno"><a class="line" href="classcl__px4__mr_1_1CpMicroRosAgent.html#a9ad16bcbf6328d20292feef618518675">  188</a></span>pid_t <a class="code hl_function" href="classcl__px4__mr_1_1CpMicroRosAgent.html#a9ad16bcbf6328d20292feef618518675">CpMicroRosAgent::getPid</a>()<span class="keyword"> const</span></div>
+<div class="line"><a id="l00189" name="l00189"></a><span class="lineno">  189</span><span class="keyword"></span>{</div>
+<div class="line"><a id="l00190" name="l00190"></a><span class="lineno">  190</span>  std::lock_guard&lt;std::mutex&gt; lock(<a class="code hl_variable" href="classcl__px4__mr_1_1CpMicroRosAgent.html#a5b425a5b7d0769f86b7c5241c5a04478">mutex_</a>);</div>
+<div class="line"><a id="l00191" name="l00191"></a><span class="lineno">  191</span>  <span class="keywordflow">return</span> <a class="code hl_variable" href="classcl__px4__mr_1_1CpMicroRosAgent.html#afcae667e0404dffebb23992af5667814">agentPid_</a>;</div>
+<div class="line"><a id="l00192" name="l00192"></a><span class="lineno">  192</span>}</div>
+</div>
+<div class="line"><a id="l00193" name="l00193"></a><span class="lineno">  193</span> </div>
+<div class="line"><a id="l00194" name="l00194"></a><span class="lineno"><a class="line" href="classcl__px4__mr_1_1CpMicroRosAgent.html#a7b3316983da24fa3f1aa5f244ce0fd65">  194</a></span>std::string <a class="code hl_function" href="classcl__px4__mr_1_1CpMicroRosAgent.html#a7b3316983da24fa3f1aa5f244ce0fd65">CpMicroRosAgent::getNodeName</a>()<span class="keyword"> const </span>{ <span class="keywordflow">return</span> <a class="code hl_variable" href="classcl__px4__mr_1_1CpMicroRosAgent.html#a2e4296f1186b063ca497a7d7fcee85c2">nodeName_</a>; }</div>
+<div class="line"><a id="l00195" name="l00195"></a><span class="lineno">  195</span> </div>
+<div class="line"><a id="l00196" name="l00196"></a><span class="lineno">  196</span>}  <span class="comment">// namespace cl_px4_mr</span></div>
+<div class="ttc" id="aclasscl__px4__mr_1_1CpMicroRosAgent_html_a22a93c2518b0f0e00e001172a239c8fe"><div class="ttname"><a href="classcl__px4__mr_1_1CpMicroRosAgent.html#a22a93c2518b0f0e00e001172a239c8fe">cl_px4_mr::CpMicroRosAgent::CpMicroRosAgent</a></div><div class="ttdeci">CpMicroRosAgent(std::string command=&quot;ros2 run micro_ros_agent micro_ros_agent udp4 -p 8888 2&gt;&amp;1 | tee /tmp/xrce_agent.log&quot;, std::string nodeName=&quot;/px4_micro_xrce_dds&quot;)</div><div class="ttdef"><b>Definition</b> <a href="#l00050">cp_micro_ros_agent.cpp:50</a></div></div>
+<div class="ttc" id="aclasscl__px4__mr_1_1CpMicroRosAgent_html_a23e3560a2472df1520661a9189b79334"><div class="ttname"><a href="classcl__px4__mr_1_1CpMicroRosAgent.html#a23e3560a2472df1520661a9189b79334">cl_px4_mr::CpMicroRosAgent::command_</a></div><div class="ttdeci">std::string command_</div><div class="ttdef"><b>Definition</b> <a href="cp__micro__ros__agent_8hpp_source.html#l00046">cp_micro_ros_agent.hpp:46</a></div></div>
+<div class="ttc" id="aclasscl__px4__mr_1_1CpMicroRosAgent_html_a2e4296f1186b063ca497a7d7fcee85c2"><div class="ttname"><a href="classcl__px4__mr_1_1CpMicroRosAgent.html#a2e4296f1186b063ca497a7d7fcee85c2">cl_px4_mr::CpMicroRosAgent::nodeName_</a></div><div class="ttdeci">std::string nodeName_</div><div class="ttdef"><b>Definition</b> <a href="cp__micro__ros__agent_8hpp_source.html#l00047">cp_micro_ros_agent.hpp:47</a></div></div>
+<div class="ttc" id="aclasscl__px4__mr_1_1CpMicroRosAgent_html_a3e040875cff7a820343aa47842890b8e"><div class="ttname"><a href="classcl__px4__mr_1_1CpMicroRosAgent.html#a3e040875cff7a820343aa47842890b8e">cl_px4_mr::CpMicroRosAgent::readerThread_</a></div><div class="ttdeci">std::thread readerThread_</div><div class="ttdef"><b>Definition</b> <a href="cp__micro__ros__agent_8hpp_source.html#l00051">cp_micro_ros_agent.hpp:51</a></div></div>
+<div class="ttc" id="aclasscl__px4__mr_1_1CpMicroRosAgent_html_a5412947da4bf691ae59c0fbb21918ca8"><div class="ttname"><a href="classcl__px4__mr_1_1CpMicroRosAgent.html#a5412947da4bf691ae59c0fbb21918ca8">cl_px4_mr::CpMicroRosAgent::launch</a></div><div class="ttdeci">void launch()</div><div class="ttdef"><b>Definition</b> <a href="#l00057">cp_micro_ros_agent.cpp:57</a></div></div>
+<div class="ttc" id="aclasscl__px4__mr_1_1CpMicroRosAgent_html_a5b425a5b7d0769f86b7c5241c5a04478"><div class="ttname"><a href="classcl__px4__mr_1_1CpMicroRosAgent.html#a5b425a5b7d0769f86b7c5241c5a04478">cl_px4_mr::CpMicroRosAgent::mutex_</a></div><div class="ttdeci">std::mutex mutex_</div><div class="ttdef"><b>Definition</b> <a href="cp__micro__ros__agent_8hpp_source.html#l00048">cp_micro_ros_agent.hpp:48</a></div></div>
+<div class="ttc" id="aclasscl__px4__mr_1_1CpMicroRosAgent_html_a7b3316983da24fa3f1aa5f244ce0fd65"><div class="ttname"><a href="classcl__px4__mr_1_1CpMicroRosAgent.html#a7b3316983da24fa3f1aa5f244ce0fd65">cl_px4_mr::CpMicroRosAgent::getNodeName</a></div><div class="ttdeci">std::string getNodeName() const</div><div class="ttdef"><b>Definition</b> <a href="#l00194">cp_micro_ros_agent.cpp:194</a></div></div>
+<div class="ttc" id="aclasscl__px4__mr_1_1CpMicroRosAgent_html_a7e11b8a5374a3e9686a1783e4548b002"><div class="ttname"><a href="classcl__px4__mr_1_1CpMicroRosAgent.html#a7e11b8a5374a3e9686a1783e4548b002">cl_px4_mr::CpMicroRosAgent::shutdownRequested_</a></div><div class="ttdeci">std::atomic&lt; bool &gt; shutdownRequested_</div><div class="ttdef"><b>Definition</b> <a href="cp__micro__ros__agent_8hpp_source.html#l00045">cp_micro_ros_agent.hpp:45</a></div></div>
+<div class="ttc" id="aclasscl__px4__mr_1_1CpMicroRosAgent_html_a99bc6b0e65be40436f9fc42bb6f7cba5"><div class="ttname"><a href="classcl__px4__mr_1_1CpMicroRosAgent.html#a99bc6b0e65be40436f9fc42bb6f7cba5">cl_px4_mr::CpMicroRosAgent::isLaunched</a></div><div class="ttdeci">bool isLaunched() const</div><div class="ttdef"><b>Definition</b> <a href="#l00186">cp_micro_ros_agent.cpp:186</a></div></div>
+<div class="ttc" id="aclasscl__px4__mr_1_1CpMicroRosAgent_html_a9ad16bcbf6328d20292feef618518675"><div class="ttname"><a href="classcl__px4__mr_1_1CpMicroRosAgent.html#a9ad16bcbf6328d20292feef618518675">cl_px4_mr::CpMicroRosAgent::getPid</a></div><div class="ttdeci">pid_t getPid() const</div><div class="ttdef"><b>Definition</b> <a href="#l00188">cp_micro_ros_agent.cpp:188</a></div></div>
+<div class="ttc" id="aclasscl__px4__mr_1_1CpMicroRosAgent_html_ab0bc3dc67d87513f4a451e2f5754f482"><div class="ttname"><a href="classcl__px4__mr_1_1CpMicroRosAgent.html#ab0bc3dc67d87513f4a451e2f5754f482">cl_px4_mr::CpMicroRosAgent::pipeFd_</a></div><div class="ttdeci">int pipeFd_</div><div class="ttdef"><b>Definition</b> <a href="cp__micro__ros__agent_8hpp_source.html#l00049">cp_micro_ros_agent.hpp:49</a></div></div>
+<div class="ttc" id="aclasscl__px4__mr_1_1CpMicroRosAgent_html_add7dac82b912a25832616ad27c15bb7d"><div class="ttname"><a href="classcl__px4__mr_1_1CpMicroRosAgent.html#add7dac82b912a25832616ad27c15bb7d">cl_px4_mr::CpMicroRosAgent::shutdown</a></div><div class="ttdeci">void shutdown()</div><div class="ttdef"><b>Definition</b> <a href="#l00140">cp_micro_ros_agent.cpp:140</a></div></div>
+<div class="ttc" id="aclasscl__px4__mr_1_1CpMicroRosAgent_html_ae920f60db91e66fcbcf336228f5ecb04"><div class="ttname"><a href="classcl__px4__mr_1_1CpMicroRosAgent.html#ae920f60db91e66fcbcf336228f5ecb04">cl_px4_mr::CpMicroRosAgent::~CpMicroRosAgent</a></div><div class="ttdeci">~CpMicroRosAgent() override</div><div class="ttdef"><b>Definition</b> <a href="#l00055">cp_micro_ros_agent.cpp:55</a></div></div>
+<div class="ttc" id="aclasscl__px4__mr_1_1CpMicroRosAgent_html_aef475f4bc372beecaae8df7b19c79153"><div class="ttname"><a href="classcl__px4__mr_1_1CpMicroRosAgent.html#aef475f4bc372beecaae8df7b19c79153">cl_px4_mr::CpMicroRosAgent::launched_</a></div><div class="ttdeci">std::atomic&lt; bool &gt; launched_</div><div class="ttdef"><b>Definition</b> <a href="cp__micro__ros__agent_8hpp_source.html#l00044">cp_micro_ros_agent.hpp:44</a></div></div>
+<div class="ttc" id="aclasscl__px4__mr_1_1CpMicroRosAgent_html_afcae667e0404dffebb23992af5667814"><div class="ttname"><a href="classcl__px4__mr_1_1CpMicroRosAgent.html#afcae667e0404dffebb23992af5667814">cl_px4_mr::CpMicroRosAgent::agentPid_</a></div><div class="ttdeci">pid_t agentPid_</div><div class="ttdef"><b>Definition</b> <a href="cp__micro__ros__agent_8hpp_source.html#l00043">cp_micro_ros_agent.hpp:43</a></div></div>
 <div class="ttc" id="aclasssmacc2_1_1ISmaccComponent_html_a77ee85823bab8d84edcdf5d28782b728"><div class="ttname"><a href="classsmacc2_1_1ISmaccComponent.html#a77ee85823bab8d84edcdf5d28782b728">smacc2::ISmaccComponent::getLogger</a></div><div class="ttdeci">rclcpp::Logger getLogger() const</div><div class="ttdef"><b>Definition</b> <a href="smacc__component_8cpp_source.html#l00044">smacc_component.cpp:44</a></div></div>
 <div class="ttc" id="acp__micro__ros__agent_8hpp_html"><div class="ttname"><a href="cp__micro__ros__agent_8hpp.html">cp_micro_ros_agent.hpp</a></div></div>
+<div class="ttc" id="anamespacecl__px4__mr_1_1anonymous__namespace_02cp__micro__ros__agent_8cpp_03_html_a522b701e14cb963fa58466e30a614374"><div class="ttname"><a href="namespacecl__px4__mr_1_1anonymous__namespace_02cp__micro__ros__agent_8cpp_03.html#a522b701e14cb963fa58466e30a614374">cl_px4_mr::anonymous_namespace{cp_micro_ros_agent.cpp}::waitForGroupExit</a></div><div class="ttdeci">bool waitForGroupExit(pid_t group, bool &amp;leaderReaped, std::chrono::milliseconds limit)</div><div class="ttdef"><b>Definition</b> <a href="#l00032">cp_micro_ros_agent.cpp:32</a></div></div>
 <div class="ttc" id="anamespacecl__px4__mr_html"><div class="ttname"><a href="namespacecl__px4__mr.html">cl_px4_mr</a></div><div class="ttdef"><b>Definition</b> <a href="cl__px4__mr_8hpp_source.html#l00030">cl_px4_mr.hpp:31</a></div></div>
 </div><!-- fragment --></div><!-- contents -->
 <!-- start footer part -->
