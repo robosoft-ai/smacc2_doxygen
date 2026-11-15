@@ -14,7 +14,7 @@ var searchData=
   ['targetx_5f_11',['targetX_',['../classcl__px4__mr_1_1CbGoToLocation.html#aa9f46dfe5bed81481d6d1502a3581bcd',1,'cl_px4_mr::CbGoToLocation']]],
   ['targety_12',['targetY',['../structcl__px4__mr_1_1FlightPatternAscendParams.html#a5bc492fc6c67623a32bc9d02df7203bf',1,'cl_px4_mr::FlightPatternAscendParams']]],
   ['targety_5f_13',['targetY_',['../classcl__px4__mr_1_1CbGoToLocation.html#a456e13384dd2d98748fb81f82412255a',1,'cl_px4_mr::CbGoToLocation']]],
-  ['targetyaw_5f_14',['targetYaw_',['../structcl__nav2z_1_1CbPositionControlFreeSpace.html#afb9ad508b6a0f6f3ead54777f5744de8',1,'cl_nav2z::CbPositionControlFreeSpace::targetYaw_'],['../classcl__nav2z_1_1CbSpin.html#ae828967e8c12c224398cfdeaf4980125',1,'cl_nav2z::CbSpin::targetYaw_']]],
+  ['targetyaw_5f_14',['targetYaw_',['../classcl__nav2z_1_1CbSpin.html#ae828967e8c12c224398cfdeaf4980125',1,'cl_nav2z::CbSpin']]],
   ['targetyaw_5frads_5f_15',['targetYaw_rads_',['../structcl__nav2z_1_1CbPureSpinning.html#afc7eea6176c55ce6c4c18b8f3bd96511',1,'cl_nav2z::CbPureSpinning']]],
   ['targetyawrad_5f_16',['targetYawRad_',['../classcl__px4__mr_1_1CbYawRotate.html#a186c39bdb995bb3fb1d932a94e9c9f7f',1,'cl_px4_mr::CbYawRotate']]],
   ['targetz_5f_17',['targetZ_',['../classcl__px4__mr_1_1CbGoToLocation.html#ac1cd2d5559d4ee531efc1b5de4044455',1,'cl_px4_mr::CbGoToLocation']]],
