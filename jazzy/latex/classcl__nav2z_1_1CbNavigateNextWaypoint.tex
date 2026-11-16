@@ -166,6 +166,8 @@ void \mbox{\hyperlink{classcl__nav2z_1_1CbNav2ZClientBehaviorBase_ab9a2bf3eb29ed
 \item 
 \mbox{\hyperlink{classbool}{bool}} \mbox{\hyperlink{classsmacc2_1_1client__behavior__bases_1_1CbActionClientBehaviorBase_af95b6ac1d7edb4c676798ee7c00b16a4}{send\+Goal}} (\mbox{\hyperlink{classsmacc2_1_1client__behavior__bases_1_1CbActionClientBehaviorBase_aa6569a8b0116650d80618b824d431872}{Goal}} \&goal)
 \item 
+\mbox{\hyperlink{classbool}{bool}} \mbox{\hyperlink{classsmacc2_1_1client__behavior__bases_1_1CbActionClientBehaviorBase_a3b8b464b1bd71dd9daa9d3567ad7925b}{track\+Goal}} (std\+::shared\+\_\+future$<$ typename Goal\+Handle\+::\+Shared\+Ptr $>$ goal\+Handle\+Future)
+\item 
 void \mbox{\hyperlink{classsmacc2_1_1client__behavior__bases_1_1CbActionClientBehaviorBase_af4f3d031f3eba48fde5160015562f9d4}{cancel\+Goal}} ()
 \item 
 virtual void \mbox{\hyperlink{classsmacc2_1_1client__behavior__bases_1_1CbActionClientBehaviorBase_aaa533ff7213a0158f7bbda200779fe5d}{on\+Action\+Success}} (const \mbox{\hyperlink{classsmacc2_1_1client__behavior__bases_1_1CbActionClientBehaviorBase_aa4d4d70e7d9cd7d6ae05c9c6248685c4}{Wrapped\+Result}} \&result)
@@ -276,28 +278,37 @@ Definition at line \mbox{\hyperlink{cb__navigate__next__waypoint_8cpp_source_l00
 \DoxyCodeLine{00036\ \{}
 \DoxyCodeLine{00037\ \ \ this-\/>\mbox{\hyperlink{classsmacc2_1_1ISmaccClientBehavior_aeb76b10b9bb3925244da9d484739a5a9}{requiresComponent}}(\mbox{\hyperlink{classcl__nav2z_1_1CbNavigateNextWaypoint_a8218115e9638c88e0881735ccff0c69f}{waypointsNavigator\_}},\ ComponentRequirement::HARD);}
 \DoxyCodeLine{00038\ }
-\DoxyCodeLine{00039\ \ \ \textcolor{keyword}{auto}\ goalHandle\ =\ \mbox{\hyperlink{classcl__nav2z_1_1CbNavigateNextWaypoint_a8218115e9638c88e0881735ccff0c69f}{waypointsNavigator\_}}-\/>\mbox{\hyperlink{classcl__nav2z_1_1CpWaypointNavigator_abc1ff5c646297da55d9811f5cced3d93}{sendNextGoal}}(\mbox{\hyperlink{classcl__nav2z_1_1CbNavigateNextWaypoint_a7de96a997701375d215162ec8be3b45b}{options\_}});}
-\DoxyCodeLine{00040\ }
-\DoxyCodeLine{00041\ \ \ \textcolor{keyword}{auto}\ waypointname\ =\ \mbox{\hyperlink{classcl__nav2z_1_1CbNavigateNextWaypoint_a8218115e9638c88e0881735ccff0c69f}{waypointsNavigator\_}}-\/>\mbox{\hyperlink{classcl__nav2z_1_1CpWaypointNavigatorBase_a974c5496961c63a46a6778cb27bbc086}{getCurrentWaypointName}}();}
-\DoxyCodeLine{00042\ }
-\DoxyCodeLine{00043\ \ \ \textcolor{keywordflow}{if}\ (waypointname)}
-\DoxyCodeLine{00044\ \ \ \{}
-\DoxyCodeLine{00045\ \ \ \ \ RCLCPP\_INFO(}
-\DoxyCodeLine{00046\ \ \ \ \ \ \ \mbox{\hyperlink{classsmacc2_1_1ISmaccClientBehavior_a9c3d82542c800e2ba5207c5cff0e63e8}{getLogger}}(),\ \textcolor{stringliteral}{"{}[CbNavigateNextWaypoint]\ current\ iteration\ waypoints\ i:\ \%ld\ with\ name\ '\%s'"{}},}
-\DoxyCodeLine{00047\ \ \ \ \ \ \ \mbox{\hyperlink{classcl__nav2z_1_1CbNavigateNextWaypoint_a8218115e9638c88e0881735ccff0c69f}{waypointsNavigator\_}}-\/>\mbox{\hyperlink{classcl__nav2z_1_1CpWaypointNavigatorBase_aec4b5c41e0f689ff9cb1451be034e436}{getCurrentWaypointIndex}}(),\ waypointname-\/>c\_str());}
-\DoxyCodeLine{00048\ \ \ \}}
-\DoxyCodeLine{00049\ \ \ \textcolor{keywordflow}{else}}
+\DoxyCodeLine{00039\ \ \ \textcolor{keyword}{auto}\ goalHandleFuture\ =\ \mbox{\hyperlink{classcl__nav2z_1_1CbNavigateNextWaypoint_a8218115e9638c88e0881735ccff0c69f}{waypointsNavigator\_}}-\/>\mbox{\hyperlink{classcl__nav2z_1_1CpWaypointNavigator_abc1ff5c646297da55d9811f5cced3d93}{sendNextGoal}}(\mbox{\hyperlink{classcl__nav2z_1_1CbNavigateNextWaypoint_a7de96a997701375d215162ec8be3b45b}{options\_}});}
+\DoxyCodeLine{00040\ \ \ \textcolor{keywordflow}{if}\ (!goalHandleFuture)}
+\DoxyCodeLine{00041\ \ \ \{}
+\DoxyCodeLine{00042\ \ \ \ \ RCLCPP\_ERROR(\mbox{\hyperlink{classsmacc2_1_1ISmaccClientBehavior_a9c3d82542c800e2ba5207c5cff0e63e8}{getLogger}}(),\ \textcolor{stringliteral}{"{}[CbNavigateNextWaypoint]\ no\ waypoint\ left\ to\ navigate\ to"{}});}
+\DoxyCodeLine{00043\ \ \ \ \ this-\/>\mbox{\hyperlink{classsmacc2_1_1SmaccAsyncClientBehavior_afcb5c1a0bf3b9bae6c54e8f5ef1bc04d}{postFailureEvent}}();}
+\DoxyCodeLine{00044\ \ \ \ \ \textcolor{keywordflow}{return};}
+\DoxyCodeLine{00045\ \ \ \}}
+\DoxyCodeLine{00046\ }
+\DoxyCodeLine{00047\ \ \ \textcolor{keyword}{auto}\ waypointname\ =\ \mbox{\hyperlink{classcl__nav2z_1_1CbNavigateNextWaypoint_a8218115e9638c88e0881735ccff0c69f}{waypointsNavigator\_}}-\/>\mbox{\hyperlink{classcl__nav2z_1_1CpWaypointNavigatorBase_a974c5496961c63a46a6778cb27bbc086}{getCurrentWaypointName}}();}
+\DoxyCodeLine{00048\ }
+\DoxyCodeLine{00049\ \ \ \textcolor{keywordflow}{if}\ (waypointname)}
 \DoxyCodeLine{00050\ \ \ \{}
 \DoxyCodeLine{00051\ \ \ \ \ RCLCPP\_INFO(}
-\DoxyCodeLine{00052\ \ \ \ \ \ \ \mbox{\hyperlink{classsmacc2_1_1ISmaccClientBehavior_a9c3d82542c800e2ba5207c5cff0e63e8}{getLogger}}(),\ \textcolor{stringliteral}{"{}[CbNavigateNextWaypoint]\ current\ iteration\ waypoints\ i:\ \%ld"{}},}
-\DoxyCodeLine{00053\ \ \ \ \ \ \ \mbox{\hyperlink{classcl__nav2z_1_1CbNavigateNextWaypoint_a8218115e9638c88e0881735ccff0c69f}{waypointsNavigator\_}}-\/>\mbox{\hyperlink{classcl__nav2z_1_1CpWaypointNavigatorBase_aec4b5c41e0f689ff9cb1451be034e436}{getCurrentWaypointIndex}}());}
+\DoxyCodeLine{00052\ \ \ \ \ \ \ \mbox{\hyperlink{classsmacc2_1_1ISmaccClientBehavior_a9c3d82542c800e2ba5207c5cff0e63e8}{getLogger}}(),\ \textcolor{stringliteral}{"{}[CbNavigateNextWaypoint]\ current\ iteration\ waypoints\ i:\ \%ld\ with\ name\ '\%s'"{}},}
+\DoxyCodeLine{00053\ \ \ \ \ \ \ \mbox{\hyperlink{classcl__nav2z_1_1CbNavigateNextWaypoint_a8218115e9638c88e0881735ccff0c69f}{waypointsNavigator\_}}-\/>\mbox{\hyperlink{classcl__nav2z_1_1CpWaypointNavigatorBase_aec4b5c41e0f689ff9cb1451be034e436}{getCurrentWaypointIndex}}(),\ waypointname-\/>c\_str());}
 \DoxyCodeLine{00054\ \ \ \}}
-\DoxyCodeLine{00055\ \}}
+\DoxyCodeLine{00055\ \ \ \textcolor{keywordflow}{else}}
+\DoxyCodeLine{00056\ \ \ \{}
+\DoxyCodeLine{00057\ \ \ \ \ RCLCPP\_INFO(}
+\DoxyCodeLine{00058\ \ \ \ \ \ \ \mbox{\hyperlink{classsmacc2_1_1ISmaccClientBehavior_a9c3d82542c800e2ba5207c5cff0e63e8}{getLogger}}(),\ \textcolor{stringliteral}{"{}[CbNavigateNextWaypoint]\ current\ iteration\ waypoints\ i:\ \%ld"{}},}
+\DoxyCodeLine{00059\ \ \ \ \ \ \ \mbox{\hyperlink{classcl__nav2z_1_1CbNavigateNextWaypoint_a8218115e9638c88e0881735ccff0c69f}{waypointsNavigator\_}}-\/>\mbox{\hyperlink{classcl__nav2z_1_1CpWaypointNavigatorBase_aec4b5c41e0f689ff9cb1451be034e436}{getCurrentWaypointIndex}}());}
+\DoxyCodeLine{00060\ \ \ \}}
+\DoxyCodeLine{00061\ }
+\DoxyCodeLine{00062\ \ \ \textcolor{comment}{//\ the\ component\ sent\ the\ goal:\ without\ this\ the\ base\ ignores\ its\ result\ and\ a\ rejection\ is\ never\ seen}}
+\DoxyCodeLine{00063\ \ \ this-\/>\mbox{\hyperlink{classsmacc2_1_1client__behavior__bases_1_1CbActionClientBehaviorBase_a3b8b464b1bd71dd9daa9d3567ad7925b}{trackGoal}}(*goalHandleFuture);}
+\DoxyCodeLine{00064\ \}}
 
 \end{DoxyCode}
 
 
-References \mbox{\hyperlink{cp__waypoints__navigator_8cpp_source_l00437}{cl\+\_\+nav2z\+::\+Cp\+Waypoint\+Navigator\+Base\+::get\+Current\+Waypoint\+Index()}}, \mbox{\hyperlink{cp__waypoints__navigator_8cpp_source_l00428}{cl\+\_\+nav2z\+::\+Cp\+Waypoint\+Navigator\+Base\+::get\+Current\+Waypoint\+Name()}}, \mbox{\hyperlink{smacc__client__behavior__base_8cpp_source_l00049}{smacc2\+::\+ISmacc\+Client\+Behavior\+::get\+Logger()}}, \mbox{\hyperlink{cb__navigate__next__waypoint_8hpp_source_l00043}{options\+\_\+}}, \mbox{\hyperlink{smacc__client__behavior__impl_8hpp_source_l00081}{smacc2\+::\+ISmacc\+Client\+Behavior\+::requires\+Component()}}, \mbox{\hyperlink{cp__waypoints__navigator_8cpp_source_l00200}{cl\+\_\+nav2z\+::\+Cp\+Waypoint\+Navigator\+::send\+Next\+Goal()}}, and \mbox{\hyperlink{cb__navigate__next__waypoint_8hpp_source_l00041}{waypoints\+Navigator\+\_\+}}.
+References \mbox{\hyperlink{cp__waypoints__navigator_8cpp_source_l00437}{cl\+\_\+nav2z\+::\+Cp\+Waypoint\+Navigator\+Base\+::get\+Current\+Waypoint\+Index()}}, \mbox{\hyperlink{cp__waypoints__navigator_8cpp_source_l00428}{cl\+\_\+nav2z\+::\+Cp\+Waypoint\+Navigator\+Base\+::get\+Current\+Waypoint\+Name()}}, \mbox{\hyperlink{smacc__client__behavior__base_8cpp_source_l00049}{smacc2\+::\+ISmacc\+Client\+Behavior\+::get\+Logger()}}, \mbox{\hyperlink{cb__navigate__next__waypoint_8hpp_source_l00043}{options\+\_\+}}, \mbox{\hyperlink{smacc__client__async__behavior_8cpp_source_l00221}{smacc2\+::\+Smacc\+Async\+Client\+Behavior\+::post\+Failure\+Event()}}, \mbox{\hyperlink{smacc__client__behavior__impl_8hpp_source_l00081}{smacc2\+::\+ISmacc\+Client\+Behavior\+::requires\+Component()}}, \mbox{\hyperlink{cp__waypoints__navigator_8cpp_source_l00200}{cl\+\_\+nav2z\+::\+Cp\+Waypoint\+Navigator\+::send\+Next\+Goal()}}, \mbox{\hyperlink{cb__action__client__behavior__base_8hpp_source_l00130}{smacc2\+::client\+\_\+behavior\+\_\+bases\+::\+Cb\+Action\+Client\+Behavior\+Base$<$ nav2\+\_\+msgs\+::action\+::\+Navigate\+To\+Pose $>$\+::track\+Goal()}}, and \mbox{\hyperlink{cb__navigate__next__waypoint_8hpp_source_l00041}{waypoints\+Navigator\+\_\+}}.
 
 
 
@@ -335,11 +346,11 @@ Reimplemented in \mbox{\hyperlink{classcl__nav2z_1_1CbNavigateNextWaypointUntilR
 
 
 
-Definition at line \mbox{\hyperlink{cb__navigate__next__waypoint_8cpp_source_l00057}{57}} of file \mbox{\hyperlink{cb__navigate__next__waypoint_8cpp_source}{cb\+\_\+navigate\+\_\+next\+\_\+waypoint.\+cpp}}.
+Definition at line \mbox{\hyperlink{cb__navigate__next__waypoint_8cpp_source_l00066}{66}} of file \mbox{\hyperlink{cb__navigate__next__waypoint_8cpp_source}{cb\+\_\+navigate\+\_\+next\+\_\+waypoint.\+cpp}}.
 
 
 \begin{DoxyCode}{0}
-\DoxyCodeLine{00057\ \{\ \mbox{\hyperlink{classcl__nav2z_1_1CbNavigateNextWaypoint_a8218115e9638c88e0881735ccff0c69f}{waypointsNavigator\_}}-\/>\mbox{\hyperlink{classcl__nav2z_1_1CpWaypointNavigator_a9a3f33ed5de82ac7148d786692e80b99}{stopWaitingResult}}();\ \}}
+\DoxyCodeLine{00066\ \{\ \mbox{\hyperlink{classcl__nav2z_1_1CbNavigateNextWaypoint_a8218115e9638c88e0881735ccff0c69f}{waypointsNavigator\_}}-\/>\mbox{\hyperlink{classcl__nav2z_1_1CpWaypointNavigator_a9a3f33ed5de82ac7148d786692e80b99}{stopWaitingResult}}();\ \}}
 
 \end{DoxyCode}
 
@@ -395,7 +406,7 @@ Definition at line \mbox{\hyperlink{cb__navigate__next__waypoint_8hpp_source_l00
 
 
 
-Referenced by \mbox{\hyperlink{cb__navigate__next__waypoint_8cpp_source_l00035}{on\+Entry()}}, \mbox{\hyperlink{cb__navigate__next__waypoint_8cpp_source_l00057}{on\+Exit()}}, and \mbox{\hyperlink{cb__navigate__next__waypoint__until__reached_8hpp_source_l00054}{cl\+\_\+nav2z\+::\+Cb\+Navigate\+Next\+Waypoint\+Until\+Reached\+::on\+Navigation\+Action\+Success()}}.
+Referenced by \mbox{\hyperlink{cb__navigate__next__waypoint_8cpp_source_l00035}{on\+Entry()}}, \mbox{\hyperlink{cb__navigate__next__waypoint_8cpp_source_l00066}{on\+Exit()}}, and \mbox{\hyperlink{cb__navigate__next__waypoint__until__reached_8hpp_source_l00054}{cl\+\_\+nav2z\+::\+Cb\+Navigate\+Next\+Waypoint\+Until\+Reached\+::on\+Navigation\+Action\+Success()}}.
 
 
 
