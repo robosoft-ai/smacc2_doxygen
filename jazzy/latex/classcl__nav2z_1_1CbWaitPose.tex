@@ -211,25 +211,30 @@ Definition at line \mbox{\hyperlink{cb__wait__pose_8cpp_source_l00035}{35}} of f
 \DoxyCodeLine{00044\ \ \ \}}
 \DoxyCodeLine{00045\ \ \ \textcolor{keywordflow}{try}}
 \DoxyCodeLine{00046\ \ \ \{}
-\DoxyCodeLine{00047\ \ \ \ \ pose-\/>\mbox{\hyperlink{classcl__nav2z_1_1CpPose_a67a3702ee46f0e966ed8cdd902d49f4f}{waitTransformUpdate}}(rclcpp::Rate(20));}
-\DoxyCodeLine{00048\ \ \ \ \ \textcolor{keyword}{auto}\ posemsg\ =\ pose-\/>\mbox{\hyperlink{classcl__nav2z_1_1CpPose_a047aae7ec0c834d5e7d56d1a34de512d}{toPoseMsg}}();}
-\DoxyCodeLine{00049\ \ \ \ \ RCLCPP\_INFO\_STREAM(\mbox{\hyperlink{classsmacc2_1_1ISmaccClientBehavior_a9c3d82542c800e2ba5207c5cff0e63e8}{getLogger}}(),\ \textcolor{stringliteral}{"{}[CbWaitPose]\ pose\ arrived:\ "{}}\ <<\ std::endl\ <<\ posemsg);}
-\DoxyCodeLine{00050\ \ \ \}}
-\DoxyCodeLine{00051\ \ \ \textcolor{keywordflow}{catch}\ (std::exception\ \&\ ex)}
-\DoxyCodeLine{00052\ \ \ \{}
-\DoxyCodeLine{00053\ \ \ \ \ RCLCPP\_INFO(\mbox{\hyperlink{classsmacc2_1_1ISmaccClientBehavior_a9c3d82542c800e2ba5207c5cff0e63e8}{getLogger}}(),\ \textcolor{stringliteral}{"{}[CbWaitPose]\ error\ getting\ the\ robot\ pose"{}});}
-\DoxyCodeLine{00054\ \ \ \ \ this-\/>\mbox{\hyperlink{classsmacc2_1_1SmaccAsyncClientBehavior_afcb5c1a0bf3b9bae6c54e8f5ef1bc04d}{postFailureEvent}}();}
-\DoxyCodeLine{00055\ \ \ \ \ \textcolor{keywordflow}{return};}
-\DoxyCodeLine{00056\ \ \ \}}
-\DoxyCodeLine{00057\ }
-\DoxyCodeLine{00058\ \ \ RCLCPP\_INFO(\mbox{\hyperlink{classsmacc2_1_1ISmaccClientBehavior_a9c3d82542c800e2ba5207c5cff0e63e8}{getLogger}}(),\ \textcolor{stringliteral}{"{}[CbWaitPose]\ pose\ received"{}});}
-\DoxyCodeLine{00059\ \ \ this-\/>\mbox{\hyperlink{classsmacc2_1_1SmaccAsyncClientBehavior_a2fb4de26d011fbbb55bc1bbaed2e6f5b}{postSuccessEvent}}();}
-\DoxyCodeLine{00060\ \}}
+\DoxyCodeLine{00047\ \ \ \ \ \textcolor{comment}{//\ leaves\ without\ an\ event\ when\ the\ state\ is\ exited\ first;\ the\ wait\ used\ to\ block\ that\ exit}}
+\DoxyCodeLine{00048\ \ \ \ \ \textcolor{keywordflow}{if}\ (!pose-\/>\mbox{\hyperlink{classcl__nav2z_1_1CpPose_a0a51e5214e83c62f871b814bfb2036a1}{waitTransformUpdate}}(}
+\DoxyCodeLine{00049\ \ \ \ \ \ \ \ \ \ \ rclcpp::Rate(20),\ [\textcolor{keyword}{this}]\ \{\ return\ this-\/>isShutdownRequested();\ \}))}
+\DoxyCodeLine{00050\ \ \ \ \ \{}
+\DoxyCodeLine{00051\ \ \ \ \ \ \ \textcolor{keywordflow}{return};}
+\DoxyCodeLine{00052\ \ \ \ \ \}}
+\DoxyCodeLine{00053\ \ \ \ \ \textcolor{keyword}{auto}\ posemsg\ =\ pose-\/>\mbox{\hyperlink{classcl__nav2z_1_1CpPose_a047aae7ec0c834d5e7d56d1a34de512d}{toPoseMsg}}();}
+\DoxyCodeLine{00054\ \ \ \ \ RCLCPP\_INFO\_STREAM(\mbox{\hyperlink{classsmacc2_1_1ISmaccClientBehavior_a9c3d82542c800e2ba5207c5cff0e63e8}{getLogger}}(),\ \textcolor{stringliteral}{"{}[CbWaitPose]\ pose\ arrived:\ "{}}\ <<\ std::endl\ <<\ posemsg);}
+\DoxyCodeLine{00055\ \ \ \}}
+\DoxyCodeLine{00056\ \ \ \textcolor{keywordflow}{catch}\ (std::exception\ \&\ ex)}
+\DoxyCodeLine{00057\ \ \ \{}
+\DoxyCodeLine{00058\ \ \ \ \ RCLCPP\_INFO(\mbox{\hyperlink{classsmacc2_1_1ISmaccClientBehavior_a9c3d82542c800e2ba5207c5cff0e63e8}{getLogger}}(),\ \textcolor{stringliteral}{"{}[CbWaitPose]\ error\ getting\ the\ robot\ pose"{}});}
+\DoxyCodeLine{00059\ \ \ \ \ this-\/>\mbox{\hyperlink{classsmacc2_1_1SmaccAsyncClientBehavior_afcb5c1a0bf3b9bae6c54e8f5ef1bc04d}{postFailureEvent}}();}
+\DoxyCodeLine{00060\ \ \ \ \ \textcolor{keywordflow}{return};}
+\DoxyCodeLine{00061\ \ \ \}}
+\DoxyCodeLine{00062\ }
+\DoxyCodeLine{00063\ \ \ RCLCPP\_INFO(\mbox{\hyperlink{classsmacc2_1_1ISmaccClientBehavior_a9c3d82542c800e2ba5207c5cff0e63e8}{getLogger}}(),\ \textcolor{stringliteral}{"{}[CbWaitPose]\ pose\ received"{}});}
+\DoxyCodeLine{00064\ \ \ this-\/>\mbox{\hyperlink{classsmacc2_1_1SmaccAsyncClientBehavior_a2fb4de26d011fbbb55bc1bbaed2e6f5b}{postSuccessEvent}}();}
+\DoxyCodeLine{00065\ \}}
 
 \end{DoxyCode}
 
 
-References \mbox{\hyperlink{smacc__client__behavior__base_8cpp_source_l00049}{smacc2\+::\+ISmacc\+Client\+Behavior\+::get\+Logger()}}, \mbox{\hyperlink{smacc__client__async__behavior_8cpp_source_l00221}{smacc2\+::\+Smacc\+Async\+Client\+Behavior\+::post\+Failure\+Event()}}, \mbox{\hyperlink{smacc__client__async__behavior_8cpp_source_l00219}{smacc2\+::\+Smacc\+Async\+Client\+Behavior\+::post\+Success\+Event()}}, \mbox{\hyperlink{smacc__client__behavior__impl_8hpp_source_l00081}{smacc2\+::\+ISmacc\+Client\+Behavior\+::requires\+Component()}}, \mbox{\hyperlink{cp__pose_8hpp_source_l00057}{cl\+\_\+nav2z\+::\+Cp\+Pose\+::to\+Pose\+Msg()}}, and \mbox{\hyperlink{cp__pose_8cpp_source_l00081}{cl\+\_\+nav2z\+::\+Cp\+Pose\+::wait\+Transform\+Update()}}.
+References \mbox{\hyperlink{smacc__client__behavior__base_8cpp_source_l00049}{smacc2\+::\+ISmacc\+Client\+Behavior\+::get\+Logger()}}, \mbox{\hyperlink{smacc__client__async__behavior_8cpp_source_l00221}{smacc2\+::\+Smacc\+Async\+Client\+Behavior\+::post\+Failure\+Event()}}, \mbox{\hyperlink{smacc__client__async__behavior_8cpp_source_l00219}{smacc2\+::\+Smacc\+Async\+Client\+Behavior\+::post\+Success\+Event()}}, \mbox{\hyperlink{smacc__client__behavior__impl_8hpp_source_l00081}{smacc2\+::\+ISmacc\+Client\+Behavior\+::requires\+Component()}}, \mbox{\hyperlink{cp__pose_8hpp_source_l00060}{cl\+\_\+nav2z\+::\+Cp\+Pose\+::to\+Pose\+Msg()}}, and \mbox{\hyperlink{cp__pose_8cpp_source_l00081}{cl\+\_\+nav2z\+::\+Cp\+Pose\+::wait\+Transform\+Update()}}.
 
 Here is the call graph for this function\+:
 \nopagebreak
