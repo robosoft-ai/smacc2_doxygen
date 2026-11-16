@@ -97,10 +97,17 @@ std\+::string \mbox{\hyperlink{classsmacc2_1_1ISmaccClientBehavior_a3feaa9c382a7
 \item 
 {\footnotesize template$<$typename Smacc\+Component\+Type $>$ }\\void \mbox{\hyperlink{classsmacc2_1_1ISmaccClientBehavior_a094707704c444fd3824d493641c41d49}{requires\+Component}} (const std\+::string \&name, Smacc\+Component\+Type \texorpdfstring{$\ast$}{*}\&storage, \mbox{\hyperlink{namespacesmacc2_ae6caa1d032436dea4d4d2a864566aff2}{Component\+Requirement}} requirement\+Type=\mbox{\hyperlink{namespacesmacc2_ae6caa1d032436dea4d4d2a864566aff2a52e743143106c12bfd73aae547fc6e2e}{Component\+Requirement\+::\+SOFT}})
 \end{DoxyCompactItemize}
+\doxysubsubsection*{Private Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+void \mbox{\hyperlink{classcl__nav2z_1_1CbAbortNavigation_a1e1157b3fc5723ec33fe7989a6715702}{on\+Navigation\+Result}} (const \mbox{\hyperlink{classcl__nav2z_1_1components_1_1CpNav2ActionInterface_a930e8e8723a6b422bddfc80eda983015}{components\+::\+Cp\+Nav2\+Action\+Interface\+::\+Wrapped\+Result}} \&result)
+\end{DoxyCompactItemize}
 \doxysubsubsection*{Private Attributes}
 \begin{DoxyCompactItemize}
 \item 
 \mbox{\hyperlink{classcl__nav2z_1_1components_1_1CpNav2ActionInterface}{components\+::\+Cp\+Nav2\+Action\+Interface}} \texorpdfstring{$\ast$}{*} \mbox{\hyperlink{classcl__nav2z_1_1CbAbortNavigation_ab3b7fff232e076032893279cc0922485}{nav2\+Action\+Interface\+\_\+}} = nullptr
+\item 
+std\+::atomic$<$ \mbox{\hyperlink{classbool}{bool}} $>$ \mbox{\hyperlink{classcl__nav2z_1_1CbAbortNavigation_aba453045844ae8ff4b788d3dff8a4681}{goal\+Finished\+\_\+}} \{false\}
 \end{DoxyCompactItemize}
 \doxysubsubsection*{Additional Inherited Members}
 \doxysubsection*{Protected Member Functions inherited from \mbox{\hyperlink{classsmacc2_1_1SmaccAsyncClientBehavior}{smacc2\+::\+Smacc\+Async\+Client\+Behavior}}}
@@ -136,7 +143,7 @@ virtual rclcpp\+::\+Logger \mbox{\hyperlink{classsmacc2_1_1ISmaccClientBehavior_
 \doxysubsection{Detailed Description}
 
 
-Definition at line \mbox{\hyperlink{cb__abort__navigation_8hpp_source_l00031}{31}} of file \mbox{\hyperlink{cb__abort__navigation_8hpp_source}{cb\+\_\+abort\+\_\+navigation.\+hpp}}.
+Definition at line \mbox{\hyperlink{cb__abort__navigation_8hpp_source_l00036}{36}} of file \mbox{\hyperlink{cb__abort__navigation_8hpp_source}{cb\+\_\+abort\+\_\+navigation.\+hpp}}.
 
 
 
@@ -149,11 +156,11 @@ cl\+\_\+nav2z\+::\+Cb\+Abort\+Navigation\+::\+Cb\+Abort\+Navigation (\begin{Doxy
 
 
 
-Definition at line \mbox{\hyperlink{cb__abort__navigation_8cpp_source_l00032}{32}} of file \mbox{\hyperlink{cb__abort__navigation_8cpp_source}{cb\+\_\+abort\+\_\+navigation.\+cpp}}.
+Definition at line \mbox{\hyperlink{cb__abort__navigation_8cpp_source_l00035}{35}} of file \mbox{\hyperlink{cb__abort__navigation_8cpp_source}{cb\+\_\+abort\+\_\+navigation.\+cpp}}.
 
 
 \begin{DoxyCode}{0}
-\DoxyCodeLine{00032\ \{\}}
+\DoxyCodeLine{00035\ \{\}}
 
 \end{DoxyCode}
 
@@ -171,19 +178,46 @@ Reimplemented from \mbox{\hyperlink{classsmacc2_1_1ISmaccClientBehavior_aca7382c
 
 
 
-Definition at line \mbox{\hyperlink{cb__abort__navigation_8cpp_source_l00034}{34}} of file \mbox{\hyperlink{cb__abort__navigation_8cpp_source}{cb\+\_\+abort\+\_\+navigation.\+cpp}}.
+Definition at line \mbox{\hyperlink{cb__abort__navigation_8cpp_source_l00037}{37}} of file \mbox{\hyperlink{cb__abort__navigation_8cpp_source}{cb\+\_\+abort\+\_\+navigation.\+cpp}}.
 
 
 \begin{DoxyCode}{0}
-\DoxyCodeLine{00035\ \{}
-\DoxyCodeLine{00036\ \ \ this-\/>\mbox{\hyperlink{classcl__nav2z_1_1CbAbortNavigation_ab3b7fff232e076032893279cc0922485}{nav2ActionInterface\_}}-\/>\mbox{\hyperlink{classcl__nav2z_1_1components_1_1CpNav2ActionInterface_a91d9c4842c5ef09ecba203eddf7e53d7}{cancelNavigation}}();}
-\DoxyCodeLine{00037\ \ \ this-\/>\mbox{\hyperlink{classsmacc2_1_1SmaccAsyncClientBehavior_a2fb4de26d011fbbb55bc1bbaed2e6f5b}{postSuccessEvent}}();}
-\DoxyCodeLine{00038\ \}}
+\DoxyCodeLine{00038\ \{}
+\DoxyCodeLine{00039\ \ \ \textcolor{comment}{//\ connected\ before\ the\ request,\ so\ the\ result\ of\ the\ cancelled\ goal\ cannot\ be\ missed}}
+\DoxyCodeLine{00040\ \ \ \mbox{\hyperlink{classcl__nav2z_1_1CbAbortNavigation_aba453045844ae8ff4b788d3dff8a4681}{goalFinished\_}}\ =\ \textcolor{keyword}{false};}
+\DoxyCodeLine{00041\ \ \ \mbox{\hyperlink{classcl__nav2z_1_1CbAbortNavigation_ab3b7fff232e076032893279cc0922485}{nav2ActionInterface\_}}-\/>\mbox{\hyperlink{classcl__nav2z_1_1components_1_1CpNav2ActionInterface_ac1bf06614fdc5722a1db666748a9a100}{onNavigationCancelled}}(\&\mbox{\hyperlink{classcl__nav2z_1_1CbAbortNavigation_a1e1157b3fc5723ec33fe7989a6715702}{CbAbortNavigation::onNavigationResult}},\ \textcolor{keyword}{this});}
+\DoxyCodeLine{00042\ \ \ \mbox{\hyperlink{classcl__nav2z_1_1CbAbortNavigation_ab3b7fff232e076032893279cc0922485}{nav2ActionInterface\_}}-\/>\mbox{\hyperlink{classcl__nav2z_1_1components_1_1CpNav2ActionInterface_a9058fbf77318ebbe983a07d7ce3363a4}{onNavigationAborted}}(\&\mbox{\hyperlink{classcl__nav2z_1_1CbAbortNavigation_a1e1157b3fc5723ec33fe7989a6715702}{CbAbortNavigation::onNavigationResult}},\ \textcolor{keyword}{this});}
+\DoxyCodeLine{00043\ \ \ \mbox{\hyperlink{classcl__nav2z_1_1CbAbortNavigation_ab3b7fff232e076032893279cc0922485}{nav2ActionInterface\_}}-\/>\mbox{\hyperlink{classcl__nav2z_1_1components_1_1CpNav2ActionInterface_a360b059b10e0993e92f61f605087a8e7}{onNavigationSucceeded}}(\&\mbox{\hyperlink{classcl__nav2z_1_1CbAbortNavigation_a1e1157b3fc5723ec33fe7989a6715702}{CbAbortNavigation::onNavigationResult}},\ \textcolor{keyword}{this});}
+\DoxyCodeLine{00044\ }
+\DoxyCodeLine{00045\ \ \ \textcolor{keywordflow}{if}\ (!\mbox{\hyperlink{classcl__nav2z_1_1CbAbortNavigation_ab3b7fff232e076032893279cc0922485}{nav2ActionInterface\_}}-\/>\mbox{\hyperlink{classcl__nav2z_1_1components_1_1CpNav2ActionInterface_a91d9c4842c5ef09ecba203eddf7e53d7}{cancelNavigation}}())}
+\DoxyCodeLine{00046\ \ \ \{}
+\DoxyCodeLine{00047\ \ \ \ \ RCLCPP\_INFO(\mbox{\hyperlink{classsmacc2_1_1ISmaccClientBehavior_a9c3d82542c800e2ba5207c5cff0e63e8}{getLogger}}(),\ \textcolor{stringliteral}{"{}[CbAbortNavigation]\ no\ navigation\ goal\ in\ flight"{}});}
+\DoxyCodeLine{00048\ \ \ \ \ this-\/>\mbox{\hyperlink{classsmacc2_1_1SmaccAsyncClientBehavior_a2fb4de26d011fbbb55bc1bbaed2e6f5b}{postSuccessEvent}}();}
+\DoxyCodeLine{00049\ \ \ \ \ \textcolor{keywordflow}{return};}
+\DoxyCodeLine{00050\ \ \ \}}
+\DoxyCodeLine{00051\ }
+\DoxyCodeLine{00052\ \ \ \textcolor{keyword}{const}\ \textcolor{keyword}{auto}\ deadline\ =\ std::chrono::steady\_clock::now()\ +\ std::chrono::seconds(5);}
+\DoxyCodeLine{00053\ \ \ \textcolor{keywordflow}{while}\ (!\mbox{\hyperlink{classcl__nav2z_1_1CbAbortNavigation_aba453045844ae8ff4b788d3dff8a4681}{goalFinished\_}})}
+\DoxyCodeLine{00054\ \ \ \{}
+\DoxyCodeLine{00055\ \ \ \ \ \textcolor{comment}{//\ the\ state\ was\ left\ first:\ no\ event}}
+\DoxyCodeLine{00056\ \ \ \ \ \textcolor{keywordflow}{if}\ (this-\/>\mbox{\hyperlink{classsmacc2_1_1SmaccAsyncClientBehavior_a3fdbe8ec497fef82e2441e8e87899955}{isShutdownRequested}}())\ \textcolor{keywordflow}{return};}
+\DoxyCodeLine{00057\ \ \ \ \ \textcolor{keywordflow}{if}\ (std::chrono::steady\_clock::now()\ >=\ deadline)}
+\DoxyCodeLine{00058\ \ \ \ \ \{}
+\DoxyCodeLine{00059\ \ \ \ \ \ \ RCLCPP\_ERROR(\mbox{\hyperlink{classsmacc2_1_1ISmaccClientBehavior_a9c3d82542c800e2ba5207c5cff0e63e8}{getLogger}}(),\ \textcolor{stringliteral}{"{}[CbAbortNavigation]\ no\ result\ for\ the\ cancelled\ goal\ after\ 5\ s"{}});}
+\DoxyCodeLine{00060\ \ \ \ \ \ \ this-\/>\mbox{\hyperlink{classsmacc2_1_1SmaccAsyncClientBehavior_afcb5c1a0bf3b9bae6c54e8f5ef1bc04d}{postFailureEvent}}();}
+\DoxyCodeLine{00061\ \ \ \ \ \ \ \textcolor{keywordflow}{return};}
+\DoxyCodeLine{00062\ \ \ \ \ \}}
+\DoxyCodeLine{00063\ \ \ \ \ std::this\_thread::sleep\_for(std::chrono::milliseconds(10));}
+\DoxyCodeLine{00064\ \ \ \}}
+\DoxyCodeLine{00065\ }
+\DoxyCodeLine{00066\ \ \ RCLCPP\_INFO(\mbox{\hyperlink{classsmacc2_1_1ISmaccClientBehavior_a9c3d82542c800e2ba5207c5cff0e63e8}{getLogger}}(),\ \textcolor{stringliteral}{"{}[CbAbortNavigation]\ the\ cancelled\ goal\ has\ finished"{}});}
+\DoxyCodeLine{00067\ \ \ this-\/>\mbox{\hyperlink{classsmacc2_1_1SmaccAsyncClientBehavior_a2fb4de26d011fbbb55bc1bbaed2e6f5b}{postSuccessEvent}}();}
+\DoxyCodeLine{00068\ \}}
 
 \end{DoxyCode}
 
 
-References \mbox{\hyperlink{cp__nav2__action__interface_8hpp_source_l00097}{cl\+\_\+nav2z\+::components\+::\+Cp\+Nav2\+Action\+Interface\+::cancel\+Navigation()}}, \mbox{\hyperlink{cb__abort__navigation_8hpp_source_l00047}{nav2\+Action\+Interface\+\_\+}}, and \mbox{\hyperlink{smacc__client__async__behavior_8cpp_source_l00219}{smacc2\+::\+Smacc\+Async\+Client\+Behavior\+::post\+Success\+Event()}}.
+References \mbox{\hyperlink{cp__nav2__action__interface_8hpp_source_l00097}{cl\+\_\+nav2z\+::components\+::\+Cp\+Nav2\+Action\+Interface\+::cancel\+Navigation()}}, \mbox{\hyperlink{smacc__client__behavior__base_8cpp_source_l00049}{smacc2\+::\+ISmacc\+Client\+Behavior\+::get\+Logger()}}, \mbox{\hyperlink{cb__abort__navigation_8hpp_source_l00055}{goal\+Finished\+\_\+}}, \mbox{\hyperlink{smacc__client__async__behavior_8cpp_source_l00231}{smacc2\+::\+Smacc\+Async\+Client\+Behavior\+::is\+Shutdown\+Requested()}}, \mbox{\hyperlink{cb__abort__navigation_8hpp_source_l00054}{nav2\+Action\+Interface\+\_\+}}, \mbox{\hyperlink{cp__nav2__action__interface_8hpp_source_l00195}{cl\+\_\+nav2z\+::components\+::\+Cp\+Nav2\+Action\+Interface\+::on\+Navigation\+Aborted()}}, \mbox{\hyperlink{cp__nav2__action__interface_8hpp_source_l00202}{cl\+\_\+nav2z\+::components\+::\+Cp\+Nav2\+Action\+Interface\+::on\+Navigation\+Cancelled()}}, \mbox{\hyperlink{cb__abort__navigation_8cpp_source_l00070}{on\+Navigation\+Result()}}, \mbox{\hyperlink{cp__nav2__action__interface_8hpp_source_l00187}{cl\+\_\+nav2z\+::components\+::\+Cp\+Nav2\+Action\+Interface\+::on\+Navigation\+Succeeded()}}, \mbox{\hyperlink{smacc__client__async__behavior_8cpp_source_l00221}{smacc2\+::\+Smacc\+Async\+Client\+Behavior\+::post\+Failure\+Event()}}, and \mbox{\hyperlink{smacc__client__async__behavior_8cpp_source_l00219}{smacc2\+::\+Smacc\+Async\+Client\+Behavior\+::post\+Success\+Event()}}.
 
 Here is the call graph for this function\+:
 \nopagebreak
@@ -205,13 +239,46 @@ Reimplemented from \mbox{\hyperlink{classsmacc2_1_1ISmaccClientBehavior_a52b767b
 
 
 
-Definition at line \mbox{\hyperlink{cb__abort__navigation_8cpp_source_l00040}{40}} of file \mbox{\hyperlink{cb__abort__navigation_8cpp_source}{cb\+\_\+abort\+\_\+navigation.\+cpp}}.
+Definition at line \mbox{\hyperlink{cb__abort__navigation_8cpp_source_l00076}{76}} of file \mbox{\hyperlink{cb__abort__navigation_8cpp_source}{cb\+\_\+abort\+\_\+navigation.\+cpp}}.
 
 
 \begin{DoxyCode}{0}
-\DoxyCodeLine{00040\ \{\}}
+\DoxyCodeLine{00076\ \{\}}
 
 \end{DoxyCode}
+\Hypertarget{classcl__nav2z_1_1CbAbortNavigation_a1e1157b3fc5723ec33fe7989a6715702}\index{cl\_nav2z::CbAbortNavigation@{cl\_nav2z::CbAbortNavigation}!onNavigationResult@{onNavigationResult}}
+\index{onNavigationResult@{onNavigationResult}!cl\_nav2z::CbAbortNavigation@{cl\_nav2z::CbAbortNavigation}}
+\doxysubsubsection{\texorpdfstring{onNavigationResult()}{onNavigationResult()}}
+{\footnotesize\ttfamily \label{classcl__nav2z_1_1CbAbortNavigation_a1e1157b3fc5723ec33fe7989a6715702} 
+void cl\+\_\+nav2z\+::\+Cb\+Abort\+Navigation\+::on\+Navigation\+Result (\begin{DoxyParamCaption}\item[{const \mbox{\hyperlink{classcl__nav2z_1_1components_1_1CpNav2ActionInterface_a930e8e8723a6b422bddfc80eda983015}{components\+::\+Cp\+Nav2\+Action\+Interface\+::\+Wrapped\+Result}} \&}]{result}{}\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [private]}}
+
+
+
+Definition at line \mbox{\hyperlink{cb__abort__navigation_8cpp_source_l00070}{70}} of file \mbox{\hyperlink{cb__abort__navigation_8cpp_source}{cb\+\_\+abort\+\_\+navigation.\+cpp}}.
+
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00072\ \{}
+\DoxyCodeLine{00073\ \ \ \mbox{\hyperlink{classcl__nav2z_1_1CbAbortNavigation_aba453045844ae8ff4b788d3dff8a4681}{goalFinished\_}}\ =\ \textcolor{keyword}{true};}
+\DoxyCodeLine{00074\ \}}
+
+\end{DoxyCode}
+
+
+References \mbox{\hyperlink{cb__abort__navigation_8hpp_source_l00055}{goal\+Finished\+\_\+}}.
+
+
+
+Referenced by \mbox{\hyperlink{cb__abort__navigation_8cpp_source_l00037}{on\+Entry()}}.
+
+Here is the caller graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{classcl__nav2z_1_1CbAbortNavigation_a1e1157b3fc5723ec33fe7989a6715702_icgraph}
+\end{center}
+\end{figure}
 \Hypertarget{classcl__nav2z_1_1CbAbortNavigation_aec3a9235b4063373ac70092a702c6e97}\index{cl\_nav2z::CbAbortNavigation@{cl\_nav2z::CbAbortNavigation}!onStateOrthogonalAllocation@{onStateOrthogonalAllocation}}
 \index{onStateOrthogonalAllocation@{onStateOrthogonalAllocation}!cl\_nav2z::CbAbortNavigation@{cl\_nav2z::CbAbortNavigation}}
 \doxysubsubsection{\texorpdfstring{onStateOrthogonalAllocation()}{onStateOrthogonalAllocation()}}
@@ -221,19 +288,19 @@ void cl\+\_\+nav2z\+::\+Cb\+Abort\+Navigation\+::on\+State\+Orthogonal\+Allocati
 
 
 
-Definition at line \mbox{\hyperlink{cb__abort__navigation_8hpp_source_l00037}{37}} of file \mbox{\hyperlink{cb__abort__navigation_8hpp_source}{cb\+\_\+abort\+\_\+navigation.\+hpp}}.
+Definition at line \mbox{\hyperlink{cb__abort__navigation_8hpp_source_l00042}{42}} of file \mbox{\hyperlink{cb__abort__navigation_8hpp_source}{cb\+\_\+abort\+\_\+navigation.\+hpp}}.
 
 
 \begin{DoxyCode}{0}
-\DoxyCodeLine{00038\ \ \ \{}
-\DoxyCodeLine{00039\ \ \ \ \ this-\/>\mbox{\hyperlink{classsmacc2_1_1ISmaccClientBehavior_aeb76b10b9bb3925244da9d484739a5a9}{requiresComponent}}(\mbox{\hyperlink{classcl__nav2z_1_1CbAbortNavigation_ab3b7fff232e076032893279cc0922485}{nav2ActionInterface\_}},\ ComponentRequirement::HARD);}
-\DoxyCodeLine{00040\ \ \ \ \ \mbox{\hyperlink{classsmacc2_1_1SmaccAsyncClientBehavior_a9043f91c69d8ad4efaff0aebb9c7749c}{smacc2::SmaccAsyncClientBehavior::onStateOrthogonalAllocation<TOrthogonal,\ TSourceObject>}}();}
-\DoxyCodeLine{00041\ \ \ \}}
+\DoxyCodeLine{00043\ \ \ \{}
+\DoxyCodeLine{00044\ \ \ \ \ this-\/>\mbox{\hyperlink{classsmacc2_1_1ISmaccClientBehavior_aeb76b10b9bb3925244da9d484739a5a9}{requiresComponent}}(\mbox{\hyperlink{classcl__nav2z_1_1CbAbortNavigation_ab3b7fff232e076032893279cc0922485}{nav2ActionInterface\_}},\ ComponentRequirement::HARD);}
+\DoxyCodeLine{00045\ \ \ \ \ \mbox{\hyperlink{classsmacc2_1_1SmaccAsyncClientBehavior_a9043f91c69d8ad4efaff0aebb9c7749c}{smacc2::SmaccAsyncClientBehavior::onStateOrthogonalAllocation<TOrthogonal,\ TSourceObject>}}();}
+\DoxyCodeLine{00046\ \ \ \}}
 
 \end{DoxyCode}
 
 
-References \mbox{\hyperlink{cb__abort__navigation_8hpp_source_l00047}{nav2\+Action\+Interface\+\_\+}}, \mbox{\hyperlink{smacc__asynchronous__client__behavior__impl_8hpp_source_l00029}{smacc2\+::\+Smacc\+Async\+Client\+Behavior\+::on\+State\+Orthogonal\+Allocation()}}, and \mbox{\hyperlink{smacc__client__behavior__impl_8hpp_source_l00081}{smacc2\+::\+ISmacc\+Client\+Behavior\+::requires\+Component()}}.
+References \mbox{\hyperlink{cb__abort__navigation_8hpp_source_l00054}{nav2\+Action\+Interface\+\_\+}}, \mbox{\hyperlink{smacc__asynchronous__client__behavior__impl_8hpp_source_l00029}{smacc2\+::\+Smacc\+Async\+Client\+Behavior\+::on\+State\+Orthogonal\+Allocation()}}, and \mbox{\hyperlink{smacc__client__behavior__impl_8hpp_source_l00081}{smacc2\+::\+ISmacc\+Client\+Behavior\+::requires\+Component()}}.
 
 Here is the call graph for this function\+:
 \nopagebreak
@@ -246,6 +313,25 @@ Here is the call graph for this function\+:
 
 
 \doxysubsection{Member Data Documentation}
+\Hypertarget{classcl__nav2z_1_1CbAbortNavigation_aba453045844ae8ff4b788d3dff8a4681}\index{cl\_nav2z::CbAbortNavigation@{cl\_nav2z::CbAbortNavigation}!goalFinished\_@{goalFinished\_}}
+\index{goalFinished\_@{goalFinished\_}!cl\_nav2z::CbAbortNavigation@{cl\_nav2z::CbAbortNavigation}}
+\doxysubsubsection{\texorpdfstring{goalFinished\_}{goalFinished\_}}
+{\footnotesize\ttfamily \label{classcl__nav2z_1_1CbAbortNavigation_aba453045844ae8ff4b788d3dff8a4681} 
+std\+::atomic$<$\mbox{\hyperlink{classbool}{bool}}$>$ cl\+\_\+nav2z\+::\+Cb\+Abort\+Navigation\+::goal\+Finished\+\_\+ \{false\}\hspace{0.3cm}{\ttfamily [private]}}
+
+
+
+Definition at line \mbox{\hyperlink{cb__abort__navigation_8hpp_source_l00055}{55}} of file \mbox{\hyperlink{cb__abort__navigation_8hpp_source}{cb\+\_\+abort\+\_\+navigation.\+hpp}}.
+
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00055\ \{\textcolor{keyword}{false}\};}
+
+\end{DoxyCode}
+
+
+Referenced by \mbox{\hyperlink{cb__abort__navigation_8cpp_source_l00037}{on\+Entry()}}, and \mbox{\hyperlink{cb__abort__navigation_8cpp_source_l00070}{on\+Navigation\+Result()}}.
+
 \Hypertarget{classcl__nav2z_1_1CbAbortNavigation_ab3b7fff232e076032893279cc0922485}\index{cl\_nav2z::CbAbortNavigation@{cl\_nav2z::CbAbortNavigation}!nav2ActionInterface\_@{nav2ActionInterface\_}}
 \index{nav2ActionInterface\_@{nav2ActionInterface\_}!cl\_nav2z::CbAbortNavigation@{cl\_nav2z::CbAbortNavigation}}
 \doxysubsubsection{\texorpdfstring{nav2ActionInterface\_}{nav2ActionInterface\_}}
@@ -254,11 +340,11 @@ Here is the call graph for this function\+:
 
 
 
-Definition at line \mbox{\hyperlink{cb__abort__navigation_8hpp_source_l00047}{47}} of file \mbox{\hyperlink{cb__abort__navigation_8hpp_source}{cb\+\_\+abort\+\_\+navigation.\+hpp}}.
+Definition at line \mbox{\hyperlink{cb__abort__navigation_8hpp_source_l00054}{54}} of file \mbox{\hyperlink{cb__abort__navigation_8hpp_source}{cb\+\_\+abort\+\_\+navigation.\+hpp}}.
 
 
 
-Referenced by \mbox{\hyperlink{cb__abort__navigation_8cpp_source_l00034}{on\+Entry()}}, and \mbox{\hyperlink{cb__abort__navigation_8hpp_source_l00037}{on\+State\+Orthogonal\+Allocation()}}.
+Referenced by \mbox{\hyperlink{cb__abort__navigation_8cpp_source_l00037}{on\+Entry()}}, and \mbox{\hyperlink{cb__abort__navigation_8hpp_source_l00042}{on\+State\+Orthogonal\+Allocation()}}.
 
 
 

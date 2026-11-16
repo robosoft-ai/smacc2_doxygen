@@ -204,32 +204,39 @@ Definition at line \mbox{\hyperlink{cb__load__waypoints__file_8cpp_source_l00036
 \DoxyCodeLine{00040\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ nav2z\_client\ library}}
 \DoxyCodeLine{00041\ }
 \DoxyCodeLine{00042\ \ \ \textcolor{comment}{//\ The\ two\ constructors\ set\ either\ the\ file\ path\ or\ the\ parameter\ pair;\ say\ so\ instead\ of\ assuming\ it.}}
-\DoxyCodeLine{00043\ \ \ \textcolor{keywordflow}{if}\ (\mbox{\hyperlink{structcl__nav2z_1_1CbLoadWaypointsFile_a927eb34b46be8f7ad6ca539ecdbb5ffe}{filepath\_}})}
-\DoxyCodeLine{00044\ \ \ \{}
-\DoxyCodeLine{00045\ \ \ \ \ this-\/>\mbox{\hyperlink{structcl__nav2z_1_1CbLoadWaypointsFile_ab9df5f54a3c7efa4bc561697e16b8e15}{waypointsNavigator\_}}-\/>\mbox{\hyperlink{classcl__nav2z_1_1CpWaypointNavigatorBase_a8a0b678dd4da9afc7867c9b27691da53}{loadWayPointsFromFile}}(*\mbox{\hyperlink{structcl__nav2z_1_1CbLoadWaypointsFile_a927eb34b46be8f7ad6ca539ecdbb5ffe}{filepath\_}});}
-\DoxyCodeLine{00046\ \ \ \}}
-\DoxyCodeLine{00047\ \ \ \textcolor{keywordflow}{else}\ \textcolor{keywordflow}{if}\ (\mbox{\hyperlink{structcl__nav2z_1_1CbLoadWaypointsFile_aa623e623250562e89059a4e1128d7ef7}{parameterName\_}}\ \&\&\ \mbox{\hyperlink{structcl__nav2z_1_1CbLoadWaypointsFile_a3bee42b9c0eeaad52b06d7297c8b6d4a}{packageNamespace\_}})}
-\DoxyCodeLine{00048\ \ \ \{}
-\DoxyCodeLine{00049\ \ \ \ \ RCLCPP\_INFO(\mbox{\hyperlink{classsmacc2_1_1ISmaccClientBehavior_a9c3d82542c800e2ba5207c5cff0e63e8}{getLogger}}(),\ \textcolor{stringliteral}{"{}Loading\ waypoints\ from\ parameter\ \%s"{}},\ \mbox{\hyperlink{structcl__nav2z_1_1CbLoadWaypointsFile_aa623e623250562e89059a4e1128d7ef7}{parameterName\_}}-\/>c\_str());}
-\DoxyCodeLine{00050\ \ \ \ \ this-\/>\mbox{\hyperlink{structcl__nav2z_1_1CbLoadWaypointsFile_ab9df5f54a3c7efa4bc561697e16b8e15}{waypointsNavigator\_}}-\/>\mbox{\hyperlink{classcl__nav2z_1_1CpWaypointNavigatorBase_adb3d8a97b30945cc55e08ee7439c4110}{loadWaypointsFromYamlParameter}}(*\mbox{\hyperlink{structcl__nav2z_1_1CbLoadWaypointsFile_aa623e623250562e89059a4e1128d7ef7}{parameterName\_}},\ *\mbox{\hyperlink{structcl__nav2z_1_1CbLoadWaypointsFile_a3bee42b9c0eeaad52b06d7297c8b6d4a}{packageNamespace\_}});}
-\DoxyCodeLine{00051\ \ \ \}}
-\DoxyCodeLine{00052\ \ \ \textcolor{keywordflow}{else}}
-\DoxyCodeLine{00053\ \ \ \{}
-\DoxyCodeLine{00054\ \ \ \ \ RCLCPP\_ERROR(}
-\DoxyCodeLine{00055\ \ \ \ \ \ \ \mbox{\hyperlink{classsmacc2_1_1ISmaccClientBehavior_a9c3d82542c800e2ba5207c5cff0e63e8}{getLogger}}(),\ \textcolor{stringliteral}{"{}[CbLoadWaypointsFile]\ neither\ a\ file\ path\ nor\ a\ parameter\ name\ was\ given"{}});}
-\DoxyCodeLine{00056\ \ \ \ \ this-\/>\mbox{\hyperlink{classsmacc2_1_1SmaccAsyncClientBehavior_afcb5c1a0bf3b9bae6c54e8f5ef1bc04d}{postFailureEvent}}();}
-\DoxyCodeLine{00057\ \ \ \ \ \textcolor{keywordflow}{return};}
-\DoxyCodeLine{00058\ \ \ \}}
-\DoxyCodeLine{00059\ }
-\DoxyCodeLine{00060\ \ \ \textcolor{comment}{//\ change\ this\ to\ skip\ some\ points\ of\ the\ yaml\ file,\ default\ =\ 0}}
-\DoxyCodeLine{00061\ \ \ \mbox{\hyperlink{structcl__nav2z_1_1CbLoadWaypointsFile_ab9df5f54a3c7efa4bc561697e16b8e15}{waypointsNavigator\_}}-\/>\mbox{\hyperlink{classcl__nav2z_1_1CpWaypointNavigatorBase_ae90efea9e1f32201bf820a0b0baa4540}{currentWaypoint\_}}\ =\ 0;}
-\DoxyCodeLine{00062\ \ \ this-\/>\mbox{\hyperlink{classsmacc2_1_1SmaccAsyncClientBehavior_a2fb4de26d011fbbb55bc1bbaed2e6f5b}{postSuccessEvent}}();}
-\DoxyCodeLine{00063\ \}}
+\DoxyCodeLine{00043\ \ \ \textcolor{keywordtype}{bool}\ loaded\ =\ \textcolor{keyword}{false};}
+\DoxyCodeLine{00044\ \ \ \textcolor{keywordflow}{if}\ (\mbox{\hyperlink{structcl__nav2z_1_1CbLoadWaypointsFile_a927eb34b46be8f7ad6ca539ecdbb5ffe}{filepath\_}})}
+\DoxyCodeLine{00045\ \ \ \{}
+\DoxyCodeLine{00046\ \ \ \ \ loaded\ =\ this-\/>\mbox{\hyperlink{structcl__nav2z_1_1CbLoadWaypointsFile_ab9df5f54a3c7efa4bc561697e16b8e15}{waypointsNavigator\_}}-\/>\mbox{\hyperlink{classcl__nav2z_1_1CpWaypointNavigatorBase_ab53d82bc88d9b6c53ee1efe95f261934}{loadWayPointsFromFile}}(*\mbox{\hyperlink{structcl__nav2z_1_1CbLoadWaypointsFile_a927eb34b46be8f7ad6ca539ecdbb5ffe}{filepath\_}});}
+\DoxyCodeLine{00047\ \ \ \}}
+\DoxyCodeLine{00048\ \ \ \textcolor{keywordflow}{else}\ \textcolor{keywordflow}{if}\ (\mbox{\hyperlink{structcl__nav2z_1_1CbLoadWaypointsFile_aa623e623250562e89059a4e1128d7ef7}{parameterName\_}}\ \&\&\ \mbox{\hyperlink{structcl__nav2z_1_1CbLoadWaypointsFile_a3bee42b9c0eeaad52b06d7297c8b6d4a}{packageNamespace\_}})}
+\DoxyCodeLine{00049\ \ \ \{}
+\DoxyCodeLine{00050\ \ \ \ \ RCLCPP\_INFO(\mbox{\hyperlink{classsmacc2_1_1ISmaccClientBehavior_a9c3d82542c800e2ba5207c5cff0e63e8}{getLogger}}(),\ \textcolor{stringliteral}{"{}Loading\ waypoints\ from\ parameter\ \%s"{}},\ \mbox{\hyperlink{structcl__nav2z_1_1CbLoadWaypointsFile_aa623e623250562e89059a4e1128d7ef7}{parameterName\_}}-\/>c\_str());}
+\DoxyCodeLine{00051\ \ \ \ \ loaded\ =\ this-\/>\mbox{\hyperlink{structcl__nav2z_1_1CbLoadWaypointsFile_ab9df5f54a3c7efa4bc561697e16b8e15}{waypointsNavigator\_}}-\/>\mbox{\hyperlink{classcl__nav2z_1_1CpWaypointNavigatorBase_ab8205861f3d157c5d6c305c9c6d47de5}{loadWaypointsFromYamlParameter}}(}
+\DoxyCodeLine{00052\ \ \ \ \ \ \ *\mbox{\hyperlink{structcl__nav2z_1_1CbLoadWaypointsFile_aa623e623250562e89059a4e1128d7ef7}{parameterName\_}},\ *\mbox{\hyperlink{structcl__nav2z_1_1CbLoadWaypointsFile_a3bee42b9c0eeaad52b06d7297c8b6d4a}{packageNamespace\_}});}
+\DoxyCodeLine{00053\ \ \ \}}
+\DoxyCodeLine{00054\ \ \ \textcolor{keywordflow}{else}}
+\DoxyCodeLine{00055\ \ \ \{}
+\DoxyCodeLine{00056\ \ \ \ \ RCLCPP\_ERROR(}
+\DoxyCodeLine{00057\ \ \ \ \ \ \ \mbox{\hyperlink{classsmacc2_1_1ISmaccClientBehavior_a9c3d82542c800e2ba5207c5cff0e63e8}{getLogger}}(),\ \textcolor{stringliteral}{"{}[CbLoadWaypointsFile]\ neither\ a\ file\ path\ nor\ a\ parameter\ name\ was\ given"{}});}
+\DoxyCodeLine{00058\ \ \ \ \ this-\/>\mbox{\hyperlink{classsmacc2_1_1SmaccAsyncClientBehavior_afcb5c1a0bf3b9bae6c54e8f5ef1bc04d}{postFailureEvent}}();}
+\DoxyCodeLine{00059\ \ \ \ \ \textcolor{keywordflow}{return};}
+\DoxyCodeLine{00060\ \ \ \}}
+\DoxyCodeLine{00061\ }
+\DoxyCodeLine{00062\ \ \ \textcolor{comment}{//\ change\ this\ to\ skip\ some\ points\ of\ the\ yaml\ file,\ default\ =\ 0}}
+\DoxyCodeLine{00063\ \ \ \mbox{\hyperlink{structcl__nav2z_1_1CbLoadWaypointsFile_ab9df5f54a3c7efa4bc561697e16b8e15}{waypointsNavigator\_}}-\/>\mbox{\hyperlink{classcl__nav2z_1_1CpWaypointNavigatorBase_ae90efea9e1f32201bf820a0b0baa4540}{currentWaypoint\_}}\ =\ 0;}
+\DoxyCodeLine{00064\ \ \ \textcolor{keywordflow}{if}\ (!loaded)}
+\DoxyCodeLine{00065\ \ \ \{}
+\DoxyCodeLine{00066\ \ \ \ \ this-\/>\mbox{\hyperlink{classsmacc2_1_1SmaccAsyncClientBehavior_afcb5c1a0bf3b9bae6c54e8f5ef1bc04d}{postFailureEvent}}();}
+\DoxyCodeLine{00067\ \ \ \ \ \textcolor{keywordflow}{return};}
+\DoxyCodeLine{00068\ \ \ \}}
+\DoxyCodeLine{00069\ \ \ this-\/>\mbox{\hyperlink{classsmacc2_1_1SmaccAsyncClientBehavior_a2fb4de26d011fbbb55bc1bbaed2e6f5b}{postSuccessEvent}}();}
+\DoxyCodeLine{00070\ \}}
 
 \end{DoxyCode}
 
 
-References \mbox{\hyperlink{cp__waypoints__navigator__base_8hpp_source_l00082}{cl\+\_\+nav2z\+::\+Cp\+Waypoint\+Navigator\+Base\+::current\+Waypoint\+\_\+}}, \mbox{\hyperlink{cb__load__waypoints__file_8hpp_source_l00039}{filepath\+\_\+}}, \mbox{\hyperlink{smacc__client__behavior__base_8cpp_source_l00049}{smacc2\+::\+ISmacc\+Client\+Behavior\+::get\+Logger()}}, \mbox{\hyperlink{cp__waypoints__navigator_8cpp_source_l00440}{cl\+\_\+nav2z\+::\+Cp\+Waypoint\+Navigator\+Base\+::load\+Way\+Points\+From\+File()}}, \mbox{\hyperlink{cp__waypoints__navigator_8cpp_source_l00160}{cl\+\_\+nav2z\+::\+Cp\+Waypoint\+Navigator\+Base\+::load\+Waypoints\+From\+Yaml\+Parameter()}}, \mbox{\hyperlink{cb__load__waypoints__file_8hpp_source_l00042}{package\+Namespace\+\_\+}}, \mbox{\hyperlink{cb__load__waypoints__file_8hpp_source_l00041}{parameter\+Name\+\_\+}}, \mbox{\hyperlink{smacc__client__async__behavior_8cpp_source_l00221}{smacc2\+::\+Smacc\+Async\+Client\+Behavior\+::post\+Failure\+Event()}}, \mbox{\hyperlink{smacc__client__async__behavior_8cpp_source_l00219}{smacc2\+::\+Smacc\+Async\+Client\+Behavior\+::post\+Success\+Event()}}, \mbox{\hyperlink{smacc__client__behavior__impl_8hpp_source_l00081}{smacc2\+::\+ISmacc\+Client\+Behavior\+::requires\+Component()}}, and \mbox{\hyperlink{cb__load__waypoints__file_8hpp_source_l00044}{waypoints\+Navigator\+\_\+}}.
+References \mbox{\hyperlink{cp__waypoints__navigator__base_8hpp_source_l00083}{cl\+\_\+nav2z\+::\+Cp\+Waypoint\+Navigator\+Base\+::current\+Waypoint\+\_\+}}, \mbox{\hyperlink{cb__load__waypoints__file_8hpp_source_l00039}{filepath\+\_\+}}, \mbox{\hyperlink{smacc__client__behavior__base_8cpp_source_l00049}{smacc2\+::\+ISmacc\+Client\+Behavior\+::get\+Logger()}}, \mbox{\hyperlink{cp__waypoints__navigator_8cpp_source_l00437}{cl\+\_\+nav2z\+::\+Cp\+Waypoint\+Navigator\+Base\+::load\+Way\+Points\+From\+File()}}, \mbox{\hyperlink{cp__waypoints__navigator_8cpp_source_l00135}{cl\+\_\+nav2z\+::\+Cp\+Waypoint\+Navigator\+Base\+::load\+Waypoints\+From\+Yaml\+Parameter()}}, \mbox{\hyperlink{cb__load__waypoints__file_8hpp_source_l00042}{package\+Namespace\+\_\+}}, \mbox{\hyperlink{cb__load__waypoints__file_8hpp_source_l00041}{parameter\+Name\+\_\+}}, \mbox{\hyperlink{smacc__client__async__behavior_8cpp_source_l00221}{smacc2\+::\+Smacc\+Async\+Client\+Behavior\+::post\+Failure\+Event()}}, \mbox{\hyperlink{smacc__client__async__behavior_8cpp_source_l00219}{smacc2\+::\+Smacc\+Async\+Client\+Behavior\+::post\+Success\+Event()}}, \mbox{\hyperlink{smacc__client__behavior__impl_8hpp_source_l00081}{smacc2\+::\+ISmacc\+Client\+Behavior\+::requires\+Component()}}, and \mbox{\hyperlink{cb__load__waypoints__file_8hpp_source_l00044}{waypoints\+Navigator\+\_\+}}.
 
 Here is the call graph for this function\+:
 \nopagebreak
@@ -251,11 +258,11 @@ Reimplemented from \mbox{\hyperlink{classsmacc2_1_1ISmaccClientBehavior_a52b767b
 
 
 
-Definition at line \mbox{\hyperlink{cb__load__waypoints__file_8cpp_source_l00065}{65}} of file \mbox{\hyperlink{cb__load__waypoints__file_8cpp_source}{cb\+\_\+load\+\_\+waypoints\+\_\+file.\+cpp}}.
+Definition at line \mbox{\hyperlink{cb__load__waypoints__file_8cpp_source_l00072}{72}} of file \mbox{\hyperlink{cb__load__waypoints__file_8cpp_source}{cb\+\_\+load\+\_\+waypoints\+\_\+file.\+cpp}}.
 
 
 \begin{DoxyCode}{0}
-\DoxyCodeLine{00065\ \{\}}
+\DoxyCodeLine{00072\ \{\}}
 
 \end{DoxyCode}
 

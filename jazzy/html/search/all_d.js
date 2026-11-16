@@ -4,7 +4,7 @@ var searchData=
   ['main_1',['main',['../cp__odom__tracker__node_8cpp.html#a3c04138a5bfe5d72780bb7e82a18e627',1,'cp_odom_tracker_node.cpp']]],
   ['makepurespinningsubplan_2',['makePureSpinningSubPlan',['../namespacecl__nav2z.html#a76c27bb265ee6e2647709784f106e315',1,'cl_nav2z']]],
   ['makepurestraightsubplan_3',['makePureStraightSubPlan',['../namespacecl__nav2z.html#aa8161356763c1332dec9c6b84bda3cfb',1,'cl_nav2z']]],
-  ['map_4',['Map',['../namespacecl__nav2z.html#ac4b509ba01b0720925a65787a0db9578a46f3ea056caa3126b91f3f70beea068c',1,'cl_nav2z::Map'],['../namespacecl__nav2z.html#a9d36c15afcd0cc6632d3416a1703136fa46f3ea056caa3126b91f3f70beea068c',1,'cl_nav2z::Map']]],
+  ['map_4',['Map',['../namespacecl__nav2z.html#a9d36c15afcd0cc6632d3416a1703136fa46f3ea056caa3126b91f3f70beea068c',1,'cl_nav2z']]],
   ['mapframe_5',['mapFrame',['../structcl__px4__mr_1_1TfBroadcasterParams.html#a5f861e939e41647638e6913812f809f7',1,'cl_px4_mr::TfBroadcasterParams']]],
   ['mapprojection_6',['MapProjection',['../classcl__px4__mr_1_1MapProjection.html',1,'cl_px4_mr::MapProjection'],['../classcl__px4__mr_1_1MapProjection.html#ab56114f4d6ff3940d3c83d2b1777202e',1,'cl_px4_mr::MapProjection::MapProjection()=default'],['../classcl__px4__mr_1_1MapProjection.html#a3916b910912d2cd53aa98787fdbda2ee',1,'cl_px4_mr::MapProjection::MapProjection(double lat0, double lon0, uint64_t timestamp=0)']]],
   ['mapserver_7',['MapServer',['../namespacecl__nav2z.html#aa12208395907fb9a49f6a8fa0c4462c4acbea1da05320dc99cb96c6ce61185ee5',1,'cl_nav2z']]],

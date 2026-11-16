@@ -29,20 +29,56 @@
 \DoxyCodeLine{\Hypertarget{cb__abort__navigation_8cpp_source_l00025}00025\ \textcolor{preprocessor}{\#include\ <\mbox{\hyperlink{cp__odom__tracker_8hpp}{cl\_nav2z/components/odom\_tracker/cp\_odom\_tracker.hpp}}>}}
 \DoxyCodeLine{\Hypertarget{cb__abort__navigation_8cpp_source_l00026}00026\ \textcolor{preprocessor}{\#include\ <\mbox{\hyperlink{cp__pose_8hpp}{cl\_nav2z/components/pose/cp\_pose.hpp}}>}}
 \DoxyCodeLine{\Hypertarget{cb__abort__navigation_8cpp_source_l00027}00027\ }
-\DoxyCodeLine{\Hypertarget{cb__abort__navigation_8cpp_source_l00028}00028\ \textcolor{preprocessor}{\#include\ <rclcpp/parameter\_client.hpp>}}
-\DoxyCodeLine{\Hypertarget{cb__abort__navigation_8cpp_source_l00029}00029\ }
-\DoxyCodeLine{\Hypertarget{cb__abort__navigation_8cpp_source_l00030}00030\ \textcolor{keyword}{namespace\ }\mbox{\hyperlink{namespacecl__nav2z}{cl\_nav2z}}}
-\DoxyCodeLine{\Hypertarget{cb__abort__navigation_8cpp_source_l00031}00031\ \{}
-\DoxyCodeLine{\Hypertarget{cb__abort__navigation_8cpp_source_l00032}\mbox{\hyperlink{classcl__nav2z_1_1CbAbortNavigation_a8e19683cd5e4fb9c76abd441ee98b671}{00032}}\ \mbox{\hyperlink{classcl__nav2z_1_1CbAbortNavigation_a8e19683cd5e4fb9c76abd441ee98b671}{CbAbortNavigation::CbAbortNavigation}}()\ \{\}}
-\DoxyCodeLine{\Hypertarget{cb__abort__navigation_8cpp_source_l00033}00033\ }
-\DoxyCodeLine{\Hypertarget{cb__abort__navigation_8cpp_source_l00034}\mbox{\hyperlink{classcl__nav2z_1_1CbAbortNavigation_a41a61442f656bd3efdd41274c5adfab3}{00034}}\ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{classcl__nav2z_1_1CbAbortNavigation_a41a61442f656bd3efdd41274c5adfab3}{CbAbortNavigation::onEntry}}()}
-\DoxyCodeLine{\Hypertarget{cb__abort__navigation_8cpp_source_l00035}00035\ \{}
-\DoxyCodeLine{\Hypertarget{cb__abort__navigation_8cpp_source_l00036}00036\ \ \ this-\/>\mbox{\hyperlink{classcl__nav2z_1_1CbAbortNavigation_ab3b7fff232e076032893279cc0922485}{nav2ActionInterface\_}}-\/>\mbox{\hyperlink{classcl__nav2z_1_1components_1_1CpNav2ActionInterface_a91d9c4842c5ef09ecba203eddf7e53d7}{cancelNavigation}}();}
-\DoxyCodeLine{\Hypertarget{cb__abort__navigation_8cpp_source_l00037}00037\ \ \ this-\/>\mbox{\hyperlink{classsmacc2_1_1SmaccAsyncClientBehavior_a2fb4de26d011fbbb55bc1bbaed2e6f5b}{postSuccessEvent}}();}
-\DoxyCodeLine{\Hypertarget{cb__abort__navigation_8cpp_source_l00038}00038\ \}}
-\DoxyCodeLine{\Hypertarget{cb__abort__navigation_8cpp_source_l00039}00039\ }
-\DoxyCodeLine{\Hypertarget{cb__abort__navigation_8cpp_source_l00040}\mbox{\hyperlink{classcl__nav2z_1_1CbAbortNavigation_a38a8c096b19579d04cd5223b390b85f5}{00040}}\ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{classcl__nav2z_1_1CbAbortNavigation_a38a8c096b19579d04cd5223b390b85f5}{CbAbortNavigation::onExit}}()\ \{\}}
-\DoxyCodeLine{\Hypertarget{cb__abort__navigation_8cpp_source_l00041}00041\ }
-\DoxyCodeLine{\Hypertarget{cb__abort__navigation_8cpp_source_l00042}00042\ \}\ \ \textcolor{comment}{//\ namespace\ cl\_nav2z}}
+\DoxyCodeLine{\Hypertarget{cb__abort__navigation_8cpp_source_l00028}00028\ \textcolor{preprocessor}{\#include\ <chrono>}}
+\DoxyCodeLine{\Hypertarget{cb__abort__navigation_8cpp_source_l00029}00029\ \textcolor{preprocessor}{\#include\ <thread>}}
+\DoxyCodeLine{\Hypertarget{cb__abort__navigation_8cpp_source_l00030}00030\ }
+\DoxyCodeLine{\Hypertarget{cb__abort__navigation_8cpp_source_l00031}00031\ \textcolor{preprocessor}{\#include\ <rclcpp/parameter\_client.hpp>}}
+\DoxyCodeLine{\Hypertarget{cb__abort__navigation_8cpp_source_l00032}00032\ }
+\DoxyCodeLine{\Hypertarget{cb__abort__navigation_8cpp_source_l00033}00033\ \textcolor{keyword}{namespace\ }\mbox{\hyperlink{namespacecl__nav2z}{cl\_nav2z}}}
+\DoxyCodeLine{\Hypertarget{cb__abort__navigation_8cpp_source_l00034}00034\ \{}
+\DoxyCodeLine{\Hypertarget{cb__abort__navigation_8cpp_source_l00035}\mbox{\hyperlink{classcl__nav2z_1_1CbAbortNavigation_a8e19683cd5e4fb9c76abd441ee98b671}{00035}}\ \mbox{\hyperlink{classcl__nav2z_1_1CbAbortNavigation_a8e19683cd5e4fb9c76abd441ee98b671}{CbAbortNavigation::CbAbortNavigation}}()\ \{\}}
+\DoxyCodeLine{\Hypertarget{cb__abort__navigation_8cpp_source_l00036}00036\ }
+\DoxyCodeLine{\Hypertarget{cb__abort__navigation_8cpp_source_l00037}\mbox{\hyperlink{classcl__nav2z_1_1CbAbortNavigation_a41a61442f656bd3efdd41274c5adfab3}{00037}}\ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{classcl__nav2z_1_1CbAbortNavigation_a41a61442f656bd3efdd41274c5adfab3}{CbAbortNavigation::onEntry}}()}
+\DoxyCodeLine{\Hypertarget{cb__abort__navigation_8cpp_source_l00038}00038\ \{}
+\DoxyCodeLine{\Hypertarget{cb__abort__navigation_8cpp_source_l00039}00039\ \ \ \textcolor{comment}{//\ connected\ before\ the\ request,\ so\ the\ result\ of\ the\ cancelled\ goal\ cannot\ be\ missed}}
+\DoxyCodeLine{\Hypertarget{cb__abort__navigation_8cpp_source_l00040}00040\ \ \ \mbox{\hyperlink{classcl__nav2z_1_1CbAbortNavigation_aba453045844ae8ff4b788d3dff8a4681}{goalFinished\_}}\ =\ \textcolor{keyword}{false};}
+\DoxyCodeLine{\Hypertarget{cb__abort__navigation_8cpp_source_l00041}00041\ \ \ \mbox{\hyperlink{classcl__nav2z_1_1CbAbortNavigation_ab3b7fff232e076032893279cc0922485}{nav2ActionInterface\_}}-\/>\mbox{\hyperlink{classcl__nav2z_1_1components_1_1CpNav2ActionInterface_ac1bf06614fdc5722a1db666748a9a100}{onNavigationCancelled}}(\&\mbox{\hyperlink{classcl__nav2z_1_1CbAbortNavigation_a1e1157b3fc5723ec33fe7989a6715702}{CbAbortNavigation::onNavigationResult}},\ \textcolor{keyword}{this});}
+\DoxyCodeLine{\Hypertarget{cb__abort__navigation_8cpp_source_l00042}00042\ \ \ \mbox{\hyperlink{classcl__nav2z_1_1CbAbortNavigation_ab3b7fff232e076032893279cc0922485}{nav2ActionInterface\_}}-\/>\mbox{\hyperlink{classcl__nav2z_1_1components_1_1CpNav2ActionInterface_a9058fbf77318ebbe983a07d7ce3363a4}{onNavigationAborted}}(\&\mbox{\hyperlink{classcl__nav2z_1_1CbAbortNavigation_a1e1157b3fc5723ec33fe7989a6715702}{CbAbortNavigation::onNavigationResult}},\ \textcolor{keyword}{this});}
+\DoxyCodeLine{\Hypertarget{cb__abort__navigation_8cpp_source_l00043}00043\ \ \ \mbox{\hyperlink{classcl__nav2z_1_1CbAbortNavigation_ab3b7fff232e076032893279cc0922485}{nav2ActionInterface\_}}-\/>\mbox{\hyperlink{classcl__nav2z_1_1components_1_1CpNav2ActionInterface_a360b059b10e0993e92f61f605087a8e7}{onNavigationSucceeded}}(\&\mbox{\hyperlink{classcl__nav2z_1_1CbAbortNavigation_a1e1157b3fc5723ec33fe7989a6715702}{CbAbortNavigation::onNavigationResult}},\ \textcolor{keyword}{this});}
+\DoxyCodeLine{\Hypertarget{cb__abort__navigation_8cpp_source_l00044}00044\ }
+\DoxyCodeLine{\Hypertarget{cb__abort__navigation_8cpp_source_l00045}00045\ \ \ \textcolor{keywordflow}{if}\ (!\mbox{\hyperlink{classcl__nav2z_1_1CbAbortNavigation_ab3b7fff232e076032893279cc0922485}{nav2ActionInterface\_}}-\/>\mbox{\hyperlink{classcl__nav2z_1_1components_1_1CpNav2ActionInterface_a91d9c4842c5ef09ecba203eddf7e53d7}{cancelNavigation}}())}
+\DoxyCodeLine{\Hypertarget{cb__abort__navigation_8cpp_source_l00046}00046\ \ \ \{}
+\DoxyCodeLine{\Hypertarget{cb__abort__navigation_8cpp_source_l00047}00047\ \ \ \ \ RCLCPP\_INFO(\mbox{\hyperlink{classsmacc2_1_1ISmaccClientBehavior_a9c3d82542c800e2ba5207c5cff0e63e8}{getLogger}}(),\ \textcolor{stringliteral}{"{}[CbAbortNavigation]\ no\ navigation\ goal\ in\ flight"{}});}
+\DoxyCodeLine{\Hypertarget{cb__abort__navigation_8cpp_source_l00048}00048\ \ \ \ \ this-\/>\mbox{\hyperlink{classsmacc2_1_1SmaccAsyncClientBehavior_a2fb4de26d011fbbb55bc1bbaed2e6f5b}{postSuccessEvent}}();}
+\DoxyCodeLine{\Hypertarget{cb__abort__navigation_8cpp_source_l00049}00049\ \ \ \ \ \textcolor{keywordflow}{return};}
+\DoxyCodeLine{\Hypertarget{cb__abort__navigation_8cpp_source_l00050}00050\ \ \ \}}
+\DoxyCodeLine{\Hypertarget{cb__abort__navigation_8cpp_source_l00051}00051\ }
+\DoxyCodeLine{\Hypertarget{cb__abort__navigation_8cpp_source_l00052}00052\ \ \ \textcolor{keyword}{const}\ \textcolor{keyword}{auto}\ deadline\ =\ std::chrono::steady\_clock::now()\ +\ std::chrono::seconds(5);}
+\DoxyCodeLine{\Hypertarget{cb__abort__navigation_8cpp_source_l00053}00053\ \ \ \textcolor{keywordflow}{while}\ (!\mbox{\hyperlink{classcl__nav2z_1_1CbAbortNavigation_aba453045844ae8ff4b788d3dff8a4681}{goalFinished\_}})}
+\DoxyCodeLine{\Hypertarget{cb__abort__navigation_8cpp_source_l00054}00054\ \ \ \{}
+\DoxyCodeLine{\Hypertarget{cb__abort__navigation_8cpp_source_l00055}00055\ \ \ \ \ \textcolor{comment}{//\ the\ state\ was\ left\ first:\ no\ event}}
+\DoxyCodeLine{\Hypertarget{cb__abort__navigation_8cpp_source_l00056}00056\ \ \ \ \ \textcolor{keywordflow}{if}\ (this-\/>\mbox{\hyperlink{classsmacc2_1_1SmaccAsyncClientBehavior_a3fdbe8ec497fef82e2441e8e87899955}{isShutdownRequested}}())\ \textcolor{keywordflow}{return};}
+\DoxyCodeLine{\Hypertarget{cb__abort__navigation_8cpp_source_l00057}00057\ \ \ \ \ \textcolor{keywordflow}{if}\ (std::chrono::steady\_clock::now()\ >=\ deadline)}
+\DoxyCodeLine{\Hypertarget{cb__abort__navigation_8cpp_source_l00058}00058\ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{cb__abort__navigation_8cpp_source_l00059}00059\ \ \ \ \ \ \ RCLCPP\_ERROR(\mbox{\hyperlink{classsmacc2_1_1ISmaccClientBehavior_a9c3d82542c800e2ba5207c5cff0e63e8}{getLogger}}(),\ \textcolor{stringliteral}{"{}[CbAbortNavigation]\ no\ result\ for\ the\ cancelled\ goal\ after\ 5\ s"{}});}
+\DoxyCodeLine{\Hypertarget{cb__abort__navigation_8cpp_source_l00060}00060\ \ \ \ \ \ \ this-\/>\mbox{\hyperlink{classsmacc2_1_1SmaccAsyncClientBehavior_afcb5c1a0bf3b9bae6c54e8f5ef1bc04d}{postFailureEvent}}();}
+\DoxyCodeLine{\Hypertarget{cb__abort__navigation_8cpp_source_l00061}00061\ \ \ \ \ \ \ \textcolor{keywordflow}{return};}
+\DoxyCodeLine{\Hypertarget{cb__abort__navigation_8cpp_source_l00062}00062\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{cb__abort__navigation_8cpp_source_l00063}00063\ \ \ \ \ std::this\_thread::sleep\_for(std::chrono::milliseconds(10));}
+\DoxyCodeLine{\Hypertarget{cb__abort__navigation_8cpp_source_l00064}00064\ \ \ \}}
+\DoxyCodeLine{\Hypertarget{cb__abort__navigation_8cpp_source_l00065}00065\ }
+\DoxyCodeLine{\Hypertarget{cb__abort__navigation_8cpp_source_l00066}00066\ \ \ RCLCPP\_INFO(\mbox{\hyperlink{classsmacc2_1_1ISmaccClientBehavior_a9c3d82542c800e2ba5207c5cff0e63e8}{getLogger}}(),\ \textcolor{stringliteral}{"{}[CbAbortNavigation]\ the\ cancelled\ goal\ has\ finished"{}});}
+\DoxyCodeLine{\Hypertarget{cb__abort__navigation_8cpp_source_l00067}00067\ \ \ this-\/>\mbox{\hyperlink{classsmacc2_1_1SmaccAsyncClientBehavior_a2fb4de26d011fbbb55bc1bbaed2e6f5b}{postSuccessEvent}}();}
+\DoxyCodeLine{\Hypertarget{cb__abort__navigation_8cpp_source_l00068}00068\ \}}
+\DoxyCodeLine{\Hypertarget{cb__abort__navigation_8cpp_source_l00069}00069\ }
+\DoxyCodeLine{\Hypertarget{cb__abort__navigation_8cpp_source_l00070}\mbox{\hyperlink{classcl__nav2z_1_1CbAbortNavigation_a1e1157b3fc5723ec33fe7989a6715702}{00070}}\ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{classcl__nav2z_1_1CbAbortNavigation_a1e1157b3fc5723ec33fe7989a6715702}{CbAbortNavigation::onNavigationResult}}(}
+\DoxyCodeLine{\Hypertarget{cb__abort__navigation_8cpp_source_l00071}00071\ \ \ \textcolor{keyword}{const}\ \mbox{\hyperlink{classcl__nav2z_1_1components_1_1CpNav2ActionInterface_a930e8e8723a6b422bddfc80eda983015}{components::CpNav2ActionInterface::WrappedResult}}\ \&\ \textcolor{comment}{/*result*/})}
+\DoxyCodeLine{\Hypertarget{cb__abort__navigation_8cpp_source_l00072}00072\ \{}
+\DoxyCodeLine{\Hypertarget{cb__abort__navigation_8cpp_source_l00073}00073\ \ \ \mbox{\hyperlink{classcl__nav2z_1_1CbAbortNavigation_aba453045844ae8ff4b788d3dff8a4681}{goalFinished\_}}\ =\ \textcolor{keyword}{true};}
+\DoxyCodeLine{\Hypertarget{cb__abort__navigation_8cpp_source_l00074}00074\ \}}
+\DoxyCodeLine{\Hypertarget{cb__abort__navigation_8cpp_source_l00075}00075\ }
+\DoxyCodeLine{\Hypertarget{cb__abort__navigation_8cpp_source_l00076}\mbox{\hyperlink{classcl__nav2z_1_1CbAbortNavigation_a38a8c096b19579d04cd5223b390b85f5}{00076}}\ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{classcl__nav2z_1_1CbAbortNavigation_a38a8c096b19579d04cd5223b390b85f5}{CbAbortNavigation::onExit}}()\ \{\}}
+\DoxyCodeLine{\Hypertarget{cb__abort__navigation_8cpp_source_l00077}00077\ }
+\DoxyCodeLine{\Hypertarget{cb__abort__navigation_8cpp_source_l00078}00078\ \}\ \ \textcolor{comment}{//\ namespace\ cl\_nav2z}}
 
 \end{DoxyCode}
