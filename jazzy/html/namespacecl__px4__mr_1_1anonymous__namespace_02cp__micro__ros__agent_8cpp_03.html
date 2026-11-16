@@ -98,8 +98,79 @@ $(function(){ initResizable(false); });
 Functions</h2></td></tr>
 <tr class="memitem:a522b701e14cb963fa58466e30a614374" id="r_a522b701e14cb963fa58466e30a614374"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classbool.html">bool</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a522b701e14cb963fa58466e30a614374">waitForGroupExit</a> (pid_t group, <a class="el" href="classbool.html">bool</a> &amp;leaderReaped, std::chrono::milliseconds limit)</td></tr>
 <tr class="separator:a522b701e14cb963fa58466e30a614374"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aa860cf1109240c633bf3f25ca4a17b6c" id="r_aa860cf1109240c633bf3f25ca4a17b6c"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#aa860cf1109240c633bf3f25ca4a17b6c">runWatchdog</a> (const int *lifePipe, pid_t group)</td></tr>
+<tr class="separator:aa860cf1109240c633bf3f25ca4a17b6c"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <h2 class="groupheader">Function Documentation</h2>
+<a id="aa860cf1109240c633bf3f25ca4a17b6c" name="aa860cf1109240c633bf3f25ca4a17b6c"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aa860cf1109240c633bf3f25ca4a17b6c">&#9670;&#160;</a></span>runWatchdog()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void cl_px4_mr::anonymous_namespace{cp_micro_ros_agent.cpp}::runWatchdog </td>
+          <td>(</td>
+          <td class="paramtype">const int *</td>          <td class="paramname"><span class="paramname"><em>lifePipe</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">pid_t</td>          <td class="paramname"><span class="paramname"><em>group</em></span>&#160;)</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p class="definition">Definition at line <a class="el" href="cp__micro__ros__agent_8cpp_source.html#l00053">53</a> of file <a class="el" href="cp__micro__ros__agent_8cpp_source.html">cp_micro_ros_agent.cpp</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">   54</span>{</div>
+<div class="line"><span class="lineno">   55</span>  <span class="keyword">const</span> <span class="keywordtype">int</span> lifeFd = lifePipe[0];</div>
+<div class="line"><span class="lineno">   56</span>  <span class="keywordflow">for</span> (<span class="keyword">const</span> <span class="keywordtype">int</span> sig : {SIGINT, SIGTERM, SIGHUP, SIGQUIT}) signal(sig, SIG_IGN);</div>
+<div class="line"><span class="lineno">   57</span>  prctl(PR_SET_NAME, <span class="stringliteral">&quot;cp_agent_watch&quot;</span>);</div>
+<div class="line"><span class="lineno">   58</span>  <span class="keywordflow">if</span> (lifeFd &gt; 0) close_range(0, lifeFd - 1, 0);</div>
+<div class="line"><span class="lineno">   59</span>  close_range(lifeFd + 1, ~0U, 0);</div>
+<div class="line"><span class="lineno">   60</span> </div>
+<div class="line"><span class="lineno">   61</span>  <span class="comment">// The state machine holds the only write end; end of file means that process is gone</span></div>
+<div class="line"><span class="lineno">   62</span>  <span class="keywordtype">char</span> <span class="keywordtype">byte</span> = 0;</div>
+<div class="line"><span class="lineno">   63</span>  ssize_t count = 0;</div>
+<div class="line"><span class="lineno">   64</span>  <span class="keywordflow">do</span></div>
+<div class="line"><span class="lineno">   65</span>  {</div>
+<div class="line"><span class="lineno">   66</span>    count = read(lifeFd, &amp;<span class="keywordtype">byte</span>, 1);</div>
+<div class="line"><span class="lineno">   67</span>  } <span class="keywordflow">while</span> (count != 0 &amp;&amp; !(count == -1 &amp;&amp; errno != EINTR));</div>
+<div class="line"><span class="lineno">   68</span> </div>
+<div class="line"><span class="lineno">   69</span>  kill(-group, SIGTERM);</div>
+<div class="line"><span class="lineno">   70</span>  <span class="keyword">const</span> timespec step{0, 20000000L};</div>
+<div class="line"><span class="lineno">   71</span>  <span class="keywordflow">for</span> (<span class="keywordtype">int</span> i = 0; i &lt; 100 &amp;&amp; !(kill(-group, 0) == -1 &amp;&amp; errno == ESRCH); ++i)</div>
+<div class="line"><span class="lineno">   72</span>  {</div>
+<div class="line"><span class="lineno">   73</span>    nanosleep(&amp;step, <span class="keyword">nullptr</span>);</div>
+<div class="line"><span class="lineno">   74</span>  }</div>
+<div class="line"><span class="lineno">   75</span>  kill(-group, SIGKILL);</div>
+<div class="line"><span class="lineno">   76</span>  _exit(0);</div>
+<div class="line"><span class="lineno">   77</span>}</div>
+</div><!-- fragment -->
+<p class="reference">References <a class="el" href="cp__micro__ros__agent_8cpp_source.html#l00053">runWatchdog()</a>.</p>
+
+<p class="reference">Referenced by <a class="el" href="cp__micro__ros__agent_8cpp_source.html#l00053">runWatchdog()</a>.</p>
+<div class="dynheader">
+Here is the call graph for this function:</div>
+<div class="dyncontent">
+<div class="center"><img src="namespacecl__px4__mr_1_1anonymous__namespace_02cp__micro__ros__agent_8cpp_03_aa860cf1109240c633bf3f25ca4a17b6c_cgraph.png" border="0" usemap="#anamespacecl__px4__mr_1_1anonymous__namespace_02cp__micro__ros__agent_8cpp_03_aa860cf1109240c633bf3f25ca4a17b6c_cgraph" alt=""/></div>
+<map name="anamespacecl__px4__mr_1_1anonymous__namespace_02cp__micro__ros__agent_8cpp_03_aa860cf1109240c633bf3f25ca4a17b6c_cgraph" id="anamespacecl__px4__mr_1_1anonymous__namespace_02cp__micro__ros__agent_8cpp_03_aa860cf1109240c633bf3f25ca4a17b6c_cgraph">
+<area shape="rect" title=" " alt="" coords="5,29,183,85"/>
+<area shape="poly" title=" " alt="" coords="59,29,59,19,65,10,77,5,94,3,113,5,125,12,122,17,111,10,94,8,79,10,69,14,64,21,64,29"/>
+</map>
+</div>
+<div class="dynheader">
+Here is the caller graph for this function:</div>
+<div class="dyncontent">
+<div class="center"><img src="namespacecl__px4__mr_1_1anonymous__namespace_02cp__micro__ros__agent_8cpp_03_aa860cf1109240c633bf3f25ca4a17b6c_icgraph.png" border="0" usemap="#anamespacecl__px4__mr_1_1anonymous__namespace_02cp__micro__ros__agent_8cpp_03_aa860cf1109240c633bf3f25ca4a17b6c_icgraph" alt=""/></div>
+<map name="anamespacecl__px4__mr_1_1anonymous__namespace_02cp__micro__ros__agent_8cpp_03_aa860cf1109240c633bf3f25ca4a17b6c_icgraph" id="anamespacecl__px4__mr_1_1anonymous__namespace_02cp__micro__ros__agent_8cpp_03_aa860cf1109240c633bf3f25ca4a17b6c_icgraph">
+<area shape="rect" title=" " alt="" coords="5,29,183,85"/>
+<area shape="poly" title=" " alt="" coords="122,17,111,10,94,8,79,10,69,14,64,21,64,29,59,29,59,19,65,10,77,5,94,3,113,5,125,12"/>
+</map>
+</div>
+
+</div>
+</div>
 <a id="a522b701e14cb963fa58466e30a614374" name="a522b701e14cb963fa58466e30a614374"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a522b701e14cb963fa58466e30a614374">&#9670;&#160;</a></span>waitForGroupExit()</h2>
 
@@ -124,26 +195,26 @@ Functions</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="cp__micro__ros__agent_8cpp_source.html#l00032">32</a> of file <a class="el" href="cp__micro__ros__agent_8cpp_source.html">cp_micro_ros_agent.cpp</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">   33</span>{</div>
-<div class="line"><span class="lineno">   34</span>  <span class="keyword">const</span> <span class="keyword">auto</span> deadline = std::chrono::steady_clock::now() + limit;</div>
-<div class="line"><span class="lineno">   35</span>  <span class="keywordflow">while</span> (<span class="keyword">true</span>)</div>
-<div class="line"><span class="lineno">   36</span>  {</div>
-<div class="line"><span class="lineno">   37</span>    <span class="keywordflow">if</span> (!leaderReaped)</div>
-<div class="line"><span class="lineno">   38</span>    {</div>
-<div class="line"><span class="lineno">   39</span>      <span class="keywordtype">int</span> status = 0;</div>
-<div class="line"><span class="lineno">   40</span>      <span class="keyword">const</span> pid_t result = waitpid(group, &amp;status, WNOHANG);</div>
-<div class="line"><span class="lineno">   41</span>      leaderReaped = result == group || (result == -1 &amp;&amp; errno == ECHILD);</div>
-<div class="line"><span class="lineno">   42</span>    }</div>
-<div class="line"><span class="lineno">   43</span>    <span class="keywordflow">if</span> (leaderReaped &amp;&amp; kill(-group, 0) == -1 &amp;&amp; errno == ESRCH) <span class="keywordflow">return</span> <span class="keyword">true</span>;</div>
-<div class="line"><span class="lineno">   44</span>    <span class="keywordflow">if</span> (std::chrono::steady_clock::now() &gt;= deadline) <span class="keywordflow">return</span> <span class="keyword">false</span>;</div>
-<div class="line"><span class="lineno">   45</span>    std::this_thread::sleep_for(std::chrono::milliseconds(20));</div>
-<div class="line"><span class="lineno">   46</span>  }</div>
-<div class="line"><span class="lineno">   47</span>}</div>
+<p class="definition">Definition at line <a class="el" href="cp__micro__ros__agent_8cpp_source.html#l00034">34</a> of file <a class="el" href="cp__micro__ros__agent_8cpp_source.html">cp_micro_ros_agent.cpp</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">   35</span>{</div>
+<div class="line"><span class="lineno">   36</span>  <span class="keyword">const</span> <span class="keyword">auto</span> deadline = std::chrono::steady_clock::now() + limit;</div>
+<div class="line"><span class="lineno">   37</span>  <span class="keywordflow">while</span> (<span class="keyword">true</span>)</div>
+<div class="line"><span class="lineno">   38</span>  {</div>
+<div class="line"><span class="lineno">   39</span>    <span class="keywordflow">if</span> (!leaderReaped)</div>
+<div class="line"><span class="lineno">   40</span>    {</div>
+<div class="line"><span class="lineno">   41</span>      <span class="keywordtype">int</span> status = 0;</div>
+<div class="line"><span class="lineno">   42</span>      <span class="keyword">const</span> pid_t result = waitpid(group, &amp;status, WNOHANG);</div>
+<div class="line"><span class="lineno">   43</span>      leaderReaped = result == group || (result == -1 &amp;&amp; errno == ECHILD);</div>
+<div class="line"><span class="lineno">   44</span>    }</div>
+<div class="line"><span class="lineno">   45</span>    <span class="keywordflow">if</span> (leaderReaped &amp;&amp; kill(-group, 0) == -1 &amp;&amp; errno == ESRCH) <span class="keywordflow">return</span> <span class="keyword">true</span>;</div>
+<div class="line"><span class="lineno">   46</span>    <span class="keywordflow">if</span> (std::chrono::steady_clock::now() &gt;= deadline) <span class="keywordflow">return</span> <span class="keyword">false</span>;</div>
+<div class="line"><span class="lineno">   47</span>    std::this_thread::sleep_for(std::chrono::milliseconds(20));</div>
+<div class="line"><span class="lineno">   48</span>  }</div>
+<div class="line"><span class="lineno">   49</span>}</div>
 </div><!-- fragment -->
-<p class="reference">References <a class="el" href="cp__micro__ros__agent_8cpp_source.html#l00032">waitForGroupExit()</a>.</p>
+<p class="reference">References <a class="el" href="cp__micro__ros__agent_8cpp_source.html#l00034">waitForGroupExit()</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="cp__micro__ros__agent_8cpp_source.html#l00032">waitForGroupExit()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="cp__micro__ros__agent_8cpp_source.html#l00034">waitForGroupExit()</a>.</p>
 <div class="dynheader">
 Here is the call graph for this function:</div>
 <div class="dyncontent">

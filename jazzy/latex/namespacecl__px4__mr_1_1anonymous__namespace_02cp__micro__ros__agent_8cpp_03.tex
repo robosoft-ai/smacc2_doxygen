@@ -4,10 +4,74 @@
 \begin{DoxyCompactItemize}
 \item 
 \mbox{\hyperlink{classbool}{bool}} \mbox{\hyperlink{namespacecl__px4__mr_1_1anonymous__namespace_02cp__micro__ros__agent_8cpp_03_a522b701e14cb963fa58466e30a614374}{wait\+For\+Group\+Exit}} (pid\+\_\+t group, \mbox{\hyperlink{classbool}{bool}} \&leader\+Reaped, std\+::chrono\+::milliseconds limit)
+\item 
+void \mbox{\hyperlink{namespacecl__px4__mr_1_1anonymous__namespace_02cp__micro__ros__agent_8cpp_03_aa860cf1109240c633bf3f25ca4a17b6c}{run\+Watchdog}} (const int \texorpdfstring{$\ast$}{*}life\+Pipe, pid\+\_\+t group)
 \end{DoxyCompactItemize}
 
 
 \doxysubsection{Function Documentation}
+\Hypertarget{namespacecl__px4__mr_1_1anonymous__namespace_02cp__micro__ros__agent_8cpp_03_aa860cf1109240c633bf3f25ca4a17b6c}\index{cl\_px4\_mr::anonymous\_namespace\lcurly{}cp\_micro\_ros\_agent.cpp\rcurly{}@{cl\_px4\_mr::anonymous\_namespace\lcurly{}cp\_micro\_ros\_agent.cpp\rcurly{}}!runWatchdog@{runWatchdog}}
+\index{runWatchdog@{runWatchdog}!cl\_px4\_mr::anonymous\_namespace\lcurly{}cp\_micro\_ros\_agent.cpp\rcurly{}@{cl\_px4\_mr::anonymous\_namespace\lcurly{}cp\_micro\_ros\_agent.cpp\rcurly{}}}
+\doxysubsubsection{\texorpdfstring{runWatchdog()}{runWatchdog()}}
+{\footnotesize\ttfamily \label{namespacecl__px4__mr_1_1anonymous__namespace_02cp__micro__ros__agent_8cpp_03_aa860cf1109240c633bf3f25ca4a17b6c} 
+void cl\+\_\+px4\+\_\+mr\+::anonymous\+\_\+namespace\{cp\+\_\+micro\+\_\+ros\+\_\+agent.\+cpp\}\+::run\+Watchdog (\begin{DoxyParamCaption}\item[{const int \texorpdfstring{$\ast$}{*}}]{life\+Pipe}{, }\item[{pid\+\_\+t}]{group}{}\end{DoxyParamCaption})}
+
+
+
+Definition at line \mbox{\hyperlink{cp__micro__ros__agent_8cpp_source_l00053}{53}} of file \mbox{\hyperlink{cp__micro__ros__agent_8cpp_source}{cp\+\_\+micro\+\_\+ros\+\_\+agent.\+cpp}}.
+
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00054\ \{}
+\DoxyCodeLine{00055\ \ \ \textcolor{keyword}{const}\ \textcolor{keywordtype}{int}\ lifeFd\ =\ lifePipe[0];}
+\DoxyCodeLine{00056\ \ \ \textcolor{keywordflow}{for}\ (\textcolor{keyword}{const}\ \textcolor{keywordtype}{int}\ sig\ :\ \{SIGINT,\ SIGTERM,\ SIGHUP,\ SIGQUIT\})\ signal(sig,\ SIG\_IGN);}
+\DoxyCodeLine{00057\ \ \ prctl(PR\_SET\_NAME,\ \textcolor{stringliteral}{"{}cp\_agent\_watch"{}});}
+\DoxyCodeLine{00058\ \ \ \textcolor{keywordflow}{if}\ (lifeFd\ >\ 0)\ close\_range(0,\ lifeFd\ -\/\ 1,\ 0);}
+\DoxyCodeLine{00059\ \ \ close\_range(lifeFd\ +\ 1,\ \string~0U,\ 0);}
+\DoxyCodeLine{00060\ }
+\DoxyCodeLine{00061\ \ \ \textcolor{comment}{//\ The\ state\ machine\ holds\ the\ only\ write\ end;\ end\ of\ file\ means\ that\ process\ is\ gone}}
+\DoxyCodeLine{00062\ \ \ \textcolor{keywordtype}{char}\ \textcolor{keywordtype}{byte}\ =\ 0;}
+\DoxyCodeLine{00063\ \ \ ssize\_t\ count\ =\ 0;}
+\DoxyCodeLine{00064\ \ \ \textcolor{keywordflow}{do}}
+\DoxyCodeLine{00065\ \ \ \{}
+\DoxyCodeLine{00066\ \ \ \ \ count\ =\ read(lifeFd,\ \&\textcolor{keywordtype}{byte},\ 1);}
+\DoxyCodeLine{00067\ \ \ \}\ \textcolor{keywordflow}{while}\ (count\ !=\ 0\ \&\&\ !(count\ ==\ -\/1\ \&\&\ errno\ !=\ EINTR));}
+\DoxyCodeLine{00068\ }
+\DoxyCodeLine{00069\ \ \ kill(-\/group,\ SIGTERM);}
+\DoxyCodeLine{00070\ \ \ \textcolor{keyword}{const}\ timespec\ step\{0,\ 20000000L\};}
+\DoxyCodeLine{00071\ \ \ \textcolor{keywordflow}{for}\ (\textcolor{keywordtype}{int}\ i\ =\ 0;\ i\ <\ 100\ \&\&\ !(kill(-\/group,\ 0)\ ==\ -\/1\ \&\&\ errno\ ==\ ESRCH);\ ++i)}
+\DoxyCodeLine{00072\ \ \ \{}
+\DoxyCodeLine{00073\ \ \ \ \ nanosleep(\&step,\ \textcolor{keyword}{nullptr});}
+\DoxyCodeLine{00074\ \ \ \}}
+\DoxyCodeLine{00075\ \ \ kill(-\/group,\ SIGKILL);}
+\DoxyCodeLine{00076\ \ \ \_exit(0);}
+\DoxyCodeLine{00077\ \}}
+
+\end{DoxyCode}
+
+
+References \mbox{\hyperlink{cp__micro__ros__agent_8cpp_source_l00053}{run\+Watchdog()}}.
+
+
+
+Referenced by \mbox{\hyperlink{cp__micro__ros__agent_8cpp_source_l00053}{run\+Watchdog()}}.
+
+Here is the call graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=213pt]{namespacecl__px4__mr_1_1anonymous__namespace_02cp__micro__ros__agent_8cpp_03_aa860cf1109240c633bf3f25ca4a17b6c_cgraph}
+\end{center}
+\end{figure}
+Here is the caller graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=213pt]{namespacecl__px4__mr_1_1anonymous__namespace_02cp__micro__ros__agent_8cpp_03_aa860cf1109240c633bf3f25ca4a17b6c_icgraph}
+\end{center}
+\end{figure}
 \Hypertarget{namespacecl__px4__mr_1_1anonymous__namespace_02cp__micro__ros__agent_8cpp_03_a522b701e14cb963fa58466e30a614374}\index{cl\_px4\_mr::anonymous\_namespace\lcurly{}cp\_micro\_ros\_agent.cpp\rcurly{}@{cl\_px4\_mr::anonymous\_namespace\lcurly{}cp\_micro\_ros\_agent.cpp\rcurly{}}!waitForGroupExit@{waitForGroupExit}}
 \index{waitForGroupExit@{waitForGroupExit}!cl\_px4\_mr::anonymous\_namespace\lcurly{}cp\_micro\_ros\_agent.cpp\rcurly{}@{cl\_px4\_mr::anonymous\_namespace\lcurly{}cp\_micro\_ros\_agent.cpp\rcurly{}}}
 \doxysubsubsection{\texorpdfstring{waitForGroupExit()}{waitForGroupExit()}}
@@ -16,34 +80,34 @@
 
 
 
-Definition at line \mbox{\hyperlink{cp__micro__ros__agent_8cpp_source_l00032}{32}} of file \mbox{\hyperlink{cp__micro__ros__agent_8cpp_source}{cp\+\_\+micro\+\_\+ros\+\_\+agent.\+cpp}}.
+Definition at line \mbox{\hyperlink{cp__micro__ros__agent_8cpp_source_l00034}{34}} of file \mbox{\hyperlink{cp__micro__ros__agent_8cpp_source}{cp\+\_\+micro\+\_\+ros\+\_\+agent.\+cpp}}.
 
 
 \begin{DoxyCode}{0}
-\DoxyCodeLine{00033\ \{}
-\DoxyCodeLine{00034\ \ \ \textcolor{keyword}{const}\ \textcolor{keyword}{auto}\ deadline\ =\ std::chrono::steady\_clock::now()\ +\ limit;}
-\DoxyCodeLine{00035\ \ \ \textcolor{keywordflow}{while}\ (\textcolor{keyword}{true})}
-\DoxyCodeLine{00036\ \ \ \{}
-\DoxyCodeLine{00037\ \ \ \ \ \textcolor{keywordflow}{if}\ (!leaderReaped)}
-\DoxyCodeLine{00038\ \ \ \ \ \{}
-\DoxyCodeLine{00039\ \ \ \ \ \ \ \textcolor{keywordtype}{int}\ status\ =\ 0;}
-\DoxyCodeLine{00040\ \ \ \ \ \ \ \textcolor{keyword}{const}\ pid\_t\ result\ =\ waitpid(group,\ \&status,\ WNOHANG);}
-\DoxyCodeLine{00041\ \ \ \ \ \ \ leaderReaped\ =\ result\ ==\ group\ ||\ (result\ ==\ -\/1\ \&\&\ errno\ ==\ ECHILD);}
-\DoxyCodeLine{00042\ \ \ \ \ \}}
-\DoxyCodeLine{00043\ \ \ \ \ \textcolor{keywordflow}{if}\ (leaderReaped\ \&\&\ kill(-\/group,\ 0)\ ==\ -\/1\ \&\&\ errno\ ==\ ESRCH)\ \textcolor{keywordflow}{return}\ \textcolor{keyword}{true};}
-\DoxyCodeLine{00044\ \ \ \ \ \textcolor{keywordflow}{if}\ (std::chrono::steady\_clock::now()\ >=\ deadline)\ \textcolor{keywordflow}{return}\ \textcolor{keyword}{false};}
-\DoxyCodeLine{00045\ \ \ \ \ std::this\_thread::sleep\_for(std::chrono::milliseconds(20));}
-\DoxyCodeLine{00046\ \ \ \}}
-\DoxyCodeLine{00047\ \}}
+\DoxyCodeLine{00035\ \{}
+\DoxyCodeLine{00036\ \ \ \textcolor{keyword}{const}\ \textcolor{keyword}{auto}\ deadline\ =\ std::chrono::steady\_clock::now()\ +\ limit;}
+\DoxyCodeLine{00037\ \ \ \textcolor{keywordflow}{while}\ (\textcolor{keyword}{true})}
+\DoxyCodeLine{00038\ \ \ \{}
+\DoxyCodeLine{00039\ \ \ \ \ \textcolor{keywordflow}{if}\ (!leaderReaped)}
+\DoxyCodeLine{00040\ \ \ \ \ \{}
+\DoxyCodeLine{00041\ \ \ \ \ \ \ \textcolor{keywordtype}{int}\ status\ =\ 0;}
+\DoxyCodeLine{00042\ \ \ \ \ \ \ \textcolor{keyword}{const}\ pid\_t\ result\ =\ waitpid(group,\ \&status,\ WNOHANG);}
+\DoxyCodeLine{00043\ \ \ \ \ \ \ leaderReaped\ =\ result\ ==\ group\ ||\ (result\ ==\ -\/1\ \&\&\ errno\ ==\ ECHILD);}
+\DoxyCodeLine{00044\ \ \ \ \ \}}
+\DoxyCodeLine{00045\ \ \ \ \ \textcolor{keywordflow}{if}\ (leaderReaped\ \&\&\ kill(-\/group,\ 0)\ ==\ -\/1\ \&\&\ errno\ ==\ ESRCH)\ \textcolor{keywordflow}{return}\ \textcolor{keyword}{true};}
+\DoxyCodeLine{00046\ \ \ \ \ \textcolor{keywordflow}{if}\ (std::chrono::steady\_clock::now()\ >=\ deadline)\ \textcolor{keywordflow}{return}\ \textcolor{keyword}{false};}
+\DoxyCodeLine{00047\ \ \ \ \ std::this\_thread::sleep\_for(std::chrono::milliseconds(20));}
+\DoxyCodeLine{00048\ \ \ \}}
+\DoxyCodeLine{00049\ \}}
 
 \end{DoxyCode}
 
 
-References \mbox{\hyperlink{cp__micro__ros__agent_8cpp_source_l00032}{wait\+For\+Group\+Exit()}}.
+References \mbox{\hyperlink{cp__micro__ros__agent_8cpp_source_l00034}{wait\+For\+Group\+Exit()}}.
 
 
 
-Referenced by \mbox{\hyperlink{cp__micro__ros__agent_8cpp_source_l00032}{wait\+For\+Group\+Exit()}}.
+Referenced by \mbox{\hyperlink{cp__micro__ros__agent_8cpp_source_l00034}{wait\+For\+Group\+Exit()}}.
 
 Here is the call graph for this function\+:
 \nopagebreak
