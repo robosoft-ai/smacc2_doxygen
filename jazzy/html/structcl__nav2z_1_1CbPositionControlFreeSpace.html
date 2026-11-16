@@ -459,98 +459,98 @@ Additional Inherited Members</h2></td></tr>
 <div class="line"><span class="lineno">   57</span>  <span class="keywordtype">double</span> ki_angular = 0.0;</div>
 <div class="line"><span class="lineno">   58</span>  <span class="keywordtype">double</span> kd_angular = 0.1;</div>
 <div class="line"><span class="lineno">   59</span> </div>
-<div class="line"><span class="lineno">   60</span>  <span class="keywordflow">while</span> (rclcpp::ok() &amp;&amp; !<a class="code hl_variable" href="#a7dc345f6d2299eb50f656c8e03653958">goalReached_</a>)</div>
-<div class="line"><span class="lineno">   61</span>  {</div>
-<div class="line"><span class="lineno">   62</span>    RCLCPP_INFO_STREAM_THROTTLE(</div>
-<div class="line"><span class="lineno">   63</span>      <a class="code hl_function" href="classsmacc2_1_1ISmaccClientBehavior.html#a9c3d82542c800e2ba5207c5cff0e63e8">getLogger</a>(), *<a class="code hl_function" href="classsmacc2_1_1ISmaccClientBehavior.html#aa1b28d5e8a5208fff8160f9df9a89dc6">getNode</a>()-&gt;get_clock(), 200,</div>
-<div class="line"><span class="lineno">   64</span>      <span class="stringliteral">&quot;CbPositionControlFreeSpace, current pose: &quot;</span> &lt;&lt; currentPose.position.x &lt;&lt; <span class="stringliteral">&quot;, &quot;</span></div>
-<div class="line"><span class="lineno">   65</span>                                                   &lt;&lt; currentPose.position.y &lt;&lt; <span class="stringliteral">&quot;, &quot;</span></div>
-<div class="line"><span class="lineno">   66</span>                                                   &lt;&lt; tf2::getYaw(currentPose.orientation));</div>
-<div class="line"><span class="lineno">   67</span> </div>
-<div class="line"><span class="lineno">   68</span>    RCLCPP_INFO_STREAM_THROTTLE(</div>
-<div class="line"><span class="lineno">   69</span>      <a class="code hl_function" href="classsmacc2_1_1ISmaccClientBehavior.html#a9c3d82542c800e2ba5207c5cff0e63e8">getLogger</a>(), *<a class="code hl_function" href="classsmacc2_1_1ISmaccClientBehavior.html#aa1b28d5e8a5208fff8160f9df9a89dc6">getNode</a>()-&gt;get_clock(), 200,</div>
-<div class="line"><span class="lineno">   70</span>      <span class="stringliteral">&quot;CbPositionControlFreeSpace, target pose: &quot;</span> &lt;&lt; <a class="code hl_variable" href="#acfd6926ba77b3c5f96265182a33f066f">target_pose_</a>.position.x &lt;&lt; <span class="stringliteral">&quot;, &quot;</span></div>
-<div class="line"><span class="lineno">   71</span>                                                  &lt;&lt; <a class="code hl_variable" href="#acfd6926ba77b3c5f96265182a33f066f">target_pose_</a>.position.y &lt;&lt; <span class="stringliteral">&quot;, &quot;</span></div>
-<div class="line"><span class="lineno">   72</span>                                                  &lt;&lt; tf2::getYaw(<a class="code hl_variable" href="#acfd6926ba77b3c5f96265182a33f066f">target_pose_</a>.orientation));</div>
-<div class="line"><span class="lineno">   73</span> </div>
-<div class="line"><span class="lineno">   74</span>    tf2::Quaternion q;</div>
-<div class="line"><span class="lineno">   75</span>    currentPose = pose-&gt;toPoseMsg();</div>
-<div class="line"><span class="lineno">   76</span> </div>
-<div class="line"><span class="lineno">   77</span>    <span class="comment">// Here we implement the control logic to calculate the velocity command</span></div>
-<div class="line"><span class="lineno">   78</span>    <span class="comment">// based on the received position of the vehicle and the target pose.</span></div>
-<div class="line"><span class="lineno">   79</span> </div>
-<div class="line"><span class="lineno">   80</span>    <span class="comment">// Calculate the errors in x and y</span></div>
-<div class="line"><span class="lineno">   81</span>    <span class="keywordtype">double</span> error_x = <a class="code hl_variable" href="#acfd6926ba77b3c5f96265182a33f066f">target_pose_</a>.position.x - currentPose.position.x;</div>
-<div class="line"><span class="lineno">   82</span>    <span class="keywordtype">double</span> error_y = <a class="code hl_variable" href="#acfd6926ba77b3c5f96265182a33f066f">target_pose_</a>.position.y - currentPose.position.y;</div>
-<div class="line"><span class="lineno">   83</span> </div>
-<div class="line"><span class="lineno">   84</span>    <span class="comment">// Calculate the distance to the target pose</span></div>
-<div class="line"><span class="lineno">   85</span>    <span class="keywordtype">double</span> distance_to_target = std::sqrt(error_x * error_x + error_y * error_y);</div>
-<div class="line"><span class="lineno">   86</span> </div>
-<div class="line"><span class="lineno">   87</span>    RCLCPP_INFO_STREAM(</div>
-<div class="line"><span class="lineno">   88</span>      <a class="code hl_function" href="classsmacc2_1_1ISmaccClientBehavior.html#a9c3d82542c800e2ba5207c5cff0e63e8">getLogger</a>(), <span class="stringliteral">&quot;[&quot;</span> &lt;&lt; <a class="code hl_function" href="classsmacc2_1_1ISmaccClientBehavior.html#a3feaa9c382a7d376b7ba0017a63e294e">getName</a>() &lt;&lt; <span class="stringliteral">&quot;] distance to target: &quot;</span> &lt;&lt; distance_to_target</div>
-<div class="line"><span class="lineno">   89</span>                       &lt;&lt; <span class="stringliteral">&quot; ( th: &quot;</span> &lt;&lt; <a class="code hl_variable" href="#a4adcb7de008328296d9c3878e1908cd0">threshold_distance_</a> &lt;&lt; <span class="stringliteral">&quot;)&quot;</span>);</div>
-<div class="line"><span class="lineno">   90</span> </div>
-<div class="line"><span class="lineno">   91</span>    <span class="comment">// Check if the robot has reached the target pose</span></div>
-<div class="line"><span class="lineno">   92</span>    <span class="keywordflow">if</span> (distance_to_target &lt; <a class="code hl_variable" href="#a4adcb7de008328296d9c3878e1908cd0">threshold_distance_</a>)</div>
-<div class="line"><span class="lineno">   93</span>    {</div>
-<div class="line"><span class="lineno">   94</span>      RCLCPP_INFO(<a class="code hl_function" href="classsmacc2_1_1ISmaccClientBehavior.html#a9c3d82542c800e2ba5207c5cff0e63e8">getLogger</a>(), <span class="stringliteral">&quot;Goal reached!&quot;</span>);</div>
-<div class="line"><span class="lineno">   95</span>      <span class="comment">// Stop the robot by setting the velocity commands to zero</span></div>
-<div class="line"><span class="lineno">   96</span>      geometry_msgs::msg::Twist cmd_vel_msg;</div>
-<div class="line"><span class="lineno">   97</span>      cmd_vel_msg.linear.x = 0.0;</div>
-<div class="line"><span class="lineno">   98</span>      cmd_vel_msg.angular.z = 0.0;</div>
-<div class="line"><span class="lineno">   99</span>      <a class="code hl_variable" href="#ab75251f26749e775580970008fa1f113">cmd_vel_pub_</a>-&gt;publish(cmd_vel_msg);</div>
-<div class="line"><span class="lineno">  100</span>      <span class="keywordflow">break</span>;</div>
-<div class="line"><span class="lineno">  101</span>    }</div>
-<div class="line"><span class="lineno">  102</span>    <span class="keywordflow">else</span></div>
-<div class="line"><span class="lineno">  103</span>    {</div>
-<div class="line"><span class="lineno">  104</span>      <span class="comment">// Calculate the desired orientation angle</span></div>
-<div class="line"><span class="lineno">  105</span>      <span class="keywordtype">double</span> desired_yaw = std::atan2(error_y, error_x);</div>
-<div class="line"><span class="lineno">  106</span> </div>
-<div class="line"><span class="lineno">  107</span>      <span class="comment">// Calculate the difference between the desired orientation and the</span></div>
-<div class="line"><span class="lineno">  108</span>      <span class="comment">// current orientation</span></div>
-<div class="line"><span class="lineno">  109</span>      <span class="keywordtype">double</span> yaw_error = desired_yaw - (tf2::getYaw(currentPose.orientation) + M_PI);</div>
-<div class="line"><span class="lineno">  110</span> </div>
-<div class="line"><span class="lineno">  111</span>      <span class="comment">// Ensure the yaw error is within the range [-pi, pi]</span></div>
-<div class="line"><span class="lineno">  112</span>      <span class="keywordflow">while</span> (yaw_error &gt; M_PI) yaw_error -= 2 * M_PI;</div>
-<div class="line"><span class="lineno">  113</span>      <span class="keywordflow">while</span> (yaw_error &lt; -M_PI) yaw_error += 2 * M_PI;</div>
-<div class="line"><span class="lineno">  114</span> </div>
-<div class="line"><span class="lineno">  115</span>      <span class="comment">// Calculate the control signals (velocity commands) using PID controllers</span></div>
-<div class="line"><span class="lineno">  116</span>      <span class="keywordtype">double</span> cmd_linear_x = kp_linear * distance_to_target + ki_linear * <a class="code hl_variable" href="#af305965c3f837378872c1893d1524731">integral_linear_</a> +</div>
-<div class="line"><span class="lineno">  117</span>                            kd_linear * (distance_to_target - <a class="code hl_variable" href="#ae180a86ae4408cfa896a8ffd6a8e35fc">prev_error_linear_</a>);</div>
-<div class="line"><span class="lineno">  118</span>      <span class="keywordtype">double</span> cmd_angular_z = kp_angular * yaw_error + ki_angular * <a class="code hl_variable" href="#ae0b73ae875a8dab72203ab2e769108f8">integral_angular_</a> +</div>
-<div class="line"><span class="lineno">  119</span>                             kd_angular * (yaw_error - <a class="code hl_variable" href="#a467b43e3cf492f214066454f9be46b97">prev_error_angular_</a>);</div>
-<div class="line"><span class="lineno">  120</span> </div>
-<div class="line"><span class="lineno">  121</span>      <span class="keywordflow">if</span> (cmd_linear_x &gt; <a class="code hl_variable" href="#adf6cc61c4f052e604c829c30fc7b5d0d">max_linear_velocity</a>)</div>
-<div class="line"><span class="lineno">  122</span>        cmd_linear_x = <a class="code hl_variable" href="#adf6cc61c4f052e604c829c30fc7b5d0d">max_linear_velocity</a>;</div>
-<div class="line"><span class="lineno">  123</span>      <span class="keywordflow">else</span> <span class="keywordflow">if</span> (cmd_linear_x &lt; -<a class="code hl_variable" href="#adf6cc61c4f052e604c829c30fc7b5d0d">max_linear_velocity</a>)</div>
-<div class="line"><span class="lineno">  124</span>        cmd_linear_x = -<a class="code hl_variable" href="#adf6cc61c4f052e604c829c30fc7b5d0d">max_linear_velocity</a>;</div>
-<div class="line"><span class="lineno">  125</span> </div>
-<div class="line"><span class="lineno">  126</span>      <span class="keywordflow">if</span> (cmd_angular_z &gt; <a class="code hl_variable" href="#ac7e5ede7d01f208e45aa95491e4388da">max_angular_velocity</a>)</div>
-<div class="line"><span class="lineno">  127</span>        cmd_angular_z = <a class="code hl_variable" href="#ac7e5ede7d01f208e45aa95491e4388da">max_angular_velocity</a>;</div>
-<div class="line"><span class="lineno">  128</span>      <span class="keywordflow">else</span> <span class="keywordflow">if</span> (cmd_angular_z &lt; -<a class="code hl_variable" href="#ac7e5ede7d01f208e45aa95491e4388da">max_angular_velocity</a>)</div>
-<div class="line"><span class="lineno">  129</span>        cmd_angular_z = -<a class="code hl_variable" href="#ac7e5ede7d01f208e45aa95491e4388da">max_angular_velocity</a>;</div>
+<div class="line"><span class="lineno">   60</span>  <span class="comment">// also ends when the state is exited: the loop used to block that exit until the goal was reached</span></div>
+<div class="line"><span class="lineno">   61</span>  <span class="keywordflow">while</span> (rclcpp::ok() &amp;&amp; !<a class="code hl_variable" href="#a7dc345f6d2299eb50f656c8e03653958">goalReached_</a> &amp;&amp; !this-&gt;<a class="code hl_function" href="classsmacc2_1_1SmaccAsyncClientBehavior.html#a3fdbe8ec497fef82e2441e8e87899955">isShutdownRequested</a>())</div>
+<div class="line"><span class="lineno">   62</span>  {</div>
+<div class="line"><span class="lineno">   63</span>    RCLCPP_INFO_STREAM_THROTTLE(</div>
+<div class="line"><span class="lineno">   64</span>      <a class="code hl_function" href="classsmacc2_1_1ISmaccClientBehavior.html#a9c3d82542c800e2ba5207c5cff0e63e8">getLogger</a>(), *<a class="code hl_function" href="classsmacc2_1_1ISmaccClientBehavior.html#aa1b28d5e8a5208fff8160f9df9a89dc6">getNode</a>()-&gt;get_clock(), 200,</div>
+<div class="line"><span class="lineno">   65</span>      <span class="stringliteral">&quot;CbPositionControlFreeSpace, current pose: &quot;</span> &lt;&lt; currentPose.position.x &lt;&lt; <span class="stringliteral">&quot;, &quot;</span></div>
+<div class="line"><span class="lineno">   66</span>                                                   &lt;&lt; currentPose.position.y &lt;&lt; <span class="stringliteral">&quot;, &quot;</span></div>
+<div class="line"><span class="lineno">   67</span>                                                   &lt;&lt; tf2::getYaw(currentPose.orientation));</div>
+<div class="line"><span class="lineno">   68</span> </div>
+<div class="line"><span class="lineno">   69</span>    RCLCPP_INFO_STREAM_THROTTLE(</div>
+<div class="line"><span class="lineno">   70</span>      <a class="code hl_function" href="classsmacc2_1_1ISmaccClientBehavior.html#a9c3d82542c800e2ba5207c5cff0e63e8">getLogger</a>(), *<a class="code hl_function" href="classsmacc2_1_1ISmaccClientBehavior.html#aa1b28d5e8a5208fff8160f9df9a89dc6">getNode</a>()-&gt;get_clock(), 200,</div>
+<div class="line"><span class="lineno">   71</span>      <span class="stringliteral">&quot;CbPositionControlFreeSpace, target pose: &quot;</span> &lt;&lt; <a class="code hl_variable" href="#acfd6926ba77b3c5f96265182a33f066f">target_pose_</a>.position.x &lt;&lt; <span class="stringliteral">&quot;, &quot;</span></div>
+<div class="line"><span class="lineno">   72</span>                                                  &lt;&lt; <a class="code hl_variable" href="#acfd6926ba77b3c5f96265182a33f066f">target_pose_</a>.position.y &lt;&lt; <span class="stringliteral">&quot;, &quot;</span></div>
+<div class="line"><span class="lineno">   73</span>                                                  &lt;&lt; tf2::getYaw(<a class="code hl_variable" href="#acfd6926ba77b3c5f96265182a33f066f">target_pose_</a>.orientation));</div>
+<div class="line"><span class="lineno">   74</span> </div>
+<div class="line"><span class="lineno">   75</span>    tf2::Quaternion q;</div>
+<div class="line"><span class="lineno">   76</span>    currentPose = pose-&gt;toPoseMsg();</div>
+<div class="line"><span class="lineno">   77</span> </div>
+<div class="line"><span class="lineno">   78</span>    <span class="comment">// Here we implement the control logic to calculate the velocity command</span></div>
+<div class="line"><span class="lineno">   79</span>    <span class="comment">// based on the received position of the vehicle and the target pose.</span></div>
+<div class="line"><span class="lineno">   80</span> </div>
+<div class="line"><span class="lineno">   81</span>    <span class="comment">// Calculate the errors in x and y</span></div>
+<div class="line"><span class="lineno">   82</span>    <span class="keywordtype">double</span> error_x = <a class="code hl_variable" href="#acfd6926ba77b3c5f96265182a33f066f">target_pose_</a>.position.x - currentPose.position.x;</div>
+<div class="line"><span class="lineno">   83</span>    <span class="keywordtype">double</span> error_y = <a class="code hl_variable" href="#acfd6926ba77b3c5f96265182a33f066f">target_pose_</a>.position.y - currentPose.position.y;</div>
+<div class="line"><span class="lineno">   84</span> </div>
+<div class="line"><span class="lineno">   85</span>    <span class="comment">// Calculate the distance to the target pose</span></div>
+<div class="line"><span class="lineno">   86</span>    <span class="keywordtype">double</span> distance_to_target = std::sqrt(error_x * error_x + error_y * error_y);</div>
+<div class="line"><span class="lineno">   87</span> </div>
+<div class="line"><span class="lineno">   88</span>    RCLCPP_INFO_STREAM(</div>
+<div class="line"><span class="lineno">   89</span>      <a class="code hl_function" href="classsmacc2_1_1ISmaccClientBehavior.html#a9c3d82542c800e2ba5207c5cff0e63e8">getLogger</a>(), <span class="stringliteral">&quot;[&quot;</span> &lt;&lt; <a class="code hl_function" href="classsmacc2_1_1ISmaccClientBehavior.html#a3feaa9c382a7d376b7ba0017a63e294e">getName</a>() &lt;&lt; <span class="stringliteral">&quot;] distance to target: &quot;</span> &lt;&lt; distance_to_target</div>
+<div class="line"><span class="lineno">   90</span>                       &lt;&lt; <span class="stringliteral">&quot; ( th: &quot;</span> &lt;&lt; <a class="code hl_variable" href="#a4adcb7de008328296d9c3878e1908cd0">threshold_distance_</a> &lt;&lt; <span class="stringliteral">&quot;)&quot;</span>);</div>
+<div class="line"><span class="lineno">   91</span> </div>
+<div class="line"><span class="lineno">   92</span>    <span class="comment">// Check if the robot has reached the target pose</span></div>
+<div class="line"><span class="lineno">   93</span>    <span class="keywordflow">if</span> (distance_to_target &lt; <a class="code hl_variable" href="#a4adcb7de008328296d9c3878e1908cd0">threshold_distance_</a>)</div>
+<div class="line"><span class="lineno">   94</span>    {</div>
+<div class="line"><span class="lineno">   95</span>      RCLCPP_INFO(<a class="code hl_function" href="classsmacc2_1_1ISmaccClientBehavior.html#a9c3d82542c800e2ba5207c5cff0e63e8">getLogger</a>(), <span class="stringliteral">&quot;Goal reached!&quot;</span>);</div>
+<div class="line"><span class="lineno">   96</span>      <a class="code hl_variable" href="#a7dc345f6d2299eb50f656c8e03653958">goalReached_</a> = <span class="keyword">true</span>;</div>
+<div class="line"><span class="lineno">   97</span>    }</div>
+<div class="line"><span class="lineno">   98</span>    <span class="keywordflow">else</span></div>
+<div class="line"><span class="lineno">   99</span>    {</div>
+<div class="line"><span class="lineno">  100</span>      <span class="comment">// Calculate the desired orientation angle</span></div>
+<div class="line"><span class="lineno">  101</span>      <span class="keywordtype">double</span> desired_yaw = std::atan2(error_y, error_x);</div>
+<div class="line"><span class="lineno">  102</span> </div>
+<div class="line"><span class="lineno">  103</span>      <span class="comment">// Calculate the difference between the desired orientation and the</span></div>
+<div class="line"><span class="lineno">  104</span>      <span class="comment">// current orientation</span></div>
+<div class="line"><span class="lineno">  105</span>      <span class="comment">// the robot&#39;s front is steered to the target; with pi added here it turned its back and drove away</span></div>
+<div class="line"><span class="lineno">  106</span>      <span class="keywordtype">double</span> yaw_error = desired_yaw - tf2::getYaw(currentPose.orientation);</div>
+<div class="line"><span class="lineno">  107</span> </div>
+<div class="line"><span class="lineno">  108</span>      <span class="comment">// Ensure the yaw error is within the range [-pi, pi]</span></div>
+<div class="line"><span class="lineno">  109</span>      <span class="keywordflow">while</span> (yaw_error &gt; M_PI) yaw_error -= 2 * M_PI;</div>
+<div class="line"><span class="lineno">  110</span>      <span class="keywordflow">while</span> (yaw_error &lt; -M_PI) yaw_error += 2 * M_PI;</div>
+<div class="line"><span class="lineno">  111</span> </div>
+<div class="line"><span class="lineno">  112</span>      <span class="comment">// Calculate the control signals (velocity commands) using PID controllers</span></div>
+<div class="line"><span class="lineno">  113</span>      <span class="keywordtype">double</span> cmd_linear_x = kp_linear * distance_to_target + ki_linear * <a class="code hl_variable" href="#af305965c3f837378872c1893d1524731">integral_linear_</a> +</div>
+<div class="line"><span class="lineno">  114</span>                            kd_linear * (distance_to_target - <a class="code hl_variable" href="#ae180a86ae4408cfa896a8ffd6a8e35fc">prev_error_linear_</a>);</div>
+<div class="line"><span class="lineno">  115</span>      <span class="keywordtype">double</span> cmd_angular_z = kp_angular * yaw_error + ki_angular * <a class="code hl_variable" href="#ae0b73ae875a8dab72203ab2e769108f8">integral_angular_</a> +</div>
+<div class="line"><span class="lineno">  116</span>                             kd_angular * (yaw_error - <a class="code hl_variable" href="#a467b43e3cf492f214066454f9be46b97">prev_error_angular_</a>);</div>
+<div class="line"><span class="lineno">  117</span> </div>
+<div class="line"><span class="lineno">  118</span>      <span class="keywordflow">if</span> (cmd_linear_x &gt; <a class="code hl_variable" href="#adf6cc61c4f052e604c829c30fc7b5d0d">max_linear_velocity</a>)</div>
+<div class="line"><span class="lineno">  119</span>        cmd_linear_x = <a class="code hl_variable" href="#adf6cc61c4f052e604c829c30fc7b5d0d">max_linear_velocity</a>;</div>
+<div class="line"><span class="lineno">  120</span>      <span class="keywordflow">else</span> <span class="keywordflow">if</span> (cmd_linear_x &lt; -<a class="code hl_variable" href="#adf6cc61c4f052e604c829c30fc7b5d0d">max_linear_velocity</a>)</div>
+<div class="line"><span class="lineno">  121</span>        cmd_linear_x = -<a class="code hl_variable" href="#adf6cc61c4f052e604c829c30fc7b5d0d">max_linear_velocity</a>;</div>
+<div class="line"><span class="lineno">  122</span> </div>
+<div class="line"><span class="lineno">  123</span>      <span class="keywordflow">if</span> (cmd_angular_z &gt; <a class="code hl_variable" href="#ac7e5ede7d01f208e45aa95491e4388da">max_angular_velocity</a>)</div>
+<div class="line"><span class="lineno">  124</span>        cmd_angular_z = <a class="code hl_variable" href="#ac7e5ede7d01f208e45aa95491e4388da">max_angular_velocity</a>;</div>
+<div class="line"><span class="lineno">  125</span>      <span class="keywordflow">else</span> <span class="keywordflow">if</span> (cmd_angular_z &lt; -<a class="code hl_variable" href="#ac7e5ede7d01f208e45aa95491e4388da">max_angular_velocity</a>)</div>
+<div class="line"><span class="lineno">  126</span>        cmd_angular_z = -<a class="code hl_variable" href="#ac7e5ede7d01f208e45aa95491e4388da">max_angular_velocity</a>;</div>
+<div class="line"><span class="lineno">  127</span> </div>
+<div class="line"><span class="lineno">  128</span>      <span class="comment">// Construct and publish the velocity command message</span></div>
+<div class="line"><span class="lineno">  129</span>      geometry_msgs::msg::Twist cmd_vel_msg;</div>
 <div class="line"><span class="lineno">  130</span> </div>
-<div class="line"><span class="lineno">  131</span>      <span class="comment">// Construct and publish the velocity command message</span></div>
-<div class="line"><span class="lineno">  132</span>      geometry_msgs::msg::Twist cmd_vel_msg;</div>
+<div class="line"><span class="lineno">  131</span>      cmd_vel_msg.linear.x = cmd_linear_x;</div>
+<div class="line"><span class="lineno">  132</span>      cmd_vel_msg.angular.z = cmd_angular_z;</div>
 <div class="line"><span class="lineno">  133</span> </div>
-<div class="line"><span class="lineno">  134</span>      cmd_vel_msg.linear.x = cmd_linear_x;</div>
-<div class="line"><span class="lineno">  135</span>      cmd_vel_msg.angular.z = cmd_angular_z;</div>
-<div class="line"><span class="lineno">  136</span> </div>
-<div class="line"><span class="lineno">  137</span>      <a class="code hl_variable" href="#ab75251f26749e775580970008fa1f113">cmd_vel_pub_</a>-&gt;publish(cmd_vel_msg);</div>
-<div class="line"><span class="lineno">  138</span> </div>
-<div class="line"><span class="lineno">  139</span>      <span class="comment">// Update errors and integrals for the next control cycle</span></div>
-<div class="line"><span class="lineno">  140</span>      <a class="code hl_variable" href="#ae180a86ae4408cfa896a8ffd6a8e35fc">prev_error_linear_</a> = distance_to_target;</div>
-<div class="line"><span class="lineno">  141</span>      <a class="code hl_variable" href="#a467b43e3cf492f214066454f9be46b97">prev_error_angular_</a> = yaw_error;</div>
-<div class="line"><span class="lineno">  142</span>      <a class="code hl_variable" href="#af305965c3f837378872c1893d1524731">integral_linear_</a> += distance_to_target;</div>
-<div class="line"><span class="lineno">  143</span>      <a class="code hl_variable" href="#ae0b73ae875a8dab72203ab2e769108f8">integral_angular_</a> += yaw_error;</div>
-<div class="line"><span class="lineno">  144</span> </div>
-<div class="line"><span class="lineno">  145</span>      loop_rate.sleep();</div>
-<div class="line"><span class="lineno">  146</span>    }</div>
-<div class="line"><span class="lineno">  147</span>  }</div>
+<div class="line"><span class="lineno">  134</span>      <a class="code hl_variable" href="#ab75251f26749e775580970008fa1f113">cmd_vel_pub_</a>-&gt;publish(cmd_vel_msg);</div>
+<div class="line"><span class="lineno">  135</span> </div>
+<div class="line"><span class="lineno">  136</span>      <span class="comment">// Update errors and integrals for the next control cycle</span></div>
+<div class="line"><span class="lineno">  137</span>      <a class="code hl_variable" href="#ae180a86ae4408cfa896a8ffd6a8e35fc">prev_error_linear_</a> = distance_to_target;</div>
+<div class="line"><span class="lineno">  138</span>      <a class="code hl_variable" href="#a467b43e3cf492f214066454f9be46b97">prev_error_angular_</a> = yaw_error;</div>
+<div class="line"><span class="lineno">  139</span>      <a class="code hl_variable" href="#af305965c3f837378872c1893d1524731">integral_linear_</a> += distance_to_target;</div>
+<div class="line"><span class="lineno">  140</span>      <a class="code hl_variable" href="#ae0b73ae875a8dab72203ab2e769108f8">integral_angular_</a> += yaw_error;</div>
+<div class="line"><span class="lineno">  141</span> </div>
+<div class="line"><span class="lineno">  142</span>      loop_rate.sleep();</div>
+<div class="line"><span class="lineno">  143</span>    }</div>
+<div class="line"><span class="lineno">  144</span>  }</div>
+<div class="line"><span class="lineno">  145</span> </div>
+<div class="line"><span class="lineno">  146</span>  <span class="comment">// stop the robot, whether the goal was reached or the state was exited</span></div>
+<div class="line"><span class="lineno">  147</span>  <span class="keywordflow">if</span> (rclcpp::ok()) <a class="code hl_variable" href="#ab75251f26749e775580970008fa1f113">cmd_vel_pub_</a>-&gt;publish(geometry_msgs::msg::Twist());</div>
 <div class="line"><span class="lineno">  148</span> </div>
 <div class="line"><span class="lineno">  149</span>  RCLCPP_INFO_STREAM(<a class="code hl_function" href="classsmacc2_1_1ISmaccClientBehavior.html#a9c3d82542c800e2ba5207c5cff0e63e8">getLogger</a>(), <span class="stringliteral">&quot;[&quot;</span> &lt;&lt; <a class="code hl_function" href="classsmacc2_1_1ISmaccClientBehavior.html#a3feaa9c382a7d376b7ba0017a63e294e">getName</a>() &lt;&lt; <span class="stringliteral">&quot;] Finished behavior execution&quot;</span>);</div>
 <div class="line"><span class="lineno">  150</span> </div>
-<div class="line"><span class="lineno">  151</span>  this-&gt;<a class="code hl_function" href="classsmacc2_1_1SmaccAsyncClientBehavior.html#a2fb4de26d011fbbb55bc1bbaed2e6f5b">postSuccessEvent</a>();</div>
+<div class="line"><span class="lineno">  151</span>  <span class="keywordflow">if</span> (<a class="code hl_variable" href="#a7dc345f6d2299eb50f656c8e03653958">goalReached_</a>) this-&gt;<a class="code hl_function" href="classsmacc2_1_1SmaccAsyncClientBehavior.html#a2fb4de26d011fbbb55bc1bbaed2e6f5b">postSuccessEvent</a>();</div>
 <div class="line"><span class="lineno">  152</span>}</div>
 <div class="ttc" id="aclasscl__nav2z_1_1CpPose_html"><div class="ttname"><a href="classcl__nav2z_1_1CpPose.html">cl_nav2z::CpPose</a></div><div class="ttdef"><b>Definition</b> <a href="cp__pose_8hpp_source.html#l00044">cp_pose.hpp:45</a></div></div>
 <div class="ttc" id="aclasssmacc2_1_1ISmaccClientBehavior_html_a3feaa9c382a7d376b7ba0017a63e294e"><div class="ttname"><a href="classsmacc2_1_1ISmaccClientBehavior.html#a3feaa9c382a7d376b7ba0017a63e294e">smacc2::ISmaccClientBehavior::getName</a></div><div class="ttdeci">std::string getName() const</div><div class="ttdef"><b>Definition</b> <a href="smacc__client__behavior__base_8cpp_source.html#l00037">smacc_client_behavior_base.cpp:37</a></div></div>
@@ -558,6 +558,7 @@ Additional Inherited Members</h2></td></tr>
 <div class="ttc" id="aclasssmacc2_1_1ISmaccClientBehavior_html_aa1b28d5e8a5208fff8160f9df9a89dc6"><div class="ttname"><a href="classsmacc2_1_1ISmaccClientBehavior.html#aa1b28d5e8a5208fff8160f9df9a89dc6">smacc2::ISmaccClientBehavior::getNode</a></div><div class="ttdeci">virtual rclcpp::Node::SharedPtr getNode() const</div><div class="ttdef"><b>Definition</b> <a href="smacc__client__behavior__base_8cpp_source.html#l00039">smacc_client_behavior_base.cpp:39</a></div></div>
 <div class="ttc" id="aclasssmacc2_1_1ISmaccClientBehavior_html_aeb76b10b9bb3925244da9d484739a5a9"><div class="ttname"><a href="classsmacc2_1_1ISmaccClientBehavior.html#aeb76b10b9bb3925244da9d484739a5a9">smacc2::ISmaccClientBehavior::requiresComponent</a></div><div class="ttdeci">void requiresComponent(SmaccComponentType *&amp;storage, ComponentRequirement requirementType=ComponentRequirement::SOFT)</div><div class="ttdef"><b>Definition</b> <a href="smacc__client__behavior__impl_8hpp_source.html#l00081">smacc_client_behavior_impl.hpp:81</a></div></div>
 <div class="ttc" id="aclasssmacc2_1_1SmaccAsyncClientBehavior_html_a2fb4de26d011fbbb55bc1bbaed2e6f5b"><div class="ttname"><a href="classsmacc2_1_1SmaccAsyncClientBehavior.html#a2fb4de26d011fbbb55bc1bbaed2e6f5b">smacc2::SmaccAsyncClientBehavior::postSuccessEvent</a></div><div class="ttdeci">void postSuccessEvent()</div><div class="ttdef"><b>Definition</b> <a href="smacc__client__async__behavior_8cpp_source.html#l00219">smacc_client_async_behavior.cpp:219</a></div></div>
+<div class="ttc" id="aclasssmacc2_1_1SmaccAsyncClientBehavior_html_a3fdbe8ec497fef82e2441e8e87899955"><div class="ttname"><a href="classsmacc2_1_1SmaccAsyncClientBehavior.html#a3fdbe8ec497fef82e2441e8e87899955">smacc2::SmaccAsyncClientBehavior::isShutdownRequested</a></div><div class="ttdeci">bool isShutdownRequested()</div><div class="ttdoc">onEntry is executed in a new thread. However the current state cannot be left until the onEntry threa...</div><div class="ttdef"><b>Definition</b> <a href="smacc__client__async__behavior_8cpp_source.html#l00231">smacc_client_async_behavior.cpp:231</a></div></div>
 <div class="ttc" id="astructcl__nav2z_1_1CbPositionControlFreeSpace_html_a467b43e3cf492f214066454f9be46b97"><div class="ttname"><a href="#a467b43e3cf492f214066454f9be46b97">cl_nav2z::CbPositionControlFreeSpace::prev_error_angular_</a></div><div class="ttdeci">double prev_error_angular_</div><div class="ttdef"><b>Definition</b> <a href="cb__position__control__free__space_8hpp_source.html#l00035">cb_position_control_free_space.hpp:35</a></div></div>
 <div class="ttc" id="astructcl__nav2z_1_1CbPositionControlFreeSpace_html_a4adcb7de008328296d9c3878e1908cd0"><div class="ttname"><a href="#a4adcb7de008328296d9c3878e1908cd0">cl_nav2z::CbPositionControlFreeSpace::threshold_distance_</a></div><div class="ttdeci">double threshold_distance_</div><div class="ttdef"><b>Definition</b> <a href="cb__position__control__free__space_8hpp_source.html#l00049">cb_position_control_free_space.hpp:49</a></div></div>
 <div class="ttc" id="astructcl__nav2z_1_1CbPositionControlFreeSpace_html_a7dc345f6d2299eb50f656c8e03653958"><div class="ttname"><a href="#a7dc345f6d2299eb50f656c8e03653958">cl_nav2z::CbPositionControlFreeSpace::goalReached_</a></div><div class="ttdeci">bool goalReached_</div><div class="ttdef"><b>Definition</b> <a href="cb__position__control__free__space_8hpp_source.html#l00032">cb_position_control_free_space.hpp:32</a></div></div>
@@ -569,7 +570,7 @@ Additional Inherited Members</h2></td></tr>
 <div class="ttc" id="astructcl__nav2z_1_1CbPositionControlFreeSpace_html_ae180a86ae4408cfa896a8ffd6a8e35fc"><div class="ttname"><a href="#ae180a86ae4408cfa896a8ffd6a8e35fc">cl_nav2z::CbPositionControlFreeSpace::prev_error_linear_</a></div><div class="ttdeci">double prev_error_linear_</div><div class="ttdef"><b>Definition</b> <a href="cb__position__control__free__space_8hpp_source.html#l00034">cb_position_control_free_space.hpp:34</a></div></div>
 <div class="ttc" id="astructcl__nav2z_1_1CbPositionControlFreeSpace_html_af305965c3f837378872c1893d1524731"><div class="ttname"><a href="#af305965c3f837378872c1893d1524731">cl_nav2z::CbPositionControlFreeSpace::integral_linear_</a></div><div class="ttdeci">double integral_linear_</div><div class="ttdef"><b>Definition</b> <a href="cb__position__control__free__space_8hpp_source.html#l00036">cb_position_control_free_space.hpp:36</a></div></div>
 </div><!-- fragment -->
-<p class="reference">References <a class="el" href="cb__position__control__free__space_8hpp_source.html#l00044">cmd_vel_pub_</a>, <a class="el" href="smacc__client__behavior__base_8cpp_source.html#l00049">smacc2::ISmaccClientBehavior::getLogger()</a>, <a class="el" href="smacc__client__behavior__base_8cpp_source.html#l00037">smacc2::ISmaccClientBehavior::getName()</a>, <a class="el" href="smacc__client__behavior__base_8cpp_source.html#l00039">smacc2::ISmaccClientBehavior::getNode()</a>, <a class="el" href="cb__position__control__free__space_8hpp_source.html#l00032">goalReached_</a>, <a class="el" href="cb__position__control__free__space_8hpp_source.html#l00037">integral_angular_</a>, <a class="el" href="cb__position__control__free__space_8hpp_source.html#l00036">integral_linear_</a>, <a class="el" href="cb__position__control__free__space_8hpp_source.html#l00042">max_angular_velocity</a>, <a class="el" href="cb__position__control__free__space_8hpp_source.html#l00041">max_linear_velocity</a>, <a class="el" href="smacc__client__async__behavior_8cpp_source.html#l00219">smacc2::SmaccAsyncClientBehavior::postSuccessEvent()</a>, <a class="el" href="cb__position__control__free__space_8hpp_source.html#l00035">prev_error_angular_</a>, <a class="el" href="cb__position__control__free__space_8hpp_source.html#l00034">prev_error_linear_</a>, <a class="el" href="smacc__client__behavior__impl_8hpp_source.html#l00081">smacc2::ISmaccClientBehavior::requiresComponent()</a>, <a class="el" href="cb__position__control__free__space_8hpp_source.html#l00051">target_pose_</a>, and <a class="el" href="cb__position__control__free__space_8hpp_source.html#l00049">threshold_distance_</a>.</p>
+<p class="reference">References <a class="el" href="cb__position__control__free__space_8hpp_source.html#l00044">cmd_vel_pub_</a>, <a class="el" href="smacc__client__behavior__base_8cpp_source.html#l00049">smacc2::ISmaccClientBehavior::getLogger()</a>, <a class="el" href="smacc__client__behavior__base_8cpp_source.html#l00037">smacc2::ISmaccClientBehavior::getName()</a>, <a class="el" href="smacc__client__behavior__base_8cpp_source.html#l00039">smacc2::ISmaccClientBehavior::getNode()</a>, <a class="el" href="cb__position__control__free__space_8hpp_source.html#l00032">goalReached_</a>, <a class="el" href="cb__position__control__free__space_8hpp_source.html#l00037">integral_angular_</a>, <a class="el" href="cb__position__control__free__space_8hpp_source.html#l00036">integral_linear_</a>, <a class="el" href="smacc__client__async__behavior_8cpp_source.html#l00231">smacc2::SmaccAsyncClientBehavior::isShutdownRequested()</a>, <a class="el" href="cb__position__control__free__space_8hpp_source.html#l00042">max_angular_velocity</a>, <a class="el" href="cb__position__control__free__space_8hpp_source.html#l00041">max_linear_velocity</a>, <a class="el" href="smacc__client__async__behavior_8cpp_source.html#l00219">smacc2::SmaccAsyncClientBehavior::postSuccessEvent()</a>, <a class="el" href="cb__position__control__free__space_8hpp_source.html#l00035">prev_error_angular_</a>, <a class="el" href="cb__position__control__free__space_8hpp_source.html#l00034">prev_error_linear_</a>, <a class="el" href="smacc__client__behavior__impl_8hpp_source.html#l00081">smacc2::ISmaccClientBehavior::requiresComponent()</a>, <a class="el" href="cb__position__control__free__space_8hpp_source.html#l00051">target_pose_</a>, and <a class="el" href="cb__position__control__free__space_8hpp_source.html#l00049">threshold_distance_</a>.</p>
 
 <p class="reference">Referenced by <a class="el" href="cb__navigate__next__waypoint__free_8cpp_source.html#l00030">cl_nav2z::CbNavigateNextWaypointFree::onEntry()</a>.</p>
 <div class="dynheader">
@@ -577,29 +578,31 @@ Here is the call graph for this function:</div>
 <div class="dyncontent">
 <div class="center"><img src="structcl__nav2z_1_1CbPositionControlFreeSpace_a95e8817f408ce52c5b353251c228448f_cgraph.png" border="0" usemap="#astructcl__nav2z_1_1CbPositionControlFreeSpace_a95e8817f408ce52c5b353251c228448f_cgraph" alt=""/></div>
 <map name="astructcl__nav2z_1_1CbPositionControlFreeSpace_a95e8817f408ce52c5b353251c228448f_cgraph" id="astructcl__nav2z_1_1CbPositionControlFreeSpace_a95e8817f408ce52c5b353251c228448f_cgraph">
-<area shape="rect" title=" " alt="" coords="5,84,188,125"/>
-<area shape="rect" href="classsmacc2_1_1ISmaccClientBehavior.html#a9c3d82542c800e2ba5207c5cff0e63e8" title=" " alt="" coords="486,33,688,74"/>
-<area shape="poly" title=" " alt="" coords="177,81,235,70,356,57,470,52,470,57,357,63,236,75,178,86"/>
-<area shape="rect" href="classsmacc2_1_1ISmaccClientBehavior.html#aa1b28d5e8a5208fff8160f9df9a89dc6" title=" " alt="" coords="736,5,939,46"/>
-<area shape="poly" title=" " alt="" coords="137,81,183,60,235,43,298,29,363,19,494,9,616,8,721,12,721,18,616,13,494,14,364,25,299,35,236,48,185,65,139,86"/>
-<area shape="rect" href="classsmacc2_1_1ISmaccClientBehavior.html#a3feaa9c382a7d376b7ba0017a63e294e" title=" " alt="" coords="486,204,688,245"/>
-<area shape="poly" title=" " alt="" coords="121,123,171,164,203,184,237,199,295,215,355,225,415,229,471,230,471,235,415,235,355,230,294,220,235,204,200,188,168,168,117,127"/>
-<area shape="rect" href="classsmacc2_1_1SmaccAsyncClientBehavior.html#a2fb4de26d011fbbb55bc1bbaed2e6f5b" title=" " alt="" coords="243,149,430,190"/>
-<area shape="poly" title=" " alt="" coords="174,123,245,142,244,147,173,128"/>
-<area shape="rect" href="classsmacc2_1_1ISmaccClientBehavior.html#aeb76b10b9bb3925244da9d484739a5a9" title=" " alt="" coords="236,84,438,125"/>
-<area shape="poly" title=" " alt="" coords="188,102,220,102,220,107,188,107"/>
-<area shape="poly" title=" " alt="" coords="689,40,721,36,721,41,689,45"/>
-<area shape="rect" href="classsmacc2_1_1ISmaccStateMachine.html#a2cf8b817f7e137fc648e373ae4614a2f" title=" " alt="" coords="987,5,1185,46"/>
-<area shape="poly" title=" " alt="" coords="939,23,971,23,971,28,939,28"/>
-<area shape="rect" href="namespacesmacc2_1_1introspection.html#aba19132e50f25adee919c2504ae6a3a2" title=" " alt="" coords="764,195,911,235"/>
-<area shape="poly" title=" " alt="" coords="689,218,748,216,748,221,689,223"/>
-<area shape="poly" title=" " alt="" coords="791,195,789,185,796,176,813,170,838,168,864,170,880,177,878,182,863,176,837,173,814,175,799,180,794,186,796,193"/>
-<area shape="poly" title=" " alt="" coords="438,81,470,75,472,80,439,86"/>
-<area shape="rect" href="classsmacc2_1_1ISmaccStateMachine.html#a37c10cc3ff9e4dffc9f75e3f32fe35f2" title=" " alt="" coords="488,101,686,142"/>
-<area shape="poly" title=" " alt="" coords="439,109,473,111,472,116,438,114"/>
-<area shape="poly" title=" " alt="" coords="645,140,767,186,765,191,643,145"/>
-<area shape="rect" href="classsmacc2_1_1ISmaccStateMachine.html#acc4b310700e4256383d28f56217c3ce1" title=" " alt="" coords="738,101,937,142"/>
-<area shape="poly" title=" " alt="" coords="687,119,723,119,723,124,687,124"/>
+<area shape="rect" title=" " alt="" coords="5,132,188,173"/>
+<area shape="rect" href="classsmacc2_1_1ISmaccClientBehavior.html#a9c3d82542c800e2ba5207c5cff0e63e8" title=" " alt="" coords="492,45,694,86"/>
+<area shape="poly" title=" " alt="" coords="134,129,181,107,235,88,296,76,359,68,476,61,476,66,359,73,297,81,236,94,183,112,136,134"/>
+<area shape="rect" href="classsmacc2_1_1ISmaccClientBehavior.html#aa1b28d5e8a5208fff8160f9df9a89dc6" title=" " alt="" coords="742,5,945,46"/>
+<area shape="poly" title=" " alt="" coords="119,129,170,91,201,72,235,57,298,37,363,23,429,13,495,8,620,5,727,10,727,15,620,10,496,13,430,19,364,28,299,42,237,61,204,76,173,95,122,134"/>
+<area shape="rect" href="classsmacc2_1_1ISmaccClientBehavior.html#a3feaa9c382a7d376b7ba0017a63e294e" title=" " alt="" coords="492,176,694,217"/>
+<area shape="poly" title=" " alt="" coords="188,158,477,183,476,189,188,163"/>
+<area shape="rect" href="classsmacc2_1_1SmaccAsyncClientBehavior.html#a3fdbe8ec497fef82e2441e8e87899955" title="onEntry is executed in a new thread. However the current state cannot be left until the onEntry threa..." alt="" coords="236,217,444,258"/>
+<area shape="poly" title=" " alt="" coords="158,171,266,209,264,214,156,176"/>
+<area shape="rect" href="classsmacc2_1_1SmaccAsyncClientBehavior.html#a2fb4de26d011fbbb55bc1bbaed2e6f5b" title=" " alt="" coords="246,283,434,323"/>
+<area shape="poly" title=" " alt="" coords="119,171,170,219,202,245,237,267,249,274,247,278,234,272,199,249,166,223,115,175"/>
+<area shape="rect" href="classsmacc2_1_1ISmaccClientBehavior.html#aeb76b10b9bb3925244da9d484739a5a9" title=" " alt="" coords="239,103,441,143"/>
+<area shape="poly" title=" " alt="" coords="188,139,222,134,223,140,188,144"/>
+<area shape="poly" title=" " alt="" coords="694,47,727,42,727,47,695,52"/>
+<area shape="rect" href="classsmacc2_1_1ISmaccStateMachine.html#a2cf8b817f7e137fc648e373ae4614a2f" title=" " alt="" coords="993,5,1191,46"/>
+<area shape="poly" title=" " alt="" coords="945,23,977,23,977,28,945,28"/>
+<area shape="rect" href="namespacesmacc2_1_1introspection.html#aba19132e50f25adee919c2504ae6a3a2" title=" " alt="" coords="770,176,917,217"/>
+<area shape="poly" title=" " alt="" coords="695,194,754,194,754,199,695,199"/>
+<area shape="poly" title=" " alt="" coords="797,176,795,166,802,157,819,151,844,149,870,152,886,158,884,163,869,157,843,155,820,157,805,161,800,167,802,175"/>
+<area shape="poly" title=" " alt="" coords="432,99,485,87,486,93,433,105"/>
+<area shape="rect" href="classsmacc2_1_1ISmaccStateMachine.html#a37c10cc3ff9e4dffc9f75e3f32fe35f2" title=" " alt="" coords="494,111,692,151"/>
+<area shape="poly" title=" " alt="" coords="441,124,479,125,478,130,441,129"/>
+<area shape="poly" title=" " alt="" coords="675,149,755,171,754,176,673,155"/>
+<area shape="rect" href="classsmacc2_1_1ISmaccStateMachine.html#acc4b310700e4256383d28f56217c3ce1" title=" " alt="" coords="744,87,943,127"/>
+<area shape="poly" title=" " alt="" coords="692,119,729,115,729,121,693,124"/>
 </map>
 </div>
 <div class="dynheader">
