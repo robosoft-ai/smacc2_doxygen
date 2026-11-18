@@ -1069,124 +1069,122 @@
 \DoxyCodeLine{\Hypertarget{backward__local__planner_8cpp_source_l01111}01111\ \ \ \textcolor{keywordtype}{bool}\ end\ =\ \textcolor{keyword}{false};}
 \DoxyCodeLine{\Hypertarget{backward__local__planner_8cpp_source_l01112}01112\ \ \ \textcolor{keywordtype}{float}\ time\ =\ 0;}
 \DoxyCodeLine{\Hypertarget{backward__local__planner_8cpp_source_l01113}01113\ \ \ Eigen::Vector3f\ currentpos\ =\ pos;}
-\DoxyCodeLine{\Hypertarget{backward__local__planner_8cpp_source_l01114}01114\ \ \ \textcolor{keywordtype}{int}\ i\ =\ 0;}
-\DoxyCodeLine{\Hypertarget{backward__local__planner_8cpp_source_l01115}01115\ \ \ \textcolor{keywordflow}{while}\ (!end)}
-\DoxyCodeLine{\Hypertarget{backward__local__planner_8cpp_source_l01116}01116\ \ \ \{}
-\DoxyCodeLine{\Hypertarget{backward__local__planner_8cpp_source_l01117}01117\ \ \ \ \ \textcolor{keyword}{auto}\ loop\_vel\ =\ vel;}
-\DoxyCodeLine{\Hypertarget{backward__local__planner_8cpp_source_l01118}01118\ \ \ \ \ \textcolor{comment}{//\ update\ the\ position\ of\ the\ robot\ using\ the\ velocities\ passed\ in}}
-\DoxyCodeLine{\Hypertarget{backward__local__planner_8cpp_source_l01119}01119\ \ \ \ \ \textcolor{keyword}{auto}\ newpos\ =\ \mbox{\hyperlink{classcl__nav2z_1_1backward__local__planner_1_1BackwardLocalPlanner_a0e614005a2fa9c4e557b932d7546691e}{computeNewPositions}}(currentpos,\ loop\_vel,\ dt);}
-\DoxyCodeLine{\Hypertarget{backward__local__planner_8cpp_source_l01120}01120\ }
-\DoxyCodeLine{\Hypertarget{backward__local__planner_8cpp_source_l01121}01121\ \ \ \ \ \textcolor{keyword}{auto}\ dx\ =\ newpos[0]\ -\/\ currentpos[0];}
-\DoxyCodeLine{\Hypertarget{backward__local__planner_8cpp_source_l01122}01122\ \ \ \ \ \textcolor{keyword}{auto}\ dy\ =\ newpos[1]\ -\/\ currentpos[1];}
-\DoxyCodeLine{\Hypertarget{backward__local__planner_8cpp_source_l01123}01123\ \ \ \ \ \textcolor{keywordtype}{float}\ dist\ =\ 0.0,\ angledist\ =\ 0.0;}
-\DoxyCodeLine{\Hypertarget{backward__local__planner_8cpp_source_l01124}01124\ }
-\DoxyCodeLine{\Hypertarget{backward__local__planner_8cpp_source_l01125}01125\ \ \ \ \ \textcolor{comment}{//\ RCLCPP\_INFO(nh\_-\/>get\_logger(),\ "{}traj\ point\ \%d"{},\ i);}}
-\DoxyCodeLine{\Hypertarget{backward__local__planner_8cpp_source_l01126}01126\ \ \ \ \ dist\ =\ sqrt(dx\ *\ dx\ +\ dy\ *\ dy);}
-\DoxyCodeLine{\Hypertarget{backward__local__planner_8cpp_source_l01127}01127\ \ \ \ \ \textcolor{keywordflow}{if}\ (dist\ >\ maxdist)}
-\DoxyCodeLine{\Hypertarget{backward__local__planner_8cpp_source_l01128}01128\ \ \ \ \ \{}
-\DoxyCodeLine{\Hypertarget{backward__local__planner_8cpp_source_l01129}01129\ \ \ \ \ \ \ end\ =\ \textcolor{keyword}{true};}
-\DoxyCodeLine{\Hypertarget{backward__local__planner_8cpp_source_l01130}01130\ \ \ \ \ \ \ \textcolor{comment}{//\ RCLCPP\_INFO(nh\_-\/>get\_logger(),\ "{}dist\ break:\ \%f"{},\ dist);}}
-\DoxyCodeLine{\Hypertarget{backward__local__planner_8cpp_source_l01131}01131\ \ \ \ \ \}}
-\DoxyCodeLine{\Hypertarget{backward__local__planner_8cpp_source_l01132}01132\ \ \ \ \ \textcolor{keywordflow}{else}}
-\DoxyCodeLine{\Hypertarget{backward__local__planner_8cpp_source_l01133}01133\ \ \ \ \ \{}
-\DoxyCodeLine{\Hypertarget{backward__local__planner_8cpp_source_l01134}01134\ \ \ \ \ \ \ \textcolor{comment}{//\ ouble\ from,\ double\ to}}
-\DoxyCodeLine{\Hypertarget{backward__local__planner_8cpp_source_l01135}01135\ \ \ \ \ \ \ angledist\ =\ angles::shortest\_angular\_distance(currentpos[2],\ newpos[2]);}
-\DoxyCodeLine{\Hypertarget{backward__local__planner_8cpp_source_l01136}01136\ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (angledist\ >\ maxanglediff)}
-\DoxyCodeLine{\Hypertarget{backward__local__planner_8cpp_source_l01137}01137\ \ \ \ \ \ \ \{}
-\DoxyCodeLine{\Hypertarget{backward__local__planner_8cpp_source_l01138}01138\ \ \ \ \ \ \ \ \ end\ =\ \textcolor{keyword}{true};}
-\DoxyCodeLine{\Hypertarget{backward__local__planner_8cpp_source_l01139}01139\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ RCLCPP\_INFO(nh\_-\/>get\_logger(),\ "{}angle\ dist\ break:\ \%f"{},\ angledist);}}
-\DoxyCodeLine{\Hypertarget{backward__local__planner_8cpp_source_l01140}01140\ \ \ \ \ \ \ \}}
-\DoxyCodeLine{\Hypertarget{backward__local__planner_8cpp_source_l01141}01141\ \ \ \ \ \ \ \textcolor{keywordflow}{else}}
-\DoxyCodeLine{\Hypertarget{backward__local__planner_8cpp_source_l01142}01142\ \ \ \ \ \ \ \{}
-\DoxyCodeLine{\Hypertarget{backward__local__planner_8cpp_source_l01143}01143\ \ \ \ \ \ \ \ \ outtraj.push\_back(newpos);}
-\DoxyCodeLine{\Hypertarget{backward__local__planner_8cpp_source_l01144}01144\ }
-\DoxyCodeLine{\Hypertarget{backward__local__planner_8cpp_source_l01145}01145\ \ \ \ \ \ \ \ \ time\ +=\ dt;}
-\DoxyCodeLine{\Hypertarget{backward__local__planner_8cpp_source_l01146}01146\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (time\ >\ maxtime)}
-\DoxyCodeLine{\Hypertarget{backward__local__planner_8cpp_source_l01147}01147\ \ \ \ \ \ \ \ \ \{}
-\DoxyCodeLine{\Hypertarget{backward__local__planner_8cpp_source_l01148}01148\ \ \ \ \ \ \ \ \ \ \ end\ =\ \textcolor{keyword}{true};}
-\DoxyCodeLine{\Hypertarget{backward__local__planner_8cpp_source_l01149}01149\ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ RCLCPP\_INFO(nh\_-\/>get\_logger(),\ "{}time\ break:\ \%f"{},\ time);}}
-\DoxyCodeLine{\Hypertarget{backward__local__planner_8cpp_source_l01150}01150\ \ \ \ \ \ \ \ \ \}}
-\DoxyCodeLine{\Hypertarget{backward__local__planner_8cpp_source_l01151}01151\ }
-\DoxyCodeLine{\Hypertarget{backward__local__planner_8cpp_source_l01152}01152\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ RCLCPP\_INFO(nh\_-\/>get\_logger(),\ "{}dist:\ \%f,\ angledist:\ \%f,\ time:\ \%f"{},\ dist,\ angledist,\ time);}}
-\DoxyCodeLine{\Hypertarget{backward__local__planner_8cpp_source_l01153}01153\ \ \ \ \ \ \ \}}
-\DoxyCodeLine{\Hypertarget{backward__local__planner_8cpp_source_l01154}01154\ \ \ \ \ \}}
-\DoxyCodeLine{\Hypertarget{backward__local__planner_8cpp_source_l01155}01155\ }
-\DoxyCodeLine{\Hypertarget{backward__local__planner_8cpp_source_l01156}01156\ \ \ \ \ currentpos\ =\ newpos;}
-\DoxyCodeLine{\Hypertarget{backward__local__planner_8cpp_source_l01157}01157\ \ \ \ \ i++;}
-\DoxyCodeLine{\Hypertarget{backward__local__planner_8cpp_source_l01158}01158\ \ \ \}\ \ \textcolor{comment}{//\ end\ for\ simulation\ steps}}
-\DoxyCodeLine{\Hypertarget{backward__local__planner_8cpp_source_l01159}01159\ \}}
-\DoxyCodeLine{\Hypertarget{backward__local__planner_8cpp_source_l01160}01160\ }
-\DoxyCodeLine{\Hypertarget{backward__local__planner_8cpp_source_l01161}\mbox{\hyperlink{classcl__nav2z_1_1backward__local__planner_1_1BackwardLocalPlanner_a0e614005a2fa9c4e557b932d7546691e}{01161}}\ Eigen::Vector3f\ \mbox{\hyperlink{classcl__nav2z_1_1backward__local__planner_1_1BackwardLocalPlanner_a0e614005a2fa9c4e557b932d7546691e}{BackwardLocalPlanner::computeNewPositions}}(}
-\DoxyCodeLine{\Hypertarget{backward__local__planner_8cpp_source_l01162}01162\ \ \ \textcolor{keyword}{const}\ Eigen::Vector3f\ \&\ pos,\ \textcolor{keyword}{const}\ Eigen::Vector3f\ \&\ vel,\ \textcolor{keywordtype}{double}\ dt)}
-\DoxyCodeLine{\Hypertarget{backward__local__planner_8cpp_source_l01163}01163\ \{}
-\DoxyCodeLine{\Hypertarget{backward__local__planner_8cpp_source_l01164}01164\ \ \ Eigen::Vector3f\ new\_pos\ =\ Eigen::Vector3f::Zero();}
-\DoxyCodeLine{\Hypertarget{backward__local__planner_8cpp_source_l01165}01165\ \ \ new\_pos[0]\ =\ pos[0]\ +\ (\textcolor{keyword}{static\_cast<}\textcolor{keywordtype}{double}\textcolor{keyword}{>}(vel[0])\ *\ cos(pos[2])\ +}
-\DoxyCodeLine{\Hypertarget{backward__local__planner_8cpp_source_l01166}01166\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{static\_cast<}\textcolor{keywordtype}{double}\textcolor{keyword}{>}(vel[1])\ *\ cos(M\_PI\_2\ +\ pos[2]))\ *}
-\DoxyCodeLine{\Hypertarget{backward__local__planner_8cpp_source_l01167}01167\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ dt;}
-\DoxyCodeLine{\Hypertarget{backward__local__planner_8cpp_source_l01168}01168\ \ \ new\_pos[1]\ =\ pos[1]\ +\ (\textcolor{keyword}{static\_cast<}\textcolor{keywordtype}{double}\textcolor{keyword}{>}(vel[0])\ *\ sin(pos[2])\ +}
-\DoxyCodeLine{\Hypertarget{backward__local__planner_8cpp_source_l01169}01169\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{static\_cast<}\textcolor{keywordtype}{double}\textcolor{keyword}{>}(vel[1])\ *\ sin(M\_PI\_2\ +\ pos[2]))\ *}
-\DoxyCodeLine{\Hypertarget{backward__local__planner_8cpp_source_l01170}01170\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ dt;}
-\DoxyCodeLine{\Hypertarget{backward__local__planner_8cpp_source_l01171}01171\ \ \ new\_pos[2]\ =\ pos[2]\ +\ vel[2]\ *\ dt;}
-\DoxyCodeLine{\Hypertarget{backward__local__planner_8cpp_source_l01172}01172\ \ \ \textcolor{keywordflow}{return}\ new\_pos;}
-\DoxyCodeLine{\Hypertarget{backward__local__planner_8cpp_source_l01173}01173\ \}}
-\DoxyCodeLine{\Hypertarget{backward__local__planner_8cpp_source_l01174}01174\ }
-\DoxyCodeLine{\Hypertarget{backward__local__planner_8cpp_source_l01175}\mbox{\hyperlink{classcl__nav2z_1_1backward__local__planner_1_1BackwardLocalPlanner_a81eb6fc653297d7e6d1fa1e59b2271e0}{01175}}\ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{classcl__nav2z_1_1backward__local__planner_1_1BackwardLocalPlanner_a81eb6fc653297d7e6d1fa1e59b2271e0}{BackwardLocalPlanner::clearMarkers}}()}
-\DoxyCodeLine{\Hypertarget{backward__local__planner_8cpp_source_l01176}01176\ \{}
-\DoxyCodeLine{\Hypertarget{backward__local__planner_8cpp_source_l01177}01177\ \ \ visualization\_msgs::msg::Marker\ marker;}
-\DoxyCodeLine{\Hypertarget{backward__local__planner_8cpp_source_l01178}01178\ \ \ marker.header.frame\_id\ =\ this-\/>\mbox{\hyperlink{classcl__nav2z_1_1backward__local__planner_1_1BackwardLocalPlanner_af865c848295cf5d51ea99ce8557f0532}{costmapRos\_}}-\/>getGlobalFrameID();}
-\DoxyCodeLine{\Hypertarget{backward__local__planner_8cpp_source_l01179}01179\ \ \ marker.header.stamp\ =\ \mbox{\hyperlink{classcl__nav2z_1_1backward__local__planner_1_1BackwardLocalPlanner_af94bb5246bafe4731b8ab5475f4b55dc}{nh\_}}-\/>now();}
-\DoxyCodeLine{\Hypertarget{backward__local__planner_8cpp_source_l01180}01180\ }
-\DoxyCodeLine{\Hypertarget{backward__local__planner_8cpp_source_l01181}01181\ \ \ marker.ns\ =\ \textcolor{stringliteral}{"{}my\_namespace2"{}};}
-\DoxyCodeLine{\Hypertarget{backward__local__planner_8cpp_source_l01182}01182\ \ \ marker.id\ =\ 0;}
-\DoxyCodeLine{\Hypertarget{backward__local__planner_8cpp_source_l01183}01183\ \ \ marker.type\ =\ visualization\_msgs::msg::Marker::ARROW;}
-\DoxyCodeLine{\Hypertarget{backward__local__planner_8cpp_source_l01184}01184\ \ \ marker.action\ =\ visualization\_msgs::msg::Marker::DELETEALL;}
-\DoxyCodeLine{\Hypertarget{backward__local__planner_8cpp_source_l01185}01185\ }
-\DoxyCodeLine{\Hypertarget{backward__local__planner_8cpp_source_l01186}01186\ \ \ visualization\_msgs::msg::MarkerArray\ ma;}
-\DoxyCodeLine{\Hypertarget{backward__local__planner_8cpp_source_l01187}01187\ \ \ ma.markers.push\_back(marker);}
-\DoxyCodeLine{\Hypertarget{backward__local__planner_8cpp_source_l01188}01188\ }
-\DoxyCodeLine{\Hypertarget{backward__local__planner_8cpp_source_l01189}01189\ \ \ \mbox{\hyperlink{classcl__nav2z_1_1backward__local__planner_1_1BackwardLocalPlanner_a7a82ffecbd669dad86c3fc9ed2235f09}{goalMarkerPublisher\_}}-\/>publish(ma);}
-\DoxyCodeLine{\Hypertarget{backward__local__planner_8cpp_source_l01190}01190\ \}}
-\DoxyCodeLine{\Hypertarget{backward__local__planner_8cpp_source_l01191}01191\ }
-\DoxyCodeLine{\Hypertarget{backward__local__planner_8cpp_source_l01197}\mbox{\hyperlink{classcl__nav2z_1_1backward__local__planner_1_1BackwardLocalPlanner_a1c2b7748964c5917111711ff0c916207}{01197}}\ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{classcl__nav2z_1_1backward__local__planner_1_1BackwardLocalPlanner_a1c2b7748964c5917111711ff0c916207}{BackwardLocalPlanner::publishGoalMarker}}(\textcolor{keywordtype}{double}\ x,\ \textcolor{keywordtype}{double}\ y,\ \textcolor{keywordtype}{double}\ phi)}
-\DoxyCodeLine{\Hypertarget{backward__local__planner_8cpp_source_l01198}01198\ \{}
-\DoxyCodeLine{\Hypertarget{backward__local__planner_8cpp_source_l01199}01199\ \ \ visualization\_msgs::msg::Marker\ marker;}
-\DoxyCodeLine{\Hypertarget{backward__local__planner_8cpp_source_l01200}01200\ \ \ marker.header.frame\_id\ =\ this-\/>\mbox{\hyperlink{classcl__nav2z_1_1backward__local__planner_1_1BackwardLocalPlanner_af865c848295cf5d51ea99ce8557f0532}{costmapRos\_}}-\/>getGlobalFrameID();}
-\DoxyCodeLine{\Hypertarget{backward__local__planner_8cpp_source_l01201}01201\ \ \ marker.header.stamp\ =\ \mbox{\hyperlink{classcl__nav2z_1_1backward__local__planner_1_1BackwardLocalPlanner_af94bb5246bafe4731b8ab5475f4b55dc}{nh\_}}-\/>now();}
-\DoxyCodeLine{\Hypertarget{backward__local__planner_8cpp_source_l01202}01202\ }
-\DoxyCodeLine{\Hypertarget{backward__local__planner_8cpp_source_l01203}01203\ \ \ marker.ns\ =\ \textcolor{stringliteral}{"{}my\_namespace2"{}};}
-\DoxyCodeLine{\Hypertarget{backward__local__planner_8cpp_source_l01204}01204\ \ \ marker.id\ =\ 0;}
-\DoxyCodeLine{\Hypertarget{backward__local__planner_8cpp_source_l01205}01205\ \ \ marker.type\ =\ visualization\_msgs::msg::Marker::ARROW;}
-\DoxyCodeLine{\Hypertarget{backward__local__planner_8cpp_source_l01206}01206\ \ \ marker.action\ =\ visualization\_msgs::msg::Marker::ADD;}
-\DoxyCodeLine{\Hypertarget{backward__local__planner_8cpp_source_l01207}01207\ \ \ marker.lifetime\ =\ rclcpp::Duration(1.0s);}
+\DoxyCodeLine{\Hypertarget{backward__local__planner_8cpp_source_l01114}01114\ \ \ \textcolor{keywordflow}{while}\ (!end)}
+\DoxyCodeLine{\Hypertarget{backward__local__planner_8cpp_source_l01115}01115\ \ \ \{}
+\DoxyCodeLine{\Hypertarget{backward__local__planner_8cpp_source_l01116}01116\ \ \ \ \ \textcolor{keyword}{auto}\ loop\_vel\ =\ vel;}
+\DoxyCodeLine{\Hypertarget{backward__local__planner_8cpp_source_l01117}01117\ \ \ \ \ \textcolor{comment}{//\ update\ the\ position\ of\ the\ robot\ using\ the\ velocities\ passed\ in}}
+\DoxyCodeLine{\Hypertarget{backward__local__planner_8cpp_source_l01118}01118\ \ \ \ \ \textcolor{keyword}{auto}\ newpos\ =\ \mbox{\hyperlink{classcl__nav2z_1_1backward__local__planner_1_1BackwardLocalPlanner_a0e614005a2fa9c4e557b932d7546691e}{computeNewPositions}}(currentpos,\ loop\_vel,\ dt);}
+\DoxyCodeLine{\Hypertarget{backward__local__planner_8cpp_source_l01119}01119\ }
+\DoxyCodeLine{\Hypertarget{backward__local__planner_8cpp_source_l01120}01120\ \ \ \ \ \textcolor{keyword}{auto}\ dx\ =\ newpos[0]\ -\/\ currentpos[0];}
+\DoxyCodeLine{\Hypertarget{backward__local__planner_8cpp_source_l01121}01121\ \ \ \ \ \textcolor{keyword}{auto}\ dy\ =\ newpos[1]\ -\/\ currentpos[1];}
+\DoxyCodeLine{\Hypertarget{backward__local__planner_8cpp_source_l01122}01122\ \ \ \ \ \textcolor{keywordtype}{float}\ dist\ =\ 0.0,\ angledist\ =\ 0.0;}
+\DoxyCodeLine{\Hypertarget{backward__local__planner_8cpp_source_l01123}01123\ }
+\DoxyCodeLine{\Hypertarget{backward__local__planner_8cpp_source_l01124}01124\ \ \ \ \ \textcolor{comment}{//\ RCLCPP\_INFO(nh\_-\/>get\_logger(),\ "{}traj\ point\ \%d"{},\ i);}}
+\DoxyCodeLine{\Hypertarget{backward__local__planner_8cpp_source_l01125}01125\ \ \ \ \ dist\ =\ sqrt(dx\ *\ dx\ +\ dy\ *\ dy);}
+\DoxyCodeLine{\Hypertarget{backward__local__planner_8cpp_source_l01126}01126\ \ \ \ \ \textcolor{keywordflow}{if}\ (dist\ >\ maxdist)}
+\DoxyCodeLine{\Hypertarget{backward__local__planner_8cpp_source_l01127}01127\ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{backward__local__planner_8cpp_source_l01128}01128\ \ \ \ \ \ \ end\ =\ \textcolor{keyword}{true};}
+\DoxyCodeLine{\Hypertarget{backward__local__planner_8cpp_source_l01129}01129\ \ \ \ \ \ \ \textcolor{comment}{//\ RCLCPP\_INFO(nh\_-\/>get\_logger(),\ "{}dist\ break:\ \%f"{},\ dist);}}
+\DoxyCodeLine{\Hypertarget{backward__local__planner_8cpp_source_l01130}01130\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{backward__local__planner_8cpp_source_l01131}01131\ \ \ \ \ \textcolor{keywordflow}{else}}
+\DoxyCodeLine{\Hypertarget{backward__local__planner_8cpp_source_l01132}01132\ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{backward__local__planner_8cpp_source_l01133}01133\ \ \ \ \ \ \ \textcolor{comment}{//\ ouble\ from,\ double\ to}}
+\DoxyCodeLine{\Hypertarget{backward__local__planner_8cpp_source_l01134}01134\ \ \ \ \ \ \ angledist\ =\ angles::shortest\_angular\_distance(currentpos[2],\ newpos[2]);}
+\DoxyCodeLine{\Hypertarget{backward__local__planner_8cpp_source_l01135}01135\ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (angledist\ >\ maxanglediff)}
+\DoxyCodeLine{\Hypertarget{backward__local__planner_8cpp_source_l01136}01136\ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{backward__local__planner_8cpp_source_l01137}01137\ \ \ \ \ \ \ \ \ end\ =\ \textcolor{keyword}{true};}
+\DoxyCodeLine{\Hypertarget{backward__local__planner_8cpp_source_l01138}01138\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ RCLCPP\_INFO(nh\_-\/>get\_logger(),\ "{}angle\ dist\ break:\ \%f"{},\ angledist);}}
+\DoxyCodeLine{\Hypertarget{backward__local__planner_8cpp_source_l01139}01139\ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{backward__local__planner_8cpp_source_l01140}01140\ \ \ \ \ \ \ \textcolor{keywordflow}{else}}
+\DoxyCodeLine{\Hypertarget{backward__local__planner_8cpp_source_l01141}01141\ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{backward__local__planner_8cpp_source_l01142}01142\ \ \ \ \ \ \ \ \ outtraj.push\_back(newpos);}
+\DoxyCodeLine{\Hypertarget{backward__local__planner_8cpp_source_l01143}01143\ }
+\DoxyCodeLine{\Hypertarget{backward__local__planner_8cpp_source_l01144}01144\ \ \ \ \ \ \ \ \ time\ +=\ dt;}
+\DoxyCodeLine{\Hypertarget{backward__local__planner_8cpp_source_l01145}01145\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (time\ >\ maxtime)}
+\DoxyCodeLine{\Hypertarget{backward__local__planner_8cpp_source_l01146}01146\ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{backward__local__planner_8cpp_source_l01147}01147\ \ \ \ \ \ \ \ \ \ \ end\ =\ \textcolor{keyword}{true};}
+\DoxyCodeLine{\Hypertarget{backward__local__planner_8cpp_source_l01148}01148\ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ RCLCPP\_INFO(nh\_-\/>get\_logger(),\ "{}time\ break:\ \%f"{},\ time);}}
+\DoxyCodeLine{\Hypertarget{backward__local__planner_8cpp_source_l01149}01149\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{backward__local__planner_8cpp_source_l01150}01150\ }
+\DoxyCodeLine{\Hypertarget{backward__local__planner_8cpp_source_l01151}01151\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ RCLCPP\_INFO(nh\_-\/>get\_logger(),\ "{}dist:\ \%f,\ angledist:\ \%f,\ time:\ \%f"{},\ dist,\ angledist,\ time);}}
+\DoxyCodeLine{\Hypertarget{backward__local__planner_8cpp_source_l01152}01152\ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{backward__local__planner_8cpp_source_l01153}01153\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{backward__local__planner_8cpp_source_l01154}01154\ }
+\DoxyCodeLine{\Hypertarget{backward__local__planner_8cpp_source_l01155}01155\ \ \ \ \ currentpos\ =\ newpos;}
+\DoxyCodeLine{\Hypertarget{backward__local__planner_8cpp_source_l01156}01156\ \ \ \}\ \ \textcolor{comment}{//\ end\ for\ simulation\ steps}}
+\DoxyCodeLine{\Hypertarget{backward__local__planner_8cpp_source_l01157}01157\ \}}
+\DoxyCodeLine{\Hypertarget{backward__local__planner_8cpp_source_l01158}01158\ }
+\DoxyCodeLine{\Hypertarget{backward__local__planner_8cpp_source_l01159}\mbox{\hyperlink{classcl__nav2z_1_1backward__local__planner_1_1BackwardLocalPlanner_a0e614005a2fa9c4e557b932d7546691e}{01159}}\ Eigen::Vector3f\ \mbox{\hyperlink{classcl__nav2z_1_1backward__local__planner_1_1BackwardLocalPlanner_a0e614005a2fa9c4e557b932d7546691e}{BackwardLocalPlanner::computeNewPositions}}(}
+\DoxyCodeLine{\Hypertarget{backward__local__planner_8cpp_source_l01160}01160\ \ \ \textcolor{keyword}{const}\ Eigen::Vector3f\ \&\ pos,\ \textcolor{keyword}{const}\ Eigen::Vector3f\ \&\ vel,\ \textcolor{keywordtype}{double}\ dt)}
+\DoxyCodeLine{\Hypertarget{backward__local__planner_8cpp_source_l01161}01161\ \{}
+\DoxyCodeLine{\Hypertarget{backward__local__planner_8cpp_source_l01162}01162\ \ \ Eigen::Vector3f\ new\_pos\ =\ Eigen::Vector3f::Zero();}
+\DoxyCodeLine{\Hypertarget{backward__local__planner_8cpp_source_l01163}01163\ \ \ new\_pos[0]\ =\ pos[0]\ +\ (\textcolor{keyword}{static\_cast<}\textcolor{keywordtype}{double}\textcolor{keyword}{>}(vel[0])\ *\ cos(pos[2])\ +}
+\DoxyCodeLine{\Hypertarget{backward__local__planner_8cpp_source_l01164}01164\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{static\_cast<}\textcolor{keywordtype}{double}\textcolor{keyword}{>}(vel[1])\ *\ cos(M\_PI\_2\ +\ pos[2]))\ *}
+\DoxyCodeLine{\Hypertarget{backward__local__planner_8cpp_source_l01165}01165\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ dt;}
+\DoxyCodeLine{\Hypertarget{backward__local__planner_8cpp_source_l01166}01166\ \ \ new\_pos[1]\ =\ pos[1]\ +\ (\textcolor{keyword}{static\_cast<}\textcolor{keywordtype}{double}\textcolor{keyword}{>}(vel[0])\ *\ sin(pos[2])\ +}
+\DoxyCodeLine{\Hypertarget{backward__local__planner_8cpp_source_l01167}01167\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{static\_cast<}\textcolor{keywordtype}{double}\textcolor{keyword}{>}(vel[1])\ *\ sin(M\_PI\_2\ +\ pos[2]))\ *}
+\DoxyCodeLine{\Hypertarget{backward__local__planner_8cpp_source_l01168}01168\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ dt;}
+\DoxyCodeLine{\Hypertarget{backward__local__planner_8cpp_source_l01169}01169\ \ \ new\_pos[2]\ =\ pos[2]\ +\ vel[2]\ *\ dt;}
+\DoxyCodeLine{\Hypertarget{backward__local__planner_8cpp_source_l01170}01170\ \ \ \textcolor{keywordflow}{return}\ new\_pos;}
+\DoxyCodeLine{\Hypertarget{backward__local__planner_8cpp_source_l01171}01171\ \}}
+\DoxyCodeLine{\Hypertarget{backward__local__planner_8cpp_source_l01172}01172\ }
+\DoxyCodeLine{\Hypertarget{backward__local__planner_8cpp_source_l01173}\mbox{\hyperlink{classcl__nav2z_1_1backward__local__planner_1_1BackwardLocalPlanner_a81eb6fc653297d7e6d1fa1e59b2271e0}{01173}}\ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{classcl__nav2z_1_1backward__local__planner_1_1BackwardLocalPlanner_a81eb6fc653297d7e6d1fa1e59b2271e0}{BackwardLocalPlanner::clearMarkers}}()}
+\DoxyCodeLine{\Hypertarget{backward__local__planner_8cpp_source_l01174}01174\ \{}
+\DoxyCodeLine{\Hypertarget{backward__local__planner_8cpp_source_l01175}01175\ \ \ visualization\_msgs::msg::Marker\ marker;}
+\DoxyCodeLine{\Hypertarget{backward__local__planner_8cpp_source_l01176}01176\ \ \ marker.header.frame\_id\ =\ this-\/>\mbox{\hyperlink{classcl__nav2z_1_1backward__local__planner_1_1BackwardLocalPlanner_af865c848295cf5d51ea99ce8557f0532}{costmapRos\_}}-\/>getGlobalFrameID();}
+\DoxyCodeLine{\Hypertarget{backward__local__planner_8cpp_source_l01177}01177\ \ \ marker.header.stamp\ =\ \mbox{\hyperlink{classcl__nav2z_1_1backward__local__planner_1_1BackwardLocalPlanner_af94bb5246bafe4731b8ab5475f4b55dc}{nh\_}}-\/>now();}
+\DoxyCodeLine{\Hypertarget{backward__local__planner_8cpp_source_l01178}01178\ }
+\DoxyCodeLine{\Hypertarget{backward__local__planner_8cpp_source_l01179}01179\ \ \ marker.ns\ =\ \textcolor{stringliteral}{"{}my\_namespace2"{}};}
+\DoxyCodeLine{\Hypertarget{backward__local__planner_8cpp_source_l01180}01180\ \ \ marker.id\ =\ 0;}
+\DoxyCodeLine{\Hypertarget{backward__local__planner_8cpp_source_l01181}01181\ \ \ marker.type\ =\ visualization\_msgs::msg::Marker::ARROW;}
+\DoxyCodeLine{\Hypertarget{backward__local__planner_8cpp_source_l01182}01182\ \ \ marker.action\ =\ visualization\_msgs::msg::Marker::DELETEALL;}
+\DoxyCodeLine{\Hypertarget{backward__local__planner_8cpp_source_l01183}01183\ }
+\DoxyCodeLine{\Hypertarget{backward__local__planner_8cpp_source_l01184}01184\ \ \ visualization\_msgs::msg::MarkerArray\ ma;}
+\DoxyCodeLine{\Hypertarget{backward__local__planner_8cpp_source_l01185}01185\ \ \ ma.markers.push\_back(marker);}
+\DoxyCodeLine{\Hypertarget{backward__local__planner_8cpp_source_l01186}01186\ }
+\DoxyCodeLine{\Hypertarget{backward__local__planner_8cpp_source_l01187}01187\ \ \ \mbox{\hyperlink{classcl__nav2z_1_1backward__local__planner_1_1BackwardLocalPlanner_a7a82ffecbd669dad86c3fc9ed2235f09}{goalMarkerPublisher\_}}-\/>publish(ma);}
+\DoxyCodeLine{\Hypertarget{backward__local__planner_8cpp_source_l01188}01188\ \}}
+\DoxyCodeLine{\Hypertarget{backward__local__planner_8cpp_source_l01189}01189\ }
+\DoxyCodeLine{\Hypertarget{backward__local__planner_8cpp_source_l01195}\mbox{\hyperlink{classcl__nav2z_1_1backward__local__planner_1_1BackwardLocalPlanner_a1c2b7748964c5917111711ff0c916207}{01195}}\ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{classcl__nav2z_1_1backward__local__planner_1_1BackwardLocalPlanner_a1c2b7748964c5917111711ff0c916207}{BackwardLocalPlanner::publishGoalMarker}}(\textcolor{keywordtype}{double}\ x,\ \textcolor{keywordtype}{double}\ y,\ \textcolor{keywordtype}{double}\ phi)}
+\DoxyCodeLine{\Hypertarget{backward__local__planner_8cpp_source_l01196}01196\ \{}
+\DoxyCodeLine{\Hypertarget{backward__local__planner_8cpp_source_l01197}01197\ \ \ visualization\_msgs::msg::Marker\ marker;}
+\DoxyCodeLine{\Hypertarget{backward__local__planner_8cpp_source_l01198}01198\ \ \ marker.header.frame\_id\ =\ this-\/>\mbox{\hyperlink{classcl__nav2z_1_1backward__local__planner_1_1BackwardLocalPlanner_af865c848295cf5d51ea99ce8557f0532}{costmapRos\_}}-\/>getGlobalFrameID();}
+\DoxyCodeLine{\Hypertarget{backward__local__planner_8cpp_source_l01199}01199\ \ \ marker.header.stamp\ =\ \mbox{\hyperlink{classcl__nav2z_1_1backward__local__planner_1_1BackwardLocalPlanner_af94bb5246bafe4731b8ab5475f4b55dc}{nh\_}}-\/>now();}
+\DoxyCodeLine{\Hypertarget{backward__local__planner_8cpp_source_l01200}01200\ }
+\DoxyCodeLine{\Hypertarget{backward__local__planner_8cpp_source_l01201}01201\ \ \ marker.ns\ =\ \textcolor{stringliteral}{"{}my\_namespace2"{}};}
+\DoxyCodeLine{\Hypertarget{backward__local__planner_8cpp_source_l01202}01202\ \ \ marker.id\ =\ 0;}
+\DoxyCodeLine{\Hypertarget{backward__local__planner_8cpp_source_l01203}01203\ \ \ marker.type\ =\ visualization\_msgs::msg::Marker::ARROW;}
+\DoxyCodeLine{\Hypertarget{backward__local__planner_8cpp_source_l01204}01204\ \ \ marker.action\ =\ visualization\_msgs::msg::Marker::ADD;}
+\DoxyCodeLine{\Hypertarget{backward__local__planner_8cpp_source_l01205}01205\ \ \ marker.lifetime\ =\ rclcpp::Duration(1.0s);}
+\DoxyCodeLine{\Hypertarget{backward__local__planner_8cpp_source_l01206}01206\ }
+\DoxyCodeLine{\Hypertarget{backward__local__planner_8cpp_source_l01207}01207\ \ \ marker.pose.orientation.w\ =\ 1;}
 \DoxyCodeLine{\Hypertarget{backward__local__planner_8cpp_source_l01208}01208\ }
-\DoxyCodeLine{\Hypertarget{backward__local__planner_8cpp_source_l01209}01209\ \ \ marker.pose.orientation.w\ =\ 1;}
-\DoxyCodeLine{\Hypertarget{backward__local__planner_8cpp_source_l01210}01210\ }
-\DoxyCodeLine{\Hypertarget{backward__local__planner_8cpp_source_l01211}01211\ \ \ marker.scale.x\ =\ 0.05;}
-\DoxyCodeLine{\Hypertarget{backward__local__planner_8cpp_source_l01212}01212\ \ \ marker.scale.y\ =\ 0.15;}
-\DoxyCodeLine{\Hypertarget{backward__local__planner_8cpp_source_l01213}01213\ \ \ marker.scale.z\ =\ 0.05;}
-\DoxyCodeLine{\Hypertarget{backward__local__planner_8cpp_source_l01214}01214\ \ \ marker.color.a\ =\ 1.0;}
-\DoxyCodeLine{\Hypertarget{backward__local__planner_8cpp_source_l01215}01215\ }
-\DoxyCodeLine{\Hypertarget{backward__local__planner_8cpp_source_l01216}01216\ \ \ \textcolor{comment}{//\ red\ marker}}
-\DoxyCodeLine{\Hypertarget{backward__local__planner_8cpp_source_l01217}01217\ \ \ marker.color.r\ =\ 1;}
-\DoxyCodeLine{\Hypertarget{backward__local__planner_8cpp_source_l01218}01218\ \ \ marker.color.g\ =\ 0;}
-\DoxyCodeLine{\Hypertarget{backward__local__planner_8cpp_source_l01219}01219\ \ \ marker.color.b\ =\ 0;}
-\DoxyCodeLine{\Hypertarget{backward__local__planner_8cpp_source_l01220}01220\ }
-\DoxyCodeLine{\Hypertarget{backward__local__planner_8cpp_source_l01221}01221\ \ \ geometry\_msgs::msg::Point\ start,\ end;}
-\DoxyCodeLine{\Hypertarget{backward__local__planner_8cpp_source_l01222}01222\ \ \ start.x\ =\ x;}
-\DoxyCodeLine{\Hypertarget{backward__local__planner_8cpp_source_l01223}01223\ \ \ start.y\ =\ y;}
-\DoxyCodeLine{\Hypertarget{backward__local__planner_8cpp_source_l01224}01224\ }
-\DoxyCodeLine{\Hypertarget{backward__local__planner_8cpp_source_l01225}01225\ \ \ end.x\ =\ x\ +\ 0.5\ *\ cos(phi);}
-\DoxyCodeLine{\Hypertarget{backward__local__planner_8cpp_source_l01226}01226\ \ \ end.y\ =\ y\ +\ 0.5\ *\ sin(phi);}
-\DoxyCodeLine{\Hypertarget{backward__local__planner_8cpp_source_l01227}01227\ }
-\DoxyCodeLine{\Hypertarget{backward__local__planner_8cpp_source_l01228}01228\ \ \ marker.points.push\_back(start);}
-\DoxyCodeLine{\Hypertarget{backward__local__planner_8cpp_source_l01229}01229\ \ \ marker.points.push\_back(end);}
-\DoxyCodeLine{\Hypertarget{backward__local__planner_8cpp_source_l01230}01230\ }
-\DoxyCodeLine{\Hypertarget{backward__local__planner_8cpp_source_l01231}01231\ \ \ visualization\_msgs::msg::MarkerArray\ ma;}
-\DoxyCodeLine{\Hypertarget{backward__local__planner_8cpp_source_l01232}01232\ \ \ ma.markers.push\_back(marker);}
-\DoxyCodeLine{\Hypertarget{backward__local__planner_8cpp_source_l01233}01233\ }
-\DoxyCodeLine{\Hypertarget{backward__local__planner_8cpp_source_l01234}01234\ \ \ \mbox{\hyperlink{classcl__nav2z_1_1backward__local__planner_1_1BackwardLocalPlanner_a7a82ffecbd669dad86c3fc9ed2235f09}{goalMarkerPublisher\_}}-\/>publish(ma);}
-\DoxyCodeLine{\Hypertarget{backward__local__planner_8cpp_source_l01235}01235\ \}}
-\DoxyCodeLine{\Hypertarget{backward__local__planner_8cpp_source_l01236}01236\ \}\ \ \textcolor{comment}{//\ namespace\ backward\_local\_planner}}
-\DoxyCodeLine{\Hypertarget{backward__local__planner_8cpp_source_l01237}01237\ \}\ \ \textcolor{comment}{//\ namespace\ cl\_nav2z}}
+\DoxyCodeLine{\Hypertarget{backward__local__planner_8cpp_source_l01209}01209\ \ \ marker.scale.x\ =\ 0.05;}
+\DoxyCodeLine{\Hypertarget{backward__local__planner_8cpp_source_l01210}01210\ \ \ marker.scale.y\ =\ 0.15;}
+\DoxyCodeLine{\Hypertarget{backward__local__planner_8cpp_source_l01211}01211\ \ \ marker.scale.z\ =\ 0.05;}
+\DoxyCodeLine{\Hypertarget{backward__local__planner_8cpp_source_l01212}01212\ \ \ marker.color.a\ =\ 1.0;}
+\DoxyCodeLine{\Hypertarget{backward__local__planner_8cpp_source_l01213}01213\ }
+\DoxyCodeLine{\Hypertarget{backward__local__planner_8cpp_source_l01214}01214\ \ \ \textcolor{comment}{//\ red\ marker}}
+\DoxyCodeLine{\Hypertarget{backward__local__planner_8cpp_source_l01215}01215\ \ \ marker.color.r\ =\ 1;}
+\DoxyCodeLine{\Hypertarget{backward__local__planner_8cpp_source_l01216}01216\ \ \ marker.color.g\ =\ 0;}
+\DoxyCodeLine{\Hypertarget{backward__local__planner_8cpp_source_l01217}01217\ \ \ marker.color.b\ =\ 0;}
+\DoxyCodeLine{\Hypertarget{backward__local__planner_8cpp_source_l01218}01218\ }
+\DoxyCodeLine{\Hypertarget{backward__local__planner_8cpp_source_l01219}01219\ \ \ geometry\_msgs::msg::Point\ start,\ end;}
+\DoxyCodeLine{\Hypertarget{backward__local__planner_8cpp_source_l01220}01220\ \ \ start.x\ =\ x;}
+\DoxyCodeLine{\Hypertarget{backward__local__planner_8cpp_source_l01221}01221\ \ \ start.y\ =\ y;}
+\DoxyCodeLine{\Hypertarget{backward__local__planner_8cpp_source_l01222}01222\ }
+\DoxyCodeLine{\Hypertarget{backward__local__planner_8cpp_source_l01223}01223\ \ \ end.x\ =\ x\ +\ 0.5\ *\ cos(phi);}
+\DoxyCodeLine{\Hypertarget{backward__local__planner_8cpp_source_l01224}01224\ \ \ end.y\ =\ y\ +\ 0.5\ *\ sin(phi);}
+\DoxyCodeLine{\Hypertarget{backward__local__planner_8cpp_source_l01225}01225\ }
+\DoxyCodeLine{\Hypertarget{backward__local__planner_8cpp_source_l01226}01226\ \ \ marker.points.push\_back(start);}
+\DoxyCodeLine{\Hypertarget{backward__local__planner_8cpp_source_l01227}01227\ \ \ marker.points.push\_back(end);}
+\DoxyCodeLine{\Hypertarget{backward__local__planner_8cpp_source_l01228}01228\ }
+\DoxyCodeLine{\Hypertarget{backward__local__planner_8cpp_source_l01229}01229\ \ \ visualization\_msgs::msg::MarkerArray\ ma;}
+\DoxyCodeLine{\Hypertarget{backward__local__planner_8cpp_source_l01230}01230\ \ \ ma.markers.push\_back(marker);}
+\DoxyCodeLine{\Hypertarget{backward__local__planner_8cpp_source_l01231}01231\ }
+\DoxyCodeLine{\Hypertarget{backward__local__planner_8cpp_source_l01232}01232\ \ \ \mbox{\hyperlink{classcl__nav2z_1_1backward__local__planner_1_1BackwardLocalPlanner_a7a82ffecbd669dad86c3fc9ed2235f09}{goalMarkerPublisher\_}}-\/>publish(ma);}
+\DoxyCodeLine{\Hypertarget{backward__local__planner_8cpp_source_l01233}01233\ \}}
+\DoxyCodeLine{\Hypertarget{backward__local__planner_8cpp_source_l01234}01234\ \}\ \ \textcolor{comment}{//\ namespace\ backward\_local\_planner}}
+\DoxyCodeLine{\Hypertarget{backward__local__planner_8cpp_source_l01235}01235\ \}\ \ \textcolor{comment}{//\ namespace\ cl\_nav2z}}
 
 \end{DoxyCode}
