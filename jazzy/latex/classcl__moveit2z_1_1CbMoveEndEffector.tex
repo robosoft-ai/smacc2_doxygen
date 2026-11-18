@@ -202,16 +202,11 @@ Definition at line \mbox{\hyperlink{cb__move__end__effector_8hpp_source_l00043}{
 
 
 \begin{DoxyCode}{0}
-\DoxyCodeLine{00044\ \ \ :\ \mbox{\hyperlink{classcl__moveit2z_1_1CbMoveEndEffector_aec9c27f584ddd232ce60ef46997ec68d}{targetPose}}(target\_pose)}
+\DoxyCodeLine{00044\ \ \ :\ \mbox{\hyperlink{classcl__moveit2z_1_1CbMoveEndEffector_aec9c27f584ddd232ce60ef46997ec68d}{targetPose}}(target\_pose),\ \mbox{\hyperlink{classcl__moveit2z_1_1CbMoveEndEffector_abcdb07e0f0fbd5c156340466cd07d680}{tip\_link\_}}(std::move(tip\_link))}
 \DoxyCodeLine{00045\ \ \ \{}
-\DoxyCodeLine{00046\ \ \ \ \ \mbox{\hyperlink{classcl__moveit2z_1_1CbMoveEndEffector_abcdb07e0f0fbd5c156340466cd07d680}{tip\_link\_}}\ =\ tip\_link;}
-\DoxyCodeLine{00047\ \ \ \}}
+\DoxyCodeLine{00046\ \ \ \}}
 
 \end{DoxyCode}
-
-
-References \mbox{\hyperlink{cb__move__end__effector_8hpp_source_l00038}{tip\+\_\+link\+\_\+}}.
-
 
 
 \doxysubsection{Member Function Documentation}
@@ -223,142 +218,142 @@ References \mbox{\hyperlink{cb__move__end__effector_8hpp_source_l00038}{tip\+\_\
 
 
 
-Definition at line \mbox{\hyperlink{cb__move__end__effector_8hpp_source_l00072}{72}} of file \mbox{\hyperlink{cb__move__end__effector_8hpp_source}{cb\+\_\+move\+\_\+end\+\_\+effector.\+hpp}}.
+Definition at line \mbox{\hyperlink{cb__move__end__effector_8hpp_source_l00071}{71}} of file \mbox{\hyperlink{cb__move__end__effector_8hpp_source}{cb\+\_\+move\+\_\+end\+\_\+effector.\+hpp}}.
 
 
 \begin{DoxyCode}{0}
-\DoxyCodeLine{00075\ \ \ \{}
-\DoxyCodeLine{00076\ \ \ \ \ RCLCPP\_DEBUG(\mbox{\hyperlink{classsmacc2_1_1ISmaccClientBehavior_a9c3d82542c800e2ba5207c5cff0e63e8}{getLogger}}(),\ \textcolor{stringliteral}{"{}[CbMoveEndEffector]\ Synchronous\ sleep\ of\ 1\ seconds"{}});}
-\DoxyCodeLine{00077\ \ \ \ \ rclcpp::sleep\_for(500ms);}
-\DoxyCodeLine{00078\ }
-\DoxyCodeLine{00079\ \ \ \ \ \textcolor{comment}{//\ Try\ to\ use\ CpMotionPlanner\ component\ (preferred)}}
-\DoxyCodeLine{00080\ \ \ \ \ CpMotionPlanner\ *\ motionPlanner\ =\ \mbox{\hyperlink{classcl__moveit2z_1_1CbMoveit2zClientBehaviorBase_a69544d4afbc6d21ce9bce8954bb54cee}{cpMotionPlanner\_}};}
-\DoxyCodeLine{00081\ }
-\DoxyCodeLine{00082\ \ \ \ \ \textcolor{keywordtype}{bool}\ success\ =\ \textcolor{keyword}{false};}
-\DoxyCodeLine{00083\ \ \ \ \ moveit::planning\_interface::MoveGroupInterface::Plan\ computedMotionPlan;}
-\DoxyCodeLine{00084\ }
-\DoxyCodeLine{00085\ \ \ \ \ RCLCPP\_INFO\_STREAM(}
-\DoxyCodeLine{00086\ \ \ \ \ \ \ \mbox{\hyperlink{classsmacc2_1_1ISmaccClientBehavior_a9c3d82542c800e2ba5207c5cff0e63e8}{getLogger}}(),\ \textcolor{stringliteral}{"{}[CbMoveEndEffector]\ Target\ End\ effector\ Pose:\ "{}}\ <<\ targetObjectPose);}
-\DoxyCodeLine{00087\ }
-\DoxyCodeLine{00088\ \ \ \ \ \textcolor{keywordflow}{if}\ (motionPlanner\ !=\ \textcolor{keyword}{nullptr})}
-\DoxyCodeLine{00089\ \ \ \ \ \{}
-\DoxyCodeLine{00090\ \ \ \ \ \ \ \textcolor{comment}{//\ Use\ component-\/based\ motion\ planner\ (preferred)}}
-\DoxyCodeLine{00091\ \ \ \ \ \ \ RCLCPP\_INFO(\mbox{\hyperlink{classsmacc2_1_1ISmaccClientBehavior_a9c3d82542c800e2ba5207c5cff0e63e8}{getLogger}}(),\ \textcolor{stringliteral}{"{}[CbMoveEndEffector]\ Using\ CpMotionPlanner\ component\ for\ planning"{}});}
-\DoxyCodeLine{00092\ }
-\DoxyCodeLine{00093\ \ \ \ \ \ \ PlanningOptions\ options;}
-\DoxyCodeLine{00094\ \ \ \ \ \ \ options.planningTime\ =\ 1.0;}
-\DoxyCodeLine{00095\ \ \ \ \ \ \ options.poseReferenceFrame\ =\ targetObjectPose.header.frame\_id;}
-\DoxyCodeLine{00096\ }
-\DoxyCodeLine{00097\ \ \ \ \ \ \ std::optional<std::string>\ tipLinkOpt;}
-\DoxyCodeLine{00098\ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (!\mbox{\hyperlink{classcl__moveit2z_1_1CbMoveEndEffector_abcdb07e0f0fbd5c156340466cd07d680}{tip\_link\_}}.empty())}
-\DoxyCodeLine{00099\ \ \ \ \ \ \ \{}
-\DoxyCodeLine{00100\ \ \ \ \ \ \ \ \ tipLinkOpt\ =\ \mbox{\hyperlink{classcl__moveit2z_1_1CbMoveEndEffector_abcdb07e0f0fbd5c156340466cd07d680}{tip\_link\_}};}
-\DoxyCodeLine{00101\ \ \ \ \ \ \ \}}
-\DoxyCodeLine{00102\ }
-\DoxyCodeLine{00103\ \ \ \ \ \ \ \textcolor{keyword}{auto}\ result\ =\ motionPlanner-\/>planToPose(targetObjectPose,\ tipLinkOpt,\ options);}
-\DoxyCodeLine{00104\ }
-\DoxyCodeLine{00105\ \ \ \ \ \ \ success\ =\ result.success;}
-\DoxyCodeLine{00106\ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (success)}
-\DoxyCodeLine{00107\ \ \ \ \ \ \ \{}
-\DoxyCodeLine{00108\ \ \ \ \ \ \ \ \ computedMotionPlan\ =\ result.plan;}
-\DoxyCodeLine{00109\ \ \ \ \ \ \ \ \ RCLCPP\_INFO(\mbox{\hyperlink{classsmacc2_1_1ISmaccClientBehavior_a9c3d82542c800e2ba5207c5cff0e63e8}{getLogger}}(),\ \textcolor{stringliteral}{"{}[CbMoveEndEffector]\ Planning\ succeeded\ (via\ CpMotionPlanner)"{}});}
-\DoxyCodeLine{00110\ \ \ \ \ \ \ \}}
-\DoxyCodeLine{00111\ \ \ \ \ \ \ \textcolor{keywordflow}{else}}
-\DoxyCodeLine{00112\ \ \ \ \ \ \ \{}
-\DoxyCodeLine{00113\ \ \ \ \ \ \ \ \ RCLCPP\_WARN(}
-\DoxyCodeLine{00114\ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{classsmacc2_1_1ISmaccClientBehavior_a9c3d82542c800e2ba5207c5cff0e63e8}{getLogger}}(),\ \textcolor{stringliteral}{"{}[CbMoveEndEffector]\ Planning\ failed\ (via\ CpMotionPlanner):\ \%s"{}},}
-\DoxyCodeLine{00115\ \ \ \ \ \ \ \ \ \ \ result.errorMessage.c\_str());}
-\DoxyCodeLine{00116\ \ \ \ \ \ \ \}}
-\DoxyCodeLine{00117\ \ \ \ \ \}}
-\DoxyCodeLine{00118\ \ \ \ \ \textcolor{keywordflow}{else}}
-\DoxyCodeLine{00119\ \ \ \ \ \{}
-\DoxyCodeLine{00120\ \ \ \ \ \ \ \textcolor{comment}{//\ Fallback\ to\ legacy\ direct\ API\ calls}}
-\DoxyCodeLine{00121\ \ \ \ \ \ \ RCLCPP\_WARN(}
-\DoxyCodeLine{00122\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{classsmacc2_1_1ISmaccClientBehavior_a9c3d82542c800e2ba5207c5cff0e63e8}{getLogger}}(),}
-\DoxyCodeLine{00123\ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}[CbMoveEndEffector]\ CpMotionPlanner\ component\ not\ available,\ using\ legacy\ planning\ "{}}}
-\DoxyCodeLine{00124\ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}(consider\ adding\ CpMotionPlanner\ component)"{}});}
-\DoxyCodeLine{00125\ }
-\DoxyCodeLine{00126\ \ \ \ \ \ \ moveGroupInterface.setPlanningTime(1.0);}
-\DoxyCodeLine{00127\ \ \ \ \ \ \ moveGroupInterface.setPoseTarget(targetObjectPose,\ \mbox{\hyperlink{classcl__moveit2z_1_1CbMoveEndEffector_abcdb07e0f0fbd5c156340466cd07d680}{tip\_link\_}});}
-\DoxyCodeLine{00128\ \ \ \ \ \ \ moveGroupInterface.setPoseReferenceFrame(targetObjectPose.header.frame\_id);}
-\DoxyCodeLine{00129\ }
-\DoxyCodeLine{00130\ \ \ \ \ \ \ success\ =}
-\DoxyCodeLine{00131\ \ \ \ \ \ \ \ \ (moveGroupInterface.plan(computedMotionPlan)\ ==\ moveit::core::MoveItErrorCode::SUCCESS);}
-\DoxyCodeLine{00132\ \ \ \ \ \ \ RCLCPP\_INFO(}
-\DoxyCodeLine{00133\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{classsmacc2_1_1ISmaccClientBehavior_a9c3d82542c800e2ba5207c5cff0e63e8}{getLogger}}(),\ \textcolor{stringliteral}{"{}[CbMoveEndEffector]\ Planning\ \%s\ (legacy\ mode)"{}},}
-\DoxyCodeLine{00134\ \ \ \ \ \ \ \ \ success\ ?\ \textcolor{stringliteral}{"{}succeeded"{}}\ :\ \textcolor{stringliteral}{"{}FAILED"{}});}
-\DoxyCodeLine{00135\ \ \ \ \ \}}
-\DoxyCodeLine{00136\ }
-\DoxyCodeLine{00137\ \ \ \ \ \textcolor{comment}{//\ Execution}}
-\DoxyCodeLine{00138\ \ \ \ \ \textcolor{keywordflow}{if}\ (success)}
-\DoxyCodeLine{00139\ \ \ \ \ \{}
-\DoxyCodeLine{00140\ \ \ \ \ \ \ \textcolor{comment}{//\ Try\ to\ use\ CpTrajectoryExecutor\ component\ (preferred)}}
-\DoxyCodeLine{00141\ \ \ \ \ \ \ CpTrajectoryExecutor\ *\ trajectoryExecutor\ =\ \mbox{\hyperlink{classcl__moveit2z_1_1CbMoveit2zClientBehaviorBase_a02b3287acb5ad608f1d1caec06ad3d17}{cpTrajectoryExecutor\_}};}
-\DoxyCodeLine{00142\ }
-\DoxyCodeLine{00143\ \ \ \ \ \ \ \textcolor{keywordtype}{bool}\ executionSuccess\ =\ \textcolor{keyword}{false};}
-\DoxyCodeLine{00144\ }
-\DoxyCodeLine{00145\ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (trajectoryExecutor\ !=\ \textcolor{keyword}{nullptr})}
-\DoxyCodeLine{00146\ \ \ \ \ \ \ \{}
-\DoxyCodeLine{00147\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Use\ component-\/based\ trajectory\ executor\ (preferred)}}
-\DoxyCodeLine{00148\ \ \ \ \ \ \ \ \ RCLCPP\_INFO(}
-\DoxyCodeLine{00149\ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{classsmacc2_1_1ISmaccClientBehavior_a9c3d82542c800e2ba5207c5cff0e63e8}{getLogger}}(),\ \textcolor{stringliteral}{"{}[CbMoveEndEffector]\ Using\ CpTrajectoryExecutor\ component\ for\ execution"{}});}
-\DoxyCodeLine{00150\ }
-\DoxyCodeLine{00151\ \ \ \ \ \ \ \ \ ExecutionOptions\ execOptions;}
-\DoxyCodeLine{00152\ \ \ \ \ \ \ \ \ execOptions.trajectoryName\ =\ this-\/>\mbox{\hyperlink{classsmacc2_1_1ISmaccClientBehavior_a3feaa9c382a7d376b7ba0017a63e294e}{getName}}();}
-\DoxyCodeLine{00153\ }
-\DoxyCodeLine{00154\ \ \ \ \ \ \ \ \ \textcolor{keyword}{auto}\ execResult\ =\ trajectoryExecutor-\/>executePlan(computedMotionPlan,\ execOptions);}
-\DoxyCodeLine{00155\ \ \ \ \ \ \ \ \ executionSuccess\ =\ execResult.success;}
-\DoxyCodeLine{00156\ }
-\DoxyCodeLine{00157\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (executionSuccess)}
-\DoxyCodeLine{00158\ \ \ \ \ \ \ \ \ \{}
-\DoxyCodeLine{00159\ \ \ \ \ \ \ \ \ \ \ RCLCPP\_INFO(}
-\DoxyCodeLine{00160\ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{classsmacc2_1_1ISmaccClientBehavior_a9c3d82542c800e2ba5207c5cff0e63e8}{getLogger}}(),\ \textcolor{stringliteral}{"{}[CbMoveEndEffector]\ Execution\ succeeded\ (via\ CpTrajectoryExecutor)"{}});}
-\DoxyCodeLine{00161\ \ \ \ \ \ \ \ \ \}}
-\DoxyCodeLine{00162\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{else}}
-\DoxyCodeLine{00163\ \ \ \ \ \ \ \ \ \{}
-\DoxyCodeLine{00164\ \ \ \ \ \ \ \ \ \ \ RCLCPP\_WARN(}
-\DoxyCodeLine{00165\ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{classsmacc2_1_1ISmaccClientBehavior_a9c3d82542c800e2ba5207c5cff0e63e8}{getLogger}}(),\ \textcolor{stringliteral}{"{}[CbMoveEndEffector]\ Execution\ failed\ (via\ CpTrajectoryExecutor):\ \%s"{}},}
-\DoxyCodeLine{00166\ \ \ \ \ \ \ \ \ \ \ \ \ execResult.errorMessage.c\_str());}
-\DoxyCodeLine{00167\ \ \ \ \ \ \ \ \ \}}
-\DoxyCodeLine{00168\ \ \ \ \ \ \ \}}
-\DoxyCodeLine{00169\ \ \ \ \ \ \ \textcolor{keywordflow}{else}}
-\DoxyCodeLine{00170\ \ \ \ \ \ \ \{}
-\DoxyCodeLine{00171\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Fallback\ to\ legacy\ direct\ execution}}
-\DoxyCodeLine{00172\ \ \ \ \ \ \ \ \ RCLCPP\_WARN(}
-\DoxyCodeLine{00173\ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{classsmacc2_1_1ISmaccClientBehavior_a9c3d82542c800e2ba5207c5cff0e63e8}{getLogger}}(),}
-\DoxyCodeLine{00174\ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}[CbMoveEndEffector]\ CpTrajectoryExecutor\ component\ not\ available,\ using\ legacy\ "{}}}
-\DoxyCodeLine{00175\ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}execution\ "{}}}
-\DoxyCodeLine{00176\ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}(consider\ adding\ CpTrajectoryExecutor\ component)"{}});}
-\DoxyCodeLine{00177\ }
-\DoxyCodeLine{00178\ \ \ \ \ \ \ \ \ \textcolor{keyword}{auto}\ executionResult\ =\ moveGroupInterface.execute(computedMotionPlan);}
-\DoxyCodeLine{00179\ \ \ \ \ \ \ \ \ executionSuccess\ =\ (executionResult\ ==\ moveit\_msgs::msg::MoveItErrorCodes::SUCCESS);}
-\DoxyCodeLine{00180\ }
-\DoxyCodeLine{00181\ \ \ \ \ \ \ \ \ RCLCPP\_INFO(}
-\DoxyCodeLine{00182\ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{classsmacc2_1_1ISmaccClientBehavior_a9c3d82542c800e2ba5207c5cff0e63e8}{getLogger}}(),\ \textcolor{stringliteral}{"{}[CbMoveEndEffector]\ Execution\ \%s\ (legacy\ mode)"{}},}
-\DoxyCodeLine{00183\ \ \ \ \ \ \ \ \ \ \ executionSuccess\ ?\ \textcolor{stringliteral}{"{}succeeded"{}}\ :\ \textcolor{stringliteral}{"{}failed"{}});}
-\DoxyCodeLine{00184\ \ \ \ \ \ \ \}}
-\DoxyCodeLine{00185\ }
-\DoxyCodeLine{00186\ \ \ \ \ \ \ \textcolor{comment}{//\ Post\ events}}
-\DoxyCodeLine{00187\ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (executionSuccess)}
-\DoxyCodeLine{00188\ \ \ \ \ \ \ \{}
-\DoxyCodeLine{00189\ \ \ \ \ \ \ \ \ this-\/>\mbox{\hyperlink{classcl__moveit2z_1_1CbMoveit2zClientBehaviorBase_a48d0de84e1e2b653d9a5fb6419b9b249}{postMotionSuccess}}();}
-\DoxyCodeLine{00190\ \ \ \ \ \ \ \}}
-\DoxyCodeLine{00191\ \ \ \ \ \ \ \textcolor{keywordflow}{else}}
-\DoxyCodeLine{00192\ \ \ \ \ \ \ \{}
-\DoxyCodeLine{00193\ \ \ \ \ \ \ \ \ this-\/>\mbox{\hyperlink{classcl__moveit2z_1_1CbMoveit2zClientBehaviorBase_ad860e861bb849a66049322bb6e6ebbb0}{postMotionFailure}}();}
-\DoxyCodeLine{00194\ \ \ \ \ \ \ \}}
-\DoxyCodeLine{00195\ \ \ \ \ \}}
-\DoxyCodeLine{00196\ \ \ \ \ \textcolor{keywordflow}{else}}
-\DoxyCodeLine{00197\ \ \ \ \ \{}
-\DoxyCodeLine{00198\ \ \ \ \ \ \ RCLCPP\_INFO(\mbox{\hyperlink{classsmacc2_1_1ISmaccClientBehavior_a9c3d82542c800e2ba5207c5cff0e63e8}{getLogger}}(),\ \textcolor{stringliteral}{"{}[CbMoveEndEffector]\ planning\ failed,\ skipping\ execution"{}});}
-\DoxyCodeLine{00199\ \ \ \ \ \ \ this-\/>\mbox{\hyperlink{classcl__moveit2z_1_1CbMoveit2zClientBehaviorBase_ad860e861bb849a66049322bb6e6ebbb0}{postMotionFailure}}();}
-\DoxyCodeLine{00200\ \ \ \ \ \}}
-\DoxyCodeLine{00201\ }
-\DoxyCodeLine{00202\ \ \ \ \ RCLCPP\_DEBUG(\mbox{\hyperlink{classsmacc2_1_1ISmaccClientBehavior_a9c3d82542c800e2ba5207c5cff0e63e8}{getLogger}}(),\ \textcolor{stringliteral}{"{}[CbMoveEndEffector]\ Synchronous\ sleep\ of\ 1\ seconds"{}});}
-\DoxyCodeLine{00203\ \ \ \ \ rclcpp::sleep\_for(500ms);}
-\DoxyCodeLine{00204\ }
-\DoxyCodeLine{00205\ \ \ \ \ \textcolor{keywordflow}{return}\ success;}
-\DoxyCodeLine{00206\ \ \ \}}
+\DoxyCodeLine{00074\ \ \ \{}
+\DoxyCodeLine{00075\ \ \ \ \ RCLCPP\_DEBUG(\mbox{\hyperlink{classsmacc2_1_1ISmaccClientBehavior_a9c3d82542c800e2ba5207c5cff0e63e8}{getLogger}}(),\ \textcolor{stringliteral}{"{}[CbMoveEndEffector]\ Synchronous\ sleep\ of\ 1\ seconds"{}});}
+\DoxyCodeLine{00076\ \ \ \ \ rclcpp::sleep\_for(500ms);}
+\DoxyCodeLine{00077\ }
+\DoxyCodeLine{00078\ \ \ \ \ \textcolor{comment}{//\ Try\ to\ use\ CpMotionPlanner\ component\ (preferred)}}
+\DoxyCodeLine{00079\ \ \ \ \ CpMotionPlanner\ *\ motionPlanner\ =\ \mbox{\hyperlink{classcl__moveit2z_1_1CbMoveit2zClientBehaviorBase_a69544d4afbc6d21ce9bce8954bb54cee}{cpMotionPlanner\_}};}
+\DoxyCodeLine{00080\ }
+\DoxyCodeLine{00081\ \ \ \ \ \textcolor{keywordtype}{bool}\ success\ =\ \textcolor{keyword}{false};}
+\DoxyCodeLine{00082\ \ \ \ \ moveit::planning\_interface::MoveGroupInterface::Plan\ computedMotionPlan;}
+\DoxyCodeLine{00083\ }
+\DoxyCodeLine{00084\ \ \ \ \ RCLCPP\_INFO\_STREAM(}
+\DoxyCodeLine{00085\ \ \ \ \ \ \ \mbox{\hyperlink{classsmacc2_1_1ISmaccClientBehavior_a9c3d82542c800e2ba5207c5cff0e63e8}{getLogger}}(),\ \textcolor{stringliteral}{"{}[CbMoveEndEffector]\ Target\ End\ effector\ Pose:\ "{}}\ <<\ targetObjectPose);}
+\DoxyCodeLine{00086\ }
+\DoxyCodeLine{00087\ \ \ \ \ \textcolor{keywordflow}{if}\ (motionPlanner\ !=\ \textcolor{keyword}{nullptr})}
+\DoxyCodeLine{00088\ \ \ \ \ \{}
+\DoxyCodeLine{00089\ \ \ \ \ \ \ \textcolor{comment}{//\ Use\ component-\/based\ motion\ planner\ (preferred)}}
+\DoxyCodeLine{00090\ \ \ \ \ \ \ RCLCPP\_INFO(\mbox{\hyperlink{classsmacc2_1_1ISmaccClientBehavior_a9c3d82542c800e2ba5207c5cff0e63e8}{getLogger}}(),\ \textcolor{stringliteral}{"{}[CbMoveEndEffector]\ Using\ CpMotionPlanner\ component\ for\ planning"{}});}
+\DoxyCodeLine{00091\ }
+\DoxyCodeLine{00092\ \ \ \ \ \ \ PlanningOptions\ options;}
+\DoxyCodeLine{00093\ \ \ \ \ \ \ options.planningTime\ =\ 1.0;}
+\DoxyCodeLine{00094\ \ \ \ \ \ \ options.poseReferenceFrame\ =\ targetObjectPose.header.frame\_id;}
+\DoxyCodeLine{00095\ }
+\DoxyCodeLine{00096\ \ \ \ \ \ \ std::optional<std::string>\ tipLinkOpt;}
+\DoxyCodeLine{00097\ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (!\mbox{\hyperlink{classcl__moveit2z_1_1CbMoveEndEffector_abcdb07e0f0fbd5c156340466cd07d680}{tip\_link\_}}.empty())}
+\DoxyCodeLine{00098\ \ \ \ \ \ \ \{}
+\DoxyCodeLine{00099\ \ \ \ \ \ \ \ \ tipLinkOpt\ =\ \mbox{\hyperlink{classcl__moveit2z_1_1CbMoveEndEffector_abcdb07e0f0fbd5c156340466cd07d680}{tip\_link\_}};}
+\DoxyCodeLine{00100\ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00101\ }
+\DoxyCodeLine{00102\ \ \ \ \ \ \ \textcolor{keyword}{auto}\ result\ =\ motionPlanner-\/>planToPose(targetObjectPose,\ tipLinkOpt,\ options);}
+\DoxyCodeLine{00103\ }
+\DoxyCodeLine{00104\ \ \ \ \ \ \ success\ =\ result.success;}
+\DoxyCodeLine{00105\ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (success)}
+\DoxyCodeLine{00106\ \ \ \ \ \ \ \{}
+\DoxyCodeLine{00107\ \ \ \ \ \ \ \ \ computedMotionPlan\ =\ result.plan;}
+\DoxyCodeLine{00108\ \ \ \ \ \ \ \ \ RCLCPP\_INFO(\mbox{\hyperlink{classsmacc2_1_1ISmaccClientBehavior_a9c3d82542c800e2ba5207c5cff0e63e8}{getLogger}}(),\ \textcolor{stringliteral}{"{}[CbMoveEndEffector]\ Planning\ succeeded\ (via\ CpMotionPlanner)"{}});}
+\DoxyCodeLine{00109\ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00110\ \ \ \ \ \ \ \textcolor{keywordflow}{else}}
+\DoxyCodeLine{00111\ \ \ \ \ \ \ \{}
+\DoxyCodeLine{00112\ \ \ \ \ \ \ \ \ RCLCPP\_WARN(}
+\DoxyCodeLine{00113\ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{classsmacc2_1_1ISmaccClientBehavior_a9c3d82542c800e2ba5207c5cff0e63e8}{getLogger}}(),\ \textcolor{stringliteral}{"{}[CbMoveEndEffector]\ Planning\ failed\ (via\ CpMotionPlanner):\ \%s"{}},}
+\DoxyCodeLine{00114\ \ \ \ \ \ \ \ \ \ \ result.errorMessage.c\_str());}
+\DoxyCodeLine{00115\ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00116\ \ \ \ \ \}}
+\DoxyCodeLine{00117\ \ \ \ \ \textcolor{keywordflow}{else}}
+\DoxyCodeLine{00118\ \ \ \ \ \{}
+\DoxyCodeLine{00119\ \ \ \ \ \ \ \textcolor{comment}{//\ Fallback\ to\ legacy\ direct\ API\ calls}}
+\DoxyCodeLine{00120\ \ \ \ \ \ \ RCLCPP\_WARN(}
+\DoxyCodeLine{00121\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{classsmacc2_1_1ISmaccClientBehavior_a9c3d82542c800e2ba5207c5cff0e63e8}{getLogger}}(),}
+\DoxyCodeLine{00122\ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}[CbMoveEndEffector]\ CpMotionPlanner\ component\ not\ available,\ using\ legacy\ planning\ "{}}}
+\DoxyCodeLine{00123\ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}(consider\ adding\ CpMotionPlanner\ component)"{}});}
+\DoxyCodeLine{00124\ }
+\DoxyCodeLine{00125\ \ \ \ \ \ \ moveGroupInterface.setPlanningTime(1.0);}
+\DoxyCodeLine{00126\ \ \ \ \ \ \ moveGroupInterface.setPoseTarget(targetObjectPose,\ \mbox{\hyperlink{classcl__moveit2z_1_1CbMoveEndEffector_abcdb07e0f0fbd5c156340466cd07d680}{tip\_link\_}});}
+\DoxyCodeLine{00127\ \ \ \ \ \ \ moveGroupInterface.setPoseReferenceFrame(targetObjectPose.header.frame\_id);}
+\DoxyCodeLine{00128\ }
+\DoxyCodeLine{00129\ \ \ \ \ \ \ success\ =}
+\DoxyCodeLine{00130\ \ \ \ \ \ \ \ \ (moveGroupInterface.plan(computedMotionPlan)\ ==\ moveit::core::MoveItErrorCode::SUCCESS);}
+\DoxyCodeLine{00131\ \ \ \ \ \ \ RCLCPP\_INFO(}
+\DoxyCodeLine{00132\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{classsmacc2_1_1ISmaccClientBehavior_a9c3d82542c800e2ba5207c5cff0e63e8}{getLogger}}(),\ \textcolor{stringliteral}{"{}[CbMoveEndEffector]\ Planning\ \%s\ (legacy\ mode)"{}},}
+\DoxyCodeLine{00133\ \ \ \ \ \ \ \ \ success\ ?\ \textcolor{stringliteral}{"{}succeeded"{}}\ :\ \textcolor{stringliteral}{"{}FAILED"{}});}
+\DoxyCodeLine{00134\ \ \ \ \ \}}
+\DoxyCodeLine{00135\ }
+\DoxyCodeLine{00136\ \ \ \ \ \textcolor{comment}{//\ Execution}}
+\DoxyCodeLine{00137\ \ \ \ \ \textcolor{keywordflow}{if}\ (success)}
+\DoxyCodeLine{00138\ \ \ \ \ \{}
+\DoxyCodeLine{00139\ \ \ \ \ \ \ \textcolor{comment}{//\ Try\ to\ use\ CpTrajectoryExecutor\ component\ (preferred)}}
+\DoxyCodeLine{00140\ \ \ \ \ \ \ CpTrajectoryExecutor\ *\ trajectoryExecutor\ =\ \mbox{\hyperlink{classcl__moveit2z_1_1CbMoveit2zClientBehaviorBase_a02b3287acb5ad608f1d1caec06ad3d17}{cpTrajectoryExecutor\_}};}
+\DoxyCodeLine{00141\ }
+\DoxyCodeLine{00142\ \ \ \ \ \ \ \textcolor{keywordtype}{bool}\ executionSuccess\ =\ \textcolor{keyword}{false};}
+\DoxyCodeLine{00143\ }
+\DoxyCodeLine{00144\ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (trajectoryExecutor\ !=\ \textcolor{keyword}{nullptr})}
+\DoxyCodeLine{00145\ \ \ \ \ \ \ \{}
+\DoxyCodeLine{00146\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Use\ component-\/based\ trajectory\ executor\ (preferred)}}
+\DoxyCodeLine{00147\ \ \ \ \ \ \ \ \ RCLCPP\_INFO(}
+\DoxyCodeLine{00148\ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{classsmacc2_1_1ISmaccClientBehavior_a9c3d82542c800e2ba5207c5cff0e63e8}{getLogger}}(),\ \textcolor{stringliteral}{"{}[CbMoveEndEffector]\ Using\ CpTrajectoryExecutor\ component\ for\ execution"{}});}
+\DoxyCodeLine{00149\ }
+\DoxyCodeLine{00150\ \ \ \ \ \ \ \ \ ExecutionOptions\ execOptions;}
+\DoxyCodeLine{00151\ \ \ \ \ \ \ \ \ execOptions.trajectoryName\ =\ this-\/>\mbox{\hyperlink{classsmacc2_1_1ISmaccClientBehavior_a3feaa9c382a7d376b7ba0017a63e294e}{getName}}();}
+\DoxyCodeLine{00152\ }
+\DoxyCodeLine{00153\ \ \ \ \ \ \ \ \ \textcolor{keyword}{auto}\ execResult\ =\ trajectoryExecutor-\/>executePlan(computedMotionPlan,\ execOptions);}
+\DoxyCodeLine{00154\ \ \ \ \ \ \ \ \ executionSuccess\ =\ execResult.success;}
+\DoxyCodeLine{00155\ }
+\DoxyCodeLine{00156\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (executionSuccess)}
+\DoxyCodeLine{00157\ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{00158\ \ \ \ \ \ \ \ \ \ \ RCLCPP\_INFO(}
+\DoxyCodeLine{00159\ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{classsmacc2_1_1ISmaccClientBehavior_a9c3d82542c800e2ba5207c5cff0e63e8}{getLogger}}(),\ \textcolor{stringliteral}{"{}[CbMoveEndEffector]\ Execution\ succeeded\ (via\ CpTrajectoryExecutor)"{}});}
+\DoxyCodeLine{00160\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00161\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{else}}
+\DoxyCodeLine{00162\ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{00163\ \ \ \ \ \ \ \ \ \ \ RCLCPP\_WARN(}
+\DoxyCodeLine{00164\ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{classsmacc2_1_1ISmaccClientBehavior_a9c3d82542c800e2ba5207c5cff0e63e8}{getLogger}}(),\ \textcolor{stringliteral}{"{}[CbMoveEndEffector]\ Execution\ failed\ (via\ CpTrajectoryExecutor):\ \%s"{}},}
+\DoxyCodeLine{00165\ \ \ \ \ \ \ \ \ \ \ \ \ execResult.errorMessage.c\_str());}
+\DoxyCodeLine{00166\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00167\ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00168\ \ \ \ \ \ \ \textcolor{keywordflow}{else}}
+\DoxyCodeLine{00169\ \ \ \ \ \ \ \{}
+\DoxyCodeLine{00170\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Fallback\ to\ legacy\ direct\ execution}}
+\DoxyCodeLine{00171\ \ \ \ \ \ \ \ \ RCLCPP\_WARN(}
+\DoxyCodeLine{00172\ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{classsmacc2_1_1ISmaccClientBehavior_a9c3d82542c800e2ba5207c5cff0e63e8}{getLogger}}(),}
+\DoxyCodeLine{00173\ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}[CbMoveEndEffector]\ CpTrajectoryExecutor\ component\ not\ available,\ using\ legacy\ "{}}}
+\DoxyCodeLine{00174\ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}execution\ "{}}}
+\DoxyCodeLine{00175\ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}(consider\ adding\ CpTrajectoryExecutor\ component)"{}});}
+\DoxyCodeLine{00176\ }
+\DoxyCodeLine{00177\ \ \ \ \ \ \ \ \ \textcolor{keyword}{auto}\ executionResult\ =\ moveGroupInterface.execute(computedMotionPlan);}
+\DoxyCodeLine{00178\ \ \ \ \ \ \ \ \ executionSuccess\ =\ (executionResult\ ==\ moveit\_msgs::msg::MoveItErrorCodes::SUCCESS);}
+\DoxyCodeLine{00179\ }
+\DoxyCodeLine{00180\ \ \ \ \ \ \ \ \ RCLCPP\_INFO(}
+\DoxyCodeLine{00181\ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{classsmacc2_1_1ISmaccClientBehavior_a9c3d82542c800e2ba5207c5cff0e63e8}{getLogger}}(),\ \textcolor{stringliteral}{"{}[CbMoveEndEffector]\ Execution\ \%s\ (legacy\ mode)"{}},}
+\DoxyCodeLine{00182\ \ \ \ \ \ \ \ \ \ \ executionSuccess\ ?\ \textcolor{stringliteral}{"{}succeeded"{}}\ :\ \textcolor{stringliteral}{"{}failed"{}});}
+\DoxyCodeLine{00183\ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00184\ }
+\DoxyCodeLine{00185\ \ \ \ \ \ \ \textcolor{comment}{//\ Post\ events}}
+\DoxyCodeLine{00186\ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (executionSuccess)}
+\DoxyCodeLine{00187\ \ \ \ \ \ \ \{}
+\DoxyCodeLine{00188\ \ \ \ \ \ \ \ \ this-\/>\mbox{\hyperlink{classcl__moveit2z_1_1CbMoveit2zClientBehaviorBase_a48d0de84e1e2b653d9a5fb6419b9b249}{postMotionSuccess}}();}
+\DoxyCodeLine{00189\ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00190\ \ \ \ \ \ \ \textcolor{keywordflow}{else}}
+\DoxyCodeLine{00191\ \ \ \ \ \ \ \{}
+\DoxyCodeLine{00192\ \ \ \ \ \ \ \ \ this-\/>\mbox{\hyperlink{classcl__moveit2z_1_1CbMoveit2zClientBehaviorBase_ad860e861bb849a66049322bb6e6ebbb0}{postMotionFailure}}();}
+\DoxyCodeLine{00193\ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00194\ \ \ \ \ \}}
+\DoxyCodeLine{00195\ \ \ \ \ \textcolor{keywordflow}{else}}
+\DoxyCodeLine{00196\ \ \ \ \ \{}
+\DoxyCodeLine{00197\ \ \ \ \ \ \ RCLCPP\_INFO(\mbox{\hyperlink{classsmacc2_1_1ISmaccClientBehavior_a9c3d82542c800e2ba5207c5cff0e63e8}{getLogger}}(),\ \textcolor{stringliteral}{"{}[CbMoveEndEffector]\ planning\ failed,\ skipping\ execution"{}});}
+\DoxyCodeLine{00198\ \ \ \ \ \ \ this-\/>\mbox{\hyperlink{classcl__moveit2z_1_1CbMoveit2zClientBehaviorBase_ad860e861bb849a66049322bb6e6ebbb0}{postMotionFailure}}();}
+\DoxyCodeLine{00199\ \ \ \ \ \}}
+\DoxyCodeLine{00200\ }
+\DoxyCodeLine{00201\ \ \ \ \ RCLCPP\_DEBUG(\mbox{\hyperlink{classsmacc2_1_1ISmaccClientBehavior_a9c3d82542c800e2ba5207c5cff0e63e8}{getLogger}}(),\ \textcolor{stringliteral}{"{}[CbMoveEndEffector]\ Synchronous\ sleep\ of\ 1\ seconds"{}});}
+\DoxyCodeLine{00202\ \ \ \ \ rclcpp::sleep\_for(500ms);}
+\DoxyCodeLine{00203\ }
+\DoxyCodeLine{00204\ \ \ \ \ \textcolor{keywordflow}{return}\ success;}
+\DoxyCodeLine{00205\ \ \ \}}
 
 \end{DoxyCode}
 
@@ -367,7 +362,7 @@ References \mbox{\hyperlink{cb__moveit2z__client__behavior__base_8hpp_source_l00
 
 
 
-Referenced by \mbox{\hyperlink{cb__move__end__effector_8hpp_source_l00049}{on\+Entry()}}.
+Referenced by \mbox{\hyperlink{cb__move__end__effector_8hpp_source_l00048}{on\+Entry()}}.
 
 Here is the call graph for this function\+:
 \nopagebreak
@@ -397,35 +392,35 @@ Reimplemented from \mbox{\hyperlink{classsmacc2_1_1ISmaccClientBehavior_aca7382c
 
 
 
-Definition at line \mbox{\hyperlink{cb__move__end__effector_8hpp_source_l00049}{49}} of file \mbox{\hyperlink{cb__move__end__effector_8hpp_source}{cb\+\_\+move\+\_\+end\+\_\+effector.\+hpp}}.
+Definition at line \mbox{\hyperlink{cb__move__end__effector_8hpp_source_l00048}{48}} of file \mbox{\hyperlink{cb__move__end__effector_8hpp_source}{cb\+\_\+move\+\_\+end\+\_\+effector.\+hpp}}.
 
 
 \begin{DoxyCode}{0}
-\DoxyCodeLine{00050\ \ \ \{}
-\DoxyCodeLine{00051\ \ \ \ \ \textcolor{comment}{//\ components\ resolved\ in\ onStateOrthogonalAllocation\ (base\ class)}}
-\DoxyCodeLine{00052\ \ \ \ \ \textcolor{keywordflow}{if}\ (this-\/>\mbox{\hyperlink{classcl__moveit2z_1_1CbMoveEndEffector_aa5c9ae753f183a46166e0856bf121390}{group\_}})}
-\DoxyCodeLine{00053\ \ \ \ \ \{}
-\DoxyCodeLine{00054\ \ \ \ \ \ \ RCLCPP\_DEBUG(}
-\DoxyCodeLine{00055\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{classsmacc2_1_1ISmaccClientBehavior_a9c3d82542c800e2ba5207c5cff0e63e8}{getLogger}}(),\ \textcolor{stringliteral}{"{}[CbMoveEndEfector]\ new\ thread\ started\ to\ move\ absolute\ end\ effector"{}});}
-\DoxyCodeLine{00056\ \ \ \ \ \ \ moveit::planning\_interface::MoveGroupInterface\ move\_group(\mbox{\hyperlink{classsmacc2_1_1ISmaccClientBehavior_aa1b28d5e8a5208fff8160f9df9a89dc6}{getNode}}(),\ *\mbox{\hyperlink{classcl__moveit2z_1_1CbMoveEndEffector_aa5c9ae753f183a46166e0856bf121390}{group\_}});}
-\DoxyCodeLine{00057\ \ \ \ \ \ \ this-\/>\mbox{\hyperlink{classcl__moveit2z_1_1CbMoveEndEffector_a06e928ed4407b4aead6a2147c916bcbb}{moveToAbsolutePose}}(move\_group,\ \mbox{\hyperlink{classcl__moveit2z_1_1CbMoveEndEffector_aec9c27f584ddd232ce60ef46997ec68d}{targetPose}});}
-\DoxyCodeLine{00058\ \ \ \ \ \ \ RCLCPP\_DEBUG(}
-\DoxyCodeLine{00059\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{classsmacc2_1_1ISmaccClientBehavior_a9c3d82542c800e2ba5207c5cff0e63e8}{getLogger}}(),\ \textcolor{stringliteral}{"{}[CbMoveEndEfector]\ to\ move\ absolute\ end\ effector\ thread\ destroyed"{}});}
-\DoxyCodeLine{00060\ \ \ \ \ \}}
-\DoxyCodeLine{00061\ \ \ \ \ \textcolor{keywordflow}{else}}
-\DoxyCodeLine{00062\ \ \ \ \ \{}
-\DoxyCodeLine{00063\ \ \ \ \ \ \ RCLCPP\_DEBUG(}
-\DoxyCodeLine{00064\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{classsmacc2_1_1ISmaccClientBehavior_a9c3d82542c800e2ba5207c5cff0e63e8}{getLogger}}(),\ \textcolor{stringliteral}{"{}[CbMoveEndEfector]\ new\ thread\ started\ to\ move\ absolute\ end\ effector"{}});}
-\DoxyCodeLine{00065\ \ \ \ \ \ \ this-\/>\mbox{\hyperlink{classcl__moveit2z_1_1CbMoveEndEffector_a06e928ed4407b4aead6a2147c916bcbb}{moveToAbsolutePose}}(*(\mbox{\hyperlink{classcl__moveit2z_1_1CbMoveit2zClientBehaviorBase_a96ef0a30e10ee529ab22076c90c69de8}{cpMoveGroup\_}}-\/>\mbox{\hyperlink{classcl__moveit2z_1_1CpMoveGroupInterface_a3078af2fb0f67a50ab34e2033c6407f7}{moveGroupClientInterface}}),\ \mbox{\hyperlink{classcl__moveit2z_1_1CbMoveEndEffector_aec9c27f584ddd232ce60ef46997ec68d}{targetPose}});}
-\DoxyCodeLine{00066\ \ \ \ \ \ \ RCLCPP\_DEBUG(}
-\DoxyCodeLine{00067\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{classsmacc2_1_1ISmaccClientBehavior_a9c3d82542c800e2ba5207c5cff0e63e8}{getLogger}}(),\ \textcolor{stringliteral}{"{}[CbMoveEndEfector]\ to\ move\ absolute\ end\ effector\ thread\ destroyed"{}});}
-\DoxyCodeLine{00068\ \ \ \ \ \}}
-\DoxyCodeLine{00069\ \ \ \}}
+\DoxyCodeLine{00049\ \ \ \{}
+\DoxyCodeLine{00050\ \ \ \ \ \textcolor{comment}{//\ components\ resolved\ in\ onStateOrthogonalAllocation\ (base\ class)}}
+\DoxyCodeLine{00051\ \ \ \ \ \textcolor{keywordflow}{if}\ (this-\/>\mbox{\hyperlink{classcl__moveit2z_1_1CbMoveEndEffector_aa5c9ae753f183a46166e0856bf121390}{group\_}})}
+\DoxyCodeLine{00052\ \ \ \ \ \{}
+\DoxyCodeLine{00053\ \ \ \ \ \ \ RCLCPP\_DEBUG(}
+\DoxyCodeLine{00054\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{classsmacc2_1_1ISmaccClientBehavior_a9c3d82542c800e2ba5207c5cff0e63e8}{getLogger}}(),\ \textcolor{stringliteral}{"{}[CbMoveEndEfector]\ new\ thread\ started\ to\ move\ absolute\ end\ effector"{}});}
+\DoxyCodeLine{00055\ \ \ \ \ \ \ moveit::planning\_interface::MoveGroupInterface\ move\_group(\mbox{\hyperlink{classsmacc2_1_1ISmaccClientBehavior_aa1b28d5e8a5208fff8160f9df9a89dc6}{getNode}}(),\ *\mbox{\hyperlink{classcl__moveit2z_1_1CbMoveEndEffector_aa5c9ae753f183a46166e0856bf121390}{group\_}});}
+\DoxyCodeLine{00056\ \ \ \ \ \ \ this-\/>\mbox{\hyperlink{classcl__moveit2z_1_1CbMoveEndEffector_a06e928ed4407b4aead6a2147c916bcbb}{moveToAbsolutePose}}(move\_group,\ \mbox{\hyperlink{classcl__moveit2z_1_1CbMoveEndEffector_aec9c27f584ddd232ce60ef46997ec68d}{targetPose}});}
+\DoxyCodeLine{00057\ \ \ \ \ \ \ RCLCPP\_DEBUG(}
+\DoxyCodeLine{00058\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{classsmacc2_1_1ISmaccClientBehavior_a9c3d82542c800e2ba5207c5cff0e63e8}{getLogger}}(),\ \textcolor{stringliteral}{"{}[CbMoveEndEfector]\ to\ move\ absolute\ end\ effector\ thread\ destroyed"{}});}
+\DoxyCodeLine{00059\ \ \ \ \ \}}
+\DoxyCodeLine{00060\ \ \ \ \ \textcolor{keywordflow}{else}}
+\DoxyCodeLine{00061\ \ \ \ \ \{}
+\DoxyCodeLine{00062\ \ \ \ \ \ \ RCLCPP\_DEBUG(}
+\DoxyCodeLine{00063\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{classsmacc2_1_1ISmaccClientBehavior_a9c3d82542c800e2ba5207c5cff0e63e8}{getLogger}}(),\ \textcolor{stringliteral}{"{}[CbMoveEndEfector]\ new\ thread\ started\ to\ move\ absolute\ end\ effector"{}});}
+\DoxyCodeLine{00064\ \ \ \ \ \ \ this-\/>\mbox{\hyperlink{classcl__moveit2z_1_1CbMoveEndEffector_a06e928ed4407b4aead6a2147c916bcbb}{moveToAbsolutePose}}(*(\mbox{\hyperlink{classcl__moveit2z_1_1CbMoveit2zClientBehaviorBase_a96ef0a30e10ee529ab22076c90c69de8}{cpMoveGroup\_}}-\/>\mbox{\hyperlink{classcl__moveit2z_1_1CpMoveGroupInterface_a3078af2fb0f67a50ab34e2033c6407f7}{moveGroupClientInterface}}),\ \mbox{\hyperlink{classcl__moveit2z_1_1CbMoveEndEffector_aec9c27f584ddd232ce60ef46997ec68d}{targetPose}});}
+\DoxyCodeLine{00065\ \ \ \ \ \ \ RCLCPP\_DEBUG(}
+\DoxyCodeLine{00066\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{classsmacc2_1_1ISmaccClientBehavior_a9c3d82542c800e2ba5207c5cff0e63e8}{getLogger}}(),\ \textcolor{stringliteral}{"{}[CbMoveEndEfector]\ to\ move\ absolute\ end\ effector\ thread\ destroyed"{}});}
+\DoxyCodeLine{00067\ \ \ \ \ \}}
+\DoxyCodeLine{00068\ \ \ \}}
 
 \end{DoxyCode}
 
 
-References \mbox{\hyperlink{cb__moveit2z__client__behavior__base_8hpp_source_l00085}{cl\+\_\+moveit2z\+::\+Cb\+Moveit2z\+Client\+Behavior\+Base\+::cp\+Move\+Group\+\_\+}}, \mbox{\hyperlink{smacc__client__behavior__base_8cpp_source_l00049}{smacc2\+::\+ISmacc\+Client\+Behavior\+::get\+Logger()}}, \mbox{\hyperlink{smacc__client__behavior__base_8cpp_source_l00039}{smacc2\+::\+ISmacc\+Client\+Behavior\+::get\+Node()}}, \mbox{\hyperlink{cb__move__end__effector_8hpp_source_l00039}{group\+\_\+}}, \mbox{\hyperlink{cp__move__group__interface_8hpp_source_l00049}{cl\+\_\+moveit2z\+::\+Cp\+Move\+Group\+Interface\+::move\+Group\+Client\+Interface}}, \mbox{\hyperlink{cb__move__end__effector_8hpp_source_l00072}{move\+To\+Absolute\+Pose()}}, and \mbox{\hyperlink{cb__move__end__effector_8hpp_source_l00037}{target\+Pose}}.
+References \mbox{\hyperlink{cb__moveit2z__client__behavior__base_8hpp_source_l00085}{cl\+\_\+moveit2z\+::\+Cb\+Moveit2z\+Client\+Behavior\+Base\+::cp\+Move\+Group\+\_\+}}, \mbox{\hyperlink{smacc__client__behavior__base_8cpp_source_l00049}{smacc2\+::\+ISmacc\+Client\+Behavior\+::get\+Logger()}}, \mbox{\hyperlink{smacc__client__behavior__base_8cpp_source_l00039}{smacc2\+::\+ISmacc\+Client\+Behavior\+::get\+Node()}}, \mbox{\hyperlink{cb__move__end__effector_8hpp_source_l00039}{group\+\_\+}}, \mbox{\hyperlink{cp__move__group__interface_8hpp_source_l00049}{cl\+\_\+moveit2z\+::\+Cp\+Move\+Group\+Interface\+::move\+Group\+Client\+Interface}}, \mbox{\hyperlink{cb__move__end__effector_8hpp_source_l00071}{move\+To\+Absolute\+Pose()}}, and \mbox{\hyperlink{cb__move__end__effector_8hpp_source_l00037}{target\+Pose}}.
 
 Here is the call graph for this function\+:
 \nopagebreak
@@ -450,7 +445,7 @@ Definition at line \mbox{\hyperlink{cb__move__end__effector_8hpp_source_l00039}{
 
 
 
-Referenced by \mbox{\hyperlink{cb__move__end__effector_8hpp_source_l00049}{on\+Entry()}}.
+Referenced by \mbox{\hyperlink{cb__move__end__effector_8hpp_source_l00048}{on\+Entry()}}.
 
 \Hypertarget{classcl__moveit2z_1_1CbMoveEndEffector_aec9c27f584ddd232ce60ef46997ec68d}\index{cl\_moveit2z::CbMoveEndEffector@{cl\_moveit2z::CbMoveEndEffector}!targetPose@{targetPose}}
 \index{targetPose@{targetPose}!cl\_moveit2z::CbMoveEndEffector@{cl\_moveit2z::CbMoveEndEffector}}
@@ -464,7 +459,7 @@ Definition at line \mbox{\hyperlink{cb__move__end__effector_8hpp_source_l00037}{
 
 
 
-Referenced by \mbox{\hyperlink{cb__move__end__effector_8hpp_source_l00049}{on\+Entry()}}.
+Referenced by \mbox{\hyperlink{cb__move__end__effector_8hpp_source_l00048}{on\+Entry()}}.
 
 \Hypertarget{classcl__moveit2z_1_1CbMoveEndEffector_abcdb07e0f0fbd5c156340466cd07d680}\index{cl\_moveit2z::CbMoveEndEffector@{cl\_moveit2z::CbMoveEndEffector}!tip\_link\_@{tip\_link\_}}
 \index{tip\_link\_@{tip\_link\_}!cl\_moveit2z::CbMoveEndEffector@{cl\_moveit2z::CbMoveEndEffector}}
@@ -478,7 +473,7 @@ Definition at line \mbox{\hyperlink{cb__move__end__effector_8hpp_source_l00038}{
 
 
 
-Referenced by \mbox{\hyperlink{cb__move__end__effector_8hpp_source_l00043}{Cb\+Move\+End\+Effector()}}, and \mbox{\hyperlink{cb__move__end__effector_8hpp_source_l00072}{move\+To\+Absolute\+Pose()}}.
+Referenced by \mbox{\hyperlink{cb__move__end__effector_8hpp_source_l00071}{move\+To\+Absolute\+Pose()}}.
 
 
 

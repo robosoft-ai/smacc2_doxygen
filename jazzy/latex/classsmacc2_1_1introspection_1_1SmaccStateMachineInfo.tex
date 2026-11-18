@@ -202,141 +202,135 @@ Definition at line \mbox{\hyperlink{smacc__state__machine__info_8cpp_source_l000
 \DoxyCodeLine{00095\ \ \ \ \ \{}
 \DoxyCodeLine{00096\ \ \ \ \ \ \ \textcolor{keywordflow}{for}\ (\textcolor{keyword}{auto}\ \&\ bhinfo\ :\ \mbox{\hyperlink{classsmacc2_1_1introspection_1_1SmaccStateInfo_af0df7561d09c3ba667bbd1dc532da66f}{SmaccStateInfo::staticBehaviorInfo}}[statetid])}
 \DoxyCodeLine{00097\ \ \ \ \ \ \ \{}
-\DoxyCodeLine{00098\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (smaccBehaviorInfoMappingByOrthogonalType.count(bhinfo.orthogonalType)\ ==\ 0)}
-\DoxyCodeLine{00099\ \ \ \ \ \ \ \ \ \{}
-\DoxyCodeLine{00100\ \ \ \ \ \ \ \ \ \ \ smaccBehaviorInfoMappingByOrthogonalType[bhinfo.orthogonalType]\ =}
-\DoxyCodeLine{00101\ \ \ \ \ \ \ \ \ \ \ \ \ std::vector<smacc2::ClientBehaviorInfoEntry\ *>();}
-\DoxyCodeLine{00102\ \ \ \ \ \ \ \ \ \}}
-\DoxyCodeLine{00103\ }
-\DoxyCodeLine{00104\ \ \ \ \ \ \ \ \ smaccBehaviorInfoMappingByOrthogonalType[bhinfo.orthogonalType].push\_back(\&bhinfo);}
-\DoxyCodeLine{00105\ \ \ \ \ \ \ \}}
-\DoxyCodeLine{00106\ \ \ \ \ \}}
-\DoxyCodeLine{00107\ }
-\DoxyCodeLine{00108\ \ \ \ \ \textcolor{comment}{//\ Describe\ every\ runtime\ orthogonal\ with\ the\ behaviors\ and\ clients\ it\ holds\ for\ this\ state.}}
-\DoxyCodeLine{00109\ \ \ \ \ \textcolor{keyword}{auto}\ \&\ runtimeOrthogonals\ =\ sm-\/>getOrthogonals();}
-\DoxyCodeLine{00110\ }
-\DoxyCodeLine{00111\ \ \ \ \ \textcolor{keywordflow}{for}\ (\textcolor{keyword}{auto}\ \&\ orthogonal\ :\ runtimeOrthogonals)}
-\DoxyCodeLine{00112\ \ \ \ \ \{}
-\DoxyCodeLine{00113\ \ \ \ \ \ \ smacc2\_msgs::msg::SmaccOrthogonal\ orthogonalMsg;}
+\DoxyCodeLine{00098\ \ \ \ \ \ \ \ \ smaccBehaviorInfoMappingByOrthogonalType[bhinfo.orthogonalType].push\_back(\&bhinfo);}
+\DoxyCodeLine{00099\ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00100\ \ \ \ \ \}}
+\DoxyCodeLine{00101\ }
+\DoxyCodeLine{00102\ \ \ \ \ \textcolor{comment}{//\ Describe\ every\ runtime\ orthogonal\ with\ the\ behaviors\ and\ clients\ it\ holds\ for\ this\ state.}}
+\DoxyCodeLine{00103\ \ \ \ \ \textcolor{keyword}{auto}\ \&\ runtimeOrthogonals\ =\ sm-\/>getOrthogonals();}
+\DoxyCodeLine{00104\ }
+\DoxyCodeLine{00105\ \ \ \ \ \textcolor{keywordflow}{for}\ (\textcolor{keyword}{auto}\ \&\ orthogonal\ :\ runtimeOrthogonals)}
+\DoxyCodeLine{00106\ \ \ \ \ \{}
+\DoxyCodeLine{00107\ \ \ \ \ \ \ smacc2\_msgs::msg::SmaccOrthogonal\ orthogonalMsg;}
+\DoxyCodeLine{00108\ }
+\DoxyCodeLine{00109\ \ \ \ \ \ \ \textcolor{keyword}{const}\ \textcolor{keyword}{auto}\ \&\ orthogonalRef\ =\ *(orthogonal.second);}
+\DoxyCodeLine{00110\ \ \ \ \ \ \ \textcolor{keyword}{const}\ \textcolor{keyword}{auto}\ *\ orthogonaltid\ =\ \&\textcolor{keyword}{typeid}(orthogonalRef);}
+\DoxyCodeLine{00111\ \ \ \ \ \ \ orthogonalMsg.name\ =\ \mbox{\hyperlink{namespacesmacc2_1_1introspection_aba19132e50f25adee919c2504ae6a3a2}{demangleSymbol}}(orthogonaltid-\/>name());}
+\DoxyCodeLine{00112\ }
+\DoxyCodeLine{00113\ \ \ \ \ \ \ ss\ <<\ \textcolor{stringliteral}{"{}\ -\/\ orthogonal:\ "{}}\ <<\ orthogonalMsg.name\ <<\ std::endl;}
 \DoxyCodeLine{00114\ }
-\DoxyCodeLine{00115\ \ \ \ \ \ \ \textcolor{keyword}{const}\ \textcolor{keyword}{auto}\ \&\ orthogonalRef\ =\ *(orthogonal.second);}
-\DoxyCodeLine{00116\ \ \ \ \ \ \ \textcolor{keyword}{const}\ \textcolor{keyword}{auto}\ *\ orthogonaltid\ =\ \&\textcolor{keyword}{typeid}(orthogonalRef);}
-\DoxyCodeLine{00117\ \ \ \ \ \ \ orthogonalMsg.name\ =\ \mbox{\hyperlink{namespacesmacc2_1_1introspection_aba19132e50f25adee919c2504ae6a3a2}{demangleSymbol}}(orthogonaltid-\/>name());}
-\DoxyCodeLine{00118\ }
-\DoxyCodeLine{00119\ \ \ \ \ \ \ ss\ <<\ \textcolor{stringliteral}{"{}\ -\/\ orthogonal:\ "{}}\ <<\ orthogonalMsg.name\ <<\ std::endl;}
-\DoxyCodeLine{00120\ }
-\DoxyCodeLine{00121\ \ \ \ \ \ \ \textcolor{comment}{//\ Client\ behaviors\ this\ state\ configures\ in\ this\ orthogonal.}}
-\DoxyCodeLine{00122\ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (smaccBehaviorInfoMappingByOrthogonalType[orthogonaltid].size()\ >\ 0)}
-\DoxyCodeLine{00123\ \ \ \ \ \ \ \{}
-\DoxyCodeLine{00124\ \ \ \ \ \ \ \ \ \textcolor{keyword}{auto}\ \&\ behaviors\ =\ smaccBehaviorInfoMappingByOrthogonalType[orthogonaltid];}
-\DoxyCodeLine{00125\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{for}\ (\textcolor{keyword}{auto}\ \&\ bhinfo\ :\ behaviors)}
-\DoxyCodeLine{00126\ \ \ \ \ \ \ \ \ \{}
-\DoxyCodeLine{00127\ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{auto}\ ClientBehaviorName\ =\ \mbox{\hyperlink{namespacesmacc2_1_1introspection_aba19132e50f25adee919c2504ae6a3a2}{demangleSymbol}}(bhinfo-\/>behaviorType-\/>name());}
-\DoxyCodeLine{00128\ \ \ \ \ \ \ \ \ \ \ orthogonalMsg.client\_behavior\_names.push\_back(ClientBehaviorName);}
-\DoxyCodeLine{00129\ \ \ \ \ \ \ \ \ \ \ ss\ <<\ \textcolor{stringliteral}{"{}\ \ \ \ \ \ \ \ \ \ -\/\ client\ behavior:\ "{}}\ <<\ ClientBehaviorName\ <<\ std::endl;}
-\DoxyCodeLine{00130\ \ \ \ \ \ \ \ \ \}}
-\DoxyCodeLine{00131\ \ \ \ \ \ \ \}}
-\DoxyCodeLine{00132\ \ \ \ \ \ \ \textcolor{keywordflow}{else}}
-\DoxyCodeLine{00133\ \ \ \ \ \ \ \{}
-\DoxyCodeLine{00134\ \ \ \ \ \ \ \ \ ss\ <<\ \textcolor{stringliteral}{"{}\ \ \ \ \ \ \ \ \ \ -\/\ NO\ CLIENT\ BEHAVIORS\ -\/"{}}\ <<\ std::endl;}
-\DoxyCodeLine{00135\ \ \ \ \ \ \ \}}
-\DoxyCodeLine{00136\ }
-\DoxyCodeLine{00137\ \ \ \ \ \ \ \textcolor{comment}{//\ Clients\ owned\ by\ the\ orthogonal\ for\ the\ whole\ state\ machine\ lifetime.}}
-\DoxyCodeLine{00138\ \ \ \ \ \ \ \textcolor{keyword}{auto}\ \&\ clients\ =\ orthogonal.second-\/>getClients();}
-\DoxyCodeLine{00139\ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (clients.size()\ >\ 0)}
-\DoxyCodeLine{00140\ \ \ \ \ \ \ \{}
-\DoxyCodeLine{00141\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{for}\ (\textcolor{keyword}{auto}\ \&\ client\ :\ clients)}
-\DoxyCodeLine{00142\ \ \ \ \ \ \ \ \ \{}
-\DoxyCodeLine{00143\ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{auto}\ clientTid\ =\ client-\/>getType();}
-\DoxyCodeLine{00144\ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{auto}\ clientName\ =\ clientTid-\/>getNonTemplatedTypeName();}
-\DoxyCodeLine{00145\ \ \ \ \ \ \ \ \ \ \ orthogonalMsg.client\_names.push\_back(clientName);}
-\DoxyCodeLine{00146\ \ \ \ \ \ \ \ \ \ \ ss\ <<\ \textcolor{stringliteral}{"{}\ \ \ \ \ \ \ \ \ \ -\/\ client:\ "{}}\ <<\ clientName\ <<\ std::endl;}
-\DoxyCodeLine{00147\ \ \ \ \ \ \ \ \ \}}
-\DoxyCodeLine{00148\ \ \ \ \ \ \ \}}
-\DoxyCodeLine{00149\ \ \ \ \ \ \ \textcolor{keywordflow}{else}}
-\DoxyCodeLine{00150\ \ \ \ \ \ \ \{}
-\DoxyCodeLine{00151\ \ \ \ \ \ \ \ \ ss\ <<\ \textcolor{stringliteral}{"{}\ \ \ \ \ \ \ \ \ \ -\/\ NO\ CLIENTS\ -\/\ "{}}\ <<\ std::endl;}
-\DoxyCodeLine{00152\ \ \ \ \ \ \ \}}
-\DoxyCodeLine{00153\ \ \ \ \ \ \ stateMsg.orthogonals.push\_back(orthogonalMsg);}
-\DoxyCodeLine{00154\ \ \ \ \ \}}
-\DoxyCodeLine{00155\ }
-\DoxyCodeLine{00156\ \ \ \ \ \textcolor{comment}{//\ Event\ generators\ attached\ to\ this\ state.}}
-\DoxyCodeLine{00157\ \ \ \ \ ss\ <<\ \textcolor{stringliteral}{"{}\ State\ event\ generators:"{}}\ <<\ std::endl;}
-\DoxyCodeLine{00158\ \ \ \ \ \textcolor{keywordflow}{if}\ (\mbox{\hyperlink{classsmacc2_1_1introspection_1_1SmaccStateInfo_aea447ccf862aec5bd5e4eb378a6a159d}{SmaccStateInfo::eventGeneratorsInfo}}.count(statetid)\ >\ 0)}
-\DoxyCodeLine{00159\ \ \ \ \ \{}
-\DoxyCodeLine{00160\ \ \ \ \ \ \ \textcolor{keywordtype}{int}\ k\ =\ 0;}
-\DoxyCodeLine{00161\ \ \ \ \ \ \ \textcolor{keywordflow}{for}\ (\textcolor{keyword}{const}\ \textcolor{keyword}{auto}\ \&\ eginfo\ :\ \mbox{\hyperlink{classsmacc2_1_1introspection_1_1SmaccStateInfo_aea447ccf862aec5bd5e4eb378a6a159d}{SmaccStateInfo::eventGeneratorsInfo}}[statetid])}
-\DoxyCodeLine{00162\ \ \ \ \ \ \ \{}
-\DoxyCodeLine{00163\ \ \ \ \ \ \ \ \ smacc2\_msgs::msg::SmaccEventGenerator\ eventGeneratorMsg;}
-\DoxyCodeLine{00164\ \ \ \ \ \ \ \ \ eventGeneratorMsg.index\ =\ k++;}
-\DoxyCodeLine{00165\ \ \ \ \ \ \ \ \ eventGeneratorMsg.type\_name\ =\ eginfo-\/>eventGeneratorType-\/>getFullName();}
-\DoxyCodeLine{00166\ }
-\DoxyCodeLine{00167\ \ \ \ \ \ \ \ \ ss\ <<\ \textcolor{stringliteral}{"{}\ -\/\ event\ generator:\ "{}}\ <<\ eventGeneratorMsg.type\_name\ <<\ std::endl;}
-\DoxyCodeLine{00168\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (eginfo-\/>objectTagType\ !=\ \textcolor{keyword}{nullptr})}
-\DoxyCodeLine{00169\ \ \ \ \ \ \ \ \ \{}
-\DoxyCodeLine{00170\ \ \ \ \ \ \ \ \ \ \ eventGeneratorMsg.object\_tag\ =\ eginfo-\/>objectTagType-\/>getFullName();}
-\DoxyCodeLine{00171\ \ \ \ \ \ \ \ \ \ \ ss\ <<\ \textcolor{stringliteral}{"{}\ \ \ \ \ \ \ \ -\/\ object\ tag:\ "{}}\ <<\ eventGeneratorMsg.object\_tag\ <<\ std::endl;}
-\DoxyCodeLine{00172\ \ \ \ \ \ \ \ \ \}}
-\DoxyCodeLine{00173\ \ \ \ \ \ \ \ \ stateMsg.event\_generators.push\_back(eventGeneratorMsg);}
-\DoxyCodeLine{00174\ \ \ \ \ \ \ \}}
-\DoxyCodeLine{00175\ \ \ \ \ \}}
-\DoxyCodeLine{00176\ }
-\DoxyCodeLine{00177\ \ \ \ \ \textcolor{comment}{//\ State\ reactors\ attached\ to\ this\ state,\ with\ the\ events\ each\ one\ listens\ to.}}
-\DoxyCodeLine{00178\ \ \ \ \ ss\ <<\ \textcolor{stringliteral}{"{}\ State\ reactors:"{}}\ <<\ std::endl;}
-\DoxyCodeLine{00179\ \ \ \ \ \textcolor{keywordflow}{if}\ (\mbox{\hyperlink{classsmacc2_1_1introspection_1_1SmaccStateInfo_a6b04901c8fcac6dcb4f613cb195ab65f}{SmaccStateInfo::stateReactorsInfo}}.count(statetid)\ >\ 0)}
-\DoxyCodeLine{00180\ \ \ \ \ \{}
-\DoxyCodeLine{00181\ \ \ \ \ \ \ \textcolor{keywordtype}{int}\ k\ =\ 0;}
-\DoxyCodeLine{00182\ \ \ \ \ \ \ \textcolor{keywordflow}{for}\ (\textcolor{keyword}{const}\ \textcolor{keyword}{auto}\ \&\ srinfo\ :\ \mbox{\hyperlink{classsmacc2_1_1introspection_1_1SmaccStateInfo_a6b04901c8fcac6dcb4f613cb195ab65f}{SmaccStateInfo::stateReactorsInfo}}[statetid])}
-\DoxyCodeLine{00183\ \ \ \ \ \ \ \{}
-\DoxyCodeLine{00184\ \ \ \ \ \ \ \ \ smacc2\_msgs::msg::SmaccStateReactor\ stateReactorMsg;}
-\DoxyCodeLine{00185\ \ \ \ \ \ \ \ \ stateReactorMsg.index\ =\ k++;}
-\DoxyCodeLine{00186\ \ \ \ \ \ \ \ \ stateReactorMsg.type\_name\ =\ srinfo-\/>stateReactorType-\/>getFullName();}
-\DoxyCodeLine{00187\ }
-\DoxyCodeLine{00188\ \ \ \ \ \ \ \ \ ss\ <<\ \textcolor{stringliteral}{"{}\ -\/\ state\ reactor:\ "{}}\ <<\ stateReactorMsg.type\_name\ <<\ std::endl;}
-\DoxyCodeLine{00189\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (srinfo-\/>objectTagType\ !=\ \textcolor{keyword}{nullptr})}
-\DoxyCodeLine{00190\ \ \ \ \ \ \ \ \ \{}
-\DoxyCodeLine{00191\ \ \ \ \ \ \ \ \ \ \ stateReactorMsg.object\_tag\ =\ srinfo-\/>objectTagType-\/>getFullName();}
-\DoxyCodeLine{00192\ \ \ \ \ \ \ \ \ \ \ ss\ <<\ \textcolor{stringliteral}{"{}\ \ \ \ \ \ \ \ -\/\ object\ tag:\ "{}}\ <<\ stateReactorMsg.object\_tag\ <<\ std::endl;}
-\DoxyCodeLine{00193\ \ \ \ \ \ \ \ \ \}}
-\DoxyCodeLine{00194\ }
-\DoxyCodeLine{00195\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Record\ every\ source\ event\ that\ can\ trigger\ this\ reactor.}}
-\DoxyCodeLine{00196\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{for}\ (\textcolor{keyword}{auto}\ \&\ tev\ :\ srinfo-\/>sourceEventTypes)}
-\DoxyCodeLine{00197\ \ \ \ \ \ \ \ \ \{}
-\DoxyCodeLine{00198\ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ WE\ SHOULD\ CREATE\ A\ SMACC\_EVENT\_INFO\ TYPE,\ also\ using\ in\ typewalker\ transition}}
-\DoxyCodeLine{00199\ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{auto}\ eventTypeName\ =\ tev-\/>getEventTypeName();}
-\DoxyCodeLine{00200\ \ \ \ \ \ \ \ \ \ \ smacc2\_msgs::msg::SmaccEvent\ event;}
+\DoxyCodeLine{00115\ \ \ \ \ \ \ \textcolor{comment}{//\ Client\ behaviors\ this\ state\ configures\ in\ this\ orthogonal.}}
+\DoxyCodeLine{00116\ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (smaccBehaviorInfoMappingByOrthogonalType[orthogonaltid].size()\ >\ 0)}
+\DoxyCodeLine{00117\ \ \ \ \ \ \ \{}
+\DoxyCodeLine{00118\ \ \ \ \ \ \ \ \ \textcolor{keyword}{auto}\ \&\ behaviors\ =\ smaccBehaviorInfoMappingByOrthogonalType[orthogonaltid];}
+\DoxyCodeLine{00119\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{for}\ (\textcolor{keyword}{auto}\ \&\ bhinfo\ :\ behaviors)}
+\DoxyCodeLine{00120\ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{00121\ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{auto}\ ClientBehaviorName\ =\ \mbox{\hyperlink{namespacesmacc2_1_1introspection_aba19132e50f25adee919c2504ae6a3a2}{demangleSymbol}}(bhinfo-\/>behaviorType-\/>name());}
+\DoxyCodeLine{00122\ \ \ \ \ \ \ \ \ \ \ orthogonalMsg.client\_behavior\_names.push\_back(ClientBehaviorName);}
+\DoxyCodeLine{00123\ \ \ \ \ \ \ \ \ \ \ ss\ <<\ \textcolor{stringliteral}{"{}\ \ \ \ \ \ \ \ \ \ -\/\ client\ behavior:\ "{}}\ <<\ ClientBehaviorName\ <<\ std::endl;}
+\DoxyCodeLine{00124\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00125\ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00126\ \ \ \ \ \ \ \textcolor{keywordflow}{else}}
+\DoxyCodeLine{00127\ \ \ \ \ \ \ \{}
+\DoxyCodeLine{00128\ \ \ \ \ \ \ \ \ ss\ <<\ \textcolor{stringliteral}{"{}\ \ \ \ \ \ \ \ \ \ -\/\ NO\ CLIENT\ BEHAVIORS\ -\/"{}}\ <<\ std::endl;}
+\DoxyCodeLine{00129\ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00130\ }
+\DoxyCodeLine{00131\ \ \ \ \ \ \ \textcolor{comment}{//\ Clients\ owned\ by\ the\ orthogonal\ for\ the\ whole\ state\ machine\ lifetime.}}
+\DoxyCodeLine{00132\ \ \ \ \ \ \ \textcolor{keyword}{auto}\ \&\ clients\ =\ orthogonal.second-\/>getClients();}
+\DoxyCodeLine{00133\ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (clients.size()\ >\ 0)}
+\DoxyCodeLine{00134\ \ \ \ \ \ \ \{}
+\DoxyCodeLine{00135\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{for}\ (\textcolor{keyword}{auto}\ \&\ client\ :\ clients)}
+\DoxyCodeLine{00136\ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{00137\ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{auto}\ clientTid\ =\ client-\/>getType();}
+\DoxyCodeLine{00138\ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{auto}\ clientName\ =\ clientTid-\/>getNonTemplatedTypeName();}
+\DoxyCodeLine{00139\ \ \ \ \ \ \ \ \ \ \ orthogonalMsg.client\_names.push\_back(clientName);}
+\DoxyCodeLine{00140\ \ \ \ \ \ \ \ \ \ \ ss\ <<\ \textcolor{stringliteral}{"{}\ \ \ \ \ \ \ \ \ \ -\/\ client:\ "{}}\ <<\ clientName\ <<\ std::endl;}
+\DoxyCodeLine{00141\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00142\ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00143\ \ \ \ \ \ \ \textcolor{keywordflow}{else}}
+\DoxyCodeLine{00144\ \ \ \ \ \ \ \{}
+\DoxyCodeLine{00145\ \ \ \ \ \ \ \ \ ss\ <<\ \textcolor{stringliteral}{"{}\ \ \ \ \ \ \ \ \ \ -\/\ NO\ CLIENTS\ -\/\ "{}}\ <<\ std::endl;}
+\DoxyCodeLine{00146\ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00147\ \ \ \ \ \ \ stateMsg.orthogonals.push\_back(orthogonalMsg);}
+\DoxyCodeLine{00148\ \ \ \ \ \}}
+\DoxyCodeLine{00149\ }
+\DoxyCodeLine{00150\ \ \ \ \ \textcolor{comment}{//\ Event\ generators\ attached\ to\ this\ state.}}
+\DoxyCodeLine{00151\ \ \ \ \ ss\ <<\ \textcolor{stringliteral}{"{}\ State\ event\ generators:"{}}\ <<\ std::endl;}
+\DoxyCodeLine{00152\ \ \ \ \ \textcolor{keywordflow}{if}\ (\mbox{\hyperlink{classsmacc2_1_1introspection_1_1SmaccStateInfo_aea447ccf862aec5bd5e4eb378a6a159d}{SmaccStateInfo::eventGeneratorsInfo}}.count(statetid)\ >\ 0)}
+\DoxyCodeLine{00153\ \ \ \ \ \{}
+\DoxyCodeLine{00154\ \ \ \ \ \ \ \textcolor{keywordtype}{int}\ k\ =\ 0;}
+\DoxyCodeLine{00155\ \ \ \ \ \ \ \textcolor{keywordflow}{for}\ (\textcolor{keyword}{const}\ \textcolor{keyword}{auto}\ \&\ eginfo\ :\ \mbox{\hyperlink{classsmacc2_1_1introspection_1_1SmaccStateInfo_aea447ccf862aec5bd5e4eb378a6a159d}{SmaccStateInfo::eventGeneratorsInfo}}[statetid])}
+\DoxyCodeLine{00156\ \ \ \ \ \ \ \{}
+\DoxyCodeLine{00157\ \ \ \ \ \ \ \ \ smacc2\_msgs::msg::SmaccEventGenerator\ eventGeneratorMsg;}
+\DoxyCodeLine{00158\ \ \ \ \ \ \ \ \ eventGeneratorMsg.index\ =\ k++;}
+\DoxyCodeLine{00159\ \ \ \ \ \ \ \ \ eventGeneratorMsg.type\_name\ =\ eginfo-\/>eventGeneratorType-\/>getFullName();}
+\DoxyCodeLine{00160\ }
+\DoxyCodeLine{00161\ \ \ \ \ \ \ \ \ ss\ <<\ \textcolor{stringliteral}{"{}\ -\/\ event\ generator:\ "{}}\ <<\ eventGeneratorMsg.type\_name\ <<\ std::endl;}
+\DoxyCodeLine{00162\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (eginfo-\/>objectTagType\ !=\ \textcolor{keyword}{nullptr})}
+\DoxyCodeLine{00163\ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{00164\ \ \ \ \ \ \ \ \ \ \ eventGeneratorMsg.object\_tag\ =\ eginfo-\/>objectTagType-\/>getFullName();}
+\DoxyCodeLine{00165\ \ \ \ \ \ \ \ \ \ \ ss\ <<\ \textcolor{stringliteral}{"{}\ \ \ \ \ \ \ \ -\/\ object\ tag:\ "{}}\ <<\ eventGeneratorMsg.object\_tag\ <<\ std::endl;}
+\DoxyCodeLine{00166\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00167\ \ \ \ \ \ \ \ \ stateMsg.event\_generators.push\_back(eventGeneratorMsg);}
+\DoxyCodeLine{00168\ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00169\ \ \ \ \ \}}
+\DoxyCodeLine{00170\ }
+\DoxyCodeLine{00171\ \ \ \ \ \textcolor{comment}{//\ State\ reactors\ attached\ to\ this\ state,\ with\ the\ events\ each\ one\ listens\ to.}}
+\DoxyCodeLine{00172\ \ \ \ \ ss\ <<\ \textcolor{stringliteral}{"{}\ State\ reactors:"{}}\ <<\ std::endl;}
+\DoxyCodeLine{00173\ \ \ \ \ \textcolor{keywordflow}{if}\ (\mbox{\hyperlink{classsmacc2_1_1introspection_1_1SmaccStateInfo_a6b04901c8fcac6dcb4f613cb195ab65f}{SmaccStateInfo::stateReactorsInfo}}.count(statetid)\ >\ 0)}
+\DoxyCodeLine{00174\ \ \ \ \ \{}
+\DoxyCodeLine{00175\ \ \ \ \ \ \ \textcolor{keywordtype}{int}\ k\ =\ 0;}
+\DoxyCodeLine{00176\ \ \ \ \ \ \ \textcolor{keywordflow}{for}\ (\textcolor{keyword}{const}\ \textcolor{keyword}{auto}\ \&\ srinfo\ :\ \mbox{\hyperlink{classsmacc2_1_1introspection_1_1SmaccStateInfo_a6b04901c8fcac6dcb4f613cb195ab65f}{SmaccStateInfo::stateReactorsInfo}}[statetid])}
+\DoxyCodeLine{00177\ \ \ \ \ \ \ \{}
+\DoxyCodeLine{00178\ \ \ \ \ \ \ \ \ smacc2\_msgs::msg::SmaccStateReactor\ stateReactorMsg;}
+\DoxyCodeLine{00179\ \ \ \ \ \ \ \ \ stateReactorMsg.index\ =\ k++;}
+\DoxyCodeLine{00180\ \ \ \ \ \ \ \ \ stateReactorMsg.type\_name\ =\ srinfo-\/>stateReactorType-\/>getFullName();}
+\DoxyCodeLine{00181\ }
+\DoxyCodeLine{00182\ \ \ \ \ \ \ \ \ ss\ <<\ \textcolor{stringliteral}{"{}\ -\/\ state\ reactor:\ "{}}\ <<\ stateReactorMsg.type\_name\ <<\ std::endl;}
+\DoxyCodeLine{00183\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (srinfo-\/>objectTagType\ !=\ \textcolor{keyword}{nullptr})}
+\DoxyCodeLine{00184\ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{00185\ \ \ \ \ \ \ \ \ \ \ stateReactorMsg.object\_tag\ =\ srinfo-\/>objectTagType-\/>getFullName();}
+\DoxyCodeLine{00186\ \ \ \ \ \ \ \ \ \ \ ss\ <<\ \textcolor{stringliteral}{"{}\ \ \ \ \ \ \ \ -\/\ object\ tag:\ "{}}\ <<\ stateReactorMsg.object\_tag\ <<\ std::endl;}
+\DoxyCodeLine{00187\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00188\ }
+\DoxyCodeLine{00189\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Record\ every\ source\ event\ that\ can\ trigger\ this\ reactor.}}
+\DoxyCodeLine{00190\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{for}\ (\textcolor{keyword}{auto}\ \&\ tev\ :\ srinfo-\/>sourceEventTypes)}
+\DoxyCodeLine{00191\ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{00192\ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ WE\ SHOULD\ CREATE\ A\ SMACC\_EVENT\_INFO\ TYPE,\ also\ using\ in\ typewalker\ transition}}
+\DoxyCodeLine{00193\ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{auto}\ eventTypeName\ =\ tev-\/>getEventTypeName();}
+\DoxyCodeLine{00194\ \ \ \ \ \ \ \ \ \ \ smacc2\_msgs::msg::SmaccEvent\ event;}
+\DoxyCodeLine{00195\ }
+\DoxyCodeLine{00196\ \ \ \ \ \ \ \ \ \ \ ss\ <<\ \textcolor{stringliteral}{"{}\ \ \ \ \ \ \ \ \ \ \ \ \ -\/\ triggering\ event:\ "{}}\ <<\ tev-\/>getEventTypeName()\ <<\ std::endl;}
+\DoxyCodeLine{00197\ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{event}.event\_type\ =\ eventTypeName;}
+\DoxyCodeLine{00198\ }
+\DoxyCodeLine{00199\ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{event}.event\_source\ =\ tev-\/>getEventSourceName();}
+\DoxyCodeLine{00200\ \ \ \ \ \ \ \ \ \ \ ss\ <<\ \textcolor{stringliteral}{"{}\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ -\/\ source\ type:\ "{}}\ <<\ \textcolor{keyword}{event}.event\_source\ <<\ std::endl;}
 \DoxyCodeLine{00201\ }
-\DoxyCodeLine{00202\ \ \ \ \ \ \ \ \ \ \ ss\ <<\ \textcolor{stringliteral}{"{}\ \ \ \ \ \ \ \ \ \ \ \ \ -\/\ triggering\ event:\ "{}}\ <<\ tev-\/>getEventTypeName()\ <<\ std::endl;}
-\DoxyCodeLine{00203\ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{event}.event\_type\ =\ eventTypeName;}
+\DoxyCodeLine{00202\ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{event}.event\_object\_tag\ =\ tev-\/>getOrthogonalName();}
+\DoxyCodeLine{00203\ \ \ \ \ \ \ \ \ \ \ ss\ <<\ \textcolor{stringliteral}{"{}\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ -\/\ source\ object:\ "{}}\ <<\ \textcolor{keyword}{event}.event\_object\_tag\ <<\ std::endl;}
 \DoxyCodeLine{00204\ }
-\DoxyCodeLine{00205\ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{event}.event\_source\ =\ tev-\/>getEventSourceName();}
-\DoxyCodeLine{00206\ \ \ \ \ \ \ \ \ \ \ ss\ <<\ \textcolor{stringliteral}{"{}\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ -\/\ source\ type:\ "{}}\ <<\ \textcolor{keyword}{event}.event\_source\ <<\ std::endl;}
+\DoxyCodeLine{00205\ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{event}.label\ =\ tev-\/>label;}
+\DoxyCodeLine{00206\ \ \ \ \ \ \ \ \ \ \ ss\ <<\ \textcolor{stringliteral}{"{}\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ -\/\ event\ label:\ "{}}\ <<\ \textcolor{keyword}{event}.label\ <<\ std::endl;}
 \DoxyCodeLine{00207\ }
-\DoxyCodeLine{00208\ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{event}.event\_object\_tag\ =\ tev-\/>getOrthogonalName();}
-\DoxyCodeLine{00209\ \ \ \ \ \ \ \ \ \ \ ss\ <<\ \textcolor{stringliteral}{"{}\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ -\/\ source\ object:\ "{}}\ <<\ \textcolor{keyword}{event}.event\_object\_tag\ <<\ std::endl;}
+\DoxyCodeLine{00208\ \ \ \ \ \ \ \ \ \ \ stateReactorMsg.event\_sources.push\_back(event);}
+\DoxyCodeLine{00209\ \ \ \ \ \ \ \ \ \}}
 \DoxyCodeLine{00210\ }
-\DoxyCodeLine{00211\ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{event}.label\ =\ tev-\/>label;}
-\DoxyCodeLine{00212\ \ \ \ \ \ \ \ \ \ \ ss\ <<\ \textcolor{stringliteral}{"{}\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ -\/\ event\ label:\ "{}}\ <<\ \textcolor{keyword}{event}.label\ <<\ std::endl;}
-\DoxyCodeLine{00213\ }
-\DoxyCodeLine{00214\ \ \ \ \ \ \ \ \ \ \ stateReactorMsg.event\_sources.push\_back(event);}
-\DoxyCodeLine{00215\ \ \ \ \ \ \ \ \ \}}
-\DoxyCodeLine{00216\ }
-\DoxyCodeLine{00217\ \ \ \ \ \ \ \ \ stateMsg.state\_reactors.push\_back(stateReactorMsg);}
-\DoxyCodeLine{00218\ \ \ \ \ \ \ \}}
-\DoxyCodeLine{00219\ \ \ \ \ \}}
-\DoxyCodeLine{00220\ \ \ \ \ \textcolor{keywordflow}{else}}
-\DoxyCodeLine{00221\ \ \ \ \ \{}
-\DoxyCodeLine{00222\ \ \ \ \ \ \ ss\ <<\ \textcolor{stringliteral}{"{}-\/\ NO\ STATE\ REACTORS\ -\/\ "{}}\ <<\ std::endl;}
-\DoxyCodeLine{00223\ \ \ \ \ \}}
-\DoxyCodeLine{00224\ }
-\DoxyCodeLine{00225\ \ \ \ \ ss\ <<\ \textcolor{stringliteral}{"{}-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/"{}}\ <<\ std::endl;}
-\DoxyCodeLine{00226\ }
-\DoxyCodeLine{00227\ \ \ \ \ \textcolor{comment}{//\ Emit\ the\ text\ summary\ at\ debug\ level\ and\ keep\ the\ message\ for\ the\ description\ topic.}}
-\DoxyCodeLine{00228\ \ \ \ \ \textcolor{keyword}{auto}\ resumeMsg\ =\ ss.str();}
-\DoxyCodeLine{00229\ \ \ \ \ RCLCPP\_DEBUG(\mbox{\hyperlink{classsmacc2_1_1introspection_1_1SmaccStateMachineInfo_a1ff11df2244e7438a95133a49fedd713}{getLogger}}(),\ \textcolor{stringliteral}{"{}\%s"{}},\ resumeMsg.c\_str());}
-\DoxyCodeLine{00230\ \ \ \ \ \mbox{\hyperlink{classsmacc2_1_1introspection_1_1SmaccStateMachineInfo_a8fe17f0cce81a317a70d7fe0dac62f90}{stateMsgs}}.push\_back(stateMsg);}
-\DoxyCodeLine{00231\ \ \ \}}
-\DoxyCodeLine{00232\ \}}
+\DoxyCodeLine{00211\ \ \ \ \ \ \ \ \ stateMsg.state\_reactors.push\_back(stateReactorMsg);}
+\DoxyCodeLine{00212\ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00213\ \ \ \ \ \}}
+\DoxyCodeLine{00214\ \ \ \ \ \textcolor{keywordflow}{else}}
+\DoxyCodeLine{00215\ \ \ \ \ \{}
+\DoxyCodeLine{00216\ \ \ \ \ \ \ ss\ <<\ \textcolor{stringliteral}{"{}-\/\ NO\ STATE\ REACTORS\ -\/\ "{}}\ <<\ std::endl;}
+\DoxyCodeLine{00217\ \ \ \ \ \}}
+\DoxyCodeLine{00218\ }
+\DoxyCodeLine{00219\ \ \ \ \ ss\ <<\ \textcolor{stringliteral}{"{}-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/"{}}\ <<\ std::endl;}
+\DoxyCodeLine{00220\ }
+\DoxyCodeLine{00221\ \ \ \ \ \textcolor{comment}{//\ Emit\ the\ text\ summary\ at\ debug\ level\ and\ keep\ the\ message\ for\ the\ description\ topic.}}
+\DoxyCodeLine{00222\ \ \ \ \ \textcolor{keyword}{auto}\ resumeMsg\ =\ ss.str();}
+\DoxyCodeLine{00223\ \ \ \ \ RCLCPP\_DEBUG(\mbox{\hyperlink{classsmacc2_1_1introspection_1_1SmaccStateMachineInfo_a1ff11df2244e7438a95133a49fedd713}{getLogger}}(),\ \textcolor{stringliteral}{"{}\%s"{}},\ resumeMsg.c\_str());}
+\DoxyCodeLine{00224\ \ \ \ \ \mbox{\hyperlink{classsmacc2_1_1introspection_1_1SmaccStateMachineInfo_a8fe17f0cce81a317a70d7fe0dac62f90}{stateMsgs}}.push\_back(stateMsg);}
+\DoxyCodeLine{00225\ \ \ \}}
+\DoxyCodeLine{00226\ \}}
 
 \end{DoxyCode}
 
