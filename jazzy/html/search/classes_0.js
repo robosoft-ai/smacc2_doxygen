@@ -6,5 +6,7 @@ var searchData=
   ['addteventtypestatereactor_3',['AddTEventTypeStateReactor',['../structsmacc2_1_1AddTEventTypeStateReactor.html',1,'smacc2']]],
   ['addteventtypestatereactorinfo_4',['AddTEventTypeStateReactorInfo',['../structsmacc2_1_1AddTEventTypeStateReactorInfo.html',1,'smacc2']]],
   ['addtransition_5',['AddTransition',['../structsmacc2_1_1introspection_1_1AddTransition.html',1,'smacc2::introspection']]],
-  ['asynchronous_5fstate_5fmachine_6',['asynchronous_state_machine',['../classboost_1_1statechart_1_1asynchronous__state__machine.html',1,'boost::statechart']]]
+  ['asynchronous_5fstate_5fmachine_6',['asynchronous_state_machine',['../classboost_1_1statechart_1_1asynchronous__state__machine.html',1,'boost::statechart']]],
+  ['asynctracenames_7',['AsyncTraceNames',['../structsmacc2_1_1anonymous__namespace_02smacc__client__async__behavior_8cpp_03_1_1AsyncTraceNames.html',1,'smacc2::anonymous_namespace{smacc_client_async_behavior.cpp}']]],
+  ['asynctracescope_8',['AsyncTraceScope',['../structsmacc2_1_1anonymous__namespace_02smacc__client__async__behavior_8cpp_03_1_1AsyncTraceScope.html',1,'smacc2::anonymous_namespace{smacc_client_async_behavior.cpp}']]]
 ];
