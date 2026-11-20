@@ -135,7 +135,7 @@ rclcpp\+::\+Logger \mbox{\hyperlink{classsmacc2_1_1ISmaccClient_aaa82b9e079d2faf
 \doxysubsection{Detailed Description}
 
 
-Definition at line \mbox{\hyperlink{smacc__ros__launch__client__2_8hpp_source_l00043}{43}} of file \mbox{\hyperlink{smacc__ros__launch__client__2_8hpp_source}{smacc\+\_\+ros\+\_\+launch\+\_\+client\+\_\+2.\+hpp}}.
+Definition at line \mbox{\hyperlink{smacc__ros__launch__client__2_8hpp_source_l00046}{46}} of file \mbox{\hyperlink{smacc__ros__launch__client__2_8hpp_source}{smacc\+\_\+ros\+\_\+launch\+\_\+client\+\_\+2.\+hpp}}.
 
 
 
@@ -148,7 +148,7 @@ std\+::function$<$void$>$ \mbox{\hyperlink{classsmacc2_1_1client__bases_1_1ClRos
 
 
 
-Definition at line \mbox{\hyperlink{smacc__ros__launch__client__2_8hpp_source_l00073}{73}} of file \mbox{\hyperlink{smacc__ros__launch__client__2_8hpp_source}{smacc\+\_\+ros\+\_\+launch\+\_\+client\+\_\+2.\+hpp}}.
+Definition at line \mbox{\hyperlink{smacc__ros__launch__client__2_8hpp_source_l00076}{76}} of file \mbox{\hyperlink{smacc__ros__launch__client__2_8hpp_source}{smacc\+\_\+ros\+\_\+launch\+\_\+client\+\_\+2.\+hpp}}.
 
 
 
@@ -241,7 +241,7 @@ Definition at line \mbox{\hyperlink{smacc__ros__launch__client__2_8cpp_source_l0
 \DoxyCodeLine{00090\ \ \ \ \ \ \ \ \ client-\/>launchPid\_\ =\ child.pid;}
 \DoxyCodeLine{00091\ \ \ \ \ \ \ \}}
 \DoxyCodeLine{00092\ }
-\DoxyCodeLine{00093\ \ \ \ \ \ \ \textcolor{keywordtype}{int}\ fd\ =\ fileno(child.pipe);}
+\DoxyCodeLine{00093\ \ \ \ \ \ \ \textcolor{keywordtype}{int}\ fd\ =\ fileno(child.pipe.get());}
 \DoxyCodeLine{00094\ \ \ \ \ \ \ \textcolor{keywordtype}{bool}\ cancelled\ =\ \textcolor{keyword}{false};}
 \DoxyCodeLine{00095\ }
 \DoxyCodeLine{00096\ \ \ \ \ \ \ \textcolor{comment}{//\ poll()\ with\ a\ 100\ ms\ timeout\ is\ also\ the\ cancel-\/check\ cadence.\ read()\ returning\ 0\ is\ the}}
@@ -310,22 +310,20 @@ Definition at line \mbox{\hyperlink{smacc__ros__launch__client__2_8cpp_source_l0
 \DoxyCodeLine{00159\ \ \ \ \ \ \ \ \ RCLCPP\_ERROR(rclcpp::get\_logger(\textcolor{stringliteral}{"{}smacc2"{}}),\ \textcolor{stringliteral}{"{}Error\ waiting\ for\ child\ process."{}});}
 \DoxyCodeLine{00160\ \ \ \ \ \ \ \}}
 \DoxyCodeLine{00161\ }
-\DoxyCodeLine{00162\ \ \ \ \ \ \ \textcolor{comment}{//\ The\ stream\ came\ from\ fdopen()\ on\ our\ own\ pipe,\ not\ from\ popen(),\ and\ the\ child\ was}}
-\DoxyCodeLine{00163\ \ \ \ \ \ \ \textcolor{comment}{//\ already\ reaped\ by\ waitpid()\ above.\ fclose()\ closes\ the\ descriptor\ and\ frees\ the}}
-\DoxyCodeLine{00164\ \ \ \ \ \ \ \textcolor{comment}{//\ FILE;\ the\ former\ pclose()\ +\ close(pipe-\/>\_fileno)\ read\ the\ freed\ FILE\ and\ closed}}
-\DoxyCodeLine{00165\ \ \ \ \ \ \ \textcolor{comment}{//\ the\ descriptor\ twice.}}
-\DoxyCodeLine{00166\ \ \ \ \ \ \ fclose(child.pipe);}
+\DoxyCodeLine{00162\ \ \ \ \ \ \ \textcolor{comment}{//\ The\ stream\ came\ from\ fdopen()\ on\ our\ own\ pipe\ and\ the\ child\ is\ reaped:\ fclose,\ through}}
+\DoxyCodeLine{00163\ \ \ \ \ \ \ \textcolor{comment}{//\ the\ pointer's\ deleter,\ closes\ the\ descriptor\ and\ frees\ the\ FILE.\ Not\ pclose().}}
+\DoxyCodeLine{00164\ \ \ \ \ \ \ child.pipe.reset();}
+\DoxyCodeLine{00165\ }
+\DoxyCodeLine{00166\ \ \ \ \ \ \ RCLCPP\_WARN\_STREAM(rclcpp::get\_logger(\textcolor{stringliteral}{"{}smacc2"{}}),\ \textcolor{stringliteral}{"{}[ClRosLaunch2]\ RESULT:\(\backslash\)n"{}}\ <<\ result);}
 \DoxyCodeLine{00167\ }
-\DoxyCodeLine{00168\ \ \ \ \ \ \ RCLCPP\_WARN\_STREAM(rclcpp::get\_logger(\textcolor{stringliteral}{"{}smacc2"{}}),\ \textcolor{stringliteral}{"{}[ClRosLaunch2]\ RESULT:\(\backslash\)n"{}}\ <<\ result);}
-\DoxyCodeLine{00169\ }
-\DoxyCodeLine{00170\ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ result;}
-\DoxyCodeLine{00171\ \ \ \ \ \});}
-\DoxyCodeLine{00172\ \}}
+\DoxyCodeLine{00168\ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ result;}
+\DoxyCodeLine{00169\ \ \ \ \ \});}
+\DoxyCodeLine{00170\ \}}
 
 \end{DoxyCode}
 
 
-References \mbox{\hyperlink{smacc__ros__launch__client__2_8cpp_source_l00277}{smacc2\+::client\+\_\+bases\+::kill\+Grandchildren()}}, \mbox{\hyperlink{smacc__ros__launch__client__2_8hpp_source_l00068}{launch\+Pid\+\_\+}}, and \mbox{\hyperlink{smacc__ros__launch__client__2_8cpp_source_l00177}{smacc2\+::client\+\_\+bases\+::run\+Process()}}.
+References \mbox{\hyperlink{smacc__ros__launch__client__2_8cpp_source_l00273}{smacc2\+::client\+\_\+bases\+::kill\+Grandchildren()}}, \mbox{\hyperlink{smacc__ros__launch__client__2_8hpp_source_l00071}{launch\+Pid\+\_\+}}, and \mbox{\hyperlink{smacc__ros__launch__client__2_8cpp_source_l00175}{smacc2\+::client\+\_\+bases\+::run\+Process()}}.
 
 
 
@@ -369,7 +367,7 @@ Definition at line \mbox{\hyperlink{smacc__ros__launch__client__2_8cpp_source_l0
 \end{DoxyCode}
 
 
-References \mbox{\hyperlink{smacc__ros__launch__client__2_8hpp_source_l00077}{cancellation\+Token\+\_\+}}, \mbox{\hyperlink{smacc__ros__launch__client__2_8cpp_source_l00064}{execute\+Ros\+Launch()}}, \mbox{\hyperlink{smacc__ros__launch__client__2_8hpp_source_l00065}{launch\+File\+Name\+\_\+}}, \mbox{\hyperlink{smacc__ros__launch__client__2_8hpp_source_l00063}{package\+Name\+\_\+}}, and \mbox{\hyperlink{smacc__ros__launch__client__2_8hpp_source_l00071}{result\+\_\+}}.
+References \mbox{\hyperlink{smacc__ros__launch__client__2_8hpp_source_l00080}{cancellation\+Token\+\_\+}}, \mbox{\hyperlink{smacc__ros__launch__client__2_8cpp_source_l00064}{execute\+Ros\+Launch()}}, \mbox{\hyperlink{smacc__ros__launch__client__2_8hpp_source_l00068}{launch\+File\+Name\+\_\+}}, \mbox{\hyperlink{smacc__ros__launch__client__2_8hpp_source_l00066}{package\+Name\+\_\+}}, and \mbox{\hyperlink{smacc__ros__launch__client__2_8hpp_source_l00074}{result\+\_\+}}.
 
 
 
@@ -411,7 +409,7 @@ Definition at line \mbox{\hyperlink{smacc__ros__launch__client__2_8cpp_source_l0
 \end{DoxyCode}
 
 
-References \mbox{\hyperlink{smacc__ros__launch__client__2_8hpp_source_l00077}{cancellation\+Token\+\_\+}}.
+References \mbox{\hyperlink{smacc__ros__launch__client__2_8hpp_source_l00080}{cancellation\+Token\+\_\+}}.
 
 
 
@@ -436,7 +434,7 @@ std\+::atomic$<$\mbox{\hyperlink{classbool}{bool}}$>$ smacc2\+::client\+\_\+base
 
 
 
-Definition at line \mbox{\hyperlink{smacc__ros__launch__client__2_8hpp_source_l00077}{77}} of file \mbox{\hyperlink{smacc__ros__launch__client__2_8hpp_source}{smacc\+\_\+ros\+\_\+launch\+\_\+client\+\_\+2.\+hpp}}.
+Definition at line \mbox{\hyperlink{smacc__ros__launch__client__2_8hpp_source_l00080}{80}} of file \mbox{\hyperlink{smacc__ros__launch__client__2_8hpp_source}{smacc\+\_\+ros\+\_\+launch\+\_\+client\+\_\+2.\+hpp}}.
 
 
 
@@ -450,7 +448,7 @@ std\+::map$<$std\+::future$<$void$>$, \mbox{\hyperlink{classsmacc2_1_1client__ba
 
 
 
-Definition at line \mbox{\hyperlink{smacc__ros__launch__client__2_8hpp_source_l00075}{75}} of file \mbox{\hyperlink{smacc__ros__launch__client__2_8hpp_source}{smacc\+\_\+ros\+\_\+launch\+\_\+client\+\_\+2.\+hpp}}.
+Definition at line \mbox{\hyperlink{smacc__ros__launch__client__2_8hpp_source_l00078}{78}} of file \mbox{\hyperlink{smacc__ros__launch__client__2_8hpp_source}{smacc\+\_\+ros\+\_\+launch\+\_\+client\+\_\+2.\+hpp}}.
 
 \Hypertarget{classsmacc2_1_1client__bases_1_1ClRosLaunch2_a911dc86a027437c17a16cf7ae4b6af9f}\index{smacc2::client\_bases::ClRosLaunch2@{smacc2::client\_bases::ClRosLaunch2}!launchFileName\_@{launchFileName\_}}
 \index{launchFileName\_@{launchFileName\_}!smacc2::client\_bases::ClRosLaunch2@{smacc2::client\_bases::ClRosLaunch2}}
@@ -460,7 +458,7 @@ std\+::string smacc2\+::client\+\_\+bases\+::\+Cl\+Ros\+Launch2\+::launch\+File\
 
 
 
-Definition at line \mbox{\hyperlink{smacc__ros__launch__client__2_8hpp_source_l00065}{65}} of file \mbox{\hyperlink{smacc__ros__launch__client__2_8hpp_source}{smacc\+\_\+ros\+\_\+launch\+\_\+client\+\_\+2.\+hpp}}.
+Definition at line \mbox{\hyperlink{smacc__ros__launch__client__2_8hpp_source_l00068}{68}} of file \mbox{\hyperlink{smacc__ros__launch__client__2_8hpp_source}{smacc\+\_\+ros\+\_\+launch\+\_\+client\+\_\+2.\+hpp}}.
 
 
 
@@ -474,7 +472,7 @@ pid\+\_\+t smacc2\+::client\+\_\+bases\+::\+Cl\+Ros\+Launch2\+::launch\+Pid\+\_\
 
 
 
-Definition at line \mbox{\hyperlink{smacc__ros__launch__client__2_8hpp_source_l00068}{68}} of file \mbox{\hyperlink{smacc__ros__launch__client__2_8hpp_source}{smacc\+\_\+ros\+\_\+launch\+\_\+client\+\_\+2.\+hpp}}.
+Definition at line \mbox{\hyperlink{smacc__ros__launch__client__2_8hpp_source_l00071}{71}} of file \mbox{\hyperlink{smacc__ros__launch__client__2_8hpp_source}{smacc\+\_\+ros\+\_\+launch\+\_\+client\+\_\+2.\+hpp}}.
 
 
 
@@ -488,7 +486,7 @@ std\+::string smacc2\+::client\+\_\+bases\+::\+Cl\+Ros\+Launch2\+::package\+Name
 
 
 
-Definition at line \mbox{\hyperlink{smacc__ros__launch__client__2_8hpp_source_l00063}{63}} of file \mbox{\hyperlink{smacc__ros__launch__client__2_8hpp_source}{smacc\+\_\+ros\+\_\+launch\+\_\+client\+\_\+2.\+hpp}}.
+Definition at line \mbox{\hyperlink{smacc__ros__launch__client__2_8hpp_source_l00066}{66}} of file \mbox{\hyperlink{smacc__ros__launch__client__2_8hpp_source}{smacc\+\_\+ros\+\_\+launch\+\_\+client\+\_\+2.\+hpp}}.
 
 
 
@@ -502,7 +500,7 @@ std\+::future$<$std\+::string$>$ smacc2\+::client\+\_\+bases\+::\+Cl\+Ros\+Launc
 
 
 
-Definition at line \mbox{\hyperlink{smacc__ros__launch__client__2_8hpp_source_l00071}{71}} of file \mbox{\hyperlink{smacc__ros__launch__client__2_8hpp_source}{smacc\+\_\+ros\+\_\+launch\+\_\+client\+\_\+2.\+hpp}}.
+Definition at line \mbox{\hyperlink{smacc__ros__launch__client__2_8hpp_source_l00074}{74}} of file \mbox{\hyperlink{smacc__ros__launch__client__2_8hpp_source}{smacc\+\_\+ros\+\_\+launch\+\_\+client\+\_\+2.\+hpp}}.
 
 
 
