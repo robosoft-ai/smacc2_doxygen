@@ -233,43 +233,6 @@
 \DoxyCodeLine{\Hypertarget{smacc__signal__detector_8hpp_source_l00229}00229\ \ \ smExecution.\mbox{\hyperlink{classsmacc2_1_1SmExecution_a496913fb38ad4e0e56b56ec111b45b6e}{schedulerThread}}\ =\ \textcolor{keyword}{nullptr};}
 \DoxyCodeLine{\Hypertarget{smacc__signal__detector_8hpp_source_l00230}00230\ \}}
 \DoxyCodeLine{\Hypertarget{smacc__signal__detector_8hpp_source_l00231}00231\ }
-\DoxyCodeLine{\Hypertarget{smacc__signal__detector_8hpp_source_l00232}00232\ \textcolor{keyword}{template}\ <\textcolor{keyword}{typename}\ StateMachineType>}
-\DoxyCodeLine{\Hypertarget{smacc__signal__detector_8hpp_source_l00233}\mbox{\hyperlink{namespacesmacc2_ad8bb6d8e3f068eae23649a725678d1ce}{00233}}\ \mbox{\hyperlink{classsmacc2_1_1SmExecution}{SmExecution}}\ \&\ \mbox{\hyperlink{namespacesmacc2_ad8bb6d8e3f068eae23649a725678d1ce}{run\_async}}()}
-\DoxyCodeLine{\Hypertarget{smacc__signal__detector_8hpp_source_l00234}00234\ \{}
-\DoxyCodeLine{\Hypertarget{smacc__signal__detector_8hpp_source_l00235}00235\ \ \ \textcolor{comment}{//\ SIGINT\ and\ SIGTERM\ are\ left\ to\ the\ handlers\ rclcpp::init\ installed.\ Those\ only\ signal\ a}}
-\DoxyCodeLine{\Hypertarget{smacc__signal__detector_8hpp_source_l00236}00236\ \ \ \textcolor{comment}{//\ semaphore;\ a\ dedicated\ rclcpp\ thread\ then\ calls\ rclcpp::shutdown(),\ and\ the\ on\_shutdown}}
-\DoxyCodeLine{\Hypertarget{smacc__signal__detector_8hpp_source_l00237}00237\ \ \ \textcolor{comment}{//\ callback\ registered\ in\ SignalDetector::initialize\ stops\ the\ polling\ loop\ and}}
-\DoxyCodeLine{\Hypertarget{smacc__signal__detector_8hpp_source_l00238}00238\ \ \ \textcolor{comment}{//\ terminates\ the\ scheduler.\ Replacing\ them\ here\ with\ a\ handler\ that\ called}}
-\DoxyCodeLine{\Hypertarget{smacc__signal__detector_8hpp_source_l00239}00239\ \ \ \textcolor{comment}{//\ rclcpp::shutdown()\ directly\ ran\ DDS\ teardown\ inside\ the\ signal\ context.}}
-\DoxyCodeLine{\Hypertarget{smacc__signal__detector_8hpp_source_l00240}00240\ \ \ ::signal(SIGQUIT,\ \mbox{\hyperlink{namespacesmacc2_a35ee0f3a5b83fd021a59b49b7f271b1d}{onSigQuit}});}
-\DoxyCodeLine{\Hypertarget{smacc__signal__detector_8hpp_source_l00241}00241\ }
-\DoxyCodeLine{\Hypertarget{smacc__signal__detector_8hpp_source_l00242}00242\ \ \ \textcolor{comment}{//\ Get\ singleton\ instance}}
-\DoxyCodeLine{\Hypertarget{smacc__signal__detector_8hpp_source_l00243}00243\ \ \ \mbox{\hyperlink{classsmacc2_1_1SmExecution}{SmExecution}}\ \&\ smExecution\ =\ \mbox{\hyperlink{classsmacc2_1_1SmExecution_a6187db4e1417a6655addde58021d6175}{SmExecution::getInstance}}();}
-\DoxyCodeLine{\Hypertarget{smacc__signal__detector_8hpp_source_l00244}00244\ }
-\DoxyCodeLine{\Hypertarget{smacc__signal__detector_8hpp_source_l00245}00245\ \ \ \textcolor{comment}{//\ create\ the\ asynchronous\ state\ machine\ scheduler}}
-\DoxyCodeLine{\Hypertarget{smacc__signal__detector_8hpp_source_l00246}00246\ \ \ smExecution.\mbox{\hyperlink{classsmacc2_1_1SmExecution_a9d2e7074adcaa6c454e932a1e3cf6b83}{scheduler1}}\ =\ \textcolor{keyword}{new}\ \mbox{\hyperlink{smacc__fifo__scheduler_8hpp_a0063e275231c80d5f97df21d17257bf7}{SmaccFifoScheduler}}(\textcolor{keyword}{true});}
-\DoxyCodeLine{\Hypertarget{smacc__signal__detector_8hpp_source_l00247}00247\ }
-\DoxyCodeLine{\Hypertarget{smacc__signal__detector_8hpp_source_l00248}00248\ \ \ \textcolor{comment}{//\ create\ the\ signalDetector\ component}}
-\DoxyCodeLine{\Hypertarget{smacc__signal__detector_8hpp_source_l00249}00249\ \ \ smExecution.\mbox{\hyperlink{classsmacc2_1_1SmExecution_af13d818e0041f33826df081387d75e10}{signalDetector}}\ =\ \textcolor{keyword}{new}\ \mbox{\hyperlink{classsmacc2_1_1SignalDetector}{SignalDetector}}(smExecution.\mbox{\hyperlink{classsmacc2_1_1SmExecution_a9d2e7074adcaa6c454e932a1e3cf6b83}{scheduler1}});}
-\DoxyCodeLine{\Hypertarget{smacc__signal__detector_8hpp_source_l00250}00250\ }
-\DoxyCodeLine{\Hypertarget{smacc__signal__detector_8hpp_source_l00251}00251\ \ \ \textcolor{comment}{//\ create\ the\ asynchronous\ state\ machine\ processor}}
-\DoxyCodeLine{\Hypertarget{smacc__signal__detector_8hpp_source_l00252}00252\ \ \ smExecution.\mbox{\hyperlink{classsmacc2_1_1SmExecution_a418ccc50f32835f8d26dbaa360299d30}{sm}}\ =}
-\DoxyCodeLine{\Hypertarget{smacc__signal__detector_8hpp_source_l00253}00253\ \ \ \ \ smExecution.\mbox{\hyperlink{classsmacc2_1_1SmExecution_a9d2e7074adcaa6c454e932a1e3cf6b83}{scheduler1}}-\/>create\_processor<StateMachineType>(smExecution.\mbox{\hyperlink{classsmacc2_1_1SmExecution_af13d818e0041f33826df081387d75e10}{signalDetector}});}
-\DoxyCodeLine{\Hypertarget{smacc__signal__detector_8hpp_source_l00254}00254\ }
-\DoxyCodeLine{\Hypertarget{smacc__signal__detector_8hpp_source_l00255}00255\ \ \ \textcolor{comment}{//\ initialize\ the\ asynchronous\ state\ machine\ processor}}
-\DoxyCodeLine{\Hypertarget{smacc__signal__detector_8hpp_source_l00256}00256\ \ \ smExecution.\mbox{\hyperlink{classsmacc2_1_1SmExecution_af13d818e0041f33826df081387d75e10}{signalDetector}}-\/>\mbox{\hyperlink{classsmacc2_1_1SignalDetector_adf9f225226e698d44a5e952fa3963057}{setProcessorHandle}}(smExecution.\mbox{\hyperlink{classsmacc2_1_1SmExecution_a418ccc50f32835f8d26dbaa360299d30}{sm}});}
-\DoxyCodeLine{\Hypertarget{smacc__signal__detector_8hpp_source_l00257}00257\ }
-\DoxyCodeLine{\Hypertarget{smacc__signal__detector_8hpp_source_l00258}00258\ \ \ smExecution.\mbox{\hyperlink{classsmacc2_1_1SmExecution_a9d2e7074adcaa6c454e932a1e3cf6b83}{scheduler1}}-\/>initiate\_processor(smExecution.\mbox{\hyperlink{classsmacc2_1_1SmExecution_a418ccc50f32835f8d26dbaa360299d30}{sm}});}
-\DoxyCodeLine{\Hypertarget{smacc__signal__detector_8hpp_source_l00259}00259\ }
-\DoxyCodeLine{\Hypertarget{smacc__signal__detector_8hpp_source_l00260}00260\ \ \ \textcolor{comment}{//create\ a\ thread\ for\ the\ asynchronous\ state\ machine\ processor\ execution}}
-\DoxyCodeLine{\Hypertarget{smacc__signal__detector_8hpp_source_l00261}00261\ \ \ smExecution.\mbox{\hyperlink{classsmacc2_1_1SmExecution_a496913fb38ad4e0e56b56ec111b45b6e}{schedulerThread}}\ =}
-\DoxyCodeLine{\Hypertarget{smacc__signal__detector_8hpp_source_l00262}00262\ \ \ \ \ \textcolor{keyword}{new}\ boost::thread(boost::bind(\&sc::fifo\_scheduler<>::operator(),\ smExecution.\mbox{\hyperlink{classsmacc2_1_1SmExecution_a9d2e7074adcaa6c454e932a1e3cf6b83}{scheduler1}},\ NULL));}
-\DoxyCodeLine{\Hypertarget{smacc__signal__detector_8hpp_source_l00263}00263\ \ \ smExecution.\mbox{\hyperlink{classsmacc2_1_1SmExecution_a578b0c89d0dd602e1a37589a12fe4fa6}{signalDetectorLoop}}\ =}
-\DoxyCodeLine{\Hypertarget{smacc__signal__detector_8hpp_source_l00264}00264\ \ \ \ \ \textcolor{keyword}{new}\ boost::thread(boost::bind(\&\mbox{\hyperlink{classsmacc2_1_1SignalDetector_a08d072feafb277794a16fe33a6dcc97e}{SignalDetector::pollingLoop}},\ smExecution.\mbox{\hyperlink{classsmacc2_1_1SmExecution_af13d818e0041f33826df081387d75e10}{signalDetector}}));}
-\DoxyCodeLine{\Hypertarget{smacc__signal__detector_8hpp_source_l00265}00265\ }
-\DoxyCodeLine{\Hypertarget{smacc__signal__detector_8hpp_source_l00266}00266\ \ \ \textcolor{keywordflow}{return}\ smExecution;}
-\DoxyCodeLine{\Hypertarget{smacc__signal__detector_8hpp_source_l00267}00267\ \}}
-\DoxyCodeLine{\Hypertarget{smacc__signal__detector_8hpp_source_l00268}00268\ }
-\DoxyCodeLine{\Hypertarget{smacc__signal__detector_8hpp_source_l00269}00269\ \}\ \ \textcolor{comment}{//\ namespace\ smacc2}}
+\DoxyCodeLine{\Hypertarget{smacc__signal__detector_8hpp_source_l00232}00232\ \}\ \ \textcolor{comment}{//\ namespace\ smacc2}}
 
 \end{DoxyCode}
