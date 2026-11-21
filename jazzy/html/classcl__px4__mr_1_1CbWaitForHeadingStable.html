@@ -565,99 +565,103 @@ Additional Inherited Members</h2></td></tr>
 <div class="line"><span class="lineno">   50</span>    <a class="code hl_variable" href="#a4cb982ef3ad5d85a844247959b91b01b">params_</a>.<a class="code hl_variable" href="structcl__px4__mr_1_1HeadingStableParams.html#a3de76234f12bd6e9dfb2921e6f2b0ed2">maxDriftRadS</a> * 180.0 / M_PI, <a class="code hl_variable" href="#a4cb982ef3ad5d85a844247959b91b01b">params_</a>.<a class="code hl_variable" href="structcl__px4__mr_1_1HeadingStableParams.html#ab57cada7d02659a47a8cb34739942ce5">windowS</a>,</div>
 <div class="line"><span class="lineno">   51</span>    checkExpected ? <span class="stringliteral">&quot; and match the parked heading&quot;</span> : <span class="stringliteral">&quot;&quot;</span>, <a class="code hl_variable" href="#a4cb982ef3ad5d85a844247959b91b01b">params_</a>.<a class="code hl_variable" href="structcl__px4__mr_1_1HeadingStableParams.html#ac81c54ecef3d5e9c191c59663e456a90">timeoutS</a>);</div>
 <div class="line"><span class="lineno">   52</span> </div>
-<div class="line"><span class="lineno">   53</span>  <span class="keyword">using </span>clock = std::chrono::steady_clock;</div>
-<div class="line"><span class="lineno">   54</span>  <span class="keyword">const</span> <span class="keyword">auto</span> start = clock::now();</div>
-<div class="line"><span class="lineno">   55</span>  std::deque&lt;std::pair&lt;double, float&gt;&gt; samples;  <span class="comment">// (t since start, heading)</span></div>
-<div class="line"><span class="lineno">   56</span>  rclcpp::Rate rate(10.0);</div>
-<div class="line"><span class="lineno">   57</span>  <span class="keywordtype">double</span> lastReport = -10.0;</div>
-<div class="line"><span class="lineno">   58</span> </div>
-<div class="line"><span class="lineno">   59</span>  <span class="keywordflow">while</span> (!this-&gt;<a class="code hl_function" href="classsmacc2_1_1SmaccAsyncClientBehavior.html#a3fdbe8ec497fef82e2441e8e87899955">isShutdownRequested</a>())</div>
-<div class="line"><span class="lineno">   60</span>  {</div>
-<div class="line"><span class="lineno">   61</span>    <span class="keyword">const</span> <span class="keywordtype">double</span> t = std::chrono::duration&lt;double&gt;(clock::now() - start).count();</div>
-<div class="line"><span class="lineno">   62</span>    <span class="keywordflow">if</span> (<a class="code hl_variable" href="classcl__px4__mr_1_1CbPx4ClientBehaviorBase.html#aac08e96640e94aff591f4a9a5af93453">localPosition_</a>-&gt;<a class="code hl_function" href="classcl__px4__mr_1_1CpVehicleLocalPosition.html#aca9a6689fa1e120b77feff35ab064b5c">isValid</a>())</div>
-<div class="line"><span class="lineno">   63</span>    {</div>
-<div class="line"><span class="lineno">   64</span>      samples.emplace_back(t, <a class="code hl_variable" href="classcl__px4__mr_1_1CbPx4ClientBehaviorBase.html#aac08e96640e94aff591f4a9a5af93453">localPosition_</a>-&gt;<a class="code hl_function" href="classcl__px4__mr_1_1CpVehicleLocalPosition.html#ad20d2706ccb883910ec694f4c8587fd4">getHeading</a>());</div>
-<div class="line"><span class="lineno">   65</span>    }</div>
-<div class="line"><span class="lineno">   66</span>    <span class="keywordflow">while</span> (!samples.empty() &amp;&amp; t - samples.front().first &gt; <a class="code hl_variable" href="#a4cb982ef3ad5d85a844247959b91b01b">params_</a>.<a class="code hl_variable" href="structcl__px4__mr_1_1HeadingStableParams.html#ab57cada7d02659a47a8cb34739942ce5">windowS</a>)</div>
-<div class="line"><span class="lineno">   67</span>    {</div>
-<div class="line"><span class="lineno">   68</span>      samples.pop_front();</div>
-<div class="line"><span class="lineno">   69</span>    }</div>
-<div class="line"><span class="lineno">   70</span> </div>
-<div class="line"><span class="lineno">   71</span>    <span class="keywordtype">bool</span> windowFull =</div>
-<div class="line"><span class="lineno">   72</span>      !samples.empty() &amp;&amp; samples.back().first - samples.front().first &gt;= 0.9 * <a class="code hl_variable" href="#a4cb982ef3ad5d85a844247959b91b01b">params_</a>.<a class="code hl_variable" href="structcl__px4__mr_1_1HeadingStableParams.html#ab57cada7d02659a47a8cb34739942ce5">windowS</a>;</div>
-<div class="line"><span class="lineno">   73</span>    <span class="keywordtype">float</span> drift = 0.0f, offset = 0.0f;</div>
-<div class="line"><span class="lineno">   74</span>    <span class="keywordtype">bool</span> stable = <span class="keyword">false</span>, aligned = <span class="keyword">true</span>;</div>
-<div class="line"><span class="lineno">   75</span>    <span class="keywordflow">if</span> (windowFull)</div>
-<div class="line"><span class="lineno">   76</span>    {</div>
-<div class="line"><span class="lineno">   77</span>      <span class="comment">// unwrap over the window: max excursion from the first sample</span></div>
-<div class="line"><span class="lineno">   78</span>      <span class="keywordtype">float</span> lo = 0.0f, hi = 0.0f;</div>
-<div class="line"><span class="lineno">   79</span>      <span class="keywordflow">for</span> (<span class="keyword">const</span> <span class="keyword">auto</span> &amp; s : samples)</div>
-<div class="line"><span class="lineno">   80</span>      {</div>
-<div class="line"><span class="lineno">   81</span>        <span class="keyword">const</span> <span class="keywordtype">float</span> d = <a class="code hl_function" href="namespacecl__px4__mr.html#aa6a2289a8a3bb0e1ab6913fd251c3dd0">wrapPi</a>(s.second - samples.front().second);</div>
-<div class="line"><span class="lineno">   82</span>        lo = std::min(lo, d);</div>
-<div class="line"><span class="lineno">   83</span>        hi = std::max(hi, d);</div>
-<div class="line"><span class="lineno">   84</span>      }</div>
-<div class="line"><span class="lineno">   85</span>      drift = hi - lo;</div>
-<div class="line"><span class="lineno">   86</span>      stable = drift &lt;= static_cast&lt;float&gt;(<a class="code hl_variable" href="#a4cb982ef3ad5d85a844247959b91b01b">params_</a>.<a class="code hl_variable" href="structcl__px4__mr_1_1HeadingStableParams.html#a3de76234f12bd6e9dfb2921e6f2b0ed2">maxDriftRadS</a> * <a class="code hl_variable" href="#a4cb982ef3ad5d85a844247959b91b01b">params_</a>.<a class="code hl_variable" href="structcl__px4__mr_1_1HeadingStableParams.html#ab57cada7d02659a47a8cb34739942ce5">windowS</a>);</div>
-<div class="line"><span class="lineno">   87</span>      <span class="keywordflow">if</span> (checkExpected)</div>
-<div class="line"><span class="lineno">   88</span>      {</div>
-<div class="line"><span class="lineno">   89</span>        offset = <a class="code hl_function" href="namespacecl__px4__mr.html#aa6a2289a8a3bb0e1ab6913fd251c3dd0">wrapPi</a>(samples.back().second - <a class="code hl_variable" href="#a4cb982ef3ad5d85a844247959b91b01b">params_</a>.<a class="code hl_variable" href="structcl__px4__mr_1_1HeadingStableParams.html#ac240677c9ced36b5c3658ef4bf965371">expectedHeadingRad</a>);</div>
-<div class="line"><span class="lineno">   90</span>        aligned = std::fabs(offset) &lt;= <a class="code hl_variable" href="#a4cb982ef3ad5d85a844247959b91b01b">params_</a>.<a class="code hl_variable" href="structcl__px4__mr_1_1HeadingStableParams.html#a5f2a7df4520cd78132cf60b08692e88a">headingTolRad</a>;</div>
-<div class="line"><span class="lineno">   91</span>      }</div>
-<div class="line"><span class="lineno">   92</span>    }</div>
-<div class="line"><span class="lineno">   93</span> </div>
-<div class="line"><span class="lineno">   94</span>    <span class="keywordflow">if</span> (windowFull &amp;&amp; stable &amp;&amp; aligned)</div>
-<div class="line"><span class="lineno">   95</span>    {</div>
-<div class="line"><span class="lineno">   96</span>      RCLCPP_INFO(</div>
-<div class="line"><span class="lineno">   97</span>        <a class="code hl_function" href="classsmacc2_1_1ISmaccClientBehavior.html#a9c3d82542c800e2ba5207c5cff0e63e8">getLogger</a>(),</div>
-<div class="line"><span class="lineno">   98</span>        <span class="stringliteral">&quot;CbWaitForHeadingStable: heading %.1f deg stable (%.2f deg over %.0f s%s) - posting &quot;</span></div>
-<div class="line"><span class="lineno">   99</span>        <span class="stringliteral">&quot;success&quot;</span>,</div>
-<div class="line"><span class="lineno">  100</span>        samples.back().second * 180.0 / M_PI, drift * 180.0 / M_PI, <a class="code hl_variable" href="#a4cb982ef3ad5d85a844247959b91b01b">params_</a>.<a class="code hl_variable" href="structcl__px4__mr_1_1HeadingStableParams.html#ab57cada7d02659a47a8cb34739942ce5">windowS</a>,</div>
-<div class="line"><span class="lineno">  101</span>        checkExpected ? (<span class="stringliteral">&quot;, offset &quot;</span> + std::to_string(offset * 180.0 / M_PI) + <span class="stringliteral">&quot; deg&quot;</span>).c_str()</div>
-<div class="line"><span class="lineno">  102</span>                      : <span class="stringliteral">&quot;&quot;</span>);</div>
-<div class="line"><span class="lineno">  103</span>      this-&gt;<a class="code hl_function" href="classcl__px4__mr_1_1CbPx4ClientBehaviorBase.html#a4b000d4fc4644581dc26c7e8dc1d4ef1">postPx4Success</a>();</div>
-<div class="line"><span class="lineno">  104</span>      <span class="keywordflow">return</span>;</div>
-<div class="line"><span class="lineno">  105</span>    }</div>
-<div class="line"><span class="lineno">  106</span> </div>
-<div class="line"><span class="lineno">  107</span>    <span class="keywordflow">if</span> (t - lastReport &gt;= 2.0)</div>
-<div class="line"><span class="lineno">  108</span>    {</div>
-<div class="line"><span class="lineno">  109</span>      lastReport = t;</div>
-<div class="line"><span class="lineno">  110</span>      <span class="keywordflow">if</span> (!windowFull)</div>
-<div class="line"><span class="lineno">  111</span>      {</div>
-<div class="line"><span class="lineno">  112</span>        RCLCPP_INFO(</div>
-<div class="line"><span class="lineno">  113</span>          <a class="code hl_function" href="classsmacc2_1_1ISmaccClientBehavior.html#a9c3d82542c800e2ba5207c5cff0e63e8">getLogger</a>(), <span class="stringliteral">&quot;CbWaitForHeadingStable: collecting (%zu samples, position valid=%d)&quot;</span>,</div>
-<div class="line"><span class="lineno">  114</span>          samples.size(), <span class="keyword">static_cast&lt;</span><span class="keywordtype">int</span><span class="keyword">&gt;</span>(<a class="code hl_variable" href="classcl__px4__mr_1_1CbPx4ClientBehaviorBase.html#aac08e96640e94aff591f4a9a5af93453">localPosition_</a>-&gt;<a class="code hl_function" href="classcl__px4__mr_1_1CpVehicleLocalPosition.html#aca9a6689fa1e120b77feff35ab064b5c">isValid</a>()));</div>
-<div class="line"><span class="lineno">  115</span>      }</div>
-<div class="line"><span class="lineno">  116</span>      <span class="keywordflow">else</span></div>
-<div class="line"><span class="lineno">  117</span>      {</div>
-<div class="line"><span class="lineno">  118</span>        RCLCPP_WARN(</div>
-<div class="line"><span class="lineno">  119</span>          <a class="code hl_function" href="classsmacc2_1_1ISmaccClientBehavior.html#a9c3d82542c800e2ba5207c5cff0e63e8">getLogger</a>(),</div>
-<div class="line"><span class="lineno">  120</span>          <span class="stringliteral">&quot;CbWaitForHeadingStable: heading %.1f deg NOT ready: drift %.2f deg/s%s - the EKF &quot;</span></div>
-<div class="line"><span class="lineno">  121</span>          <span class="stringliteral">&quot;yaw is not trustworthy for takeoff&quot;</span>,</div>
-<div class="line"><span class="lineno">  122</span>          samples.back().second * 180.0 / M_PI, drift / <a class="code hl_variable" href="#a4cb982ef3ad5d85a844247959b91b01b">params_</a>.<a class="code hl_variable" href="structcl__px4__mr_1_1HeadingStableParams.html#ab57cada7d02659a47a8cb34739942ce5">windowS</a> * 180.0 / M_PI,</div>
-<div class="line"><span class="lineno">  123</span>          checkExpected</div>
-<div class="line"><span class="lineno">  124</span>            ? (<span class="stringliteral">&quot;, offset from parked heading &quot;</span> + std::to_string(offset * 180.0 / M_PI) + <span class="stringliteral">&quot; deg&quot;</span>)</div>
-<div class="line"><span class="lineno">  125</span>                .c_str()</div>
-<div class="line"><span class="lineno">  126</span>            : <span class="stringliteral">&quot;&quot;</span>);</div>
-<div class="line"><span class="lineno">  127</span>      }</div>
-<div class="line"><span class="lineno">  128</span>    }</div>
-<div class="line"><span class="lineno">  129</span> </div>
-<div class="line"><span class="lineno">  130</span>    <span class="keywordflow">if</span> (t &gt; <a class="code hl_variable" href="#a4cb982ef3ad5d85a844247959b91b01b">params_</a>.<a class="code hl_variable" href="structcl__px4__mr_1_1HeadingStableParams.html#ac81c54ecef3d5e9c191c59663e456a90">timeoutS</a>)</div>
-<div class="line"><span class="lineno">  131</span>    {</div>
-<div class="line"><span class="lineno">  132</span>      RCLCPP_ERROR(</div>
-<div class="line"><span class="lineno">  133</span>        <a class="code hl_function" href="classsmacc2_1_1ISmaccClientBehavior.html#a9c3d82542c800e2ba5207c5cff0e63e8">getLogger</a>(),</div>
-<div class="line"><span class="lineno">  134</span>        <span class="stringliteral">&quot;CbWaitForHeadingStable: timeout (%.0f s): heading %.1f deg, drift %.2f deg/s. &quot;</span></div>
-<div class="line"><span class="lineno">  135</span>        <span class="stringliteral">&quot;Refusing to arm; restart the estimator / SITL&quot;</span>,</div>
-<div class="line"><span class="lineno">  136</span>        <a class="code hl_variable" href="#a4cb982ef3ad5d85a844247959b91b01b">params_</a>.<a class="code hl_variable" href="structcl__px4__mr_1_1HeadingStableParams.html#ac81c54ecef3d5e9c191c59663e456a90">timeoutS</a>, samples.empty() ? 0.0 : samples.back().second * 180.0 / M_PI,</div>
-<div class="line"><span class="lineno">  137</span>        drift / <a class="code hl_variable" href="#a4cb982ef3ad5d85a844247959b91b01b">params_</a>.<a class="code hl_variable" href="structcl__px4__mr_1_1HeadingStableParams.html#ab57cada7d02659a47a8cb34739942ce5">windowS</a> * 180.0 / M_PI);</div>
-<div class="line"><span class="lineno">  138</span>      this-&gt;<a class="code hl_function" href="classcl__px4__mr_1_1CbPx4ClientBehaviorBase.html#adec6c9edb3f9fa1e8d3028155f880379">postPx4Failure</a>();</div>
-<div class="line"><span class="lineno">  139</span>      <span class="keywordflow">return</span>;</div>
-<div class="line"><span class="lineno">  140</span>    }</div>
-<div class="line"><span class="lineno">  141</span>    rate.sleep();</div>
-<div class="line"><span class="lineno">  142</span>  }</div>
-<div class="line"><span class="lineno">  143</span>  RCLCPP_WARN(<a class="code hl_function" href="classsmacc2_1_1ISmaccClientBehavior.html#a9c3d82542c800e2ba5207c5cff0e63e8">getLogger</a>(), <span class="stringliteral">&quot;CbWaitForHeadingStable: shutdown requested&quot;</span>);</div>
-<div class="line"><span class="lineno">  144</span>  this-&gt;<a class="code hl_function" href="classcl__px4__mr_1_1CbPx4ClientBehaviorBase.html#adec6c9edb3f9fa1e8d3028155f880379">postPx4Failure</a>();</div>
-<div class="line"><span class="lineno">  145</span>}</div>
+<div class="line"><span class="lineno">   53</span>  <span class="comment">// Sample the heading at 10 Hz and keep the last windowS seconds of samples.</span></div>
+<div class="line"><span class="lineno">   54</span>  <span class="keyword">using </span>clock = std::chrono::steady_clock;</div>
+<div class="line"><span class="lineno">   55</span>  <span class="keyword">const</span> <span class="keyword">auto</span> start = clock::now();</div>
+<div class="line"><span class="lineno">   56</span>  std::deque&lt;std::pair&lt;double, float&gt;&gt; samples;  <span class="comment">// (t since start, heading)</span></div>
+<div class="line"><span class="lineno">   57</span>  rclcpp::Rate rate(10.0);</div>
+<div class="line"><span class="lineno">   58</span>  <span class="keywordtype">double</span> lastReport = -10.0;</div>
+<div class="line"><span class="lineno">   59</span> </div>
+<div class="line"><span class="lineno">   60</span>  <span class="keywordflow">while</span> (!this-&gt;<a class="code hl_function" href="classsmacc2_1_1SmaccAsyncClientBehavior.html#a3fdbe8ec497fef82e2441e8e87899955">isShutdownRequested</a>())</div>
+<div class="line"><span class="lineno">   61</span>  {</div>
+<div class="line"><span class="lineno">   62</span>    <span class="keyword">const</span> <span class="keywordtype">double</span> t = std::chrono::duration&lt;double&gt;(clock::now() - start).count();</div>
+<div class="line"><span class="lineno">   63</span>    <span class="keywordflow">if</span> (<a class="code hl_variable" href="classcl__px4__mr_1_1CbPx4ClientBehaviorBase.html#aac08e96640e94aff591f4a9a5af93453">localPosition_</a>-&gt;<a class="code hl_function" href="classcl__px4__mr_1_1CpVehicleLocalPosition.html#aca9a6689fa1e120b77feff35ab064b5c">isValid</a>())</div>
+<div class="line"><span class="lineno">   64</span>    {</div>
+<div class="line"><span class="lineno">   65</span>      samples.emplace_back(t, <a class="code hl_variable" href="classcl__px4__mr_1_1CbPx4ClientBehaviorBase.html#aac08e96640e94aff591f4a9a5af93453">localPosition_</a>-&gt;<a class="code hl_function" href="classcl__px4__mr_1_1CpVehicleLocalPosition.html#ad20d2706ccb883910ec694f4c8587fd4">getHeading</a>());</div>
+<div class="line"><span class="lineno">   66</span>    }</div>
+<div class="line"><span class="lineno">   67</span>    <span class="keywordflow">while</span> (!samples.empty() &amp;&amp; t - samples.front().first &gt; <a class="code hl_variable" href="#a4cb982ef3ad5d85a844247959b91b01b">params_</a>.<a class="code hl_variable" href="structcl__px4__mr_1_1HeadingStableParams.html#ab57cada7d02659a47a8cb34739942ce5">windowS</a>)</div>
+<div class="line"><span class="lineno">   68</span>    {</div>
+<div class="line"><span class="lineno">   69</span>      samples.pop_front();</div>
+<div class="line"><span class="lineno">   70</span>    }</div>
+<div class="line"><span class="lineno">   71</span> </div>
+<div class="line"><span class="lineno">   72</span>    <span class="keywordtype">bool</span> windowFull =</div>
+<div class="line"><span class="lineno">   73</span>      !samples.empty() &amp;&amp; samples.back().first - samples.front().first &gt;= 0.9 * <a class="code hl_variable" href="#a4cb982ef3ad5d85a844247959b91b01b">params_</a>.<a class="code hl_variable" href="structcl__px4__mr_1_1HeadingStableParams.html#ab57cada7d02659a47a8cb34739942ce5">windowS</a>;</div>
+<div class="line"><span class="lineno">   74</span>    <span class="keywordtype">float</span> drift = 0.0f, offset = 0.0f;</div>
+<div class="line"><span class="lineno">   75</span>    <span class="keywordtype">bool</span> stable = <span class="keyword">false</span>, aligned = <span class="keyword">true</span>;</div>
+<div class="line"><span class="lineno">   76</span>    <span class="keywordflow">if</span> (windowFull)</div>
+<div class="line"><span class="lineno">   77</span>    {</div>
+<div class="line"><span class="lineno">   78</span>      <span class="comment">// unwrap over the window: max excursion from the first sample</span></div>
+<div class="line"><span class="lineno">   79</span>      <span class="keywordtype">float</span> lo = 0.0f, hi = 0.0f;</div>
+<div class="line"><span class="lineno">   80</span>      <span class="keywordflow">for</span> (<span class="keyword">const</span> <span class="keyword">auto</span> &amp; s : samples)</div>
+<div class="line"><span class="lineno">   81</span>      {</div>
+<div class="line"><span class="lineno">   82</span>        <span class="keyword">const</span> <span class="keywordtype">float</span> d = <a class="code hl_function" href="namespacecl__px4__mr.html#aa6a2289a8a3bb0e1ab6913fd251c3dd0">wrapPi</a>(s.second - samples.front().second);</div>
+<div class="line"><span class="lineno">   83</span>        lo = std::min(lo, d);</div>
+<div class="line"><span class="lineno">   84</span>        hi = std::max(hi, d);</div>
+<div class="line"><span class="lineno">   85</span>      }</div>
+<div class="line"><span class="lineno">   86</span>      drift = hi - lo;</div>
+<div class="line"><span class="lineno">   87</span>      stable = drift &lt;= static_cast&lt;float&gt;(<a class="code hl_variable" href="#a4cb982ef3ad5d85a844247959b91b01b">params_</a>.<a class="code hl_variable" href="structcl__px4__mr_1_1HeadingStableParams.html#a3de76234f12bd6e9dfb2921e6f2b0ed2">maxDriftRadS</a> * <a class="code hl_variable" href="#a4cb982ef3ad5d85a844247959b91b01b">params_</a>.<a class="code hl_variable" href="structcl__px4__mr_1_1HeadingStableParams.html#ab57cada7d02659a47a8cb34739942ce5">windowS</a>);</div>
+<div class="line"><span class="lineno">   88</span>      <span class="keywordflow">if</span> (checkExpected)</div>
+<div class="line"><span class="lineno">   89</span>      {</div>
+<div class="line"><span class="lineno">   90</span>        offset = <a class="code hl_function" href="namespacecl__px4__mr.html#aa6a2289a8a3bb0e1ab6913fd251c3dd0">wrapPi</a>(samples.back().second - <a class="code hl_variable" href="#a4cb982ef3ad5d85a844247959b91b01b">params_</a>.<a class="code hl_variable" href="structcl__px4__mr_1_1HeadingStableParams.html#ac240677c9ced36b5c3658ef4bf965371">expectedHeadingRad</a>);</div>
+<div class="line"><span class="lineno">   91</span>        aligned = std::fabs(offset) &lt;= <a class="code hl_variable" href="#a4cb982ef3ad5d85a844247959b91b01b">params_</a>.<a class="code hl_variable" href="structcl__px4__mr_1_1HeadingStableParams.html#a5f2a7df4520cd78132cf60b08692e88a">headingTolRad</a>;</div>
+<div class="line"><span class="lineno">   92</span>      }</div>
+<div class="line"><span class="lineno">   93</span>    }</div>
+<div class="line"><span class="lineno">   94</span> </div>
+<div class="line"><span class="lineno">   95</span>    <span class="comment">// Done when a full window drifted less than the limit and matches the expected heading.</span></div>
+<div class="line"><span class="lineno">   96</span>    <span class="keywordflow">if</span> (windowFull &amp;&amp; stable &amp;&amp; aligned)</div>
+<div class="line"><span class="lineno">   97</span>    {</div>
+<div class="line"><span class="lineno">   98</span>      RCLCPP_INFO(</div>
+<div class="line"><span class="lineno">   99</span>        <a class="code hl_function" href="classsmacc2_1_1ISmaccClientBehavior.html#a9c3d82542c800e2ba5207c5cff0e63e8">getLogger</a>(),</div>
+<div class="line"><span class="lineno">  100</span>        <span class="stringliteral">&quot;CbWaitForHeadingStable: heading %.1f deg stable (%.2f deg over %.0f s%s) - posting &quot;</span></div>
+<div class="line"><span class="lineno">  101</span>        <span class="stringliteral">&quot;success&quot;</span>,</div>
+<div class="line"><span class="lineno">  102</span>        samples.back().second * 180.0 / M_PI, drift * 180.0 / M_PI, <a class="code hl_variable" href="#a4cb982ef3ad5d85a844247959b91b01b">params_</a>.<a class="code hl_variable" href="structcl__px4__mr_1_1HeadingStableParams.html#ab57cada7d02659a47a8cb34739942ce5">windowS</a>,</div>
+<div class="line"><span class="lineno">  103</span>        checkExpected ? (<span class="stringliteral">&quot;, offset &quot;</span> + std::to_string(offset * 180.0 / M_PI) + <span class="stringliteral">&quot; deg&quot;</span>).c_str()</div>
+<div class="line"><span class="lineno">  104</span>                      : <span class="stringliteral">&quot;&quot;</span>);</div>
+<div class="line"><span class="lineno">  105</span>      this-&gt;<a class="code hl_function" href="classcl__px4__mr_1_1CbPx4ClientBehaviorBase.html#a4b000d4fc4644581dc26c7e8dc1d4ef1">postPx4Success</a>();</div>
+<div class="line"><span class="lineno">  106</span>      <span class="keywordflow">return</span>;</div>
+<div class="line"><span class="lineno">  107</span>    }</div>
+<div class="line"><span class="lineno">  108</span> </div>
+<div class="line"><span class="lineno">  109</span>    <span class="comment">// Report progress every 2 s: still collecting, or why the heading is not ready.</span></div>
+<div class="line"><span class="lineno">  110</span>    <span class="keywordflow">if</span> (t - lastReport &gt;= 2.0)</div>
+<div class="line"><span class="lineno">  111</span>    {</div>
+<div class="line"><span class="lineno">  112</span>      lastReport = t;</div>
+<div class="line"><span class="lineno">  113</span>      <span class="keywordflow">if</span> (!windowFull)</div>
+<div class="line"><span class="lineno">  114</span>      {</div>
+<div class="line"><span class="lineno">  115</span>        RCLCPP_INFO(</div>
+<div class="line"><span class="lineno">  116</span>          <a class="code hl_function" href="classsmacc2_1_1ISmaccClientBehavior.html#a9c3d82542c800e2ba5207c5cff0e63e8">getLogger</a>(), <span class="stringliteral">&quot;CbWaitForHeadingStable: collecting (%zu samples, position valid=%d)&quot;</span>,</div>
+<div class="line"><span class="lineno">  117</span>          samples.size(), <span class="keyword">static_cast&lt;</span><span class="keywordtype">int</span><span class="keyword">&gt;</span>(<a class="code hl_variable" href="classcl__px4__mr_1_1CbPx4ClientBehaviorBase.html#aac08e96640e94aff591f4a9a5af93453">localPosition_</a>-&gt;<a class="code hl_function" href="classcl__px4__mr_1_1CpVehicleLocalPosition.html#aca9a6689fa1e120b77feff35ab064b5c">isValid</a>()));</div>
+<div class="line"><span class="lineno">  118</span>      }</div>
+<div class="line"><span class="lineno">  119</span>      <span class="keywordflow">else</span></div>
+<div class="line"><span class="lineno">  120</span>      {</div>
+<div class="line"><span class="lineno">  121</span>        RCLCPP_WARN(</div>
+<div class="line"><span class="lineno">  122</span>          <a class="code hl_function" href="classsmacc2_1_1ISmaccClientBehavior.html#a9c3d82542c800e2ba5207c5cff0e63e8">getLogger</a>(),</div>
+<div class="line"><span class="lineno">  123</span>          <span class="stringliteral">&quot;CbWaitForHeadingStable: heading %.1f deg NOT ready: drift %.2f deg/s%s - the EKF &quot;</span></div>
+<div class="line"><span class="lineno">  124</span>          <span class="stringliteral">&quot;yaw is not trustworthy for takeoff&quot;</span>,</div>
+<div class="line"><span class="lineno">  125</span>          samples.back().second * 180.0 / M_PI, drift / <a class="code hl_variable" href="#a4cb982ef3ad5d85a844247959b91b01b">params_</a>.<a class="code hl_variable" href="structcl__px4__mr_1_1HeadingStableParams.html#ab57cada7d02659a47a8cb34739942ce5">windowS</a> * 180.0 / M_PI,</div>
+<div class="line"><span class="lineno">  126</span>          checkExpected</div>
+<div class="line"><span class="lineno">  127</span>            ? (<span class="stringliteral">&quot;, offset from parked heading &quot;</span> + std::to_string(offset * 180.0 / M_PI) + <span class="stringliteral">&quot; deg&quot;</span>)</div>
+<div class="line"><span class="lineno">  128</span>                .c_str()</div>
+<div class="line"><span class="lineno">  129</span>            : <span class="stringliteral">&quot;&quot;</span>);</div>
+<div class="line"><span class="lineno">  130</span>      }</div>
+<div class="line"><span class="lineno">  131</span>    }</div>
+<div class="line"><span class="lineno">  132</span> </div>
+<div class="line"><span class="lineno">  133</span>    <span class="comment">// Give up after timeoutS and post failure, so the machine does not arm on an untrusted yaw.</span></div>
+<div class="line"><span class="lineno">  134</span>    <span class="keywordflow">if</span> (t &gt; <a class="code hl_variable" href="#a4cb982ef3ad5d85a844247959b91b01b">params_</a>.<a class="code hl_variable" href="structcl__px4__mr_1_1HeadingStableParams.html#ac81c54ecef3d5e9c191c59663e456a90">timeoutS</a>)</div>
+<div class="line"><span class="lineno">  135</span>    {</div>
+<div class="line"><span class="lineno">  136</span>      RCLCPP_ERROR(</div>
+<div class="line"><span class="lineno">  137</span>        <a class="code hl_function" href="classsmacc2_1_1ISmaccClientBehavior.html#a9c3d82542c800e2ba5207c5cff0e63e8">getLogger</a>(),</div>
+<div class="line"><span class="lineno">  138</span>        <span class="stringliteral">&quot;CbWaitForHeadingStable: timeout (%.0f s): heading %.1f deg, drift %.2f deg/s. &quot;</span></div>
+<div class="line"><span class="lineno">  139</span>        <span class="stringliteral">&quot;Refusing to arm; restart the estimator / SITL&quot;</span>,</div>
+<div class="line"><span class="lineno">  140</span>        <a class="code hl_variable" href="#a4cb982ef3ad5d85a844247959b91b01b">params_</a>.<a class="code hl_variable" href="structcl__px4__mr_1_1HeadingStableParams.html#ac81c54ecef3d5e9c191c59663e456a90">timeoutS</a>, samples.empty() ? 0.0 : samples.back().second * 180.0 / M_PI,</div>
+<div class="line"><span class="lineno">  141</span>        drift / <a class="code hl_variable" href="#a4cb982ef3ad5d85a844247959b91b01b">params_</a>.<a class="code hl_variable" href="structcl__px4__mr_1_1HeadingStableParams.html#ab57cada7d02659a47a8cb34739942ce5">windowS</a> * 180.0 / M_PI);</div>
+<div class="line"><span class="lineno">  142</span>      this-&gt;<a class="code hl_function" href="classcl__px4__mr_1_1CbPx4ClientBehaviorBase.html#adec6c9edb3f9fa1e8d3028155f880379">postPx4Failure</a>();</div>
+<div class="line"><span class="lineno">  143</span>      <span class="keywordflow">return</span>;</div>
+<div class="line"><span class="lineno">  144</span>    }</div>
+<div class="line"><span class="lineno">  145</span>    rate.sleep();</div>
+<div class="line"><span class="lineno">  146</span>  }</div>
+<div class="line"><span class="lineno">  147</span>  RCLCPP_WARN(<a class="code hl_function" href="classsmacc2_1_1ISmaccClientBehavior.html#a9c3d82542c800e2ba5207c5cff0e63e8">getLogger</a>(), <span class="stringliteral">&quot;CbWaitForHeadingStable: shutdown requested&quot;</span>);</div>
+<div class="line"><span class="lineno">  148</span>  this-&gt;<a class="code hl_function" href="classcl__px4__mr_1_1CbPx4ClientBehaviorBase.html#adec6c9edb3f9fa1e8d3028155f880379">postPx4Failure</a>();</div>
+<div class="line"><span class="lineno">  149</span>}</div>
 <div class="ttc" id="aclasscl__px4__mr_1_1CbPx4ClientBehaviorBase_html_a4b000d4fc4644581dc26c7e8dc1d4ef1"><div class="ttname"><a href="classcl__px4__mr_1_1CbPx4ClientBehaviorBase.html#a4b000d4fc4644581dc26c7e8dc1d4ef1">cl_px4_mr::CbPx4ClientBehaviorBase::postPx4Success</a></div><div class="ttdeci">void postPx4Success()</div><div class="ttdef"><b>Definition</b> <a href="cb__px4__client__behavior__base_8hpp_source.html#l00121">cb_px4_client_behavior_base.hpp:121</a></div></div>
 <div class="ttc" id="aclasscl__px4__mr_1_1CbPx4ClientBehaviorBase_html_aac08e96640e94aff591f4a9a5af93453"><div class="ttname"><a href="classcl__px4__mr_1_1CbPx4ClientBehaviorBase.html#aac08e96640e94aff591f4a9a5af93453">cl_px4_mr::CbPx4ClientBehaviorBase::localPosition_</a></div><div class="ttdeci">CpVehicleLocalPosition * localPosition_</div><div class="ttdef"><b>Definition</b> <a href="cb__px4__client__behavior__base_8hpp_source.html#l00141">cb_px4_client_behavior_base.hpp:141</a></div></div>
 <div class="ttc" id="aclasscl__px4__mr_1_1CbPx4ClientBehaviorBase_html_adec6c9edb3f9fa1e8d3028155f880379"><div class="ttname"><a href="classcl__px4__mr_1_1CbPx4ClientBehaviorBase.html#adec6c9edb3f9fa1e8d3028155f880379">cl_px4_mr::CbPx4ClientBehaviorBase::postPx4Failure</a></div><div class="ttdeci">void postPx4Failure()</div><div class="ttdef"><b>Definition</b> <a href="cb__px4__client__behavior__base_8hpp_source.html#l00129">cb_px4_client_behavior_base.hpp:129</a></div></div>
