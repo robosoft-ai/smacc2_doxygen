@@ -313,37 +313,33 @@ Definition at line \mbox{\hyperlink{forward__global__planner_8cpp_source_l00078}
 \DoxyCodeLine{00148\ \ \ \ \ costmap2d-\/>worldToMap(p.pose.position.x,\ p.pose.position.y,\ mx,\ my);}
 \DoxyCodeLine{00149\ \ \ \ \ \textcolor{keyword}{auto}\ cost\ =\ costmap2d-\/>getCost(mx,\ my);}
 \DoxyCodeLine{00150\ }
-\DoxyCodeLine{00151\ \ \ \ \ \textcolor{comment}{//\ static\ const\ unsigned\ char\ NO\_INFORMATION\ =\ 255;}}
-\DoxyCodeLine{00152\ \ \ \ \ \textcolor{comment}{//\ static\ const\ unsigned\ char\ LETHAL\_OBSTACLE\ =\ 254;}}
-\DoxyCodeLine{00153\ \ \ \ \ \textcolor{comment}{//\ static\ const\ unsigned\ char\ INSCRIBED\_INFLATED\_OBSTACLE\ =\ 253;}}
-\DoxyCodeLine{00154\ \ \ \ \ \textcolor{comment}{//\ static\ const\ unsigned\ char\ FREE\_SPACE\ =\ 0;}}
-\DoxyCodeLine{00155\ }
-\DoxyCodeLine{00156\ \ \ \ \ \textcolor{keywordflow}{if}\ (cost\ >=\ nav2\_costmap\_2d::INSCRIBED\_INFLATED\_OBSTACLE)}
-\DoxyCodeLine{00157\ \ \ \ \ \{}
-\DoxyCodeLine{00158\ \ \ \ \ \ \ RCLCPP\_INFO\_STREAM(}
-\DoxyCodeLine{00159\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{classcl__nav2z_1_1forward__global__planner_1_1ForwardGlobalPlanner_ad91af5741f6bfec5c7d88cd6843f0635}{nh\_}}-\/>get\_logger(),\ \textcolor{stringliteral}{"{}[Forward\ Global\ Planner]\ pose\ "{}}\ <<\ p.pose.position.x\ <<\ \textcolor{stringliteral}{"{},\ "{}}}
-\DoxyCodeLine{00160\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ <<\ p.pose.position.y}
-\DoxyCodeLine{00161\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ <<\ \textcolor{stringliteral}{"{}\ rejected,\ cost:\ "{}}\ <<\ cost);}
-\DoxyCodeLine{00162\ \ \ \ \ \ \ acceptedGlobalPlan\ =\ \textcolor{keyword}{false};}
-\DoxyCodeLine{00163\ \ \ \ \ \ \ \textcolor{keywordflow}{break};}
-\DoxyCodeLine{00164\ \ \ \ \ \}}
-\DoxyCodeLine{00165\ \ \ \}}
-\DoxyCodeLine{00166\ }
-\DoxyCodeLine{00167\ \ \ \textcolor{keywordflow}{if}\ (acceptedGlobalPlan)}
-\DoxyCodeLine{00168\ \ \ \{}
-\DoxyCodeLine{00169\ \ \ \ \ RCLCPP\_INFO\_STREAM(}
-\DoxyCodeLine{00170\ \ \ \ \ \ \ \mbox{\hyperlink{classcl__nav2z_1_1forward__global__planner_1_1ForwardGlobalPlanner_ad91af5741f6bfec5c7d88cd6843f0635}{nh\_}}-\/>get\_logger(),\ \textcolor{stringliteral}{"{}[Forward\ Global\ Planner]\ accepted\ plan:\ "{}}\ <<\ plan.size());}
-\DoxyCodeLine{00171\ \ \ \ \ \mbox{\hyperlink{classcl__nav2z_1_1forward__global__planner_1_1ForwardGlobalPlanner_a3f37b01e90aca6672bb41e5df9df1780}{planPub\_}}-\/>publish(planMsg);}
-\DoxyCodeLine{00172\ \ \ \ \ \textcolor{keywordflow}{return}\ planMsg;}
-\DoxyCodeLine{00173\ \ \ \}}
-\DoxyCodeLine{00174\ \ \ \textcolor{keywordflow}{else}}
-\DoxyCodeLine{00175\ \ \ \{}
-\DoxyCodeLine{00176\ \ \ \ \ RCLCPP\_INFO(\mbox{\hyperlink{classcl__nav2z_1_1forward__global__planner_1_1ForwardGlobalPlanner_ad91af5741f6bfec5c7d88cd6843f0635}{nh\_}}-\/>get\_logger(),\ \textcolor{stringliteral}{"{}[Forward\ Global\ Planner]\ plan\ rejected"{}});}
-\DoxyCodeLine{00177\ \ \ \ \ planMsg.poses.clear();}
-\DoxyCodeLine{00178\ \ \ \ \ \mbox{\hyperlink{classcl__nav2z_1_1forward__global__planner_1_1ForwardGlobalPlanner_a3f37b01e90aca6672bb41e5df9df1780}{planPub\_}}-\/>publish(planMsg);}
-\DoxyCodeLine{00179\ \ \ \ \ \textcolor{keywordflow}{return}\ planMsg;}
-\DoxyCodeLine{00180\ \ \ \}}
-\DoxyCodeLine{00181\ \}}
+\DoxyCodeLine{00151\ \ \ \ \ \textcolor{comment}{//\ Costmap\ values:\ 255\ no\ information,\ 254\ lethal\ obstacle,\ 253\ inscribed\ inflated\ obstacle,\ 0\ free\ space.}}
+\DoxyCodeLine{00152\ \ \ \ \ \textcolor{keywordflow}{if}\ (cost\ >=\ nav2\_costmap\_2d::INSCRIBED\_INFLATED\_OBSTACLE)}
+\DoxyCodeLine{00153\ \ \ \ \ \{}
+\DoxyCodeLine{00154\ \ \ \ \ \ \ RCLCPP\_INFO\_STREAM(}
+\DoxyCodeLine{00155\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{classcl__nav2z_1_1forward__global__planner_1_1ForwardGlobalPlanner_ad91af5741f6bfec5c7d88cd6843f0635}{nh\_}}-\/>get\_logger(),\ \textcolor{stringliteral}{"{}[Forward\ Global\ Planner]\ pose\ "{}}\ <<\ p.pose.position.x\ <<\ \textcolor{stringliteral}{"{},\ "{}}}
+\DoxyCodeLine{00156\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ <<\ p.pose.position.y}
+\DoxyCodeLine{00157\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ <<\ \textcolor{stringliteral}{"{}\ rejected,\ cost:\ "{}}\ <<\ cost);}
+\DoxyCodeLine{00158\ \ \ \ \ \ \ acceptedGlobalPlan\ =\ \textcolor{keyword}{false};}
+\DoxyCodeLine{00159\ \ \ \ \ \ \ \textcolor{keywordflow}{break};}
+\DoxyCodeLine{00160\ \ \ \ \ \}}
+\DoxyCodeLine{00161\ \ \ \}}
+\DoxyCodeLine{00162\ }
+\DoxyCodeLine{00163\ \ \ \textcolor{keywordflow}{if}\ (acceptedGlobalPlan)}
+\DoxyCodeLine{00164\ \ \ \{}
+\DoxyCodeLine{00165\ \ \ \ \ RCLCPP\_INFO\_STREAM(}
+\DoxyCodeLine{00166\ \ \ \ \ \ \ \mbox{\hyperlink{classcl__nav2z_1_1forward__global__planner_1_1ForwardGlobalPlanner_ad91af5741f6bfec5c7d88cd6843f0635}{nh\_}}-\/>get\_logger(),\ \textcolor{stringliteral}{"{}[Forward\ Global\ Planner]\ accepted\ plan:\ "{}}\ <<\ plan.size());}
+\DoxyCodeLine{00167\ \ \ \ \ \mbox{\hyperlink{classcl__nav2z_1_1forward__global__planner_1_1ForwardGlobalPlanner_a3f37b01e90aca6672bb41e5df9df1780}{planPub\_}}-\/>publish(planMsg);}
+\DoxyCodeLine{00168\ \ \ \ \ \textcolor{keywordflow}{return}\ planMsg;}
+\DoxyCodeLine{00169\ \ \ \}}
+\DoxyCodeLine{00170\ \ \ \textcolor{keywordflow}{else}}
+\DoxyCodeLine{00171\ \ \ \{}
+\DoxyCodeLine{00172\ \ \ \ \ RCLCPP\_INFO(\mbox{\hyperlink{classcl__nav2z_1_1forward__global__planner_1_1ForwardGlobalPlanner_ad91af5741f6bfec5c7d88cd6843f0635}{nh\_}}-\/>get\_logger(),\ \textcolor{stringliteral}{"{}[Forward\ Global\ Planner]\ plan\ rejected"{}});}
+\DoxyCodeLine{00173\ \ \ \ \ planMsg.poses.clear();}
+\DoxyCodeLine{00174\ \ \ \ \ \mbox{\hyperlink{classcl__nav2z_1_1forward__global__planner_1_1ForwardGlobalPlanner_a3f37b01e90aca6672bb41e5df9df1780}{planPub\_}}-\/>publish(planMsg);}
+\DoxyCodeLine{00175\ \ \ \ \ \textcolor{keywordflow}{return}\ planMsg;}
+\DoxyCodeLine{00176\ \ \ \}}
+\DoxyCodeLine{00177\ \}}
 
 \end{DoxyCode}
 

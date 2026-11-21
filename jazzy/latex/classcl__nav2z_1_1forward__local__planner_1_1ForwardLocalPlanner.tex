@@ -452,8 +452,8 @@ Definition at line \mbox{\hyperlink{forward__local__planner_8cpp_source_l00311}{
 \DoxyCodeLine{00437\ \ \ \textcolor{keywordtype}{double}\ alpha\_error\ =\ angles::shortest\_angular\_distance(alpha,\ theta);}
 \DoxyCodeLine{00438\ \ \ \textcolor{keywordtype}{double}\ betta\_error\ =\ angles::shortest\_angular\_distance(betta,\ theta);}
 \DoxyCodeLine{00439\ }
-\DoxyCodeLine{00440\ \ \ \textcolor{keywordtype}{double}\ vetta\ =\ 0;\ \ \textcolor{comment}{//\ =\ k\_rho\_\ *\ rho\_error;}}
-\DoxyCodeLine{00441\ \ \ \textcolor{keywordtype}{double}\ gamma\ =\ 0;\ \ \textcolor{comment}{//=\ k\_alpha\_\ *\ alpha\_error\ +\ k\_betta\_\ *\ betta\_error;}}
+\DoxyCodeLine{00440\ \ \ \textcolor{keywordtype}{double}\ vetta\ =\ 0;}
+\DoxyCodeLine{00441\ \ \ \textcolor{keywordtype}{double}\ gamma\ =\ 0;}
 \DoxyCodeLine{00442\ }
 \DoxyCodeLine{00443\ \ \ \textcolor{keywordflow}{if}\ (}
 \DoxyCodeLine{00444\ \ \ \ \ rho\_error\ >}
@@ -558,67 +558,63 @@ Definition at line \mbox{\hyperlink{forward__local__planner_8cpp_source_l00311}{
 \DoxyCodeLine{00543\ \ \ \ \ \textcolor{comment}{//\ RCLCPP\_INFO(nh\_-\/>get\_logger(),\ "{}checking\ cost\ pt\ \%d\ [\%lf,\ \%lf]\ cell[\%d,\%d]\ =\ \%d"{},\ i,\ p[0],\ p[1],\ mx,\ my,\ cost);}}
 \DoxyCodeLine{00544\ \ \ \ \ \textcolor{comment}{//\ RCLCPP\_INFO\_STREAM(nh\_-\/>get\_logger(),\ "{}cost:\ "{}\ <<\ cost);}}
 \DoxyCodeLine{00545\ }
-\DoxyCodeLine{00546\ \ \ \ \ \textcolor{comment}{//\ static\ const\ unsigned\ char\ NO\_INFORMATION\ =\ 255;}}
-\DoxyCodeLine{00547\ \ \ \ \ \textcolor{comment}{//\ static\ const\ unsigned\ char\ LETHAL\_OBSTACLE\ =\ 254;}}
-\DoxyCodeLine{00548\ \ \ \ \ \textcolor{comment}{//\ static\ const\ unsigned\ char\ INSCRIBED\_INFLATED\_OBSTACLE\ =\ 253;}}
-\DoxyCodeLine{00549\ \ \ \ \ \textcolor{comment}{//\ static\ const\ unsigned\ char\ FREE\_SPACE\ =\ 0;}}
-\DoxyCodeLine{00550\ }
-\DoxyCodeLine{00551\ \ \ \ \ \textcolor{keywordflow}{if}\ (costmap2d-\/>getCost(mx,\ my)\ >=\ nav2\_costmap\_2d::INSCRIBED\_INFLATED\_OBSTACLE)}
-\DoxyCodeLine{00552\ \ \ \ \ \{}
-\DoxyCodeLine{00553\ \ \ \ \ \ \ aceptedplan\ =\ \textcolor{keyword}{false};}
-\DoxyCodeLine{00554\ \ \ \ \ \ \ \textcolor{comment}{//\ RCLCPP\_WARN(nh\_-\/>get\_logger(),\ "{}ABORTED\ LOCAL\ PLAN\ BECAUSE\ OBSTACLE\ DETEDTED"{});}}
-\DoxyCodeLine{00555\ \ \ \ \ \ \ \textcolor{keywordflow}{break};}
-\DoxyCodeLine{00556\ \ \ \ \ \}}
-\DoxyCodeLine{00557\ \ \ \}}
-\DoxyCodeLine{00558\ }
-\DoxyCodeLine{00559\ \ \ \textcolor{keywordtype}{bool}\ success\ =\ \textcolor{keyword}{false};}
-\DoxyCodeLine{00560\ \ \ \textcolor{keywordflow}{if}\ (aceptedplan)}
-\DoxyCodeLine{00561\ \ \ \{}
-\DoxyCodeLine{00562\ \ \ \ \ \mbox{\hyperlink{classcl__nav2z_1_1forward__local__planner_1_1ForwardLocalPlanner_a004ab5be898c9580bb1d6d50a0b06823}{waiting\_}}\ =\ \textcolor{keyword}{false};}
-\DoxyCodeLine{00563\ \ \ \ \ success\ =\ \textcolor{keyword}{true};}
-\DoxyCodeLine{00564\ \ \ \ \ RCLCPP\_DEBUG(\mbox{\hyperlink{classcl__nav2z_1_1forward__local__planner_1_1ForwardLocalPlanner_a6a638645ef4e01710f4bbfb1eb1fc20d}{nh\_}}-\/>get\_logger(),\ \textcolor{stringliteral}{"{}simulated\ trajectory\ is\ accepted."{}});}
-\DoxyCodeLine{00565\ \ \ \}}
-\DoxyCodeLine{00566\ \ \ \textcolor{keywordflow}{else}}
-\DoxyCodeLine{00567\ \ \ \{}
-\DoxyCodeLine{00568\ \ \ \ \ RCLCPP\_DEBUG(\mbox{\hyperlink{classcl__nav2z_1_1forward__local__planner_1_1ForwardLocalPlanner_a6a638645ef4e01710f4bbfb1eb1fc20d}{nh\_}}-\/>get\_logger(),\ \textcolor{stringliteral}{"{}simulated\ trajectory\ is\ not\ accepted.\ Stop\ command."{}});}
+\DoxyCodeLine{00546\ \ \ \ \ \textcolor{comment}{//\ Costmap\ values:\ 255\ no\ information,\ 254\ lethal\ obstacle,\ 253\ inscribed\ inflated\ obstacle,\ 0\ free\ space.}}
+\DoxyCodeLine{00547\ \ \ \ \ \textcolor{keywordflow}{if}\ (costmap2d-\/>getCost(mx,\ my)\ >=\ nav2\_costmap\_2d::INSCRIBED\_INFLATED\_OBSTACLE)}
+\DoxyCodeLine{00548\ \ \ \ \ \{}
+\DoxyCodeLine{00549\ \ \ \ \ \ \ aceptedplan\ =\ \textcolor{keyword}{false};}
+\DoxyCodeLine{00550\ \ \ \ \ \ \ \textcolor{comment}{//\ RCLCPP\_WARN(nh\_-\/>get\_logger(),\ "{}ABORTED\ LOCAL\ PLAN\ BECAUSE\ OBSTACLE\ DETEDTED"{});}}
+\DoxyCodeLine{00551\ \ \ \ \ \ \ \textcolor{keywordflow}{break};}
+\DoxyCodeLine{00552\ \ \ \ \ \}}
+\DoxyCodeLine{00553\ \ \ \}}
+\DoxyCodeLine{00554\ }
+\DoxyCodeLine{00555\ \ \ \textcolor{keywordtype}{bool}\ success\ =\ \textcolor{keyword}{false};}
+\DoxyCodeLine{00556\ \ \ \textcolor{keywordflow}{if}\ (aceptedplan)}
+\DoxyCodeLine{00557\ \ \ \{}
+\DoxyCodeLine{00558\ \ \ \ \ \mbox{\hyperlink{classcl__nav2z_1_1forward__local__planner_1_1ForwardLocalPlanner_a004ab5be898c9580bb1d6d50a0b06823}{waiting\_}}\ =\ \textcolor{keyword}{false};}
+\DoxyCodeLine{00559\ \ \ \ \ success\ =\ \textcolor{keyword}{true};}
+\DoxyCodeLine{00560\ \ \ \ \ RCLCPP\_DEBUG(\mbox{\hyperlink{classcl__nav2z_1_1forward__local__planner_1_1ForwardLocalPlanner_a6a638645ef4e01710f4bbfb1eb1fc20d}{nh\_}}-\/>get\_logger(),\ \textcolor{stringliteral}{"{}simulated\ trajectory\ is\ accepted."{}});}
+\DoxyCodeLine{00561\ \ \ \}}
+\DoxyCodeLine{00562\ \ \ \textcolor{keywordflow}{else}}
+\DoxyCodeLine{00563\ \ \ \{}
+\DoxyCodeLine{00564\ \ \ \ \ RCLCPP\_DEBUG(\mbox{\hyperlink{classcl__nav2z_1_1forward__local__planner_1_1ForwardLocalPlanner_a6a638645ef4e01710f4bbfb1eb1fc20d}{nh\_}}-\/>get\_logger(),\ \textcolor{stringliteral}{"{}simulated\ trajectory\ is\ not\ accepted.\ Stop\ command."{}});}
+\DoxyCodeLine{00565\ }
+\DoxyCodeLine{00566\ \ \ \ \ \textcolor{comment}{//\ stop\ and\ wait}}
+\DoxyCodeLine{00567\ \ \ \ \ cmd\_vel.twist.linear.x\ =\ 0;}
+\DoxyCodeLine{00568\ \ \ \ \ cmd\_vel.twist.angular.z\ =\ 0;}
 \DoxyCodeLine{00569\ }
-\DoxyCodeLine{00570\ \ \ \ \ \textcolor{comment}{//\ stop\ and\ wait}}
-\DoxyCodeLine{00571\ \ \ \ \ cmd\_vel.twist.linear.x\ =\ 0;}
-\DoxyCodeLine{00572\ \ \ \ \ cmd\_vel.twist.angular.z\ =\ 0;}
-\DoxyCodeLine{00573\ }
-\DoxyCodeLine{00574\ \ \ \ \ \textcolor{keywordflow}{if}\ (!\mbox{\hyperlink{classcl__nav2z_1_1forward__local__planner_1_1ForwardLocalPlanner_a004ab5be898c9580bb1d6d50a0b06823}{waiting\_}})}
-\DoxyCodeLine{00575\ \ \ \ \ \{}
-\DoxyCodeLine{00576\ \ \ \ \ \ \ RCLCPP\_DEBUG(\mbox{\hyperlink{classcl__nav2z_1_1forward__local__planner_1_1ForwardLocalPlanner_a6a638645ef4e01710f4bbfb1eb1fc20d}{nh\_}}-\/>get\_logger(),\ \textcolor{stringliteral}{"{}Start\ waiting\ obstacle\ disappear"{}});}
-\DoxyCodeLine{00577\ \ \ \ \ \ \ \mbox{\hyperlink{classcl__nav2z_1_1forward__local__planner_1_1ForwardLocalPlanner_a004ab5be898c9580bb1d6d50a0b06823}{waiting\_}}\ =\ \textcolor{keyword}{true};}
-\DoxyCodeLine{00578\ \ \ \ \ \ \ \mbox{\hyperlink{classcl__nav2z_1_1forward__local__planner_1_1ForwardLocalPlanner_a7b1b94fba3274f51e6b46de591f00359}{waitingStamp\_}}\ =\ \mbox{\hyperlink{classcl__nav2z_1_1forward__local__planner_1_1ForwardLocalPlanner_a6a638645ef4e01710f4bbfb1eb1fc20d}{nh\_}}-\/>now();}
-\DoxyCodeLine{00579\ \ \ \ \ \}}
-\DoxyCodeLine{00580\ \ \ \ \ \textcolor{keywordflow}{else}}
-\DoxyCodeLine{00581\ \ \ \ \ \{}
-\DoxyCodeLine{00582\ \ \ \ \ \ \ \textcolor{keyword}{auto}\ waitingduration\ =\ \mbox{\hyperlink{classcl__nav2z_1_1forward__local__planner_1_1ForwardLocalPlanner_a6a638645ef4e01710f4bbfb1eb1fc20d}{nh\_}}-\/>now()\ -\/\ \mbox{\hyperlink{classcl__nav2z_1_1forward__local__planner_1_1ForwardLocalPlanner_a7b1b94fba3274f51e6b46de591f00359}{waitingStamp\_}};}
-\DoxyCodeLine{00583\ \ \ \ \ \ \ RCLCPP\_DEBUG(}
-\DoxyCodeLine{00584\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{classcl__nav2z_1_1forward__local__planner_1_1ForwardLocalPlanner_a6a638645ef4e01710f4bbfb1eb1fc20d}{nh\_}}-\/>get\_logger(),\ \textcolor{stringliteral}{"{}waiting\ obstacle\ disappear,\ elapsed:\ \%lf\ seconds"{}},}
-\DoxyCodeLine{00585\ \ \ \ \ \ \ \ \ waitingduration.seconds());}
-\DoxyCodeLine{00586\ }
-\DoxyCodeLine{00587\ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (waitingduration\ >\ this-\/>\mbox{\hyperlink{classcl__nav2z_1_1forward__local__planner_1_1ForwardLocalPlanner_a3c037da8260733314c2f43a3522a0ff2}{waitingTimeout\_}})}
-\DoxyCodeLine{00588\ \ \ \ \ \ \ \{}
-\DoxyCodeLine{00589\ \ \ \ \ \ \ \ \ RCLCPP\_WARN(}
-\DoxyCodeLine{00590\ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{classcl__nav2z_1_1forward__local__planner_1_1ForwardLocalPlanner_a6a638645ef4e01710f4bbfb1eb1fc20d}{nh\_}}-\/>get\_logger(),\ \textcolor{stringliteral}{"{}TIMEOUT\ waiting\ obstacle\ disappear,\ elapsed:\ \%lf\ seconds"{}},}
-\DoxyCodeLine{00591\ \ \ \ \ \ \ \ \ \ \ waitingduration.seconds());}
-\DoxyCodeLine{00592\ \ \ \ \ \ \ \ \ success\ =\ \textcolor{keyword}{false};}
-\DoxyCodeLine{00593\ \ \ \ \ \ \ \}}
-\DoxyCodeLine{00594\ \ \ \ \ \}}
-\DoxyCodeLine{00595\ \ \ \}}
-\DoxyCodeLine{00596\ }
-\DoxyCodeLine{00597\ \ \ \textcolor{keywordflow}{if}\ (!success)}
-\DoxyCodeLine{00598\ \ \ \{}
-\DoxyCodeLine{00599\ \ \ \ \ RCLCPP\_DEBUG(}
-\DoxyCodeLine{00600\ \ \ \ \ \ \ \mbox{\hyperlink{classcl__nav2z_1_1forward__local__planner_1_1ForwardLocalPlanner_a6a638645ef4e01710f4bbfb1eb1fc20d}{nh\_}}-\/>get\_logger(),}
-\DoxyCodeLine{00601\ \ \ \ \ \ \ \textcolor{stringliteral}{"{}[ForwardLocalPlanner]\ object\ detected\ waiting\ stopped\ until\ it\ disappears."{}});}
-\DoxyCodeLine{00602\ \ \ \}}
-\DoxyCodeLine{00603\ }
-\DoxyCodeLine{00604\ \ \ cmd\_vel.header.stamp\ =\ \mbox{\hyperlink{classcl__nav2z_1_1forward__local__planner_1_1ForwardLocalPlanner_a6a638645ef4e01710f4bbfb1eb1fc20d}{nh\_}}-\/>now();}
-\DoxyCodeLine{00605\ \ \ \textcolor{keywordflow}{return}\ cmd\_vel;}
-\DoxyCodeLine{00606\ \}}
+\DoxyCodeLine{00570\ \ \ \ \ \textcolor{keywordflow}{if}\ (!\mbox{\hyperlink{classcl__nav2z_1_1forward__local__planner_1_1ForwardLocalPlanner_a004ab5be898c9580bb1d6d50a0b06823}{waiting\_}})}
+\DoxyCodeLine{00571\ \ \ \ \ \{}
+\DoxyCodeLine{00572\ \ \ \ \ \ \ RCLCPP\_DEBUG(\mbox{\hyperlink{classcl__nav2z_1_1forward__local__planner_1_1ForwardLocalPlanner_a6a638645ef4e01710f4bbfb1eb1fc20d}{nh\_}}-\/>get\_logger(),\ \textcolor{stringliteral}{"{}Start\ waiting\ obstacle\ disappear"{}});}
+\DoxyCodeLine{00573\ \ \ \ \ \ \ \mbox{\hyperlink{classcl__nav2z_1_1forward__local__planner_1_1ForwardLocalPlanner_a004ab5be898c9580bb1d6d50a0b06823}{waiting\_}}\ =\ \textcolor{keyword}{true};}
+\DoxyCodeLine{00574\ \ \ \ \ \ \ \mbox{\hyperlink{classcl__nav2z_1_1forward__local__planner_1_1ForwardLocalPlanner_a7b1b94fba3274f51e6b46de591f00359}{waitingStamp\_}}\ =\ \mbox{\hyperlink{classcl__nav2z_1_1forward__local__planner_1_1ForwardLocalPlanner_a6a638645ef4e01710f4bbfb1eb1fc20d}{nh\_}}-\/>now();}
+\DoxyCodeLine{00575\ \ \ \ \ \}}
+\DoxyCodeLine{00576\ \ \ \ \ \textcolor{keywordflow}{else}}
+\DoxyCodeLine{00577\ \ \ \ \ \{}
+\DoxyCodeLine{00578\ \ \ \ \ \ \ \textcolor{keyword}{auto}\ waitingduration\ =\ \mbox{\hyperlink{classcl__nav2z_1_1forward__local__planner_1_1ForwardLocalPlanner_a6a638645ef4e01710f4bbfb1eb1fc20d}{nh\_}}-\/>now()\ -\/\ \mbox{\hyperlink{classcl__nav2z_1_1forward__local__planner_1_1ForwardLocalPlanner_a7b1b94fba3274f51e6b46de591f00359}{waitingStamp\_}};}
+\DoxyCodeLine{00579\ \ \ \ \ \ \ RCLCPP\_DEBUG(}
+\DoxyCodeLine{00580\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{classcl__nav2z_1_1forward__local__planner_1_1ForwardLocalPlanner_a6a638645ef4e01710f4bbfb1eb1fc20d}{nh\_}}-\/>get\_logger(),\ \textcolor{stringliteral}{"{}waiting\ obstacle\ disappear,\ elapsed:\ \%lf\ seconds"{}},}
+\DoxyCodeLine{00581\ \ \ \ \ \ \ \ \ waitingduration.seconds());}
+\DoxyCodeLine{00582\ }
+\DoxyCodeLine{00583\ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (waitingduration\ >\ this-\/>\mbox{\hyperlink{classcl__nav2z_1_1forward__local__planner_1_1ForwardLocalPlanner_a3c037da8260733314c2f43a3522a0ff2}{waitingTimeout\_}})}
+\DoxyCodeLine{00584\ \ \ \ \ \ \ \{}
+\DoxyCodeLine{00585\ \ \ \ \ \ \ \ \ RCLCPP\_WARN(}
+\DoxyCodeLine{00586\ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{classcl__nav2z_1_1forward__local__planner_1_1ForwardLocalPlanner_a6a638645ef4e01710f4bbfb1eb1fc20d}{nh\_}}-\/>get\_logger(),\ \textcolor{stringliteral}{"{}TIMEOUT\ waiting\ obstacle\ disappear,\ elapsed:\ \%lf\ seconds"{}},}
+\DoxyCodeLine{00587\ \ \ \ \ \ \ \ \ \ \ waitingduration.seconds());}
+\DoxyCodeLine{00588\ \ \ \ \ \ \ \ \ success\ =\ \textcolor{keyword}{false};}
+\DoxyCodeLine{00589\ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00590\ \ \ \ \ \}}
+\DoxyCodeLine{00591\ \ \ \}}
+\DoxyCodeLine{00592\ }
+\DoxyCodeLine{00593\ \ \ \textcolor{keywordflow}{if}\ (!success)}
+\DoxyCodeLine{00594\ \ \ \{}
+\DoxyCodeLine{00595\ \ \ \ \ RCLCPP\_DEBUG(}
+\DoxyCodeLine{00596\ \ \ \ \ \ \ \mbox{\hyperlink{classcl__nav2z_1_1forward__local__planner_1_1ForwardLocalPlanner_a6a638645ef4e01710f4bbfb1eb1fc20d}{nh\_}}-\/>get\_logger(),}
+\DoxyCodeLine{00597\ \ \ \ \ \ \ \textcolor{stringliteral}{"{}[ForwardLocalPlanner]\ object\ detected\ waiting\ stopped\ until\ it\ disappears."{}});}
+\DoxyCodeLine{00598\ \ \ \}}
+\DoxyCodeLine{00599\ }
+\DoxyCodeLine{00600\ \ \ cmd\_vel.header.stamp\ =\ \mbox{\hyperlink{classcl__nav2z_1_1forward__local__planner_1_1ForwardLocalPlanner_a6a638645ef4e01710f4bbfb1eb1fc20d}{nh\_}}-\/>now();}
+\DoxyCodeLine{00601\ \ \ \textcolor{keywordflow}{return}\ cmd\_vel;}
+\DoxyCodeLine{00602\ \}}
 
 \end{DoxyCode}
 
@@ -827,11 +823,11 @@ Here is the caller graph for this function\+:
 
 \doxylink{classcl__nav2z_1_1forward__local__planner_1_1ForwardLocalPlanner_ad007da01ae8c6a07135e4ffa9c546ca7}{is\+Goal\+Reached()} 
 
-Definition at line \mbox{\hyperlink{forward__local__planner_8cpp_source_l00621}{621}} of file \mbox{\hyperlink{forward__local__planner_8cpp_source}{forward\+\_\+local\+\_\+planner.\+cpp}}.
+Definition at line \mbox{\hyperlink{forward__local__planner_8cpp_source_l00617}{617}} of file \mbox{\hyperlink{forward__local__planner_8cpp_source}{forward\+\_\+local\+\_\+planner.\+cpp}}.
 
 
 \begin{DoxyCode}{0}
-\DoxyCodeLine{00621\ \{\ \textcolor{keywordflow}{return}\ \mbox{\hyperlink{classcl__nav2z_1_1forward__local__planner_1_1ForwardLocalPlanner_a95ed0c8ee80db1541bc1621327cc5809}{goalReached\_}};\ \}}
+\DoxyCodeLine{00617\ \{\ \textcolor{keywordflow}{return}\ \mbox{\hyperlink{classcl__nav2z_1_1forward__local__planner_1_1ForwardLocalPlanner_a95ed0c8ee80db1541bc1621327cc5809}{goalReached\_}};\ \}}
 
 \end{DoxyCode}
 
@@ -920,26 +916,26 @@ nav2\+\_\+core set\+Plan -\/ Sets the global plan
 \end{DoxyParams}
 \doxylink{classcl__nav2z_1_1forward__local__planner_1_1ForwardLocalPlanner_adbb84839b6ef639bc3585f403e08a270}{set\+Plan()} 
 
-Definition at line \mbox{\hyperlink{forward__local__planner_8cpp_source_l00628}{628}} of file \mbox{\hyperlink{forward__local__planner_8cpp_source}{forward\+\_\+local\+\_\+planner.\+cpp}}.
+Definition at line \mbox{\hyperlink{forward__local__planner_8cpp_source_l00624}{624}} of file \mbox{\hyperlink{forward__local__planner_8cpp_source}{forward\+\_\+local\+\_\+planner.\+cpp}}.
 
 
 \begin{DoxyCode}{0}
-\DoxyCodeLine{00629\ \{}
-\DoxyCodeLine{00630\ \ \ nav\_msgs::msg::Path\ transformedPlan;}
-\DoxyCodeLine{00631\ }
-\DoxyCodeLine{00632\ \ \ rclcpp::Duration\ ttol\ =\ rclcpp::Duration::from\_seconds(\mbox{\hyperlink{classcl__nav2z_1_1forward__local__planner_1_1ForwardLocalPlanner_a2ddf819f6ee5c9795627c6de288043b1}{transform\_tolerance\_}});}
-\DoxyCodeLine{00633\ \ \ \textcolor{comment}{//\ transform\ global\ plan}}
-\DoxyCodeLine{00634\ \ \ \textcolor{keywordflow}{for}\ (\textcolor{keyword}{auto}\ \&\ p\ :\ plan.poses)}
-\DoxyCodeLine{00635\ \ \ \{}
-\DoxyCodeLine{00636\ \ \ \ \ geometry\_msgs::msg::PoseStamped\ transformedPose;}
-\DoxyCodeLine{00637\ \ \ \ \ nav\_2d\_utils::transformPose(\mbox{\hyperlink{classcl__nav2z_1_1forward__local__planner_1_1ForwardLocalPlanner_a2ddf96c951d83e61d60b5544b8ae9237}{tf\_}},\ \mbox{\hyperlink{classcl__nav2z_1_1forward__local__planner_1_1ForwardLocalPlanner_a248f16f548485a5829c70f14c1e5ef85}{costmapRos\_}}-\/>getGlobalFrameID(),\ p,\ transformedPose,\ ttol);}
-\DoxyCodeLine{00638\ \ \ \ \ transformedPose.header.frame\_id\ =\ \mbox{\hyperlink{classcl__nav2z_1_1forward__local__planner_1_1ForwardLocalPlanner_a248f16f548485a5829c70f14c1e5ef85}{costmapRos\_}}-\/>getGlobalFrameID();}
-\DoxyCodeLine{00639\ \ \ \ \ transformedPlan.poses.push\_back(transformedPose);}
-\DoxyCodeLine{00640\ \ \ \}}
-\DoxyCodeLine{00641\ }
-\DoxyCodeLine{00642\ \ \ \mbox{\hyperlink{classcl__nav2z_1_1forward__local__planner_1_1ForwardLocalPlanner_a1010de8002914ba854370c2a1a8fdf75}{plan\_}}\ =\ transformedPlan.poses;}
-\DoxyCodeLine{00643\ \ \ \mbox{\hyperlink{classcl__nav2z_1_1forward__local__planner_1_1ForwardLocalPlanner_a95ed0c8ee80db1541bc1621327cc5809}{goalReached\_}}\ =\ \textcolor{keyword}{false};}
-\DoxyCodeLine{00644\ \}}
+\DoxyCodeLine{00625\ \{}
+\DoxyCodeLine{00626\ \ \ nav\_msgs::msg::Path\ transformedPlan;}
+\DoxyCodeLine{00627\ }
+\DoxyCodeLine{00628\ \ \ rclcpp::Duration\ ttol\ =\ rclcpp::Duration::from\_seconds(\mbox{\hyperlink{classcl__nav2z_1_1forward__local__planner_1_1ForwardLocalPlanner_a2ddf819f6ee5c9795627c6de288043b1}{transform\_tolerance\_}});}
+\DoxyCodeLine{00629\ \ \ \textcolor{comment}{//\ transform\ global\ plan}}
+\DoxyCodeLine{00630\ \ \ \textcolor{keywordflow}{for}\ (\textcolor{keyword}{auto}\ \&\ p\ :\ plan.poses)}
+\DoxyCodeLine{00631\ \ \ \{}
+\DoxyCodeLine{00632\ \ \ \ \ geometry\_msgs::msg::PoseStamped\ transformedPose;}
+\DoxyCodeLine{00633\ \ \ \ \ nav\_2d\_utils::transformPose(\mbox{\hyperlink{classcl__nav2z_1_1forward__local__planner_1_1ForwardLocalPlanner_a2ddf96c951d83e61d60b5544b8ae9237}{tf\_}},\ \mbox{\hyperlink{classcl__nav2z_1_1forward__local__planner_1_1ForwardLocalPlanner_a248f16f548485a5829c70f14c1e5ef85}{costmapRos\_}}-\/>getGlobalFrameID(),\ p,\ transformedPose,\ ttol);}
+\DoxyCodeLine{00634\ \ \ \ \ transformedPose.header.frame\_id\ =\ \mbox{\hyperlink{classcl__nav2z_1_1forward__local__planner_1_1ForwardLocalPlanner_a248f16f548485a5829c70f14c1e5ef85}{costmapRos\_}}-\/>getGlobalFrameID();}
+\DoxyCodeLine{00635\ \ \ \ \ transformedPlan.poses.push\_back(transformedPose);}
+\DoxyCodeLine{00636\ \ \ \}}
+\DoxyCodeLine{00637\ }
+\DoxyCodeLine{00638\ \ \ \mbox{\hyperlink{classcl__nav2z_1_1forward__local__planner_1_1ForwardLocalPlanner_a1010de8002914ba854370c2a1a8fdf75}{plan\_}}\ =\ transformedPlan.poses;}
+\DoxyCodeLine{00639\ \ \ \mbox{\hyperlink{classcl__nav2z_1_1forward__local__planner_1_1ForwardLocalPlanner_a95ed0c8ee80db1541bc1621327cc5809}{goalReached\_}}\ =\ \textcolor{keyword}{false};}
+\DoxyCodeLine{00640\ \}}
 
 \end{DoxyCode}
 
@@ -954,16 +950,16 @@ void cl\+\_\+nav2z\+::forward\+\_\+local\+\_\+planner\+::\+Forward\+Local\+Plann
 
 
 
-Definition at line \mbox{\hyperlink{forward__local__planner_8cpp_source_l00608}{608}} of file \mbox{\hyperlink{forward__local__planner_8cpp_source}{forward\+\_\+local\+\_\+planner.\+cpp}}.
+Definition at line \mbox{\hyperlink{forward__local__planner_8cpp_source_l00604}{604}} of file \mbox{\hyperlink{forward__local__planner_8cpp_source}{forward\+\_\+local\+\_\+planner.\+cpp}}.
 
 
 \begin{DoxyCode}{0}
-\DoxyCodeLine{00609\ \{}
-\DoxyCodeLine{00610\ \ \ RCLCPP\_WARN\_STREAM(}
-\DoxyCodeLine{00611\ \ \ \ \ \mbox{\hyperlink{classcl__nav2z_1_1forward__local__planner_1_1ForwardLocalPlanner_a6a638645ef4e01710f4bbfb1eb1fc20d}{nh\_}}-\/>get\_logger(),}
-\DoxyCodeLine{00612\ \ \ \ \ \textcolor{stringliteral}{"{}ForwardLocalPlanner::setSpeedLimit\ invoked.\ Ignored,\ functionality\ not\ "{}}}
-\DoxyCodeLine{00613\ \ \ \ \ \textcolor{stringliteral}{"{}implemented."{}});}
-\DoxyCodeLine{00614\ \}}
+\DoxyCodeLine{00605\ \{}
+\DoxyCodeLine{00606\ \ \ RCLCPP\_WARN\_STREAM(}
+\DoxyCodeLine{00607\ \ \ \ \ \mbox{\hyperlink{classcl__nav2z_1_1forward__local__planner_1_1ForwardLocalPlanner_a6a638645ef4e01710f4bbfb1eb1fc20d}{nh\_}}-\/>get\_logger(),}
+\DoxyCodeLine{00608\ \ \ \ \ \textcolor{stringliteral}{"{}ForwardLocalPlanner::setSpeedLimit\ invoked.\ Ignored,\ functionality\ not\ "{}}}
+\DoxyCodeLine{00609\ \ \ \ \ \textcolor{stringliteral}{"{}implemented."{}});}
+\DoxyCodeLine{00610\ \}}
 
 \end{DoxyCode}
 
@@ -1084,7 +1080,7 @@ Definition at line \mbox{\hyperlink{forward__local__planner_8hpp_source_l00094}{
 
 
 
-Referenced by \mbox{\hyperlink{forward__local__planner_8cpp_source_l00254}{clean\+Markers()}}, \mbox{\hyperlink{forward__local__planner_8cpp_source_l00311}{compute\+Velocity\+Commands()}}, \mbox{\hyperlink{forward__local__planner_8cpp_source_l00068}{configure()}}, \mbox{\hyperlink{forward__local__planner_8cpp_source_l00217}{publish\+Goal\+Marker()}}, and \mbox{\hyperlink{forward__local__planner_8cpp_source_l00628}{set\+Plan()}}.
+Referenced by \mbox{\hyperlink{forward__local__planner_8cpp_source_l00254}{clean\+Markers()}}, \mbox{\hyperlink{forward__local__planner_8cpp_source_l00311}{compute\+Velocity\+Commands()}}, \mbox{\hyperlink{forward__local__planner_8cpp_source_l00068}{configure()}}, \mbox{\hyperlink{forward__local__planner_8cpp_source_l00217}{publish\+Goal\+Marker()}}, and \mbox{\hyperlink{forward__local__planner_8cpp_source_l00624}{set\+Plan()}}.
 
 \Hypertarget{classcl__nav2z_1_1forward__local__planner_1_1ForwardLocalPlanner_a8374f9d7b79675ef1fad46e6f1580626}\index{cl\_nav2z::forward\_local\_planner::ForwardLocalPlanner@{cl\_nav2z::forward\_local\_planner::ForwardLocalPlanner}!currentPoseIndex\_@{currentPoseIndex\_}}
 \index{currentPoseIndex\_@{currentPoseIndex\_}!cl\_nav2z::forward\_local\_planner::ForwardLocalPlanner@{cl\_nav2z::forward\_local\_planner::ForwardLocalPlanner}}
@@ -1126,7 +1122,7 @@ Definition at line \mbox{\hyperlink{forward__local__planner_8hpp_source_l00103}{
 
 
 
-Referenced by \mbox{\hyperlink{forward__local__planner_8cpp_source_l00311}{compute\+Velocity\+Commands()}}, \mbox{\hyperlink{forward__local__planner_8cpp_source_l00068}{configure()}}, \mbox{\hyperlink{forward__local__planner_8cpp_source_l00621}{is\+Goal\+Reached()}}, and \mbox{\hyperlink{forward__local__planner_8cpp_source_l00628}{set\+Plan()}}.
+Referenced by \mbox{\hyperlink{forward__local__planner_8cpp_source_l00311}{compute\+Velocity\+Commands()}}, \mbox{\hyperlink{forward__local__planner_8cpp_source_l00068}{configure()}}, \mbox{\hyperlink{forward__local__planner_8cpp_source_l00617}{is\+Goal\+Reached()}}, and \mbox{\hyperlink{forward__local__planner_8cpp_source_l00624}{set\+Plan()}}.
 
 \Hypertarget{classcl__nav2z_1_1forward__local__planner_1_1ForwardLocalPlanner_a6c6f836c8147be302a42fc8df69d0c1d}\index{cl\_nav2z::forward\_local\_planner::ForwardLocalPlanner@{cl\_nav2z::forward\_local\_planner::ForwardLocalPlanner}!k\_alpha\_@{k\_alpha\_}}
 \index{k\_alpha\_@{k\_alpha\_}!cl\_nav2z::forward\_local\_planner::ForwardLocalPlanner@{cl\_nav2z::forward\_local\_planner::ForwardLocalPlanner}}
@@ -1224,7 +1220,7 @@ Definition at line \mbox{\hyperlink{forward__local__planner_8hpp_source_l00083}{
 
 
 
-Referenced by \mbox{\hyperlink{forward__local__planner_8cpp_source_l00046}{activate()}}, \mbox{\hyperlink{forward__local__planner_8cpp_source_l00254}{clean\+Markers()}}, \mbox{\hyperlink{forward__local__planner_8cpp_source_l00311}{compute\+Velocity\+Commands()}}, \mbox{\hyperlink{forward__local__planner_8cpp_source_l00068}{configure()}}, \mbox{\hyperlink{forward__local__planner_8cpp_source_l00217}{publish\+Goal\+Marker()}}, \mbox{\hyperlink{forward__local__planner_8cpp_source_l00608}{set\+Speed\+Limit()}}, and \mbox{\hyperlink{forward__local__planner_8cpp_source_l00113}{update\+Parameters()}}.
+Referenced by \mbox{\hyperlink{forward__local__planner_8cpp_source_l00046}{activate()}}, \mbox{\hyperlink{forward__local__planner_8cpp_source_l00254}{clean\+Markers()}}, \mbox{\hyperlink{forward__local__planner_8cpp_source_l00311}{compute\+Velocity\+Commands()}}, \mbox{\hyperlink{forward__local__planner_8cpp_source_l00068}{configure()}}, \mbox{\hyperlink{forward__local__planner_8cpp_source_l00217}{publish\+Goal\+Marker()}}, \mbox{\hyperlink{forward__local__planner_8cpp_source_l00604}{set\+Speed\+Limit()}}, and \mbox{\hyperlink{forward__local__planner_8cpp_source_l00113}{update\+Parameters()}}.
 
 \Hypertarget{classcl__nav2z_1_1forward__local__planner_1_1ForwardLocalPlanner_a1010de8002914ba854370c2a1a8fdf75}\index{cl\_nav2z::forward\_local\_planner::ForwardLocalPlanner@{cl\_nav2z::forward\_local\_planner::ForwardLocalPlanner}!plan\_@{plan\_}}
 \index{plan\_@{plan\_}!cl\_nav2z::forward\_local\_planner::ForwardLocalPlanner@{cl\_nav2z::forward\_local\_planner::ForwardLocalPlanner}}
@@ -1238,7 +1234,7 @@ Definition at line \mbox{\hyperlink{forward__local__planner_8hpp_source_l00120}{
 
 
 
-Referenced by \mbox{\hyperlink{forward__local__planner_8cpp_source_l00059}{cleanup()}}, \mbox{\hyperlink{forward__local__planner_8cpp_source_l00311}{compute\+Velocity\+Commands()}}, and \mbox{\hyperlink{forward__local__planner_8cpp_source_l00628}{set\+Plan()}}.
+Referenced by \mbox{\hyperlink{forward__local__planner_8cpp_source_l00059}{cleanup()}}, \mbox{\hyperlink{forward__local__planner_8cpp_source_l00311}{compute\+Velocity\+Commands()}}, and \mbox{\hyperlink{forward__local__planner_8cpp_source_l00624}{set\+Plan()}}.
 
 \Hypertarget{classcl__nav2z_1_1forward__local__planner_1_1ForwardLocalPlanner_a2ddf96c951d83e61d60b5544b8ae9237}\index{cl\_nav2z::forward\_local\_planner::ForwardLocalPlanner@{cl\_nav2z::forward\_local\_planner::ForwardLocalPlanner}!tf\_@{tf\_}}
 \index{tf\_@{tf\_}!cl\_nav2z::forward\_local\_planner::ForwardLocalPlanner@{cl\_nav2z::forward\_local\_planner::ForwardLocalPlanner}}
@@ -1252,7 +1248,7 @@ Definition at line \mbox{\hyperlink{forward__local__planner_8hpp_source_l00125}{
 
 
 
-Referenced by \mbox{\hyperlink{forward__local__planner_8cpp_source_l00068}{configure()}}, and \mbox{\hyperlink{forward__local__planner_8cpp_source_l00628}{set\+Plan()}}.
+Referenced by \mbox{\hyperlink{forward__local__planner_8cpp_source_l00068}{configure()}}, and \mbox{\hyperlink{forward__local__planner_8cpp_source_l00624}{set\+Plan()}}.
 
 \Hypertarget{classcl__nav2z_1_1forward__local__planner_1_1ForwardLocalPlanner_a2ddf819f6ee5c9795627c6de288043b1}\index{cl\_nav2z::forward\_local\_planner::ForwardLocalPlanner@{cl\_nav2z::forward\_local\_planner::ForwardLocalPlanner}!transform\_tolerance\_@{transform\_tolerance\_}}
 \index{transform\_tolerance\_@{transform\_tolerance\_}!cl\_nav2z::forward\_local\_planner::ForwardLocalPlanner@{cl\_nav2z::forward\_local\_planner::ForwardLocalPlanner}}
@@ -1266,7 +1262,7 @@ Definition at line \mbox{\hyperlink{forward__local__planner_8hpp_source_l00115}{
 
 
 
-Referenced by \mbox{\hyperlink{forward__local__planner_8cpp_source_l00068}{configure()}}, \mbox{\hyperlink{forward__local__planner_8cpp_source_l00628}{set\+Plan()}}, and \mbox{\hyperlink{forward__local__planner_8cpp_source_l00113}{update\+Parameters()}}.
+Referenced by \mbox{\hyperlink{forward__local__planner_8cpp_source_l00068}{configure()}}, \mbox{\hyperlink{forward__local__planner_8cpp_source_l00624}{set\+Plan()}}, and \mbox{\hyperlink{forward__local__planner_8cpp_source_l00113}{update\+Parameters()}}.
 
 \Hypertarget{classcl__nav2z_1_1forward__local__planner_1_1ForwardLocalPlanner_a004ab5be898c9580bb1d6d50a0b06823}\index{cl\_nav2z::forward\_local\_planner::ForwardLocalPlanner@{cl\_nav2z::forward\_local\_planner::ForwardLocalPlanner}!waiting\_@{waiting\_}}
 \index{waiting\_@{waiting\_}!cl\_nav2z::forward\_local\_planner::ForwardLocalPlanner@{cl\_nav2z::forward\_local\_planner::ForwardLocalPlanner}}

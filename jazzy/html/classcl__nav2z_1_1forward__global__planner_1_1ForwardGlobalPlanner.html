@@ -503,37 +503,33 @@ Private Attributes</h2></td></tr>
 <div class="line"><span class="lineno">  148</span>    costmap2d-&gt;worldToMap(p.pose.position.x, p.pose.position.y, mx, my);</div>
 <div class="line"><span class="lineno">  149</span>    <span class="keyword">auto</span> cost = costmap2d-&gt;getCost(mx, my);</div>
 <div class="line"><span class="lineno">  150</span> </div>
-<div class="line"><span class="lineno">  151</span>    <span class="comment">// static const unsigned char NO_INFORMATION = 255;</span></div>
-<div class="line"><span class="lineno">  152</span>    <span class="comment">// static const unsigned char LETHAL_OBSTACLE = 254;</span></div>
-<div class="line"><span class="lineno">  153</span>    <span class="comment">// static const unsigned char INSCRIBED_INFLATED_OBSTACLE = 253;</span></div>
-<div class="line"><span class="lineno">  154</span>    <span class="comment">// static const unsigned char FREE_SPACE = 0;</span></div>
-<div class="line"><span class="lineno">  155</span> </div>
-<div class="line"><span class="lineno">  156</span>    <span class="keywordflow">if</span> (cost &gt;= nav2_costmap_2d::INSCRIBED_INFLATED_OBSTACLE)</div>
-<div class="line"><span class="lineno">  157</span>    {</div>
-<div class="line"><span class="lineno">  158</span>      RCLCPP_INFO_STREAM(</div>
-<div class="line"><span class="lineno">  159</span>        <a class="code hl_variable" href="#ad91af5741f6bfec5c7d88cd6843f0635">nh_</a>-&gt;get_logger(), <span class="stringliteral">&quot;[Forward Global Planner] pose &quot;</span> &lt;&lt; p.pose.position.x &lt;&lt; <span class="stringliteral">&quot;, &quot;</span></div>
-<div class="line"><span class="lineno">  160</span>                                                            &lt;&lt; p.pose.position.y</div>
-<div class="line"><span class="lineno">  161</span>                                                            &lt;&lt; <span class="stringliteral">&quot; rejected, cost: &quot;</span> &lt;&lt; cost);</div>
-<div class="line"><span class="lineno">  162</span>      acceptedGlobalPlan = <span class="keyword">false</span>;</div>
-<div class="line"><span class="lineno">  163</span>      <span class="keywordflow">break</span>;</div>
-<div class="line"><span class="lineno">  164</span>    }</div>
-<div class="line"><span class="lineno">  165</span>  }</div>
-<div class="line"><span class="lineno">  166</span> </div>
-<div class="line"><span class="lineno">  167</span>  <span class="keywordflow">if</span> (acceptedGlobalPlan)</div>
-<div class="line"><span class="lineno">  168</span>  {</div>
-<div class="line"><span class="lineno">  169</span>    RCLCPP_INFO_STREAM(</div>
-<div class="line"><span class="lineno">  170</span>      <a class="code hl_variable" href="#ad91af5741f6bfec5c7d88cd6843f0635">nh_</a>-&gt;get_logger(), <span class="stringliteral">&quot;[Forward Global Planner] accepted plan: &quot;</span> &lt;&lt; plan.size());</div>
-<div class="line"><span class="lineno">  171</span>    <a class="code hl_variable" href="#a3f37b01e90aca6672bb41e5df9df1780">planPub_</a>-&gt;publish(planMsg);</div>
-<div class="line"><span class="lineno">  172</span>    <span class="keywordflow">return</span> planMsg;</div>
-<div class="line"><span class="lineno">  173</span>  }</div>
-<div class="line"><span class="lineno">  174</span>  <span class="keywordflow">else</span></div>
-<div class="line"><span class="lineno">  175</span>  {</div>
-<div class="line"><span class="lineno">  176</span>    RCLCPP_INFO(<a class="code hl_variable" href="#ad91af5741f6bfec5c7d88cd6843f0635">nh_</a>-&gt;get_logger(), <span class="stringliteral">&quot;[Forward Global Planner] plan rejected&quot;</span>);</div>
-<div class="line"><span class="lineno">  177</span>    planMsg.poses.clear();</div>
-<div class="line"><span class="lineno">  178</span>    <a class="code hl_variable" href="#a3f37b01e90aca6672bb41e5df9df1780">planPub_</a>-&gt;publish(planMsg);</div>
-<div class="line"><span class="lineno">  179</span>    <span class="keywordflow">return</span> planMsg;</div>
-<div class="line"><span class="lineno">  180</span>  }</div>
-<div class="line"><span class="lineno">  181</span>}</div>
+<div class="line"><span class="lineno">  151</span>    <span class="comment">// Costmap values: 255 no information, 254 lethal obstacle, 253 inscribed inflated obstacle, 0 free space.</span></div>
+<div class="line"><span class="lineno">  152</span>    <span class="keywordflow">if</span> (cost &gt;= nav2_costmap_2d::INSCRIBED_INFLATED_OBSTACLE)</div>
+<div class="line"><span class="lineno">  153</span>    {</div>
+<div class="line"><span class="lineno">  154</span>      RCLCPP_INFO_STREAM(</div>
+<div class="line"><span class="lineno">  155</span>        <a class="code hl_variable" href="#ad91af5741f6bfec5c7d88cd6843f0635">nh_</a>-&gt;get_logger(), <span class="stringliteral">&quot;[Forward Global Planner] pose &quot;</span> &lt;&lt; p.pose.position.x &lt;&lt; <span class="stringliteral">&quot;, &quot;</span></div>
+<div class="line"><span class="lineno">  156</span>                                                            &lt;&lt; p.pose.position.y</div>
+<div class="line"><span class="lineno">  157</span>                                                            &lt;&lt; <span class="stringliteral">&quot; rejected, cost: &quot;</span> &lt;&lt; cost);</div>
+<div class="line"><span class="lineno">  158</span>      acceptedGlobalPlan = <span class="keyword">false</span>;</div>
+<div class="line"><span class="lineno">  159</span>      <span class="keywordflow">break</span>;</div>
+<div class="line"><span class="lineno">  160</span>    }</div>
+<div class="line"><span class="lineno">  161</span>  }</div>
+<div class="line"><span class="lineno">  162</span> </div>
+<div class="line"><span class="lineno">  163</span>  <span class="keywordflow">if</span> (acceptedGlobalPlan)</div>
+<div class="line"><span class="lineno">  164</span>  {</div>
+<div class="line"><span class="lineno">  165</span>    RCLCPP_INFO_STREAM(</div>
+<div class="line"><span class="lineno">  166</span>      <a class="code hl_variable" href="#ad91af5741f6bfec5c7d88cd6843f0635">nh_</a>-&gt;get_logger(), <span class="stringliteral">&quot;[Forward Global Planner] accepted plan: &quot;</span> &lt;&lt; plan.size());</div>
+<div class="line"><span class="lineno">  167</span>    <a class="code hl_variable" href="#a3f37b01e90aca6672bb41e5df9df1780">planPub_</a>-&gt;publish(planMsg);</div>
+<div class="line"><span class="lineno">  168</span>    <span class="keywordflow">return</span> planMsg;</div>
+<div class="line"><span class="lineno">  169</span>  }</div>
+<div class="line"><span class="lineno">  170</span>  <span class="keywordflow">else</span></div>
+<div class="line"><span class="lineno">  171</span>  {</div>
+<div class="line"><span class="lineno">  172</span>    RCLCPP_INFO(<a class="code hl_variable" href="#ad91af5741f6bfec5c7d88cd6843f0635">nh_</a>-&gt;get_logger(), <span class="stringliteral">&quot;[Forward Global Planner] plan rejected&quot;</span>);</div>
+<div class="line"><span class="lineno">  173</span>    planMsg.poses.clear();</div>
+<div class="line"><span class="lineno">  174</span>    <a class="code hl_variable" href="#a3f37b01e90aca6672bb41e5df9df1780">planPub_</a>-&gt;publish(planMsg);</div>
+<div class="line"><span class="lineno">  175</span>    <span class="keywordflow">return</span> planMsg;</div>
+<div class="line"><span class="lineno">  176</span>  }</div>
+<div class="line"><span class="lineno">  177</span>}</div>
 <div class="ttc" id="anamespacecl__nav2z_html_a76c27bb265ee6e2647709784f106e315"><div class="ttname"><a href="namespacecl__nav2z.html#a76c27bb265ee6e2647709784f106e315">cl_nav2z::makePureSpinningSubPlan</a></div><div class="ttdeci">geometry_msgs::msg::PoseStamped makePureSpinningSubPlan(const geometry_msgs::msg::PoseStamped &amp;start, double dstRads, std::vector&lt; geometry_msgs::msg::PoseStamped &gt; &amp;plan, double radstep=0.005)</div><div class="ttdef"><b>Definition</b> <a href="client__library_2cl__nav2z_2custom__planners_2nav2z__planners__common_2src_2nav2z__planners__common_2common_8cpp_source.html#l00036">common.cpp:36</a></div></div>
 <div class="ttc" id="anamespacecl__nav2z_html_aa8161356763c1332dec9c6b84bda3cfb"><div class="ttname"><a href="namespacecl__nav2z.html#aa8161356763c1332dec9c6b84bda3cfb">cl_nav2z::makePureStraightSubPlan</a></div><div class="ttdeci">geometry_msgs::msg::PoseStamped makePureStraightSubPlan(const geometry_msgs::msg::PoseStamped &amp;startOrientedPose, const geometry_msgs::msg::Point &amp;goal, double length, std::vector&lt; geometry_msgs::msg::PoseStamped &gt; &amp;plan)</div><div class="ttdef"><b>Definition</b> <a href="client__library_2cl__nav2z_2custom__planners_2nav2z__planners__common_2src_2nav2z__planners__common_2common_8cpp_source.html#l00092">common.cpp:92</a></div></div>
 </div><!-- fragment -->
