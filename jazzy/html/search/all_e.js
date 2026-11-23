@@ -38,6 +38,8 @@ var searchData=
   ['nowns_35',['nowNs',['../namespacecl__px4__mr_1_1anonymous__namespace_02cp__tunnel__centering_8cpp_03.html#ae8f62ea8a6380ca6d9ff65514bc19730',1,'cl_px4_mr::anonymous_namespace{cp_tunnel_centering.cpp}']]],
   ['num_5fchannels_36',['NUM_CHANNELS',['../classcl__modbus__tcp__relay_1_1CpModbusRelay.html#ad2c40e5b134d93b5fe99d182b11366fb',1,'cl_modbus_tcp_relay::CpModbusRelay']]],
   ['numlegs_37',['numLegs',['../structcl__px4__mr_1_1FlightPatternSquareSpiralParams.html#a3e189b6b013f4ee7d1335cfafba096f8',1,'cl_px4_mr::FlightPatternSquareSpiralParams']]],
-  ['numloops_5f_38',['numLoops_',['../classcl__px4__mr_1_1CbFigureEight.html#a6c66eeac6019432fd1475b7abb59d2d2',1,'cl_px4_mr::CbFigureEight']]],
-  ['numorbits_5f_39',['numOrbits_',['../classcl__px4__mr_1_1CbOrbitLocation.html#aa63323a7836cec44a47fda0616868428',1,'cl_px4_mr::CbOrbitLocation']]]
+  ['numloops_38',['numLoops',['../structcl__px4__mr_1_1FigureEightParams.html#a00e331ac1ea5dd89c694cfd5875cb6a1',1,'cl_px4_mr::FigureEightParams']]],
+  ['numloops_5f_39',['numLoops_',['../classcl__px4__mr_1_1CbFigureEight.html#a6c66eeac6019432fd1475b7abb59d2d2',1,'cl_px4_mr::CbFigureEight']]],
+  ['numorbits_40',['numOrbits',['../structcl__px4__mr_1_1OrbitLocationParams.html#a4c34b80dd53ac5e9f192e8ef80843105',1,'cl_px4_mr::OrbitLocationParams']]],
+  ['numorbits_5f_41',['numOrbits_',['../classcl__px4__mr_1_1CbOrbitLocation.html#aa63323a7836cec44a47fda0616868428',1,'cl_px4_mr::CbOrbitLocation']]]
 ];

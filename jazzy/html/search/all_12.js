@@ -3,7 +3,7 @@ var searchData=
   ['rad_0',['rad',['../backward__local__planner_8hpp.html#a640effbe91ae9b25d698a883a9e80d96',1,'backward_local_planner.hpp']]],
   ['rad_5fs_1',['rad_s',['../pure__spinning__local__planner_8hpp.html#a76bf9d2bc75b779e3418b2320c652037',1,'pure_spinning_local_planner.hpp']]],
   ['radians_2',['radians',['../namespacecl__px4__mr_1_1geo__detail.html#aa2f6d9bb78b5d279b7e0935e6899aec1',1,'cl_px4_mr::geo_detail']]],
-  ['radius_3',['radius',['../structcl__px4__mr_1_1FlightPatternLoiterParams.html#a041e0201bcfec28efa08f7611cdec23e',1,'cl_px4_mr::FlightPatternLoiterParams::radius'],['../structcl__px4__mr_1_1FlightPatternVSSearchParams.html#a745b4cf64b680b88d0550f98599373a2',1,'cl_px4_mr::FlightPatternVSSearchParams::radius']]],
+  ['radius_3',['radius',['../structcl__px4__mr_1_1OrbitLocationParams.html#ad3edb9dd1c90d1fcfb8b9cf03dbcee48',1,'cl_px4_mr::OrbitLocationParams::radius'],['../structcl__px4__mr_1_1FlightPatternLoiterParams.html#a041e0201bcfec28efa08f7611cdec23e',1,'cl_px4_mr::FlightPatternLoiterParams::radius'],['../structcl__px4__mr_1_1FlightPatternVSSearchParams.html#a745b4cf64b680b88d0550f98599373a2',1,'cl_px4_mr::FlightPatternVSSearchParams::radius']]],
   ['radius_5f_4',['radius_',['../classcl__px4__mr_1_1CbOrbitLocation.html#ac2f54ae469ee3a0c7047bffdd837d8b4',1,'cl_px4_mr::CbOrbitLocation']]],
   ['radiusm_5',['radiusM',['../structcl__px4__mr_1_1SpiralUpParams.html#a3f89bdfb44624dcd6879bdaa41527cda',1,'cl_px4_mr::SpiralUpParams']]],
   ['randomgeneratereactormode_6',['RandomGenerateReactorMode',['../namespacesmacc2_1_1state__reactors.html#ab1afbaf4edd31d0b5307dd9a0f55a504',1,'smacc2::state_reactors']]],
