@@ -17,7 +17,9 @@ var searchData=
   ['behaviortype_14',['behaviorType',['../structsmacc2_1_1introspection_1_1ClientBehaviorInfoEntry.html#a081b627e8a471c38384e2c92560a140c',1,'smacc2::introspection::ClientBehaviorInfoEntry']]],
   ['betta_5foffset_5f_15',['betta_offset_',['../classcl__nav2z_1_1backward__local__planner_1_1BackwardLocalPlanner.html#a24828d4b3b9fc4cf2fa4de05f980696e',1,'cl_nav2z::backward_local_planner::BackwardLocalPlanner::betta_offset_'],['../classcl__nav2z_1_1forward__local__planner_1_1ForwardLocalPlanner.html#a9e248ce282482ddd010ed405286da4bc',1,'cl_nav2z::forward_local_planner::ForwardLocalPlanner::betta_offset_']]],
   ['bh_5f_16',['bh_',['../classsmacc2_1_1client__behaviors_1_1CbSequence.html#ad9c6823bb35917e12d495bf415ae258c',1,'smacc2::client_behaviors::CbSequence']]],
-  ['bondlistener_5f_17',['bondListener_',['../classcl__nav2z_1_1CbWaitNav2Nodes.html#ae9997aa70f5b31287fb690143e0d41d7',1,'cl_nav2z::CbWaitNav2Nodes']]],
-  ['broadcaster_5f_18',['broadcaster_',['../classcl__px4__mr_1_1CpTfBroadcaster.html#ab30da3df3aa80af5d472838c0cea6e2b',1,'cl_px4_mr::CpTfBroadcaster']]],
-  ['buffer_5f_19',['buffer_',['../classcl__http_1_1http__session.html#a0fdddd1d6b47c6768b1bca80a8c549d2',1,'cl_http::http_session::buffer_'],['../classcl__http_1_1ssl__http__session.html#a5efe55a4c15903c58eb1f781d1fc3c60',1,'cl_http::ssl_http_session::buffer_']]]
+  ['blobs_17',['blobs',['../structcl__rgb_1_1SurveyTableParams.html#a50f84d6321b3acd143c8ea0d080f61b3',1,'cl_rgb::SurveyTableParams::blobs'],['../structcl__rgb_1_1Survey.html#aaf300a9b49569439f02fa78879fa4ef0',1,'cl_rgb::Survey::blobs']]],
+  ['bondlistener_5f_18',['bondListener_',['../classcl__nav2z_1_1CbWaitNav2Nodes.html#ae9997aa70f5b31287fb690143e0d41d7',1,'cl_nav2z::CbWaitNav2Nodes']]],
+  ['box_19',['box',['../structcl__rgb_1_1Blob.html#a11d488bf9385e04dbdeda7bc93a6bfc9',1,'cl_rgb::Blob']]],
+  ['broadcaster_5f_20',['broadcaster_',['../classcl__px4__mr_1_1CpTfBroadcaster.html#ab30da3df3aa80af5d472838c0cea6e2b',1,'cl_px4_mr::CpTfBroadcaster']]],
+  ['buffer_5f_21',['buffer_',['../classcl__http_1_1http__session.html#a0fdddd1d6b47c6768b1bca80a8c549d2',1,'cl_http::http_session::buffer_'],['../classcl__http_1_1ssl__http__session.html#a5efe55a4c15903c58eb1f781d1fc3c60',1,'cl_http::ssl_http_session::buffer_'],['../classcl__rgb_1_1CpTransforms.html#aa103bda23689ceebcd9469857a93c1b7',1,'cl_rgb::CpTransforms::buffer_']]]
 ];

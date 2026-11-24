@@ -1,0 +1,204 @@
+\doxysection{box\+\_\+fit.\+cpp}
+\hypertarget{box__fit_8cpp_source}{}\label{box__fit_8cpp_source}\index{smacc2\_client\_library/cl\_rgb/src/cl\_rgb/box\_fit.cpp@{smacc2\_client\_library/cl\_rgb/src/cl\_rgb/box\_fit.cpp}}
+\mbox{\hyperlink{box__fit_8cpp}{Go to the documentation of this file.}}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\Hypertarget{box__fit_8cpp_source_l00001}00001\ \textcolor{comment}{//\ Copyright\ 2026\ RobosoftAI\ Inc.}}
+\DoxyCodeLine{\Hypertarget{box__fit_8cpp_source_l00002}00002\ \textcolor{comment}{//}}
+\DoxyCodeLine{\Hypertarget{box__fit_8cpp_source_l00003}00003\ \textcolor{comment}{//\ Licensed\ under\ the\ Apache\ License,\ Version\ 2.0\ (the\ "{}License"{});}}
+\DoxyCodeLine{\Hypertarget{box__fit_8cpp_source_l00004}00004\ \textcolor{comment}{//\ you\ may\ not\ use\ this\ file\ except\ in\ compliance\ with\ the\ License.}}
+\DoxyCodeLine{\Hypertarget{box__fit_8cpp_source_l00005}00005\ \textcolor{comment}{//\ You\ may\ obtain\ a\ copy\ of\ the\ License\ at}}
+\DoxyCodeLine{\Hypertarget{box__fit_8cpp_source_l00006}00006\ \textcolor{comment}{//}}
+\DoxyCodeLine{\Hypertarget{box__fit_8cpp_source_l00007}00007\ \textcolor{comment}{//\ \ \ \ \ http://www.apache.org/licenses/LICENSE-\/2.0}}
+\DoxyCodeLine{\Hypertarget{box__fit_8cpp_source_l00008}00008\ \textcolor{comment}{//}}
+\DoxyCodeLine{\Hypertarget{box__fit_8cpp_source_l00009}00009\ \textcolor{comment}{//\ Unless\ required\ by\ applicable\ law\ or\ agreed\ to\ in\ writing,\ software}}
+\DoxyCodeLine{\Hypertarget{box__fit_8cpp_source_l00010}00010\ \textcolor{comment}{//\ distributed\ under\ the\ License\ is\ distributed\ on\ an\ "{}AS\ IS"{}\ BASIS,}}
+\DoxyCodeLine{\Hypertarget{box__fit_8cpp_source_l00011}00011\ \textcolor{comment}{//\ WITHOUT\ WARRANTIES\ OR\ CONDITIONS\ OF\ ANY\ KIND,\ either\ express\ or\ implied.}}
+\DoxyCodeLine{\Hypertarget{box__fit_8cpp_source_l00012}00012\ \textcolor{comment}{//\ See\ the\ License\ for\ the\ specific\ language\ governing\ permissions\ and}}
+\DoxyCodeLine{\Hypertarget{box__fit_8cpp_source_l00013}00013\ \textcolor{comment}{//\ limitations\ under\ the\ License.}}
+\DoxyCodeLine{\Hypertarget{box__fit_8cpp_source_l00014}00014\ }
+\DoxyCodeLine{\Hypertarget{box__fit_8cpp_source_l00015}00015\ \textcolor{preprocessor}{\#include\ <\mbox{\hyperlink{box__fit_8hpp}{cl\_rgb/box\_fit.hpp}}>}}
+\DoxyCodeLine{\Hypertarget{box__fit_8cpp_source_l00016}00016\ }
+\DoxyCodeLine{\Hypertarget{box__fit_8cpp_source_l00017}00017\ \textcolor{preprocessor}{\#include\ <opencv2/imgproc.hpp>}}
+\DoxyCodeLine{\Hypertarget{box__fit_8cpp_source_l00018}00018\ }
+\DoxyCodeLine{\Hypertarget{box__fit_8cpp_source_l00019}00019\ \textcolor{preprocessor}{\#include\ <algorithm>}}
+\DoxyCodeLine{\Hypertarget{box__fit_8cpp_source_l00020}00020\ \textcolor{preprocessor}{\#include\ <cmath>}}
+\DoxyCodeLine{\Hypertarget{box__fit_8cpp_source_l00021}00021\ \textcolor{preprocessor}{\#include\ <vector>}}
+\DoxyCodeLine{\Hypertarget{box__fit_8cpp_source_l00022}00022\ }
+\DoxyCodeLine{\Hypertarget{box__fit_8cpp_source_l00023}00023\ \textcolor{keyword}{namespace\ }\mbox{\hyperlink{namespacecl__rgb}{cl\_rgb}}}
+\DoxyCodeLine{\Hypertarget{box__fit_8cpp_source_l00024}00024\ \{}
+\DoxyCodeLine{\Hypertarget{box__fit_8cpp_source_l00025}\mbox{\hyperlink{namespacecl__rgb_1_1anonymous__namespace_02box__fit_8cpp_03}{00025}}\ \textcolor{keyword}{namespace}}
+\DoxyCodeLine{\Hypertarget{box__fit_8cpp_source_l00026}00026\ \{}
+\DoxyCodeLine{\Hypertarget{box__fit_8cpp_source_l00027}00027\ \textcolor{comment}{//\ The\ outline\ of\ the\ box\ in\ the\ blob's\ own\ image\ window;\ empty\ when\ a\ corner\ is\ not\ seen.}}
+\DoxyCodeLine{\Hypertarget{box__fit_8cpp_source_l00028}\mbox{\hyperlink{namespacecl__rgb_1_1anonymous__namespace_02box__fit_8cpp_03_a784edc268ebac01ab145c2bce589829a}{00028}}\ cv::Mat\ \mbox{\hyperlink{namespacecl__rgb_1_1anonymous__namespace_02box__fit_8cpp_03_a784edc268ebac01ab145c2bce589829a}{outline}}(}
+\DoxyCodeLine{\Hypertarget{box__fit_8cpp_source_l00029}00029\ \ \ \textcolor{keyword}{const}\ \mbox{\hyperlink{structcl__rgb_1_1PinholeCamera}{PinholeCamera}}\ \&\ camera,\ \textcolor{keyword}{const}\ cv::Rect\ \&\ box,\ \textcolor{keywordtype}{double}\ x,\ \textcolor{keywordtype}{double}\ y,\ \textcolor{keywordtype}{double}\ yaw,\ \textcolor{keywordtype}{double}\ tableZ,}
+\DoxyCodeLine{\Hypertarget{box__fit_8cpp_source_l00030}00030\ \ \ \textcolor{keyword}{const}\ cv::Vec3d\ \&\ size,\ \textcolor{keywordtype}{bool}\ topOnly)}
+\DoxyCodeLine{\Hypertarget{box__fit_8cpp_source_l00031}00031\ \{}
+\DoxyCodeLine{\Hypertarget{box__fit_8cpp_source_l00032}00032\ \ \ \textcolor{keyword}{const}\ \textcolor{keywordtype}{double}\ c\ =\ std::cos(yaw),\ s\ =\ std::sin(yaw);}
+\DoxyCodeLine{\Hypertarget{box__fit_8cpp_source_l00033}00033\ \ \ std::vector<cv::Point>\ corners;}
+\DoxyCodeLine{\Hypertarget{box__fit_8cpp_source_l00034}00034\ \ \ \textcolor{keywordflow}{for}\ (\textcolor{keywordtype}{int}\ i\ =\ topOnly\ ?\ 4\ :\ 0;\ i\ <\ 8;\ ++i)}
+\DoxyCodeLine{\Hypertarget{box__fit_8cpp_source_l00035}00035\ \ \ \{}
+\DoxyCodeLine{\Hypertarget{box__fit_8cpp_source_l00036}00036\ \ \ \ \ \textcolor{keyword}{const}\ \textcolor{keywordtype}{double}\ dx\ =\ ((i\ \&\ 1)\ !=\ 0\ ?\ 0.5\ :\ -\/0.5)\ *\ size[0];}
+\DoxyCodeLine{\Hypertarget{box__fit_8cpp_source_l00037}00037\ \ \ \ \ \textcolor{keyword}{const}\ \textcolor{keywordtype}{double}\ dy\ =\ ((i\ \&\ 2)\ !=\ 0\ ?\ 0.5\ :\ -\/0.5)\ *\ size[1];}
+\DoxyCodeLine{\Hypertarget{box__fit_8cpp_source_l00038}00038\ \ \ \ \ \textcolor{keyword}{const}\ \textcolor{keywordtype}{double}\ dz\ =\ (i\ \&\ 4)\ !=\ 0\ ?\ size[2]\ :\ 0.0;}
+\DoxyCodeLine{\Hypertarget{box__fit_8cpp_source_l00039}00039\ \ \ \ \ \textcolor{keyword}{const}\ \textcolor{keyword}{auto}\ pixel\ =}
+\DoxyCodeLine{\Hypertarget{box__fit_8cpp_source_l00040}00040\ \ \ \ \ \ \ camera.\mbox{\hyperlink{structcl__rgb_1_1PinholeCamera_ad258e489070b0c5d3bea8c75a749c786}{project}}(cv::Vec3d(x\ +\ c\ *\ dx\ -\/\ s\ *\ dy,\ y\ +\ s\ *\ dx\ +\ c\ *\ dy,\ tableZ\ +\ dz));}
+\DoxyCodeLine{\Hypertarget{box__fit_8cpp_source_l00041}00041\ \ \ \ \ \textcolor{keywordflow}{if}\ (!pixel)}
+\DoxyCodeLine{\Hypertarget{box__fit_8cpp_source_l00042}00042\ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{box__fit_8cpp_source_l00043}00043\ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ cv::Mat();}
+\DoxyCodeLine{\Hypertarget{box__fit_8cpp_source_l00044}00044\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{box__fit_8cpp_source_l00045}00045\ \ \ \ \ corners.emplace\_back(cvRound(pixel-\/>x)\ -\/\ box.x,\ cvRound(pixel-\/>y)\ -\/\ box.y);}
+\DoxyCodeLine{\Hypertarget{box__fit_8cpp_source_l00046}00046\ \ \ \}}
+\DoxyCodeLine{\Hypertarget{box__fit_8cpp_source_l00047}00047\ \ \ std::vector<cv::Point>\ hull;}
+\DoxyCodeLine{\Hypertarget{box__fit_8cpp_source_l00048}00048\ \ \ cv::convexHull(corners,\ hull);}
+\DoxyCodeLine{\Hypertarget{box__fit_8cpp_source_l00049}00049\ \ \ cv::Mat\ drawn\ =\ cv::Mat::zeros(box.size(),\ CV\_8UC1);}
+\DoxyCodeLine{\Hypertarget{box__fit_8cpp_source_l00050}00050\ \ \ cv::fillConvexPoly(drawn,\ hull,\ cv::Scalar(255));}
+\DoxyCodeLine{\Hypertarget{box__fit_8cpp_source_l00051}00051\ \ \ \textcolor{keywordflow}{return}\ drawn;}
+\DoxyCodeLine{\Hypertarget{box__fit_8cpp_source_l00052}00052\ \}}
+\DoxyCodeLine{\Hypertarget{box__fit_8cpp_source_l00053}00053\ }
+\DoxyCodeLine{\Hypertarget{box__fit_8cpp_source_l00054}\mbox{\hyperlink{namespacecl__rgb_1_1anonymous__namespace_02box__fit_8cpp_03_a56c7fbc6d65670067ead89592f704128}{00054}}\ \textcolor{keywordtype}{double}\ \mbox{\hyperlink{namespacecl__rgb_1_1anonymous__namespace_02box__fit_8cpp_03_a56c7fbc6d65670067ead89592f704128}{hullArea}}(}
+\DoxyCodeLine{\Hypertarget{box__fit_8cpp_source_l00055}00055\ \ \ \textcolor{keyword}{const}\ \mbox{\hyperlink{structcl__rgb_1_1PinholeCamera}{PinholeCamera}}\ \&\ camera,\ \textcolor{keywordtype}{double}\ x,\ \textcolor{keywordtype}{double}\ y,\ \textcolor{keywordtype}{double}\ yaw,\ \textcolor{keywordtype}{double}\ tableZ,}
+\DoxyCodeLine{\Hypertarget{box__fit_8cpp_source_l00056}00056\ \ \ \textcolor{keyword}{const}\ cv::Vec3d\ \&\ size,\ \textcolor{keywordtype}{bool}\ topOnly)}
+\DoxyCodeLine{\Hypertarget{box__fit_8cpp_source_l00057}00057\ \{}
+\DoxyCodeLine{\Hypertarget{box__fit_8cpp_source_l00058}00058\ \ \ \textcolor{keyword}{const}\ \textcolor{keywordtype}{double}\ c\ =\ std::cos(yaw),\ s\ =\ std::sin(yaw);}
+\DoxyCodeLine{\Hypertarget{box__fit_8cpp_source_l00059}00059\ \ \ std::vector<cv::Point2f>\ corners;}
+\DoxyCodeLine{\Hypertarget{box__fit_8cpp_source_l00060}00060\ \ \ \textcolor{keywordflow}{for}\ (\textcolor{keywordtype}{int}\ i\ =\ topOnly\ ?\ 4\ :\ 0;\ i\ <\ 8;\ ++i)}
+\DoxyCodeLine{\Hypertarget{box__fit_8cpp_source_l00061}00061\ \ \ \{}
+\DoxyCodeLine{\Hypertarget{box__fit_8cpp_source_l00062}00062\ \ \ \ \ \textcolor{keyword}{const}\ \textcolor{keywordtype}{double}\ dx\ =\ ((i\ \&\ 1)\ !=\ 0\ ?\ 0.5\ :\ -\/0.5)\ *\ size[0];}
+\DoxyCodeLine{\Hypertarget{box__fit_8cpp_source_l00063}00063\ \ \ \ \ \textcolor{keyword}{const}\ \textcolor{keywordtype}{double}\ dy\ =\ ((i\ \&\ 2)\ !=\ 0\ ?\ 0.5\ :\ -\/0.5)\ *\ size[1];}
+\DoxyCodeLine{\Hypertarget{box__fit_8cpp_source_l00064}00064\ \ \ \ \ \textcolor{keyword}{const}\ \textcolor{keywordtype}{double}\ dz\ =\ (i\ \&\ 4)\ !=\ 0\ ?\ size[2]\ :\ 0.0;}
+\DoxyCodeLine{\Hypertarget{box__fit_8cpp_source_l00065}00065\ \ \ \ \ \textcolor{keyword}{const}\ \textcolor{keyword}{auto}\ pixel\ =}
+\DoxyCodeLine{\Hypertarget{box__fit_8cpp_source_l00066}00066\ \ \ \ \ \ \ camera.\mbox{\hyperlink{structcl__rgb_1_1PinholeCamera_ad258e489070b0c5d3bea8c75a749c786}{project}}(cv::Vec3d(x\ +\ c\ *\ dx\ -\/\ s\ *\ dy,\ y\ +\ s\ *\ dx\ +\ c\ *\ dy,\ tableZ\ +\ dz));}
+\DoxyCodeLine{\Hypertarget{box__fit_8cpp_source_l00067}00067\ \ \ \ \ \textcolor{keywordflow}{if}\ (!pixel)}
+\DoxyCodeLine{\Hypertarget{box__fit_8cpp_source_l00068}00068\ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{box__fit_8cpp_source_l00069}00069\ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ 0.0;}
+\DoxyCodeLine{\Hypertarget{box__fit_8cpp_source_l00070}00070\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{box__fit_8cpp_source_l00071}00071\ \ \ \ \ corners.emplace\_back(\textcolor{keyword}{static\_cast<}\textcolor{keywordtype}{float}\textcolor{keyword}{>}(pixel-\/>x),\ \textcolor{keyword}{static\_cast<}\textcolor{keywordtype}{float}\textcolor{keyword}{>}(pixel-\/>y));}
+\DoxyCodeLine{\Hypertarget{box__fit_8cpp_source_l00072}00072\ \ \ \}}
+\DoxyCodeLine{\Hypertarget{box__fit_8cpp_source_l00073}00073\ \ \ std::vector<cv::Point2f>\ hull;}
+\DoxyCodeLine{\Hypertarget{box__fit_8cpp_source_l00074}00074\ \ \ cv::convexHull(corners,\ hull);}
+\DoxyCodeLine{\Hypertarget{box__fit_8cpp_source_l00075}00075\ \ \ \textcolor{keywordflow}{return}\ cv::contourArea(hull);}
+\DoxyCodeLine{\Hypertarget{box__fit_8cpp_source_l00076}00076\ \}}
+\DoxyCodeLine{\Hypertarget{box__fit_8cpp_source_l00077}00077\ \}\ \ \textcolor{comment}{//\ namespace}}
+\DoxyCodeLine{\Hypertarget{box__fit_8cpp_source_l00078}00078\ }
+\DoxyCodeLine{\Hypertarget{box__fit_8cpp_source_l00079}00079\ \textcolor{keyword}{namespace}}
+\DoxyCodeLine{\Hypertarget{box__fit_8cpp_source_l00080}00080\ \{}
+\DoxyCodeLine{\Hypertarget{box__fit_8cpp_source_l00081}00081\ \textcolor{comment}{//\ The\ blob\ without\ its\ weakly\ coloured\ pixels;\ the\ blob\ itself\ when\ that\ leaves\ too\ little.}}
+\DoxyCodeLine{\Hypertarget{box__fit_8cpp_source_l00082}\mbox{\hyperlink{namespacecl__rgb_1_1anonymous__namespace_02box__fit_8cpp_03_a2e51b1aa29890ddad6010efc3913e77c}{00082}}\ \mbox{\hyperlink{structcl__rgb_1_1Blob}{Blob}}\ \mbox{\hyperlink{namespacecl__rgb_1_1anonymous__namespace_02box__fit_8cpp_03_a2e51b1aa29890ddad6010efc3913e77c}{strongColourPart}}(\textcolor{keyword}{const}\ \mbox{\hyperlink{structcl__rgb_1_1Blob}{Blob}}\ \&\ whole,\ \textcolor{keywordtype}{double}\ minChromaFraction)}
+\DoxyCodeLine{\Hypertarget{box__fit_8cpp_source_l00083}00083\ \{}
+\DoxyCodeLine{\Hypertarget{box__fit_8cpp_source_l00084}00084\ \ \ \textcolor{keywordflow}{if}\ (minChromaFraction\ <=\ 0.0\ ||\ whole.\mbox{\hyperlink{structcl__rgb_1_1Blob_ac19bc5ff395ed88c02d43b517c4aa8a2}{crop}}.empty())}
+\DoxyCodeLine{\Hypertarget{box__fit_8cpp_source_l00085}00085\ \ \ \{}
+\DoxyCodeLine{\Hypertarget{box__fit_8cpp_source_l00086}00086\ \ \ \ \ \textcolor{keywordflow}{return}\ whole;}
+\DoxyCodeLine{\Hypertarget{box__fit_8cpp_source_l00087}00087\ \ \ \}}
+\DoxyCodeLine{\Hypertarget{box__fit_8cpp_source_l00088}00088\ \ \ cv::Mat\ floatCrop,\ lab;}
+\DoxyCodeLine{\Hypertarget{box__fit_8cpp_source_l00089}00089\ \ \ whole.\mbox{\hyperlink{structcl__rgb_1_1Blob_ac19bc5ff395ed88c02d43b517c4aa8a2}{crop}}.convertTo(floatCrop,\ CV\_32FC3,\ 1.0\ /\ 255.0);}
+\DoxyCodeLine{\Hypertarget{box__fit_8cpp_source_l00090}00090\ \ \ cv::cvtColor(floatCrop,\ lab,\ cv::COLOR\_BGR2Lab);}
+\DoxyCodeLine{\Hypertarget{box__fit_8cpp_source_l00091}00091\ \ \ std::vector<float>\ chromas,\ lightnesses;}
+\DoxyCodeLine{\Hypertarget{box__fit_8cpp_source_l00092}00092\ \ \ cv::Mat\ chroma(lab.size(),\ CV\_32FC1,\ cv::Scalar(0));}
+\DoxyCodeLine{\Hypertarget{box__fit_8cpp_source_l00093}00093\ \ \ cv::Mat\ lightness(lab.size(),\ CV\_32FC1,\ cv::Scalar(0));}
+\DoxyCodeLine{\Hypertarget{box__fit_8cpp_source_l00094}00094\ \ \ \textcolor{keywordflow}{for}\ (\textcolor{keywordtype}{int}\ r\ =\ 0;\ r\ <\ lab.rows;\ ++r)}
+\DoxyCodeLine{\Hypertarget{box__fit_8cpp_source_l00095}00095\ \ \ \{}
+\DoxyCodeLine{\Hypertarget{box__fit_8cpp_source_l00096}00096\ \ \ \ \ \textcolor{keywordflow}{for}\ (\textcolor{keywordtype}{int}\ c\ =\ 0;\ c\ <\ lab.cols;\ ++c)}
+\DoxyCodeLine{\Hypertarget{box__fit_8cpp_source_l00097}00097\ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{box__fit_8cpp_source_l00098}00098\ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (whole.\mbox{\hyperlink{structcl__rgb_1_1Blob_a88ef3eb80834bc69289f76c985d2b9aa}{mask}}.at<uchar>(r,\ c))}
+\DoxyCodeLine{\Hypertarget{box__fit_8cpp_source_l00099}00099\ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{box__fit_8cpp_source_l00100}00100\ \ \ \ \ \ \ \ \ \textcolor{keyword}{const}\ cv::Vec3f\ v\ =\ lab.at<cv::Vec3f>(r,\ c);}
+\DoxyCodeLine{\Hypertarget{box__fit_8cpp_source_l00101}00101\ \ \ \ \ \ \ \ \ chroma.at<\textcolor{keywordtype}{float}>(r,\ c)\ =\ std::hypot(v[1],\ v[2]);}
+\DoxyCodeLine{\Hypertarget{box__fit_8cpp_source_l00102}00102\ \ \ \ \ \ \ \ \ chromas.push\_back(chroma.at<\textcolor{keywordtype}{float}>(r,\ c));}
+\DoxyCodeLine{\Hypertarget{box__fit_8cpp_source_l00103}00103\ \ \ \ \ \ \ \ \ lightness.at<\textcolor{keywordtype}{float}>(r,\ c)\ =\ v[0];}
+\DoxyCodeLine{\Hypertarget{box__fit_8cpp_source_l00104}00104\ \ \ \ \ \ \ \ \ lightnesses.push\_back(v[0]);}
+\DoxyCodeLine{\Hypertarget{box__fit_8cpp_source_l00105}00105\ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{box__fit_8cpp_source_l00106}00106\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{box__fit_8cpp_source_l00107}00107\ \ \ \}}
+\DoxyCodeLine{\Hypertarget{box__fit_8cpp_source_l00108}00108\ \ \ \textcolor{keywordflow}{if}\ (chromas.empty())}
+\DoxyCodeLine{\Hypertarget{box__fit_8cpp_source_l00109}00109\ \ \ \{}
+\DoxyCodeLine{\Hypertarget{box__fit_8cpp_source_l00110}00110\ \ \ \ \ \textcolor{keywordflow}{return}\ whole;}
+\DoxyCodeLine{\Hypertarget{box__fit_8cpp_source_l00111}00111\ \ \ \}}
+\DoxyCodeLine{\Hypertarget{box__fit_8cpp_source_l00112}00112\ \ \ std::sort(chromas.begin(),\ chromas.end());}
+\DoxyCodeLine{\Hypertarget{box__fit_8cpp_source_l00113}00113\ \ \ \textcolor{keyword}{const}\ \textcolor{keywordtype}{float}\ strong\ =\ chromas[\textcolor{keyword}{static\_cast<}\textcolor{keywordtype}{size\_t}\textcolor{keyword}{>}(0.9\ *\ (chromas.size()\ -\/\ 1))];}
+\DoxyCodeLine{\Hypertarget{box__fit_8cpp_source_l00114}00114\ \ \ \mbox{\hyperlink{structcl__rgb_1_1Blob}{Blob}}\ part\ =\ whole;}
+\DoxyCodeLine{\Hypertarget{box__fit_8cpp_source_l00115}00115\ \ \ std::sort(lightnesses.begin(),\ lightnesses.end());}
+\DoxyCodeLine{\Hypertarget{box__fit_8cpp_source_l00116}00116\ \ \ \textcolor{keyword}{const}\ \textcolor{keywordtype}{float}\ middle\ =\ lightnesses[lightnesses.size()\ /\ 2];}
+\DoxyCodeLine{\Hypertarget{box__fit_8cpp_source_l00117}00117\ \ \ part.\mbox{\hyperlink{structcl__rgb_1_1Blob_a88ef3eb80834bc69289f76c985d2b9aa}{mask}}\ =\ whole.\mbox{\hyperlink{structcl__rgb_1_1Blob_a88ef3eb80834bc69289f76c985d2b9aa}{mask}}\ \&}
+\DoxyCodeLine{\Hypertarget{box__fit_8cpp_source_l00118}00118\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ ((chroma\ >=\ \textcolor{keyword}{static\_cast<}\textcolor{keywordtype}{float}\textcolor{keyword}{>}(minChromaFraction)\ *\ strong)\ |\ (lightness\ >=\ middle));}
+\DoxyCodeLine{\Hypertarget{box__fit_8cpp_source_l00119}00119\ \ \ part.\mbox{\hyperlink{structcl__rgb_1_1Blob_ac3a32524ed048ec17c3416b0700a7bcc}{areaPx}}\ =\ cv::countNonZero(part.\mbox{\hyperlink{structcl__rgb_1_1Blob_a88ef3eb80834bc69289f76c985d2b9aa}{mask}});}
+\DoxyCodeLine{\Hypertarget{box__fit_8cpp_source_l00120}00120\ \ \ \textcolor{keywordflow}{if}\ (part.\mbox{\hyperlink{structcl__rgb_1_1Blob_ac3a32524ed048ec17c3416b0700a7bcc}{areaPx}}\ <\ whole.\mbox{\hyperlink{structcl__rgb_1_1Blob_ac3a32524ed048ec17c3416b0700a7bcc}{areaPx}}\ /\ 4)}
+\DoxyCodeLine{\Hypertarget{box__fit_8cpp_source_l00121}00121\ \ \ \{}
+\DoxyCodeLine{\Hypertarget{box__fit_8cpp_source_l00122}00122\ \ \ \ \ \textcolor{keywordflow}{return}\ whole;}
+\DoxyCodeLine{\Hypertarget{box__fit_8cpp_source_l00123}00123\ \ \ \}}
+\DoxyCodeLine{\Hypertarget{box__fit_8cpp_source_l00124}00124\ \ \ \textcolor{keyword}{const}\ cv::Moments\ m\ =\ cv::moments(part.\mbox{\hyperlink{structcl__rgb_1_1Blob_a88ef3eb80834bc69289f76c985d2b9aa}{mask}},\ \textcolor{keyword}{true});}
+\DoxyCodeLine{\Hypertarget{box__fit_8cpp_source_l00125}00125\ \ \ part.\mbox{\hyperlink{structcl__rgb_1_1Blob_a96e9d26737324f05039246d0c89b6852}{centroidPx}}\ =\ cv::Point2d(whole.\mbox{\hyperlink{structcl__rgb_1_1Blob_a11d488bf9385e04dbdeda7bc93a6bfc9}{box}}.x\ +\ m.m10\ /\ m.m00,\ whole.\mbox{\hyperlink{structcl__rgb_1_1Blob_a11d488bf9385e04dbdeda7bc93a6bfc9}{box}}.y\ +\ m.m01\ /\ m.m00);}
+\DoxyCodeLine{\Hypertarget{box__fit_8cpp_source_l00126}00126\ \ \ \textcolor{keywordflow}{return}\ part;}
+\DoxyCodeLine{\Hypertarget{box__fit_8cpp_source_l00127}00127\ \}}
+\DoxyCodeLine{\Hypertarget{box__fit_8cpp_source_l00128}00128\ \}\ \ \textcolor{comment}{//\ namespace}}
+\DoxyCodeLine{\Hypertarget{box__fit_8cpp_source_l00129}00129\ }
+\DoxyCodeLine{\Hypertarget{box__fit_8cpp_source_l00130}\mbox{\hyperlink{namespacecl__rgb_afcb3e815fe41c6b9654162a4af54e990}{00130}}\ std::optional<BoxFit>\ \mbox{\hyperlink{namespacecl__rgb_afcb3e815fe41c6b9654162a4af54e990}{fitBoxOnTable}}(}
+\DoxyCodeLine{\Hypertarget{box__fit_8cpp_source_l00131}00131\ \ \ \textcolor{keyword}{const}\ \mbox{\hyperlink{structcl__rgb_1_1Blob}{Blob}}\ \&\ seen,\ \textcolor{keyword}{const}\ \mbox{\hyperlink{structcl__rgb_1_1PinholeCamera}{PinholeCamera}}\ \&\ camera,\ \textcolor{keywordtype}{double}\ tableZ,\ \textcolor{keyword}{const}\ \mbox{\hyperlink{structcl__rgb_1_1BoxFitParams}{BoxFitParams}}\ \&\ params)}
+\DoxyCodeLine{\Hypertarget{box__fit_8cpp_source_l00132}00132\ \{}
+\DoxyCodeLine{\Hypertarget{box__fit_8cpp_source_l00133}00133\ \ \ \textcolor{keywordflow}{if}\ (seen.\mbox{\hyperlink{structcl__rgb_1_1Blob_a88ef3eb80834bc69289f76c985d2b9aa}{mask}}.empty()\ ||\ seen.\mbox{\hyperlink{structcl__rgb_1_1Blob_ac3a32524ed048ec17c3416b0700a7bcc}{areaPx}}\ <=\ 0)}
+\DoxyCodeLine{\Hypertarget{box__fit_8cpp_source_l00134}00134\ \ \ \{}
+\DoxyCodeLine{\Hypertarget{box__fit_8cpp_source_l00135}00135\ \ \ \ \ \textcolor{keywordflow}{return}\ std::nullopt;}
+\DoxyCodeLine{\Hypertarget{box__fit_8cpp_source_l00136}00136\ \ \ \}}
+\DoxyCodeLine{\Hypertarget{box__fit_8cpp_source_l00137}00137\ \ \ \textcolor{keyword}{const}\ \mbox{\hyperlink{structcl__rgb_1_1Blob}{Blob}}\ blob\ =\ strongColourPart(seen,\ params.\mbox{\hyperlink{structcl__rgb_1_1BoxFitParams_ad52d6bfad493362cae2f60ec3614bce9}{minChromaFraction}});}
+\DoxyCodeLine{\Hypertarget{box__fit_8cpp_source_l00138}00138\ \ \ \textcolor{comment}{//\ the\ centroid\ of\ the\ outline\ lies\ near\ the\ box's\ centre\ at\ half\ its\ height}}
+\DoxyCodeLine{\Hypertarget{box__fit_8cpp_source_l00139}00139\ \ \ \textcolor{keyword}{const}\ \textcolor{keyword}{auto}\ guess\ =}
+\DoxyCodeLine{\Hypertarget{box__fit_8cpp_source_l00140}00140\ \ \ \ \ camera.\mbox{\hyperlink{structcl__rgb_1_1PinholeCamera_a1c883170e5208956f90721a2a22f3a25}{pixelToPlane}}(blob.\mbox{\hyperlink{structcl__rgb_1_1Blob_a96e9d26737324f05039246d0c89b6852}{centroidPx}}.x,\ blob.\mbox{\hyperlink{structcl__rgb_1_1Blob_a96e9d26737324f05039246d0c89b6852}{centroidPx}}.y,\ tableZ\ +\ params.\mbox{\hyperlink{structcl__rgb_1_1BoxFitParams_a85bd28219cb5c42aaa3748281af008dd}{sizeM}}[2]\ /\ 2.0);}
+\DoxyCodeLine{\Hypertarget{box__fit_8cpp_source_l00141}00141\ \ \ \textcolor{keywordflow}{if}\ (!guess)}
+\DoxyCodeLine{\Hypertarget{box__fit_8cpp_source_l00142}00142\ \ \ \{}
+\DoxyCodeLine{\Hypertarget{box__fit_8cpp_source_l00143}00143\ \ \ \ \ \textcolor{keywordflow}{return}\ std::nullopt;}
+\DoxyCodeLine{\Hypertarget{box__fit_8cpp_source_l00144}00144\ \ \ \}}
+\DoxyCodeLine{\Hypertarget{box__fit_8cpp_source_l00145}00145\ \ \ \textcolor{keyword}{const}\ \textcolor{keywordtype}{bool}\ square\ =\ std::abs(params.\mbox{\hyperlink{structcl__rgb_1_1BoxFitParams_a85bd28219cb5c42aaa3748281af008dd}{sizeM}}[0]\ -\/\ params.\mbox{\hyperlink{structcl__rgb_1_1BoxFitParams_a85bd28219cb5c42aaa3748281af008dd}{sizeM}}[1])\ <\ 1e-\/6;}
+\DoxyCodeLine{\Hypertarget{box__fit_8cpp_source_l00146}00146\ \ \ \textcolor{keyword}{const}\ \textcolor{keywordtype}{double}\ yawEnd\ =\ square\ ?\ CV\_PI\ /\ 2.0\ :\ CV\_PI;}
+\DoxyCodeLine{\Hypertarget{box__fit_8cpp_source_l00147}00147\ \ \ \textcolor{keyword}{const}\ \textcolor{keywordtype}{int}\ steps\ =\ \textcolor{keyword}{static\_cast<}\textcolor{keywordtype}{int}\textcolor{keyword}{>}(std::round(params.\mbox{\hyperlink{structcl__rgb_1_1BoxFitParams_a602fca6bf0b75cebdd10066a6104f4a5}{searchM}}\ /\ params.\mbox{\hyperlink{structcl__rgb_1_1BoxFitParams_ad984c43fd9728d09ca8e355f5ea06f5d}{stepM}}));}
+\DoxyCodeLine{\Hypertarget{box__fit_8cpp_source_l00148}00148\ }
+\DoxyCodeLine{\Hypertarget{box__fit_8cpp_source_l00149}00149\ \ \ \mbox{\hyperlink{structcl__rgb_1_1BoxFit}{BoxFit}}\ best;}
+\DoxyCodeLine{\Hypertarget{box__fit_8cpp_source_l00150}00150\ \ \ best.\mbox{\hyperlink{structcl__rgb_1_1BoxFit_ab744ff759dcafc5decb40af509993121}{overlap}}\ =\ -\/1.0;}
+\DoxyCodeLine{\Hypertarget{box__fit_8cpp_source_l00151}00151\ \ \ \textcolor{keywordflow}{for}\ (\textcolor{keyword}{const}\ \textcolor{keywordtype}{bool}\ topOnly\ :\ \{\textcolor{keyword}{false},\ \textcolor{keyword}{true}\})}
+\DoxyCodeLine{\Hypertarget{box__fit_8cpp_source_l00152}00152\ \ \ \{}
+\DoxyCodeLine{\Hypertarget{box__fit_8cpp_source_l00153}00153\ \ \ \ \ \textcolor{keywordflow}{if}\ (topOnly\ \&\&\ best.\mbox{\hyperlink{structcl__rgb_1_1BoxFit_ab744ff759dcafc5decb40af509993121}{overlap}}\ >=\ params.\mbox{\hyperlink{structcl__rgb_1_1BoxFitParams_a06ce6fde0b8b7a54a4e8170087bf4c8d}{tryTopBelow}})}
+\DoxyCodeLine{\Hypertarget{box__fit_8cpp_source_l00154}00154\ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{box__fit_8cpp_source_l00155}00155\ \ \ \ \ \ \ \textcolor{keywordflow}{break};}
+\DoxyCodeLine{\Hypertarget{box__fit_8cpp_source_l00156}00156\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{box__fit_8cpp_source_l00157}00157\ \ \ \ \ \textcolor{comment}{//\ the\ centroid\ of\ the\ top\ face\ lies\ at\ the\ box's\ centre\ at\ its\ full\ height}}
+\DoxyCodeLine{\Hypertarget{box__fit_8cpp_source_l00158}00158\ \ \ \ \ \textcolor{keyword}{const}\ \textcolor{keyword}{auto}\ centre\ =}
+\DoxyCodeLine{\Hypertarget{box__fit_8cpp_source_l00159}00159\ \ \ \ \ \ \ topOnly\ ?\ camera.\mbox{\hyperlink{structcl__rgb_1_1PinholeCamera_a1c883170e5208956f90721a2a22f3a25}{pixelToPlane}}(blob.\mbox{\hyperlink{structcl__rgb_1_1Blob_a96e9d26737324f05039246d0c89b6852}{centroidPx}}.x,\ blob.\mbox{\hyperlink{structcl__rgb_1_1Blob_a96e9d26737324f05039246d0c89b6852}{centroidPx}}.y,\ tableZ\ +\ params.\mbox{\hyperlink{structcl__rgb_1_1BoxFitParams_a85bd28219cb5c42aaa3748281af008dd}{sizeM}}[2])}
+\DoxyCodeLine{\Hypertarget{box__fit_8cpp_source_l00160}00160\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ :\ guess;}
+\DoxyCodeLine{\Hypertarget{box__fit_8cpp_source_l00161}00161\ \ \ \ \ \textcolor{keywordflow}{if}\ (!centre)}
+\DoxyCodeLine{\Hypertarget{box__fit_8cpp_source_l00162}00162\ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{box__fit_8cpp_source_l00163}00163\ \ \ \ \ \ \ \textcolor{keywordflow}{continue};}
+\DoxyCodeLine{\Hypertarget{box__fit_8cpp_source_l00164}00164\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{box__fit_8cpp_source_l00165}00165\ \ \ \ \ \textcolor{keywordflow}{for}\ (\textcolor{keywordtype}{double}\ yaw\ =\ 0.0;\ yaw\ <\ yawEnd\ -\/\ 1e-\/9;\ yaw\ +=\ params.\mbox{\hyperlink{structcl__rgb_1_1BoxFitParams_a3613b666a841cc5977cf9a5900d1cc89}{yawStepRad}})}
+\DoxyCodeLine{\Hypertarget{box__fit_8cpp_source_l00166}00166\ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{box__fit_8cpp_source_l00167}00167\ \ \ \ \ \ \ \textcolor{keywordflow}{for}\ (\textcolor{keywordtype}{int}\ ix\ =\ -\/steps;\ ix\ <=\ steps;\ ++ix)}
+\DoxyCodeLine{\Hypertarget{box__fit_8cpp_source_l00168}00168\ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{box__fit_8cpp_source_l00169}00169\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{for}\ (\textcolor{keywordtype}{int}\ iy\ =\ -\/steps;\ iy\ <=\ steps;\ ++iy)}
+\DoxyCodeLine{\Hypertarget{box__fit_8cpp_source_l00170}00170\ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{box__fit_8cpp_source_l00171}00171\ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{const}\ \textcolor{keywordtype}{double}\ x\ =\ (*centre)[0]\ +\ ix\ *\ params.\mbox{\hyperlink{structcl__rgb_1_1BoxFitParams_ad984c43fd9728d09ca8e355f5ea06f5d}{stepM}};}
+\DoxyCodeLine{\Hypertarget{box__fit_8cpp_source_l00172}00172\ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{const}\ \textcolor{keywordtype}{double}\ y\ =\ (*centre)[1]\ +\ iy\ *\ params.\mbox{\hyperlink{structcl__rgb_1_1BoxFitParams_ad984c43fd9728d09ca8e355f5ea06f5d}{stepM}};}
+\DoxyCodeLine{\Hypertarget{box__fit_8cpp_source_l00173}00173\ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{const}\ cv::Mat\ drawn\ =\ outline(camera,\ blob.\mbox{\hyperlink{structcl__rgb_1_1Blob_a11d488bf9385e04dbdeda7bc93a6bfc9}{box}},\ x,\ y,\ yaw,\ tableZ,\ params.\mbox{\hyperlink{structcl__rgb_1_1BoxFitParams_a85bd28219cb5c42aaa3748281af008dd}{sizeM}},\ topOnly);}
+\DoxyCodeLine{\Hypertarget{box__fit_8cpp_source_l00174}00174\ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (drawn.empty())}
+\DoxyCodeLine{\Hypertarget{box__fit_8cpp_source_l00175}00175\ \ \ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{box__fit_8cpp_source_l00176}00176\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{continue};}
+\DoxyCodeLine{\Hypertarget{box__fit_8cpp_source_l00177}00177\ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{box__fit_8cpp_source_l00178}00178\ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{const}\ \textcolor{keywordtype}{double}\ both\ =\ cv::countNonZero(drawn\ \&\ blob.\mbox{\hyperlink{structcl__rgb_1_1Blob_a88ef3eb80834bc69289f76c985d2b9aa}{mask}});}
+\DoxyCodeLine{\Hypertarget{box__fit_8cpp_source_l00179}00179\ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ the\ outline's\ full\ area,\ so\ that\ a\ box\ partly\ outside\ the\ window\ is\ not\ favoured}}
+\DoxyCodeLine{\Hypertarget{box__fit_8cpp_source_l00180}00180\ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{const}\ \textcolor{keywordtype}{double}\ whole\ =}
+\DoxyCodeLine{\Hypertarget{box__fit_8cpp_source_l00181}00181\ \ \ \ \ \ \ \ \ \ \ \ \ std::max(hullArea(camera,\ x,\ y,\ yaw,\ tableZ,\ params.\mbox{\hyperlink{structcl__rgb_1_1BoxFitParams_a85bd28219cb5c42aaa3748281af008dd}{sizeM}},\ topOnly),\ 1.0);}
+\DoxyCodeLine{\Hypertarget{box__fit_8cpp_source_l00182}00182\ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{const}\ \textcolor{keywordtype}{double}\ overlap\ =\ both\ /\ (whole\ +\ blob.\mbox{\hyperlink{structcl__rgb_1_1Blob_ac3a32524ed048ec17c3416b0700a7bcc}{areaPx}}\ -\/\ both);}
+\DoxyCodeLine{\Hypertarget{box__fit_8cpp_source_l00183}00183\ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (overlap\ >\ best.\mbox{\hyperlink{structcl__rgb_1_1BoxFit_ab744ff759dcafc5decb40af509993121}{overlap}})}
+\DoxyCodeLine{\Hypertarget{box__fit_8cpp_source_l00184}00184\ \ \ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{box__fit_8cpp_source_l00185}00185\ \ \ \ \ \ \ \ \ \ \ \ \ best\ =\ \mbox{\hyperlink{structcl__rgb_1_1BoxFit}{BoxFit}}\{x,\ y,\ yaw,\ overlap,\ topOnly\};}
+\DoxyCodeLine{\Hypertarget{box__fit_8cpp_source_l00186}00186\ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{box__fit_8cpp_source_l00187}00187\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{box__fit_8cpp_source_l00188}00188\ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{box__fit_8cpp_source_l00189}00189\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{box__fit_8cpp_source_l00190}00190\ \ \ \}}
+\DoxyCodeLine{\Hypertarget{box__fit_8cpp_source_l00191}00191\ \ \ \textcolor{keywordflow}{if}\ (best.\mbox{\hyperlink{structcl__rgb_1_1BoxFit_ab744ff759dcafc5decb40af509993121}{overlap}}\ <\ params.\mbox{\hyperlink{structcl__rgb_1_1BoxFitParams_a4cafc927abca56fb075c3b4c27ecd609}{minOverlap}})}
+\DoxyCodeLine{\Hypertarget{box__fit_8cpp_source_l00192}00192\ \ \ \{}
+\DoxyCodeLine{\Hypertarget{box__fit_8cpp_source_l00193}00193\ \ \ \ \ \textcolor{keywordflow}{return}\ std::nullopt;}
+\DoxyCodeLine{\Hypertarget{box__fit_8cpp_source_l00194}00194\ \ \ \}}
+\DoxyCodeLine{\Hypertarget{box__fit_8cpp_source_l00195}00195\ \ \ \textcolor{keywordflow}{return}\ best;}
+\DoxyCodeLine{\Hypertarget{box__fit_8cpp_source_l00196}00196\ \}}
+\DoxyCodeLine{\Hypertarget{box__fit_8cpp_source_l00197}00197\ }
+\DoxyCodeLine{\Hypertarget{box__fit_8cpp_source_l00198}00198\ \}\ \ \textcolor{comment}{//\ namespace\ cl\_rgb}}
+
+\end{DoxyCode}

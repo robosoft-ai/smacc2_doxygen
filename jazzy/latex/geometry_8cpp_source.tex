@@ -1,0 +1,65 @@
+\doxysection{geometry.\+cpp}
+\hypertarget{geometry_8cpp_source}{}\label{geometry_8cpp_source}\index{smacc2\_client\_library/cl\_rgb/src/cl\_rgb/geometry.cpp@{smacc2\_client\_library/cl\_rgb/src/cl\_rgb/geometry.cpp}}
+\mbox{\hyperlink{geometry_8cpp}{Go to the documentation of this file.}}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\Hypertarget{geometry_8cpp_source_l00001}00001\ \textcolor{comment}{//\ Copyright\ 2026\ RobosoftAI\ Inc.}}
+\DoxyCodeLine{\Hypertarget{geometry_8cpp_source_l00002}00002\ \textcolor{comment}{//}}
+\DoxyCodeLine{\Hypertarget{geometry_8cpp_source_l00003}00003\ \textcolor{comment}{//\ Licensed\ under\ the\ Apache\ License,\ Version\ 2.0\ (the\ "{}License"{});}}
+\DoxyCodeLine{\Hypertarget{geometry_8cpp_source_l00004}00004\ \textcolor{comment}{//\ you\ may\ not\ use\ this\ file\ except\ in\ compliance\ with\ the\ License.}}
+\DoxyCodeLine{\Hypertarget{geometry_8cpp_source_l00005}00005\ \textcolor{comment}{//\ You\ may\ obtain\ a\ copy\ of\ the\ License\ at}}
+\DoxyCodeLine{\Hypertarget{geometry_8cpp_source_l00006}00006\ \textcolor{comment}{//}}
+\DoxyCodeLine{\Hypertarget{geometry_8cpp_source_l00007}00007\ \textcolor{comment}{//\ \ \ \ \ http://www.apache.org/licenses/LICENSE-\/2.0}}
+\DoxyCodeLine{\Hypertarget{geometry_8cpp_source_l00008}00008\ \textcolor{comment}{//}}
+\DoxyCodeLine{\Hypertarget{geometry_8cpp_source_l00009}00009\ \textcolor{comment}{//\ Unless\ required\ by\ applicable\ law\ or\ agreed\ to\ in\ writing,\ software}}
+\DoxyCodeLine{\Hypertarget{geometry_8cpp_source_l00010}00010\ \textcolor{comment}{//\ distributed\ under\ the\ License\ is\ distributed\ on\ an\ "{}AS\ IS"{}\ BASIS,}}
+\DoxyCodeLine{\Hypertarget{geometry_8cpp_source_l00011}00011\ \textcolor{comment}{//\ WITHOUT\ WARRANTIES\ OR\ CONDITIONS\ OF\ ANY\ KIND,\ either\ express\ or\ implied.}}
+\DoxyCodeLine{\Hypertarget{geometry_8cpp_source_l00012}00012\ \textcolor{comment}{//\ See\ the\ License\ for\ the\ specific\ language\ governing\ permissions\ and}}
+\DoxyCodeLine{\Hypertarget{geometry_8cpp_source_l00013}00013\ \textcolor{comment}{//\ limitations\ under\ the\ License.}}
+\DoxyCodeLine{\Hypertarget{geometry_8cpp_source_l00014}00014\ }
+\DoxyCodeLine{\Hypertarget{geometry_8cpp_source_l00015}00015\ \textcolor{preprocessor}{\#include\ <\mbox{\hyperlink{geometry_8hpp}{cl\_rgb/geometry.hpp}}>}}
+\DoxyCodeLine{\Hypertarget{geometry_8cpp_source_l00016}00016\ }
+\DoxyCodeLine{\Hypertarget{geometry_8cpp_source_l00017}00017\ \textcolor{keyword}{namespace\ }\mbox{\hyperlink{namespacecl__rgb}{cl\_rgb}}}
+\DoxyCodeLine{\Hypertarget{geometry_8cpp_source_l00018}00018\ \{}
+\DoxyCodeLine{\Hypertarget{geometry_8cpp_source_l00019}00019\ }
+\DoxyCodeLine{\Hypertarget{geometry_8cpp_source_l00020}\mbox{\hyperlink{structcl__rgb_1_1PinholeCamera_a9b3536fe7bea80c7e41a5937dbb2651f}{00020}}\ cv::Vec3d\ \mbox{\hyperlink{structcl__rgb_1_1PinholeCamera_a9b3536fe7bea80c7e41a5937dbb2651f}{PinholeCamera::rayDirection}}(\textcolor{keywordtype}{double}\ u,\ \textcolor{keywordtype}{double}\ v)\textcolor{keyword}{\ const}}
+\DoxyCodeLine{\Hypertarget{geometry_8cpp_source_l00021}00021\ \textcolor{keyword}{}\{}
+\DoxyCodeLine{\Hypertarget{geometry_8cpp_source_l00022}00022\ \ \ \textcolor{keywordflow}{return}\ \mbox{\hyperlink{structcl__rgb_1_1PinholeCamera_a10c64c2b32eb0fd34adc0454bf4bda71}{rotation}}\ *\ cv::Vec3d((u\ -\/\ \mbox{\hyperlink{structcl__rgb_1_1PinholeCamera_a977e368c2321bc9b0a5aec732d3e1c78}{cx}})\ /\ \mbox{\hyperlink{structcl__rgb_1_1PinholeCamera_a50b7f42042467f04e576e2ee94c0322c}{fx}},\ (v\ -\/\ \mbox{\hyperlink{structcl__rgb_1_1PinholeCamera_af04e88376b0b32667cfd924cff472acb}{cy}})\ /\ \mbox{\hyperlink{structcl__rgb_1_1PinholeCamera_a20f88e1471e44db5d867ffc85a16717c}{fy}},\ 1.0);}
+\DoxyCodeLine{\Hypertarget{geometry_8cpp_source_l00023}00023\ \}}
+\DoxyCodeLine{\Hypertarget{geometry_8cpp_source_l00024}00024\ }
+\DoxyCodeLine{\Hypertarget{geometry_8cpp_source_l00025}\mbox{\hyperlink{structcl__rgb_1_1PinholeCamera_ad258e489070b0c5d3bea8c75a749c786}{00025}}\ std::optional<cv::Point2d>\ \mbox{\hyperlink{structcl__rgb_1_1PinholeCamera_ad258e489070b0c5d3bea8c75a749c786}{PinholeCamera::project}}(\textcolor{keyword}{const}\ cv::Vec3d\ \&\ point)\textcolor{keyword}{\ const}}
+\DoxyCodeLine{\Hypertarget{geometry_8cpp_source_l00026}00026\ \textcolor{keyword}{}\{}
+\DoxyCodeLine{\Hypertarget{geometry_8cpp_source_l00027}00027\ \ \ \textcolor{keyword}{const}\ cv::Vec3d\ p\ =\ \mbox{\hyperlink{structcl__rgb_1_1PinholeCamera_a10c64c2b32eb0fd34adc0454bf4bda71}{rotation}}.t()\ *\ (point\ -\/\ \mbox{\hyperlink{structcl__rgb_1_1PinholeCamera_adb3bbe1714ab6470fb9ca3f4fea87616}{position}});}
+\DoxyCodeLine{\Hypertarget{geometry_8cpp_source_l00028}00028\ \ \ \textcolor{keywordflow}{if}\ (p[2]\ <=\ 1e-\/9)}
+\DoxyCodeLine{\Hypertarget{geometry_8cpp_source_l00029}00029\ \ \ \{}
+\DoxyCodeLine{\Hypertarget{geometry_8cpp_source_l00030}00030\ \ \ \ \ \textcolor{keywordflow}{return}\ std::nullopt;}
+\DoxyCodeLine{\Hypertarget{geometry_8cpp_source_l00031}00031\ \ \ \}}
+\DoxyCodeLine{\Hypertarget{geometry_8cpp_source_l00032}00032\ \ \ \textcolor{keywordflow}{return}\ cv::Point2d(\mbox{\hyperlink{structcl__rgb_1_1PinholeCamera_a50b7f42042467f04e576e2ee94c0322c}{fx}}\ *\ p[0]\ /\ p[2]\ +\ \mbox{\hyperlink{structcl__rgb_1_1PinholeCamera_a977e368c2321bc9b0a5aec732d3e1c78}{cx}},\ \mbox{\hyperlink{structcl__rgb_1_1PinholeCamera_a20f88e1471e44db5d867ffc85a16717c}{fy}}\ *\ p[1]\ /\ p[2]\ +\ \mbox{\hyperlink{structcl__rgb_1_1PinholeCamera_af04e88376b0b32667cfd924cff472acb}{cy}});}
+\DoxyCodeLine{\Hypertarget{geometry_8cpp_source_l00033}00033\ \}}
+\DoxyCodeLine{\Hypertarget{geometry_8cpp_source_l00034}00034\ }
+\DoxyCodeLine{\Hypertarget{geometry_8cpp_source_l00035}\mbox{\hyperlink{structcl__rgb_1_1PinholeCamera_a1c883170e5208956f90721a2a22f3a25}{00035}}\ std::optional<cv::Vec3d>\ \mbox{\hyperlink{structcl__rgb_1_1PinholeCamera_a1c883170e5208956f90721a2a22f3a25}{PinholeCamera::pixelToPlane}}(\textcolor{keywordtype}{double}\ u,\ \textcolor{keywordtype}{double}\ v,\ \textcolor{keywordtype}{double}\ z)\textcolor{keyword}{\ const}}
+\DoxyCodeLine{\Hypertarget{geometry_8cpp_source_l00036}00036\ \textcolor{keyword}{}\{}
+\DoxyCodeLine{\Hypertarget{geometry_8cpp_source_l00037}00037\ \ \ \textcolor{keyword}{const}\ cv::Vec3d\ d\ =\ \mbox{\hyperlink{structcl__rgb_1_1PinholeCamera_a9b3536fe7bea80c7e41a5937dbb2651f}{rayDirection}}(u,\ v);}
+\DoxyCodeLine{\Hypertarget{geometry_8cpp_source_l00038}00038\ \ \ \textcolor{keywordflow}{if}\ (std::abs(d[2])\ <\ 1e-\/12)}
+\DoxyCodeLine{\Hypertarget{geometry_8cpp_source_l00039}00039\ \ \ \{}
+\DoxyCodeLine{\Hypertarget{geometry_8cpp_source_l00040}00040\ \ \ \ \ \textcolor{keywordflow}{return}\ std::nullopt;}
+\DoxyCodeLine{\Hypertarget{geometry_8cpp_source_l00041}00041\ \ \ \}}
+\DoxyCodeLine{\Hypertarget{geometry_8cpp_source_l00042}00042\ \ \ \textcolor{keyword}{const}\ \textcolor{keywordtype}{double}\ s\ =\ (z\ -\/\ \mbox{\hyperlink{structcl__rgb_1_1PinholeCamera_adb3bbe1714ab6470fb9ca3f4fea87616}{position}}[2])\ /\ d[2];}
+\DoxyCodeLine{\Hypertarget{geometry_8cpp_source_l00043}00043\ \ \ \textcolor{keywordflow}{if}\ (s\ <=\ 0.0)}
+\DoxyCodeLine{\Hypertarget{geometry_8cpp_source_l00044}00044\ \ \ \{}
+\DoxyCodeLine{\Hypertarget{geometry_8cpp_source_l00045}00045\ \ \ \ \ \textcolor{keywordflow}{return}\ std::nullopt;}
+\DoxyCodeLine{\Hypertarget{geometry_8cpp_source_l00046}00046\ \ \ \}}
+\DoxyCodeLine{\Hypertarget{geometry_8cpp_source_l00047}00047\ \ \ \textcolor{keywordflow}{return}\ \mbox{\hyperlink{structcl__rgb_1_1PinholeCamera_adb3bbe1714ab6470fb9ca3f4fea87616}{position}}\ +\ s\ *\ d;}
+\DoxyCodeLine{\Hypertarget{geometry_8cpp_source_l00048}00048\ \}}
+\DoxyCodeLine{\Hypertarget{geometry_8cpp_source_l00049}00049\ }
+\DoxyCodeLine{\Hypertarget{geometry_8cpp_source_l00050}\mbox{\hyperlink{structcl__rgb_1_1PinholeCamera_a25b90a1b835f3c2ba07d474556e82eba}{00050}}\ cv::Matx33d\ \mbox{\hyperlink{structcl__rgb_1_1PinholeCamera_a25b90a1b835f3c2ba07d474556e82eba}{PinholeCamera::imageToPlaneHomography}}(\textcolor{keywordtype}{double}\ z)\textcolor{keyword}{\ const}}
+\DoxyCodeLine{\Hypertarget{geometry_8cpp_source_l00051}00051\ \textcolor{keyword}{}\{}
+\DoxyCodeLine{\Hypertarget{geometry_8cpp_source_l00052}00052\ \ \ \textcolor{comment}{//\ With\ m\ =\ R\ K\string^-\/1\ (u,\ v,\ 1),\ the\ plane\ point\ is\ x\ =\ ox\ +\ (z\ -\/\ oz)\ m1\ /\ m3\ and\ the\ same\ for\ y.}}
+\DoxyCodeLine{\Hypertarget{geometry_8cpp_source_l00053}00053\ \ \ \textcolor{keyword}{const}\ cv::Matx33d\ inverseK(1.0\ /\ \mbox{\hyperlink{structcl__rgb_1_1PinholeCamera_a50b7f42042467f04e576e2ee94c0322c}{fx}},\ 0.0,\ -\/\mbox{\hyperlink{structcl__rgb_1_1PinholeCamera_a977e368c2321bc9b0a5aec732d3e1c78}{cx}}\ /\ \mbox{\hyperlink{structcl__rgb_1_1PinholeCamera_a50b7f42042467f04e576e2ee94c0322c}{fx}},\ 0.0,\ 1.0\ /\ \mbox{\hyperlink{structcl__rgb_1_1PinholeCamera_a20f88e1471e44db5d867ffc85a16717c}{fy}},\ -\/\mbox{\hyperlink{structcl__rgb_1_1PinholeCamera_af04e88376b0b32667cfd924cff472acb}{cy}}\ /\ \mbox{\hyperlink{structcl__rgb_1_1PinholeCamera_a20f88e1471e44db5d867ffc85a16717c}{fy}},\ 0.0,\ 0.0,\ 1.0);}
+\DoxyCodeLine{\Hypertarget{geometry_8cpp_source_l00054}00054\ \ \ \textcolor{keyword}{const}\ \textcolor{keywordtype}{double}\ h\ =\ z\ -\/\ \mbox{\hyperlink{structcl__rgb_1_1PinholeCamera_adb3bbe1714ab6470fb9ca3f4fea87616}{position}}[2];}
+\DoxyCodeLine{\Hypertarget{geometry_8cpp_source_l00055}00055\ \ \ \textcolor{keyword}{const}\ cv::Matx33d\ toPlane(h,\ 0.0,\ \mbox{\hyperlink{structcl__rgb_1_1PinholeCamera_adb3bbe1714ab6470fb9ca3f4fea87616}{position}}[0],\ 0.0,\ h,\ \mbox{\hyperlink{structcl__rgb_1_1PinholeCamera_adb3bbe1714ab6470fb9ca3f4fea87616}{position}}[1],\ 0.0,\ 0.0,\ 1.0);}
+\DoxyCodeLine{\Hypertarget{geometry_8cpp_source_l00056}00056\ \ \ \textcolor{keywordflow}{return}\ toPlane\ *\ \mbox{\hyperlink{structcl__rgb_1_1PinholeCamera_a10c64c2b32eb0fd34adc0454bf4bda71}{rotation}}\ *\ inverseK;}
+\DoxyCodeLine{\Hypertarget{geometry_8cpp_source_l00057}00057\ \}}
+\DoxyCodeLine{\Hypertarget{geometry_8cpp_source_l00058}00058\ }
+\DoxyCodeLine{\Hypertarget{geometry_8cpp_source_l00059}00059\ \}\ \ \textcolor{comment}{//\ namespace\ cl\_rgb}}
+
+\end{DoxyCode}

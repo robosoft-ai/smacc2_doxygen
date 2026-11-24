@@ -1,0 +1,60 @@
+\doxysection{cp\+\_\+table\+\_\+segmenter.\+hpp}
+\hypertarget{cp__table__segmenter_8hpp_source}{}\label{cp__table__segmenter_8hpp_source}\index{smacc2\_client\_library/cl\_rgb/include/cl\_rgb/components/cp\_table\_segmenter.hpp@{smacc2\_client\_library/cl\_rgb/include/cl\_rgb/components/cp\_table\_segmenter.hpp}}
+\mbox{\hyperlink{cp__table__segmenter_8hpp}{Go to the documentation of this file.}}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\Hypertarget{cp__table__segmenter_8hpp_source_l00001}00001\ \textcolor{comment}{//\ Copyright\ 2026\ RobosoftAI\ Inc.}}
+\DoxyCodeLine{\Hypertarget{cp__table__segmenter_8hpp_source_l00002}00002\ \textcolor{comment}{//}}
+\DoxyCodeLine{\Hypertarget{cp__table__segmenter_8hpp_source_l00003}00003\ \textcolor{comment}{//\ Licensed\ under\ the\ Apache\ License,\ Version\ 2.0\ (the\ "{}License"{});}}
+\DoxyCodeLine{\Hypertarget{cp__table__segmenter_8hpp_source_l00004}00004\ \textcolor{comment}{//\ you\ may\ not\ use\ this\ file\ except\ in\ compliance\ with\ the\ License.}}
+\DoxyCodeLine{\Hypertarget{cp__table__segmenter_8hpp_source_l00005}00005\ \textcolor{comment}{//\ You\ may\ obtain\ a\ copy\ of\ the\ License\ at}}
+\DoxyCodeLine{\Hypertarget{cp__table__segmenter_8hpp_source_l00006}00006\ \textcolor{comment}{//}}
+\DoxyCodeLine{\Hypertarget{cp__table__segmenter_8hpp_source_l00007}00007\ \textcolor{comment}{//\ \ \ \ \ http://www.apache.org/licenses/LICENSE-\/2.0}}
+\DoxyCodeLine{\Hypertarget{cp__table__segmenter_8hpp_source_l00008}00008\ \textcolor{comment}{//}}
+\DoxyCodeLine{\Hypertarget{cp__table__segmenter_8hpp_source_l00009}00009\ \textcolor{comment}{//\ Unless\ required\ by\ applicable\ law\ or\ agreed\ to\ in\ writing,\ software}}
+\DoxyCodeLine{\Hypertarget{cp__table__segmenter_8hpp_source_l00010}00010\ \textcolor{comment}{//\ distributed\ under\ the\ License\ is\ distributed\ on\ an\ "{}AS\ IS"{}\ BASIS,}}
+\DoxyCodeLine{\Hypertarget{cp__table__segmenter_8hpp_source_l00011}00011\ \textcolor{comment}{//\ WITHOUT\ WARRANTIES\ OR\ CONDITIONS\ OF\ ANY\ KIND,\ either\ express\ or\ implied.}}
+\DoxyCodeLine{\Hypertarget{cp__table__segmenter_8hpp_source_l00012}00012\ \textcolor{comment}{//\ See\ the\ License\ for\ the\ specific\ language\ governing\ permissions\ and}}
+\DoxyCodeLine{\Hypertarget{cp__table__segmenter_8hpp_source_l00013}00013\ \textcolor{comment}{//\ limitations\ under\ the\ License.}}
+\DoxyCodeLine{\Hypertarget{cp__table__segmenter_8hpp_source_l00014}00014\ }
+\DoxyCodeLine{\Hypertarget{cp__table__segmenter_8hpp_source_l00015}00015\ \textcolor{preprocessor}{\#pragma\ once}}
+\DoxyCodeLine{\Hypertarget{cp__table__segmenter_8hpp_source_l00016}00016\ }
+\DoxyCodeLine{\Hypertarget{cp__table__segmenter_8hpp_source_l00017}00017\ \textcolor{preprocessor}{\#include\ <\mbox{\hyperlink{table__survey_8hpp}{cl\_rgb/table\_survey.hpp}}>}}
+\DoxyCodeLine{\Hypertarget{cp__table__segmenter_8hpp_source_l00018}00018\ }
+\DoxyCodeLine{\Hypertarget{cp__table__segmenter_8hpp_source_l00019}00019\ \textcolor{preprocessor}{\#include\ <opencv2/core.hpp>}}
+\DoxyCodeLine{\Hypertarget{cp__table__segmenter_8hpp_source_l00020}00020\ \textcolor{preprocessor}{\#include\ <\mbox{\hyperlink{smacc_8hpp}{smacc2/smacc.hpp}}>}}
+\DoxyCodeLine{\Hypertarget{cp__table__segmenter_8hpp_source_l00021}00021\ }
+\DoxyCodeLine{\Hypertarget{cp__table__segmenter_8hpp_source_l00022}00022\ \textcolor{preprocessor}{\#include\ <mutex>}}
+\DoxyCodeLine{\Hypertarget{cp__table__segmenter_8hpp_source_l00023}00023\ }
+\DoxyCodeLine{\Hypertarget{cp__table__segmenter_8hpp_source_l00024}00024\ \textcolor{keyword}{namespace\ }\mbox{\hyperlink{namespacecl__rgb}{cl\_rgb}}}
+\DoxyCodeLine{\Hypertarget{cp__table__segmenter_8hpp_source_l00025}00025\ \{}
+\DoxyCodeLine{\Hypertarget{cp__table__segmenter_8hpp_source_l00026}00026\ }
+\DoxyCodeLine{\Hypertarget{cp__table__segmenter_8hpp_source_l00027}00027\ \textcolor{comment}{//\ Separates\ what\ lies\ on\ the\ table\ from\ the\ table.\ With\ a\ reference\ image\ of\ the\ empty\ scene}}
+\DoxyCodeLine{\Hypertarget{cp__table__segmenter_8hpp_source_l00028}00028\ \textcolor{comment}{//\ it\ compares\ pixel\ by\ pixel;\ without\ one\ it\ takes\ the\ table's\ colour\ from\ the\ image\ itself,}}
+\DoxyCodeLine{\Hypertarget{cp__table__segmenter_8hpp_source_l00029}00029\ \textcolor{comment}{//\ which\ holds\ while\ the\ table\ fills\ most\ of\ its\ region\ and\ the\ objects\ differ\ from\ it\ in\ colour.}}
+\DoxyCodeLine{\Hypertarget{cp__table__segmenter_8hpp_source_l00030}\mbox{\hyperlink{classcl__rgb_1_1CpTableSegmenter}{00030}}\ \textcolor{keyword}{class\ }\mbox{\hyperlink{classcl__rgb_1_1CpTableSegmenter}{CpTableSegmenter}}\ :\ \textcolor{keyword}{public}\ \mbox{\hyperlink{classsmacc2_1_1ISmaccComponent}{smacc2::ISmaccComponent}}}
+\DoxyCodeLine{\Hypertarget{cp__table__segmenter_8hpp_source_l00031}00031\ \{}
+\DoxyCodeLine{\Hypertarget{cp__table__segmenter_8hpp_source_l00032}00032\ \textcolor{keyword}{public}:}
+\DoxyCodeLine{\Hypertarget{cp__table__segmenter_8hpp_source_l00033}00033\ \ \ \textcolor{keyword}{explicit}\ \mbox{\hyperlink{classcl__rgb_1_1CpTableSegmenter_a6c8379d8461f5609b379b8a6f3c2313d}{CpTableSegmenter}}(\textcolor{keyword}{const}\ \mbox{\hyperlink{structcl__rgb_1_1SegmenterParams}{SegmenterParams}}\ \&\ \mbox{\hyperlink{classcl__rgb_1_1CpTableSegmenter_a04d7d710e617c6265233b2d9376b8504}{params}});}
+\DoxyCodeLine{\Hypertarget{cp__table__segmenter_8hpp_source_l00034}00034\ \ \ \mbox{\hyperlink{classcl__rgb_1_1CpTableSegmenter_a4972d0029b92c518b101793ad7c3faa7}{\string~CpTableSegmenter}}()\ \textcolor{keyword}{override};}
+\DoxyCodeLine{\Hypertarget{cp__table__segmenter_8hpp_source_l00035}00035\ }
+\DoxyCodeLine{\Hypertarget{cp__table__segmenter_8hpp_source_l00036}00036\ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{classcl__rgb_1_1CpTableSegmenter_a0d8f31207bd00c42ce46e4af5dc86628}{onInitialize}}()\ \textcolor{keyword}{override};}
+\DoxyCodeLine{\Hypertarget{cp__table__segmenter_8hpp_source_l00037}00037\ }
+\DoxyCodeLine{\Hypertarget{cp__table__segmenter_8hpp_source_l00038}00038\ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{classcl__rgb_1_1CpTableSegmenter_a4d4474ea32961169607acd4d23470037}{setParams}}(\textcolor{keyword}{const}\ \mbox{\hyperlink{structcl__rgb_1_1SegmenterParams}{SegmenterParams}}\ \&\ \mbox{\hyperlink{classcl__rgb_1_1CpTableSegmenter_a04d7d710e617c6265233b2d9376b8504}{params}});}
+\DoxyCodeLine{\Hypertarget{cp__table__segmenter_8hpp_source_l00039}00039\ \ \ \mbox{\hyperlink{structcl__rgb_1_1SegmenterParams}{SegmenterParams}}\ \mbox{\hyperlink{classcl__rgb_1_1CpTableSegmenter_a04d7d710e617c6265233b2d9376b8504}{params}}()\ \textcolor{keyword}{const};}
+\DoxyCodeLine{\Hypertarget{cp__table__segmenter_8hpp_source_l00040}00040\ }
+\DoxyCodeLine{\Hypertarget{cp__table__segmenter_8hpp_source_l00041}00041\ \ \ \textcolor{comment}{//\ the\ empty\ scene\ as\ the\ camera\ sees\ it;\ an\ empty\ image\ removes\ the\ reference}}
+\DoxyCodeLine{\Hypertarget{cp__table__segmenter_8hpp_source_l00042}00042\ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{classcl__rgb_1_1CpTableSegmenter_a5d0d5b6d3ac2e8197a204aa752d3713f}{setReference}}(\textcolor{keyword}{const}\ cv::Mat\ \&\ bgr);}
+\DoxyCodeLine{\Hypertarget{cp__table__segmenter_8hpp_source_l00043}00043\ \ \ \textcolor{keywordtype}{bool}\ \mbox{\hyperlink{classcl__rgb_1_1CpTableSegmenter_a7f97b020531e0b08a58dd50748ca56ae}{hasReference}}()\ \textcolor{keyword}{const};}
+\DoxyCodeLine{\Hypertarget{cp__table__segmenter_8hpp_source_l00044}00044\ }
+\DoxyCodeLine{\Hypertarget{cp__table__segmenter_8hpp_source_l00045}00045\ \ \ \textcolor{comment}{//\ 255\ where\ the\ image\ shows\ something\ on\ the\ table,\ within\ tableMask}}
+\DoxyCodeLine{\Hypertarget{cp__table__segmenter_8hpp_source_l00046}00046\ \ \ cv::Mat\ \mbox{\hyperlink{classcl__rgb_1_1CpTableSegmenter_a5dd8c99fdb8804032dd5d05a6dc62963}{foreground}}(\textcolor{keyword}{const}\ cv::Mat\ \&\ bgr,\ \textcolor{keyword}{const}\ cv::Mat\ \&\ tableMask)\ \textcolor{keyword}{const};}
+\DoxyCodeLine{\Hypertarget{cp__table__segmenter_8hpp_source_l00047}00047\ }
+\DoxyCodeLine{\Hypertarget{cp__table__segmenter_8hpp_source_l00048}00048\ \textcolor{keyword}{private}:}
+\DoxyCodeLine{\Hypertarget{cp__table__segmenter_8hpp_source_l00049}\mbox{\hyperlink{classcl__rgb_1_1CpTableSegmenter_ade067039f25de50676f9ce334850c620}{00049}}\ \ \ \textcolor{keyword}{mutable}\ std::mutex\ \mbox{\hyperlink{classcl__rgb_1_1CpTableSegmenter_ade067039f25de50676f9ce334850c620}{mutex\_}};}
+\DoxyCodeLine{\Hypertarget{cp__table__segmenter_8hpp_source_l00050}\mbox{\hyperlink{classcl__rgb_1_1CpTableSegmenter_a3b5c54a8ba8bf37b940edfaafc6c0c5e}{00050}}\ \ \ \mbox{\hyperlink{structcl__rgb_1_1SegmenterParams}{SegmenterParams}}\ \mbox{\hyperlink{classcl__rgb_1_1CpTableSegmenter_a3b5c54a8ba8bf37b940edfaafc6c0c5e}{params\_}};}
+\DoxyCodeLine{\Hypertarget{cp__table__segmenter_8hpp_source_l00051}\mbox{\hyperlink{classcl__rgb_1_1CpTableSegmenter_ac779598507bfa4be2ac64eb17833366d}{00051}}\ \ \ cv::Mat\ \mbox{\hyperlink{classcl__rgb_1_1CpTableSegmenter_ac779598507bfa4be2ac64eb17833366d}{reference\_}};}
+\DoxyCodeLine{\Hypertarget{cp__table__segmenter_8hpp_source_l00052}00052\ \};}
+\DoxyCodeLine{\Hypertarget{cp__table__segmenter_8hpp_source_l00053}00053\ }
+\DoxyCodeLine{\Hypertarget{cp__table__segmenter_8hpp_source_l00054}00054\ \}\ \ \textcolor{comment}{//\ namespace\ cl\_rgb}}
+
+\end{DoxyCode}
