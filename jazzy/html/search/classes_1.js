@@ -6,9 +6,5 @@ var searchData=
   ['bind_3c_201_20_3e_3',['Bind&lt; 1 &gt;',['../structsmacc2_1_1utils_1_1Bind_3_011_01_4.html',1,'smacc2::utils']]],
   ['bind_3c_202_20_3e_4',['Bind&lt; 2 &gt;',['../structsmacc2_1_1utils_1_1Bind_3_012_01_4.html',1,'smacc2::utils']]],
   ['bind_3c_203_20_3e_5',['Bind&lt; 3 &gt;',['../structsmacc2_1_1utils_1_1Bind_3_013_01_4.html',1,'smacc2::utils']]],
-  ['bind_3c_204_20_3e_6',['Bind&lt; 4 &gt;',['../structsmacc2_1_1utils_1_1Bind_3_014_01_4.html',1,'smacc2::utils']]],
-  ['blob_7',['Blob',['../structcl__rgb_1_1Blob.html',1,'cl_rgb']]],
-  ['blobparams_8',['BlobParams',['../structcl__rgb_1_1BlobParams.html',1,'cl_rgb']]],
-  ['boxfit_9',['BoxFit',['../structcl__rgb_1_1BoxFit.html',1,'cl_rgb']]],
-  ['boxfitparams_10',['BoxFitParams',['../structcl__rgb_1_1BoxFitParams.html',1,'cl_rgb']]]
+  ['bind_3c_204_20_3e_6',['Bind&lt; 4 &gt;',['../structsmacc2_1_1utils_1_1Bind_3_014_01_4.html',1,'smacc2::utils']]]
 ];

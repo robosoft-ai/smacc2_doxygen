@@ -6,12 +6,10 @@ var searchData=
   ['makepurestraightsubplan_3',['makePureStraightSubPlan',['../namespacecl__nav2z.html#aa8161356763c1332dec9c6b84bda3cfb',1,'cl_nav2z']]],
   ['mapprojection_4',['MapProjection',['../classcl__px4__mr_1_1MapProjection.html#ab56114f4d6ff3940d3c83d2b1777202e',1,'cl_px4_mr::MapProjection::MapProjection()=default'],['../classcl__px4__mr_1_1MapProjection.html#a3916b910912d2cd53aa98787fdbda2ee',1,'cl_px4_mr::MapProjection::MapProjection(double lat0, double lon0, uint64_t timestamp=0)']]],
   ['marktagvisited_5',['markTagVisited',['../classcl__isaac__apriltag_1_1CpAprilTagMissionState.html#a9511d1c489e35dc71e6743224b076adf',1,'cl_isaac_apriltag::CpAprilTagMissionState']]],
-  ['matchcolours_6',['matchColours',['../namespacecl__rgb.html#a6c332df9ee118e0a5f4b9d0b50d2a1c8',1,'cl_rgb']]],
-  ['matchespattern_7',['matchesPattern',['../classcl__gcalcli_1_1CpCalendarEventListener.html#ab4660671f20658ff04100346b79b02b2',1,'cl_gcalcli::CpCalendarEventListener']]],
-  ['messagecallback_8',['messageCallback',['../classsmacc2_1_1client__bases_1_1SmaccSubscriberClient.html#a5f7fc4a0d2806046a9fe2bd841fda455',1,'smacc2::client_bases::SmaccSubscriberClient::messageCallback()'],['../classsmacc2_1_1client__core__components_1_1CpTopicSubscriber.html#a2e5f28486e1785e841c54ff6abb6b6e0',1,'smacc2::client_core_components::CpTopicSubscriber::messageCallback()']]],
-  ['minutesuntilstart_9',['minutesUntilStart',['../structcl__gcalcli_1_1CalendarEvent.html#a134ee59efffd772868fa3f3dc95dd56c',1,'cl_gcalcli::CalendarEvent']]],
-  ['model_10',['model',['../classcl__rgb_1_1CpCamera.html#ae3c08c1ffe640dbd5c0956be0bf3be0c',1,'cl_rgb::CpCamera']]],
-  ['movejoints_11',['moveJoints',['../classcl__moveit2z_1_1CbMoveJoints.html#aac85e88c19415e5364b5e504d74b55d7',1,'cl_moveit2z::CbMoveJoints']]],
-  ['movetoabsolutepose_12',['moveToAbsolutePose',['../classcl__moveit2z_1_1CbMoveEndEffector.html#a06e928ed4407b4aead6a2147c916bcbb',1,'cl_moveit2z::CbMoveEndEffector']]],
-  ['my_5fcontext_13',['my_context',['../structsmacc2_1_1SmaccState_1_1my__context.html#a0b820bfb5f743d5dc6193454242fed32',1,'smacc2::SmaccState::my_context']]]
+  ['matchespattern_6',['matchesPattern',['../classcl__gcalcli_1_1CpCalendarEventListener.html#ab4660671f20658ff04100346b79b02b2',1,'cl_gcalcli::CpCalendarEventListener']]],
+  ['messagecallback_7',['messageCallback',['../classsmacc2_1_1client__bases_1_1SmaccSubscriberClient.html#a5f7fc4a0d2806046a9fe2bd841fda455',1,'smacc2::client_bases::SmaccSubscriberClient::messageCallback()'],['../classsmacc2_1_1client__core__components_1_1CpTopicSubscriber.html#a2e5f28486e1785e841c54ff6abb6b6e0',1,'smacc2::client_core_components::CpTopicSubscriber::messageCallback()']]],
+  ['minutesuntilstart_8',['minutesUntilStart',['../structcl__gcalcli_1_1CalendarEvent.html#a134ee59efffd772868fa3f3dc95dd56c',1,'cl_gcalcli::CalendarEvent']]],
+  ['movejoints_9',['moveJoints',['../classcl__moveit2z_1_1CbMoveJoints.html#aac85e88c19415e5364b5e504d74b55d7',1,'cl_moveit2z::CbMoveJoints']]],
+  ['movetoabsolutepose_10',['moveToAbsolutePose',['../classcl__moveit2z_1_1CbMoveEndEffector.html#a06e928ed4407b4aead6a2147c916bcbb',1,'cl_moveit2z::CbMoveEndEffector']]],
+  ['my_5fcontext_11',['my_context',['../structsmacc2_1_1SmaccState_1_1my__context.html#a0b820bfb5f743d5dc6193454242fed32',1,'smacc2::SmaccState::my_context']]]
 ];

@@ -13,6 +13,5 @@ var searchData=
   ['flightpatternvssearchparams_10',['FlightPatternVSSearchParams',['../structcl__px4__mr_1_1FlightPatternVSSearchParams.html',1,'cl_px4_mr']]],
   ['forwardglobalplanner_11',['ForwardGlobalPlanner',['../classcl__nav2z_1_1forward__global__planner_1_1ForwardGlobalPlanner.html',1,'cl_nav2z::forward_global_planner']]],
   ['forwardlocalplanner_12',['ForwardLocalPlanner',['../classcl__nav2z_1_1forward__local__planner_1_1ForwardLocalPlanner.html',1,'cl_nav2z::forward_local_planner']]],
-  ['forwardobstacleguardparams_13',['ForwardObstacleGuardParams',['../structcl__px4__mr_1_1ForwardObstacleGuardParams.html',1,'cl_px4_mr']]],
-  ['frame_14',['Frame',['../structcl__rgb_1_1Frame.html',1,'cl_rgb']]]
+  ['forwardobstacleguardparams_13',['ForwardObstacleGuardParams',['../structcl__px4__mr_1_1ForwardObstacleGuardParams.html',1,'cl_px4_mr']]]
 ];

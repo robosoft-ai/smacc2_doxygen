@@ -31,9 +31,5 @@ var searchData=
   ['cl_5fpx4_5fmr_3a_3aanonymous_5fnamespace_7bpattern_5fgenerators_2ecpp_7d_28',['anonymous_namespace{pattern_generators.cpp}',['../namespacecl__px4__mr_1_1anonymous__namespace_02pattern__generators_8cpp_03.html',1,'cl_px4_mr']]],
   ['cl_5fpx4_5fmr_3a_3ageo_5fdetail_29',['geo_detail',['../namespacecl__px4__mr_1_1geo__detail.html',1,'cl_px4_mr']]],
   ['cl_5fpx4_5fmr_3a_3apattern_5fdetail_30',['pattern_detail',['../namespacecl__px4__mr_1_1pattern__detail.html',1,'cl_px4_mr']]],
-  ['cl_5frgb_31',['cl_rgb',['../namespacecl__rgb.html',1,'']]],
-  ['cl_5frgb_3a_3aanonymous_5fnamespace_7bbox_5ffit_2ecpp_7d_32',['anonymous_namespace{box_fit.cpp}',['../namespacecl__rgb_1_1anonymous__namespace_02box__fit_8cpp_03.html',1,'cl_rgb']]],
-  ['cl_5frgb_3a_3aanonymous_5fnamespace_7bcolour_2ecpp_7d_33',['anonymous_namespace{colour.cpp}',['../namespacecl__rgb_1_1anonymous__namespace_02colour_8cpp_03.html',1,'cl_rgb']]],
-  ['cl_5frgb_3a_3aanonymous_5fnamespace_7btable_5fsurvey_2ecpp_7d_34',['anonymous_namespace{table_survey.cpp}',['../namespacecl__rgb_1_1anonymous__namespace_02table__survey_8cpp_03.html',1,'cl_rgb']]],
-  ['cl_5fros2_5ftimer_35',['cl_ros2_timer',['../namespacecl__ros2__timer.html',1,'']]]
+  ['cl_5fros2_5ftimer_31',['cl_ros2_timer',['../namespacecl__ros2__timer.html',1,'']]]
 ];

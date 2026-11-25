@@ -16,5 +16,6 @@ var searchData=
   ['kmlloader_5f_13',['kmlLoader_',['../classcl__px4__mr_1_1CbLoadKmlMission.html#a4e185c5089560911259d9192bad0d3c4',1,'cl_px4_mr::CbLoadKmlMission']]],
   ['knan_14',['kNaN',['../namespacecl__px4__mr_1_1pattern__detail.html#ab7a1730575f39d564ccc68631d9513c5',1,'cl_px4_mr::pattern_detail']]],
   ['kport_15',['kPort',['../classcl__http_1_1http__session.html#a1e4e46833143a7588aa09a3a11cbb6a2',1,'cl_http::http_session::kPort'],['../classcl__http_1_1ssl__http__session.html#a16cef277f01d93e3e7489dd274d16787',1,'cl_http::ssl_http_session::kPort']]],
-  ['krequesttype_16',['kRequestType',['../classcl__http_1_1CbHttpRequestBase.html#a785567546f9c9790b2ea479e83a6a168',1,'cl_http::CbHttpRequestBase']]]
+  ['krequesttype_16',['kRequestType',['../classcl__http_1_1CbHttpRequestBase.html#a785567546f9c9790b2ea479e83a6a168',1,'cl_http::CbHttpRequestBase']]],
+  ['kstraightstepm_17',['kStraightStepM',['../classcl__moveit2z_1_1CbMoveToPose.html#a19499f292fcb499cd6ff23291ad94531',1,'cl_moveit2z::CbMoveToPose']]]
 ];
